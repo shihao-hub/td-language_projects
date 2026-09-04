@@ -20,3 +20,4 @@
 - 完整克隆：`git clone --recurse-submodules <URL>`
 - 初始化/补拉子模块：`git submodule update --init --recursive`
 - 跟进子仓库远端新提交：`git submodule update --remote`
+- 提交指针变更：`git add --force <子模块名>`（`ignore = all` 会拦截普通 `git add`，必须 `--force`）→ `git commit` → `git push`

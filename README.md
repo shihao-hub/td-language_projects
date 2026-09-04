@@ -33,7 +33,13 @@ git submodule update --init --recursive
   git submodule update --remote
   ```
 
-- 之后若希望新克隆也能拿到新指针，在父仓库 commit 指针变更并 push（`ignore = all` 只是隐藏 `git status` 噪音，不改变机制）。
+- 之后若希望新克隆也能拿到新指针，需提交指针变更并 push。注意 `ignore = all` 会拦截普通 `git add`，必须加 `--force`：
+
+  ```bash
+  git add --force go_projects python_projects typescript_projects
+  git commit -m "chore: 更新子模块指针"
+  git push
+  ```
 
 ## 日常开发
 
