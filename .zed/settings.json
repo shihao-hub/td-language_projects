@@ -1,0 +1,74 @@
+{
+  // 语言项目总仓：合并自四个语言子仓的 .zed/settings.json，
+  // 按语言开 LSP 白名单（配合全局 enable_language_server: false）
+  "languages": {
+    // Go：gopls 提供跳转（go_projects 及 python_projects 内 Go 启动器均适用）
+    "Go": {
+      "enable_language_server": true,
+      "language_servers": ["gopls"]
+    },
+    // Python：basedpyright 跳转 + ruff 格式化
+    "Python": {
+      "enable_language_server": true,
+      "language_servers": ["basedpyright", "ruff"],
+      "formatter": "language_server"
+    },
+    // Rust：rust-analyzer 跳转
+    "Rust": {
+      "enable_language_server": true,
+      "language_servers": ["rust-analyzer"]
+    },
+    // TS/TSX/JS：vtsls 跳转
+    "TypeScript": { "enable_language_server": true, "language_servers": ["vtsls"] },
+    "TSX": { "enable_language_server": true, "language_servers": ["vtsls"] },
+    "JavaScript": { "enable_language_server": true, "language_servers": ["vtsls"] },
+    // HTML/CSS：Zed 内置服务器，仅零星文件，不开
+    "HTML": { "enable_language_server": false },
+    "CSS": { "enable_language_server": false }
+  },
+  "lsp": {
+    // vtsls：限堆防膨胀（typescript_projects）；禁自动下载 @types（原 go_projects，
+    // 其 JS 文件无 package.json/node_modules）
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "tsserver": { "maxTsServerMemory": 2048 }
+        },
+        "javascript": {
+          "tsserver": { "maxTsServerMemory": 2048 },
+          "disableAutomaticTypeAcquisition": true
+        }
+      }
+    },
+    // basedpyright：彻底关闭类型推断告警，仅分析打开文件以压低内存
+    "basedpyright": {
+      "settings": {
+        "basedpyright": {
+          "analysis": {
+            "typeCheckingMode": "off",
+            "diagnosticMode": "openFilesOnly",
+            "autoSearchPaths": false
+          }
+        }
+      }
+    },
+    // ruff：彻底关掉代码检查与提示，只留格式化
+    "ruff": {
+      "initialization_options": {
+        "settings": {
+          "lint": { "enable": false },
+          "hover": false
+        }
+      }
+    },
+    // rust-analyzer：压内存——关保存时 cargo check 子进程、
+    // 关 proc-macro 展开（本项目纯标准库用不到）
+    "rust-analyzer": {
+      "initialization_options": {
+        "checkOnSave": false,
+        "procMacro": { "enable": false },
+        "cargo": { "allTargets": false }
+      }
+    }
+  }
+}
