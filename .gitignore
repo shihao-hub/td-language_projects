@@ -1,8 +1,3 @@
-# 本地编辑器/工具杂项
-.zcode/
-.vscode/
-.idea/
-
 # 系统杂项
 Thumbs.db
 .DS_Store

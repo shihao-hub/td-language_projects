@@ -10,6 +10,7 @@
   - `.archived/<lang>/`：归档停更的项目（如 `.archived/go_projects/file-sync`、`.archived/python_projects/lele`）；
   - `docs/<lang>/`：各语言通用文档（如 `docs/go_projects/go 知识点.md`、`docs/typescript_projects/plans/`）。
 - 编辑器配置同样集中在父仓库根目录 `.zed/settings.json`（入库，随仓库分发），子仓内不再各自维护。
+- AI 会话产物（`.zcode/`）同样集中在父仓库根目录，子仓内不再各自维护。
 - 在本仓库下工作时，先确认目标所在位置（子仓内项目、根 `.archived/`、根 `docs/`），再进入对应目录执行构建、测试等操作。
 - 不要试图从父仓库提交子模块内部的改动：子模块内的变更必须在子模块自己的仓库里 commit + push。
 - 父仓库层面可见的变更有：`.gitmodules`、子模块指针、README/AGENTS 等自有文件，以及根目录的 `.archived/` 与 `docs/`。
@@ -39,7 +40,7 @@
 ## 归档与文档布局约定
 
 - 归档项目统一放父仓库根目录 `.archived/<lang>/<项目名>/`；语言通用文档放 `docs/<lang>/`。
-- 子仓内不再维护各自的 `.archived/`、`docs/` 与 `.zed/`。
+- 子仓内不再维护各自的 `.archived/`、`docs/`、`.zed/` 与 `.zcode/`。
 - 后续新增归档项目时，同样按 `<lang>` 嵌套放入根目录对应位置。
 
 ## 新增语言子模块
