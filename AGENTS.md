@@ -1,5 +1,21 @@
 # AGENTS.md
 
+## 强约束规则
+
+- 所有 AI 回复必须使用中文。
+- 所有 spec / plan 类设计文档（requirements.md、design.md、tasks.md、plans/01-plan.md 等）必须使用中文描述。
+- 代码注释推荐使用中文；变量名、函数名、类名等代码标识符一律使用英文。
+- 专业术语（API、HTTP、TypeScript、React 等）、框架名称、命令行指令、文件路径保留英文原文。
+- Git Commit Message 格式：
+  - 子模块内（monorepo，一目录一项目）：`<project>:<type>: <subject>`，如 `taskmon:feat: 添加进程树过滤`；需更细范围用 `<project>:<type>(<scope>): <subject>`；
+  - 父仓库（无项目维度）：`<type>: <subject>`，如 `docs: 更新仓库约定`；
+  - type 限：`feat`（新功能）、`fix`（Bug 修复）、`docs`（文档）、`style`（格式）、`refactor`（重构）、`perf`（性能）、`test`（测试）、`chore`（构建/工具）、`ci`（CI/CD）、`revert`（回滚）；
+  - Subject：中文描述，≤ 50 字符，不以句号结尾；祈使语气（添加、修复、优化、重构、移除、更新）；
+  - Body：中文，每行 ≤ 72 字符，说明是什么和为什么，`-` 列表格式。
+- Git 提交范围隔离：一次提交的文件只能属于同一范围——父仓库自身、某个子仓库根目录、或某个子仓库内的单个子项目；禁止跨范围混提（如多个子项目的改动混在一次提交，或子项目文件与子仓根目录文件混提）。
+- 代码修改完成后，向用户展示改动摘要，并给出可直接在 PowerShell 下执行的 git commit 命令。
+- 禁止 `SELECT *`：任何 ORM 查询与手写 SQL 一律显式列出所需字段。
+
 ## 仓库结构说明
 
 本仓库（`language_projects`）是按语言划分的项目总仓，采用 **git submodules** 结构：
