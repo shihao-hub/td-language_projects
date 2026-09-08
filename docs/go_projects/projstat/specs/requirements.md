@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`language_projects` 总仓通过 git submodules 挂载 4 个语言 monorepo（go_projects / python_projects / rust_projects / typescript_projects），现有 23 个活跃项目；另有 5 个归档项目位于父仓 `.archived/<lang>/` 下。项目状态信息目前散落在各项目自维护的 README.md / TODO.md / NOTES.md / SPEC.md / HANDOFF.md 中，格式不统一，无法一眼回答"这个项目处于什么阶段、什么时候继续做什么、是否读过源码、是否可用、是否测试过"。
+`language_projects` 总仓通过 git submodules 挂载 4 个语言 monorepo（go_projects / python_projects / rust_projects / typescript_projects），现有 23 个活跃项目；已归档项目物理移入父仓 `.archived/<lang>/`，**不属于 projstat 管理范围**（归档即移目录，projstat 对 `.archived/` 完全忽略）。项目状态信息目前散落在各项目自维护的 README.md / TODO.md / NOTES.md / SPEC.md / HANDOFF.md 中，格式不统一，无法一眼回答"这个项目处于什么阶段、什么时候继续做什么、是否读过源码、是否可用、是否测试过"。
 
 projstat 是一个运行于 Windows 的 Go CLI（源码位于 `go_projects/projstat/`），为全部项目提供统一的状态标注与追踪：每个项目目录下一个 `PROJECT.toml` 承载手工标注，命令运行时实时采集 git 元数据，二者合并输出列表 / 详情 / 待办视图。
 
@@ -10,11 +10,11 @@ projstat 是一个运行于 Windows 的 Go CLI（源码位于 `go_projects/projs
 
 ### REQ-1: 项目发现
 
-projstat SHALL 自动发现全部待标注项目：4 个 `<lang>_projects/` 下的直接子目录（深度 1）与 `.archived/<lang>/` 下的直接子目录（深度 2）；文件与非目录条目不视为项目。
+projstat SHALL 自动发现全部待标注项目：4 个 `<lang>_projects/` 下的直接子目录（深度 1）；文件与非目录条目不视为项目，`.archived/` 目录 SHALL NOT 参与发现。
 
 #### Scenario 1.1: 完整发现
 - WHEN 在总仓内任一位置运行 projstat 任一命令
-- THE SYSTEM SHALL 发现 23 个活跃项目与 5 个归档项目（共 28 个）
+- THE SYSTEM SHALL 发现 23 个项目（projstat 自身落地后为 24），且不含任何 .archived 内项目
 
 #### Scenario 1.2: 未标注项目不遗漏
 - WHEN 某项目目录尚无 PROJECT.toml
@@ -41,7 +41,7 @@ projstat SHALL 从当前工作目录逐级向上自动定位总仓根（同时�
 - THE SYSTEM SHALL 显示 tested 为 "-"，而非 false
 
 #### Scenario 3.2: 阶段枚举校验
-- WHEN stage 取值不在 idea | learning | wip | mvp | usable | paused | archived | dropped 之内
+- WHEN stage 取值不在 idea | learning | wip | mvp | usable | paused | dropped 之内
 - THE SYSTEM SHALL 以退出码 1 拒绝并指出合法取值
 
 #### Scenario 3.3: 日期格式校验
@@ -50,23 +50,19 @@ projstat SHALL 从当前工作目录逐级向上自动定位总仓根（同时�
 
 ### REQ-4: init 命令
 
-`projstat init` SHALL 为所有缺 PROJECT.toml 的项目生成骨架文件（name=目录名、lang 按所属子仓推导、其余留空），且幂等；`.archived/` 下项目默认 stage=archived。
+`projstat init` SHALL 为所有缺 PROJECT.toml 的项目生成骨架文件（name=目录名、lang 按所属子仓推导、其余留空），且幂等。
 
 #### Scenario 4.1: 幂等
 - WHEN 某项目已有 PROJECT.toml 且再次执行 init
 - THE SYSTEM SHALL 跳过该目录，不改动现有文件
 
-#### Scenario 4.2: 归档默认阶段
-- WHEN init 处理 `.archived/python_projects/lele`
-- THE SYSTEM SHALL 生成 stage="archived" 的骨架
-
 ### REQ-5: list 命令
 
-`projstat list`（亦为无参数时的默认行为）SHALL 以表格输出项目：name、lang、stage、源码/可用/测试三列标记（✓/✗/-）、最后提交相对时间、next_due（逾期标红）；默认按 name 排序、隐藏归档项目；支持 `--lang`、`--stage` 过滤，`--all` 含归档，`--sort name|commit|due`，`--json`。
+`projstat list`（亦为无参数时的默认行为）SHALL 以表格输出项目：name、lang、stage、源码/可用/测试三列标记（✓/✗/-）、最后提交相对时间、next_due（逾期标红）；默认按 name 排序；支持 `--lang`、`--stage` 过滤，`--sort name|commit|due`，`--json`。
 
-#### Scenario 5.1: 默认隐藏归档
+#### Scenario 5.1: 全量输出
 - WHEN 运行 projstat list
-- THE SYSTEM SHALL 输出 23 行，不含 .archived 项目
+- THE SYSTEM SHALL 输出全部项目（当前 23 个，projstat 落地后 24 个）
 
 #### Scenario 5.2: 组合过滤
 - WHEN 运行 projstat list --lang go --stage wip
@@ -74,11 +70,11 @@ projstat SHALL 从当前工作目录逐级向上自动定位总仓根（同时�
 
 ### REQ-6: show 命令
 
-`projstat show <name>` SHALL 输出单个项目全部手工字段与自动采集详情（最后提交时间、dirty、提交数、存在的 TODO/NOTES/SPEC/HANDOFF.md）。name 按目录名全局唯一解析；歧义或无匹配时 SHALL 以退出码 1 报错，歧义时列出候选项并提示 `lang/name` 形式。
+`projstat show <name>` SHALL 输出单个项目全部手工字段与自动采集详情（最后提交时间、最近 tag）。name 按目录名全局唯一解析；歧义或无匹配时 SHALL 以退出码 1 报错，歧义时列出候选项并提示 `lang/name` 形式。
 
 #### Scenario 6.1: 详情输出
 - WHEN 运行 projstat show zedhub
-- THE SYSTEM SHALL 输出 zedhub 全部字段、git 采集信息与文档文件列表
+- THE SYSTEM SHALL 输出 zedhub 全部字段与 git 采集信息（最后提交时间、最近 tag）
 
 #### Scenario 6.2: 无匹配
 - WHEN 运行 projstat show nosuchproj
@@ -98,7 +94,7 @@ projstat SHALL 从当前工作目录逐级向上自动定位总仓根（同时�
 
 ### REQ-8: next 命令
 
-`projstat next` SHALL 输出所有填有 next_action 的项目，按 next_due 升序排列：逾期置顶且标红，无 due 者最后；`--all` 含归档，支持 `--json`。
+`projstat next` SHALL 输出所有填有 next_action 的项目，按 next_due 升序排列：逾期置顶且标红，无 due 者最后；支持 `--json`。
 
 #### Scenario 8.1: 逾期优先
 - WHEN 存在 next_due 已逾期与未到期的项目
@@ -110,11 +106,11 @@ projstat SHALL 从当前工作目录逐级向上自动定位总仓根（同时�
 
 ### REQ-9: git 元数据自动采集
 
-执行 list / show / next 时 projstat SHALL 以并发方式（信号量 8）对每个项目目录运行 `git log -1`、`git status --porcelain`、`git rev-list --count HEAD`，采集最后提交时间、dirty 状态、提交数；采集结果仅存在于本次运行，SHALL NOT 落盘。
+执行 list / show / next 时 projstat SHALL 以并发方式（信号量 8）对每个项目目录仅采集两类 git 元数据：最后提交时间（`git log -1 --format=%cI`）与最近可达 tag（基于该项目最后提交的 `git describe --tags --abbrev=0`）；SHALL NOT 采集 commit message 等正文内容；采集结果仅存在于本次运行，SHALL NOT 落盘。
 
-#### Scenario 9.1: 归档项目采集
-- WHEN 项目位于 .archived（父仓库的子目录）
-- THE SYSTEM SHALL 仍能采集到其 git 信息
+#### Scenario 9.1: 无 tag 项目
+- WHEN 项目所在仓库没有任何 tag，或最后提交不可达任何 tag
+- THE SYSTEM SHALL 将 tag 字段置空，其余输出正常
 
 ### REQ-10: git 缺失降级
 
@@ -126,7 +122,7 @@ IF git 不在 PATH 或目录不在任何 git 仓库内 THEN THE SYSTEM SHALL 将
 
 #### Scenario 11.1: 成功信封
 - WHEN 运行 projstat list --json
-- THE SYSTEM SHALL 输出合法 JSON，count=23，elapsed_ms 为非负整数
+- THE SYSTEM SHALL 输出合法 JSON，count 等于发现的项目数，elapsed_ms 为非负整数
 
 ### REQ-12: 退出码
 
