@@ -16,6 +16,14 @@
 - 代码修改完成后，向用户展示改动摘要，并给出可直接在 PowerShell 下执行的 git commit 命令。
 - 禁止 `SELECT *`：任何 ORM 查询与手写 SQL 一律显式列出所需字段。
 
+### 开发约束（手工编写）
+
+- pg 数据库表尽量避免使用 JSONB，如果一定要使用请说明原因，而且该字段要设置最大容量
+- 在 python 项目的 fastapi + sqlalchemy + celery 框架中：
+  - 要考虑如何避免一个数据库连接被某个长任务长期持有
+  - sqlalchemy 的 BaseModel 类首次创建、增减字段、修改字段时，在任务完成后，需要人工参与审阅，避免出现 N+1、隐式级联操作等问题，所以记得任务完成后提示
+  - celery 应该只负责轻任务，重任务可以给 kafka（待定）
+
 ## 仓库结构说明
 
 本仓库（`language_projects`）是按语言划分的项目总仓，采用 **git submodules** 结构：
@@ -68,11 +76,12 @@
 
 1. 在 GitHub 创建 `td-<lang>_projects` 仓库并推送内容；
 2. 父仓库执行 `git submodule add git@github.com:shihao-hub/td-<lang>_projects.git <lang>_projects`；
-3. 在 `.gitmodules` 该条目补 `ignore = all`，然后 commit。
+3. 在 `.gitmodules` 该条目补 `branch = <默认分支>` 与 `ignore = all`，然后 commit。
 
 ## 常用命令
 
 - 完整克隆：`git clone --recurse-submodules <URL>`
+- 克隆后初始化并切换子模块到跟踪分支：`./init-submodules.ps1`（初始化 + 按 `.gitmodules` 的 `branch` 字段切分支，解决子模块默认 detached HEAD）
 - 初始化/补拉子模块：`git submodule update --init --recursive`
 - 跟进子仓库远端新提交：`git submodule update --remote`
 - 提交指针变更：`git add --force <子模块名>`（`ignore = all` 会拦截普通 `git add`，必须 `--force`）→ `git commit` → `git push`

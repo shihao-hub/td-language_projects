@@ -25,9 +25,21 @@ git clone --recurse-submodules git@github.com:shihao-hub/td-language_projects.gi
 git submodule update --init --recursive
 ```
 
+## 切换子模块到跟踪分支（推荐）
+
+git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（这是子模块的设计行为，不是异常）。若希望各子模块直接站在 `main`/`master` 本地分支上，克隆后在仓库根执行一次：
+
+```powershell
+./init-submodules.ps1
+```
+
+脚本做两件事：初始化子模块 → 按 `.gitmodules` 中各子模块的 `branch` 字段切换到对应本地分支（`git switch` 会在本地无同名分支时自动创建并跟踪 `origin/<branch>`）。
+
+注意：切上分支后子模块代码为**远端分支最新**，可能与父仓库记录的指针 commit 不一致（指针落后时 `git submodule status` 会显示 `+` 前缀）；需要严格对齐历史版本时，用 `git submodule update --init` 回到指针 commit 即可。
+
 ## 日常更新
 
-- 拉取子仓库各自远端的最新提交：
+- 拉取子仓库各自远端的最新提交（`.gitmodules` 已为各子模块声明 `branch` 字段，`--remote` 按声明的分支拉取）：
 
   ```bash
   git submodule update --remote
