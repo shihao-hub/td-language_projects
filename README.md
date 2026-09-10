@@ -59,3 +59,11 @@ git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（�
 
 1. 子仓库内 commit + push；
 2. 需要时回到父仓库更新指针（`git submodule update --remote` 后 commit）。
+
+## 项目归档
+
+项目停更后移出子仓、归档到父仓库根目录 `.archived/<lang>/`，完整流程（前置调研、范围隔离提交、子模块指针更新）见 [SKILLARCHIVE.md](SKILLARCHIVE.md)。
+
+## 项目盘点
+
+各项目（含归档）的摘要、状态、源码阅读情况与价值评估见 [MONOREPO.md](MONOREPO.md)。
