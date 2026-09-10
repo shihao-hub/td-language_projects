@@ -67,7 +67,7 @@
 - 所有项目文档（知识沉淀、spec、plan、设计说明等）统一放父仓库根目录 `docs/<lang>/` 下，按子模块内相对路径**镜像层级命名**，并去掉中间冗余的 `docs/` 一层：
   - 例：`go_projects/a/b.md` → `docs/go_projects/a/b.md`；
   - 例：`typescript_projects/taskmon/docs/x.md` → `docs/typescript_projects/taskmon/x.md`。
-- 子仓根级说明文件（如 `go_projects/SUBMODULES.md`）不在此列，可保留。
+- 例外：子模块内全大写命名的文档（如 `README.md`、`SUBMODULES.md`）与子仓根级说明文件无需迁移，可原地保留。
 - 归档项目统一放父仓库根目录 `.archived/<lang>/<项目名>/`；语言通用文档放 `docs/<lang>/`。
 - 子仓内不再维护各自的 `.archived/`、`docs/`、`.zed/` 与 `.zcode/`。
 - 后续新增归档项目时，同样按 `<lang>` 嵌套放入根目录对应位置。
