@@ -66,4 +66,4 @@ git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（�
 
 ## 项目盘点
 
-各项目（含归档）的摘要、状态、源码阅读情况与价值评估见 [MONOREPO.md](MONOREPO.md)。
+各项目（含归档）的摘要、状态、源码阅读情况与价值评估见 [MONOREPO.md](MONOREPO.md)；盘点表的维护规则与联动纪律见 [SKILLINVENTORY.md](SKILLINVENTORY.md)。
