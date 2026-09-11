@@ -24,7 +24,7 @@ description: 维护 MONOREPO.md（个人项目价值盘点表）的完整工作�
 
 - 新项目登记 → 跳过对照，直接从「阶段 2：摘要起草」开始
 - 补全/核对存量盘点表 → 从「阶段 0」开始
-- 刚发生项目归档（走 [SKILLARCHIVE.md](SKILLARCHIVE.md)）/迁移/改名 → 查「联动场景速查」执行对应动作
+- 刚发生项目归档（走 [SKILL-ARCHIVE.md](SKILL-ARCHIVE.md)）/迁移/改名 → 查「联动场景速查」执行对应动作
 - 表格渲染错列/格式可疑 → 直接跑「阶段 3」的验证脚本
 
 任何场景都不要代填主观列——状态、源码阅读情况、价值、下一步是表主人的个人判断，AI 代填等于编造，会让整张表失去可信度。
@@ -78,7 +78,7 @@ $lines | Where-Object { $_ -match '^\|' -and (([regex]::Matches($_,'\|')).Count 
 | 触发事件 | 本表动作 |
 |---|---|
 | 子仓新增项目 | 对应语言节加行，摘要按 README 起草，主观列留空待填 |
-| 项目归档（SKILLARCHIVE.md 流程） | 活跃节删行 + `.archived/<lang>` 对应子节加行（全列保留） |
+| 项目归档（SKILL-ARCHIVE.md 流程） | 活跃节删行 + `.archived/<lang>` 对应子节加行（全列保留） |
 | 归档项目重启 | 归档子节删行 + 对应语言节加行 |
 | 项目改名/跨子仓迁移 | 行随实际目录移到对应节 |
 | README 重写导致摘要失真 | 仅更新摘要列，主观列不动 |
@@ -90,7 +90,7 @@ Input: 把 rust_projects 下新项目 foo 登记到盘点表
 Output: `docs: 盘点表登记新项目 foo`（仅填摘要列，主观列留空）
 
 **示例 2：**
-Input: 刚按 SKILLARCHIVE.md 归档了 sublime-folders
+Input: 刚按 SKILL-ARCHIVE.md 归档了 sublime-folders
 Output: `docs: 盘点表同步项目归档变动`（go 节删行 + `.archived/go_projects` 子节加行，全列保留）
 
 **示例 3：**
