@@ -1,6 +1,7 @@
 # clictl 使用指南
 
 > 项目位置：`go_projects/clictl`（子仓内）。本文为父仓镜像文档，与项目内 `README.md` 保持同步。
+> CLI + JSON 输出的通用实现模式（供其他 CLI 项目参考）：见同目录 `cli-json-pattern.md`。
 
 ## 定位
 
