@@ -18,3 +18,8 @@
 	url = git@github.com:shihao-hub/td-typescript_projects.git
 	branch = main
 	ignore = all
+[submodule "native_projects"]
+	path = native_projects
+	url = git@github.com:shihao-hub/td-native_projects.git
+	branch = main
+	ignore = all

@@ -46,6 +46,10 @@
 | mini-http-server | 纯 Rust 标准库多线程 HTTP 服务器，零依赖语言练手 |  |  |  |  |
 | whoholds | Windows 文件句柄占用检测（类似 handle.exe），查占用指定文件的进程 |  |  |  |  |
 
+## native_projects
+
+> 新建混合语言子仓（C / C++ / Lua），暂无项目。
+
 ## 归档项目（.archived）
 
 ### .archived/go_projects

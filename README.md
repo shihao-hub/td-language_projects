@@ -10,6 +10,7 @@
 | `python_projects/` | Python 项目 monorepo | Python |
 | `rust_projects/` | Rust 项目 monorepo | Rust |
 | `typescript_projects/` | TypeScript 项目 monorepo | TypeScript |
+| `native_projects/` | 原生项目 monorepo（混合语言仓） | C / C++ / Lua |
 
 新增语言时：在 GitHub 建对应 `td-<lang>_projects` 仓库后，在父仓库执行 `git submodule add <URL> <lang>_projects`，并在 `.gitmodules` 该条目补 `ignore = all`。
 

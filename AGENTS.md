@@ -29,7 +29,8 @@
 
 本仓库（`language_projects`）是按语言划分的项目总仓，采用 **git submodules** 结构：
 
-- 四个子目录（`go_projects`、`python_projects`、`rust_projects`、`typescript_projects`）各自是独立 Git 仓库，父仓库只跟踪它们的 commit 指针（`.gitmodules` 中 `ignore = all`）。
+- 五个子目录（`go_projects`、`python_projects`、`rust_projects`、`typescript_projects`、`native_projects`）各自是独立 Git 仓库，父仓库只跟踪它们的 commit 指针（`.gitmodules` 中 `ignore = all`）。
+- 其中 `native_projects` 是**混合语言子仓**（C / C++ / Lua）：仓内同样是"一个子目录 = 一个项目"，具体语言由各项目自定；其余子仓仍按语言一一对应。
 - 各语言子仓内部为 monorepo：**一个子目录 = 一个项目**，每个子目录都是一个独立项目，彼此互不依赖归属关系，各自维护自己的依赖与配置；新增项目时直接建新的子目录，不要在子项目内单独 `git init`。
 - 已归档项目与通用文档集中放在**父仓库根目录**，按语言加嵌套路径（由各子仓迁移而来）：
   - `.archived/<lang>/`：归档停更的项目（如 `.archived/go_projects/file-sync`、`.archived/python_projects/lele`）；
@@ -61,6 +62,13 @@
 ### typescript_projects
 
 - 子仓根目录**不创建** `pnpm-workspace.yaml` 和根 `package.json`，子项目之间不做 workspace 关联。
+
+### native_projects
+
+- **混合语言子仓**：收录 C / C++ / Lua 项目（`native` 指原生代码生态；Lua 解释器为 C 实现，嵌入场景属原生生态圈内），仓内一个子目录 = 一个项目，语言由各项目自定。
+- 构建主推 **CMake + CMakePresets.json + Ninja**，编译器默认 **MSVC**（VS Build Tools 2022），MSYS2 MinGW64 (gcc/g++) 备选；轻量项目可用 **xmake**。
+- clang-format / clangd 按需安装（Zed LSP 白名单按项目开启）；包管理（vcpkg/conan）暂不引入，需要时再定。
+- 本机已装：CMake 4.2、VS Build Tools 2022（含 VC 工具集）、MSYS2 MinGW64、xmake、Lua 5.1、LuaJIT。
 
 ## 根目录脚本约定
 
