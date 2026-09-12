@@ -1,3 +1,6 @@
 # 系统杂项
 Thumbs.db
 .DS_Store
+
+# Python 虚拟环境（根目录 scripts 约定禁止，兜底防误入库）
+.venv/

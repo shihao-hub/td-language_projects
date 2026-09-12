@@ -60,6 +60,20 @@ git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（�
 1. 子仓库内 commit + push；
 2. 需要时回到父仓库更新指针（`git submodule update --remote` 后 commit）。
 
+## 根目录 scripts
+
+`scripts/` **只存放 Python 脚本**，**一脚本一事**，统一采用 PEP 723 内联依赖（`# /// script` 块）+ `uv run` 执行；仓库内**不产生也不会提交** `.venv`、`pyproject.toml`、`uv.lock`、`requirements.txt`：
+
+```powershell
+uv run scripts/install_tool.py all
+```
+
+可用脚本：
+
+| 脚本 | 功能 | 用法 |
+|---|---|---|
+| `install_tool.py` | 把子仓构建产物安装到 `~/.local/bin`（在 PATH 上即装即用） | `uv run scripts/install_tool.py <instancelock\|clictl\|jtree\|all>` |
+
 ## 子仓约定
 
 - **go_projects / rust_projects 只收录 CLI 工具**：GUI/托盘类项目不做，已有者已迁出（CLI 替代版见子仓内各项目）。选 CLI 的核心原因是**跨平台**：无 GUI 框架依赖，单二进制交叉编译分发即可覆盖 Windows / Linux / macOS。

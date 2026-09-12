@@ -61,6 +61,13 @@
 
 - 子仓根目录**不创建** `pnpm-workspace.yaml` 和根 `package.json`，子项目之间不做 workspace 关联。
 
+## 根目录 scripts 约定
+
+- `scripts/` **只允许存放 Python 脚本**，禁止存放其他语言的脚本、文档与配置文件。
+- **一个脚本只做一件事**：单一职责，禁止膨胀为万能工具脚本。
+- 每个脚本**必须**带 PEP 723 内联元数据（`# /// script` 块）声明 `requires-python` 与 `dependencies`；无第三方依赖也要保留该块（形式统一），统一用 `uv run scripts/xxx.py <args>` 执行。
+- **禁止**在仓库根与 `scripts/` 内创建 `pyproject.toml`、`uv.lock`、`.venv`、`requirements.txt`；依赖一律走 PEP 723 + uv 全局缓存，仓库内不产生任何 Python 工程文件。
+
 ## 归档与文档布局约定（重要）
 
 - **文档只允许放在父仓库**：子模块内的项目目录中**一律禁止**出现任何文档目录与文档内容（`docs/`、`docs/specs/`、`docs/plans/`、`spec/`、`specs/`、`plans/` 等均不允许）。
