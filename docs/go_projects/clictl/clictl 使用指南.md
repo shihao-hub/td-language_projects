@@ -34,6 +34,10 @@ clictl info zread-tray --pretty
 # 全量终止该工具的后台活实例（taskkill 树杀）
 clictl stop zread-tray
 
+# 复制已注册 exe 到指定目录（目录须已存在；目标已存在需 --force 覆盖）
+clictl cp go "D:\tools"
+clictl cp go "D:\tools" --force
+
 # 详情：最近 10 条启动 + 累计耗时
 clictl info go
 
@@ -69,7 +73,7 @@ clictl completion powershell --uninstall   # 卸载
 - 失败：`{"ok":false,"error":{"code":"...","message":"..."}}`
 - 管理命令错误走 stdout；`run` 的前置错误（未注册/文件失效）走 **stderr**，保证 `run` 的 stdout 只属于子进程；`start`/`stop` 前置错误走 stdout 且保持退出码 127（跨命令一致）
 
-常用错误码：`conflict`（name/path 重复）、`not_found`、`meta_unknown_key`、`meta_invalid`、`meta_too_large`、`not_exe`（v1 仅支持 .exe）、`file_not_found`、`db_error`。
+常用错误码：`conflict`（name/path 重复）、`not_found`、`meta_unknown_key`、`meta_invalid`、`meta_too_large`、`not_exe`（v1 仅支持 .exe）、`file_not_found`（add 源不存在 / cp 源已失效）、`dest_not_found`（cp 目标目录不存在）、`dest_exists`（cp 目标已存在，需 `--force`）、`same_path`（cp 源与目标是同一文件）、`copy_failed`、`db_error`。
 
 ## 退出码约定
 
@@ -86,6 +90,12 @@ clictl completion powershell --uninstall   # 卸载
 - `clictl list --running`：只看后台活实例（附 running_pids / last_start，与 --status 互斥）；`clictl info` 的 `running.alive/pids` 字段
 - `clictl stop <name>`：对该工具全部存活实例 `taskkill /PID x /T /F` 树杀（含子进程），杀后复探确认再闭环记录（exit_code=1 强杀约定值）
 - launches 表 `pid` 列仅 start 写入；存量库首次运行新版自动 ALTER 加列；已知局限见项目 PLAN.md（退出码 259 哨兵歧义、SysWOW64 重定向，概率极低）
+
+## 复制命令（v1.3.0）
+
+- `clictl cp <name> <dest_dir> [--force]`：把已注册 exe 复制到目标目录，保留原文件名；输出 `name` / `src` / `dest` / `size_bytes`
+- 目标目录必须已存在（不自动创建，缺失报 `dest_not_found`）；目标同名文件默认拒绝（`dest_exists`），`--force` 强制覆盖；源与目标为同一文件时始终拒绝（`same_path`，防复制中途截断损坏源文件）
+- 流式复制不整读内存；正在运行的 exe 可正常复制（Windows 读共享允许），仅目标文件被占用时如实报 `copy_failed`
 
 ## meta 白名单
 
@@ -108,7 +118,7 @@ clictl completion powershell --uninstall   # 卸载
 **PowerShell Tab 补全**（PS 5.1+，clictl 需在 PATH 中）：
 
 - `clictl completion powershell --install` 把补全安装块写入 `$PROFILE`（conda-init 风格标记区块，幂等；安装行带 `Get-Command clictl` 守卫，clictl 不在 PATH 的会话自动跳过，不污染 shell 启动）；`--uninstall` 按标记整块移除
-- 补全行为：第 1 位置补全子命令名（`clictl ru<Tab>`）；`run/start/stop/rm/info/set` 后第 1 位置补全工具名（候选来自注册列表，前缀过滤）；`run`/`start` 第 2 参数起为子进程透传段，不产生候选
+- 补全行为：第 1 位置补全子命令名（`clictl ru<Tab>`）；`run/start/stop/rm/info/set/cp` 后第 1 位置补全工具名（候选来自注册列表，前缀过滤）；`run`/`start` 第 2 参数起为子进程透传段，不产生候选
 - 只绑定 `clictl` 命令名，不影响其他工具的补全；内部 try/catch 静默失败
 - `completion powershell` / `completion names` 输出 **raw 文本而非 JSON 包络**（消费者是 shell 补全脚本，输出即协议，同 `run` stdout 例外先例）；`--install`/`--uninstall` 为动作型命令仍输出 JSON
 
