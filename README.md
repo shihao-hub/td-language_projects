@@ -62,8 +62,8 @@ git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（�
 
 ## 项目归档
 
-项目停更后移出子仓、归档到父仓库根目录 `.archived/<lang>/`，完整流程（前置调研、范围隔离提交、子模块指针更新）见 [SKILLARCHIVE.md](SKILLARCHIVE.md)。
+项目停更后移出子仓、归档到父仓库根目录 `.archived/<lang>/`，完整流程（前置调研、范围隔离提交、子模块指针更新）见 [SKILL-ARCHIVE.md](SKILL-ARCHIVE.md)。
 
 ## 项目盘点
 
-各项目（含归档）的摘要、状态、源码阅读情况与价值评估见 [MONOREPO.md](MONOREPO.md)；盘点表的维护规则与联动纪律见 [SKILLINVENTORY.md](SKILLINVENTORY.md)。
+各项目（含归档）的摘要、状态、源码阅读情况与价值评估见 [MONOREPO.md](MONOREPO.md)；盘点表的维护规则与联动纪律见 [SKILL-INVENTORY.md](SKILL-INVENTORY.md)。

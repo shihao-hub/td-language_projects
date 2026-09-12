@@ -15,7 +15,7 @@
     },
     // Rust：rust-analyzer 跳转
     "Rust": {
-      "enable_language_server": true,
+      "enable_language_server": false,
       "language_servers": ["rust-analyzer"]
     },
     // TS/TSX/JS：vtsls 跳转
