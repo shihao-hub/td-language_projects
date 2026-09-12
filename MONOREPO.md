@@ -28,15 +28,15 @@
 
 | 项目 | 摘要 | 状态 | 源码阅读情况 | 价值 | 下一步 |
 |-|-|-|-|-|-|
-| aiquick | 常驻托盘 AI 快速助手，Alt+S 秒开，划词预填、预设指令、流式输出 |  |  |  |  |
-| exe-launcher | Windows 常用 exe 集中启动器，纯 Win32 API 单文件零依赖 |  |  |  |  |
-| file-sync-native | 带忽略规则的本地目录同步工具，Wails v2 GUI，流式三级判定加速重复同步 |  |  |  |  |
+| exestarter | exe 收藏架 CLI：扫描收集、集中注册、透传启动/定位/开终端（exe-launcher 的 CLI 版） |  |  |  |  |
+| filesync | 带忽略规则的本地目录同步 CLI，三级判定加速，与 GUI 版共享任务配置（file-sync-native 的 CLI 版） |  |  |  |  |
 | instancelock | 基于锁文件的进程单实例锁库，支持 try/hold 模式、超时与父进程存活检测 |  |  |  |  |
 | ocstat | 统计 opencode 各会话启动所用模型与思考档位的 CLI |  |  |  |  |
 | projstat | 总仓项目状态标注 CLI，合并 PROJECT.toml 手工标注与 git 元数据 |  |  |  |  |
 | python-launcher-go | go 编写的 python 本地项目启动器，本质就是找到 python project path 和 uv，用 uv 的命令配合 pro | 稳定 | 已阅读，但意义不大，毕竟也不用 go 干活，哪怕干活用的 python 也不咋看代码了，需要思考一下 |  |  |
+| quickask | 命令行快速问 AI：预设指令 + 流式输出 + REPL，C/S 架构后端 quickaskd（aiquick 的 CLI 版） |  |  |  |  |
 | taskmon-go | 空壳项目，刚初始化（taskmon 的 Go 版起点） |  |  |  |  |
-| zread-tray | 系统托盘常驻，为工作区一键启动/重启 zread 服务并拉起浏览器 |  |  |  |  |
+| zreadmanager | zread browse 生命周期管理 CLI：启动/树杀/探活，pidfile 跨进程定位（zread-tray 的 CLI 版） |  |  |  |  |
 
 ## rust_projects
 
@@ -53,11 +53,15 @@
 | 项目 | 摘要 | 状态 | 源码阅读情况 | 价值 | 下一步 |
 |-|-|-|-|-|-|
 | agent-reaper | 按 CPU/IO 增量判定闲置，整树清理 AI 编码代理进程 |  |  |  |  |
+| aiquick | 常驻托盘 AI 快速助手，Alt+S 秒开，划词预填、预设指令、流式输出（CLI 版 quickask 已替代） | 归档 |  |  |  |
 | console-calculator | Go 控制台四则运算计算器，手写词法分析与表达式求值 |  |  |  |  |
+| exe-launcher | Windows 常用 exe 集中启动器，纯 Win32 API 单文件零依赖（CLI 版 exestarter 已替代） | 归档 |  |  |  |
 | file-sync | 带 gitignore 式忽略规则、Web UI 与托盘的本地目录同步工具 |  |  |  |  |
+| file-sync-native | 带忽略规则的本地目录同步工具，Wails v2 GUI（CLI 版 filesync 已替代） | 归档 |  |  |  |
 | mcp-cleanup | 查找并击杀 AI 工具异常退出后泄漏的 MCP server 进程树 |  |  |  |  |
 | mini-http-server-go | 用 Go 复刻 Rust 版迷你 HTTP 服务器，学习练手 |  |  |  |  |
 | sublime-folders | 托盘常驻，定时将 Sublime 打开的目录记入 SQLite |  |  |  |  |
+| zread-tray | 系统托盘常驻，为工作区一键启动/重启 zread 服务并拉起浏览器（CLI 版 zreadmanager 已替代） | 归档 |  |  |  |
 
 ### .archived/python_projects
 
