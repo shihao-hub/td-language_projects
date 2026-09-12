@@ -33,9 +33,9 @@
 | instancelock | 基于锁文件的进程单实例锁库，支持 try/hold 模式、超时与父进程存活检测 |  |  |  |  |
 | ocstat | 统计 opencode 各会话启动所用模型与思考档位的 CLI |  |  |  |  |
 | projstat | 总仓项目状态标注 CLI，合并 PROJECT.toml 手工标注与 git 元数据 |  |  |  |  |
-| python-launcher-go | go 编写的 python 本地项目启动器，本质就是找到 python project path 和 uv，用 uv 的命令配合 pro | 稳定 | 已阅读，但意义不大，毕竟也不用 go 干活，哪怕干活用的 python 也不咋看代码了，需要思考一下 |  |  |
+| pythonlauncher | go 编写的 python 本地项目启动器，本质就是找到 python project path 和 uv，用 uv 的命令配合 pro（原 python-launcher-go） | 稳定 | 已阅读，但意义不大，毕竟也不用 go 干活，哪怕干活用的 python 也不咋看代码了，需要思考一下 |  |  |
 | quickask | 命令行快速问 AI：预设指令 + 流式输出 + REPL，C/S 架构后端 quickaskd（aiquick 的 CLI 版） |  |  |  |  |
-| taskmon-go | 空壳项目，刚初始化（taskmon 的 Go 版起点） |  |  |  |  |
+| taskmon | 空壳项目，刚初始化（taskmon 的 Go 版起点，原 taskmon-go） |  |  |  |  |
 | zreadmanager | zread browse 生命周期管理 CLI：启动/树杀/探活，pidfile 跨进程定位（zread-tray 的 CLI 版） |  |  |  |  |
 
 ## rust_projects
