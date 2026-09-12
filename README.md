@@ -60,6 +60,11 @@ git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（�
 1. 子仓库内 commit + push；
 2. 需要时回到父仓库更新指针（`git submodule update --remote` 后 commit）。
 
+## 子仓约定
+
+- **go_projects 只收录 CLI 工具**：GUI/托盘类项目不做，已有者已迁出（CLI 替代版见子仓内各项目）。
+- **项目命名单词直接连写，不用连字符**（如 `filesync`、`zreadmanager`）：目录名即 CLI 命令名，无连字符在 shell 中调用、补全与传参更顺手；也不加语言后缀（不写 `-go`）。
+
 ## 项目归档
 
 项目停更后移出子仓、归档到父仓库根目录 `.archived/<lang>/`，完整流程（前置调研、范围隔离提交、子模块指针更新）见 [SKILL-ARCHIVE.md](SKILL-ARCHIVE.md)。
