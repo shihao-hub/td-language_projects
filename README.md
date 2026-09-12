@@ -60,19 +60,19 @@ git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（�
 1. 子仓库内 commit + push；
 2. 需要时回到父仓库更新指针（`git submodule update --remote` 后 commit）。
 
-## 根目录 scripts
+## 根目录脚本
 
-`scripts/` **只存放 Python 脚本**，**一脚本一事**，统一采用 PEP 723 内联依赖（`# /// script` 块）+ `uv run` 执行；仓库内**不产生也不会提交** `.venv`、`pyproject.toml`、`uv.lock`、`requirements.txt`：
+Python 脚本直接放仓库根目录（暂不设 `scripts/` 目录），**一脚本一事**，统一采用 PEP 723 内联依赖（`# /// script` 块）+ `uv run` 执行；仓库内**不产生也不会提交** `.venv`、`pyproject.toml`、`uv.lock`、`requirements.txt`：
 
 ```powershell
-uv run scripts/install_tool.py all
+uv run install_tool.py all
 ```
 
 可用脚本：
 
 | 脚本 | 功能 | 用法 |
 |---|---|---|
-| `install_tool.py` | 把子仓构建产物安装到 `~/.local/bin`（在 PATH 上即装即用） | `uv run scripts/install_tool.py <instancelock\|clictl\|jtree\|all>` |
+| `install_tool.py` | 把子仓构建产物安装到 `~/.local/bin`（在 PATH 上即装即用） | `uv run install_tool.py <instancelock\|clictl\|jtree\|all>` |
 
 ## 数据文件存放规范（重要）
 
