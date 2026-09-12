@@ -74,6 +74,21 @@ uv run scripts/install_tool.py all
 |---|---|---|
 | `install_tool.py` | 把子仓构建产物安装到 `~/.local/bin`（在 PATH 上即装即用） | `uv run scripts/install_tool.py <instancelock\|clictl\|jtree\|all>` |
 
+## 数据文件存放规范（重要）
+
+各项目运行时产生的数据文件（JSON 数据库、SQLite db、索引/哈希缓存、锁文件、日志、会话存储、settings 等）**统一且仅**存放于：
+
+```
+%APPDATA%\language_projects\<项目名>\
+```
+
+- 取不到 `APPDATA` 环境变量时，回退 `~/.language_projects/<项目名>/`；
+- 程序写入前必须自动创建完整目录链（含 `language_projects` 一层），用户无需手工建目录；
+- 例外（不受此规范约束）：
+  - 只读外部数据源（如 opencode.db、Zed 的 db.sqlite）；
+  - django-lab 的 `db.sqlite3`（学习项目，保留在项目根目录方便重建）；
+  - zed-opencode-sessions 仓库内的 `sessions_archive_*.db`（有意提交的跨机器迁移归档）。
+
 ## 子仓约定
 
 - **go_projects / rust_projects 只收录 CLI 工具**：GUI/托盘类项目不做，已有者已迁出（CLI 替代版见子仓内各项目）。选 CLI 的核心原因是**跨平台**：无 GUI 框架依赖，单二进制交叉编译分发即可覆盖 Windows / Linux / macOS。
