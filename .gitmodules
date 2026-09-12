@@ -6,7 +6,7 @@
 [submodule "python_projects"]
 	path = python_projects
 	url = git@github.com:shihao-hub/td-python_projects.git
-	branch = master
+	branch = main
 	ignore = all
 [submodule "rust_projects"]
 	path = rust_projects
@@ -16,5 +16,5 @@
 [submodule "typescript_projects"]
 	path = typescript_projects
 	url = git@github.com:shihao-hub/td-typescript_projects.git
-	branch = master
+	branch = main
 	ignore = all
