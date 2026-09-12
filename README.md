@@ -62,8 +62,9 @@ git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（�
 
 ## 子仓约定
 
-- **go_projects 只收录 CLI 工具**：GUI/托盘类项目不做，已有者已迁出（CLI 替代版见子仓内各项目）。
-- **项目命名单词直接连写，不用连字符**（如 `filesync`、`zreadmanager`）：目录名即 CLI 命令名，无连字符在 shell 中调用、补全与传参更顺手；也不加语言后缀（不写 `-go`）。
+- **go_projects / rust_projects 只收录 CLI 工具**：GUI/托盘类项目不做，已有者已迁出（CLI 替代版见子仓内各项目）。选 CLI 的核心原因是**跨平台**：无 GUI 框架依赖，单二进制交叉编译分发即可覆盖 Windows / Linux / macOS。
+- **跨平台是 go 与 rust 项目的统一方向**：新项目设计时核心逻辑与平台层分离；存量项目（如 rust 的 `minieverything` 依赖 NTFS/USN、`whoholds` 依赖 Windows 句柄枚举）未来均计划逐步跨平台化改造。
+- **项目命名单词直接连写，不用连字符**（如 `filesync`、`minieverything`）：目录名即 CLI 命令名，无连字符在 shell 中调用、补全与传参更顺手；也不加语言后缀（不写 `-go`、`-rs`）。go_projects 与 rust_projects 通用。
 
 ## 项目归档
 

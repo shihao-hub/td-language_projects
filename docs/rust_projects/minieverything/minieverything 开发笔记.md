@@ -1,6 +1,6 @@
-# mini-everything 开发笔记
+# minieverything 开发笔记
 
-> 项目位置：`rust_projects/mini-everything/`（子仓 monorepo 内独立项目）
+> 项目位置：`rust_projects/minieverything/`（子仓 monorepo 内独立项目）
 
 ## 需求背景
 

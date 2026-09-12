@@ -42,7 +42,7 @@
 
 | 项目 | 摘要 | 状态 | 源码阅读情况 | 价值 | 下一步 |
 |-|-|-|-|-|-|
-| mini-everything | Everything CLI 简化版，NTFS 全盘文件名索引 + 秒级搜索 |  |  |  |  |
+| minieverything | Everything CLI 简化版，NTFS 全盘文件名索引 + 秒级搜索 |  |  |  |  |
 | mini-http-server | 纯 Rust 标准库多线程 HTTP 服务器，零依赖语言练手 |  |  |  |  |
 | whoholds | Windows 文件句柄占用检测（类似 handle.exe），查占用指定文件的进程 |  |  |  |  |
 
