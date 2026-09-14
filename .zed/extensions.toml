@@ -1,4 +1,31 @@
 # 项目依赖的 Zed 扩展（配合 settings.json 的 auto_install_extensions 自动安装）
-# neocmake：CMake 语法高亮 + neocmakelsp（LSP 受语言白名单开关控制，默认不启动）
+# Zed 内置语言仅 14 种（Bash/C/C++/CSS/Diff/Go/JS/JSON/Markdown/Python/Rust/Tailwind/TS/YAML），
+# 其余语言按仓库实际使用情况在此声明（宁少勿多）
+
+# ---- 活跃使用 ----
+# Lua 语法 + lua-language-server（native_projects 嵌入脚本）
+[lua]
+version = "0.1.10"
+# TOML 语法高亮（Cargo.toml、pyproject.toml、.zed/extensions.toml 等）
+[toml]
+version = "1.0.3"
+# PowerShell 语法 + LSP（init-submodules.ps1 与各项目构建脚本）
+[powershell]
+version = "0.4.3"
+# SQL 高亮（clictl migrations）
+[sql]
+version = "1.1.8"
+# CMake 语法高亮 + neocmakelsp（LSP 受语言白名单开关控制，默认不启动）
 [neocmake]
 version = "1.0.0"
+
+# ---- 少量/备用 ----
+# HTML 语法（归档 web UI 与零星页面）
+[html]
+version = "0.3.1"
+# ini/conf/cfg（归档 alembic.ini 等）
+[ini]
+version = "0.0.9"
+# xmake.lua 语法 + xmake_ls（native_projects 约定的轻量备选构建，提前备好）
+[xmake]
+version = "0.1.0"
