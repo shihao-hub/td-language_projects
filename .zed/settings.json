@@ -84,6 +84,15 @@
           "--compile-commands-dir=out/build/clang-debug"
         ]
       }
+    },
+    // lua-language-server：默认按 Lua 5.4 提供标准库签名，本仓嵌入的是
+    // 5.1.5（LuaJIT 也基于 5.1），显式指定运行时版本，跳转/补全才对得上
+    "lua-language-server": {
+      "settings": {
+        "Lua": {
+          "runtime": { "version": "Lua 5.1" }
+        }
+      }
     }
   }
 }
