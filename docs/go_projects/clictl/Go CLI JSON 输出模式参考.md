@@ -178,21 +178,28 @@ func parseFlags(fs *flag.FlagSet, flags []string) bool {
 
 帮助数据也走 `Emit`（usage + commands 表 + global_flags），子命令级 `-h` 和顶层 `help/-h/--help`、无参数三种入口都指向它。
 
-## 六、--pretty 全局开关与透传豁免
+## 六、--pretty / --ascii 全局开关与透传豁免
 
-`--pretty` 可出现在子命令前后，但**透传命令的参数段必须原样留给子进程**：
+全局布尔 flag（`--pretty` 缩进、`--ascii` 非 ASCII 转义）可出现在子命令前后，但**透传命令的参数段必须原样留给子进程**：
 
 ```go
+// 子命令名之前：循环消费全局 flag
+for len(args) > 0 && isGlobalFlag(args[0]) {
+	setGlobalFlag(args[0])
+	args = args[1:]
+}
 cmd, rest := args[0], args[1:]
-if cmd != "run" {
-	rest = stripPretty(rest) // 非 run：过滤掉 --pretty 并置位 Pretty
+if cmd != "run" && cmd != "start" {
+	rest = stripGlobalFlags(rest) // 非 run/start：过滤掉全局 flag 并置位对应开关
 }
 ```
 
-| 命令 | `--pretty` 归属 |
+`isGlobalFlag` / `setGlobalFlag` / `stripGlobalFlags` 三件套收口全局 flag 的识别、置位与剥离，新增全局 flag 只改这三处（字面量不散落）。两段式结构不能简化成整段 strip——会吃掉 run/start 透传段里的同名 flag。
+
+| 命令 | `--pretty` / `--ascii` 归属 |
 |---|---|
 | `tool --pretty list` | 工具自身（缩进输出） |
-| `tool list --pretty` | 工具自身 |
+| `tool list --ascii` | 工具自身（非 ASCII 转义） |
 | `tool run foo --pretty` | **子进程 foo** |
 
 ## 七、目录结构建议
@@ -208,6 +215,7 @@ internal/store/           # 业务存储（错误类型自带 code）
 
 - **PowerShell 5.1 传 JSON 参数**：`--meta '{\"source\":\"go\"}'`（用 `\"`，CRT 才能还原引号）；PowerShell 7 无此问题
 - **控制台中文**：输出是 UTF-8，旧 conhost 按 GBK codepage 显示会乱码，Windows Terminal 或 `chcp 65001` 正常——这是终端配置问题，不要为此改输出编码
+- **PS 5.1 原生 exe 间管道中文变 `?`**：PS 5.1 管道不是字节直通——先用 `[Console]::OutputEncoding`（中文系统默认 OEM 936/GBK）解码上游 stdout，再用 `$OutputEncoding`（PS 5.1 默认 **ASCII**）重编码写下游 stdin，中文经 ASCII 重编码不可逆丢失（下游工具无法修复，数据进它之前已被毁）。两层缓解（**默认输出仍是 UTF-8 原文，不违反上一条"不改输出编码"**）：① 显式 `--ascii` 开关：marshal 出口单点把非 ASCII 转义为 `\uXXXX`（下游 JSON 解析自动还原）；② 补全安装块固化 `$OutputEncoding` / `[Console]::OutputEncoding` 为 UTF8（副作用：该会话中 ping 等 GBK 老工具乱码）
 - **修改含中文的源文件**：用编辑工具而非 PowerShell `Set-Content`（PS 5.1 按 ANSI 读写会毁掉 UTF-8 中文，clictl 踩过）
 
 ## 迁移清单（新项目套用时）

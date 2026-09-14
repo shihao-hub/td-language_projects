@@ -51,6 +51,9 @@ clictl rm go
 # 未注册名智能建议（前缀 > 子串 > 编辑距离，取前 3）
 clictl run goxx      # 错误 JSON 附 "suggestions":["go"]
 
+# PS 5.1 下管道给下游工具时中文变 ? ：--ascii 转义非 ASCII（下游 JSON 解析自动还原）
+clictl --ascii help | jtree
+
 # PowerShell Tab 补全：一次性安装，新开窗口后 clictl run go<Tab> 即补全
 clictl completion powershell --install
 clictl completion powershell --uninstall   # 卸载
@@ -97,6 +100,15 @@ clictl completion powershell --uninstall   # 卸载
 - 目标目录必须已存在（不自动创建，缺失报 `dest_not_found`）；目标同名文件默认拒绝（`dest_exists`），`--force` 强制覆盖；源与目标为同一文件时始终拒绝（`same_path`，防复制中途截断损坏源文件）
 - 流式复制不整读内存；正在运行的 exe 可正常复制（Windows 读共享允许），仅目标文件被占用时如实报 `copy_failed`
 
+## 管道编码与 --ascii（v1.4.0）
+
+- **根因**：PowerShell 5.1 中两个原生 exe 间的管道不是字节直通——PS 先用 `[Console]::OutputEncoding`（中文系统默认 OEM 936/GBK）解码 clictl 的 UTF-8 stdout，再用 `$OutputEncoding`（**PS 5.1 默认 ASCII**）重编码写入下游 stdin，中文经 ASCII 重编码不可逆地变 `?`。下游工具（jtree 等）无法修复：数据进它之前已被毁
+- **`--ascii` 开关**：显式 opt-in，把 JSON 输出中非 ASCII 字符转义为 `\uXXXX`（BMP 外拆代理对，小写十六进制），产物全 ASCII 对任何管道重编码免疫，下游 JSON 解析（`JSON.parse` / `ConvertFrom-Json` / 各语言 json 库）自动还原中文。位置规则同 `--pretty`（子命令前后皆可，`run`/`start` 透传段除外——透传段的 `--ascii` 属于子进程）；stdout 与 stderr 两个 JSON 出口同时覆盖
+- **默认行为不变**：不加 `--ascii` 输出仍是 UTF-8 中文原文，不违反"不改输出编码"约定
+- **raw 例外天然不受影响**：`completion powershell` / `completion names` 直出 raw 文本不经转义（`names` 绝不能转义——补全脚本靠 `-like` 前缀匹配工具名）
+- **profile 固化**：`completion powershell --install` 安装块自带两行编码固化（`$OutputEncoding` 与 `[Console]::OutputEncoding` 均设 UTF8，位于安装行之前、Get-Command 守卫之外无条件执行），新开 PS 5.1 会话中原生 exe 间管道免 `--ascii` 直接可用
+- **已知副作用**：`[Console]::OutputEncoding=UTF8` 会使 ping 等 GBK 老工具在该会话输出乱码（仅影响该会话，不改系统设置）
+
 ## meta 白名单
 
 `--meta` 仅允许 `source`（string ≤64B）与 `tags`（[]string ≤8 项、每项 ≤32B、去重小写存储），白名单外 key 直接拒绝；序列化后 ≤ 4KB 硬限。
@@ -117,7 +129,7 @@ clictl completion powershell --uninstall   # 卸载
 
 **PowerShell Tab 补全**（PS 5.1+，clictl 需在 PATH 中）：
 
-- `clictl completion powershell --install` 把补全安装块写入 `$PROFILE`（conda-init 风格标记区块，幂等；安装行带 `Get-Command clictl` 守卫，clictl 不在 PATH 的会话自动跳过，不污染 shell 启动）；`--uninstall` 按标记整块移除
+- `clictl completion powershell --install` 把补全安装块写入 `$PROFILE`（conda-init 风格标记区块，幂等；安装行带 `Get-Command clictl` 守卫，clictl 不在 PATH 的会话自动跳过，不污染 shell 启动）；安装块自带两行 UTF-8 编码固化（修 PS 5.1 原生 exe 间管道中文变 `?`，详见「管道编码与 --ascii」小节）；旧版 3 行块重跑 `--install` 自动升级为 5 行标准块（返回 `upgraded:true`）；`--uninstall` 按标记整块移除（removed=5）
 - 补全行为：第 1 位置补全子命令名（`clictl ru<Tab>`）；`run/start/stop/rm/info/set/cp` 后第 1 位置补全工具名（候选来自注册列表，前缀过滤）；`run`/`start` 第 2 参数起为子进程透传段，不产生候选
 - 只绑定 `clictl` 命令名，不影响其他工具的补全；内部 try/catch 静默失败
 - `completion powershell` / `completion names` 输出 **raw 文本而非 JSON 包络**（消费者是 shell 补全脚本，输出即协议，同 `run` stdout 例外先例）；`--install`/`--uninstall` 为动作型命令仍输出 JSON
