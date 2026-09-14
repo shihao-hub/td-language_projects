@@ -1,6 +1,8 @@
 {
   // 语言项目总仓：合并自四个语言子仓的 .zed/settings.json，
   // 按语言开 LSP 白名单（配合全局 enable_language_server: false）
+  // 自动安装 .zed/extensions.toml 声明的项目扩展（如 neocmake）
+  "auto_install_extensions": true,
   // CMakeLists.txt 按 .txt 后缀被识别为纯文本，强制映射到 CMake 语言高亮
   "file_types": {
     "CMake": ["CMakeLists.txt", "*.cmake"]
