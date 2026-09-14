@@ -75,13 +75,12 @@
         "cargo": { "allTargets": false }
       }
     },
-    // clangd：关后台全量索引省内存；编译数据库指向 trilang 的
-    // clang-debug preset 产物（out/build/ 下，不在 clangd 默认探测路径）
+    // clangd：关后台全量索引省内存；编译数据库由各项目自己的 .clangd
+    // 指定（如 trilang/.clangd），不在此全局写死路径
     "clangd": {
       "binary": {
         "arguments": [
-          "--background-index=false",
-          "--compile-commands-dir=out/build/clang-debug"
+          "--background-index=false"
         ]
       }
     },
