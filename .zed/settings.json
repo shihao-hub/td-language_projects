@@ -1,8 +1,17 @@
 {
   // 语言项目总仓：合并自四个语言子仓的 .zed/settings.json，
   // 按语言开 LSP 白名单（配合全局 enable_language_server: false）
-  // 自动安装 .zed/extensions.toml 声明的项目扩展（如 neocmake）
-  "auto_install_extensions": true,
+  // 自动安装项目声明的扩展（官方格式为对象：扩展名 → 允许/禁止安装）
+  "auto_install_extensions": {
+    "lua": true,
+    "toml": true,
+    "powershell": true,
+    "sql": true,
+    "neocmake": true,
+    "html": true,
+    "ini": true,
+    "xmake": true
+  },
   "languages": {
     // Go：gopls 提供跳转（go_projects 及 python_projects 内 Go 启动器均适用）
     "Go": {
