@@ -582,7 +582,9 @@ rg -n 'fmt\.(Print|Fprint)|os\.(Exit|Stdout|Stderr|Stdin)|log\.(Fatal|Panic)' in
 ### 9.3 本仓库的交付约定
 
 - 项目文档放父仓库 `docs/<lang>/<项目>/`，遵循项目路径的镜像层级；
-  本指南保留在 `docs/agent-guides/`。不在子项目新增 docs/specs/plans 目录。
+  方法论文档放 `docs/<lang>/` 语言层目录（当前为 `docs/go_projects/`，含本指南、
+  《统一核心与多通道投影指南》《MCP 契约为先》），不镜像子仓路径、不进项目子目录。
+  不在子项目新增 docs/specs/plans 目录。
 - 自有运行数据放 `%APPDATA%\language_projects\<项目名>`；
   取不到 APPDATA 时回退 `~/.language_projects/<项目名>/`，写入前创建完整目录链。
   仓库已明确的例外按 `AGENTS.md` 执行。
@@ -619,6 +621,8 @@ rg -n 'fmt\.(Print|Fprint)|os\.(Exit|Stdout|Stderr|Stdin)|log\.(Fatal|Panic)' in
 | [clictl MCP 测试](../../go_projects/clictl/internal/mcp/mcp_test.go) | 内存会话与业务集成测试思路 | 不能替代 CLI 兼容和真实 stdio 验证；数据隔离按当前仓库规则配置 |
 | [tooldeck 连接管理](../../typescript_projects/tooldeck/src/main/mcp/manager.ts) | stdio 客户端与完整结果保留 | 采用前补查连接中的取消、并发建连、关闭回调与分页处理 |
 | [tooldeck 结果展示](../../typescript_projects/tooldeck/src/renderer/src/modules/generic/ResultView.tsx) | 结构化结果及文本错误的展示 | 按项目所需内容类型补齐显示能力，不据此宣称通用内容全覆盖 |
+
+相关方法论文档：[MCP 契约为先](<MCP 契约为先.md>)（设计顺序、分层证据与落地检查清单）。
 
 相关项目文档：[clictl MCP 接口文档](<../go_projects/clictl/MCP 接口文档.md>)、
 [Go CLI JSON 输出模式参考](<../go_projects/clictl/Go CLI JSON 输出模式参考.md>)。
