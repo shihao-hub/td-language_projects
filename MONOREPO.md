@@ -18,8 +18,6 @@
 |-|-|-|-|-|-|
 | archery-mcp | 同事封装内部平台的 http 接口为 mcp tool | 对方已实现且可用 | 未阅读，亟待阅读 | agent mcp 与前端知识 |  |
 | django-lab | django 回忆项目，为了汲取 django 的思想 |  | 未阅读，亟待阅读 | 高价值，但无法投入过多，要从架构师层面思考 |  |
-| file-sync-py | python 复刻 file-sync-go |  | 还未开始，待办 | 高价值，锻炼 python 的手写能力 | 期待 9.15 左右能开始 |
-| script-lab | 学习类项目，结构正在思考 | pass |  |  |  |
 | tech_learning_room | 计划采用 apps 结构，一个 app 地去学习 cv 涉及到的技术 | pass |  |  |  |
 | zed-opencode-sessions | MCP server + CLI，查询、导出、跨机迁移 Zed 与 OpenCode 的 AI 会话数据 |  |  |  |  |
 | zedhub | zed 表数据 read 和 write，CLI 与 GUI 分离架构 | 待测试 | 核心链路阅读完毕，未阅读具体实现，其实不需要阅读，去了解 zed sqlite 表结构字段即可，具体实现不是关键 | 超高价值 |  |
@@ -29,7 +27,6 @@
 | 项目 | 摘要 | 状态 | 源码阅读情况 | 价值 | 下一步 |
 |-|-|-|-|-|-|
 | exestarter | exe 收藏架 CLI：扫描收集、集中注册、透传启动/定位/开终端（exe-launcher 的 CLI 版） |  |  |  |  |
-| filesync | 带忽略规则的本地目录同步 CLI，三级判定加速，与 GUI 版共享任务配置（file-sync-native 的 CLI 版） |  |  |  |  |
 | instancelock | 基于锁文件的进程单实例锁库，支持 try/hold 模式、超时与父进程存活检测 |  |  |  |  |
 | ocstat | 统计 opencode 各会话启动所用模型与思考档位的 CLI |  |  |  |  |
 | projstat | 总仓项目状态标注 CLI，合并 PROJECT.toml 手工标注与 git 元数据 |  |  |  |  |
@@ -64,6 +61,7 @@
 | exe-launcher | Windows 常用 exe 集中启动器，纯 Win32 API 单文件零依赖（CLI 版 exestarter 已替代） | 归档 |  |  |  |
 | file-sync | 带 gitignore 式忽略规则、Web UI 与托盘的本地目录同步工具 |  |  |  |  |
 | file-sync-native | 带忽略规则的本地目录同步工具，Wails v2 GUI（CLI 版 filesync 已替代） | 归档 |  |  |  |
+| filesync | 带忽略规则的本地目录同步 CLI，三级判定加速，与 GUI 版共享任务配置（file-sync-native 的 CLI 版） |  |  |  |  |
 | mcp-cleanup | 查找并击杀 AI 工具异常退出后泄漏的 MCP server 进程树 |  |  |  |  |
 | mini-http-server-go | 用 Go 复刻 Rust 版迷你 HTTP 服务器，学习练手 |  |  |  |  |
 | sublime-folders | 托盘常驻，定时将 Sublime 打开的目录记入 SQLite |  |  |  |  |
@@ -75,7 +73,9 @@
 |-|-|-|-|-|-|
 | demo-api | FastAPI 入门示例，异步 SQLAlchemy + PostgreSQL + Alembic |  |  |  |  |
 | download_vsix | 从 VS Code 插件市场下载 VSIX 的 CLI，支持断点续传与重试 |  |  |  |  |
+| file-sync-py | python 复刻 file-sync-go |  | 还未开始，待办 | 高价值，锻炼 python 的手写能力 | 期待 9.15 左右能开始 |
 | flet-android-lab | Flet 纯 Python 开发 Android 应用实验（数日子 App） |  |  |  |  |
 | lele | 高一化学教学资料合集（小测试卷与复习笔记），非代码项目 |  |  |  |  |
 | pystand-lab | PyStand 打包 Python 桌面应用的踩坑实验 |  |  |  |  |
+| script-lab | 学习类项目，结构正在思考 | pass |  |  |  |
 | sublime-rider-dark | Sublime Text 4 的 Rider Dark 主题配色包 |  |  |  |  |
