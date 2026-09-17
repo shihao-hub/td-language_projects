@@ -16,6 +16,7 @@
 - 代码修改完成后，向用户展示改动摘要，并给出可直接在 PowerShell 下执行的 git commit 命令（需要有 cd 命令）。
 - 禁止 `SELECT *`：任何 ORM 查询与手写 SQL 一律显式列出所需字段。
 - CLI 工具开发统一遵循《[CLI 工具开发标准](<docs/go_projects/CLI 工具开发标准.md>)》（跨语言适用）：新工具默认配套 MCP，CLI 默认人读并提供 `--json`，独立工具提供 `schema` 导出；适用例外与存量兼容迁移按标准执行。
+  - **必须先完整阅读该标准再动手的场景**：① 新建任何 CLI/工具类项目（不限语言）；② 给已有项目新增 CLI / MCP 入口或 `schema` 导出；③ 需要豁免标准要求（如服务 + 库形态不配 CLI）时；④ 重构/评审已有项目的 CLI 入口契约时。
 - 数据文件存放强约束：所有项目运行时产生的自有数据文件（JSON 数据库、SQLite db、索引/哈希缓存、锁文件、日志、会话存储、settings 等）只允许放在 `%APPDATA%\language_projects\<项目名>\`；取不到 `APPDATA` 时回退 `~/.language_projects/<项目名>/`；代码必须在写入前自动创建完整目录链（含 `language_projects` 一层）。例外：只读外部数据源（opencode.db、Zed db 等）不受限；django-lab 的 `db.sqlite3` 保留项目根目录；zed-opencode-sessions 仓库内归档 db 为有意提交，保持现状。
 
 ### 开发约束（手工编写）
