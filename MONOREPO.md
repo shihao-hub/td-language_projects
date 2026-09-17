@@ -28,6 +28,7 @@
 |-|-|-|-|-|-|
 | exestarter | exe 收藏架 CLI：扫描收集、集中注册、透传启动/定位/开终端（exe-launcher 的 CLI 版） |  |  |  |  |
 | instancelock | 基于锁文件的进程单实例锁库，支持 try/hold 模式、超时与父进程存活检测 |  |  |  |  |
+| liteconf | 轻量配置中心：单实例 Go server + client SDK，长轮询热更新（.env 替代品；例外收录的非 CLI 项目，规划 GUI 客户端） |  |  |  |  |
 | ocstat | 统计 opencode 各会话启动所用模型与思考档位的 CLI |  |  |  |  |
 | projstat | 总仓项目状态标注 CLI，合并 PROJECT.toml 手工标注与 git 元数据 |  |  |  |  |
 | pythonlauncher | go 编写的 python 本地项目启动器，本质就是找到 python project path 和 uv，用 uv 的命令配合 pro（原 python-launcher-go） | 稳定 | 已阅读，但意义不大，毕竟也不用 go 干活，哪怕干活用的 python 也不咋看代码了，需要思考一下 |  |  |

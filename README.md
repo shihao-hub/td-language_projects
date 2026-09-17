@@ -92,9 +92,9 @@ uv run install_tool.py all
 
 ## 子仓约定
 
-- **go_projects / rust_projects 只收录 CLI 工具**：GUI/托盘类项目不做，已有者已迁出（CLI 替代版见子仓内各项目）。选 CLI 的核心原因是**跨平台**：无 GUI 框架依赖，单二进制交叉编译分发即可覆盖 Windows / Linux / macOS。
+- **go_projects / rust_projects 以 CLI 工具为主**：选 CLI 的核心原因是**跨平台**——无 GUI 框架依赖，单二进制交叉编译分发即可覆盖 Windows / Linux / macOS。存量 GUI/托盘类项目已迁出（CLI 替代版见子仓内各项目），新增原则上仍为 CLI；非 CLI 形态的服务端/SDK 及带 GUI 的项目允许少量例外（预期个位数，如 liteconf 配置中心），收录时须在 MONOREPO.md 摘要中注明形态与理由。
 - **跨平台是 go 与 rust 项目的统一方向**：新项目设计时核心逻辑与平台层分离；存量项目（如 rust 的 `minieverything` 依赖 NTFS/USN、`whoholds` 依赖 Windows 句柄枚举）未来均计划逐步跨平台化改造。
-- **项目命名单词直接连写，不用连字符**（如 `filesync`、`minieverything`）：目录名即 CLI 命令名，无连字符在 shell 中调用、补全与传参更顺手；也不加语言后缀（不写 `-go`、`-rs`）。go_projects 与 rust_projects 通用。
+- **项目命名单词直接连写，不用连字符**（如 `filesync`、`minieverything`）：目录名即命令名/模块名（非 CLI 项目同样适用，如 `liteconf`），无连字符在 shell 中调用、补全与传参更顺手；也不加语言后缀（不写 `-go`、`-rs`）。go_projects 与 rust_projects 通用。
 
 ## 项目归档
 
