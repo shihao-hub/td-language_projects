@@ -65,7 +65,7 @@
 | filesync | 带忽略规则的本地目录同步 CLI，三级判定加速，与 GUI 版共享任务配置（file-sync-native 的 CLI 版） |  |  |  |  |
 | mcp-cleanup | 查找并击杀 AI 工具异常退出后泄漏的 MCP server 进程树 |  |  |  |  |
 | mini-http-server-go | 用 Go 复刻 Rust 版迷你 HTTP 服务器，学习练手 |  |  |  |  |
-| sublime-folders | 托盘常驻，定时将 Sublime 打开的目录记入 SQLite |  |  |  |  |
+| sublimefolders | 托盘常驻，定时将 Sublime 打开的目录记入 SQLite |  |  |  |  |
 | zread-tray | 系统托盘常驻，为工作区一键启动/重启 zread 服务并拉起浏览器（CLI 版 zreadmanager 已替代） | 归档 |  |  |  |
 
 ### .archived/python_projects
