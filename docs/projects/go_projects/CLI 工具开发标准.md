@@ -514,9 +514,9 @@ CLI 与 MCP 分别调用该接口并做结果适配。公开 JSON DTO 可以独�
 
 | 案例 | 可借鉴内容 | 已知边界 |
 |---|---|---|
-| [clictl service](../../go_projects/clictl/internal/service/service.go) | 业务方法与错误分类的提取 | 公共错误仍带 `ExitCode`，服务仍暴露 `Store()` |
-| [CLI 执行器](../../go_projects/clictl/internal/runner/runner.go)与[MCP 执行](../../go_projects/clictl/internal/mcp/exec.go) | 终端透传、有界输出与进程控制 | 执行及记账编排仍有重复，不能作为统一用例范例照抄 |
-| [clictl Schema 导出](../../go_projects/clictl/internal/mcp/schema.go) | 内存连接读取注册视图 | 当前只读取一页，不能作为完整分页模板 |
+| [clictl service](../../../go_projects/clictl/internal/service/service.go) | 业务方法与错误分类的提取 | 公共错误仍带 `ExitCode`，服务仍暴露 `Store()` |
+| [CLI 执行器](../../../go_projects/clictl/internal/runner/runner.go)与[MCP 执行](../../../go_projects/clictl/internal/mcp/exec.go) | 终端透传、有界输出与进程控制 | 执行及记账编排仍有重复，不能作为统一用例范例照抄 |
+| [clictl Schema 导出](../../../go_projects/clictl/internal/mcp/schema.go) | 内存连接读取注册视图 | 当前只读取一页，不能作为完整分页模板 |
 
 更多项目现状见 [clictl MCP 接口文档](<clictl/MCP 接口文档.md>)、[Go CLI JSON 输出模式参考](<clictl/Go CLI JSON 输出模式参考.md>)。项目现状用于理解兼容负担，不能覆盖本文对新设计的要求。
 
