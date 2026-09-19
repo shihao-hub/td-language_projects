@@ -49,7 +49,30 @@
       "entry_removal_count": 25,
       "entry_removal_percent": 25
     },
-    "rules": []
+    "rules": [
+      {
+        "rule_id": "proj-archived-excluded",
+        "action": "exclude",
+        "pattern": ".archived/**",
+        "pattern_kind": "glob",
+        "reason": "归档停更项目不维护语义；防止归档目录迁移反复制造基线指纹漂移",
+        "source": "user",
+        "created_by": "user:shihao-hub",
+        "order": 0,
+        "enabled": true
+      },
+      {
+        "rule_id": "proj-assets-excluded",
+        "action": "exclude",
+        "pattern": "docs/assets/**",
+        "pattern_kind": "glob",
+        "reason": "跨项目二进制资源（图标等）无文本语义可写 Entry",
+        "source": "user",
+        "created_by": "user:shihao-hub",
+        "order": 0,
+        "enabled": true
+      }
+    ]
   },
   "cognition_budget": {
     "version": "cognition-budget-policy/v1",

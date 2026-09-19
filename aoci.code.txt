@@ -1,1 +1,153 @@
 #AOCI-CODE-VOLUME: 1
+
+===D:/Users/language_projects/===
+.gitattributes[FR7T]: F:统一全仓文本 LF 检出，保证各平台 checkout 字节一致 | R:- | A:- | S:AOCI 按原始字节建基线，改行尾策略会令整树 Stale
+.gitignore[FC3T]: F:兜底忽略系统杂项与本仓禁止的 Python 虚拟环境目录 | R:- | A:- | S:-
+.gitmodules[FG8T]: F:声明五个语言子模块的远端、跟踪分支与 ignore=all 策略 | R:code:.scripts/init-submodules.ps1,code:README.md | A:新增语言子模块时在此登记并补 branch 与 ignore=all | S:ignore=all 拦截普通 git add，提交子模块指针必须 git add --force
+AGENTS.md[SG9M]: F:父仓库最高约定：强约束规则、仓库结构、归档与文档布局、脚本规范，含 AOCI 运行契约块 | R:code:README.md,code:.gitmodules,code:MONOREPO.md | A:AI 会话进仓先读；改仓库级约定先改此文件；末尾 aoci 托管块禁手改 | S:子模块改动必须在子仓提交；父仓提交指针必须 git add --force
+CLAUDE.md[SG3T]: F:单行 @AGENTS.md 引用，让 Claude Code 复用父仓库约定 | R:code:AGENTS.md | A:- | S:-
+MONOREPO.md[SG6T]: F:个人项目价值盘点表：按目录分节列摘要、状态、源码阅读、价值与下一步 | R:code:docs/guides/GUIDE-INVENTORY.md | A:主观列只由表主人填，AI 仅起草摘要待过目 | S:六列表每行恰 7 个管道符，归档行保留全列
+NOTES.md[SZ2T]: F:零散备忘，当前记录归档 projstat README 的古法编程思路线索 | R:- | A:- | S:-
+README.md[SG8S]: F:父仓库总览：子模块结构、克隆更新命令、脚本清单、数据存放规范、子仓约定与归档/盘点入口 | R:code:.gitmodules,code:AGENTS.md,code:MONOREPO.md,code:docs/guides/GUIDE-ARCHIVE.md | A:新会话与新机器从本文件入门，命令可直接执行 | S:项目运行时数据只允许 %APPDATA%\language_projects\<项目名>\，无 APPDATA 回退 ~/.language_projects/
+SPEC-AGENT.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
+SPEC-HUMAN.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
+
+===D:/Users/language_projects/.scripts/===
+gen_icon.py[XG4T]: F:PNG 源图转 16-256 七帧 Windows .ico，非方形等比居中到透明画布 | R:- | A:uv run .scripts/gen_icon.py <input.png> <output.ico> | S:-
+init-submodules.ps1[XV6T]: F:初始化未拉取的子模块并按 .gitmodules 的 branch 字段切跟踪分支 | R:code:.gitmodules | A:克隆后在父仓库根执行一次 ./.scripts/init-submodules.ps1 | S:只初始化 status 前缀 - 的子模块，不拽回领先指针
+install_tool.py[XV5S]: F:把子仓构建产物安装到 ~/.local/bin，jtree 自动选语义版本最高者 | R:- | A:uv run .scripts/install_tool.py <instancelock|clictl|jtree|all> | S:-
+lark_group_bridge.py[XM6L]: F:飞书外部群消息桥：bot 通道发文本/图片/文件并附 AI 代发标注，read/groups 查回复与群 | R:- | A:子命令 init/send/groups/read；--json 输出标准包络或透传 lark-cli JSON | S:.CMD 垫片经 cmd.exe 二次解析会截断多行参数，已直调 node 绕开
+
+===D:/Users/language_projects/.zed/===
+extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本，配合 auto_install_extensions 安装 | R:code:.zed/settings.json | A:- | S:-
+settings.json[FC7S]: F:按语言配置 LSP 白名单与省内存参数，默认全局关 LSP、白名单内开启 | R:code:.zed/extensions.toml | A:调整语言 LSP 开关或 server 调优参数时编辑此文件 | S:lua-language-server 必须显式指定 Lua 5.1 运行时，否则按 5.4 签名与嵌入版本错位
+
+===D:/Users/language_projects/docs/guides/===
+GUIDE-AOCI-SETUP.md[SV7M]: F:AOCI-CODE 安装手册：发行包校验、二进制落位、opencode/claude/codex 三工具 MCP 全局配置与升降级 | R:- | A:新机器接入或升级 AOCI 按第 2、3 节执行 | S:MCP server 是 per-repo 的，全局配置 --repo 固定指父仓库；改配置后须重启 host
+GUIDE-ARCHIVE.md[SW7S]: F:项目归档工作流：调研、逐项目提交、父仓归档文件与指针分离提交的完整流程 | R:code:docs/guides/GUIDE-RESTORE.md,code:docs/guides/GUIDE-INVENTORY.md | A:归档必经阶段 0 只读调研，用户确认后才动文件 | S:父仓固定两次提交（归档文件与 --force 指针），先子仓 push 再提交指针防悬空
+GUIDE-DOCS-RENAME.md[SW5T]: F:docs 英文命名 md 批量改中文名并修复交叉引用的五步工作流 | R:- | A:改名先盘点引用链；specs 三件套与 README 保留不改 | S:已跟踪文件必须 git mv 保历史；PS5.1 中文文件名显示乱码但名字正确
+GUIDE-INVENTORY.md[SW6S]: F:MONOREPO.md 盘点表维护工作流：存量对照、摘要起草、联动同步与格式验证 | R:code:MONOREPO.md | A:项目增删/归档/迁移时按联动速查同步盘点表 | S:AI 不得代填主观列；结构变了表不变盘点即失真
+GUIDE-MCP-INSPECTOR.md[SO5S]: F:用 MCP Inspector 调试自定义 stdio MCP server：catalog 机制、配置对照与冒烟路径 | R:- | A:server 列表即 ~/.mcp-inspector/mcp.json，直改刷新即生效；Command 用绝对路径 | S:脚本灌 JSON-RPC 须交互时序（init→响应→initialized）否则断连
+GUIDE-RESTORE.md[SW7S]: F:归档项目恢复回子仓的镜像工作流：冲突排查、精确暂存、指针更新 | R:code:docs/guides/GUIDE-ARCHIVE.md | A:恢复前必查子仓同名占用与 .archived 无关未跟踪目录 | S:父仓暂存必须精确到项目路径，git add .archived 整目录会吸入无关文件
+README.md[SW7T]: F:GUIDE 编写规范：父仓级 AI 工作指南的定位、触发式 description、文件骨架与命名 | R:code:docs/guides/GUIDE-ARCHIVE.md,code:AGENTS.md | A:沉淀新 GUIDE 前必读；禁止放入任何 skills 目录 | S:GUIDE 改名/移动是高危操作，迁移后旧名 grep 清零才算完成
+
+===D:/Users/language_projects/docs/plans/===
+01-lark-group-bridge.md[SW5S]: F:lark_group_bridge.py 开发计划：bot 通道发文本/媒体、lark-cli 读消息的接口与错误码设计 | R:code:.scripts/lark_group_bridge.py | A:计划已执行完毕作决策存档 | S:计划内 webhook 必填等旧设计与脚本 v2.0（bot 默认）不一致，以脚本为准
+02-aoci-baseline-drift-recovery.md[SW6S]: F:父仓 AOCI 基线指纹漂移修复计划：排除规则、observe 收编、治理事务与全量 Entry authoring 分阶段执行 | R:- | A:本计划执行中，Phase 勾选与实测数字随进度更新 | S:acknowledge 必须在 scope 规则变更前执行，否则 pending 双视角死锁
+
+===D:/Users/language_projects/docs/projects/go_projects/===
+CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
+CLI 工具开发标准.md[SG9L]: F:跨语言 CLI 工具现行标准 v1.0：业务契约先行、CLI+MCP 双入口、schema 导出、公共核心与验收基线 | R:code:docs/projects/go_projects/MCP 契约为先.md,code:docs/projects/go_projects/CLI 与 MCP 双壳架构工作指南.md | A:新建 CLI/工具类项目或加 MCP/schema 入口前必须完整阅读；豁免情形按标准执行 | S:取代三份旧文档；协议基线 2025-11-25 仅为核对基线，项目须记录实际版本
+GUIDE-GO-EXE-ICON.md[SV7T]: F:go_projects 产 exe 项目默认配地鼠图标的四步流程与豁免条件 | R:code:.scripts/gen_icon.py | A:用户未指定图标时直接执行无需询问 | S:复制 icon.ico 是值拷贝不产生项目间依赖；syso 文件名限定 GOOS/GOARCH
+MCP 契约为先.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧文档跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施 | S:-
+统一核心与多通道投影指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施 | S:-
+
+===D:/Users/language_projects/docs/projects/go_projects/clictl/===
+Go CLI JSON 输出模式参考.md[SO7M]: F:提炼 clictl 的 CLI 骨架 + JSON 输出通用模式：包络出口函数、stdout/stderr 分工、退出码与错误码映射 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:其他 Go CLI 项目直接参考套用，与 clictl 业务无关 | S:管理命令错误 JSON 走 stdout、run 透传前置错误走 stderr，stdout 只属于子进程
+MCP 接口文档.md[SN7M]: F:clictl 的 MCP server 契约：10 个工具、Schema、错误语义与接入方式 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md | A:与 internal/mcp 同源维护，改实现必须同步更新本文档 | S:业务失败返回 isError 而非协议级 error，客户端才能看到并自我纠正
+clictl 使用指南.md[SG7S]: F:clictl 使用指南：exe 注册/启动记账工具的命令、run vs start 语义、JSON 包络与退出码 | R:code:docs/projects/go_projects/clictl/MCP 接口文档.md,code:docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql | A:父仓镜像文档，与子仓 README 同步 | S:PS5.1 管道中文变 ? 是 PS 编码重写所致，--ascii 转义免疫；exit_code=1 是 stop 强杀约定值
+
+===D:/Users/language_projects/docs/projects/go_projects/clictl/migrations/===
+000_init_v1.0.0.sql[FP6T]: F:clictl 初始表结构存档（tools/launches，WAL+外键） | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:- | S:文档存档不参与运行，建表由 store.go schema 常量执行
+001_v1.2.0_add_launches_pid.sql[FP5T]: F:launches 表加 pid 列的存档迁移（start 探活用） | R:code:docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql | A:- | S:存量库由 Open() 检测 PRAGMA 后自动 ALTER，文件本身不被读取
+
+===D:/Users/language_projects/docs/projects/go_projects/exestarter/===
+接口文档.md[SG7M]: F:exestarter 联调契约：JSON 包络、退出码表、Entry 数据模型、SysTag 枚举与逐命令详解 | R:- | A:消费方（tooldeck bridge/脚本/LLM）按本文档对接 | S:无文件锁，写类命令不得并发调用，GUI bridge 需串行队列
+
+===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch/plans/===
+01-mcp-schema-portability.md[SW5S]: F:glmquotawatch 修复 jsonschema-go 切片 type-union 的计划：init 兼容开关 + Thresholds nil 兜底 + 测试 | R:code:docs/projects/go_projects/glmquotawatch/使用指南.md | A:计划已全部勾选完成，作决策存档 | S:JSONSCHEMAGODEBUG 开关为精确字符串匹配；schema 去 null 必须配视图 nil 兜底
+
+===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch/===
+使用指南.md[SG7S]: F:glmquotawatch 使用指南：GLM 用量监控 CLI 的构建、命令、告警状态机与三端 MCP 接入 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:AI 客户端经 gqw.* 工具直接查询与配置 | S:用量回落到 min(thresholds)-hysteresis 才重新武装，状态持久化防重启轰炸
+
+===D:/Users/language_projects/docs/projects/go_projects/liteconf/brunos/===
+.gitignore[FC2T]: F:bruno 集合的本地忽略（.env、node_modules、OS 文件） | R:- | A:- | S:-
+01-put-config.yml[FQ4T]: F:bruno 用例：PUT 写入配置并断言版本号，提取 version 供 watch 链路 | R:code:docs/projects/go_projects/liteconf/brunos/04-watch.yml | A:整条链起点，先跑本请求再跑 04-watch | S:body 顶层必须是 object，服务端原子写盘版本号 +1
+02-get-config.yml[FQ3T]: F:bruno 用例：GET 读取配置断言 content/version | R:code:docs/projects/go_projects/liteconf/brunos/01-put-config.yml | A:- | S:未先跑 01 时返回 404
+03-discovery.yml[FQ3T]: F:bruno 用例：GET /api/discovery 列出应用/环境/版本 | R:- | A:空目录返回 apps:[]，适合起服后首个健康检查 | S:-
+04-watch.yml[FQ4T]: F:bruno 用例：长轮询 /api/watch 验证版本变更立即唤醒与超时行为 | R:code:docs/projects/go_projects/liteconf/brunos/01-put-config.yml | A:挂起期间手改服务端配置文件可验证外部编辑检测唤醒 | S:timeout 上限 120s；版本相同挂起、有变化立即返回
+05-not-found.yml[FQ3T]: F:bruno 错误流用例：GET 不存在配置断言 404+not_found | R:- | A:可改参数验证 invalid_name/invalid_json 等其他错误码 | S:-
+opencollection.yml[FC2T]: F:bruno OpenCollection 集合清单（liteconf） | R:- | A:- | S:-
+
+===D:/Users/language_projects/docs/projects/go_projects/liteconf/brunos/environments/===
+local.yml[FC2T]: F:bruno 环境变量 local：base_url 指向本机 8646 | R:- | A:- | S:-
+
+===D:/Users/language_projects/docs/projects/go_projects/liteconf/plans/===
+01-mcp-server.md[SW5M]: F:liteconf MCP 入口开发计划：go-sdk v1.8.0 stdio server，discovery/读/写三工具，watch 不暴露 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:计划文档，实施经 mcp 子命令落地 | S:MCP 数据面走运行中 server 的 HTTP API，不重复业务逻辑
+
+===D:/Users/language_projects/docs/projects/go_projects/liteconf/specs/01-liteconf/===
+design.md[SG6M]: F:liteconf 设计：server（store/poller/handler/watch）+ client SDK（缓存/OnChange/重连）模块划分与文件清单 | R:- | A:- | S:外部删除的文件保留内存旧版本继续服务；版本号重启后重建
+requirements.md[SW6S]: F:liteconf 核心需求（EARS）：配置存储模型、读写/发现 API、外部编辑检测与长轮询通知 | R:- | A:- | S:面向内网可信环境：无鉴权、零第三方依赖
+tasks.md[SW5M]: F:liteconf 核心实现任务清单（全部完成）：错误包络、store、watch 广播、HTTP API | R:- | A:- | S:watch 用 close-broadcast 惯用法唤醒全部等待者
+
+===D:/Users/language_projects/docs/projects/go_projects/liteconf/specs/02-gui-shell/===
+design.md[SG5M]: F:Web 控制台设计：go:embed 静态资源 + http.FileServerFS 托管，前端原生 JS 走既有 API | R:- | A:- | S:http.FileServerFS 按完整路径查文件，挂 /ui/ 需 StripPrefix 否则 404
+requirements.md[SW5S]: F:liteconf Web 控制台需求：/ui/ 内嵌托管、发现列表、查看与双模式编辑、新建配置 | R:- | A:- | S:GUI 只做渲染与交互，业务一律复用既有 /api/*
+tasks.md[SW4S]: F:Web 控制台任务清单（全部完成）：静态骨架、webui 包、/ui/ 路由、列表/编辑/新建视图 | R:- | A:- | S:-
+
+===D:/Users/language_projects/docs/projects/go_projects/liteconf/specs/03-http-passthrough/===
+design.md[SG5M]: F:CLI 透传设计：Options 注入三流、LookPath 解析 curlie、参数数组直启不经 shell、退出码透传 | R:- | A:- | S:不引入 flag 包以保透传参数原样语义；catalog 单点维护 help 与 schema 同源
+requirements.md[SW5S]: F:liteconf CLI 入口需求：http 子命令纯透传 curlie、--help/--version/schema 自描述 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:- | S:无 MCP 属标准 0.1 例外（纯透传无数据面）；curlie 是环境前提
+tasks.md[SW4S]: F:CLI 透传任务清单（全部完成）：version 注入包、cli 分发、http 透传、schema 导出与双产物构建 | R:- | A:- | S:-
+
+===D:/Users/language_projects/docs/projects/go_projects/plans/===
+01-exe-icon-rebuild.md[SW5S]: F:go_projects 全部 10 个 exe 项目补齐地鼠图标并重建的计划（已完成） | R:code:docs/projects/go_projects/GUIDE-GO-EXE-ICON.md | A:作批量图标操作决策存档 | S:glmquotawatch 重建但不提交（项目整体 untracked）；13 个主包目录落 icon+syso
+
+===D:/Users/language_projects/docs/projects/go_projects/projstat/specs/===
+design.md[SG6M]: F:projstat 设计：手工标注 PROJECT.toml + 运行时 git 采集合并，list/show/next 三视图与 JSON 信封 | R:- | A:- | S:git 采集失败不报错置零值；不解析 README/TODO 等散落文档
+requirements.md[SW6S]: F:projstat 需求：项目发现、根目录定位、PROJECT.toml 三态标注字段与枚举校验 | R:- | A:- | S:.archived 完全不参与发现；布尔省缺=未标注区别于 false
+tasks.md[SW5S]: F:projstat 任务清单（全部完成）：meta/scan/report 包、控制台 UTF-8、三视图与 set/init | R:- | A:- | S:git 采集并发 8、每项目仅两条只读命令
+
+===D:/Users/language_projects/docs/projects/python_projects/django-lab/===
+ORM 对照手册.md[SG7S]: F:Django ORM × SQLAlchemy 2.0 共库对照手册：模型/查询概念映射总表与 11 项场景验证 | R:- | A:uv run manage.py orm_compare 跑对照，--sql 打印真实 SQL | S:Django 管建表迁移、SQLAlchemy 只映射查询；Meta.ordering 在 SQLAlchemy 无对应物
+
+===D:/Users/language_projects/docs/projects/python_projects/llm-finetune-lab/===
+01 环境与显存预算.md[SA5T]: F:微调实验笔记 01：sm_120 需 cu128、显存四块预算公式与 Qwen3 三档 8GB 决策表 | R:- | A:uv run python main.py run env_baseline --scenario budget/measure | S:RTX 50 系必须 PyTorch cu128+，老教程 cu121/cu124 会报 no kernel image
+02 数据工厂.md[SA5T]: F:SFT 数据工厂流水线：docx 提取、章节分块、Ollama 合成 QA、三类样本组装与防泄漏切分 | R:code:docs/projects/python_projects/llm-finetune-lab/README.md | A:全量生成可 Ctrl+C 中断续跑 | S:python-docx 的 paragraphs 丢表格与顺序，须遍历 body XML；chunk_id 用内容哈希是续跑基础
+03 LoRA 微调.md[SA5T]: F:LoRA 微调实验：低秩原理、8GB 训练配置逐行解读与训练输出判读 | R:code:docs/projects/python_projects/llm-finetune-lab/README.md | A:uv run python -m apps.lora_sft --scenario train/chat | S:chat template 必须训练推理部署三处统一，手拼 prompt 会漂移
+04 QLoRA 与 4B.md[SA5T]: F:QLoRA 与 4B：nf4 量化四组件、8GB 实测与序列长度调优 | R:code:docs/projects/python_projects/llm-finetune-lab/03 LoRA 微调.md | A:--scenario train --model qwen3-4b --max-length 768 | S:OOM 处理顺序：先降 max_length，再加大 accum，最后关 Ollama
+05 评测方法.md[SA4T]: F:微调评测方法：QA 准确率/拒答正确率/幻觉率/该答不答率四指标与两阶段流程 | R:code:docs/projects/python_projects/llm-finetune-lab/README.md | A:- | S:被测模型与 Ollama 裁判同卡不能共存，须分阶段释放显存；n<30 不下结论
+06 导出 Ollama 部署.md[SA5T]: F:adapter 合并导出 Ollama：merge→GGUF→Modelfile→ollama create 四步与部署验收 | R:code:docs/projects/python_projects/llm-finetune-lab/04 QLoRA 与 4B.md | A:--scenario deploy --model qwen3-4b --quantize q4_K_M | S:本机 Ollama 不支持 safetensors 直导 Qwen3，必须走 llama.cpp 转换；SYSTEM 与训练 prompt 一字不差
+07 RAG 对照.md[SA5T]: F:四方对照实验（base/rag/ft/ft-rag）与「牢记制度」最终方案：行为靠微调、事实靠 RAG | R:code:docs/projects/python_projects/llm-finetune-lab/05 评测方法.md | A:--scenario prepare/index/ask/compare | S:1700 块规模用矩阵乘检索即可，无需向量库
+README.md[SW6T]: F:llm-finetune-lab 教程总览：7 个实验学习顺序、快速开始与三条心智主线 | R:code:docs/projects/python_projects/llm-finetune-lab/01 环境与显存预算.md | A:按 01→07 顺序学习；RTX 50 系必须 uv sync 走 cu128 | S:运行时数据只放 %APPDATA%\language_projects\llm-finetune-lab\；制度文档不出本机
+
+===D:/Users/language_projects/docs/projects/python_projects/rag_lab/specs/01-knowledge-base/===
+requirements.md[SW5S]: F:rag_lab 知识库实验需求：BM25/向量检索/混合检索/重排/生成/评估五阶段与基础设施约束 | R:- | A:- | S:学习实验项目不适用 CLI 标准的 MCP/--json/schema 要求；.env 只提交 example
+
+===D:/Users/language_projects/docs/projects/python_projects/tech_learning_room/===
+Celery 任务可靠性.md[SM5T]: F:Celery 任务可靠性：重试圈定、幂等键、进度账本与孤儿自愈扫描 | R:code:docs/projects/python_projects/tech_learning_room/README.md | A:- | S:阈值链必须软超时<硬超时<visibility_timeout<孤儿判定；幂等记录与业务写同事务
+FastAPI 分层与事务边界.md[SB5T]: F:FastAPI Router→Service→Repository 分层与事务边界：职责禁区、依赖注入与统一响应 | R:code:docs/projects/python_projects/tech_learning_room/SQLAlchemy Session 生命周期.md | A:- | S:Repository 只 flush 不 commit，Service 是事务成败唯一决定者
+Kafka 投递语义.md[SM5T]: F:Kafka 投递语义：分区 key 顺序、消费组负载均衡、offset 提交语义与死信 | R:code:docs/projects/python_projects/tech_learning_room/README.md | A:- | S:只保证分区内有序；at-least-once 必配消费端幂等；毒丸须死信+提交跳过
+PG 并发扣减与事务隔离.md[SD7S]: F:PG 并发扣减与事务隔离：丢失更新、行锁三来源、唯一约束幂等与死锁重试 | R:code:docs/projects/python_projects/tech_learning_room/README.md | A:- | S:铁律：不在应用层做读算写三步改共享行；RR 级写冲突抛 40001 须整事务重试
+PG 查询调优.md[SD5T]: F:PG 查询调优：EXPLAIN BUFFERS 判读、选择性法则、联合索引列序、游标分页与部分索引 | R:code:docs/projects/python_projects/tech_learning_room/README.md | A:- | S:优化对照看 Buffers 而非时间；低选择性条件走索引反而更慢
+Python asyncio 并发.md[SP5T]: F:asyncio 并发：await 本质、单线程事件循环阻塞面、TaskGroup 结构化并发、取消语义与背压 | R:code:docs/projects/python_projects/tech_learning_room/README.md | A:- | S:捕获 CancelledError 必须重新抛出；无界队列是把内存当无限资源
+README.md[SW7T]: F:tech_learning_room 总览：按面试优先级排列的实验矩阵、环境准备与工程约定 | R:code:docs/projects/python_projects/tech_learning_room/PG 并发扣减与事务隔离.md | A:按优先级顺序学；docker compose 按需起服务 | S:依赖不可用显式报错退出不静默降级；每实验独立 schema/key 前缀可重跑
+Redis 四种角色.md[SD4T]: F:一个 Redis 的四种角色：缓存、Celery 通道、ZSET 延迟队列、滑动窗口限流 | R:code:docs/projects/python_projects/tech_learning_room/README.md | A:- | S:自建延迟队列因 Celery countdown 长延迟占 unacked 受 visibility_timeout 重投
+Redis 缓存一致性.md[SD7T]: F:缓存一致性五现场：击穿/穿透/雪崩、失效竞态与分布式锁三层认知 | R:code:docs/projects/python_projects/tech_learning_room/README.md | A:- | S:锁释放须 Lua 校验 token；锁是租约非互斥保证，强互斥用 fencing token
+SQLAlchemy Session 生命周期.md[SD7T]: F:SQLAlchemy Session 生命周期：连接池耗尽、短事务+DTO、expire_on_commit 与工作单元 | R:code:docs/projects/python_projects/tech_learning_room/FastAPI 分层与事务边界.md | A:- | S:连接池容量=同时在途事务上限；跨层只传 DTO，ORM 对象不超出 Session
+事务发件箱.md[SM5T]: F:事务发件箱：双写两窗口、同事务 outbox、租约投递器与消费幂等闭环 | R:code:docs/projects/python_projects/tech_learning_room/Kafka 投递语义.md | A:- | S:换顺序解决不了双写；租约重投必然重复靠幂等消解
+计费补偿与对账.md[SD5T]: F:计费补偿与对账：NUMERIC+Decimal、幂等扣费三步一事务、补偿配对与不可变账本对账 | R:code:docs/projects/python_projects/tech_learning_room/README.md | A:- | S:金额恒正+方向字段分离；补偿自身幂等靠 refund 唯一约束兜底
+
+===D:/Users/language_projects/docs/projects/python_projects/zedhub/===
+zedhub 对接协议.md[SN7S]: F:zedhub 程序化对接协议：JSON-RPC 2.0 与 MCP 双入口、方法表与 rpc.discover 服务发现 | R:- | A:对接方按协议规范+方法表接入，无需了解私有信封 | S:三端（CLI/RPC/MCP）payload 同源；只读快照、无鉴权、每次调用独立快照
+
+===D:/Users/language_projects/docs/projects/rust_projects/minieverything/===
+minieverything 开发笔记.md[SD6T]: F:minieverything 开发笔记：NTFS 目录遍历 + USN Journal 增量的架构、数据结构与踩坑实录 | R:- | A:- | S:目录 ref 映射是 USN 路径解析关键；目录改名需整子树前缀重写且按路径段边界
+
+===D:/Users/language_projects/docs/projects/typescript_projects/taskmon/plans/===
+01-进程树检测.md[SW5T]: F:taskmon 进程树检测计划（已完成）：双节奏采集、树视图与孤儿标记的设计决策 | R:- | A:- | S:CIM 采集 overlap-skip 不阻塞主刷新；PID 复用用创建时间先后判定
+02-AI分析对话.md[SW4M]: F:taskmon AI 分析对话计划（待批准）：pi RPC 模式做底座、快照注入与 TUI 对话面板 | R:- | A:审批门等待中，实施前需用户批准 | S:pi 缺失时降级提示主功能零影响；会话丢弃式（--no-session）
+
+===D:/Users/language_projects/docs/projects/typescript_projects/taskmon/===
+taskmon AI 问答功能开发计划（人脑思考版）.md[SZ2T]: F:AI 问答功能的早期随想草稿（接口规约思考片段） | R:code:docs/projects/typescript_projects/taskmon/plans/02-AI分析对话.md | A:- | S:-
+taskmon 源码阅读三方法.md[SQ5M]: F:源码阅读方法论：凭记忆画数据流、预测式阅读、改造式重写三法与组合训练计划 | R:- | A:附录 A/B 先自己做再翻；推荐顺序三→一→二 | S:精读范围压缩到猜错与作者超预期处（20-30%）
+
+===D:/Users/language_projects/docs/projects/typescript_projects/taskmon/taskmon-v0.2.0-go/===
+taskmon-go 复刻规格说明书.md[SW7L]: F:taskmon v0.2.0 的 Go 复刻规格书：读者零先验即可完整复刻 CLI/TUI/日志全部行为 | R:code:docs/projects/typescript_projects/taskmon/taskmon 源码阅读三方法.md | A:规格已定稿 v1.0；第一期数据源固定 tasklist | S:stdout 非 TTY 自动降级单帧；TUI 采集失败不退出显示错误帧等恢复
+
+===D:/Users/language_projects/docs/projects/typescript_projects/tooldeck/===
+PLAN.md[SW6M]: F:tooldeck 开发计划（已实施）：Electron 单应用多模块 GUI 壳 exestarter 模块与 CLI 增强决策 | R:code:docs/projects/go_projects/exestarter/接口文档.md | A:八条操作流待用户手工验收 | S:GUI 一切数据操作走 CLI 子命令+JSON 包络，不直接读写 config.json
+
+===D:/Users/language_projects/docs/repo/===
+Git 子模块临时注销（native、rust）.md[SW5T]: F:native/rust 子模块本地注销的操作记录、克隆保持注销态流程与恢复步骤 | R:code:docs/repo/Git 子模块分支机制.md | A:恢复时 update --init 后切 main；勿跑 init-submodules.ps1 全量初始化 | S:deinit 未动 .gitmodules 与远端；gitlink 漂移属已知
+Git 子模块分支机制.md[SW7T]: F:子模块 detached HEAD 原理、三种挂分支机制辨析与本仓库 init 脚本方案 | R:code:.gitmodules,code:.scripts/init-submodules.ps1 | A:- | S:无单一开关让 clone 直站本地分支；--remote 取远端最新与指针约定冲突

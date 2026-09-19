@@ -1,2595 +1,90 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-09-19T04:28:24Z",
+  "updated_at": "2026-09-19T07:31:35Z",
   "files": {
-    ".archived/go_projects/agent-reaper/.gitignore": {
-      "role": "index",
-      "sha256": "d54e036c8a875cc1f9cd15a40b4db978c399220d2c35051976f8a09245b49cae",
-      "size": 62,
-      "normalized_sha256": "1c94baf0012490e354e70404e0f8159123fe7eaa17aa317d18da4c2cec7c6d96"
-    },
-    ".archived/go_projects/agent-reaper/README.md": {
-      "role": "index",
-      "sha256": "c65ee12b4beeae6b82be6c1edee57eb00fa016446248ac20c3781ba094c57f10",
-      "size": 2497,
-      "normalized_sha256": "31f28caae1a7ebd0ef5da93f552eb837da19de98f2009dec04165950e3fb3ab9"
-    },
-    ".archived/go_projects/agent-reaper/agent-reaper.md": {
-      "role": "index",
-      "sha256": "e2924c79eab829b2461ac899bc4854c0a3a9ca8b6945212f91d659d29289c8c8",
-      "size": 1779,
-      "normalized_sha256": "d396a34aa4200e533bc224fcbb5150a5f2894b2e4c9252dc8ecbdb3a0329ca64"
-    },
-    ".archived/go_projects/agent-reaper/build.ps1": {
-      "role": "index",
-      "sha256": "fc1c46d01d5a59b8f08a4d3053b17cdc48115ba3c760484a58500da12c15e581",
-      "size": 335,
-      "normalized_sha256": "abd4e5bcabe272f762d9e09c2d5ca4a35f1404b6760a490bb14dda73f78f98a5"
-    },
-    ".archived/go_projects/agent-reaper/go.mod": {
-      "role": "index",
-      "sha256": "00afe2647452ac73cfb5ea34282846a12f6c2d458fbe28c52d8fb3cb1984af4a",
-      "size": 34,
-      "normalized_sha256": "df05a40c305406e959bd64deee9cebccf411c6faadd3b45f56da2eb0535f93ed"
-    },
-    ".archived/go_projects/agent-reaper/main.go": {
-      "role": "index",
-      "sha256": "17bcd5326774570c511ad8f92830bb18e33ad09fb0e9e9c787716dbfb8a74f10",
-      "size": 12839,
-      "normalized_sha256": "331813667d36fa5327bf27d12afd20287f64be4b3576b6b1d59ef60c9d4c19d9",
-      "format_sha256": "f1248f220c30ae0fe49fead2db173a21cf7044456f57349d6884febd5f2626fa",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/README.md": {
-      "role": "index",
-      "sha256": "4615ea19f4aab6d726f8e436cddfae04fe09a608eab52d9e3e782742b2da906c",
-      "size": 4347,
-      "normalized_sha256": "2b620a75b4ec4c5c36cc5ede99a1059cf93bed475ac69a1f50334d2cc726a181"
-    },
-    ".archived/go_projects/aiquick/build.ps1": {
-      "role": "index",
-      "sha256": "494c02a644e50b4adc39246f92d6f3dd83c3c491e150b432b5e6d56cecdf8472",
-      "size": 409,
-      "normalized_sha256": "aea4fe5e5709c985f1a86b1ae15122c853ca8ab5ac2a3286f2a1b238d6bbb57c"
-    },
-    ".archived/go_projects/aiquick/cmd/aiquick/main.go": {
-      "role": "index",
-      "sha256": "bbd3101165568a65e97c9c574d08ba2d3413c2362c8310dbff5708e04468327f",
-      "size": 1230,
-      "normalized_sha256": "adad91624878bf8d585af7b11bea327917dd9781c2197468e69f7c06ea9ea276",
-      "format_sha256": "adad91624878bf8d585af7b11bea327917dd9781c2197468e69f7c06ea9ea276",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/cmd/aiquickd/main.go": {
-      "role": "index",
-      "sha256": "2d2b3e6489e21f6f0c00ec4979a440078e04b076a9d9b5682f876dd03935ce5b",
-      "size": 1211,
-      "normalized_sha256": "332489d673da764115ead123020c17210c2b957858a0f5295d5877399f073859",
-      "format_sha256": "332489d673da764115ead123020c17210c2b957858a0f5295d5877399f073859",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/go.mod": {
-      "role": "index",
-      "sha256": "a955001afe193e5aa0516a450880774598b684deae420479bcf1f197c5603d08",
-      "size": 1937,
-      "normalized_sha256": "7d56dd462fe25b0e4529e558904c8c602e45f5673f21310685aac22b4062c6fd"
-    },
-    ".archived/go_projects/aiquick/go.sum": {
-      "role": "index",
-      "sha256": "5eadec1f6bc87daa26aa57597ae6ce1b1a603369179bec912cdced365e291700",
-      "size": 7454,
-      "normalized_sha256": "4318061b7f4e4008bcdf94a3746e501828f1aab74fef85edd1c379eb66acd374"
-    },
-    ".archived/go_projects/aiquick/internal/api/api.go": {
-      "role": "index",
-      "sha256": "c9435aefc5fea6556f4ab55a4486e709d88561ebd17dc114fa0fa87a8e38ef3b",
-      "size": 1699,
-      "normalized_sha256": "1f87dfb4d7c37f9d78498f31af0f57e09158de000728cb8147047e1c140a402a",
-      "format_sha256": "1f87dfb4d7c37f9d78498f31af0f57e09158de000728cb8147047e1c140a402a",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/backend/backend.go": {
-      "role": "index",
-      "sha256": "467c7d9e0a00978f121f628c0954e6f3365a7f5af0e0c0227692e587b8d09d03",
-      "size": 8437,
-      "normalized_sha256": "aa3661de8f13e24616b3a4f45f3589d418dbc523a66cf889b3819dd3e72cf4af",
-      "format_sha256": "aa3661de8f13e24616b3a4f45f3589d418dbc523a66cf889b3819dd3e72cf4af",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/backend/backend_test.go": {
-      "role": "observe",
-      "sha256": "11b6e4a1bb6d0b30adf1c7e8ada06719a35c739458a9b3014217d25b62c92946",
-      "size": 9020,
-      "normalized_sha256": "a1ad7ca4eb63bded27dbac7b52dcd91fbba9a78e0018404151336f534584298a",
-      "format_sha256": "a1ad7ca4eb63bded27dbac7b52dcd91fbba9a78e0018404151336f534584298a",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/capture/capture_other.go": {
-      "role": "index",
-      "sha256": "4297d2a9dd4428fceda7f3cf6a22923b5d9e0fb4027798d2eef18b375e2a2400",
-      "size": 163,
-      "normalized_sha256": "fc2f00728b84083706fad6d932d50cae00a6efeaa9914bb88c70c9ba4e6a5936",
-      "format_sha256": "fc2f00728b84083706fad6d932d50cae00a6efeaa9914bb88c70c9ba4e6a5936",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/capture/capture_windows.go": {
-      "role": "index",
-      "sha256": "85c32e8b13df3a4b3007e095bf3ae24ba00837ffe38f4c5e00ffd4d5b6296b72",
-      "size": 6039,
-      "normalized_sha256": "cb7d650fea8f53d537e04b67b131b4537afbe1cc04b72961b31533d59fbd4ec5",
-      "format_sha256": "885385cdb507baa4c710506eb2acc55ec61d59285789ac8827ce56c35bcf920e",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/client/client.go": {
-      "role": "index",
-      "sha256": "38adaf0f855060071efa17970fbca5eab4d5d3bd2854a3661c7d0404ca5518c6",
-      "size": 12652,
-      "normalized_sha256": "789d1ee4630829c40cb29768349168dbb78c5aa7bf04e6c31b56e0e764edcad0",
-      "format_sha256": "789d1ee4630829c40cb29768349168dbb78c5aa7bf04e6c31b56e0e764edcad0",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/client/client_test.go": {
-      "role": "observe",
-      "sha256": "f009cd7729c34ea9f8195188245380ec306b4e737a3810b7a9874c7da75b54cf",
-      "size": 3444,
-      "normalized_sha256": "157fd5bef5f4ad3b0db65da169d3f7e3a7229692e7390d9507a7e68b5b9f277e",
-      "format_sha256": "157fd5bef5f4ad3b0db65da169d3f7e3a7229692e7390d9507a7e68b5b9f277e",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/client/e2e_test.go": {
-      "role": "observe",
-      "sha256": "e17c2a1125bc93c113bbf8e1627c38f2ac525db95f34f463795016d284a70ac0",
-      "size": 8599,
-      "normalized_sha256": "fde982596fcd129d0ff90121caa080f1be740746b6609ba71b6a6c6f9861999c",
-      "format_sha256": "fde982596fcd129d0ff90121caa080f1be740746b6609ba71b6a6c6f9861999c",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/client/proc_other.go": {
-      "role": "index",
-      "sha256": "2eb57ecef5137bd7209ee0cc837bd72667a42d55889e41ce0466dc22cf90d744",
-      "size": 114,
-      "normalized_sha256": "707467b3cd4b1a22db08361ce72f821e48060954d51074c1348a7677ef8638dd",
-      "format_sha256": "707467b3cd4b1a22db08361ce72f821e48060954d51074c1348a7677ef8638dd",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/client/proc_windows.go": {
-      "role": "index",
-      "sha256": "2df3d64a0e49bf518a40a32da5ce3bd5ef18f9e2ccd5aa5e72541c19e414d5bc",
-      "size": 315,
-      "normalized_sha256": "e31570bc0febfe870929cda7762ab74d17cc3fc9b6e0b1120e19faff85e19107",
-      "format_sha256": "e31570bc0febfe870929cda7762ab74d17cc3fc9b6e0b1120e19faff85e19107",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/client/util.go": {
-      "role": "index",
-      "sha256": "7547ee271aebfa5992f10972e9ee95511ae554aaca54788253b3561e51ef88e3",
-      "size": 560,
-      "normalized_sha256": "bb53d4db2c1ff71cb7e6adfbecb13083343c40d6f9fe8a9aaefe19d7fec20617",
-      "format_sha256": "bb53d4db2c1ff71cb7e6adfbecb13083343c40d6f9fe8a9aaefe19d7fec20617",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/hotkey/hotkey.go": {
-      "role": "index",
-      "sha256": "2dba02e9f92fac5dfcefc3e4498473949f76f7865fbe9cdad77b9a595ad95e78",
-      "size": 2475,
-      "normalized_sha256": "5e76547633b67fce38af48ef58b2705df13164fcbcc27c8441414d19e33fe378",
-      "format_sha256": "5e76547633b67fce38af48ef58b2705df13164fcbcc27c8441414d19e33fe378",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/hotkey/hotkey_other.go": {
-      "role": "index",
-      "sha256": "5cc7d0df2ef0eebfa755d3a12d82ddab74c3de6d747d9f16116d0d0b632bdf10",
-      "size": 362,
-      "normalized_sha256": "455776255e1a58f27c32e3a7cdaea336b851f3edb49bf158f137e15f05674af8",
-      "format_sha256": "455776255e1a58f27c32e3a7cdaea336b851f3edb49bf158f137e15f05674af8",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/hotkey/hotkey_windows.go": {
-      "role": "index",
-      "sha256": "8deeba90547efdcab0220ad08a5aec9a5a8f2d72478be63c2a526584d336329f",
-      "size": 3456,
-      "normalized_sha256": "489033fe147e81e657239e7028485b449b8b1be59c8f639fba69d3bb7c0f3e04",
-      "format_sha256": "489033fe147e81e657239e7028485b449b8b1be59c8f639fba69d3bb7c0f3e04",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/llm/client.go": {
-      "role": "index",
-      "sha256": "cbd8b5e888d9d8fcfabaf74c8f9d58be6f6c51fbd22821659178e5e934840ff2",
-      "size": 3266,
-      "normalized_sha256": "a607943460a5b9ccb1421587b22d779ce1f637ebced4f3c51919fda0d5cd475d",
-      "format_sha256": "a607943460a5b9ccb1421587b22d779ce1f637ebced4f3c51919fda0d5cd475d",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/llm/client_test.go": {
-      "role": "observe",
-      "sha256": "8f9f28603a60a499658f02bb4a79483d7f94157e641cb3bf276aeca436f5cae8",
-      "size": 3461,
-      "normalized_sha256": "26f772b68075bebfbe784492707f8b1d1cf44bee06bb9687508a91dbd0bec5fc",
-      "format_sha256": "26f772b68075bebfbe784492707f8b1d1cf44bee06bb9687508a91dbd0bec5fc",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/protocol/protocol.go": {
-      "role": "index",
-      "sha256": "d913623b06ca4014149652ba151918812ac943221d8095161e9be37d1ba361bd",
-      "size": 3090,
-      "normalized_sha256": "f9de28b96ebfe4393a67d39a7c2414815a60b2f26b018d97394168c0ffdba5e2",
-      "format_sha256": "f9de28b96ebfe4393a67d39a7c2414815a60b2f26b018d97394168c0ffdba5e2",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/protocol/protocol_test.go": {
-      "role": "observe",
-      "sha256": "7785b2b89a659980109cf20f2ca2b2a313338046c6df68f4a3342d72a31674cf",
-      "size": 2737,
-      "normalized_sha256": "84593ce7952db2e9d08aa11a8b748cf854b6531b5fe72c34a8987fccac7372fc",
-      "format_sha256": "84593ce7952db2e9d08aa11a8b748cf854b6531b5fe72c34a8987fccac7372fc",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/server/server.go": {
-      "role": "index",
-      "sha256": "2a6951afe353a0a334ac1d6d6e9cf00abe98f387efaea3f2c76ee1dd19e6a451",
-      "size": 5504,
-      "normalized_sha256": "6389d7fe8cd54f331711eb3317d9bb98397a8eb09ed02a80bf816d0863604e67",
-      "format_sha256": "6389d7fe8cd54f331711eb3317d9bb98397a8eb09ed02a80bf816d0863604e67",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/server/server_test.go": {
-      "role": "observe",
-      "sha256": "db0cd99c2a1823ef78b4032d5f7886aaa84535cdf9e8fe915b63490130ac5d35",
-      "size": 6847,
-      "normalized_sha256": "2d6222465f2d75246b75b880c343803a43d3249c30b9291d78d8f26171fcfca9",
-      "format_sha256": "2d6222465f2d75246b75b880c343803a43d3249c30b9291d78d8f26171fcfca9",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/store/store.go": {
-      "role": "index",
-      "sha256": "d529ec9651bcd7943d86b942cd285250f3a086e67adf03605ef6005895dbb434",
-      "size": 5331,
-      "normalized_sha256": "8c580d0cc4a364188b867671816c249d11c0ac650ed9390de0ae22a4af95bfef",
-      "format_sha256": "8c580d0cc4a364188b867671816c249d11c0ac650ed9390de0ae22a4af95bfef",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/store/store_test.go": {
-      "role": "observe",
-      "sha256": "af4ded6b74da04fa6652956f07da9b656d41b812e860004c19aa80503f40a8e8",
-      "size": 2528,
-      "normalized_sha256": "fff360518ce02a7961f06155dbc6575fdfe2bcafed484faa3f34d647bdd9a2cd",
-      "format_sha256": "fff360518ce02a7961f06155dbc6575fdfe2bcafed484faa3f34d647bdd9a2cd",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/ui/app.go": {
-      "role": "index",
-      "sha256": "1299eb4001e04c5ff666a797fbaf5c8478995d58c4869f9390bbafb5a6dd5d03",
-      "size": 10491,
-      "normalized_sha256": "3eb11182a0ddbbc3f910897da157b7689e7504dac843be390572ef3a6b923761",
-      "format_sha256": "3eb11182a0ddbbc3f910897da157b7689e7504dac843be390572ef3a6b923761",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/ui/hotkey.go": {
-      "role": "index",
-      "sha256": "7c1ccebdebd791cc753e361011d15aebc1c40ca9a6d67a90272e6c5aeaf46f64",
-      "size": 778,
-      "normalized_sha256": "83dfeef9af4e6d5fec84ee9d4df11db3ed98c9cb4e597828607450f5e5dd9bc1",
-      "format_sha256": "83dfeef9af4e6d5fec84ee9d4df11db3ed98c9cb4e597828607450f5e5dd9bc1",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/ui/icon.go": {
-      "role": "index",
-      "sha256": "69139b78dfd4ba607ed54f2ab98e03bad79313ba90b24e1de7e9ff49bfbb63e5",
-      "size": 1797,
-      "normalized_sha256": "0a26b6b63d0240ec39bbce12c0067b8b8451687112bad19627096102d562eff6",
-      "format_sha256": "0a26b6b63d0240ec39bbce12c0067b8b8451687112bad19627096102d562eff6",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/ui/logbuf.go": {
-      "role": "index",
-      "sha256": "62c459e9af6b6079adeef70cc9f7e75c3541376975f57d59b9967c442aa1a526",
-      "size": 977,
-      "normalized_sha256": "0644b9543659545322791499bf025cb867953082463a32fe8f9e81388675303c",
-      "format_sha256": "0644b9543659545322791499bf025cb867953082463a32fe8f9e81388675303c",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/ui/presets.go": {
-      "role": "index",
-      "sha256": "66abf5765bf17fc55394cdd4d4c1d471af114c91fe28a048f05a3aae3527e84f",
-      "size": 4156,
-      "normalized_sha256": "8c7bc28044630ef5aa5c52ff7a60100374c0d8157d1d19f58e3f71c23648cd2c",
-      "format_sha256": "8c7bc28044630ef5aa5c52ff7a60100374c0d8157d1d19f58e3f71c23648cd2c",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/aiquick/internal/ui/settings.go": {
-      "role": "index",
-      "sha256": "de41631648278e35968b331074061364c6439a1b8a5b4df29f7f606d1daeaf7b",
-      "size": 4120,
-      "normalized_sha256": "3f8833295f47ff817d448eb40c7456648f7e527ecff1d42f2f624b8e20b12eac",
-      "format_sha256": "3f8833295f47ff817d448eb40c7456648f7e527ecff1d42f2f624b8e20b12eac",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/console-calculator/.gitignore": {
-      "role": "index",
-      "sha256": "d54e036c8a875cc1f9cd15a40b4db978c399220d2c35051976f8a09245b49cae",
-      "size": 62,
-      "normalized_sha256": "1c94baf0012490e354e70404e0f8159123fe7eaa17aa317d18da4c2cec7c6d96"
-    },
-    ".archived/go_projects/console-calculator/README.md": {
-      "role": "index",
-      "sha256": "e86f5b65d21475a9a7e24c4bff0e48a9876f7a32d174441d037d072abc666e1f",
-      "size": 393,
-      "normalized_sha256": "330312f5889d2b471783034d2b42c9203ec25e8ba190398f6b865f5fa225f525"
-    },
-    ".archived/go_projects/console-calculator/build.ps1": {
-      "role": "index",
-      "sha256": "fe1f63ac8eb987356b163dbe10060250209dc1f51ddb64b6cff6158c64259799",
-      "size": 353,
-      "normalized_sha256": "13b14688cc8f0ff0a82c6fda02b23462bbb18bfeae149efe83eed3f151ecc832"
-    },
-    ".archived/go_projects/console-calculator/console-calculator.md": {
-      "role": "index",
-      "sha256": "d9ef36df2adb7fa5a520989e3a655722fe03a021a680219d63bea392a48e98ec",
-      "size": 626,
-      "normalized_sha256": "a90be35066254da10b41f5a862c5817395f310147390de1df32dd528290acd04"
-    },
-    ".archived/go_projects/console-calculator/go.mod": {
-      "role": "index",
-      "sha256": "a42eeb14cfd157dd10c8b0b0bb499271d79ee5277082a0ac95da207309dc1b99",
-      "size": 40,
-      "normalized_sha256": "5f4321f7055fb4c383c728200a08993674c5fb4202de76bb6580b48c783d437f"
-    },
-    ".archived/go_projects/console-calculator/main.go": {
-      "role": "index",
-      "sha256": "4e1af120a1c5d698fddc696fc92c374af904f6de091b68f7a364bed95f0d1ca4",
-      "size": 8574,
-      "normalized_sha256": "60c6b87a41aaadec11cbcdef838e0c3006f0b7dde6fca8d1de4d434696dc3e7e",
-      "format_sha256": "69f09292eb443aaa203f3b8a18e99c4cfeb0a13f046fcb5f762e9af71a15ba48",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/.gitignore": {
-      "role": "index",
-      "sha256": "1ad86d3d5399e37a462bebe042e4480a070e533765650b39a14aaf78dc22c622",
-      "size": 35,
-      "normalized_sha256": "d55b4e03e539b26c624e5f8fc9503d5e219e9c82da46123124a3cd9e4b67b743"
-    },
-    ".archived/go_projects/exe-launcher/DEMO.html": {
-      "role": "index",
-      "sha256": "aa1a5a0e2058218eee1bb52d9f9cb4e07717979882d4eec5c445af0bb4eb59bc",
-      "size": 45399,
-      "normalized_sha256": "674a2eec1db577f09c1af72da82cc7f175754ed91502c1010489135adc888446"
-    },
-    ".archived/go_projects/exe-launcher/README.md": {
-      "role": "index",
-      "sha256": "1941a7fa221ee8336ee53f999f4b61094d1e601da26cb3cd55c06e343c034cfd",
-      "size": 3086,
-      "normalized_sha256": "293b43e4c34ce5fe4c19b54166d35ed5017f562f32c4309d26603d95100789eb"
-    },
-    ".archived/go_projects/exe-launcher/cmd/exe-launcher/main.go": {
-      "role": "index",
-      "sha256": "24f2b4ce2c66b3cd371b027824b35a88af00bba927c43eb611e90001879e4529",
-      "size": 248,
-      "normalized_sha256": "3e1c8bfa7de3dfc5eb8257ed775851079a621acfd7df6cea308376013e55f7ca",
-      "format_sha256": "3e1c8bfa7de3dfc5eb8257ed775851079a621acfd7df6cea308376013e55f7ca",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/cmd/exe-launcher/rsrc_windows_amd64.syso": {
-      "role": "index",
-      "sha256": "092e5d391ede53e34c48cacee99dc1136a2e6846092d70011ff2ea72da6ec269",
-      "size": 11762
-    },
-    ".archived/go_projects/exe-launcher/exe-launcher 使用指南.md": {
-      "role": "index",
-      "sha256": "8b90ef083203d58b6c0a7a393a54e4c4383a41e1ed8ffb0eac4090e0514d7533",
-      "size": 1881,
-      "normalized_sha256": "cd64a135bb6bffb6a5c753da858254195379e2a5235005501ee34b51e2dd3b7d"
-    },
-    ".archived/go_projects/exe-launcher/go.mod": {
-      "role": "index",
-      "sha256": "74894d98038251dcd9a0ecbf980f9dd16196f593c5fe224d8cb3124b97b94f69",
-      "size": 68,
-      "normalized_sha256": "79f21cff6b09ee622087481d1da3b209b7547def0a4cf0b0ff57cae10e7c804f"
-    },
-    ".archived/go_projects/exe-launcher/go.sum": {
-      "role": "index",
-      "sha256": "187e8b0c27babfa55f275b70b3e39800f0352d262e44929f52ca96f97ce9493b",
-      "size": 155,
-      "normalized_sha256": "547bb6baa127ee233d288662c717bd019208efc79ca39d0859eac6924ca0d7aa"
-    },
-    ".archived/go_projects/exe-launcher/internal/mdview/mdrtf.go": {
-      "role": "index",
-      "sha256": "81bf2926c4b59722c4e40f2645c55a5acbcbc74568f229890939285c82685baf",
-      "size": 6022,
-      "normalized_sha256": "b0144ceacf5353f35b9aef6e19a17614669c61580e14b7724af3292dd5bce2fe",
-      "format_sha256": "b0144ceacf5353f35b9aef6e19a17614669c61580e14b7724af3292dd5bce2fe",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/mdview/mdrtf_smoke_test.go": {
-      "role": "observe",
-      "sha256": "b1bb1d2727ab8fcfa70646ee8578262901a9056335dd0e849f53032552abcce2",
-      "size": 1114,
-      "normalized_sha256": "0114e4e1bf14770822a94fd5fc068a7b4abb469e4b30f40bc9df483d1ed18bd1",
-      "format_sha256": "0114e4e1bf14770822a94fd5fc068a7b4abb469e4b30f40bc9df483d1ed18bd1",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/mdview/mdrtf_test.go": {
-      "role": "observe",
-      "sha256": "f8c7eaf2f5c2fea0f7daff02f5020ca6de76871bcdf45057e0d79a767b66d5e0",
-      "size": 3048,
-      "normalized_sha256": "909c03dfef8f1f587218c487395273424f76d3cd3dcea8dab91ef723c7e1d96d",
-      "format_sha256": "909c03dfef8f1f587218c487395273424f76d3cd3dcea8dab91ef723c7e1d96d",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/model/config.go": {
-      "role": "index",
-      "sha256": "0b47b2297cfc0e470ffdcee36fb9f2c6d31b29003f6bdb00feda4c88f3cda9f7",
-      "size": 1080,
-      "normalized_sha256": "ed922193cd672274f955bcb21f779ef94d80bce2c557b4ff119cf87d265e5a5c",
-      "format_sha256": "ed922193cd672274f955bcb21f779ef94d80bce2c557b4ff119cf87d265e5a5c",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/model/config_test.go": {
-      "role": "observe",
-      "sha256": "54679a5e7c7f9fd357fd6e9f856a67843b6fcfebe8d2fe9d029986b7a5aaccfb",
-      "size": 3907,
-      "normalized_sha256": "a52434fcd3324ede830ada4139cb859e2e80fb9bfbc8eb09de53733ff6a79c18",
-      "format_sha256": "a52434fcd3324ede830ada4139cb859e2e80fb9bfbc8eb09de53733ff6a79c18",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/model/naming.go": {
-      "role": "index",
-      "sha256": "6f73e05f5268a9ff672ab03ace064ed695ad5f48b6f71cffd8b33c780719541b",
-      "size": 263,
-      "normalized_sha256": "ea012dbdaf223fd7f8148d2d27b4197b84575b8e1045745c3dee76f9bf95d337",
-      "format_sha256": "ea012dbdaf223fd7f8148d2d27b4197b84575b8e1045745c3dee76f9bf95d337",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/model/naming_test.go": {
-      "role": "observe",
-      "sha256": "5198600ebbf1ca437e7b0e1d5ec264b95f06bba4af8a41637136af0ff5850c31",
-      "size": 370,
-      "normalized_sha256": "590f451f1feb0b5dd8123c72ed3793287540dcf874febb688ff31fad5ac37c6e",
-      "format_sha256": "590f451f1feb0b5dd8123c72ed3793287540dcf874febb688ff31fad5ac37c6e",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/model/store.go": {
-      "role": "index",
-      "sha256": "3ae9b8201b9fba1f305ef4c95eea61f2a8150aef9b034f60db902ac6340028b7",
-      "size": 3562,
-      "normalized_sha256": "8163da7b01cf8f1d3d1d2c4838fcd10db8eb721cb4e277d19ef0875275e449d8",
-      "format_sha256": "8163da7b01cf8f1d3d1d2c4838fcd10db8eb721cb4e277d19ef0875275e449d8",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/model/tags.go": {
-      "role": "index",
-      "sha256": "0853f29767cdbb72221f47d0969250ad8b180a57f9220be74400a088dcc97783",
-      "size": 2185,
-      "normalized_sha256": "53e6472c4d36cf79818feb5fc1c549e9465e671611762631d9e9a841e75d5e69",
-      "format_sha256": "53e6472c4d36cf79818feb5fc1c549e9465e671611762631d9e9a841e75d5e69",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/model/tags_test.go": {
-      "role": "observe",
-      "sha256": "7d820e98e0cef53ddcd7cbcfe65278197703f3e294d09f33a4f8a3a2c121e75e",
-      "size": 3876,
-      "normalized_sha256": "e57be86b1cbc29528b30c3210b14c3eefeaaa3cd2f230cc873b21929e6c256d6",
-      "format_sha256": "e57be86b1cbc29528b30c3210b14c3eefeaaa3cd2f230cc873b21929e6c256d6",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/scan/scan.go": {
-      "role": "index",
-      "sha256": "3c10b6b816b71cd8801bd3406ce85163289cae52251de63ab84d37473460cd38",
-      "size": 1360,
-      "normalized_sha256": "ff6a0d883ed1a612a7271a59eb37b0c12d5f230108a545c4d6e51278f6ddea36",
-      "format_sha256": "ff6a0d883ed1a612a7271a59eb37b0c12d5f230108a545c4d6e51278f6ddea36",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/scan/scan_test.go": {
-      "role": "observe",
-      "sha256": "e3c50cf72929edb6bfa86895cd58ee4249b565d695519296acb6a65f362ac1d3",
-      "size": 1285,
-      "normalized_sha256": "d2cad8f8589e455a14ce86fb06d0f9faf279276dd03bc584489c9978808f1353",
-      "format_sha256": "d2cad8f8589e455a14ce86fb06d0f9faf279276dd03bc584489c9978808f1353",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/actions.go": {
-      "role": "index",
-      "sha256": "9c6bab383ec885e086187edce36d4e56ebf0697c3bee1f007f5644a144b732e6",
-      "size": 2889,
-      "normalized_sha256": "1933e2ca49c442b90833185a12cda3345c917598d0342aa967d704751476f400",
-      "format_sha256": "1933e2ca49c442b90833185a12cda3345c917598d0342aa967d704751476f400",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/debugveh.go": {
-      "role": "index",
-      "sha256": "0a9f7f888bf72ae51f12177258de1d44ba024592140015d38b2bea570b54c933",
-      "size": 2777,
-      "normalized_sha256": "6ade6a60eb5827ebfd1a191ce3e426f9def84cba2f0766664ed8ecb813822b76",
-      "format_sha256": "6ade6a60eb5827ebfd1a191ce3e426f9def84cba2f0766664ed8ecb813822b76",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/logging.go": {
-      "role": "index",
-      "sha256": "79d12b2b6f9cc7e639778157336b1922655b9abe7d8f68454394f3bb3db0117f",
-      "size": 1164,
-      "normalized_sha256": "eb0f7e3ee2a5c1b013f1c7bc56e048af0d130bd9b58a4c9717042eb92c1ae5f5",
-      "format_sha256": "eb0f7e3ee2a5c1b013f1c7bc56e048af0d130bd9b58a4c9717042eb92c1ae5f5",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/mddlg_test.go": {
-      "role": "observe",
-      "sha256": "a51df9a5b2f588ba670396f54524710ba4a4753b94284c7945e982707d79ae8e",
-      "size": 2017,
-      "normalized_sha256": "effd3bde146f075e147eddf256a077bc58bf23316b2726536d6f05da96d52a37",
-      "format_sha256": "effd3bde146f075e147eddf256a077bc58bf23316b2726536d6f05da96d52a37",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/mddlg_windows.go": {
-      "role": "index",
-      "sha256": "554e413611da0108265acc8d42b3bf6c4c77e248ccff54ea6c8aad9c740f6de0",
-      "size": 5588,
-      "normalized_sha256": "d63393d8983a8b06cc6e5ecea1f41ea9692418afce9594d252db0dc96a5672b9",
-      "format_sha256": "d63393d8983a8b06cc6e5ecea1f41ea9692418afce9594d252db0dc96a5672b9",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/pickfile.go": {
-      "role": "index",
-      "sha256": "a6b44926e1990bdacc0494fe05f0abe8d6a53107fdb903810c2e08ab17529c89",
-      "size": 5528,
-      "normalized_sha256": "3d5609e60f0ceea8fd8439b170c7a09d8d37024a1f619fba69bd44fadab14eb6",
-      "format_sha256": "3d5609e60f0ceea8fd8439b170c7a09d8d37024a1f619fba69bd44fadab14eb6",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/run.go": {
-      "role": "index",
-      "sha256": "08149c3397f301789af9363bffe0b49d2b443172c48cad2ced16977e2d9c11b9",
-      "size": 1826,
-      "normalized_sha256": "ff95873d25b33bf885536cf2c3ad15c7d72c8398f26f52af0ad36a6237ce6f1c",
-      "format_sha256": "ff95873d25b33bf885536cf2c3ad15c7d72c8398f26f52af0ad36a6237ce6f1c",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/scandlg_windows.go": {
-      "role": "index",
-      "sha256": "d0429f4b8878ecaeb48990d695cfb11b3e1e176f6ff7035455819779c9f633a4",
-      "size": 6803,
-      "normalized_sha256": "bbd22f9ad809da251455f97fc9201daeb20af93e9eff023936078d7b0edbe913",
-      "format_sha256": "bbd22f9ad809da251455f97fc9201daeb20af93e9eff023936078d7b0edbe913",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/singleton.go": {
-      "role": "index",
-      "sha256": "a6632f80b306eb50e65442b75ea3d1d7469f1dc5bfc8ee04750dd59a1d71dd06",
-      "size": 1850,
-      "normalized_sha256": "f93efc7e8432ead290a5bbea9bfe7ab094821ab882a201a2c731856478d0c937",
-      "format_sha256": "f93efc7e8432ead290a5bbea9bfe7ab094821ab882a201a2c731856478d0c937",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/tagdlg_windows.go": {
-      "role": "index",
-      "sha256": "e668fa769e1167f15ff5da601ec259ff159f02fafc4b5de68e2336f8dd242c39",
-      "size": 8105,
-      "normalized_sha256": "5a23854df159cd471c863430e14b3e60008c3193269c56597ded37c67e459a9c",
-      "format_sha256": "5a23854df159cd471c863430e14b3e60008c3193269c56597ded37c67e459a9c",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/tray.go": {
-      "role": "index",
-      "sha256": "520ed6acd58ced3c3cad39d20e3f174a37c12fdf848bc62ea0c2aa1c9235ffa2",
-      "size": 4776,
-      "normalized_sha256": "622819159f4921ac369c7a61c7a364bbe16a4d112b2e56ca635c0ddb9a14c2c5",
-      "format_sha256": "622819159f4921ac369c7a61c7a364bbe16a4d112b2e56ca635c0ddb9a14c2c5",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/ui/window.go": {
-      "role": "index",
-      "sha256": "0c02a908ab5228ed2dd9f939aead0ff1ac833cacb56ddc38a26bb725b339d309",
-      "size": 22272,
-      "normalized_sha256": "2f1ba01a5ffdee2b9a52d1b51b03b6788fb5f68c8098daa71d39afa7bd12c07c",
-      "format_sha256": "27c19e6fce1b821d00ac941849442af69126e725d8c39d7dd2b65aad1a2cb25e",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/internal/win32/win32.go": {
-      "role": "index",
-      "sha256": "9681d4ca43ad7b59776e466b16ff5e9bf606167765acc416c6ee7ea7bd2e737e",
-      "size": 15640,
-      "normalized_sha256": "c77b42a207614a4467d385676dc26f7dfeff5878d1ee8ee1ab2238838235911f",
-      "format_sha256": "c77b42a207614a4467d385676dc26f7dfeff5878d1ee8ee1ab2238838235911f",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/exe-launcher/scripts/build.ps1": {
-      "role": "index",
-      "sha256": "6065f63b067ecaedcf344c64bebc49642ae76f46244910a5bc4033c69f49fc3f",
-      "size": 167,
-      "normalized_sha256": "0e837c479ad5d88819a7ab8214e6dbd460aea02e1c7895794ae34373e32a96d5"
-    },
-    ".archived/go_projects/exe-launcher/winres/icon.png": {
-      "role": "index",
-      "sha256": "e52901200e6db13945723be18f1be6a47f6c166f91cbab74e2b6ae5547c845ed",
-      "size": 9003
-    },
-    ".archived/go_projects/exe-launcher/winres/make-icon.ps1": {
-      "role": "index",
-      "sha256": "c8c943ac21345099f294837f66cb3011c92915993a0c4a667cb5874c794a9a8a",
-      "size": 3321,
-      "normalized_sha256": "c47d8f4d66b83651f61cb57443f77a1705e4154a6e9009abda2485b4ddbafe03"
-    },
-    ".archived/go_projects/exe-launcher/winres/winres.json": {
-      "role": "index",
-      "sha256": "6149b2976f5e33403587718c57a43d461f00518cd1546589cee43db5ae2665c6",
-      "size": 985,
-      "normalized_sha256": "bd94840711afaf0304d2120115c130ebda812bb18f99ce048b35c3acf1c17d68"
-    },
-    ".archived/go_projects/file-sync-native/.gitignore": {
-      "role": "index",
-      "sha256": "0890cd09d980824d546d19c31629c0fdae25f82e12177ccb49480b9172ce2fb8",
-      "size": 40,
-      "normalized_sha256": "ac769a4478bee4b28f28889b67317a3c1ed0ded0a46af0bf05ee164286570b8c"
-    },
-    ".archived/go_projects/file-sync-native/README.md": {
-      "role": "index",
-      "sha256": "a6f90b3475ef660edcaf42a5897a572ebaa74bf0be720134d5964b7abd0cb2a6",
-      "size": 2236,
-      "normalized_sha256": "119fb7938af9b27ce48706035d93693f55cec24f3bb4a668b9d06bdcd0854661"
-    },
-    ".archived/go_projects/file-sync-native/app.go": {
-      "role": "index",
-      "sha256": "1be4bc8f6b4622201b8ab4f2c20f2da3d65ecd84d8379efea86ded147f24b617",
-      "size": 11631,
-      "normalized_sha256": "c303263590bcd7a23396ddd579258df7e892e548b56196fac8f0284ec816b8b5",
-      "format_sha256": "c303263590bcd7a23396ddd579258df7e892e548b56196fac8f0284ec816b8b5",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/app_test.go": {
-      "role": "observe",
-      "sha256": "e6015f5a2a31d1195aa5be2a98f45d3a0c3856c0e70cbb3182233b973515febd",
-      "size": 6222,
-      "normalized_sha256": "0fb97abb4ae3ba88b5408c6dbac0af26d81bf2bab65287334e8ecd53eed219f3",
-      "format_sha256": "0fb97abb4ae3ba88b5408c6dbac0af26d81bf2bab65287334e8ecd53eed219f3",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/build.ps1": {
-      "role": "index",
-      "sha256": "c279908872de9425b6b0f38688b680d9f156a423368d026944aaa519511cd7e2",
-      "size": 45,
-      "normalized_sha256": "98e713cbc2fd762e0bf78f54cfa49fcf22abf00537157c8fd3b474dec257ea8b"
-    },
-    ".archived/go_projects/file-sync-native/cmd/cli/main.go": {
-      "role": "index",
-      "sha256": "84fa4b6094ebe4afa58e9d633423e29a40edec9ed97c4b0e59a6701cedb26a9a",
-      "size": 1036,
-      "normalized_sha256": "eebcd561cae7b55157595f10d8113c84e1c003b01bae67df10abec141c10e581",
-      "format_sha256": "8dc4e03881d1dc836cba9d4ede69f17ff6615021678e3519e370bc3fcc9907ea",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/config/config.go": {
-      "role": "index",
-      "sha256": "e361bd063cc39c3a03ac376d6e8ddc4f1f02f1689d6c8911e4aa1550e68326e4",
-      "size": 2886,
-      "normalized_sha256": "62f92fadfc0e125b5d47dfb66747ad9b8a265371df7e9532502ee85919de5df1",
-      "format_sha256": "ab6dfe2dadbccd921db2496acc1790cc9ab8daa513c7786627a70f7cb6b89f62",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/config/config_test.go": {
-      "role": "observe",
-      "sha256": "c31186d7806cce21f4c15277cfff9a71a91b6323c2a2248d7e4d38663a775a00",
-      "size": 1245,
-      "normalized_sha256": "d8fbfe3c4a4882cf6eacc7760cb51d1e4b56b1c5d94c9b098849e8d02620c44e",
-      "format_sha256": "d8fbfe3c4a4882cf6eacc7760cb51d1e4b56b1c5d94c9b098849e8d02620c44e",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/engine/bench_test.go": {
-      "role": "observe",
-      "sha256": "4c8621d3ef1c7753b3dec5e40e19ce2b59f3c728c1f6c4f9ec2a14fe2f127d0b",
-      "size": 2297,
-      "normalized_sha256": "61768fa01afb01dd14c823a640573b20d34f41675de05c578bbd88259e099f17",
-      "format_sha256": "61768fa01afb01dd14c823a640573b20d34f41675de05c578bbd88259e099f17",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/engine/executor.go": {
-      "role": "index",
-      "sha256": "f0b199813ee5ef33fbfcbc1d5184fe41e1796ea096d3d872e579bbba930b271c",
-      "size": 2268,
-      "normalized_sha256": "04934d067ef9c4e1eeb8bb6563a424ff05914bc84e35b7774b80c0a2224b472c",
-      "format_sha256": "04934d067ef9c4e1eeb8bb6563a424ff05914bc84e35b7774b80c0a2224b472c",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/engine/hashcache.go": {
-      "role": "index",
-      "sha256": "e65fdec1114b4a39a691d27e704ede2fb1a2b309e206e7058d2e9fa2dfb741bf",
-      "size": 4168,
-      "normalized_sha256": "d7224bc3f152da4de820c45d3fc7d3d95985142e08412bf86fc04665b1d1d33c",
-      "format_sha256": "a2939657e7bb463bd10a80ed7e2618ef8dc829f20c2e3a3a658cc9696bb151ab",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/engine/hashcache_test.go": {
-      "role": "observe",
-      "sha256": "9d366bb73e30da1476225dc77d462ef6b33d37b52c6fe019ce0b67c1761dcd46",
-      "size": 3234,
-      "normalized_sha256": "7f00fbbb5ff48318ebc57f6ac9a577b303b04e3aa2909603a8cf71aa51d8515d",
-      "format_sha256": "7f00fbbb5ff48318ebc57f6ac9a577b303b04e3aa2909603a8cf71aa51d8515d",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/engine/pipeline.go": {
-      "role": "index",
-      "sha256": "641ac7acf6e84ce87a5d5cd0263c24a0f1e743ba2f706c9c31bc6b74a1cb594a",
-      "size": 10372,
-      "normalized_sha256": "2a5c6e2b94f7986ce4e407040f7dabeb5ad169cf5e3bd0b41cb804c99d4cadd4",
-      "format_sha256": "35107acdcb298b981478afa51a9ba6b415040e76f64f54f0e59602c68389985a",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/engine/pipeline_test.go": {
-      "role": "observe",
-      "sha256": "8a21334ce35ce64b65ea5deef3b11be4381497679394bd6b27cf91ed9a83f272",
-      "size": 13357,
-      "normalized_sha256": "40a449c2ccacf97a19bf7b5702e5e481d5bae9c9cae008ae0134826bc6fc6f0a",
-      "format_sha256": "40a449c2ccacf97a19bf7b5702e5e481d5bae9c9cae008ae0134826bc6fc6f0a",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/engine/progress.go": {
-      "role": "index",
-      "sha256": "dce778daa8bfe87d230edd6f700898e76003e092f1dc646ee7c43f496bd6a5f5",
-      "size": 4736,
-      "normalized_sha256": "117c2147b75f689c17e3f3c0bbeb04ed4776325dc21d93f31eba94857266e562",
-      "format_sha256": "117c2147b75f689c17e3f3c0bbeb04ed4776325dc21d93f31eba94857266e562",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/engine/progress_test.go": {
-      "role": "observe",
-      "sha256": "107ff3f3c7dd19091ac065a3cd661f6e58d29263d0b4a3e7f426e72496df91ef",
-      "size": 1770,
-      "normalized_sha256": "c5a80c68be8cdddbeb0c7bef1a352ffb1ee8cf232239b770913a6d8deafdd407",
-      "format_sha256": "c5a80c68be8cdddbeb0c7bef1a352ffb1ee8cf232239b770913a6d8deafdd407",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/frontend/index.html": {
-      "role": "index",
-      "sha256": "420fd9c46aeb82e47fec0085fda0ba22b0955e11709bcebe561a053f66182f9b",
-      "size": 4593,
-      "normalized_sha256": "bf51b327eac2a0f1d117bb6cb92e495a5b7a5c11bf1c1e48cd58c084668f5930"
-    },
-    ".archived/go_projects/file-sync-native/frontend/package-lock.json": {
-      "role": "index",
-      "sha256": "49e614b340a3275d80cc7d7d06d5f76658e51091544a1603617f2b060134f572",
-      "size": 36502,
-      "normalized_sha256": "81c4a4f91aafd4e95967591a74dfd0c979cdbe2f488a530b619c369304efcb87"
-    },
-    ".archived/go_projects/file-sync-native/frontend/package.json": {
-      "role": "index",
-      "sha256": "dd15cf6c3cb2271b29f2efc88547ff9ee322da898431f5fbe62f458a29951ffd",
-      "size": 222,
-      "normalized_sha256": "ac526b796170d47ea81693e5f89518b895b1d0aa59bc5b1eaa2b7ebc1eb06a1f"
-    },
-    ".archived/go_projects/file-sync-native/frontend/package.json.md5": {
-      "role": "index",
-      "sha256": "1d59af30b7fae3ea89ab6903462a4495901cd3a6ebbc8c74ef7179eaa7e06f35",
-      "size": 32,
-      "normalized_sha256": "1d59af30b7fae3ea89ab6903462a4495901cd3a6ebbc8c74ef7179eaa7e06f35"
-    },
-    ".archived/go_projects/file-sync-native/frontend/src/main.js": {
-      "role": "index",
-      "sha256": "272a93708a356e5dfd12b4cb07796a09c8ef0a6ffc80ddf96ad6309e2c146c67",
-      "size": 15571,
-      "normalized_sha256": "a37130789f02358c4c7a618cf315e075751aabde4a1712fc09b0d6b63d4f7875"
-    },
-    ".archived/go_projects/file-sync-native/frontend/src/style.css": {
-      "role": "index",
-      "sha256": "8ed714b91be13103b2450d30a3b7a50bff66f83e077c267115779730020e4229",
-      "size": 7569,
-      "normalized_sha256": "d2cdef8a4611d47ab37ae89a4911718ff11f73c0a594215435946a30c3c410c6"
-    },
-    ".archived/go_projects/file-sync-native/frontend/wailsjs/go/main/App.d.ts": {
-      "role": "index",
-      "sha256": "4770f26def56d2aceea00d36c960dbe14f7f2150c54b531a8487d4f1d57dbc19",
-      "size": 1000,
-      "normalized_sha256": "345c2138824716fd7dcfc69f8b58cc373ead6b02f8eaade4f12e3a4b1dabf8a9"
-    },
-    ".archived/go_projects/file-sync-native/frontend/wailsjs/go/main/App.js": {
-      "role": "index",
-      "sha256": "e35048ed8beee980e53afed2e6ada0d794ddb8eb5ed64c57243d434a36bc99f8",
-      "size": 1355,
-      "normalized_sha256": "8dcf4866ecbbc7a6c5da287229df665e16c67ce4c69588c8edf9d1f634bda501"
-    },
-    ".archived/go_projects/file-sync-native/frontend/wailsjs/go/models.ts": {
-      "role": "index",
-      "sha256": "4ad6964f3925c09989fc42dcd6f78a65eac9910122b8e03845f4dd3d09831991",
-      "size": 3953,
-      "normalized_sha256": "2aa8134d9aefa4e8c4970bde3f38cb809fb3b12eb2f10833126d7a7a697c5df4"
-    },
-    ".archived/go_projects/file-sync-native/frontend/wailsjs/runtime/package.json": {
-      "role": "index",
-      "sha256": "9ea6638d0a479068a632d172352e3413b1d66c66ce86aa66b60f645ca339b9d0",
-      "size": 562,
-      "normalized_sha256": "e17998421ed0ff615d8c538fa2d99a0dc46ff974e915a513a6e4f1ac47450d92"
-    },
-    ".archived/go_projects/file-sync-native/frontend/wailsjs/runtime/runtime.d.ts": {
-      "role": "index",
-      "sha256": "ca3b12b187b12e5be6924da89db4a5037b84f11e55ef5667e46aa64f5b8ecf49",
-      "size": 15583,
-      "normalized_sha256": "8f4ec03cac22770b665b4071a652fa952a81846c852dd557c4806fea0e4aaa69"
-    },
-    ".archived/go_projects/file-sync-native/frontend/wailsjs/runtime/runtime.js": {
-      "role": "index",
-      "sha256": "be00260a89a4cb5aaba2df7e0415189fa95e0b8cd7b0e88a7a2dcc1d2e52c2e7",
-      "size": 7502,
-      "normalized_sha256": "e25fe86d3c590de724b93e008f7637c809e54cfa76bdeff8afaf44ed89aeab0d"
-    },
-    ".archived/go_projects/file-sync-native/go.mod": {
-      "role": "index",
-      "sha256": "3ffd38f1a364431889d402d6c1f892be297ddfc5ff67fa925b397a7e22a3725e",
-      "size": 2246,
-      "normalized_sha256": "d9a1cb139b51c20a1feaddcdf02aadc2d50a4aa25c15660b34ef049df8c81b59"
-    },
-    ".archived/go_projects/file-sync-native/go.sum": {
-      "role": "index",
-      "sha256": "60602b578e13be4231b2ea904d80fb31c1baf73fbc43a19b462e1ff7a223b55c",
-      "size": 10376,
-      "normalized_sha256": "226dc18bfcef7e198e2bd567623c0a0a41c34a61340c51346c305eda9f5ef69e"
-    },
-    ".archived/go_projects/file-sync-native/ignore/matcher.go": {
-      "role": "index",
-      "sha256": "d294c2b6cc82d17341d3a269d0b3cf9c48a7433548a0bce4a777619704709f5c",
-      "size": 1257,
-      "normalized_sha256": "2b39eb20fb5eb5f20acb4d99f7f86d204e9053303c96f57ac5713c4d758396b2",
-      "format_sha256": "2b39eb20fb5eb5f20acb4d99f7f86d204e9053303c96f57ac5713c4d758396b2",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/ignore/matcher_test.go": {
-      "role": "observe",
-      "sha256": "9c9b63fc4fc9ea3b3ae2ab6eecff8518d933d8640341d06ad66cd86f703f1efa",
-      "size": 1165,
-      "normalized_sha256": "55a53b7f0ab2cf6121c1f3578aad8ed7ce3a1af341de515030ad6e3fb78f1232",
-      "format_sha256": "55a53b7f0ab2cf6121c1f3578aad8ed7ce3a1af341de515030ad6e3fb78f1232",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/logging/logging.go": {
-      "role": "index",
-      "sha256": "3e7f1a21327e516ad2ed9305538ae256555980661bc94ae70bf172bebea8d9b6",
-      "size": 2953,
-      "normalized_sha256": "e56fc9ac4690fdec372f78fb939d0ae3e227640a3191737d7ed2d38b3598cff5",
-      "format_sha256": "e56fc9ac4690fdec372f78fb939d0ae3e227640a3191737d7ed2d38b3598cff5",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/main.go": {
-      "role": "index",
-      "sha256": "0478c47e78c2501c7bef7923b6fae2950eb109c84906d7d7638ae779e5e480fc",
-      "size": 2090,
-      "normalized_sha256": "abb03e2e264946417ec4a594cc59f9b80e520312c720bb012520bf80958f2505",
-      "format_sha256": "c651cfdbfe0b0104096dc8709bef45983df4f5819fd14f5dfc5f0db39cf8f793",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/models/types.go": {
-      "role": "index",
-      "sha256": "ba78f8c1b647bac5e58afb2003ab80370458ad00b3a948f413ee7c2b561e1394",
-      "size": 3127,
-      "normalized_sha256": "2297d5a54929b23e1fb60e95aa6531eda8b33aa9970a7c14c852549090c6d15a",
-      "format_sha256": "b88f9db6dd44952d957685b6e270996e457f830974ee3597505c8d98201ede3b",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/paths.go": {
-      "role": "index",
-      "sha256": "266f949619f736ed12b695ef6b2fd6dec2bc175d9d396d4a855d47fd628f60e3",
-      "size": 342,
-      "normalized_sha256": "2ff53d39be54d5f2ef290abfcaddbd8eca11b39fe3dad681f396bac58d830daa",
-      "format_sha256": "2ff53d39be54d5f2ef290abfcaddbd8eca11b39fe3dad681f396bac58d830daa",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/tray.go": {
-      "role": "index",
-      "sha256": "e0f2f15d93614aaeb660cd5ef8ee7f6b8e6162b44aceb1a676fc4e6ab432a95b",
-      "size": 1252,
-      "normalized_sha256": "c5c90511627e241e97ede37a29364c5d43356b27e4686657482d70055378433b",
-      "format_sha256": "c5c90511627e241e97ede37a29364c5d43356b27e4686657482d70055378433b",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync-native/wails.json": {
-      "role": "index",
-      "sha256": "53d0c51877d536adeb405ead1a9561429996d32f6483ab84288dad2c0be83e88",
-      "size": 435,
-      "normalized_sha256": "493cf38dd0101391b016fc69328954cef438457baa4261e3e8ee3e860ab5e215"
-    },
-    ".archived/go_projects/file-sync/.gitignore": {
-      "role": "index",
-      "sha256": "d54e036c8a875cc1f9cd15a40b4db978c399220d2c35051976f8a09245b49cae",
-      "size": 62,
-      "normalized_sha256": "1c94baf0012490e354e70404e0f8159123fe7eaa17aa317d18da4c2cec7c6d96"
-    },
-    ".archived/go_projects/file-sync/PLAN.md": {
-      "role": "index",
-      "sha256": "9982f56a8540ce56900c08819136055cbbb3053c33f525a19e0268199cdf4545",
-      "size": 14127,
-      "normalized_sha256": "6773d6baf6e786576035839d46168ee2f4886235777be36e743635eb3759f63b"
-    },
-    ".archived/go_projects/file-sync/alert_other.go": {
-      "role": "index",
-      "sha256": "3d49e468da6dea930133cb5c504907162afc4437885b63b801bae17ed667cfb0",
-      "size": 161,
-      "normalized_sha256": "8deb3412844e2a3e3c0399658f0ea2df4b60713d0f4a0ea77696ada81ddd4f3e",
-      "format_sha256": "8deb3412844e2a3e3c0399658f0ea2df4b60713d0f4a0ea77696ada81ddd4f3e",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/alert_windows.go": {
-      "role": "index",
-      "sha256": "4535eec0c5117a423d865b8ae1c55b2d2a111e8f542b13f1938485207c5ed7e0",
-      "size": 298,
-      "normalized_sha256": "8628331f462dec1f784469a67adcd4b4c7dd9f4b02c1db7e1e87eb6ed94bbc7b",
-      "format_sha256": "8628331f462dec1f784469a67adcd4b4c7dd9f4b02c1db7e1e87eb6ed94bbc7b",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/assets/icon.ico": {
-      "role": "index",
-      "sha256": "d74eac10c753864ed4782ecff2253dc84d90b362745ea77bf443c42e01dbc8b2",
-      "size": 766
-    },
-    ".archived/go_projects/file-sync/build.ps1": {
-      "role": "index",
-      "sha256": "2ba65ab45e8841ac547923fd7fc800adfb7645ea932690061e5dedd04402595c",
-      "size": 70,
-      "normalized_sha256": "8aa1ba07b0c592db3b4c06ede3136ebd12fbb50694ab544b9c99a9810d35b880"
-    },
-    ".archived/go_projects/file-sync/config/config.go": {
-      "role": "index",
-      "sha256": "863be88ddc1ab24eb8f99881da5d385397a098acc954bc658170cb42e14a9edc",
-      "size": 2792,
-      "normalized_sha256": "b95e8c22e8a183202a98397d94d7edc47629f16f56903bef86805f1d29ff5320",
-      "format_sha256": "f742c96fe8f32d2af68d2f4449556683d31328742d2e7b902ab8d11d6b171678",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/config/config_test.go": {
-      "role": "observe",
-      "sha256": "758381220760479a3c94f2b5285dd4fff749b8df92620a49069c910ebbba3b5b",
-      "size": 1238,
-      "normalized_sha256": "2e58dccff059f14906cb819f25c949b6cfe07c28d154ab9d6c3da17411bb7fdb",
-      "format_sha256": "2e58dccff059f14906cb819f25c949b6cfe07c28d154ab9d6c3da17411bb7fdb",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/file-sync.md": {
-      "role": "index",
-      "sha256": "43fa0f7046756a6ec2e6094018efedd505c5416bd00a83ed01a1d5f0433888fe",
-      "size": 1001,
-      "normalized_sha256": "9776a1c8fbd258284ad3e42853726e02e8b9ab92bc9af14881ac7c0db899b78a"
-    },
-    ".archived/go_projects/file-sync/go.mod": {
-      "role": "index",
-      "sha256": "993fa16aba4c600f87c1c5768fbaf7561e7b6bd21e68546a6a9049cc9b314fdb",
-      "size": 846,
-      "normalized_sha256": "108eae301dbe88ddb0fdeb90966ae63c1850fdc07956f9109f3179ea7d77df21"
-    },
-    ".archived/go_projects/file-sync/go.sum": {
-      "role": "index",
-      "sha256": "46615a21cd8a092f2fd178295147b903bb6d495410271b627b5e84a846ed4843",
-      "size": 3852,
-      "normalized_sha256": "fa7a55f5cc1da3b86b2785cc028b42f6272cb7be8fa89f9f9ab4b798acccde81"
-    },
-    ".archived/go_projects/file-sync/ignore/matcher.go": {
-      "role": "index",
-      "sha256": "d294c2b6cc82d17341d3a269d0b3cf9c48a7433548a0bce4a777619704709f5c",
-      "size": 1257,
-      "normalized_sha256": "2b39eb20fb5eb5f20acb4d99f7f86d204e9053303c96f57ac5713c4d758396b2",
-      "format_sha256": "2b39eb20fb5eb5f20acb4d99f7f86d204e9053303c96f57ac5713c4d758396b2",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/ignore/matcher_test.go": {
-      "role": "observe",
-      "sha256": "9c9b63fc4fc9ea3b3ae2ab6eecff8518d933d8640341d06ad66cd86f703f1efa",
-      "size": 1165,
-      "normalized_sha256": "55a53b7f0ab2cf6121c1f3578aad8ed7ce3a1af341de515030ad6e3fb78f1232",
-      "format_sha256": "55a53b7f0ab2cf6121c1f3578aad8ed7ce3a1af341de515030ad6e3fb78f1232",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/logging/logging.go": {
-      "role": "index",
-      "sha256": "3333cefa8beaf4b50dec0d05045fbf7c1ca48b5834b465dd18852ace9f385b2a",
-      "size": 2946,
-      "normalized_sha256": "43f234bfc466a34b50528e04de2cd9b7fa54179f8c8bbbcb2a74e93365671fee",
-      "format_sha256": "43f234bfc466a34b50528e04de2cd9b7fa54179f8c8bbbcb2a74e93365671fee",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/main.go": {
-      "role": "index",
-      "sha256": "60543f704ebcd55bcc47c8d0b4c6d2a06e94cfb4af9852bd258706c1a757a9ad",
-      "size": 1759,
-      "normalized_sha256": "60350cd5f487eca98216679970120fad9fc0e3d98c9e18c603af0b1097cf2ae3",
-      "format_sha256": "60350cd5f487eca98216679970120fad9fc0e3d98c9e18c603af0b1097cf2ae3",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/models/types.go": {
-      "role": "index",
-      "sha256": "54b7561cf7195a7348879c2d650deaa133c70ec8ec991ea386a04817348c0a65",
-      "size": 1616,
-      "normalized_sha256": "61eaafdf8cdc6765348b4fbd6061dbc13f4d8c36411e752d55563e64622b2ad5",
-      "format_sha256": "61eaafdf8cdc6765348b4fbd6061dbc13f4d8c36411e752d55563e64622b2ad5",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/sync/differ.go": {
-      "role": "index",
-      "sha256": "0333ad0b33340e6081b0fa89eefed506ea761ea6acbf9c8681bf01d74536f95d",
-      "size": 1255,
-      "normalized_sha256": "85b4ae4dd7875b0947c0885328536bcc639237af2a335ebf1a789125726ebd65",
-      "format_sha256": "85b4ae4dd7875b0947c0885328536bcc639237af2a335ebf1a789125726ebd65",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/sync/differ_test.go": {
-      "role": "observe",
-      "sha256": "7003d3ff254692fd889014d88c274f66a6f95b946d004f5b5ad4312fbeec8247",
-      "size": 1416,
-      "normalized_sha256": "768b26bd6857bba09cb3de4c50d969a675fefba56b5eca67402ad12c976fdd15",
-      "format_sha256": "fa3286ce7f883f15137030ba18608a3e0a06f8aba47856340a7017e58c945641",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/sync/executor.go": {
-      "role": "index",
-      "sha256": "5d31637cff5596f187c13b9dcae1aa06744e9172bbf2c1388871148ad2102487",
-      "size": 2664,
-      "normalized_sha256": "f785bc923ec99eca09465bbc66c6d018a6699c095a70974d75dc563dfc828b50",
-      "format_sha256": "f785bc923ec99eca09465bbc66c6d018a6699c095a70974d75dc563dfc828b50",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/sync/executor_test.go": {
-      "role": "observe",
-      "sha256": "c42b80af2bdceb2769ee1a889a8d08cde077374a0028aeafbc487781a38a3c6a",
-      "size": 3113,
-      "normalized_sha256": "7a13423c713927d4dbe5867e38aa57bfb305d525b5f5bdda809fb3f1b8548491",
-      "format_sha256": "7a13423c713927d4dbe5867e38aa57bfb305d525b5f5bdda809fb3f1b8548491",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/sync/progress.go": {
-      "role": "index",
-      "sha256": "68b09976eaeddff588411894a7ec6329257fe317ed656b8a85bd82eb07410439",
-      "size": 2555,
-      "normalized_sha256": "8e47be732d4c17618e62942bcf0a65f567dc163c7d5e7218c60b464a9ced7bb7",
-      "format_sha256": "8e47be732d4c17618e62942bcf0a65f567dc163c7d5e7218c60b464a9ced7bb7",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/sync/scanner.go": {
-      "role": "index",
-      "sha256": "b3d84cc144325c1094e62db9c733c68d17aefe91f1abd4e630e0d281e0ae3bec",
-      "size": 1956,
-      "normalized_sha256": "bf18c403a83b449c3fd1b018ac0b911c056c94fa5194b79840132a43004c1374",
-      "format_sha256": "bf18c403a83b449c3fd1b018ac0b911c056c94fa5194b79840132a43004c1374",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/tray.go": {
-      "role": "index",
-      "sha256": "e49b566b3697ce60766969cc75ef0a328e6bcd188449c61085d24c7db96f325a",
-      "size": 1488,
-      "normalized_sha256": "35d7c3d15db77a3880fb57536b233a429fb315bf76b40a93dd5083efb0d3c51a",
-      "format_sha256": "35d7c3d15db77a3880fb57536b233a429fb315bf76b40a93dd5083efb0d3c51a",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/web/handlers.go": {
-      "role": "index",
-      "sha256": "27e0b95bde74f591a0d2e1699fbba403c84a3a2e6d6c4dfd2c89a42b23b70ad9",
-      "size": 16598,
-      "normalized_sha256": "9ce6354a3bfa39cf766ffe5a326d20483905f706f32549fb43b116a10b5a66cf",
-      "format_sha256": "cd0313e5b38972a4e6270c1c0e21eb53cefbee163a9af2a3de7da7bda50825a5",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/web/handlers_test.go": {
-      "role": "observe",
-      "sha256": "1537fd4533a31d315062567fa0e28da2c8ed1f9e400aad2a9c52bd278eb22660",
-      "size": 3289,
-      "normalized_sha256": "133b550f685b4a4de5ecac195a29fe18ec41806e934186f67aeecf8af5a0a97e",
-      "format_sha256": "ccb53923138b4e84dd3293c51b3dd92cc0c7f12a693f7a8a03577cd2709d25d8",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/web/server.go": {
-      "role": "index",
-      "sha256": "ceabfc1c828092332f047785185286fe37d9c21c2f99c16f4ed7688d215d79db",
-      "size": 2162,
-      "normalized_sha256": "45e40280a2d01aaf44b5efd30456a4803876f308a88bd710a1452d2277bf15d4",
-      "format_sha256": "45e40280a2d01aaf44b5efd30456a4803876f308a88bd710a1452d2277bf15d4",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/file-sync/web/static/app.js": {
-      "role": "index",
-      "sha256": "ae834e7dc253f0d093cfb65a40fac52d44153960ee365ea6ae34f4ba41d2ce0b",
-      "size": 13589,
-      "normalized_sha256": "42eadfa2a5741fcdcab8f2a0129fbcedcbaf275ccfb34caf5df2b8d529ac7c3a"
-    },
-    ".archived/go_projects/file-sync/web/static/index.html": {
-      "role": "index",
-      "sha256": "5cfef1061384c9c31707ba65ecbbff368ae23f753b92a69ac270a58f90bd61f4",
-      "size": 4480,
-      "normalized_sha256": "cf223f91094c03ba8f07524595a53092f862be29c312ffba64652f7e1ad3ac77"
-    },
-    ".archived/go_projects/file-sync/web/static/style.css": {
-      "role": "index",
-      "sha256": "80aef0ec30c6ac749a7984b94374efe9e4664e5c7b07e7dfbadfa249a38578fa",
-      "size": 7862,
-      "normalized_sha256": "e5bf284b4406c46e02744182922143b0dcbc09e4cd7965cd5c47a3f4c72bc6a6"
-    },
-    ".archived/go_projects/filesync/.gitignore": {
-      "role": "index",
-      "sha256": "3cae693c65f078fff651d93838e92d1ebea8b93435f1be95bf8cfabe2b54561c",
-      "size": 21,
-      "normalized_sha256": "3cae693c65f078fff651d93838e92d1ebea8b93435f1be95bf8cfabe2b54561c"
-    },
-    ".archived/go_projects/filesync/README.md": {
-      "role": "index",
-      "sha256": "f2a3617e5e150a03cc7a6c1b9ee992d8a92700f53ef0da90ffb68466b4ca922e",
-      "size": 2050,
-      "normalized_sha256": "f2a3617e5e150a03cc7a6c1b9ee992d8a92700f53ef0da90ffb68466b4ca922e"
-    },
-    ".archived/go_projects/filesync/cmd/filesync/main.go": {
-      "role": "index",
-      "sha256": "69dc37965ca750a50b3ae6d82b95c32cd980cc49953040dd6f5a8bcad3537709",
-      "size": 105,
-      "normalized_sha256": "69dc37965ca750a50b3ae6d82b95c32cd980cc49953040dd6f5a8bcad3537709",
-      "format_sha256": "69dc37965ca750a50b3ae6d82b95c32cd980cc49953040dd6f5a8bcad3537709",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/config/config.go": {
-      "role": "index",
-      "sha256": "bab11bec2ea0d23cdd30905b394841eca02a403f7ab4628ea8044c0ec638561e",
-      "size": 3221,
-      "normalized_sha256": "bab11bec2ea0d23cdd30905b394841eca02a403f7ab4628ea8044c0ec638561e",
-      "format_sha256": "bab11bec2ea0d23cdd30905b394841eca02a403f7ab4628ea8044c0ec638561e",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/config/config_test.go": {
-      "role": "observe",
-      "sha256": "ab387c5751d2d0464a06093f7c07e2d4f33dff57c98c857b55961781415a03af",
-      "size": 1182,
-      "normalized_sha256": "ab387c5751d2d0464a06093f7c07e2d4f33dff57c98c857b55961781415a03af",
-      "format_sha256": "ab387c5751d2d0464a06093f7c07e2d4f33dff57c98c857b55961781415a03af",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/engine/bench_test.go": {
-      "role": "observe",
-      "sha256": "aa1eb09fc53d252d1400b9f8bbf5838c912d52f215d545ca5747f46533dc56ff",
-      "size": 2197,
-      "normalized_sha256": "aa1eb09fc53d252d1400b9f8bbf5838c912d52f215d545ca5747f46533dc56ff",
-      "format_sha256": "aa1eb09fc53d252d1400b9f8bbf5838c912d52f215d545ca5747f46533dc56ff",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/engine/executor.go": {
-      "role": "index",
-      "sha256": "04934d067ef9c4e1eeb8bb6563a424ff05914bc84e35b7774b80c0a2224b472c",
-      "size": 2171,
-      "normalized_sha256": "04934d067ef9c4e1eeb8bb6563a424ff05914bc84e35b7774b80c0a2224b472c",
-      "format_sha256": "04934d067ef9c4e1eeb8bb6563a424ff05914bc84e35b7774b80c0a2224b472c",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/engine/hashcache.go": {
-      "role": "index",
-      "sha256": "a2939657e7bb463bd10a80ed7e2618ef8dc829f20c2e3a3a658cc9696bb151ab",
-      "size": 3979,
-      "normalized_sha256": "a2939657e7bb463bd10a80ed7e2618ef8dc829f20c2e3a3a658cc9696bb151ab",
-      "format_sha256": "a2939657e7bb463bd10a80ed7e2618ef8dc829f20c2e3a3a658cc9696bb151ab",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/engine/hashcache_test.go": {
-      "role": "observe",
-      "sha256": "7f00fbbb5ff48318ebc57f6ac9a577b303b04e3aa2909603a8cf71aa51d8515d",
-      "size": 3106,
-      "normalized_sha256": "7f00fbbb5ff48318ebc57f6ac9a577b303b04e3aa2909603a8cf71aa51d8515d",
-      "format_sha256": "7f00fbbb5ff48318ebc57f6ac9a577b303b04e3aa2909603a8cf71aa51d8515d",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/engine/pipeline.go": {
-      "role": "index",
-      "sha256": "067d7a00457c08310f090d3f3c40302e23d36539b7ff62038df2bb095f69b049",
-      "size": 10027,
-      "normalized_sha256": "067d7a00457c08310f090d3f3c40302e23d36539b7ff62038df2bb095f69b049",
-      "format_sha256": "067d7a00457c08310f090d3f3c40302e23d36539b7ff62038df2bb095f69b049",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/engine/pipeline_test.go": {
-      "role": "observe",
-      "sha256": "abc74f1318cbee9532994e8d83d054cbb53bffad0a8fb11e11a585b3295b91c4",
-      "size": 12947,
-      "normalized_sha256": "abc74f1318cbee9532994e8d83d054cbb53bffad0a8fb11e11a585b3295b91c4",
-      "format_sha256": "abc74f1318cbee9532994e8d83d054cbb53bffad0a8fb11e11a585b3295b91c4",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/engine/progress.go": {
-      "role": "index",
-      "sha256": "98be39645a684a8f4b275990331480fa4c43c982003e52a4eac156b19596de2e",
-      "size": 4536,
-      "normalized_sha256": "98be39645a684a8f4b275990331480fa4c43c982003e52a4eac156b19596de2e",
-      "format_sha256": "98be39645a684a8f4b275990331480fa4c43c982003e52a4eac156b19596de2e",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/engine/progress_test.go": {
-      "role": "observe",
-      "sha256": "6f7aadcb34cc62d3666da0ab063d99b9b992c1296262204ab6acdc572953e1fb",
-      "size": 1690,
-      "normalized_sha256": "6f7aadcb34cc62d3666da0ab063d99b9b992c1296262204ab6acdc572953e1fb",
-      "format_sha256": "6f7aadcb34cc62d3666da0ab063d99b9b992c1296262204ab6acdc572953e1fb",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/go.mod": {
-      "role": "index",
-      "sha256": "aec9d9dd8bf71745bc70c5e1ac113b9e75907d1e5b2890d770365ca9fab7444d",
-      "size": 113,
-      "normalized_sha256": "aec9d9dd8bf71745bc70c5e1ac113b9e75907d1e5b2890d770365ca9fab7444d"
-    },
-    ".archived/go_projects/filesync/go.sum": {
-      "role": "index",
-      "sha256": "a51087b238f853011257a40305d99eef822bb2e8212208d466cb60050357c104",
-      "size": 348,
-      "normalized_sha256": "a51087b238f853011257a40305d99eef822bb2e8212208d466cb60050357c104"
-    },
-    ".archived/go_projects/filesync/ignore/matcher.go": {
-      "role": "index",
-      "sha256": "2b39eb20fb5eb5f20acb4d99f7f86d204e9053303c96f57ac5713c4d758396b2",
-      "size": 1192,
-      "normalized_sha256": "2b39eb20fb5eb5f20acb4d99f7f86d204e9053303c96f57ac5713c4d758396b2",
-      "format_sha256": "2b39eb20fb5eb5f20acb4d99f7f86d204e9053303c96f57ac5713c4d758396b2",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/ignore/matcher_test.go": {
-      "role": "observe",
-      "sha256": "55a53b7f0ab2cf6121c1f3578aad8ed7ce3a1af341de515030ad6e3fb78f1232",
-      "size": 1115,
-      "normalized_sha256": "55a53b7f0ab2cf6121c1f3578aad8ed7ce3a1af341de515030ad6e3fb78f1232",
-      "format_sha256": "55a53b7f0ab2cf6121c1f3578aad8ed7ce3a1af341de515030ad6e3fb78f1232",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/internal/cli/commands.go": {
-      "role": "index",
-      "sha256": "16c0bc67b99b2a0ad75514891328623ef02a5a54a75a7428ea83d2f54fd53bda",
-      "size": 10671,
-      "normalized_sha256": "16c0bc67b99b2a0ad75514891328623ef02a5a54a75a7428ea83d2f54fd53bda",
-      "format_sha256": "16c0bc67b99b2a0ad75514891328623ef02a5a54a75a7428ea83d2f54fd53bda",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/internal/cli/output.go": {
-      "role": "index",
-      "sha256": "c97e86408c4e8a64bc2fff36213f9ca5bf20b69d7acba53f499296eb01786a54",
-      "size": 2009,
-      "normalized_sha256": "c97e86408c4e8a64bc2fff36213f9ca5bf20b69d7acba53f499296eb01786a54",
-      "format_sha256": "c97e86408c4e8a64bc2fff36213f9ca5bf20b69d7acba53f499296eb01786a54",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/logging/logging.go": {
-      "role": "index",
-      "sha256": "3a42e654e4d8bdd20742ccf26dcc25365edf3ffd0bd713dc8079db0cd2346b28",
-      "size": 2828,
-      "normalized_sha256": "3a42e654e4d8bdd20742ccf26dcc25365edf3ffd0bd713dc8079db0cd2346b28",
-      "format_sha256": "3a42e654e4d8bdd20742ccf26dcc25365edf3ffd0bd713dc8079db0cd2346b28",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/filesync/models/types.go": {
-      "role": "index",
-      "sha256": "b88f9db6dd44952d957685b6e270996e457f830974ee3597505c8d98201ede3b",
-      "size": 2973,
-      "normalized_sha256": "b88f9db6dd44952d957685b6e270996e457f830974ee3597505c8d98201ede3b",
-      "format_sha256": "b88f9db6dd44952d957685b6e270996e457f830974ee3597505c8d98201ede3b",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/mcp-cleanup/.gitignore": {
-      "role": "index",
-      "sha256": "d54e036c8a875cc1f9cd15a40b4db978c399220d2c35051976f8a09245b49cae",
-      "size": 62,
-      "normalized_sha256": "1c94baf0012490e354e70404e0f8159123fe7eaa17aa317d18da4c2cec7c6d96"
-    },
-    ".archived/go_projects/mcp-cleanup/README.md": {
-      "role": "index",
-      "sha256": "cefaad637f2c3a5c29ea4f74921ab25b2daf4c959d4535198bb3f6a933fe8648",
-      "size": 2263,
-      "normalized_sha256": "33c369800035d1e6fc8bcc9fc03266e5b9dbaf2d6609b28cb267809dab5e61ff"
-    },
-    ".archived/go_projects/mcp-cleanup/TODO.md": {
-      "role": "index",
-      "sha256": "d13078cb8495c628c76db16ac303b1f78142cd243b9330cdaaabccbcd7d6aff9",
-      "size": 270,
-      "normalized_sha256": "0991eb91314427d0010160c58f019f2e686c3ef1fc0145e2f7b4103e07c36b79"
-    },
-    ".archived/go_projects/mcp-cleanup/build.ps1": {
-      "role": "index",
-      "sha256": "db9fd9afb02030ec1114de6f2597f18c51bf599886cccea37507ec42f7586937",
-      "size": 359,
-      "normalized_sha256": "7a2aeb0e5a7e71687a26684d8f3e085be94acc3a2a63526317ec993b2e062460"
-    },
-    ".archived/go_projects/mcp-cleanup/go.mod": {
-      "role": "index",
-      "sha256": "8ef609ac3722a1df77a655bd3520d5803f2b2ad49ecc1f34ff6900b1fbd26770",
-      "size": 70,
-      "normalized_sha256": "8eb9bb4c3a53035c2890dbfb8ec9cb5d78685bd1bfbbd438b15c907e7844435a"
-    },
-    ".archived/go_projects/mcp-cleanup/go.sum": {
-      "role": "index",
-      "sha256": "f75231000844cc808235f184a3edcb7e2cfe2cb0dbf992274a5d6ecacbe707ec",
-      "size": 157,
-      "normalized_sha256": "c5601e71a91165dc42d7f1bc40d8a3f7801202f881b5f0d229aca2f01d5ab035"
-    },
-    ".archived/go_projects/mcp-cleanup/main.go": {
-      "role": "index",
-      "sha256": "9639eb582aa1d991c523b926cbe183ba0659c7306f7936bd9c5b1e3edb1843f6",
-      "size": 3239,
-      "normalized_sha256": "07abe631ac33f4dc9f92d44b172bcc8182b8d698fb184c91692438db3f612673",
-      "format_sha256": "07abe631ac33f4dc9f92d44b172bcc8182b8d698fb184c91692438db3f612673",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/mcp-cleanup/mcp-cleanup.md": {
-      "role": "index",
-      "sha256": "30339d1ef01ed45542dcee03159680c510165b00780e5b5e431368e69a19f84f",
-      "size": 1527,
-      "normalized_sha256": "0959a948cf08b8f987fd00f83486d195297ad6d02202013280ec68a91204220e"
-    },
-    ".archived/go_projects/mcp-cleanup/scripts/mcp-analyze.ps1": {
-      "role": "index",
-      "sha256": "0509bac91c0c65126aa7145bf7647fda013085f14f9fee0656a848e3cb406d94",
-      "size": 4713,
-      "normalized_sha256": "ba2d99c48b3bcde3904eff589a379461ed3ab0b53eab252e91b892eb9414994b"
-    },
-    ".archived/go_projects/mcp-cleanup/scripts/mcp-kill.ps1": {
-      "role": "index",
-      "sha256": "af95ce2efb7dedb4c8ceb53a6d1fecaf8f8abf79622053a7917f66510c945ecb",
-      "size": 2737,
-      "normalized_sha256": "68fd0fde8a020bfb95feb9a30ea6d65c4033fd9e4973fac9801f7b71c86e9f00"
-    },
-    ".archived/go_projects/mini-http-server-go/NOTES.md": {
-      "role": "index",
-      "sha256": "0b8d151ed561e73204a91a9996a819884c1899e79a70602be95b3563ff68aae7",
-      "size": 854,
-      "normalized_sha256": "887fbaa3e39a5c79228c1e06b6f6e509aeaabb41b5560510ac545a6538133ea3"
-    },
-    ".archived/go_projects/mini-http-server-go/README.md": {
-      "role": "index",
-      "sha256": "73431ba171affcbb26bbae3ba3afac3b0197a266abfc74dcc6d0e22c8ba2a600",
-      "size": 480,
-      "normalized_sha256": "8c099580e9971f04753a6c55b4c3374746fff1d70f19330c795b0b8428e00691"
-    },
-    ".archived/go_projects/mini-http-server-go/go.mod": {
-      "role": "index",
-      "sha256": "3e8155ff3108c45e61c4d51e71c19062f2631d81fe2db7a43ff4efc7f6e50c75",
-      "size": 38,
-      "normalized_sha256": "6b5d7a06b2925eb0254ff616877f59c6e2e4b17391234f8b5ccb122b70137f53"
-    },
-    ".archived/go_projects/mini-http-server-go/http/init.go": {
-      "role": "index",
-      "sha256": "9ca53f818217a6dd43c71b8bb074d6205a41f1264e1e3d81ffbb95e5542b14e3",
-      "size": 2593,
-      "normalized_sha256": "b29dfd30e6254c3bb1d5b16061da419d242444e13f8730d9b0c2bc5f8d60d969",
-      "format_sha256": "2e8cfeb7de79d1ed7cfd7e4c259460da9c1daa7374cca393f3978da2afdf3ce3",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/mini-http-server-go/main.go": {
-      "role": "index",
-      "sha256": "27028551e5dc0b250a0a377f73d59f29a34ed3a025fe98ec8d0cb9d8aba446a3",
-      "size": 754,
-      "normalized_sha256": "3b717b9a5dfdd1e02e6e5be552361140807ff8fe0602a846c3c2e25f1a63ed92",
-      "format_sha256": "3b717b9a5dfdd1e02e6e5be552361140807ff8fe0602a846c3c2e25f1a63ed92",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/mini-http-server-go/server.go": {
-      "role": "index",
-      "sha256": "068fd18fef6aa665fbf559d81ca62da597fdaa43a2c1a5474687839885ccd965",
-      "size": 2073,
-      "normalized_sha256": "60ec4d5dad298134e20a844d4d555292a7476d77d9f2c0b7efdeabada187475d",
-      "format_sha256": "60ec4d5dad298134e20a844d4d555292a7476d77d9f2c0b7efdeabada187475d",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/projstat/.gitignore": {
-      "role": "index",
-      "sha256": "a2d39bd256a118c76ae6cae1a40c40f421a466b03d81bb9513240aee219db2e0",
-      "size": 21,
-      "normalized_sha256": "7948c047f7b64bf1740fc43bc76db4626f1e4f91d494f820b401c336ac44e115"
-    },
-    ".archived/go_projects/projstat/README.md": {
-      "role": "index",
-      "sha256": "6adbe0a00a6917ca2400b0df53b267f386ec374c3488803f9d6d8816726c811d",
-      "size": 3930,
-      "normalized_sha256": "94be70741b936ba0f3bc437280010468978f0401131530c4aca4e4bba2c95c87"
-    },
-    ".archived/go_projects/projstat/cli.go": {
-      "role": "index",
-      "sha256": "f4ece6282166baccdd20f3e34b23c87697f1e93aa098658b15cbb2a3cfcd4e68",
-      "size": 9036,
-      "normalized_sha256": "433940a1264680f041cbc0091eaa9a5afb6de4bdb2bf6b329c6d503acd287b0a",
-      "format_sha256": "433940a1264680f041cbc0091eaa9a5afb6de4bdb2bf6b329c6d503acd287b0a",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/projstat/go.mod": {
-      "role": "index",
-      "sha256": "4c28433a1e394364dfd32cb694f6efb328f5469988a462a160e26c4a345325ef",
-      "size": 110,
-      "normalized_sha256": "aae0a8594f7f94367ed4e38b0c2ed011ac4b0614ca335b38897983496a890690"
-    },
-    ".archived/go_projects/projstat/go.sum": {
-      "role": "index",
-      "sha256": "196770f44185292e484553de7a84b8ef7f5b273186620883eae2e0ac71912d19",
-      "size": 330,
-      "normalized_sha256": "cfdb4ae4f69d2862a3fab5d13b993d66795d967892c08b1719eeed71fab095b3"
-    },
-    ".archived/go_projects/projstat/internal/meta/meta.go": {
-      "role": "index",
-      "sha256": "bd12ce5d4c105c5522795bdc43d8b92c981f1a848e45d2d3e08e6792ce8dfbac",
-      "size": 4480,
-      "normalized_sha256": "1dd88c91dcfe5e272805fbcee4d4f7abca177c299dc25fda27f567d637a8f5ce",
-      "format_sha256": "1dd88c91dcfe5e272805fbcee4d4f7abca177c299dc25fda27f567d637a8f5ce",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/projstat/internal/meta/meta_test.go": {
-      "role": "observe",
-      "sha256": "34d4e75fc7c074117f2ba157cc74d57abead067b95fb0d30213d9789acb2a745",
-      "size": 4227,
-      "normalized_sha256": "0aef592c2506898ddafa5dd51a85ba4409cfad8d7687b8dff0cdddd4b1dc4d7b",
-      "format_sha256": "0aef592c2506898ddafa5dd51a85ba4409cfad8d7687b8dff0cdddd4b1dc4d7b",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/projstat/internal/report/json.go": {
-      "role": "index",
-      "sha256": "1a40658f4ae5028a3613d0935b0db88ed8c0704af971945598d25dfb5e9bc64f",
-      "size": 1451,
-      "normalized_sha256": "71812c5ba8388f440bea3a017e1a577147560b442556b3ae14c75af30cb88f7a",
-      "format_sha256": "71812c5ba8388f440bea3a017e1a577147560b442556b3ae14c75af30cb88f7a",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/projstat/internal/report/render.go": {
-      "role": "index",
-      "sha256": "c3140a2b80b82838cee318d11cdd7caa208a136dbf768eca1aa63199155c47ee",
-      "size": 8479,
-      "normalized_sha256": "369e92a5c3b17bf8cc6442399b4f9bce0952e6f0c2d9e1f47c6d2278921b9ce8",
-      "format_sha256": "369e92a5c3b17bf8cc6442399b4f9bce0952e6f0c2d9e1f47c6d2278921b9ce8",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/projstat/internal/scan/console_other.go": {
-      "role": "index",
-      "sha256": "47f4229fbeda26bf19535e26c2eb890b44b49385f52fdde9ee40f8148bfb1772",
-      "size": 138,
-      "normalized_sha256": "fcb1cec8dc76be68c8f364bafb6e97560c283a33ce97f71853ab8883d675df0b",
-      "format_sha256": "fcb1cec8dc76be68c8f364bafb6e97560c283a33ce97f71853ab8883d675df0b",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/projstat/internal/scan/console_windows.go": {
-      "role": "index",
-      "sha256": "58162a556dee29dc966382d31de1eea9d1ff6fafd6ccbdf04ffe6405fcac827d",
-      "size": 377,
-      "normalized_sha256": "3a14cf724ab97e99d3fae2956c4c79e1b473c76fbbacef0dff455ff62e4b7d7b",
-      "format_sha256": "3a14cf724ab97e99d3fae2956c4c79e1b473c76fbbacef0dff455ff62e4b7d7b",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/projstat/internal/scan/scan.go": {
-      "role": "index",
-      "sha256": "3c369936acf0ac21d4e8e0c9e86d96f968086f2b2bb61be0f4431e552c6bfecc",
-      "size": 4628,
-      "normalized_sha256": "74b5fee770a50f8129cc214e957fdaf2312aff03787196f25b824a4e0bd82501",
-      "format_sha256": "74b5fee770a50f8129cc214e957fdaf2312aff03787196f25b824a4e0bd82501",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/projstat/main.go": {
-      "role": "index",
-      "sha256": "680312442ec10e6947f7d865a9461d614b0b5652e962fa47df77ce9a266e2930",
-      "size": 8979,
-      "normalized_sha256": "dea61a269f4a2191599746da364d5130cb93578a834c700cba1fad594f3c920c",
-      "format_sha256": "dea61a269f4a2191599746da364d5130cb93578a834c700cba1fad594f3c920c",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/taskmon/NOTES.md": {
-      "role": "index",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    ".archived/go_projects/taskmon/README.md": {
-      "role": "index",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    ".archived/go_projects/taskmon/SPEC.md": {
-      "role": "index",
-      "sha256": "2840a5fac9ea0048801a265bce4af33a4e127a81ed12fefe2a91789dd0dd453b",
-      "size": 33411,
-      "normalized_sha256": "5ac48f6f0fec3facffcea353ef3e0d3a0a4c78ec0bab72c3e2329cde84716abd"
-    },
-    ".archived/go_projects/taskmon/go.mod": {
-      "role": "index",
-      "sha256": "255e61e133812079b36de43a2019e14fdaa139285f2cc7a20041b98a3ca5c278",
-      "size": 29,
-      "normalized_sha256": "2f8880a26de8515d7b5dd90848876662754fa5d99460a10dd22e12eb5b91f525"
-    },
-    ".archived/go_projects/taskmon/main.go": {
-      "role": "index",
-      "sha256": "cf4955e7dc7718b09971f2b44b53cd7945c510eca73a674ad85dc75192f934e2",
-      "size": 77,
-      "normalized_sha256": "248f8ab3fc4d8c7044c50a5c90404230fb623dbaa6c6d6862aa0623e6c4c8e26",
-      "format_sha256": "248f8ab3fc4d8c7044c50a5c90404230fb623dbaa6c6d6862aa0623e6c4c8e26",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/zread-tray/.gitignore": {
-      "role": "index",
-      "sha256": "4d718b1d5385e49a1fec95c63940366c83346384636164e08b5d73f821da8fd9",
-      "size": 16,
-      "normalized_sha256": "deee66eca3765ccbc073107d17c3883f6b358564a44a774553bcf7d6c2a54894"
-    },
-    ".archived/go_projects/zread-tray/README.md": {
-      "role": "index",
-      "sha256": "9705f85b2752a9db2fd5472658494c3db9c34f5f255e4cf31e3995e24bbead18",
-      "size": 365,
-      "normalized_sha256": "1e1a6999079a4cb7319fb8c825dd2d3f7807579e3b6b93f42320503254a848d4"
-    },
-    ".archived/go_projects/zread-tray/alert_other.go": {
-      "role": "index",
-      "sha256": "3d49e468da6dea930133cb5c504907162afc4437885b63b801bae17ed667cfb0",
-      "size": 161,
-      "normalized_sha256": "8deb3412844e2a3e3c0399658f0ea2df4b60713d0f4a0ea77696ada81ddd4f3e",
-      "format_sha256": "8deb3412844e2a3e3c0399658f0ea2df4b60713d0f4a0ea77696ada81ddd4f3e",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/zread-tray/alert_windows.go": {
-      "role": "index",
-      "sha256": "4535eec0c5117a423d865b8ae1c55b2d2a111e8f542b13f1938485207c5ed7e0",
-      "size": 298,
-      "normalized_sha256": "8628331f462dec1f784469a67adcd4b4c7dd9f4b02c1db7e1e87eb6ed94bbc7b",
-      "format_sha256": "8628331f462dec1f784469a67adcd4b4c7dd9f4b02c1db7e1e87eb6ed94bbc7b",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/zread-tray/app.go": {
-      "role": "index",
-      "sha256": "c625d3800e4736486c55247475f431ecb6301d3b5bf971f9b96f1328e0ee2e40",
-      "size": 3320,
-      "normalized_sha256": "61e57a85cc16c06568a74a01b53a02a2ca4389681cd07abe2e0f431e03c7f42c",
-      "format_sha256": "61e57a85cc16c06568a74a01b53a02a2ca4389681cd07abe2e0f431e03c7f42c",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/zread-tray/assets/icon.ico": {
-      "role": "index",
-      "sha256": "8052968b99d2bc43e908663732246ffd74423673163a9b7b8925e7fd24d1c653",
-      "size": 766
-    },
-    ".archived/go_projects/zread-tray/build.ps1": {
-      "role": "index",
-      "sha256": "bfe28bfca3d2058ce8495c553eabe9a9eb282405b650cec03294cdef4ca4c4ee",
-      "size": 71,
-      "normalized_sha256": "4797c4df399bc915b90549eeef448cf7608a6eb25de1f8d8570eb55409270bdd"
-    },
-    ".archived/go_projects/zread-tray/config.go": {
-      "role": "index",
-      "sha256": "2ea9af83093ce17119c49f32627b7f02be8969d12982c357950025ed280fa155",
-      "size": 873,
-      "normalized_sha256": "762e2d75c250dd324882af8711d6787a5b4aa998ce8cd59bab1949c0b22e715a",
-      "format_sha256": "762e2d75c250dd324882af8711d6787a5b4aa998ce8cd59bab1949c0b22e715a",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/zread-tray/go.mod": {
-      "role": "index",
-      "sha256": "4d0bd74530743d3f028d65b05d4c0c098751cf22e183675f1ce53e00fb8a8b3c",
-      "size": 712,
-      "normalized_sha256": "b5ee3b90f7a9552100b4a05e7871a45b9ccd435d52e853f6f3e3fff1b2e791ce"
-    },
-    ".archived/go_projects/zread-tray/go.sum": {
-      "role": "index",
-      "sha256": "8c80d48e7a8a7c4d60727163f42f7ddbfc298a4c01470e9305f6150dd492c215",
-      "size": 3279,
-      "normalized_sha256": "8bb254b43e35b4c304f16d10ae5a6146f036cb1a783c5db21922d45c94d77dc9"
-    },
-    ".archived/go_projects/zread-tray/main.go": {
-      "role": "index",
-      "sha256": "50ccd1f077b1277a6eb980f88db018c601c7f2fb8b76747aa563edadb09ab8ef",
-      "size": 2111,
-      "normalized_sha256": "c67182cc547953e6c3e78666d285541e29a301238cb8ff62c37267f3ccda7adf",
-      "format_sha256": "c67182cc547953e6c3e78666d285541e29a301238cb8ff62c37267f3ccda7adf",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/zread-tray/pickfolder_other.go": {
-      "role": "index",
-      "sha256": "106052b94d858079937d544d2b5681fc9f2b053e4db8dc35226753efa4d8173f",
-      "size": 213,
-      "normalized_sha256": "a2938131507c510cbf0c5ae7579e0c941c340c6b2f7263df53b419a9bbc31139",
-      "format_sha256": "a2938131507c510cbf0c5ae7579e0c941c340c6b2f7263df53b419a9bbc31139",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/zread-tray/pickfolder_windows.go": {
-      "role": "index",
-      "sha256": "959bec6f8f996437d346a91378ba78bedb459e7f92b1a5a562d42a81f7d5aa62",
-      "size": 7476,
-      "normalized_sha256": "9971e3227ee777e61d50a023737efe0587a2dbd31889b6c1c416082bc43becee",
-      "format_sha256": "9971e3227ee777e61d50a023737efe0587a2dbd31889b6c1c416082bc43becee",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/zread-tray/tray.go": {
-      "role": "index",
-      "sha256": "82633a3081dd67cb80c0e0aac32b1f13e2befc402a1d7e24e0c145ca5e1239c4",
-      "size": 2035,
-      "normalized_sha256": "9848be934699cbfe7b5f21321146ecd1ed871b2b998ec3edabebabf96b929292",
-      "format_sha256": "9848be934699cbfe7b5f21321146ecd1ed871b2b998ec3edabebabf96b929292",
-      "format_kind": "gofmt"
-    },
-    ".archived/go_projects/zread-tray/zread-tray.md": {
-      "role": "index",
-      "sha256": "628193f4381b406a7f3c6160c4d989f08e44f986d4d25f926384fd42bd030d11",
-      "size": 849,
-      "normalized_sha256": "ad7c345dcc557a716dc2488110c0710fffa7ee426fa6d5f87aaeecf14df53006"
-    },
-    ".archived/python_projects/demo-api/.env.example": {
-      "role": "index",
-      "sha256": "cdad40d0c642ff0bea2f3d0a22db470c6429bf794534acc59ce766f05106fbeb",
-      "size": 117,
-      "normalized_sha256": "4ad08657a0f1189e536510c0f91a2e011bebd1655a4b17082149b12762c87433"
-    },
-    ".archived/python_projects/demo-api/.gitignore": {
-      "role": "index",
-      "sha256": "5e7decb7239c834ff100f83abdb29d3f4cbdefd3356f7c9592a6a17bd2e384c8",
-      "size": 39,
-      "normalized_sha256": "4d258956ee36c571881b0077374de8291a51519d558ba12816907c4e9465cadb"
-    },
-    ".archived/python_projects/demo-api/.python-version": {
-      "role": "index",
-      "sha256": "8dfda54ba2f66ab3a8ebab460f4338bbeea1fb1e0f85ce06fe3530aa3c64679b",
-      "size": 6,
-      "normalized_sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d"
-    },
-    ".archived/python_projects/demo-api/README.md": {
-      "role": "index",
-      "sha256": "4dffbd09ad881df4ab0757e0d86804e8419e7ce4e39e46081974e2db6a554482",
-      "size": 1248,
-      "normalized_sha256": "44d85fd8cd3d8eeb8748e2833f8517ce288a7512354f3383bda0fe0796618f64"
-    },
-    ".archived/python_projects/demo-api/alembic.ini": {
-      "role": "index",
-      "sha256": "8a70641ffa66bb1c228e16a62d8b7a2111810888819c9c662c17ea72e2d70b49",
-      "size": 5157,
-      "normalized_sha256": "1de444e5202747246718c3f80264c8fe64eabc697267869670771edb140050fd"
-    },
-    ".archived/python_projects/demo-api/alembic/README": {
-      "role": "index",
-      "sha256": "31595cf53626af9ed16e15c44fa43183209cc163fbc3ebcb904b22ac436a8884",
-      "size": 38,
-      "normalized_sha256": "31595cf53626af9ed16e15c44fa43183209cc163fbc3ebcb904b22ac436a8884"
-    },
-    ".archived/python_projects/demo-api/alembic/env.py": {
-      "role": "index",
-      "sha256": "3647424083704a20f8f9e088da7177b9d3c67c18393dbc9083d1d45021b67d0c",
-      "size": 2120,
-      "normalized_sha256": "ff2f5731f98f8e0c854d32585494e91c2b76363cac9e90ab5fa7a96839f3147d"
-    },
-    ".archived/python_projects/demo-api/alembic/script.py.mako": {
-      "role": "index",
-      "sha256": "a60ec52443699fdc2aec93254f06dfdcdfb7f9a5fc7432b7a7e12b9c253713db",
-      "size": 732,
-      "normalized_sha256": "d38920781b4d31ae1c0a71bc09f41c2ade8feab9e5a087e3f30cb4bbf0c1c9d3"
-    },
-    ".archived/python_projects/demo-api/alembic/versions/2ba3f6d8e988_create_demo_items.py": {
-      "role": "index",
-      "sha256": "ee3088eb5590b0127ad18a32f2d9c175258badb2888ffe1f80fb04ed7e93d81a",
-      "size": 1063,
-      "normalized_sha256": "78c07eabba74c6ade4cdfa92a8602ba8d6138213c1bdeab938ac6505c0f590fc"
-    },
-    ".archived/python_projects/demo-api/pyproject.toml": {
-      "role": "index",
-      "sha256": "d5a06302138d80da4d51505c220e0e008fce9508b21d0f684bc70f9d173f590c",
-      "size": 568,
-      "normalized_sha256": "baedeef4c39f6fe2c9947c278f2d06292471e6ad95fa7d63e50a553d3940ed37"
-    },
-    ".archived/python_projects/demo-api/run.py": {
-      "role": "index",
-      "sha256": "7757ae72a0911990fce88d6a6d48aabb24f5c77847bd97180b47b2e380a100b9",
-      "size": 311,
-      "normalized_sha256": "3e9703669b140ea8b21ab9e13bc4da15c78f8a15253fe6d1abbbe8a6483c1f1d"
-    },
-    ".archived/python_projects/demo-api/src/demo_api/__init__.py": {
-      "role": "index",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    ".archived/python_projects/demo-api/src/demo_api/config.py": {
-      "role": "index",
-      "sha256": "134fe4da6eef93c77e1dec167cef7616902e3846c6c16d2d2dbf3868578c9821",
-      "size": 523,
-      "normalized_sha256": "1a9dca04e7ca222094625349b7626537d7882746cb67eeefe9e4aa184aa2150f"
-    },
-    ".archived/python_projects/demo-api/src/demo_api/db.py": {
-      "role": "index",
-      "sha256": "3d2b66dc13fd9be50d4e468374a868b81a03b5da6befa54dc3e5c889453b8055",
-      "size": 668,
-      "normalized_sha256": "f4da74b8a927c58fb70b22b741a4f1e551ac384e524562e0b42a392dfb6e7eb0"
-    },
-    ".archived/python_projects/demo-api/src/demo_api/logging.py": {
-      "role": "index",
-      "sha256": "86c1a187948f2ae37bf3c7d8e9c454565b302ff4c648eb2006788b35b9d3e604",
-      "size": 779,
-      "normalized_sha256": "e7147e93164c3af32518099da8a4b24e6b84a8847b7e9b6a5356d1554879b95b"
-    },
-    ".archived/python_projects/demo-api/src/demo_api/main.py": {
-      "role": "index",
-      "sha256": "31244aa5e9111219d68dc529b1d21b391a06a4b525d355c2d9b2e99574c9658f",
-      "size": 1662,
-      "normalized_sha256": "700e83238ee815a5c157cedb0106a5c3d77ca7899ebe138b589de2da5fb50fff"
-    },
-    ".archived/python_projects/demo-api/src/demo_api/models.py": {
-      "role": "index",
-      "sha256": "d0e4e186b92129059ce90faa788db37820a4df529233cabda6c83f2cbfa7d39b",
-      "size": 611,
-      "normalized_sha256": "442a8bc002f786fd40e5b117f2f71a88d1ffebd738b2f8303bdf838adaf775d5"
-    },
-    ".archived/python_projects/demo-api/src/demo_api/routers/__init__.py": {
-      "role": "index",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    ".archived/python_projects/demo-api/src/demo_api/routers/items.py": {
-      "role": "index",
-      "sha256": "e500f5e7e89d4fd571484c340a254034437b6a1a1c21af23336a2439c95c4767",
-      "size": 2008,
-      "normalized_sha256": "d78ba44280d282982468177da51a6597943717c398c60c366ee5a4e18c0e27f4"
-    },
-    ".archived/python_projects/demo-api/src/demo_api/schemas.py": {
-      "role": "index",
-      "sha256": "53c59692702f4259b657d2e189353a6f256fecdda0d0e7c0eb4be0834bd205aa",
-      "size": 402,
-      "normalized_sha256": "faa524906c3eea43c63dd43d8ee3024bb90253f3909f9cf061dfd53118dd9455"
-    },
-    ".archived/python_projects/demo-api/uv.lock": {
-      "role": "index",
-      "sha256": "3265d30efe01fb1ebaef0508ab3af0cb6910dc84f69c6b6de7f381177451315e",
-      "size": 174427,
-      "normalized_sha256": "18e7d66bf907421c278399a2d248e6774a97a65326b0ed1c8bc9e43e57d017ec"
-    },
-    ".archived/python_projects/download_vsix/.gitignore": {
-      "role": "index",
-      "sha256": "5f1247c405f155b3934e1aa3b4661e959c1867a4f2c79c9a27f3ec0d49ad9bb3",
-      "size": 1628,
-      "normalized_sha256": "db844de56ca42505fa7c6c60a8d6646b72ff0b6d5484f986e1d0c51cb31f685c"
-    },
-    ".archived/python_projects/download_vsix/README.md": {
-      "role": "index",
-      "sha256": "0e044ec257ce25a535988d05ba2e0311529ba51ed9c391b1def61ca5be1f9b9e",
-      "size": 5791,
-      "normalized_sha256": "22e2cd5adc0e3662b7ddfc797c2c0e0acaa907298d77e8600a95da4f67e7ba28"
-    },
-    ".archived/python_projects/download_vsix/plans/architecture.md": {
-      "role": "index",
-      "sha256": "252b6a75a74901e9c437fb484a0770e1895237b161c96190c43ab5aeb6e13863",
-      "size": 5050,
-      "normalized_sha256": "995bbc6943b5f4a959f5b40072ab2b3e2523f3f7dc160c95a9840069706d2b3e"
-    },
-    ".archived/python_projects/download_vsix/pyproject.toml": {
-      "role": "index",
-      "sha256": "37d48241daa8f8287a5bf60e533e7e8e9337c9358010e7419f50d403368899e7",
-      "size": 951,
-      "normalized_sha256": "2d5ada73d1ce56fbbd3b4cf74c5478a25e735d76d06d7edf33915ceea6a73463"
-    },
-    ".archived/python_projects/download_vsix/src/download_vsix/__init__.py": {
-      "role": "index",
-      "sha256": "91a92559ca79fceaeb8b338c0660a1ded6de53e9d9f05138996344bec9b57b85",
-      "size": 375,
-      "normalized_sha256": "22176ff5f950d5339a682c8c2421ece107e0c21ebf412b3bb96035d73970cea5"
-    },
-    ".archived/python_projects/download_vsix/src/download_vsix/cli.py": {
-      "role": "index",
-      "sha256": "2804c39602210121cf312c1aa81b6f2a031fcbcc7a21e76dc86d08618ca72c9b",
-      "size": 7848,
-      "normalized_sha256": "21bc696d6bd9da8654bfedc7518f2c1abb3490e5b4d00b60ec46ffbcb18e2737"
-    },
-    ".archived/python_projects/download_vsix/src/download_vsix/downloader.py": {
-      "role": "index",
-      "sha256": "898c664198f90fa2f62057e44c662fecb04df3d750a50f2d90eaab29b13b8fbb",
-      "size": 11527,
-      "normalized_sha256": "5f26d0832a967dfc67c496f50be2eb5b3e7229f96ecad8a88f39bb4576ab7574"
-    },
-    ".archived/python_projects/download_vsix/src/download_vsix/exceptions.py": {
-      "role": "index",
-      "sha256": "46bc136b026a971aad8a56b24f166442afff894b4bd770077c1b9700d1931700",
-      "size": 838,
-      "normalized_sha256": "c47b911a52dd5173b6816fd924ffc0751cabb513e7b624a049d9ed458b65ae39"
-    },
-    ".archived/python_projects/download_vsix/src/download_vsix/parser.py": {
-      "role": "index",
-      "sha256": "7e1c21c4b31ffc41ad37f8af4c438cdaa3f3ac18af700b156c0ba18e2111aa3d",
-      "size": 7088,
-      "normalized_sha256": "21d12cf1b611e15d8039c912cb4c8539cecf77dead094969b0fa92635002929a"
-    },
-    ".archived/python_projects/download_vsix/src/download_vsix/utils.py": {
-      "role": "index",
-      "sha256": "8774e2db1cf65a3598575a9f47f1a49792203f42516d7e928ae04defe76d1a3b",
-      "size": 4511,
-      "normalized_sha256": "fbb2e8fdbf08c2d9f69012a26823547080ba968b4df0577af6d822ec502654d0"
-    },
-    ".archived/python_projects/download_vsix/tests/__init__.py": {
-      "role": "observe",
-      "sha256": "d6143bc2c1578099bf041a1b25a324fb4aab4f238fc28e43b46a7667a86b667a",
-      "size": 38,
-      "normalized_sha256": "061589665771a829041f245e059459cb3f9688b239ec1c6e6a1c4a0d50fb8d92"
-    },
-    ".archived/python_projects/download_vsix/tests/test_utils.py": {
-      "role": "observe",
-      "sha256": "bb1b43fab04c17198b921a2d0381d61e43a9945ca64e829c28c1174b14e0dc10",
-      "size": 5334,
-      "normalized_sha256": "86b5046d56b11d7c4a6393aeffba20ede3aaad97159955604d4da7585cf04e55"
-    },
-    ".archived/python_projects/download_vsix/uv.lock": {
-      "role": "index",
-      "sha256": "8229993f2de25b770ae07243b8e602b95ddd518813d14f5b0fd29c7bdb4cd302",
-      "size": 104277,
-      "normalized_sha256": "8229993f2de25b770ae07243b8e602b95ddd518813d14f5b0fd29c7bdb4cd302"
-    },
-    ".archived/python_projects/file-sync-py/.python-version": {
-      "role": "index",
-      "sha256": "8dfda54ba2f66ab3a8ebab460f4338bbeea1fb1e0f85ce06fe3530aa3c64679b",
-      "size": 6,
-      "normalized_sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d"
-    },
-    ".archived/python_projects/file-sync-py/README.md": {
-      "role": "index",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    ".archived/python_projects/file-sync-py/pyproject.toml": {
-      "role": "index",
-      "sha256": "bf2959f29b221ece9eed926c4a8ef8ee7837b90287b4d0a78a1ca7210c1b3d76",
-      "size": 383,
-      "normalized_sha256": "6076623ddbf38be61e5071b2b21e8b6f5bef576a5580e561a09f179a8e09b83e"
-    },
-    ".archived/python_projects/file-sync-py/src/file_sync_py/__init__.py": {
-      "role": "index",
-      "sha256": "c4f32201b7e3fddb4296d4b8e4bdead3525e20e33e199d71b29e891c48e649f1",
-      "size": 651,
-      "normalized_sha256": "de349abb1c91010b19879777086f762f61ec298f1ae94cd9bf208a85484c0ee5"
-    },
-    ".archived/python_projects/file-sync-py/uv.lock": {
-      "role": "index",
-      "sha256": "73b500ee3dd874279083483292fb2cb127f9d4019cd72daf6579f8070879fec3",
-      "size": 141,
-      "normalized_sha256": "6368f9879b3be6ef3a62464a083c017b6e441e96f1e4ec2fd7256192346fdd4d"
-    },
-    ".archived/python_projects/flet-android-lab/.gitignore": {
-      "role": "index",
-      "sha256": "8fd796fd3c61f1fc8067da909394451c8259118389945d27539a615eeb9f2c85",
-      "size": 51,
-      "normalized_sha256": "1a547348711faa9426358bb1812b8aee680ad3415ffb9509bf68945ebb69a48e"
-    },
-    ".archived/python_projects/flet-android-lab/.python-version": {
-      "role": "index",
-      "sha256": "8dfda54ba2f66ab3a8ebab460f4338bbeea1fb1e0f85ce06fe3530aa3c64679b",
-      "size": 6,
-      "normalized_sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/current": {
-      "role": "index",
-      "sha256": "d862e926698de14adb11010ba2e848bb7cba1e08da657259fe69a357d3b2ff91",
-      "size": 26,
-      "normalized_sha256": "d862e926698de14adb11010ba2e848bb7cba1e08da657259fe69a357d3b2ff91"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/1-xiang-mu-zong-lan-yong-chun-python-flet-kai-fa-android-ying-yong.md": {
-      "role": "index",
-      "sha256": "52294e8a115eb634e74686be65601ea523c36ad5bdceaaaa84f1b48d6b0a5674",
-      "size": 11749,
-      "normalized_sha256": "d7ec65f2e6ef69856cd2d39fbf800addcf45448ec84320b7aab3dd3c8f9d9022"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/10-biao-dan-xiao-yan-yu-yong-hu-fan-kui-ming-cheng-fei-kong-fei-fa-ri-qi-yu-snackbar.md": {
-      "role": "index",
-      "sha256": "900aa2f94608348af39e295a22547b7282c5101ec6ef88a5d3f91a2ab62f1ddd",
-      "size": 11201,
-      "normalized_sha256": "3e1ff7700f7d372d8aba74c9ff85b00e489a46bc51d485fcc2d5a8ce8bd531e0"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/11-bi-bao-shi-zhuang-tai-guan-li-refresh-qu-dong-de-zheng-ti-shua-xin-mo-shi.md": {
-      "role": "index",
-      "sha256": "a157d9375745294e2ee56d106e791231bceef6a369a3b3883de97b5f1549bf21",
-      "size": 13206,
-      "normalized_sha256": "8f3bf09fb953eed0752e56565fbe061bef2c51d1a83d1d210a45af0d6bc7565d"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/12-tian-shu-ji-suan-yu-wen-an-sheng-cheng-days_until-yu-label.md": {
-      "role": "index",
-      "sha256": "fdaae51a427c87e0cfc8716bb5c36e4f7e074525c15637f61c175c7fc655e71d",
-      "size": 11341,
-      "normalized_sha256": "6d8f2b6bdfba0b68c1cb7c2d96f0d3630f48b124399e963f2e3663ecbb9c6827"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/13-pai-xu-she-ji-dao-ji-shi-you-xian-de-yuan-zu-pai-xu-jian.md": {
-      "role": "index",
-      "sha256": "7150581ddcfde3747dcfb1d19d6c847323ad03e2da539819e7311998d3078507",
-      "size": 10108,
-      "normalized_sha256": "e4db2de3e868524a0168c51a707edbcd5c2e430f8a65207184b69e974ad33d77"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/14-ri-qi-bian-jie-chang-jing-dang-tian-kua-nian-yu-2-yue-29-ri-de-chu-li.md": {
-      "role": "index",
-      "sha256": "d59b0f2e6b2fc5a49670b5ebd538c4dfd4fa70b0b1ac5b3b413d8dbfbbb19640",
-      "size": 14050,
-      "normalized_sha256": "cf97e1b47b84255421b104e24fd002932a9e53046852a5bcd03f4fe9eb5237a5"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/15-sqlite-luo-sql-crud-can-shu-hua-cha-xun-yu-lian-jie-guan-li.md": {
-      "role": "index",
-      "sha256": "3cf8a22b211cc39a21f5a31a59a7f1f84ef2a4d19031c73a7a948100e9956657",
-      "size": 11687,
-      "normalized_sha256": "09ebe05b6bdec81a21b1b69e523c82116d2b3088656c6749317010613471fc32"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/16-shu-ju-ku-lu-jing-san-ji-ce-lue-xi-tong-mu-lu-ben-di-hui-tui-yu-anniversary_db-huan-jing-bian-liang.md": {
-      "role": "index",
-      "sha256": "4524f9d7a5f9f5caf14e7ea2bddf6d5eddeb80a430bb1d1decce2758a19b85a5",
-      "size": 11330,
-      "normalized_sha256": "92ed6bf43b4c6c1172a11cbfb7a4efcf4d35299daca590a59619764ce71631b1"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/17-biao-jie-gou-she-ji-iso-ri-qi-zi-fu-chuan-de-zi-dian-xu-pai-xu-you-shi.md": {
-      "role": "index",
-      "sha256": "f355d60614d16e43644b313940dab910e414cf3b53084411eba82b98eeccfdae",
-      "size": 13235,
-      "normalized_sha256": "2ca63f039a56534274f21f7a23673cc6941f9579574a7d82f9dd874390a19c07"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/18-pi-ku-zi-yu-ji-zhi-sun-pi-jian-ce-gai-ming-bei-fen-yu-zi-dong-zhong-jian.md": {
-      "role": "index",
-      "sha256": "718459f8198a66094ee7780d893bcb04cd38e26961fc9b2da7186a00a86a5bd8",
-      "size": 13265,
-      "normalized_sha256": "755035e9b741b73352171a67140486f22a942f281a071eb87ad202edaf6e39cc"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/19-structlog-pei-zhi-xiang-jie-chu-li-qi-lian-console-cai-se-yu-json-xuan-ran.md": {
-      "role": "index",
-      "sha256": "07fc6b16e3189e5fcde07a9771a107f9c12a3967cb91ca9a4565b2a2a008e1b3",
-      "size": 11826,
-      "normalized_sha256": "d21aced1f0343e24762c2b56e359977a59fae8a4eb979a4acceab8ad9cb91dd1"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/2-kuai-su-kai-shi-an-zhuang-uv-bing-yun-xing-ji-nian-ri-app.md": {
-      "role": "index",
-      "sha256": "4b26c84972634eb7c16196bb4b0d5e28f9f2d905120b639d67126e115aa24051",
-      "size": 11608,
-      "normalized_sha256": "6ec97ec9b83687581b46cb651b71261cfc39bf00130c61e16ef0f3b36af301b4"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/20-yun-xing-shi-ke-diao-ri-zhi-log_level-yu-log_json-huan-jing-bian-liang.md": {
-      "role": "index",
-      "sha256": "7ccaee36050b377f1804db42526b3b776f1b5690b85b9d22b59be13241b26d62",
-      "size": 15331,
-      "normalized_sha256": "35c771ea637c28b3406d8de6b7c788b8bc35cc158afbd81714b353260faaf340"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/21-apk-da-bao-qian-zhi-tiao-jian-jdk-17-android-sdk-yu-usb-diao-shi.md": {
-      "role": "index",
-      "sha256": "621923fb3142f0647e2307e87d1ca87190d7fd2eb8333aa69ff8ca9e38c708ee",
-      "size": 14014,
-      "normalized_sha256": "da47f3979a5de64e98815754d6048e0443bd7151276554d4ed0423d39537a213"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/22-flet-build-apk-da-bao-liu-cheng-yu-adb-zhen-ji-an-zhuang.md": {
-      "role": "index",
-      "sha256": "60b5709e8b2d8fda81304c2abd8050494ae2407fecae0827b3db399b792fac11",
-      "size": 12215,
-      "normalized_sha256": "4ac6867730c6f9faae04b2382893b20201de904af2f7cdc697fd5d2593636878"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/23-zhuo-mian-diao-shi-yu-zhen-ji-yan-zheng-de-neng-li-bian-jie-hua-fen.md": {
-      "role": "index",
-      "sha256": "5e8c2ae7fdd8821af8737f49e50fdcf4342e6dfb028a7b994089dd15b4173b70",
-      "size": 14383,
-      "normalized_sha256": "b31636b25be46f39067d5f239e8c72c0a7ba9a919f24e8b681b87e0184c31ace"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/24-uv-yi-lai-guan-li-yu-ling-di-san-fang-yi-lai-zhe-xue.md": {
-      "role": "index",
-      "sha256": "bb39d53b0e81ad760b803c2b91c0738a7d00b17d123fc98c85a779fb67b4de5a",
-      "size": 14562,
-      "normalized_sha256": "a1944de04fb8390db50bfee86b3c97659041b9c50a61a82ab880b54615894cc2"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/25-chun-han-shu-ke-ce-shi-xing-wu-io-she-ji-yu-bian-jie-duan-yan-ce-lue.md": {
-      "role": "index",
-      "sha256": "1b0ca44c014a4977de31603143b40c135bc546478a29afcce22bc36e81945161",
-      "size": 14929,
-      "normalized_sha256": "79e8105b19c16ba556e30375df9fcdc844f872b62529fe05d8e5b2a071a3e6f2"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/3-re-zhong-zai-kai-fa-gong-zuo-liu-flet-run-yu-zhi-jie-yun-xing-de-qu-bie.md": {
-      "role": "index",
-      "sha256": "e34d291dbe2f4ddb93e65ee12a287c87769a7c28853ec9a8febf2fbd47159924",
-      "size": 13042,
-      "normalized_sha256": "7823bb702e65a9ad1f408a8eb319d2883182cdcfae40f16bb02e5e9ddd769159"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/4-ren-shi-ji-nian-ri-app-gong-neng-jie-mian-yu-jiao-hu-liu-cheng.md": {
-      "role": "index",
-      "sha256": "653bd4702163beff62b7cfd454c11cac547afa3dc4ba4d8f90e18e2e401fe818",
-      "size": 14537,
-      "normalized_sha256": "21aea7b04b66313c8543d5f9fbc1dcacad6fe13d44583f98d2199cf5cba444a3"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/5-si-ceng-fen-ceng-jia-gou-ui-chun-luo-ji-cun-chu-ri-zhi-de-zhi-ze-hua-fen.md": {
-      "role": "index",
-      "sha256": "54fe09911aa063a0d9ccd7716bdff7e15d21c3392853ddb23124207bfc8541a7",
-      "size": 18476,
-      "normalized_sha256": "9b3effb1c6e2419e9feae0d6d1893dd98b5c481b01aab6da87c214b983f889be"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/6-flet-0-86-sheng-ming-shi-ui-mo-xing-async-main-yu-ft-run-ru-kou.md": {
-      "role": "index",
-      "sha256": "3a3d08a58cbd1ae70fb124523b629cb2dfa1ebf36af9cc688a8497e514cfb8e5",
-      "size": 12313,
-      "normalized_sha256": "a0e4b237e0cf7f310498c15bc6528e26628551e15b5d3084ae90ea7bf01d57f4"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/7-lie-biao-xuan-ran-listview-listtile-yu-tiao-jian-kong-tai-ti-shi.md": {
-      "role": "index",
-      "sha256": "573cf34c9ce70ab306ab2c97c42a239d88b3e463dcff66255e1d749eb3ac3dc5",
-      "size": 12807,
-      "normalized_sha256": "b00499d808c7bcc522b5361951c6934d1d6330f77bf690ae6ea31dc21804d2d2"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/8-xin-zeng-bian-ji-dui-hua-kuang-show_dialog-yu-pop_dialog-de-sheng-ming-zhou-qi.md": {
-      "role": "index",
-      "sha256": "b63f1d20f50fc6d806a6e34de51bcf550d6f4c6c3387e7c6680d7a3eb5f1ff49",
-      "size": 11394,
-      "normalized_sha256": "1ace48954d90a119c207ca7b748778a9e94fa6337bbc23ae5ff4036ab46117ca"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/9-nian-yue-ri-xia-la-xuan-ri-qi-gui-bi-datepicker-dui-hua-kuang-die-jia-de-gong-cheng-qu-she.md": {
-      "role": "index",
-      "sha256": "b03b07bbc34114b36f6a9ab2f3f49a680c95c49384ca5a0e8c4a07b24ac67f65",
-      "size": 13037,
-      "normalized_sha256": "7f183083a37c8be2235c6b6b98dfd498e7e334df1435d7fe4310b7f5f1308e33"
-    },
-    ".archived/python_projects/flet-android-lab/.zread/wiki/versions/2026-08-30-000711/wiki.json": {
-      "role": "index",
-      "sha256": "d181b06c7fafe454e69b575b61870776e72bbbd0f846c3a59c94f61cd2f3f5b5",
-      "size": 9406,
-      "normalized_sha256": "e98c8b75648c9ec3da8aee4b81ce44319b0792a85b8c488d5097f601fced3c4f"
-    },
-    ".archived/python_projects/flet-android-lab/README.md": {
-      "role": "index",
-      "sha256": "fefe46fcfdaaeaa6a72ef1adfcea25fa9e36e40ac2c0072976004d8263af3f0a",
-      "size": 4663,
-      "normalized_sha256": "58ecccd3ff8b488800f4b229819f48165af53bc9ff90953e22d86bcc00744110"
-    },
-    ".archived/python_projects/flet-android-lab/core.py": {
-      "role": "index",
-      "sha256": "59e4c00b61960071ff660d4f688436ecad5fe6672ea15daae4313d3369973b02",
-      "size": 638,
-      "normalized_sha256": "406ddb19a1db4cbb2052acc45e6f47b43b6fc1f70c844fd72c669821750a3379"
-    },
-    ".archived/python_projects/flet-android-lab/docs/images/产品图-01.png": {
-      "role": "index",
-      "sha256": "ee04de21769f4fb155df4a83278bc1edc8c03b98a22b221c8789e53a6c92950b",
-      "size": 6289
-    },
-    ".archived/python_projects/flet-android-lab/log.py": {
-      "role": "index",
-      "sha256": "8e958daa706e61d2243b1aca47ed9514a049741ad70db77f0e4309834d71ea10",
-      "size": 793,
-      "normalized_sha256": "c4e098f3e37f4f9f0d19416b4ce4d40cc4811a69cbc101a241c924ab5c868e2e"
-    },
-    ".archived/python_projects/flet-android-lab/main.py": {
-      "role": "index",
-      "sha256": "be100856e23ec05d50946911b28ee37ed2398db4aca2744605bff24090ed9c75",
-      "size": 5441,
-      "normalized_sha256": "858d8e7562c2f85cf2ff561ca7afb6069d39b7cfe0da6cdd7feb55d42a9d2913"
-    },
-    ".archived/python_projects/flet-android-lab/pyproject.toml": {
-      "role": "index",
-      "sha256": "6b952901716a0e5251283c45cfb7bd6be0eda706b850d94958393ea11f869b4d",
-      "size": 333,
-      "normalized_sha256": "7499aee8514c63af89d20ad79400f5290cc69e90f532699fb533e3ec86109b49"
-    },
-    ".archived/python_projects/flet-android-lab/storage.py": {
-      "role": "index",
-      "sha256": "015cfc2a21265fae0bdb5337c7d184d71dca6d9eb6ad4fecfec1963bde41fac1",
-      "size": 3149,
-      "normalized_sha256": "ad64e5a2a6a4fa53f7d91e58aa94dddbe2ac7cafd188729f8e98386ec3b86929"
-    },
-    ".archived/python_projects/flet-android-lab/uv.lock": {
-      "role": "index",
-      "sha256": "bdb8fa5c2ab7eb65f0734c6ddbaaca62bd6231f57431071858b02fcfedb426fb",
-      "size": 30986,
-      "normalized_sha256": "9b1fc1f988e3cd7bc3b6440701975e3571fbaf3609b43b384df62e1f0b33d19d"
-    },
-    ".archived/python_projects/lele/26秋：举一反三第3讲.docx": {
-      "role": "index",
-      "sha256": "8fa83e8e7666e171a882cbf5595506d582053fbec8da03f1fed07fc42976a105",
-      "size": 89083
-    },
-    ".archived/python_projects/lele/chemistry_notes/01_第一讲_物质分类及转化_课堂笔记/01_物质分类与分散系.png": {
-      "role": "index",
-      "sha256": "f0d0f37f39c706cd98850bfbcfcdb8f55ebcd902099f8d85c8b3fb04bd1fe415",
-      "size": 675697
-    },
-    ".archived/python_projects/lele/chemistry_notes/01_第一讲_物质分类及转化_课堂笔记/01_第一讲_物质分类及转化_课堂笔记.pptx": {
-      "role": "index",
-      "sha256": "da1989b8c97c263f2fe519156f8cb288e8c699ac6326ea26862c89b1467d5f06",
-      "size": 39401
-    },
-    ".archived/python_projects/lele/chemistry_notes/01_第一讲_物质分类及转化_课堂笔记/02_物质转化.png": {
-      "role": "index",
-      "sha256": "66d192929bbbf11e4963a3b93b09f11fb87ff5a10b4668afab60031d0d4dca4e",
-      "size": 589878
-    },
-    ".archived/python_projects/lele/chemistry_notes/README.md": {
-      "role": "index",
-      "sha256": "5289062f5f49b6dbdca6514993e3d57bbed8add575d8e0e069b4fd0cf5cebd26",
-      "size": 981,
-      "normalized_sha256": "7181cd99a2b6583507116c21b90d7b8d29213d529a6ec1f21ea437e12c257714"
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/01_第一讲_物质分类及转化_10分钟小测/01_第一讲_物质分类及转化_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "d38fd1ba93a0d4d1f74880177c35738cfc6a124a471c8407a7d8e317d813d6df",
-      "size": 41530
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/02_第二讲_离子反应_10分钟小测/02_第二讲_离子反应_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "c837b4e1680592c1a7ceb4d85a31441bd5a0bc421aff52a3fca2a766be6cfd09",
-      "size": 41037
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/03_第三讲_氧化还原反应_10分钟小测/03_第三讲_氧化还原反应_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "066ea5b364cce7416060ce35bbf708574db928e2ed31353ead76655fabd56bef",
-      "size": 40996
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/04_第四讲_钠及其化合物_10分钟小测/04_第四讲_钠及其化合物_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "5bf461db7559acfb43e000f65d959faa769863d1fb8386e8afd5f9217b6edfc2",
-      "size": 41119
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/05_第五讲_氯气_10分钟小测/05_第五讲_氯气_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "4b51575e70dafb92b1e6bef8baeb60218e52c9dbe1e8f688405c8856003c2447",
-      "size": 41091
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/06_第六讲_物质的量与摩尔质量_10分钟小测/06_第六讲_物质的量与摩尔质量_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "503d1ec3f0207b0328db8acb1e4fa71f9402907b04da9d1886fefb4eb3e27ed2",
-      "size": 40773
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/07_第七讲_气体摩尔体积_10分钟小测/07_第七讲_气体摩尔体积_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "514905c15dc28a10d372a0a63e19bbc95ab05d7d03efab294015737af064c9dd",
-      "size": 40793
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/08_第八讲_物质的量浓度_10分钟小测/08_第八讲_物质的量浓度_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "77b774e91559918331078166f8299ceb0a6fe2346d3ab9f9b096ebd02fd55def",
-      "size": 41033
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/09_第九讲_铁及其化合物_10分钟小测/09_第九讲_铁及其化合物_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "8f2bea652456204d16330346b04efe30328f31f9c74ca66def9631c59e85e01e",
-      "size": 40882
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/10_第十讲_金属材料_10分钟小测/10_第十讲_金属材料_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "60d81bd8dd3e25126d02097806008157a232c2e38901c327760786cdf3aaa83b",
-      "size": 41036
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/11_第十一讲_周期表与周期律_10分钟小测/11_第十一讲_周期表与周期律_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "04e1a9b38b1e1fc508d872902b0fa390e9330ce278acb132d6b9a231b2a316ae",
-      "size": 40911
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/12_第十二讲_化学键_10分钟小测/12_第十二讲_化学键_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "055e8d6c52d68b1fe084b46f5772aa5cd7aa08f98cbc279af6f7e45b4811baf1",
-      "size": 40667
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/13_第十三讲_硫及其化合物_10分钟小测/13_第十三讲_硫及其化合物_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "f4b11b60e68b2c4b6dbb1752e42c0ab7e77f5342ea76d27956db585b50026eef",
-      "size": 40941
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/14_第十四讲_氮及其化合物_10分钟小测/14_第十四讲_氮及其化合物_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "a2c64f167c44b7b6bf2df0551199149a5cd0fc5425bef93ecbd1f61f94d26d20",
-      "size": 41085
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/15_第十五讲_无机非金属材料_10分钟小测/15_第十五讲_无机非金属材料_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "e8828a6cee9ee4da4c257175ae0a761d7371b1862ac9ac8c1f0503718d585e55",
-      "size": 40934
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/16_第十六讲_无机综合应用_10分钟小测/16_第十六讲_无机综合应用_10分钟小测.docx": {
-      "role": "index",
-      "sha256": "9b85fbdf925407551a917fbec26bf91ba2d15123f9c8130fa32bb13f6b1b09cf",
-      "size": 41055
-    },
-    ".archived/python_projects/lele/chemistry_quizzes/README.md": {
-      "role": "index",
-      "sha256": "c0e6b711a8cfe41e04aee40faa0c7118b588b2fe1a59b0da1f216e3eb2ec1bb7",
-      "size": 3207,
-      "normalized_sha256": "7aaf6db2341c318652cbf5236656909bb439be80931908fb4312ae021532fc2f"
-    },
-    ".archived/python_projects/lele/chemistry_slides/03_氧化还原反应.pptx": {
-      "role": "index",
-      "sha256": "0347d81a83ae8cca1f767408bd5d45c30439a919a7a9b22d1258f79ae88b90f1",
-      "size": 1052309
-    },
-    ".archived/python_projects/lele/chemistry_slides/04_钠及其化合物.pptx": {
-      "role": "index",
-      "sha256": "e5d92a4b75250c6b43b9e24b9bfd961244e6a589f3b918d6e8a63eddeba32f81",
-      "size": 1800699
-    },
-    ".archived/python_projects/lele/chemistry_slides/05_氯气.pptx": {
-      "role": "index",
-      "sha256": "c186799012f128be9672dd3f74bb6b11e2bfc80f0c3afe99230bbe34d0dc7cc0",
-      "size": 1472761
-    },
-    ".archived/python_projects/lele/chemistry_slides/06_物质的量与摩尔质量.pptx": {
-      "role": "index",
-      "sha256": "969deee2b52846444cfa5baaba9157c625db2553e7f55c3b19ea27ae47e3ad87",
-      "size": 725791
-    },
-    ".archived/python_projects/lele/chemistry_slides/07_气体摩尔体积.pptx": {
-      "role": "index",
-      "sha256": "49a872ac97c47e411cacb0469f2b63125066cfc2fe705786ab7c3e560c4debad",
-      "size": 793009
-    },
-    ".archived/python_projects/lele/chemistry_slides/08_物质的量浓度.pptx": {
-      "role": "index",
-      "sha256": "c530374a9546f496d8ee5e10fea6dead2fc06c64904ed7fab20514413ab2aee0",
-      "size": 1553440
-    },
-    ".archived/python_projects/lele/chemistry_slides/09_铁及其化合物.pptx": {
-      "role": "index",
-      "sha256": "470eec418f24e3f1284e1085cce9603d02dccb3203632ee32694f8b121db667e",
-      "size": 1726332
-    },
-    ".archived/python_projects/lele/chemistry_slides/10_金属材料.pptx": {
-      "role": "index",
-      "sha256": "274e6fef28957b8091fe73d3c18cbc42b604c062036a7c83d30f2a07cc1173d1",
-      "size": 940730
-    },
-    ".archived/python_projects/lele/chemistry_slides/11_周期表与周期律.pptx": {
-      "role": "index",
-      "sha256": "98fa4f9be28adbade36320bb39e410e6e87c75abc66deb457c3304e44900c99d",
-      "size": 1068768
-    },
-    ".archived/python_projects/lele/chemistry_slides/12_化学键.pptx": {
-      "role": "index",
-      "sha256": "aafd99065f22eb0446a2d053d689867d792362352829456905f8e924cca5e2c4",
-      "size": 1027040
-    },
-    ".archived/python_projects/lele/chemistry_slides/13_硫及其化合物.pptx": {
-      "role": "index",
-      "sha256": "8309d74f1a87e26121099136d3e6cad0d68fe04ef84a7763a62a06cd9a21369b",
-      "size": 1364090
-    },
-    ".archived/python_projects/lele/chemistry_slides/14_氮及其化合物.pptx": {
-      "role": "index",
-      "sha256": "b2d4c3b70feecc01ce79a508058716c7d418491479f6c803259b714c61f9520b",
-      "size": 2057261
-    },
-    ".archived/python_projects/lele/chemistry_slides/15_无机非金属材料.pptx": {
-      "role": "index",
-      "sha256": "2d6693fb3215030915447f887857e2cdc63f1a5f75dc1cea01e70fafa301e56c",
-      "size": 750303
-    },
-    ".archived/python_projects/lele/chemistry_slides/16_无机综合应用.pptx": {
-      "role": "index",
-      "sha256": "d8bf86b7cda00a82d4b40315a9dad306acc283feb35c777cccc4335a453dad49",
-      "size": 1391897
-    },
-    ".archived/python_projects/lele/chemistry_slides/README.md": {
-      "role": "index",
-      "sha256": "3817345441f47f356f0de0a9087018f253d5373b928e930010e958802ee2b5c6",
-      "size": 1690,
-      "normalized_sha256": "3817345441f47f356f0de0a9087018f253d5373b928e930010e958802ee2b5c6"
-    },
-    ".archived/python_projects/lele/image_to_word/1.png": {
-      "role": "index",
-      "sha256": "0594d8d1c03124db08cd504fb855f70a8096e694fc06e14d2d0ef6a7ca651caf",
-      "size": 1388833
-    },
-    ".archived/python_projects/lele/image_to_word/10.png": {
-      "role": "index",
-      "sha256": "4702f0512db4a38abfbe30b2806943344df740a3da27329e4855f454d1474768",
-      "size": 1540035
-    },
-    ".archived/python_projects/lele/image_to_word/11.png": {
-      "role": "index",
-      "sha256": "72d656e2599b7691e5c15c09f6699cf06086135c87418ec31efe672ae52a23dc",
-      "size": 1417741
-    },
-    ".archived/python_projects/lele/image_to_word/12.png": {
-      "role": "index",
-      "sha256": "47b412d59e1f5aa9944fa6177bfcb9d29ae488adf8f61c4268311e9b23ea6589",
-      "size": 1536261
-    },
-    ".archived/python_projects/lele/image_to_word/13.png": {
-      "role": "index",
-      "sha256": "0514e36241c4c6854c227397de5bb15e53a0a153e16c886bde34a4c9ae7b7683",
-      "size": 1545832
-    },
-    ".archived/python_projects/lele/image_to_word/14.png": {
-      "role": "index",
-      "sha256": "cf96b99aced3294de3267bdf726da57fb86a324d2817edf3b85fd9110ce32804",
-      "size": 1462853
-    },
-    ".archived/python_projects/lele/image_to_word/15.png": {
-      "role": "index",
-      "sha256": "cf2160e96338fdfed3dfc2beff374ffb8bdc38a2ae91c45592cd91b240d44d57",
-      "size": 1581402
-    },
-    ".archived/python_projects/lele/image_to_word/16.png": {
-      "role": "index",
-      "sha256": "96ab2557198a7932b49baffa487ab8dd2f7f3062059f4c7c478703e90d798658",
-      "size": 1540390
-    },
-    ".archived/python_projects/lele/image_to_word/17.png": {
-      "role": "index",
-      "sha256": "391250d8448092e1356409338af1c4cbd7e9ce5825efc27a149801fd8577a39c",
-      "size": 1360077
-    },
-    ".archived/python_projects/lele/image_to_word/18.png": {
-      "role": "index",
-      "sha256": "42061270303948457c121bd2b30f46007f465e60c2ef6ce98be680720ae88b3a",
-      "size": 1644078
-    },
-    ".archived/python_projects/lele/image_to_word/19.png": {
-      "role": "index",
-      "sha256": "f9ea8421ab70a3e3285a05f2198d8050f42c8dba2e8c6456b528d204a7bc71a9",
-      "size": 1551836
-    },
-    ".archived/python_projects/lele/image_to_word/2.png": {
-      "role": "index",
-      "sha256": "d039997813ba8e51f6f08cdb98ff3a57d27f0a91a1520e1651c0888055e8fc97",
-      "size": 1526999
-    },
-    ".archived/python_projects/lele/image_to_word/20.png": {
-      "role": "index",
-      "sha256": "9339a23b619b9ebfe0d4ae68bd10e8197e234fb8c459d1ff4ba154412d08ad80",
-      "size": 1461834
-    },
-    ".archived/python_projects/lele/image_to_word/3.png": {
-      "role": "index",
-      "sha256": "98f1c69f79a9e4cd331ff4712aea5a6079da958cd60c9c867d6877239a56618d",
-      "size": 1594504
-    },
-    ".archived/python_projects/lele/image_to_word/4.png": {
-      "role": "index",
-      "sha256": "0265872ba731e146789da1479353b63f9df691a522e3d1e17d5d344ed1b6690e",
-      "size": 1626453
-    },
-    ".archived/python_projects/lele/image_to_word/5.png": {
-      "role": "index",
-      "sha256": "0496d1bc48a0a2a364f958e0e5ff145c500c28d2df5aab04d2b1470d2da1f471",
-      "size": 1591220
-    },
-    ".archived/python_projects/lele/image_to_word/6.png": {
-      "role": "index",
-      "sha256": "1667ac8134702ffface96c47a704f3bb28d7d7c8ec3865fd5204151bde1e2038",
-      "size": 1486380
-    },
-    ".archived/python_projects/lele/image_to_word/7.png": {
-      "role": "index",
-      "sha256": "6b515f4dab9c6fd00937cca8c3a03ddb7f72fd0d3eba2d444533ba7f7f8c594a",
-      "size": 1484125
-    },
-    ".archived/python_projects/lele/image_to_word/8.png": {
-      "role": "index",
-      "sha256": "0c9fd2e23ed6aca24b43e409a68e6234c6fb64944bb676434069330f182e738b",
-      "size": 1514769
-    },
-    ".archived/python_projects/lele/image_to_word/9.png": {
-      "role": "index",
-      "sha256": "656f4d39c7322a099b7d6d958bbc878ec76719a59677762bcbb021b09a76c26f",
-      "size": 1566175
-    },
-    ".archived/python_projects/lele/期溯源S9LI1_举一反三/期溯源S9LI1_举一反三.docx": {
-      "role": "index",
-      "sha256": "efb080db470c8324071d2ffb5d42d014db3a768f8876b533beb71134753acf3f",
-      "size": 121693
-    },
-    ".archived/python_projects/pystand-lab/NOTES.md": {
-      "role": "index",
-      "sha256": "098e5c4cc93f882b5a59a7612547646b82379121fbd2f08d2661d736ce984b85",
-      "size": 10149,
-      "normalized_sha256": "5147c70c0825da286e88ced8505a6bc6728e1580a36bdec0cff6e3321c10f48d"
-    },
-    ".archived/python_projects/pystand-lab/demo/.python-version": {
-      "role": "index",
-      "sha256": "8dfda54ba2f66ab3a8ebab460f4338bbeea1fb1e0f85ce06fe3530aa3c64679b",
-      "size": 6,
-      "normalized_sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d"
-    },
-    ".archived/python_projects/pystand-lab/demo/README.md": {
-      "role": "index",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    ".archived/python_projects/pystand-lab/demo/main.py": {
-      "role": "index",
-      "sha256": "5e6b42a82a6461b2544cbccf2baaf29bd3449fd70172737ee61191ef0e9657ff",
-      "size": 1142,
-      "normalized_sha256": "311e9ceb1a512acad6a4785f1aec1854fe39160921d0fd1f1926358b3140119c"
-    },
-    ".archived/python_projects/pystand-lab/demo/pyproject.toml": {
-      "role": "index",
-      "sha256": "3461f7b805ad7f1004048c41307301dba5b883cc700cc6a73ee09a4ba544657f",
-      "size": 392,
-      "normalized_sha256": "1dd243fecc66bd8190593c16a6554c5e4b55c143763be1c739839cff70e5c309"
-    },
-    ".archived/python_projects/pystand-lab/demo/requirements.txt": {
-      "role": "index",
-      "sha256": "d1fbe88e7f8319cdc2e12efa0c539c176145a8132993a10e908e20cae43f429a",
-      "size": 10,
-      "normalized_sha256": "7cc4959877dbe6b6c63a8eb1bfe3bfb545fa8fe5b28b1b2c13e4a7c1c0d1c4d4"
-    },
-    ".archived/python_projects/pystand-lab/demo/src/demo/__init__.py": {
-      "role": "index",
-      "sha256": "babbf637066317dd182fddc878511a7521cd50d2aa74483b9065165f33711196",
-      "size": 52,
-      "normalized_sha256": "6b70a0db95892fd9f6f023274ce340dbbf46fa524051a559052836b3c43a8e86"
-    },
-    ".archived/python_projects/pystand-lab/demo/uv.lock": {
-      "role": "index",
-      "sha256": "1b0269304f0974a145fc1cedc8311b7225ab21a2071e53fe53650cdd89493075",
-      "size": 45248,
-      "normalized_sha256": "60aa016a58e8ea0d68bb036ee0fde7b1a3c3164a9e9e11ca2a5239d8c3ab7295"
-    },
-    ".archived/python_projects/script-lab/.python-version": {
-      "role": "index",
-      "sha256": "8dfda54ba2f66ab3a8ebab460f4338bbeea1fb1e0f85ce06fe3530aa3c64679b",
-      "size": 6,
-      "normalized_sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d"
-    },
-    ".archived/python_projects/script-lab/README.md": {
-      "role": "index",
-      "sha256": "6e9d68aa65e7b713d3754e3bd7d546704171c1a550ceebbdc68d9d030d6dc9a0",
-      "size": 1117,
-      "normalized_sha256": "0ab0a8ad2783d25bbcdb007d06820e3f055fdd472a621d0528b3f524341468ef"
-    },
-    ".archived/python_projects/script-lab/pyproject.toml": {
-      "role": "index",
-      "sha256": "963978fb2429f6fe8af57de559c9a8478d88e69e523f8fbdbbacbc88fb293a6d",
-      "size": 98,
-      "normalized_sha256": "6927744c489b49451510070a39099abb48b83172656de4d6c4fa9dc7dd390813"
-    },
-    ".archived/python_projects/script-lab/tui/diff_render.py": {
-      "role": "index",
-      "sha256": "27f4110ea70b692df9b918c4d32294755b760d5f6feaea0e99e2cdf57d621811",
-      "size": 3141,
-      "normalized_sha256": "c1f09649c0f24ec6ff3f34871c5f3f7e2f3bb29ee4cf0a3fc1d92446360f6920"
-    },
-    ".archived/python_projects/script-lab/tui/msvcrt_and_ansi.py": {
-      "role": "index",
-      "sha256": "d0a872a46387a6958c061250d3362c99b66b229e4e497bed8bf032449c4113d7",
-      "size": 2319,
-      "normalized_sha256": "4a94c7e4871d7ceaaa9c27ac9e31b25496b75130979f6cc908a6607cf9b7f964"
-    },
-    ".archived/python_projects/script-lab/tui/raw_menu_cross.py": {
-      "role": "index",
-      "sha256": "40dc5ca48bc812c78be8efa86cda1f4eada8b91d200cc007413caf2c653c3df7",
-      "size": 2169,
-      "normalized_sha256": "88a539701a205eadf827dab388525cdcaaeb513a92f91b4b3b2714183a5e187b"
-    },
-    ".archived/python_projects/script-lab/tui/raw_menu_win.py": {
-      "role": "index",
-      "sha256": "a6c0136306ea91c921da738ede0012dea52519bb3aca1b91bf8288c41af04da8",
-      "size": 1352,
-      "normalized_sha256": "53f0ded3d071cbe4b2ae3285e3e2ac7f9646255c3b2959c1ccc6bce75f441904"
-    },
-    ".archived/python_projects/script-lab/uv.lock": {
-      "role": "index",
-      "sha256": "d98642cfba03f8f6395ed651e7868e21ea0b3f16e278ab44192bb90a5a28e48f",
-      "size": 138,
-      "normalized_sha256": "1f11878fc68eb755cf9fcb6323c93e01778a267119912010ea48df4c82879c30"
-    },
-    ".archived/python_projects/sublime-rider-dark/README.md": {
-      "role": "index",
-      "sha256": "a2eec230522f60b5ffcf6259036eabd92de002e8d1776b3ef87e984db0110957",
-      "size": 2952,
-      "normalized_sha256": "62886392b77dd2c0af173e5ee0786ed37834d8c0495d0ed7223af49de60741a9"
-    },
-    ".archived/python_projects/sublime-rider-dark/Rider Dark.sublime-color-scheme": {
-      "role": "index",
-      "sha256": "e6a76b1ae55889cf186dac2280e37715c61749eb0075df912c3c6d870936b7a6",
-      "size": 7467,
-      "normalized_sha256": "3a16bddfa4da06a48920d6eb07d8b48ee00ae05fdad2ff878fdeb08b23d05438"
-    },
-    ".archived/python_projects/sublime-rider-dark/Rider Dark.sublime-theme": {
-      "role": "index",
-      "sha256": "dcc978c4f4baae5bd978541eecb25dea73182ee0023b41d7890bac5521a114c2",
-      "size": 4596,
-      "normalized_sha256": "03f02bcab29bb6924172f52ac3a7f00ce31663db126ea01028170c045d721372"
-    },
-    ".archived/rust_projects/mini-http-server/Cargo.lock": {
-      "role": "index",
-      "sha256": "88b39767c721fadf44cfe91dcfe601386df6d383c96206cf650720f118b99e97",
-      "size": 167,
-      "normalized_sha256": "28314b9c6ecefe64d57089c56f71087a96988637c04ba528ce68fb3a781a5962"
-    },
-    ".archived/rust_projects/mini-http-server/Cargo.toml": {
-      "role": "index",
-      "sha256": "912a829054953e4c0feaf55e22397d2668184a6c2f5fd764b4f0962a3d8a365a",
-      "size": 93,
-      "normalized_sha256": "265a79efa56bead2b131f86ca29da9e39a30c24722184182dea59bb16bfdbc43"
-    },
-    ".archived/rust_projects/mini-http-server/README.md": {
-      "role": "index",
-      "sha256": "ae7a0783a93004c5bd0d004e3d772ae441a8b01b535cbbb3c4266074131a0d1e",
-      "size": 3255,
-      "normalized_sha256": "34a4f917f5df5f039e3857e73a64459695f0e15b6b4878877de5e349ab349d39"
-    },
-    ".archived/rust_projects/mini-http-server/src/http.rs": {
-      "role": "index",
-      "sha256": "ae5885fe90364bae05a869150ce34ad955eb8f710b9d3ececefc8ba4816c89c9",
-      "size": 4657,
-      "normalized_sha256": "55d6556de529b89a39fd798e65b1d291200a7d16160f4c81017b0141c29f54e9"
-    },
-    ".archived/rust_projects/mini-http-server/src/lib.rs": {
-      "role": "index",
-      "sha256": "228c545e571aa6deb6c74e594fb9ddc624e6ca75692fd8265fd8f2adec2f7209",
-      "size": 54,
-      "normalized_sha256": "49e2599bc5af91e2914f248a3cdbd6628e42deb05a9f5fd34c0b765abe62b54e"
-    },
-    ".archived/rust_projects/mini-http-server/src/main.rs": {
-      "role": "index",
-      "sha256": "db2a1db3694341bdddd506428e6e245f71016ff8efac2f06465029b14b3f7f29",
-      "size": 863,
-      "normalized_sha256": "5b0827d5ad8c3783f264fda9e70381ab85b87887afbd099db53d390a532f931d"
-    },
-    ".archived/rust_projects/mini-http-server/src/server.rs": {
-      "role": "index",
-      "sha256": "c9f0be1add6fa5ce2c5ce16f2b133c81c208408b2cb25349829cc80099a23de1",
-      "size": 2970,
-      "normalized_sha256": "84e17fe6cca1d0b51f59fc151fdc002281b002b51ad82c069bb6d5f27c206e63"
-    },
-    ".archived/rust_projects/mini-http-server/src/thread_pool.rs": {
-      "role": "index",
-      "sha256": "446f06d32fe3eeebc8c04d1d76201bf9534de4be37cb0fd2cb38ca960a3c946a",
-      "size": 4139,
-      "normalized_sha256": "643b9e8ae8f3e8362574fed5cb121307c3540e54845cc9ab55e9e84f0c6523b3"
-    },
     ".gitattributes": {
-      "role": "index",
       "sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476",
       "size": 291,
       "normalized_sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476"
     },
     ".gitignore": {
-      "role": "index",
-      "sha256": "344c1eed7c6e540174dc232e208e5ed9f8829eb9da9382046974d50e8c9f170f",
-      "size": 303,
-      "normalized_sha256": "d67fd89c7cb11bd1ad880408bc58dbc8b8b550c6187ab5a2867c3e504f2798b5"
+      "sha256": "21d0f021dd05043d0568f30d987325d05d7b41d1d5c8bcaa0ba45b09e7e94731",
+      "size": 122,
+      "normalized_sha256": "21d0f021dd05043d0568f30d987325d05d7b41d1d5c8bcaa0ba45b09e7e94731"
     },
     ".gitmodules": {
-      "role": "index",
       "sha256": "e8454d964b2ab99d3114bea011dbb4cf1557b36ec3ac9ce67ac8eed7d93b6dcc",
       "size": 713,
       "normalized_sha256": "38031dc6b6a67c94ff18d8c8014fd261a0d97cd5353d311eae18e8b056cb58b7"
     },
+    ".scripts/gen_icon.py": {
+      "sha256": "a498e15f407f8789a37e78cd9ebe86ed92a55c9a86b0bd0bda07bdacbd439546",
+      "size": 1606,
+      "normalized_sha256": "a498e15f407f8789a37e78cd9ebe86ed92a55c9a86b0bd0bda07bdacbd439546"
+    },
+    ".scripts/init-submodules.ps1": {
+      "sha256": "158293d4cf655c67487d9cc9159b31605e686a986ab6fd8a49ca4e84e56818d9",
+      "size": 1397,
+      "normalized_sha256": "158293d4cf655c67487d9cc9159b31605e686a986ab6fd8a49ca4e84e56818d9"
+    },
+    ".scripts/install_tool.py": {
+      "sha256": "87af3fccf39ce953db415980e8fb1a98045af9cd06a78dc3ae0e5e9e3169cdc5",
+      "size": 3702,
+      "normalized_sha256": "87af3fccf39ce953db415980e8fb1a98045af9cd06a78dc3ae0e5e9e3169cdc5"
+    },
+    ".scripts/lark_group_bridge.py": {
+      "sha256": "d31f1dc8cba7d718f95cf017bd7255e0b011ee2c84b121ba69d3059bc1da02c3",
+      "size": 23536,
+      "normalized_sha256": "d31f1dc8cba7d718f95cf017bd7255e0b011ee2c84b121ba69d3059bc1da02c3"
+    },
     ".zed/extensions.toml": {
-      "role": "index",
       "sha256": "234ecd34c8a783f813d0cdf3b9a99c2635cf6089484e40f4d6e187d088986e11",
       "size": 1076,
       "normalized_sha256": "234ecd34c8a783f813d0cdf3b9a99c2635cf6089484e40f4d6e187d088986e11"
     },
     ".zed/settings.json": {
-      "role": "index",
       "sha256": "3635faefc5c84c7dfdaf8522fb9b6f5382e6c38733d635290935cf1a5ed06949",
       "size": 3933,
       "normalized_sha256": "df89032c596178465148ec795d2612c5c173fba257417601f79b7819947fa52f"
     },
     "AGENTS.md": {
-      "role": "index",
-      "sha256": "e083414cd08eff101b50dacebfb1af77f4fac4f76a98b20bffa5869967686fa5",
-      "size": 27917,
-      "normalized_sha256": "3261c7f7e9ba78bcb234d0770e7853d44256f60a72d4e1900777c7035619ef7a"
+      "sha256": "221f57c0ad71aa6dfedb492355ddc1162b4292180254d79a2b3937be49c1d1d5",
+      "size": 29208,
+      "normalized_sha256": "dc3e5d4c4ae749be9c6a7cf83482d1b79dbbb346497ce7d18f679f562a48bedb"
     },
     "CLAUDE.md": {
-      "role": "index",
       "sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55",
       "size": 10,
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "MONOREPO.md": {
-      "role": "index",
-      "sha256": "492c058a2f16f3d468c2fb53f000c323d88d62eea7edece378437ed266d2b003",
-      "size": 6296,
-      "normalized_sha256": "492c058a2f16f3d468c2fb53f000c323d88d62eea7edece378437ed266d2b003"
+      "sha256": "4510aea614bbc8377a0f778f3a9270d5f06ded6566b58baca97a8acacee2d18f",
+      "size": 6314,
+      "normalized_sha256": "4510aea614bbc8377a0f778f3a9270d5f06ded6566b58baca97a8acacee2d18f"
     },
     "NOTES.md": {
-      "role": "index",
-      "sha256": "d303e3466eac704870c0a0bd9b0820439c265d851316f97a6b050b2303721937",
-      "size": 278,
-      "normalized_sha256": "b1b67833c58356dbb7a24e8b4f4e3ce1c4f25aab228280257f2e106bddb39a09"
+      "sha256": "f604be67040c0f8d13f7b2129254b9b89be557736e2ecd883c5c0c3c84c2abbd",
+      "size": 297,
+      "normalized_sha256": "896759d898eb1a8a8abcecebba0b90bf8f8b549d167dee49fd9dcc2a2831a7fc"
     },
     "README.md": {
-      "role": "index",
-      "sha256": "1b1655a1e710710fe4cd621e3e78e7caa72a430de2324c1363a5721b8b6f000f",
-      "size": 5486,
-      "normalized_sha256": "beda7584c8368cb4b5d037f8303316bd0ba70b07c8ccf672e4f0ced42521039f"
+      "sha256": "a5ea55ea36b7021ca4cfd70e25048f3a317349086fec4108fb063f4bdeca4a22",
+      "size": 5990,
+      "normalized_sha256": "a38607f93370ea33cca3bce08ad37191524b4721063fa2db6e1f19be9e1c63fd"
     },
-    "SKILL-ARCHIVE.md": {
-      "role": "index",
-      "sha256": "2741f42651d44309dcb928027db7fc13f201332b29188735609b6557d119c31a",
-      "size": 8421,
-      "normalized_sha256": "2741f42651d44309dcb928027db7fc13f201332b29188735609b6557d119c31a"
+    "SPEC-AGENT.md": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
-    "SKILL-DOCS-RENAME.md": {
-      "role": "index",
-      "sha256": "f2fdbdfec73eae26d4a3a8de5ee79f4fef685814cbba518866af1de03caa300f",
-      "size": 4283,
-      "normalized_sha256": "f2fdbdfec73eae26d4a3a8de5ee79f4fef685814cbba518866af1de03caa300f"
-    },
-    "SKILL-GO-EXE-ICON.md": {
-      "role": "index",
-      "sha256": "bfe2d6889712008e35b0e2a573acc31b246bb8c37ebaf433334708ed1f12d974",
-      "size": 3051,
-      "normalized_sha256": "bfe2d6889712008e35b0e2a573acc31b246bb8c37ebaf433334708ed1f12d974"
-    },
-    "SKILL-INVENTORY.md": {
-      "role": "index",
-      "sha256": "5aa61abe49936a2a6223c298f08f34774cffc325e0bdb7106b4c083852e6a324",
-      "size": 6999,
-      "normalized_sha256": "5aa61abe49936a2a6223c298f08f34774cffc325e0bdb7106b4c083852e6a324"
-    },
-    "SKILL-RESTORE.md": {
-      "role": "index",
-      "sha256": "82a5410898dfa641569d2a86fa158c5f49a46ee4e018ba7a26f82d7535241e05",
-      "size": 8936,
-      "normalized_sha256": "82a5410898dfa641569d2a86fa158c5f49a46ee4e018ba7a26f82d7535241e05"
+    "SPEC-HUMAN.md": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "role": "index",
-      "sha256": "12cbc237b863041b3ab7b6c6330091964cb014a20e624ec1f88de6056aed56c2",
-      "size": 21,
-      "normalized_sha256": "12cbc237b863041b3ab7b6c6330091964cb014a20e624ec1f88de6056aed56c2"
+      "sha256": "bbcf4a982d0fea161fd5ddeae6e783e92f2ba2f8916f24eaa234fa3159f89067",
+      "size": 27215,
+      "normalized_sha256": "bbcf4a982d0fea161fd5ddeae6e783e92f2ba2f8916f24eaa234fa3159f89067"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -2603,440 +98,390 @@
       "size": 306,
       "normalized_sha256": "362ad899023326b8bc743865ed8710ec103b1408aaf304e9037b7e7e61425d91"
     },
-    "assets/go_projects/go-default.ico": {
-      "role": "index",
-      "sha256": "eef0a3d8284d987113eb1bf4067baa0c90c23f196a78b7e3220063d7fc15228e",
-      "size": 43436
+    "docs/guides/GUIDE-AOCI-SETUP.md": {
+      "sha256": "47ea048d6b7d1cae73da383257c735631be867e6d773373836aeab9a8ca5f4d4",
+      "size": 8527,
+      "normalized_sha256": "47ea048d6b7d1cae73da383257c735631be867e6d773373836aeab9a8ca5f4d4"
     },
-    "docs/Git 子模块临时注销（native、rust）.md": {
-      "role": "index",
-      "sha256": "901cce17e8a880f9d9b7d950f6e7bde6e7506e5565681df67b47bd8f71fb5d5c",
-      "size": 3938,
-      "normalized_sha256": "901cce17e8a880f9d9b7d950f6e7bde6e7506e5565681df67b47bd8f71fb5d5c"
+    "docs/guides/GUIDE-ARCHIVE.md": {
+      "sha256": "8dca1d37df5830a97a3be8b7765f1f50c2b16c551af04cf3d5d2f5f96b796a85",
+      "size": 8466,
+      "normalized_sha256": "8dca1d37df5830a97a3be8b7765f1f50c2b16c551af04cf3d5d2f5f96b796a85"
     },
-    "docs/Git 子模块分支机制.md": {
-      "role": "index",
-      "sha256": "cfde1a1b1561ae6dd07d8eeea111c1461152af568bbed5b209637cddfca84886",
-      "size": 3007,
-      "normalized_sha256": "cfde1a1b1561ae6dd07d8eeea111c1461152af568bbed5b209637cddfca84886"
+    "docs/guides/GUIDE-DOCS-RENAME.md": {
+      "sha256": "7fd6b47ccbb9974e272b1691bd12801188c94155e6bccb82b7149c2e0076f709",
+      "size": 4301,
+      "normalized_sha256": "7fd6b47ccbb9974e272b1691bd12801188c94155e6bccb82b7149c2e0076f709"
     },
-    "docs/go_projects/CLI 与 MCP 双壳架构工作指南.md": {
-      "role": "index",
+    "docs/guides/GUIDE-INVENTORY.md": {
+      "sha256": "0b9011bb938fb8514812a01188cc0ae6ab858232ee7d9f50fec7551a2d70017f",
+      "size": 7044,
+      "normalized_sha256": "0b9011bb938fb8514812a01188cc0ae6ab858232ee7d9f50fec7551a2d70017f"
+    },
+    "docs/guides/GUIDE-MCP-INSPECTOR.md": {
+      "sha256": "e9f1092ada1ec6b558f69a1a7a7fa286bdd0c18f782d12b1ee0a868f100f837d",
+      "size": 6671,
+      "normalized_sha256": "e9f1092ada1ec6b558f69a1a7a7fa286bdd0c18f782d12b1ee0a868f100f837d"
+    },
+    "docs/guides/GUIDE-RESTORE.md": {
+      "sha256": "afe23424768e30d99aaf66d3019f39e9d8bc63c61e1a20bf9363a73bc6404621",
+      "size": 9035,
+      "normalized_sha256": "afe23424768e30d99aaf66d3019f39e9d8bc63c61e1a20bf9363a73bc6404621"
+    },
+    "docs/guides/README.md": {
+      "sha256": "9603aa7e4634d54412d982b15999b071d254bf925456ad4419d36137e3c0fc7d",
+      "size": 5002,
+      "normalized_sha256": "9603aa7e4634d54412d982b15999b071d254bf925456ad4419d36137e3c0fc7d"
+    },
+    "docs/plans/01-lark-group-bridge.md": {
+      "sha256": "e0b01dee112664fc45c8725606cb6acdef5d63588548d57a566597133a75fcc3",
+      "size": 11467,
+      "normalized_sha256": "e0b01dee112664fc45c8725606cb6acdef5d63588548d57a566597133a75fcc3"
+    },
+    "docs/plans/02-aoci-baseline-drift-recovery.md": {
+      "sha256": "8b96cd75ebcdade9463b12d927179932e351a274a59d895cbf71a456b02b5328",
+      "size": 9626,
+      "normalized_sha256": "8b96cd75ebcdade9463b12d927179932e351a274a59d895cbf71a456b02b5328"
+    },
+    "docs/projects/go_projects/CLI 与 MCP 双壳架构工作指南.md": {
       "sha256": "2be0d47bdbf52698b1ad70490366131eb5f8181a992fb0cb7495dd1377a42203",
       "size": 405,
       "normalized_sha256": "93f790dc647a6d578c78f9a01397fc3bf1957bd39adf233e29aba933fa7c4dfe"
     },
-    "docs/go_projects/CLI 工具开发标准.md": {
-      "role": "index",
-      "sha256": "a2536bb139c46da40c54368df5fc79d05e3012bfa9d0fa138bfc13ef5b3f6af2",
-      "size": 42604,
-      "normalized_sha256": "6a15230b15aec7d386dba16b0b85deb5a0931021c01147919fd78dacd206fe26"
+    "docs/projects/go_projects/CLI 工具开发标准.md": {
+      "sha256": "47d4fcb81dde198e82ddd5cd443c6215ef579b58d762659a759ff0edfbc33b51",
+      "size": 42634,
+      "normalized_sha256": "f9be3898224f586ee580405dbb8c4f4badeea9e5a8eb7a08ad7b1b3120b0f3b0"
     },
-    "docs/go_projects/MCP 契约为先.md": {
-      "role": "index",
+    "docs/projects/go_projects/GUIDE-GO-EXE-ICON.md": {
+      "sha256": "efbdf68b7649991e3657e4d2bcd422590bfcb7d8a14ab03645bcbd6d109805fb",
+      "size": 3505,
+      "normalized_sha256": "efbdf68b7649991e3657e4d2bcd422590bfcb7d8a14ab03645bcbd6d109805fb"
+    },
+    "docs/projects/go_projects/MCP 契约为先.md": {
       "sha256": "8ce94bdf14e5fafbd8b7e097bb3aa600bf587d6797a655a800e1baff9dfbcdc5",
       "size": 385,
       "normalized_sha256": "25f08140e9fea34bf1a2ba6e4ac2fdd2a5f7240dc1f5751f5b036da08b52210a"
     },
-    "docs/go_projects/clictl/Go CLI JSON 输出模式参考.md": {
-      "role": "index",
+    "docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md": {
       "sha256": "fc620888a70bafe99ddb7b0abbc0019d7c96d0118ae3f6f59e3989bb36b5b3e8",
       "size": 9178,
       "normalized_sha256": "fc620888a70bafe99ddb7b0abbc0019d7c96d0118ae3f6f59e3989bb36b5b3e8"
     },
-    "docs/go_projects/clictl/MCP 接口文档.md": {
-      "role": "index",
+    "docs/projects/go_projects/clictl/MCP 接口文档.md": {
       "sha256": "069842f6ffc560a8cc75459c716b0506496a8322ced6a152225daf733b73bce0",
       "size": 11160,
       "normalized_sha256": "069842f6ffc560a8cc75459c716b0506496a8322ced6a152225daf733b73bce0"
     },
-    "docs/go_projects/clictl/clictl 使用指南.md": {
-      "role": "index",
+    "docs/projects/go_projects/clictl/clictl 使用指南.md": {
       "sha256": "5f059341944ba76aad81259cef228f3ae6d3d7f6fd40445404d9feb03192b93a",
       "size": 9817,
       "normalized_sha256": "5f059341944ba76aad81259cef228f3ae6d3d7f6fd40445404d9feb03192b93a"
     },
-    "docs/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
-      "role": "index",
+    "docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
       "sha256": "2004352e339d68e56cd90434cc3d839be0477c9127db0d5bb2aeac7310d06720",
       "size": 1358,
       "normalized_sha256": "2004352e339d68e56cd90434cc3d839be0477c9127db0d5bb2aeac7310d06720"
     },
-    "docs/go_projects/clictl/migrations/001_v1.2.0_add_launches_pid.sql": {
-      "role": "index",
+    "docs/projects/go_projects/clictl/migrations/001_v1.2.0_add_launches_pid.sql": {
       "sha256": "58efd0896da1e6b6531d3901803c41843f8a8f26773775167244ea97ea91df21",
       "size": 710,
       "normalized_sha256": "58efd0896da1e6b6531d3901803c41843f8a8f26773775167244ea97ea91df21"
     },
-    "docs/go_projects/exestarter/接口文档.md": {
-      "role": "index",
+    "docs/projects/go_projects/exestarter/接口文档.md": {
       "sha256": "e745148e74be603165cefb08093daa3a57dc6980acd746ad5170d39de956cafc",
       "size": 10296,
       "normalized_sha256": "e745148e74be603165cefb08093daa3a57dc6980acd746ad5170d39de956cafc"
     },
-    "docs/go_projects/glmquotawatch/plans/01-mcp-schema-portability.md": {
-      "role": "index",
-      "sha256": "6dc51e96842deb1e8f5138e83d84506c2e8d35e9cede491dc1b5a4a3390f60df",
-      "size": 6308,
-      "normalized_sha256": "6dc51e96842deb1e8f5138e83d84506c2e8d35e9cede491dc1b5a4a3390f60df"
+    "docs/projects/go_projects/glmquotawatch/plans/01-mcp-schema-portability.md": {
+      "sha256": "22e815a76da7190c1967b70693caf3a4f1ce742635913b631e5a93ba12d0c6bf",
+      "size": 6335,
+      "normalized_sha256": "22e815a76da7190c1967b70693caf3a4f1ce742635913b631e5a93ba12d0c6bf"
     },
-    "docs/go_projects/glmquotawatch/使用指南.md": {
-      "role": "index",
+    "docs/projects/go_projects/glmquotawatch/使用指南.md": {
       "sha256": "51a178f8e8da5c71a9c1d9169cc04707cb9a834275752ff8ac866e854e83e506",
       "size": 8532,
       "normalized_sha256": "51a178f8e8da5c71a9c1d9169cc04707cb9a834275752ff8ac866e854e83e506"
     },
-    "docs/go_projects/liteconf/brunos/.gitignore": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/brunos/.gitignore": {
       "sha256": "bc7574d6f652d6959ff2f6ecbe187c743c317c5e97437eebe2fcd6a4ef870ad7",
       "size": 76,
       "normalized_sha256": "bc7574d6f652d6959ff2f6ecbe187c743c317c5e97437eebe2fcd6a4ef870ad7"
     },
-    "docs/go_projects/liteconf/brunos/01-put-config.yml": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/brunos/01-put-config.yml": {
       "sha256": "2f479aba039cd48116a56682e114eeb51afdf5eccef23faf01ec3a2cce3bf06f",
       "size": 1595,
       "normalized_sha256": "2f479aba039cd48116a56682e114eeb51afdf5eccef23faf01ec3a2cce3bf06f"
     },
-    "docs/go_projects/liteconf/brunos/02-get-config.yml": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/brunos/02-get-config.yml": {
       "sha256": "bceb0def929345eae324617d0f7eb65e0f16038773de2a182df04223582998c6",
       "size": 831,
       "normalized_sha256": "bceb0def929345eae324617d0f7eb65e0f16038773de2a182df04223582998c6"
     },
-    "docs/go_projects/liteconf/brunos/03-discovery.yml": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/brunos/03-discovery.yml": {
       "sha256": "1e43796647d295715583f961b72e94b21103cad682592c680919c9190a78dcb7",
       "size": 769,
       "normalized_sha256": "1e43796647d295715583f961b72e94b21103cad682592c680919c9190a78dcb7"
     },
-    "docs/go_projects/liteconf/brunos/04-watch.yml": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/brunos/04-watch.yml": {
       "sha256": "21336ef788c5b33b6341c6b14fad9a2a6ff8cd3a67ee9e2ad53a57ca3a7eb72f",
       "size": 1458,
       "normalized_sha256": "21336ef788c5b33b6341c6b14fad9a2a6ff8cd3a67ee9e2ad53a57ca3a7eb72f"
     },
-    "docs/go_projects/liteconf/brunos/05-not-found.yml": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/brunos/05-not-found.yml": {
       "sha256": "7185f6bf7f70152fe238a1503d6683879d33d14502143aa3c3ff927a9c1bca4f",
       "size": 889,
       "normalized_sha256": "7185f6bf7f70152fe238a1503d6683879d33d14502143aa3c3ff927a9c1bca4f"
     },
-    "docs/go_projects/liteconf/brunos/environments/local.yml": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/brunos/environments/local.yml": {
       "sha256": "6240f54df9eda1920901ff2fc305c83c393894523d06f22542ac2ca213c895cc",
       "size": 93,
       "normalized_sha256": "6240f54df9eda1920901ff2fc305c83c393894523d06f22542ac2ca213c895cc"
     },
-    "docs/go_projects/liteconf/brunos/opencollection.yml": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/brunos/opencollection.yml": {
       "sha256": "91f679df90ef4b80c21552b5f5de5a3b55954cc036e1085ba466414aa2d0be9a",
       "size": 128,
       "normalized_sha256": "91f679df90ef4b80c21552b5f5de5a3b55954cc036e1085ba466414aa2d0be9a"
     },
-    "docs/go_projects/liteconf/plans/01-mcp-server.md": {
-      "role": "index",
-      "sha256": "73873030366c198b95f50fbb51edc9dfb4cedaab165ea46613f851cdcd22087f",
-      "size": 20267,
-      "normalized_sha256": "73873030366c198b95f50fbb51edc9dfb4cedaab165ea46613f851cdcd22087f"
+    "docs/projects/go_projects/liteconf/plans/01-mcp-server.md": {
+      "sha256": "21e12ebf5537054ffce5040d291091db7d27040f66079557cb4795735edef3a0",
+      "size": 20276,
+      "normalized_sha256": "21e12ebf5537054ffce5040d291091db7d27040f66079557cb4795735edef3a0"
     },
-    "docs/go_projects/liteconf/specs/01-liteconf/design.md": {
-      "role": "index",
-      "sha256": "de262b877a02f86afd383c356ea55145bad22f41143d3f01e0d321781aced185",
-      "size": 14592,
-      "normalized_sha256": "de262b877a02f86afd383c356ea55145bad22f41143d3f01e0d321781aced185"
+    "docs/projects/go_projects/liteconf/specs/01-liteconf/design.md": {
+      "sha256": "45bacd8733cd2b79b38ace350a31f096e28ba2cd655235215720737571c87f22",
+      "size": 14601,
+      "normalized_sha256": "45bacd8733cd2b79b38ace350a31f096e28ba2cd655235215720737571c87f22"
     },
-    "docs/go_projects/liteconf/specs/01-liteconf/requirements.md": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/specs/01-liteconf/requirements.md": {
       "sha256": "e947cb29abbc39946a0892ae0be642205b9f4213c0cf3f70e9143cd7847fae51",
       "size": 7322,
       "normalized_sha256": "e947cb29abbc39946a0892ae0be642205b9f4213c0cf3f70e9143cd7847fae51"
     },
-    "docs/go_projects/liteconf/specs/01-liteconf/tasks.md": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/specs/01-liteconf/tasks.md": {
       "sha256": "caa57132a1cb1ffaeb856a926384e5e7ff838458714fb42e7bc8bde37b025e35",
       "size": 11932,
       "normalized_sha256": "caa57132a1cb1ffaeb856a926384e5e7ff838458714fb42e7bc8bde37b025e35"
     },
-    "docs/go_projects/liteconf/specs/02-gui-shell/design.md": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/specs/02-gui-shell/design.md": {
       "sha256": "963ae3f1258612e6460f089cd9cc4ab48fc4314c5174196a18d2eb4c0ba54b6b",
       "size": 11262,
       "normalized_sha256": "963ae3f1258612e6460f089cd9cc4ab48fc4314c5174196a18d2eb4c0ba54b6b"
     },
-    "docs/go_projects/liteconf/specs/02-gui-shell/requirements.md": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/specs/02-gui-shell/requirements.md": {
       "sha256": "6a1e87dede3f54b2e81f2cba928fc6c0973469eb428691491a7d8187c8448347",
       "size": 6463,
       "normalized_sha256": "6a1e87dede3f54b2e81f2cba928fc6c0973469eb428691491a7d8187c8448347"
     },
-    "docs/go_projects/liteconf/specs/02-gui-shell/tasks.md": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/specs/02-gui-shell/tasks.md": {
       "sha256": "08d5e90e069a04f4b8dbeee1728bf0f701cbe612f439dc29b53d4cde1eac16e9",
       "size": 7190,
       "normalized_sha256": "08d5e90e069a04f4b8dbeee1728bf0f701cbe612f439dc29b53d4cde1eac16e9"
     },
-    "docs/go_projects/liteconf/specs/03-http-passthrough/design.md": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/specs/03-http-passthrough/design.md": {
       "sha256": "c1b4dca9b64460f336206c6b4d9bab84b74a61b24018eb44c08b7bf3fa413061",
       "size": 12354,
       "normalized_sha256": "c1b4dca9b64460f336206c6b4d9bab84b74a61b24018eb44c08b7bf3fa413061"
     },
-    "docs/go_projects/liteconf/specs/03-http-passthrough/requirements.md": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/specs/03-http-passthrough/requirements.md": {
       "sha256": "8fa5e92e862e39d844bd5df85276c1265d6ae798ae17fe396969edd0422f2af1",
       "size": 4841,
       "normalized_sha256": "8fa5e92e862e39d844bd5df85276c1265d6ae798ae17fe396969edd0422f2af1"
     },
-    "docs/go_projects/liteconf/specs/03-http-passthrough/tasks.md": {
-      "role": "index",
+    "docs/projects/go_projects/liteconf/specs/03-http-passthrough/tasks.md": {
       "sha256": "303e7694ac90a61d0754c59b36ce8cb27540b3e75c82918d9503b3e2117105d2",
       "size": 8725,
       "normalized_sha256": "303e7694ac90a61d0754c59b36ce8cb27540b3e75c82918d9503b3e2117105d2"
     },
-    "docs/go_projects/plans/01-exe-icon-rebuild.md": {
-      "role": "index",
-      "sha256": "88a421efea33c111e2a14baa621a7e33e7efb3f8caea16400e6bd60c566cf174",
-      "size": 6056,
-      "normalized_sha256": "88a421efea33c111e2a14baa621a7e33e7efb3f8caea16400e6bd60c566cf174"
+    "docs/projects/go_projects/plans/01-exe-icon-rebuild.md": {
+      "sha256": "eb8f595d62ae25aa7ffc64fa6ea9359ac04c07ff5719a4f54ba5d9474164b177",
+      "size": 6070,
+      "normalized_sha256": "eb8f595d62ae25aa7ffc64fa6ea9359ac04c07ff5719a4f54ba5d9474164b177"
     },
-    "docs/go_projects/projstat/specs/design.md": {
-      "role": "index",
+    "docs/projects/go_projects/projstat/specs/design.md": {
       "sha256": "b736a418e92c02d26bde0e9fad6939f26171368661f6eb4e4fa92e05d2a388e5",
       "size": 14733,
       "normalized_sha256": "0e73e9cc00764b632da5f55782f9d5751853522e9eab661055d4bf3714f67316"
     },
-    "docs/go_projects/projstat/specs/requirements.md": {
-      "role": "index",
-      "sha256": "5ab097888d685f6bc16ea4f6e25d4ccbc05434b9226f3924b0f2568ee00e15b3",
-      "size": 7756,
-      "normalized_sha256": "ebd6f213436871cd01f7fa096263bade26166e387a3e619e1736b9cc69835fa3"
+    "docs/projects/go_projects/projstat/specs/requirements.md": {
+      "sha256": "c8b07afaddd15858bf8a89f6dcdbd48d771e978b84f341809ec6bbd92b34c2ad",
+      "size": 7765,
+      "normalized_sha256": "dc3ef616a60831b790114137ba5be827aa030ee241dfc36f286e2423eb97df63"
     },
-    "docs/go_projects/projstat/specs/tasks.md": {
-      "role": "index",
+    "docs/projects/go_projects/projstat/specs/tasks.md": {
       "sha256": "22b9d973d30ecd82449af54c3b13784b2df80cf9decf79d47232187d6e304e82",
       "size": 6500,
       "normalized_sha256": "7efbc131cbee6f1ac1da95701bb8ce4d67458b87415fabf44cd8956482ce5e6c"
     },
-    "docs/go_projects/统一核心与多通道投影指南.md": {
-      "role": "index",
+    "docs/projects/go_projects/统一核心与多通道投影指南.md": {
       "sha256": "dc8679fcef4bf19148933fbeb790496dea80708f3c70e93a0693b6aa112c4dcb",
       "size": 405,
       "normalized_sha256": "6897437bc767618806215944b98e8964100df0f7f69176853a2d170db95f4d6d"
     },
-    "docs/plans/01-lark-group-bridge.md": {
-      "role": "index",
-      "sha256": "fe348c19976239603c15a75360ced1e6f63dd64db3656e24711c490bedf2625a",
-      "size": 10108,
-      "normalized_sha256": "fe348c19976239603c15a75360ced1e6f63dd64db3656e24711c490bedf2625a"
-    },
-    "docs/python_projects/django-lab/ORM 对照手册.md": {
-      "role": "index",
+    "docs/projects/python_projects/django-lab/ORM 对照手册.md": {
       "sha256": "261d4e56a0ae679dfe6936f854a9004611231f5ca3936dd7fc4087a8a055dc74",
       "size": 7795,
       "normalized_sha256": "5f03c3e25d05d47e52fdf81e9311020098971471674be4c819e12ee6bbbad137"
     },
-    "docs/python_projects/llm-finetune-lab/01 环境与显存预算.md": {
-      "role": "index",
+    "docs/projects/python_projects/llm-finetune-lab/01 环境与显存预算.md": {
       "sha256": "8bd5df55b142d6d9ceb882dc0c348bcb7c4138098326cd411a9ff9ef9398c348",
       "size": 3749,
       "normalized_sha256": "8bd5df55b142d6d9ceb882dc0c348bcb7c4138098326cd411a9ff9ef9398c348"
     },
-    "docs/python_projects/llm-finetune-lab/02 数据工厂.md": {
-      "role": "index",
+    "docs/projects/python_projects/llm-finetune-lab/02 数据工厂.md": {
       "sha256": "26d42ce7242d63b1943512a5423e5793eb65302bf9c8d650b0cac5033e5512ac",
       "size": 4682,
       "normalized_sha256": "26d42ce7242d63b1943512a5423e5793eb65302bf9c8d650b0cac5033e5512ac"
     },
-    "docs/python_projects/llm-finetune-lab/03 LoRA 微调.md": {
-      "role": "index",
+    "docs/projects/python_projects/llm-finetune-lab/03 LoRA 微调.md": {
       "sha256": "404f8b3c388ce4145a956c86e49065aea4dc82506986e71f99238600e91bd7cd",
       "size": 3900,
       "normalized_sha256": "404f8b3c388ce4145a956c86e49065aea4dc82506986e71f99238600e91bd7cd"
     },
-    "docs/python_projects/llm-finetune-lab/04 QLoRA 与 4B.md": {
-      "role": "index",
+    "docs/projects/python_projects/llm-finetune-lab/04 QLoRA 与 4B.md": {
       "sha256": "643fc59cdfb3198350162c65129ccdea3e0dd0a2563641232473567a6442cad8",
       "size": 2876,
       "normalized_sha256": "643fc59cdfb3198350162c65129ccdea3e0dd0a2563641232473567a6442cad8"
     },
-    "docs/python_projects/llm-finetune-lab/05 评测方法.md": {
-      "role": "index",
+    "docs/projects/python_projects/llm-finetune-lab/05 评测方法.md": {
       "sha256": "c48c12fa1efa332a3fdc1410cd5c66ff0a7673a712135798d4d2f00f2879a18a",
       "size": 2626,
       "normalized_sha256": "c48c12fa1efa332a3fdc1410cd5c66ff0a7673a712135798d4d2f00f2879a18a"
     },
-    "docs/python_projects/llm-finetune-lab/06 导出 Ollama 部署.md": {
-      "role": "index",
+    "docs/projects/python_projects/llm-finetune-lab/06 导出 Ollama 部署.md": {
       "sha256": "9325f0f003320d51508347db231271ab0a17b01c8858bd4ed0914880b075e9c6",
       "size": 2796,
       "normalized_sha256": "9325f0f003320d51508347db231271ab0a17b01c8858bd4ed0914880b075e9c6"
     },
-    "docs/python_projects/llm-finetune-lab/07 RAG 对照.md": {
-      "role": "index",
+    "docs/projects/python_projects/llm-finetune-lab/07 RAG 对照.md": {
       "sha256": "f064b06de552b3578fd07ffc40f2bbaa125854bec06d66c86f1ab6745dd91b40",
       "size": 2941,
       "normalized_sha256": "f064b06de552b3578fd07ffc40f2bbaa125854bec06d66c86f1ab6745dd91b40"
     },
-    "docs/python_projects/llm-finetune-lab/README.md": {
-      "role": "index",
+    "docs/projects/python_projects/llm-finetune-lab/README.md": {
       "sha256": "1fc8b238d25037ff7366450b2177b3d017ce9cf43bf0fd3faf99b6019c885c16",
       "size": 3685,
       "normalized_sha256": "1fc8b238d25037ff7366450b2177b3d017ce9cf43bf0fd3faf99b6019c885c16"
     },
-    "docs/python_projects/rag_lab/specs/01-knowledge-base/requirements.md": {
-      "role": "index",
-      "sha256": "7def130fa05cbf4b3a0d0e6cc3c378a9a309a1b7a5cadc6d151731e760462c6c",
-      "size": 6598,
-      "normalized_sha256": "7def130fa05cbf4b3a0d0e6cc3c378a9a309a1b7a5cadc6d151731e760462c6c"
+    "docs/projects/python_projects/rag_lab/specs/01-knowledge-base/requirements.md": {
+      "sha256": "4f77bab5a1fef94f80b22787b57e1983a15d6dbf2a567409bd04094eb6a4e2ca",
+      "size": 6616,
+      "normalized_sha256": "4f77bab5a1fef94f80b22787b57e1983a15d6dbf2a567409bd04094eb6a4e2ca"
     },
-    "docs/python_projects/tech_learning_room/Celery 任务可靠性.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/Celery 任务可靠性.md": {
       "sha256": "7064ea94612aa3bcd291f5a907ba46e4c73c667491a8e530a4506397534be251",
       "size": 5978,
       "normalized_sha256": "7064ea94612aa3bcd291f5a907ba46e4c73c667491a8e530a4506397534be251"
     },
-    "docs/python_projects/tech_learning_room/FastAPI 分层与事务边界.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/FastAPI 分层与事务边界.md": {
       "sha256": "a6f52d96a0c5575d5a7dcb536ee80381cd16c70e8cc234e8a45b5d84e1cf6d19",
       "size": 4818,
       "normalized_sha256": "a6f52d96a0c5575d5a7dcb536ee80381cd16c70e8cc234e8a45b5d84e1cf6d19"
     },
-    "docs/python_projects/tech_learning_room/Kafka 投递语义.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/Kafka 投递语义.md": {
       "sha256": "bee8492c22795d720518406e3f1dfd64724d068550f07f23221ea58eb27829bf",
       "size": 5277,
       "normalized_sha256": "bee8492c22795d720518406e3f1dfd64724d068550f07f23221ea58eb27829bf"
     },
-    "docs/python_projects/tech_learning_room/PG 并发扣减与事务隔离.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/PG 并发扣减与事务隔离.md": {
       "sha256": "2478419bf6beb7e5782c6bde05e6e59580ce8f44ac5366ad47dad4ee0cb9c4e2",
       "size": 7623,
       "normalized_sha256": "2478419bf6beb7e5782c6bde05e6e59580ce8f44ac5366ad47dad4ee0cb9c4e2"
     },
-    "docs/python_projects/tech_learning_room/PG 查询调优.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/PG 查询调优.md": {
       "sha256": "f1246a3720bb9b5b045fb21a98a72387397747f34a2b782e8a97dae5678dc9ba",
       "size": 5730,
       "normalized_sha256": "f1246a3720bb9b5b045fb21a98a72387397747f34a2b782e8a97dae5678dc9ba"
     },
-    "docs/python_projects/tech_learning_room/Python asyncio 并发.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/Python asyncio 并发.md": {
       "sha256": "dde08abd2f1fece1b4b5a3ecbc15983c37f51413877b17b15218e4f78315a955",
       "size": 5081,
       "normalized_sha256": "dde08abd2f1fece1b4b5a3ecbc15983c37f51413877b17b15218e4f78315a955"
     },
-    "docs/python_projects/tech_learning_room/README.md": {
-      "role": "index",
-      "sha256": "172632610911e9baf95813fb5ea0c9b70ab2a68e8c7856093eda2a26e2cfda5f",
-      "size": 4027,
-      "normalized_sha256": "172632610911e9baf95813fb5ea0c9b70ab2a68e8c7856093eda2a26e2cfda5f"
+    "docs/projects/python_projects/tech_learning_room/README.md": {
+      "sha256": "52107504b51318e8b850075319cee44d9aee307af700ce97dedfc543baa3ec4b",
+      "size": 4036,
+      "normalized_sha256": "52107504b51318e8b850075319cee44d9aee307af700ce97dedfc543baa3ec4b"
     },
-    "docs/python_projects/tech_learning_room/Redis 四种角色.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/Redis 四种角色.md": {
       "sha256": "2e8deb6dbcb078f534eaff2b73db58e8a99bb0ed1796f4767c12640004c8b69e",
       "size": 4664,
       "normalized_sha256": "2e8deb6dbcb078f534eaff2b73db58e8a99bb0ed1796f4767c12640004c8b69e"
     },
-    "docs/python_projects/tech_learning_room/Redis 缓存一致性.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/Redis 缓存一致性.md": {
       "sha256": "42884f0e9a20e54a33fe09124d8293dd419c074ca2107c8b06e1ce3adc8acc1f",
       "size": 6480,
       "normalized_sha256": "42884f0e9a20e54a33fe09124d8293dd419c074ca2107c8b06e1ce3adc8acc1f"
     },
-    "docs/python_projects/tech_learning_room/SQLAlchemy Session 生命周期.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/SQLAlchemy Session 生命周期.md": {
       "sha256": "79bdce2ae2e8f202eca454c41f65d51015546b0539eaa9e59332e95289ea08b1",
       "size": 5605,
       "normalized_sha256": "79bdce2ae2e8f202eca454c41f65d51015546b0539eaa9e59332e95289ea08b1"
     },
-    "docs/python_projects/tech_learning_room/事务发件箱.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/事务发件箱.md": {
       "sha256": "54857e6790f4ef1d0a71c85e97300f5f6eaeac4d72819f1cf437c71559285618",
       "size": 5687,
       "normalized_sha256": "54857e6790f4ef1d0a71c85e97300f5f6eaeac4d72819f1cf437c71559285618"
     },
-    "docs/python_projects/tech_learning_room/计费补偿与对账.md": {
-      "role": "index",
+    "docs/projects/python_projects/tech_learning_room/计费补偿与对账.md": {
       "sha256": "a2b6850fc8ec4d6ba5b3ea0fedb9e078071d5c255e442bad808d5bb70b9a02b2",
       "size": 5444,
       "normalized_sha256": "a2b6850fc8ec4d6ba5b3ea0fedb9e078071d5c255e442bad808d5bb70b9a02b2"
     },
-    "docs/python_projects/zedhub/zedhub 对接协议.md": {
-      "role": "index",
+    "docs/projects/python_projects/zedhub/zedhub 对接协议.md": {
       "sha256": "5c9c21cc7fe985ef726d0bb42cdcda8dc960620f0ae12e478f25063066bc19fa",
       "size": 6698,
       "normalized_sha256": "1f7cb85a09233b963e31616a0a4a4c2bcd69076725ea96ca53eb7c258e117cd8"
     },
-    "docs/rust_projects/minieverything/minieverything 开发笔记.md": {
-      "role": "index",
+    "docs/projects/rust_projects/minieverything/minieverything 开发笔记.md": {
       "sha256": "3b71a962f8d84eea85849a09647e3abc77220df5a718c2c029246bba162c8473",
       "size": 4528,
       "normalized_sha256": "3b71a962f8d84eea85849a09647e3abc77220df5a718c2c029246bba162c8473"
     },
-    "docs/typescript_projects/taskmon/plans/001-进程树检测.md": {
-      "role": "index",
-      "sha256": "0bb60d4404127e48121f5b5cc090af5b10b2ce48e723bf5d8746eb69d487716c",
-      "size": 7550,
-      "normalized_sha256": "a19933803cfef675f83079e93cf929494abe68fe2a4320d0794a9810b516d589"
+    "docs/projects/typescript_projects/taskmon/plans/01-进程树检测.md": {
+      "sha256": "ce59cc9549a702ec4cfa3ef3a3b159894013e86e938a5861e3a52caf2b267ab7",
+      "size": 7548,
+      "normalized_sha256": "ceddf6d70fe9583033706eeae61e435bb94a5b2c53334459c43bb6da7862f63d"
     },
-    "docs/typescript_projects/taskmon/plans/002-AI分析对话.md": {
-      "role": "index",
-      "sha256": "9111d3f0b976c699ffc6633328d011c552c5fd9402d481710b502b0a60e4c937",
-      "size": 13717,
-      "normalized_sha256": "9111d3f0b976c699ffc6633328d011c552c5fd9402d481710b502b0a60e4c937"
+    "docs/projects/typescript_projects/taskmon/plans/02-AI分析对话.md": {
+      "sha256": "5f989367459cac7a31c9331e70f0b96b242898286891e0994e93cecfc050fa4f",
+      "size": 13725,
+      "normalized_sha256": "5f989367459cac7a31c9331e70f0b96b242898286891e0994e93cecfc050fa4f"
     },
-    "docs/typescript_projects/taskmon/taskmon AI 问答功能开发计划（人脑思考版）.md": {
-      "role": "index",
+    "docs/projects/typescript_projects/taskmon/taskmon AI 问答功能开发计划（人脑思考版）.md": {
       "sha256": "7b7d31c835f5c00b19086698087fccdc53d52a135e69319daed5953ab4121e56",
       "size": 751,
       "normalized_sha256": "03d34a4f45b31137ca391818fe8b52d4b09d07915253e5d1421c21b8a35a4806"
     },
-    "docs/typescript_projects/taskmon/taskmon 源码阅读三方法.md": {
-      "role": "index",
+    "docs/projects/typescript_projects/taskmon/taskmon 源码阅读三方法.md": {
       "sha256": "52ef62cdb888362d5211240ceaf8aaa85e4912b8422e13fca01c185e1cd02e7d",
       "size": 14640,
       "normalized_sha256": "bd747467c81213456c95d7180e2e796dfde79ca6ca3ed102595c39d53550dc31"
     },
-    "docs/typescript_projects/taskmon/taskmon-v0.2.0-go/taskmon-go 复刻规格说明书.md": {
-      "role": "index",
+    "docs/projects/typescript_projects/taskmon/taskmon-v0.2.0-go/taskmon-go 复刻规格说明书.md": {
       "sha256": "a1f56b8ca0dac5fd2d69c3fef210f5af94074e42c5d9d570fe15f611094904fb",
       "size": 33443,
       "normalized_sha256": "6de2b5957410153c7e87a6f0c47c3c2bb50cee775624162c66d94f8b814a5c6d"
     },
-    "docs/typescript_projects/tooldeck/PLAN.md": {
-      "role": "index",
-      "sha256": "1e0dc27a7e9b92b5e414fe7d91aade51fdbd910877fe21e84586372d56517fbf",
-      "size": 17475,
-      "normalized_sha256": "1e0dc27a7e9b92b5e414fe7d91aade51fdbd910877fe21e84586372d56517fbf"
+    "docs/projects/typescript_projects/tooldeck/PLAN.md": {
+      "sha256": "9e55599fe10f1346016f993a6dc0814da51d3fc3e0db118b0250c6cc412ee8ef",
+      "size": 17547,
+      "normalized_sha256": "9e55599fe10f1346016f993a6dc0814da51d3fc3e0db118b0250c6cc412ee8ef"
     },
-    "gen_icon.py": {
-      "role": "index",
-      "sha256": "d9038d57a606475c5d957d1e9a4c8ed388f5b75f8841a164b3024be2535cad92",
-      "size": 1597,
-      "normalized_sha256": "d9038d57a606475c5d957d1e9a4c8ed388f5b75f8841a164b3024be2535cad92"
+    "docs/repo/Git 子模块临时注销（native、rust）.md": {
+      "sha256": "9e537e8fe2e97f206bac3a69ea11e2f08c4b745a0e85a0b0eaefcf8f0fd76964",
+      "size": 3966,
+      "normalized_sha256": "9e537e8fe2e97f206bac3a69ea11e2f08c4b745a0e85a0b0eaefcf8f0fd76964"
     },
-    "init-submodules.ps1": {
-      "role": "index",
-      "sha256": "158293d4cf655c67487d9cc9159b31605e686a986ab6fd8a49ca4e84e56818d9",
-      "size": 1397,
-      "normalized_sha256": "158293d4cf655c67487d9cc9159b31605e686a986ab6fd8a49ca4e84e56818d9"
-    },
-    "install_tool.py": {
-      "role": "index",
-      "sha256": "ffab757d0e64c1d02aa2f1d7fca9a297f0d813b1a335c301e4bed2a1ca177f2a",
-      "size": 3701,
-      "normalized_sha256": "ffab757d0e64c1d02aa2f1d7fca9a297f0d813b1a335c301e4bed2a1ca177f2a"
-    },
-    "lark-auth-qr.png": {
-      "role": "index",
-      "sha256": "4086e5bbbbbc162d49c2f6de7e9d63a7189b5770a15b86d64cb42b9207fcb188",
-      "size": 851
+    "docs/repo/Git 子模块分支机制.md": {
+      "sha256": "a5f8e6f36ec8f86e84f6b6c45cf17e186f774cb0f236e07d4502d807b5d2c95d",
+      "size": 3022,
+      "normalized_sha256": "a5f8e6f36ec8f86e84f6b6c45cf17e186f774cb0f236e07d4502d807b5d2c95d"
     }
   },
   "managed_scope": {
     "version": "managed-scope-baseline/v1",
-    "policy_identity": "81421936ffa2228995783d12046110aa7b7759d131ce244b24bf0a69a61c9264",
+    "policy_identity": "d36163d08cfbd7f82aa2d2f4c68bc926d5190c619fb8e61a002b4d3d74519e43",
     "observe_change_policy": "review_required",
     "budget_policy_identity": "15e9b37a6c57e9bf03c9df3d0d049eb5b9a7f5540f9d34960408114e2538a32d",
     "budget_policy": {
