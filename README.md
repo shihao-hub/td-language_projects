@@ -31,7 +31,7 @@ git submodule update --init --recursive
 git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（这是子模块的设计行为，不是异常）。若希望各子模块直接站在 `main`/`master` 本地分支上，克隆后在仓库根执行一次：
 
 ```powershell
-./docs/scripts/init-submodules.ps1
+./.scripts/init-submodules.ps1
 ```
 
 脚本做两件事：初始化子模块 → 按 `.gitmodules` 中各子模块的 `branch` 字段切换到对应本地分支（`git switch` 会在本地无同名分支时自动创建并跟踪 `origin/<branch>`）。
@@ -63,20 +63,20 @@ git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（�
 
 ## 仓库脚本
 
-仓库运维脚本统一放 `docs/scripts/`（根目录不再放脚本），**一脚本一事**，统一采用 PEP 723 内联依赖（`# /// script` 块）+ `uv run` 执行；仓库内**不产生也不会提交** `.venv`、`pyproject.toml`、`uv.lock`、`requirements.txt`：
+仓库运维脚本统一放 `.scripts/`（点前缀基础设施目录，与 `.archived`/`.zed` 同层），**一脚本一事**，统一采用 PEP 723 内联依赖（`# /// script` 块）+ `uv run` 执行；仓库内**不产生也不会提交** `.venv`、`pyproject.toml`、`uv.lock`、`requirements.txt`：
 
 ```powershell
-uv run docs/scripts/install_tool.py all
+uv run .scripts/install_tool.py all
 ```
 
 可用脚本：
 
 | 脚本 | 功能 | 用法 |
 |---|---|---|
-| `docs/scripts/install_tool.py` | 把子仓构建产物安装到 `~/.local/bin`（在 PATH 上即装即用） | `uv run docs/scripts/install_tool.py <instancelock\|clictl\|jtree\|all>` |
-| `docs/scripts/init-submodules.ps1` | 克隆后初始化子模块并切换到跟踪分支 | `./docs/scripts/init-submodules.ps1` |
-| `docs/scripts/gen_icon.py` | PNG 源图转多尺寸 Windows .ico | `uv run docs/scripts/gen_icon.py <input.png> <output.ico>` |
-| `docs/scripts/lark_group_bridge.py` | 外部群消息桥（发送/读取/群列表/初始化） | `uv run docs/scripts/lark_group_bridge.py <send\|read\|groups\|init>` |
+| `.scripts/install_tool.py` | 把子仓构建产物安装到 `~/.local/bin`（在 PATH 上即装即用） | `uv run .scripts/install_tool.py <instancelock\|clictl\|jtree\|all>` |
+| `.scripts/init-submodules.ps1` | 克隆后初始化子模块并切换到跟踪分支 | `./.scripts/init-submodules.ps1` |
+| `.scripts/gen_icon.py` | PNG 源图转多尺寸 Windows .ico | `uv run .scripts/gen_icon.py <input.png> <output.ico>` |
+| `.scripts/lark_group_bridge.py` | 外部群消息桥（发送/读取/群列表/初始化） | `uv run .scripts/lark_group_bridge.py <send\|read\|groups\|init>` |
 
 ## 数据文件存放规范（重要）
 

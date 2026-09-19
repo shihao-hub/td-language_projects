@@ -5,7 +5,7 @@
 """按工具名把子仓构建产物安装到 ~/.local/bin。
 
 用法：
-    uv run docs/scripts/install_tool.py <instancelock|clictl|jtree|all>
+    uv run .scripts/install_tool.py <instancelock|clictl|jtree|all>
 """
 import argparse
 import re

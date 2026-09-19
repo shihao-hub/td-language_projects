@@ -37,7 +37,7 @@ description: >-
 
 | 依赖 | 用途 | 缺失时的表现 |
 |---|---|---|
-| uv | 执行脚本 | 统一用 `uv run docs/scripts/lark_group_bridge.py <子命令>` |
+| uv | 执行脚本 | 统一用 `uv run .scripts/lark_group_bridge.py <子命令>` |
 | lark-cli | 全部发送、read、groups | 报 `cli_missing`；bot token 自动获取，无需 auth login |
 | bot 已在目标群 | 所有 bot 通道发送 | lark-cli 报群成员相关错误；用 `groups` 确认群，客户端手动加 bot |
 | webhook 已配置 | 仅 `--via webhook` 时 | 报 `webhook_not_configured` |
@@ -46,15 +46,15 @@ description: >-
 
 ```powershell
 # 1. 一次性配置（chat_id 用 groups 查；webhook 可选，仅旧通道需要）
-uv run docs/scripts/lark_group_bridge.py init --chat-id oc_xxx
+uv run .scripts/lark_group_bridge.py init --chat-id oc_xxx
 
 # 2. 发文本 / 图片 / PPT文件（均为机器人身份，消息内自动带代发标注）
-uv run docs/scripts/lark_group_bridge.py send --text "构建完成了" --agent opencode
-uv run docs/scripts/lark_group_bridge.py send --image D:\shots\a.png --agent opencode
-uv run docs/scripts/lark_group_bridge.py send --file D:\docs\技术方案.pptx --agent Claude
+uv run .scripts/lark_group_bridge.py send --text "构建完成了" --agent opencode
+uv run .scripts/lark_group_bridge.py send --image D:\shots\a.png --agent opencode
+uv run .scripts/lark_group_bridge.py send --file D:\docs\技术方案.pptx --agent Claude
 
 # 3. 读群里最近 10 条消息（看对方的回复，时间正序）
-uv run docs/scripts/lark_group_bridge.py read
+uv run .scripts/lark_group_bridge.py read
 ```
 
 ## 子命令参考

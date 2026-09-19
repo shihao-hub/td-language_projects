@@ -2,21 +2,21 @@
 
 ## 项目概述
 
-仓库根目录的单文件 Python 桥接脚本：让任何 AI agent 向飞书外部群**发文本/图片/PPT/任意文件（对外共享机器人，bot 身份）**、**读群消息（lark-cli）**。webhook 降级为文本备选通道（`--via webhook`）。
+仓库运维脚本目录 `.scripts/` 下的单文件 Python 桥接脚本：让任何 AI agent 向飞书外部群**发文本/图片/PPT/任意文件（对外共享机器人，bot 身份）**、**读群消息（lark-cli）**。webhook 降级为文本备选通道（`--via webhook`）。
 
-- 单脚本文件放 `docs/scripts/`，文档注释完备——其他 AI agent **只读这一个文件**就知道怎么用
+- 单脚本文件放 `.scripts/`，文档注释完备——其他 AI agent **只读这一个文件**就知道怎么用
 - 文件头 docstring 按 skill-creator（SKILL.md）规范写：frontmatter（name/description）+ 使用手册
 - webhook URL 等敏感配置**不入仓库**，首次 `init` 写入 `%APPDATA%\language_projects\lark_group_bridge\config.json`
-- PEP 723 内联元数据，`uv run docs/scripts/lark_group_bridge.py <cmd>` 执行，纯标准库零第三方依赖
+- PEP 723 内联元数据，`uv run .scripts/lark_group_bridge.py <cmd>` 执行，纯标准库零第三方依赖
 - 遵守 CLI 标准精神（一次性脚本豁免 MCP/schema 强制）：人读默认 + `--json`、退出码 0/1/2、JSON 包络 `{"ok":...}`
 
 ## 项目结构
 
 ```
 language_projects/
-├── lark_group_bridge.py        # 唯一交付物：webhook 发送 + lark-cli 读取桥接
-├── docs/plans/01-lark-group-bridge.md   # 本计划
-└── lark-auth-qr.png            # 待删除（历史临时产物，违反"根目录只放 py"约定）
+└── docs/
+    ├── scripts/lark_group_bridge.py    # 唯一交付物：对外共享机器人发文本/媒体 + lark-cli 读取桥接
+    └── plans/01-lark-group-bridge.md   # 本计划
 ```
 
 运行时数据（不在仓库内）：
@@ -106,7 +106,7 @@ config.json（`init` 写入）：
 - [x] 1.6 `--version`、`--help` 全覆盖
 
 **验收标准**：
-- `uv run docs/scripts/lark_group_bridge.py --help` 及各子命令 `--help` 正常，`--version` 输出版本
+- `uv run .scripts/lark_group_bridge.py --help` 及各子命令 `--help` 正常，`--version` 输出版本
 - 未 init 时 `send --text x` 报 `webhook_not_configured`，退出码 1，`--json` 输出可被 `json.loads` 解析
 - `init --webhook <url>` 后 config.json 出现在约定目录且含 URL；重复 init 覆盖并提示
 - `groups` 能列出群列表（人读表格 + `--json` 透传）

@@ -80,18 +80,18 @@
 - 本机已装：CMake 4.2、VS Build Tools 2022（含 VC 工具集）、MSYS2 MinGW64、xmake、Lua 5.1、LuaJIT、LLVM 22（clang/clangd/clang-format/clang-tidy）、Ninja 1.13。
 - 本机已装：CMake 4.2、VS Build Tools 2022（含 VC 工具集）、MSYS2 MinGW64、xmake、Lua 5.1、LuaJIT。
 
-## 仓库脚本约定（docs/scripts）
+## 仓库脚本约定（.scripts）
 
-- 仓库运维脚本统一放 `docs/scripts/`（Python / PowerShell），根目录不再存放任何脚本；项目自有脚本随各自子仓，不入该目录。
+- 仓库运维脚本统一放 `.scripts/`（点前缀目录，与 `.archived`/`.zed` 同属仓库基础设施层，不占根目录可见位置；Python / PowerShell）；项目自有脚本随各自子仓，不入该目录。
 - 例外：`docs/assets/projects/` 目录存放跨项目二进制资源，按语言子仓名嵌套（当前仅 `docs/assets/projects/go_projects/go-default.ico` 默认图标），不属于脚本约束范围。
 - **一个脚本只做一件事**：单一职责，禁止膨胀为万能工具脚本。
-- Python 脚本**必须**带 PEP 723 内联元数据（`# /// script` 块）声明 `requires-python` 与 `dependencies`；无第三方依赖也要保留该块（形式统一），统一在仓库根用 `uv run docs/scripts/<脚本> <args>` 执行。
-- **禁止**在仓库根或 `docs/scripts/` 内创建 `pyproject.toml`、`uv.lock`、`.venv`、`requirements.txt`；依赖一律走 PEP 723 + uv 全局缓存，仓库内不产生任何 Python 工程文件。
+- Python 脚本**必须**带 PEP 723 内联元数据（`# /// script` 块）声明 `requires-python` 与 `dependencies`；无第三方依赖也要保留该块（形式统一），统一在仓库根用 `uv run .scripts/<脚本> <args>` 执行。
+- **禁止**在仓库根或 `.scripts/` 内创建 `pyproject.toml`、`uv.lock`、`.venv`、`requirements.txt`；依赖一律走 PEP 723 + uv 全局缓存，仓库内不产生任何 Python 工程文件。
 
 ## 归档与文档布局约定（重要）
 
 - **文档只允许放在父仓库**：子模块内的项目目录中**一律禁止**出现任何文档目录与文档内容（`docs/`、`docs/specs/`、`docs/plans/`、`spec/`、`specs/`、`plans/` 等均不允许）。
-- **`docs/` 根目录不放散装文件**，各类各归其位：`docs/projects/<lang>/`（项目镜像文档）、`docs/guides/`（AI 工作指南）、`docs/plans/`（父仓级开发计划）、`docs/repo/`（仓库自身文档，如 git 子模块机制说明）、`docs/scripts/`（仓库运维脚本）、`docs/assets/projects/<lang>/`（跨项目二进制资源，如默认图标）；`.archived/` 同理，跨项目内容收入 `.archived/projects/<lang>/` 分层。
+- **`docs/` 根目录不放散装文件**，各类各归其位：`docs/projects/<lang>/`（项目镜像文档）、`docs/guides/`（AI 工作指南）、`docs/plans/`（父仓级开发计划）、`docs/repo/`（仓库自身文档，如 git 子模块机制说明）、`docs/assets/projects/<lang>/`（跨项目二进制资源，如默认图标）；`.archived/` 同理，跨项目内容收入 `.archived/projects/<lang>/` 分层。
 - 所有项目文档（知识沉淀、spec、plan、设计说明等）统一放父仓库 `docs/projects/<lang>/` 下，按子模块内相对路径**镜像层级命名**，并去掉中间冗余的 `docs/` 一层：
   - 例：`go_projects/a/b.md` → `docs/projects/go_projects/a/b.md`；
   - 例：`typescript_projects/taskmon/docs/x.md` → `docs/projects/typescript_projects/taskmon/x.md`。
@@ -111,7 +111,7 @@
 ## 常用命令
 
 - 完整克隆：`git clone --recurse-submodules <URL>`
-- 克隆后初始化并切换子模块到跟踪分支：`./docs/scripts/init-submodules.ps1`（初始化 + 按 `.gitmodules` 的 `branch` 字段切分支，解决子模块默认 detached HEAD）
+- 克隆后初始化并切换子模块到跟踪分支：`./.scripts/init-submodules.ps1`（初始化 + 按 `.gitmodules` 的 `branch` 字段切分支，解决子模块默认 detached HEAD）
 - 初始化/补拉子模块：`git submodule update --init --recursive`
 - 跟进子仓库远端新提交：`git submodule update --remote`
 - 提交指针变更：`git add --force <子模块名>`（`ignore = all` 会拦截普通 `git add`，必须 `--force`）→ `git commit` → `git push`
