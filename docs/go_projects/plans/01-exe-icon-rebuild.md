@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-按《SKILL-GO-EXE-ICON》为 go_projects 子仓全部 10 个 exe 产出项目补齐默认站标地鼠图标并重新构建：
+按《GUIDE-GO-EXE-ICON》为 go_projects 子仓全部 10 个 exe 产出项目补齐默认站标地鼠图标并重新构建：
 
 - 覆盖全部 10 个项目、全部产物（含 liteconf-server、quickaskd、copy_launcher、sublimefolders practice 版）
 - clictl 已有图标（icon.ico + syso 已入库），仅重新 build，无文件改动

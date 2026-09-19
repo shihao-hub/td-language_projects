@@ -56,7 +56,7 @@
 
 - 定位：以 CLI 工具为主；非 CLI 的服务端/SDK 及带 GUI 项目属例外（个位数，如 liteconf），收录须注明理由，详见父仓 README「子仓约定」。
 - 曾计划采用 git submodules 管理子项目，后因维护成本退回 monorepo；背景与操作方案见子仓内 `SUBMODULES.md`。
-- 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `assets\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[SKILL-GO-EXE-ICON](<docs/go_projects/SKILL-GO-EXE-ICON.md>)》。
+- 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `assets\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[GUIDE-GO-EXE-ICON](<docs/go_projects/GUIDE-GO-EXE-ICON.md>)》。
 
 ### rust_projects
 
@@ -97,6 +97,7 @@
   - 例：`typescript_projects/taskmon/docs/x.md` → `docs/typescript_projects/taskmon/x.md`。
 - 例外：子模块内全大写命名的文档（如 `README.md`、`SUBMODULES.md`）与子仓根级说明文件无需迁移，可原地保留。
 - **方法论文档与 AI agent 工作指南**（跨项目、供 AI agent 直接执行，不归属单个子项目，如 `docs/go_projects/CLI 工具开发标准.md`）：放 `docs/<lang>/` 语言层目录（当前集中在 `docs/go_projects/`），不镜像子仓路径、不进项目子目录；跨语言标准维护单一文件，其他语言引用同一标准；指南中引用的项目参考实现与项目文档，仍按上述 `docs/<lang>/<项目>/` 规则存放。
+- **父仓级 AI 工作指南（GUIDE 系列）**：当用户要求"把流程沉淀下来 / 写个操作手册 / 沉淀成 GUIDE"，或一次任务中出现可复用的多阶段工作流（分阶段执行、有人工确认点、有踩坑记录）值得沉淀时，按《[GUIDE 编写规范](<docs/guides/README.md>)》产出 `docs/guides/GUIDE-<英文名>.md`（语言专属指南仍按上一条放 `docs/<lang>/`，如 `docs/go_projects/GUIDE-GO-EXE-ICON.md`）；GUIDE 仿 skill 规范编写但**不注册为 skill**，禁止放入任何 skills 目录。
 - 归档项目统一放父仓库根目录 `.archived/<lang>/<项目名>/`；语言通用文档放 `docs/<lang>/`。
 - 子仓内不再维护各自的 `.archived/`、`docs/`、`.zed/` 与 `.zcode/`。
 - 后续新增归档项目时，同样按 `<lang>` 嵌套放入根目录对应位置。

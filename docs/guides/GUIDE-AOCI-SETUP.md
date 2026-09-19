@@ -1,4 +1,9 @@
-# SKILL-AOCI-SETUP
+---
+name: aoci-setup
+description: AOCI-CODE（AI Agent 仓库认知索引 MCP）的下载、安装与全局配置手册：发行包下载与 SHA256 校验、二进制落位、Agent 的 MCP 全局配置、版本升级与卸载。当用户说"装 AOCI"、"配置 aoci-code"、"新机器接入仓库认知索引"、"升级/卸载 AOCI"、"aoci MCP 没起来要重装"时使用。
+---
+
+# GUIDE-AOCI-SETUP
 
 > AOCI-CODE（AI Agent 仓库认知索引 MCP）的下载、安装与三工具全局配置手册。
 > 适用范围：本仓库（`language_projects`）及所有子项目；当前采用**全局配置**（非项目级）。
