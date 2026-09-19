@@ -7,7 +7,7 @@ description: 把父仓库 docs/ 目录下的英文命名 Markdown 文档批量�
 
 ## 适用场景
 
-父仓库 `docs/<lang>/` 镜像布局下的 Markdown 文档，由英文命名（kebab-case / 单词直拼）整改为中文命名。核心特征：文档之间存在交叉引用（索引表、互见链接、裸文件名提及），改名必须连同引用一起修，否则链接全断。
+父仓库 `docs/projects/<lang>/` 镜像布局下的 Markdown 文档，由英文命名（kebab-case / 单词直拼）整改为中文命名。核心特征：文档之间存在交叉引用（索引表、互见链接、裸文件名提及），改名必须连同引用一起修，否则链接全断。
 
 ## 工作流五步
 
@@ -63,7 +63,7 @@ description: 把父仓库 docs/ 目录下的英文命名 Markdown 文档批量�
 
 ## 已知边界与坑
 
-- untracked 目录（如新迁移尚未提交的 `docs/<lang>/xxx/`）内文件只能 Rename-Item，没有历史可保留；
+- untracked 目录（如新迁移尚未提交的 `docs/projects/<lang>/xxx/`）内文件只能 Rename-Item，没有历史可保留；
 - 子仓内引用（clictl / zedhub / django-lab 的 README 等）指向父仓 docs 路径，改名后失效，需进各子仓分别提交修复，不混入本次父仓库提交；
 - README 索引表格中的链接目标列与「实验代码」列（如 `apps/xxx`）是两回事，只改前者。
 

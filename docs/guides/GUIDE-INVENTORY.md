@@ -9,7 +9,7 @@ description: 维护 MONOREPO.md（个人项目价值盘点表）的完整工作�
 
 ## 概述
 
-`MONOREPO.md` 是父仓库根目录的**个人项目价值盘点表**：主观文档（个人成长/简历视角），不是客观项目索引。覆盖 4 个语言子仓（`go_projects/`、`python_projects/`、`rust_projects/`、`typescript_projects/`）与归档区（`.archived/<lang>/`）的全部项目。
+`MONOREPO.md` 是父仓库根目录的**个人项目价值盘点表**：主观文档（个人成长/简历视角），不是客观项目索引。覆盖 4 个语言子仓（`go_projects/`、`python_projects/`、`rust_projects/`、`typescript_projects/`）与归档区（`.archived/projects/<lang>/`）的全部项目。
 
 维护的高层流程：
 
@@ -42,7 +42,7 @@ description: 维护 MONOREPO.md（个人项目价值盘点表）的完整工作�
 
 ## 阶段 0：存量对照（只读，先出计划再动手）
 
-1. **目录实况**：列出 4 个子仓 + `.archived/<lang>/` 的全部目录。
+1. **目录实况**：列出 4 个子仓 + `.archived/projects/<lang>/` 的全部目录。
 2. **差异对照**：实际有、表里无 → 缺登条目；表里有、实际无 → 已删除/改名，条目待清理；条目所在节与实际目录不符 → 待迁移（如写在 python 节的 `python-launcher-go`）。
 3. **过时内容识别**：表里的待办已经发生（如「需要处理掉」的项目实际已归档）、状态明显过期 → 列出让用户裁决。
 4. **向用户展示**：差异清单 + 补全计划 + 待确认问题（列结构、归档节详略、条目归属），**确认后才动文件**。
@@ -60,7 +60,7 @@ description: 维护 MONOREPO.md（个人项目价值盘点表）的完整工作�
 - 表头说明块保留（列含义 + 归档不简化原因），标题用实际目录名（`typescript_projects`，不是 `typescripts`）。
 - 已有条目内容**原样迁移**，不趁便改写用户的主观表述；时间性内容（「期待 9.15 左右开始」）归入「下一步」列。
 - 新条目只填「摘要」，主观列留空。
-- 归档项目放「归档项目（.archived）」大节，按 `### .archived/<lang>` 子标题分组。
+- 归档项目放「归档项目（.archived）」大节，按 `### .archived/projects/<lang>` 子标题分组。
 
 ## 阶段 3：格式验证与提交
 
@@ -78,7 +78,7 @@ $lines | Where-Object { $_ -match '^\|' -and (([regex]::Matches($_,'\|')).Count 
 | 触发事件 | 本表动作 |
 |---|---|
 | 子仓新增项目 | 对应语言节加行，摘要按 README 起草，主观列留空待填 |
-| 项目归档（GUIDE-ARCHIVE.md 流程） | 活跃节删行 + `.archived/<lang>` 对应子节加行（全列保留） |
+| 项目归档（GUIDE-ARCHIVE.md 流程） | 活跃节删行 + `.archived/projects/<lang>` 对应子节加行（全列保留） |
 | 归档项目重启 | 归档子节删行 + 对应语言节加行 |
 | 项目改名/跨子仓迁移 | 行随实际目录移到对应节 |
 | README 重写导致摘要失真 | 仅更新摘要列，主观列不动 |
@@ -91,7 +91,7 @@ Output: `docs: 盘点表登记新项目 foo`（仅填摘要列，主观列留空
 
 **示例 2：**
 Input: 刚按 GUIDE-ARCHIVE.md 归档了 sublime-folders
-Output: `docs: 盘点表同步项目归档变动`（go 节删行 + `.archived/go_projects` 子节加行，全列保留）
+Output: `docs: 盘点表同步项目归档变动`（go 节删行 + `.archived/projects/go_projects` 子节加行，全列保留）
 
 **示例 3：**
 Input: 盘点表和实际目录对不上了，全量核对补全

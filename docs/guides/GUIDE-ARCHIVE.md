@@ -1,6 +1,6 @@
 ---
 name: project-archive
-description: 把 language_projects 子仓（go/python/rust/typescript monorepo）内的项目归档到父仓库 .archived/<lang>/ 的完整工作流。当用户要求"归档项目"、"移动到 .archived"、"停更项目下线"、"把项目移出子仓"，或说"这几个项目不维护了，收起来"、"移到归档目录"时必须使用本 skill——即使没说出"归档"二字，只要意图是把子仓内项目迁到父仓库 .archived/ 都要触发。本流程涉及 git submodules 指针更新（--force）、子仓与父仓库分层提交、提交范围隔离三大纪律，漏掉任何一步都会留下脏状态或产生他人无法克隆的悬空指针。
+description: 把 language_projects 子仓（go/python/rust/typescript monorepo）内的项目归档到父仓库 .archived/projects/<lang>/ 的完整工作流。当用户要求"归档项目"、"移动到 .archived"、"停更项目下线"、"把项目移出子仓"，或说"这几个项目不维护了，收起来"、"移到归档目录"时必须使用本 skill——即使没说出"归档"二字，只要意图是把子仓内项目迁到父仓库 .archived/ 都要触发。本流程涉及 git submodules 指针更新（--force）、子仓与父仓库分层提交、提交范围隔离三大纪律，漏掉任何一步都会留下脏状态或产生他人无法克隆的悬空指针。
 ---
 
 # Skill: project-archive
@@ -9,7 +9,7 @@ description: 把 language_projects 子仓（go/python/rust/typescript monorepo�
 
 ## 概述
 
-本仓库（`language_projects`）结构：父仓库 + 4 个 git submodule（各语言 monorepo，一个子目录 = 一个项目）。项目停更后要移出子仓、落入父仓库根目录 `.archived/<lang>/<项目名>/`。
+本仓库（`language_projects`）结构：父仓库 + 4 个 git submodule（各语言 monorepo，一个子目录 = 一个项目）。项目停更后要移出子仓、落入父仓库根目录 `.archived/projects/<lang>/<项目名>/`。
 
 归档的高层流程：
 
@@ -49,8 +49,8 @@ description: 把 language_projects 子仓（go/python/rust/typescript monorepo�
    - 有输出 = 被跟踪 → 移动后子仓要提交删除。
 3. **嵌套 .git**：`Test-Path <项目>\.git`。monorepo 约定子项目不单独 init；若存在嵌套仓库，先停下与用户确认处理方式。
 4. **子仓根级文档是否为待归档项目专属**：用 Select-String 在子仓根级文件（README/STRUCTURE 等）中 grep 项目名。整篇讲某个待归档项目的文档（如曾经的 `STRUCTURE.md` 之于 sublime-folders）不属于任何单个项目范围，需用户决定去留——默认建议随项目迁入 `.archived`，子仓单独一次提交。
-5. **镜像文档与引用**：`docs/<lang>/` 下有无该项目的文档目录；父/子仓 README 是否列项目清单。有则列入计划同步处理，无则不动。
-6. **`.archived/<lang>/` 目录存在性**：不存在则创建。
+5. **镜像文档与引用**：`docs/projects/<lang>/` 下有无该项目的文档目录；父/子仓 README 是否列项目清单。有则列入计划同步处理，无则不动。
+6. **`.archived/projects/<lang>/` 目录存在性**：不存在则创建。
 7. **子模块指针漂移**：`git submodule status` 中 `+` 前缀表示子仓 HEAD 与父仓库记录不一致。不用修复，最终更新指针会一并对齐；在计划里说明即可。
 
 调研完成后向用户呈现：发现 + 分阶段计划 + 待确认问题（至少包括：根级专属文档去留、父仓库提交拆分方式、commit message 措辞）。**等待用户确认后再执行。**
@@ -60,7 +60,7 @@ description: 把 language_projects 子仓（go/python/rust/typescript monorepo�
 **1. 物理移动**（PowerShell；目录名可能含空格等特殊字符，一律 `-LiteralPath`）：
 
 ```powershell
-$dest = "D:\Users\language_projects\.archived\go_projects"
+$dest = "D:\Users\language_projects\.archived\projects\go_projects"
 foreach ($p in @('proj-a','proj-b')) { Move-Item -LiteralPath $p -Destination "$dest\$p" }
 ```
 

@@ -52,7 +52,7 @@
 
 ## 归档项目（.archived）
 
-### .archived/go_projects
+### .archived/projects/go_projects
 
 | 项目 | 摘要 | 状态 | 源码阅读情况 | 价值 | 下一步 |
 |-|-|-|-|-|-|
@@ -68,7 +68,7 @@
 | sublimefolders | 托盘常驻，定时将 Sublime 打开的目录记入 SQLite |  |  |  |  |
 | zread-tray | 系统托盘常驻，为工作区一键启动/重启 zread 服务并拉起浏览器（CLI 版 zreadmanager 已替代） | 归档 |  |  |  |
 
-### .archived/python_projects
+### .archived/projects/python_projects
 
 | 项目 | 摘要 | 状态 | 源码阅读情况 | 价值 | 下一步 |
 |-|-|-|-|-|-|

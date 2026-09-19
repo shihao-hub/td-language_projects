@@ -100,4 +100,4 @@ description: 用 MCP Inspector（官方 @modelcontextprotocol/inspector v2.x）�
 ## 参考
 
 - 配置文件格式权威文档：<https://github.com/modelcontextprotocol/inspector/blob/main/docs/mcp-server-configuration.md>（`--catalog` 可写 vs `--config` 只读、Inspector 特有字段 `protocolEra`/`roots`/OAuth 等）
-- liteconf MCP 契约与工具表：`go_projects/liteconf/README.md`「MCP 工具」一节；开发计划：`docs/go_projects/liteconf/plans/01-mcp-server.md`
+- liteconf MCP 契约与工具表：`go_projects/liteconf/README.md`「MCP 工具」一节；开发计划：`docs/projects/go_projects/liteconf/plans/01-mcp-server.md`

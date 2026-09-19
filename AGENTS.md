@@ -15,7 +15,7 @@
 - Git 提交范围隔离：一次提交的文件只能属于同一范围——父仓库自身、某个子仓库根目录、或某个子仓库内的单个子项目；禁止跨范围混提（如多个子项目的改动混在一次提交，或子项目文件与子仓根目录文件混提）。
 - 代码修改完成后，向用户展示改动摘要，并给出可直接在 PowerShell 下执行的 git commit 命令（需要有 cd 命令）。
 - 禁止 `SELECT *`：任何 ORM 查询与手写 SQL 一律显式列出所需字段。
-- CLI 工具开发统一遵循《[CLI 工具开发标准](<docs/go_projects/CLI 工具开发标准.md>)》（跨语言适用）：新工具默认配套 MCP，CLI 默认人读并提供 `--json`，独立工具提供 `schema` 导出；适用例外与存量兼容迁移按标准执行。
+- CLI 工具开发统一遵循《[CLI 工具开发标准](<docs/projects/go_projects/CLI 工具开发标准.md>)》（跨语言适用）：新工具默认配套 MCP，CLI 默认人读并提供 `--json`，独立工具提供 `schema` 导出；适用例外与存量兼容迁移按标准执行。
   - **必须先完整阅读该标准再动手的场景**：① 新建任何 CLI/工具类项目（不限语言）；② 给已有项目新增 CLI / MCP 入口或 `schema` 导出；③ 需要豁免标准要求（如服务 + 库形态不配 CLI）时；④ 重构/评审已有项目的 CLI 入口契约时。
 - 数据文件存放强约束：所有项目运行时产生的自有数据文件（JSON 数据库、SQLite db、索引/哈希缓存、锁文件、日志、会话存储、settings 等）只允许放在 `%APPDATA%\language_projects\<项目名>\`；取不到 `APPDATA` 时回退 `~/.language_projects/<项目名>/`；代码必须在写入前自动创建完整目录链（含 `language_projects` 一层）。例外：只读外部数据源（opencode.db、Zed db 等）不受限；django-lab 的 `db.sqlite3` 保留项目根目录；zed-opencode-sessions 仓库内归档 db 为有意提交，保持现状。
 - lark-cli 创建的飞书文档默认放在用户的飞书「我的文档库」（创建时加 `--parent-position my_library`），不要落在云盘根目录；用户明确指定位置时以用户为准。
@@ -35,9 +35,9 @@
 - 五个子目录（`go_projects`、`python_projects`、`rust_projects`、`typescript_projects`、`native_projects`）各自是独立 Git 仓库，父仓库只跟踪它们的 commit 指针（`.gitmodules` 中 `ignore = all`）。
 - 其中 `native_projects` 是**混合语言子仓**（C / C++ / Lua）：仓内同样是"一个子目录 = 一个项目"，具体语言由各项目自定；其余子仓仍按语言一一对应。
 - 各语言子仓内部为 monorepo：**一个子目录 = 一个项目**，每个子目录都是一个独立项目，彼此互不依赖归属关系，各自维护自己的依赖与配置；新增项目时直接建新的子目录，不要在子项目内单独 `git init`。
-- 已归档项目与通用文档集中放在**父仓库根目录**，按语言加嵌套路径（由各子仓迁移而来）：
-  - `.archived/<lang>/`：归档停更的项目（如 `.archived/go_projects/file-sync`、`.archived/python_projects/lele`）；
-  - `docs/<lang>/`：各语言通用文档与项目文档（如 `docs/go_projects/clictl/clictl 使用指南.md`、`docs/python_projects/tech_learning_room/`），详见下方「归档与文档布局约定」。
+- 已归档项目与通用文档集中放在**父仓库根目录**，统一收入 `projects/` 分层，按语言子仓名嵌套（由各子仓迁移而来）：
+  - `.archived/projects/<lang>/`：归档停更的项目（如 `.archived/projects/go_projects/file-sync`、`.archived/projects/python_projects/lele`）；
+  - `docs/projects/<lang>/`：各语言通用文档与项目文档（如 `docs/projects/go_projects/clictl/clictl 使用指南.md`、`docs/projects/python_projects/tech_learning_room/`），详见下方「归档与文档布局约定」。
 - 编辑器配置同样集中在父仓库根目录 `.zed/settings.json`（入库，随仓库分发），子仓内不再各自维护。
 - AI 会话产物（`.zcode/`）同样集中在父仓库根目录，子仓内不再各自维护。
 - 在本仓库下工作时，先确认目标所在位置（子仓内项目、根 `.archived/`、根 `docs/`），再进入对应目录执行构建、测试等操作。
@@ -56,7 +56,7 @@
 
 - 定位：以 CLI 工具为主；非 CLI 的服务端/SDK 及带 GUI 项目属例外（个位数，如 liteconf），收录须注明理由，详见父仓 README「子仓约定」。
 - 曾计划采用 git submodules 管理子项目，后因维护成本退回 monorepo；背景与操作方案见子仓内 `SUBMODULES.md`。
-- 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `assets\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[GUIDE-GO-EXE-ICON](<docs/go_projects/GUIDE-GO-EXE-ICON.md>)》。
+- 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `assets\projects\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[GUIDE-GO-EXE-ICON](<docs/projects/go_projects/GUIDE-GO-EXE-ICON.md>)》。
 
 ### rust_projects
 
@@ -84,7 +84,7 @@
 
 - 暂不设 `scripts/` 目录：Python 脚本直接放仓库根目录；数量多了再考虑新建目录（届时更新本约定）。
 - 根目录**只允许存放 Python 脚本**，禁止存放其他语言的脚本、文档与配置文件。
-- 例外：`assets/` 目录存放跨项目二进制资源（当前仅 `assets/go_projects/go-default.ico` 默认图标），不属于脚本约束范围。
+- 例外：`assets/projects/` 目录存放跨项目二进制资源，按语言子仓名嵌套（当前仅 `assets/projects/go_projects/go-default.ico` 默认图标），不属于脚本约束范围。
 - **一个脚本只做一件事**：单一职责，禁止膨胀为万能工具脚本。
 - 每个脚本**必须**带 PEP 723 内联元数据（`# /// script` 块）声明 `requires-python` 与 `dependencies`；无第三方依赖也要保留该块（形式统一），统一用 `uv run xxx.py <args>` 执行。
 - **禁止**在仓库根创建 `pyproject.toml`、`uv.lock`、`.venv`、`requirements.txt`；依赖一律走 PEP 723 + uv 全局缓存，仓库内不产生任何 Python 工程文件。
@@ -92,15 +92,16 @@
 ## 归档与文档布局约定（重要）
 
 - **文档只允许放在父仓库**：子模块内的项目目录中**一律禁止**出现任何文档目录与文档内容（`docs/`、`docs/specs/`、`docs/plans/`、`spec/`、`specs/`、`plans/` 等均不允许）。
-- 所有项目文档（知识沉淀、spec、plan、设计说明等）统一放父仓库根目录 `docs/<lang>/` 下，按子模块内相对路径**镜像层级命名**，并去掉中间冗余的 `docs/` 一层：
-  - 例：`go_projects/a/b.md` → `docs/go_projects/a/b.md`；
-  - 例：`typescript_projects/taskmon/docs/x.md` → `docs/typescript_projects/taskmon/x.md`。
+- **`docs/` 根目录不放散装文件**，四类各归其位：`docs/projects/<lang>/`（项目镜像文档）、`docs/guides/`（AI 工作指南）、`docs/plans/`（父仓级开发计划）、`docs/repo/`（仓库自身文档，如 git 子模块机制说明）；`.archived/` 与 `assets/` 同理，跨项目内容一律收入各自 `projects/` 分层。
+- 所有项目文档（知识沉淀、spec、plan、设计说明等）统一放父仓库 `docs/projects/<lang>/` 下，按子模块内相对路径**镜像层级命名**，并去掉中间冗余的 `docs/` 一层：
+  - 例：`go_projects/a/b.md` → `docs/projects/go_projects/a/b.md`；
+  - 例：`typescript_projects/taskmon/docs/x.md` → `docs/projects/typescript_projects/taskmon/x.md`。
 - 例外：子模块内全大写命名的文档（如 `README.md`、`SUBMODULES.md`）与子仓根级说明文件无需迁移，可原地保留。
-- **方法论文档与 AI agent 工作指南**（跨项目、供 AI agent 直接执行，不归属单个子项目，如 `docs/go_projects/CLI 工具开发标准.md`）：放 `docs/<lang>/` 语言层目录（当前集中在 `docs/go_projects/`），不镜像子仓路径、不进项目子目录；跨语言标准维护单一文件，其他语言引用同一标准；指南中引用的项目参考实现与项目文档，仍按上述 `docs/<lang>/<项目>/` 规则存放。
-- **父仓级 AI 工作指南（GUIDE 系列）**：当用户要求"把流程沉淀下来 / 写个操作手册 / 沉淀成 GUIDE"，或一次任务中出现可复用的多阶段工作流（分阶段执行、有人工确认点、有踩坑记录）值得沉淀时，按《[GUIDE 编写规范](<docs/guides/README.md>)》产出 `docs/guides/GUIDE-<英文名>.md`（语言专属指南仍按上一条放 `docs/<lang>/`，如 `docs/go_projects/GUIDE-GO-EXE-ICON.md`）；GUIDE 仿 skill 规范编写但**不注册为 skill**，禁止放入任何 skills 目录。
-- 归档项目统一放父仓库根目录 `.archived/<lang>/<项目名>/`；语言通用文档放 `docs/<lang>/`。
+- **方法论文档与 AI agent 工作指南**（跨项目、供 AI agent 直接执行，不归属单个子项目，如 `docs/projects/go_projects/CLI 工具开发标准.md`）：放 `docs/projects/<lang>/` 语言层目录（当前集中在 `docs/projects/go_projects/`），不镜像子仓路径、不进项目子目录；跨语言标准维护单一文件，其他语言引用同一标准；指南中引用的项目参考实现与项目文档，仍按上述 `docs/projects/<lang>/<项目>/` 规则存放。
+- **父仓级 AI 工作指南（GUIDE 系列）**：当用户要求"把流程沉淀下来 / 写个操作手册 / 沉淀成 GUIDE"，或一次任务中出现可复用的多阶段工作流（分阶段执行、有人工确认点、有踩坑记录）值得沉淀时，按《[GUIDE 编写规范](<docs/guides/README.md>)》产出 `docs/guides/GUIDE-<英文名>.md`（语言专属指南仍按上一条放 `docs/projects/<lang>/`，如 `docs/projects/go_projects/GUIDE-GO-EXE-ICON.md`）；GUIDE 仿 skill 规范编写但**不注册为 skill**，禁止放入任何 skills 目录。
+- 归档项目统一放 `.archived/projects/<lang>/<项目名>/`；语言通用文档放 `docs/projects/<lang>/`。
 - 子仓内不再维护各自的 `.archived/`、`docs/`、`.zed/` 与 `.zcode/`。
-- 后续新增归档项目时，同样按 `<lang>` 嵌套放入根目录对应位置。
+- 后续新增归档项目时，同样按 `.archived/projects/<lang>/` 嵌套放入对应位置。
 
 ## 新增语言子模块
 

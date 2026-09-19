@@ -98,7 +98,7 @@ uv run install_tool.py all
 
 ## 项目归档
 
-项目停更后移出子仓、归档到父仓库根目录 `.archived/<lang>/`，完整流程（前置调研、范围隔离提交、子模块指针更新）见 [GUIDE-ARCHIVE.md](docs/guides/GUIDE-ARCHIVE.md)。
+项目停更后移出子仓、归档到父仓库 `.archived/projects/<lang>/`，完整流程（前置调研、范围隔离提交、子模块指针更新）见 [GUIDE-ARCHIVE.md](docs/guides/GUIDE-ARCHIVE.md)。
 
 ## 项目盘点
 

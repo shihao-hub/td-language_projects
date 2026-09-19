@@ -10,7 +10,7 @@
 - 用户明确要求："把这个流程沉淀下来"、"写个操作手册"、"沉淀成 GUIDE"；
 - 一次任务中出现了**可复用的多阶段工作流**：分阶段执行、有人工确认点、有踩坑记录、下次大概率还会做（如项目归档、文档批量改名、MCP 调试接入）。
 
-反面例子（不要写成 GUIDE）：一次性问题的排查过程、只对单个项目有意义的说明（那属于 `docs/<lang>/<项目>/`）、纯知识点罗列（那是笔记不是操作手册）。
+反面例子（不要写成 GUIDE）：一次性问题的排查过程、只对单个项目有意义的说明（那属于 `docs/projects/<lang>/<项目>/`）、纯知识点罗列（那是笔记不是操作手册）。
 
 ## 三级披露：AI 如何发现与使用
 
@@ -25,7 +25,7 @@
 | 指南范围 | 位置 | 命名 |
 |---|---|---|
 | 父仓级（归档、盘点、跨项目工具链等） | `docs/guides/` | `GUIDE-<kebab-case 英文名>.md` |
-| 语言专属（go exe 图标等） | `docs/<lang>/` | 同上（如 `docs/go_projects/GUIDE-GO-EXE-ICON.md`） |
+| 语言专属（go exe 图标等） | `docs/projects/<lang>/` | 同上（如 `docs/projects/go_projects/GUIDE-GO-EXE-ICON.md`） |
 
 - 文件名 = `GUIDE-` 前缀 + kebab-case 英文标识，与 frontmatter `name` 对应（`GUIDE-GO-EXE-ICON.md` ↔ `name: go-exe-icon`）。
 - 一份 GUIDE 只沉淀一个工作流；多个相关流程分文件，互链即可。
@@ -72,7 +72,7 @@ GUIDE 会被其他文档、子仓 README 交叉引用，**改名/移动是高危
 
 | 文件 | 主题 |
 |---|---|
-| [GUIDE-ARCHIVE.md](GUIDE-ARCHIVE.md) | 子仓项目归档到 `.archived/<lang>/` |
+| [GUIDE-ARCHIVE.md](GUIDE-ARCHIVE.md) | 子仓项目归档到 `.archived/projects/<lang>/` |
 | [GUIDE-RESTORE.md](GUIDE-RESTORE.md) | 归档项目恢复回子仓（归档逆操作） |
 | [GUIDE-INVENTORY.md](GUIDE-INVENTORY.md) | MONOREPO.md 项目价值盘点表维护 |
 | [GUIDE-DOCS-RENAME.md](GUIDE-DOCS-RENAME.md) | docs 下英文命名文档批量改中文名并修引用 |
