@@ -13,7 +13,7 @@
 
 ## 资源与产物清单
 
-图标权威源：`assets\projects\go_projects\go-default.ico`（父仓库）。每个主包目录放置 `icon.ico`（值拷贝）+ `rsrc_windows_amd64.syso`（rsrc 生成，go build 自动链接，无需改构建参数）。
+图标权威源：`docs\assets\projects\go_projects\go-default.ico`（父仓库）。每个主包目录放置 `icon.ico`（值拷贝）+ `rsrc_windows_amd64.syso`（rsrc 生成，go build 自动链接，无需改构建参数）。
 
 13 个主包目录：
 

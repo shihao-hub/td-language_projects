@@ -56,7 +56,7 @@
 
 - 定位：以 CLI 工具为主；非 CLI 的服务端/SDK 及带 GUI 项目属例外（个位数，如 liteconf），收录须注明理由，详见父仓 README「子仓约定」。
 - 曾计划采用 git submodules 管理子项目，后因维护成本退回 monorepo；背景与操作方案见子仓内 `SUBMODULES.md`。
-- 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `assets\projects\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[GUIDE-GO-EXE-ICON](<docs/projects/go_projects/GUIDE-GO-EXE-ICON.md>)》。
+- 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `docs\assets\projects\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[GUIDE-GO-EXE-ICON](<docs/projects/go_projects/GUIDE-GO-EXE-ICON.md>)》。
 
 ### rust_projects
 
@@ -83,7 +83,7 @@
 ## 仓库脚本约定（docs/scripts）
 
 - 仓库运维脚本统一放 `docs/scripts/`（Python / PowerShell），根目录不再存放任何脚本；项目自有脚本随各自子仓，不入该目录。
-- 例外：`assets/projects/` 目录存放跨项目二进制资源，按语言子仓名嵌套（当前仅 `assets/projects/go_projects/go-default.ico` 默认图标），不属于脚本约束范围。
+- 例外：`docs/assets/projects/` 目录存放跨项目二进制资源，按语言子仓名嵌套（当前仅 `docs/assets/projects/go_projects/go-default.ico` 默认图标），不属于脚本约束范围。
 - **一个脚本只做一件事**：单一职责，禁止膨胀为万能工具脚本。
 - Python 脚本**必须**带 PEP 723 内联元数据（`# /// script` 块）声明 `requires-python` 与 `dependencies`；无第三方依赖也要保留该块（形式统一），统一在仓库根用 `uv run docs/scripts/<脚本> <args>` 执行。
 - **禁止**在仓库根或 `docs/scripts/` 内创建 `pyproject.toml`、`uv.lock`、`.venv`、`requirements.txt`；依赖一律走 PEP 723 + uv 全局缓存，仓库内不产生任何 Python 工程文件。
@@ -91,7 +91,7 @@
 ## 归档与文档布局约定（重要）
 
 - **文档只允许放在父仓库**：子模块内的项目目录中**一律禁止**出现任何文档目录与文档内容（`docs/`、`docs/specs/`、`docs/plans/`、`spec/`、`specs/`、`plans/` 等均不允许）。
-- **`docs/` 根目录不放散装文件**，四类各归其位：`docs/projects/<lang>/`（项目镜像文档）、`docs/guides/`（AI 工作指南）、`docs/plans/`（父仓级开发计划）、`docs/repo/`（仓库自身文档，如 git 子模块机制说明）；`.archived/` 与 `assets/` 同理，跨项目内容一律收入各自 `projects/` 分层。
+- **`docs/` 根目录不放散装文件**，各类各归其位：`docs/projects/<lang>/`（项目镜像文档）、`docs/guides/`（AI 工作指南）、`docs/plans/`（父仓级开发计划）、`docs/repo/`（仓库自身文档，如 git 子模块机制说明）、`docs/scripts/`（仓库运维脚本）、`docs/assets/projects/<lang>/`（跨项目二进制资源，如默认图标）；`.archived/` 同理，跨项目内容收入 `.archived/projects/<lang>/` 分层。
 - 所有项目文档（知识沉淀、spec、plan、设计说明等）统一放父仓库 `docs/projects/<lang>/` 下，按子模块内相对路径**镜像层级命名**，并去掉中间冗余的 `docs/` 一层：
   - 例：`go_projects/a/b.md` → `docs/projects/go_projects/a/b.md`；
   - 例：`typescript_projects/taskmon/docs/x.md` → `docs/projects/typescript_projects/taskmon/x.md`。

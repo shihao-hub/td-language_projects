@@ -17,7 +17,7 @@ description: go_projects 子仓产 Windows exe 的项目默认配置站标地鼠
 
 ## 图标资源
 
-- 权威源：父仓库根目录 `assets\projects\go_projects\go-default.ico`（go.dev 站标地鼠，含 16/24/32/48/64/128/256 共 7 帧）。
+- 权威源：父仓库 `docs\assets\projects\go_projects\go-default.ico`（go.dev 站标地鼠，含 16/24/32/48/64/128/256 共 7 帧）。
 - 使用方式：把该文件**复制**一份到项目主包目录（如 `go_projects\<项目>\cmd\<工具>\icon.ico`）。复制是值拷贝，不产生项目间构建依赖，不违反仓库隔离性原则。
 - 重生成：更换或更新图片时，用仓库 `docs/scripts/gen_icon.py`（PEP 723 + Pillow，`uv run` 执行）重出多帧 ico，再执行第 2 步重出 `.syso`。
 
@@ -26,7 +26,7 @@ description: go_projects 子仓产 Windows exe 的项目默认配置站标地鼠
 1. 复制图标到新项目主包目录：
 
    ```powershell
-   Copy-Item D:\Users\language_projects\assets\projects\go_projects\go-default.ico D:\Users\language_projects\go_projects\<项目>\cmd\<工具>\icon.ico
+   Copy-Item D:\Users\language_projects\docs\assets\projects\go_projects\go-default.ico D:\Users\language_projects\go_projects\<项目>\cmd\<工具>\icon.ico
    ```
 
 2. 生成 Windows 资源对象（rsrc 未安装则先 `go install`，全机只需一次）：
