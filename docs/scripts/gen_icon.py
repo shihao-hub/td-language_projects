@@ -3,7 +3,7 @@
 # dependencies = ["pillow>=10.0"]
 # ///
 # gen_icon.py：把一张 PNG 源图转成多尺寸 Windows .ico 图标。
-# 用法: uv run gen_icon.py <input.png> <output.ico>
+# 用法: uv run docs/scripts/gen_icon.py <input.png> <output.ico>
 # 说明: 非方形源图会等比缩放并居中放到透明方形画布上；
 #       输出帧: 16/24/32/48/64/128/256。
 

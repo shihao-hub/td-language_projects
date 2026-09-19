@@ -1,4 +1,4 @@
-// Package cli 的输出纪律（参考 docs/go_projects/clictl/Go CLI JSON 输出模式参考.md）：
+// Package cli 的输出纪律（参考 docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md）：
 // stdout 永远输出合法 JSON，人读体验交给 --pretty。
 // 所有输出必须走本文件的 Emit/Fail/FailStderr，业务代码禁止直接 fmt.Println。
 package cli

@@ -21,10 +21,10 @@
 ## 本仓库方案
 
 1. `.gitmodules` 为每个子模块声明 `branch` 字段（go/rust = `main`，python/typescript = `master`），作为声明性数据源；
-2. 父仓库根 `init-submodules.ps1`：
+2. 父仓库 `docs/scripts/init-submodules.ps1`：
    - 仅初始化 status 前缀为 `-` 的子模块（不把领先指针的本地 checkout 拽回旧 commit）；
    - `git submodule foreach` 按 `branch` 字段切换本地分支，缺省回退 `master` 再回退 `main`；
-3. README「克隆」与 AGENTS「常用命令」引导 clone 后执行一次 `./init-submodules.ps1`。
+3. README「克隆」与 AGENTS「常用命令」引导 clone 后执行一次 `./docs/scripts/init-submodules.ps1`。
 
 ## 权衡与注意
 

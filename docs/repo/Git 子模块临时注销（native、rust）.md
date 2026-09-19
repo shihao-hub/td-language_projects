@@ -55,9 +55,9 @@ git submodule foreach 'branch=$(git config -f $toplevel/.gitmodules submodule.$n
 
 注意：
 
-- **不要直接运行 `./init-submodules.ps1`**：它会初始化 `git submodule status` 中所有 `-` 前缀的子模块（含 native/rust）；
+- **不要直接运行 `./docs/scripts/init-submodules.ps1`**：它会初始化 `git submodule status` 中所有 `-` 前缀的子模块（含 native/rust）；
 - `git submodule update --init`（不带路径）同样会拉取全部子模块，必须显式列出三个路径；
-- 备选做法：正常 `git clone --recurse-submodules` + `./init-submodules.ps1` 拉全五个，然后回到本文档「本目录注销操作」再次注销这两个。
+- 备选做法：正常 `git clone --recurse-submodules` + `./docs/scripts/init-submodules.ps1` 拉全五个，然后回到本文档「本目录注销操作」再次注销这两个。
 
 ## 恢复（未来继续做 native/rust 时）
 

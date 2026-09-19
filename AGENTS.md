@@ -80,14 +80,13 @@
 - 本机已装：CMake 4.2、VS Build Tools 2022（含 VC 工具集）、MSYS2 MinGW64、xmake、Lua 5.1、LuaJIT、LLVM 22（clang/clangd/clang-format/clang-tidy）、Ninja 1.13。
 - 本机已装：CMake 4.2、VS Build Tools 2022（含 VC 工具集）、MSYS2 MinGW64、xmake、Lua 5.1、LuaJIT。
 
-## 根目录脚本约定
+## 仓库脚本约定（docs/scripts）
 
-- 暂不设 `scripts/` 目录：Python 脚本直接放仓库根目录；数量多了再考虑新建目录（届时更新本约定）。
-- 根目录**只允许存放 Python 脚本**，禁止存放其他语言的脚本、文档与配置文件。
+- 仓库运维脚本统一放 `docs/scripts/`（Python / PowerShell），根目录不再存放任何脚本；项目自有脚本随各自子仓，不入该目录。
 - 例外：`assets/projects/` 目录存放跨项目二进制资源，按语言子仓名嵌套（当前仅 `assets/projects/go_projects/go-default.ico` 默认图标），不属于脚本约束范围。
 - **一个脚本只做一件事**：单一职责，禁止膨胀为万能工具脚本。
-- 每个脚本**必须**带 PEP 723 内联元数据（`# /// script` 块）声明 `requires-python` 与 `dependencies`；无第三方依赖也要保留该块（形式统一），统一用 `uv run xxx.py <args>` 执行。
-- **禁止**在仓库根创建 `pyproject.toml`、`uv.lock`、`.venv`、`requirements.txt`；依赖一律走 PEP 723 + uv 全局缓存，仓库内不产生任何 Python 工程文件。
+- Python 脚本**必须**带 PEP 723 内联元数据（`# /// script` 块）声明 `requires-python` 与 `dependencies`；无第三方依赖也要保留该块（形式统一），统一在仓库根用 `uv run docs/scripts/<脚本> <args>` 执行。
+- **禁止**在仓库根或 `docs/scripts/` 内创建 `pyproject.toml`、`uv.lock`、`.venv`、`requirements.txt`；依赖一律走 PEP 723 + uv 全局缓存，仓库内不产生任何 Python 工程文件。
 
 ## 归档与文档布局约定（重要）
 
@@ -112,7 +111,7 @@
 ## 常用命令
 
 - 完整克隆：`git clone --recurse-submodules <URL>`
-- 克隆后初始化并切换子模块到跟踪分支：`./init-submodules.ps1`（初始化 + 按 `.gitmodules` 的 `branch` 字段切分支，解决子模块默认 detached HEAD）
+- 克隆后初始化并切换子模块到跟踪分支：`./docs/scripts/init-submodules.ps1`（初始化 + 按 `.gitmodules` 的 `branch` 字段切分支，解决子模块默认 detached HEAD）
 - 初始化/补拉子模块：`git submodule update --init --recursive`
 - 跟进子仓库远端新提交：`git submodule update --remote`
 - 提交指针变更：`git add --force <子模块名>`（`ignore = all` 会拦截普通 `git add`，必须 `--force`）→ `git commit` → `git push`

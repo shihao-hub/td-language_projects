@@ -19,7 +19,7 @@ description: go_projects 子仓产 Windows exe 的项目默认配置站标地鼠
 
 - 权威源：父仓库根目录 `assets\projects\go_projects\go-default.ico`（go.dev 站标地鼠，含 16/24/32/48/64/128/256 共 7 帧）。
 - 使用方式：把该文件**复制**一份到项目主包目录（如 `go_projects\<项目>\cmd\<工具>\icon.ico`）。复制是值拷贝，不产生项目间构建依赖，不违反仓库隔离性原则。
-- 重生成：更换或更新图片时，用仓库根目录的 `gen_icon.py`（PEP 723 + Pillow，`uv run` 执行）重出多帧 ico，再执行第 2 步重出 `.syso`。
+- 重生成：更换或更新图片时，用仓库 `docs/scripts/gen_icon.py`（PEP 723 + Pillow，`uv run` 执行）重出多帧 ico，再执行第 2 步重出 `.syso`。
 
 ## 操作步骤（四步）
 
@@ -60,4 +60,4 @@ $i = [System.Drawing.Icon]::ExtractAssociatedIcon("<exe 完整路径>")
 
 - 完整实操留档（资源来源、获取命令、Wikimedia 介绍、手动 DIY 与踩坑）：
   <https://qcnpt54xm50k.feishu.cn/docx/OyMydgWowoyplVxm8Z9cyBSRn7e>
-- ico 生成脚本：仓库根目录 `gen_icon.py`
+- ico 生成脚本：`docs/scripts/gen_icon.py`
