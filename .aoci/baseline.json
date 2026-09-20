@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-09-19T07:31:35Z",
+  "updated_at": "2026-09-20T11:42:57Z",
   "files": {
     ".gitattributes": {
       "sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476",
@@ -82,9 +82,9 @@
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "bbcf4a982d0fea161fd5ddeae6e783e92f2ba2f8916f24eaa234fa3159f89067",
-      "size": 27215,
-      "normalized_sha256": "bbcf4a982d0fea161fd5ddeae6e783e92f2ba2f8916f24eaa234fa3159f89067"
+      "sha256": "93c0dfd2c05d5fd82d6717146cd20fe820d4b70ba24a3edb3637bacd9abc8c62",
+      "size": 27785,
+      "normalized_sha256": "93c0dfd2c05d5fd82d6717146cd20fe820d4b70ba24a3edb3637bacd9abc8c62"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -477,6 +477,16 @@
       "sha256": "a5f8e6f36ec8f86e84f6b6c45cf17e186f774cb0f236e07d4502d807b5d2c95d",
       "size": 3022,
       "normalized_sha256": "a5f8e6f36ec8f86e84f6b6c45cf17e186f774cb0f236e07d4502d807b5d2c95d"
+    },
+    "docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html": {
+      "sha256": "e5c94df3d46ebde3406f335bd29439888de582981d124e2f3f16cb7c3c8c6681",
+      "size": 2783752,
+      "normalized_sha256": "ac7c6c7e9562dbf08846fcf87be90a07790ce47398d2ef8a5c10d9545975b0f4"
+    },
+    "docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md": {
+      "sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088",
+      "size": 9063,
+      "normalized_sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088"
     }
   },
   "managed_scope": {

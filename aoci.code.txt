@@ -33,7 +33,6 @@ README.md[SW7T]: F:GUIDE 编写规范：父仓级 AI 工作指南的定位、触
 
 ===D:/Users/language_projects/docs/plans/===
 01-lark-group-bridge.md[SW5S]: F:lark_group_bridge.py 开发计划：bot 通道发文本/媒体、lark-cli 读消息的接口与错误码设计 | R:code:.scripts/lark_group_bridge.py | A:计划已执行完毕作决策存档 | S:计划内 webhook 必填等旧设计与脚本 v2.0（bot 默认）不一致，以脚本为准
-02-aoci-baseline-drift-recovery.md[SW6S]: F:父仓 AOCI 基线指纹漂移修复计划：排除规则、observe 收编、治理事务与全量 Entry authoring 分阶段执行 | R:- | A:本计划执行中，Phase 勾选与实测数字随进度更新 | S:acknowledge 必须在 scope 规则变更前执行，否则 pending 双视角死锁
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
@@ -151,3 +150,7 @@ PLAN.md[SW6M]: F:tooldeck 开发计划（已实施）：Electron 单应用多模
 ===D:/Users/language_projects/docs/repo/===
 Git 子模块临时注销（native、rust）.md[SW5T]: F:native/rust 子模块本地注销的操作记录、克隆保持注销态流程与恢复步骤 | R:code:docs/repo/Git 子模块分支机制.md | A:恢复时 update --init 后切 main；勿跑 init-submodules.ps1 全量初始化 | S:deinit 未动 .gitmodules 与远端；gitlink 漂移属已知
 Git 子模块分支机制.md[SW7T]: F:子模块 detached HEAD 原理、三种挂分支机制辨析与本仓库 init 脚本方案 | R:code:.gitmodules,code:.scripts/init-submodules.ps1 | A:- | S:无单一开关让 clone 直站本地分支；--remote 取远端最新与指针约定冲突
+
+===D:/Users/language_projects/docs/repo/lark_group_bridge/===
+参考-鱼皮-7个神级技巧去AI味.md[SG3S]: F:鱼皮《7 个神级技巧去网站 AI 味》离线存档：特征清单、7 方法与 AGENTS.md 模板 | R:code:docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html | A:设计 AI 生成页面前阅读；禁止清单与 AGENTS.md 模板可直接套用 | S:转载存档版权归原作者，仅个人本地参考；外链时效不保证
+2026-09-20 自言自语存档.html[SG3S]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌并逐张图注 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击浏览器打开；图片点击放大，Ctrl+滚轮缩放；编后记按主题归组分析 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文
