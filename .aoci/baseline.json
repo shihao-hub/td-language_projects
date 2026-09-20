@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-09-20T11:42:57Z",
+  "updated_at": "2026-09-20T19:01:19Z",
   "files": {
     ".gitattributes": {
       "sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476",
@@ -9,14 +9,29 @@
       "normalized_sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476"
     },
     ".gitignore": {
-      "sha256": "21d0f021dd05043d0568f30d987325d05d7b41d1d5c8bcaa0ba45b09e7e94731",
-      "size": 122,
-      "normalized_sha256": "21d0f021dd05043d0568f30d987325d05d7b41d1d5c8bcaa0ba45b09e7e94731"
+      "sha256": "c934c019c6a04c22f3fc77c0fed81d19b456b8a9d79ffe6cb5edbbc98bf409d4",
+      "size": 236,
+      "normalized_sha256": "c934c019c6a04c22f3fc77c0fed81d19b456b8a9d79ffe6cb5edbbc98bf409d4"
     },
     ".gitmodules": {
       "sha256": "e8454d964b2ab99d3114bea011dbb4cf1557b36ec3ac9ce67ac8eed7d93b6dcc",
       "size": 713,
       "normalized_sha256": "38031dc6b6a67c94ff18d8c8014fd261a0d97cd5353d311eae18e8b056cb58b7"
+    },
+    ".scripts/build_docs.py": {
+      "sha256": "341c737bae2f37505a344c1fb62fef80659ce653647aca24ec6a88c157c06b25",
+      "size": 5608,
+      "normalized_sha256": "341c737bae2f37505a344c1fb62fef80659ce653647aca24ec6a88c157c06b25"
+    },
+    ".scripts/docs-preview.bat": {
+      "sha256": "84113899c011ae8284a7dd7dae1504a96c30cfa735e8e3f50433845c15ac9afb",
+      "size": 70,
+      "normalized_sha256": "84113899c011ae8284a7dd7dae1504a96c30cfa735e8e3f50433845c15ac9afb"
+    },
+    ".scripts/docs-serve.bat": {
+      "sha256": "a08e27d2353754e8aa1948bd00e728456d3e5b42c686edecb6cdaaadf5776b12",
+      "size": 68,
+      "normalized_sha256": "a08e27d2353754e8aa1948bd00e728456d3e5b42c686edecb6cdaaadf5776b12"
     },
     ".scripts/gen_icon.py": {
       "sha256": "a498e15f407f8789a37e78cd9ebe86ed92a55c9a86b0bd0bda07bdacbd439546",
@@ -82,9 +97,9 @@
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "93c0dfd2c05d5fd82d6717146cd20fe820d4b70ba24a3edb3637bacd9abc8c62",
-      "size": 27785,
-      "normalized_sha256": "93c0dfd2c05d5fd82d6717146cd20fe820d4b70ba24a3edb3637bacd9abc8c62"
+      "sha256": "adcd41169ee4079f60cc2231579b5a295c160dde6381b726414aae46366574ac",
+      "size": 30956,
+      "normalized_sha256": "adcd41169ee4079f60cc2231579b5a295c160dde6381b726414aae46366574ac"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -133,15 +148,25 @@
       "size": 5002,
       "normalized_sha256": "9603aa7e4634d54412d982b15999b071d254bf925456ad4419d36137e3c0fc7d"
     },
+    "docs/index.md": {
+      "sha256": "3e7d1d721d43755d8ea821a3a72a46766c6ae5762037dd9f0d9185f6e918c9f0",
+      "size": 1113,
+      "normalized_sha256": "3e7d1d721d43755d8ea821a3a72a46766c6ae5762037dd9f0d9185f6e918c9f0"
+    },
     "docs/plans/01-lark-group-bridge.md": {
       "sha256": "e0b01dee112664fc45c8725606cb6acdef5d63588548d57a566597133a75fcc3",
       "size": 11467,
       "normalized_sha256": "e0b01dee112664fc45c8725606cb6acdef5d63588548d57a566597133a75fcc3"
     },
     "docs/plans/02-aoci-baseline-drift-recovery.md": {
-      "sha256": "8b96cd75ebcdade9463b12d927179932e351a274a59d895cbf71a456b02b5328",
-      "size": 9626,
-      "normalized_sha256": "8b96cd75ebcdade9463b12d927179932e351a274a59d895cbf71a456b02b5328"
+      "sha256": "63601a0ad3703c7e8ee58c1793ef5062d958ffd7e524c6889fdb34bd6a5ead23",
+      "size": 10215,
+      "normalized_sha256": "63601a0ad3703c7e8ee58c1793ef5062d958ffd7e524c6889fdb34bd6a5ead23"
+    },
+    "docs/plans/02-docs-static-site.md": {
+      "sha256": "0ee9cca415099d157af7fd2fe6a443febe90a1bb2b031e79af31c2fe22d47264",
+      "size": 7152,
+      "normalized_sha256": "0ee9cca415099d157af7fd2fe6a443febe90a1bb2b031e79af31c2fe22d47264"
     },
     "docs/projects/go_projects/CLI 与 MCP 双壳架构工作指南.md": {
       "sha256": "2be0d47bdbf52698b1ad70490366131eb5f8181a992fb0cb7495dd1377a42203",
@@ -478,6 +503,11 @@
       "size": 3022,
       "normalized_sha256": "a5f8e6f36ec8f86e84f6b6c45cf17e186f774cb0f236e07d4502d807b5d2c95d"
     },
+    "docs/repo/docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md": {
+      "sha256": "3718859fb96681754192c0f16c35c5ee6477e64a278c4d1c178cabfc8a005c6c",
+      "size": 10856,
+      "normalized_sha256": "3718859fb96681754192c0f16c35c5ee6477e64a278c4d1c178cabfc8a005c6c"
+    },
     "docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html": {
       "sha256": "e5c94df3d46ebde3406f335bd29439888de582981d124e2f3f16cb7c3c8c6681",
       "size": 2783752,
@@ -487,6 +517,11 @@
       "sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088",
       "size": 9063,
       "normalized_sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088"
+    },
+    "mkdocs.yml": {
+      "sha256": "2cc92c83abf2d341e237811e68ff3aa2714977df2c57d0f0e495c6f18596102c",
+      "size": 1423,
+      "normalized_sha256": "2cc92c83abf2d341e237811e68ff3aa2714977df2c57d0f0e495c6f18596102c"
     }
   },
   "managed_scope": {

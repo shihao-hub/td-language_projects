@@ -2,7 +2,7 @@
 
 ===D:/Users/language_projects/===
 .gitattributes[FR7T]: F:统一全仓文本 LF 检出，保证各平台 checkout 字节一致 | R:- | A:- | S:AOCI 按原始字节建基线，改行尾策略会令整树 Stale
-.gitignore[FC3T]: F:兜底忽略系统杂项与本仓禁止的 Python 虚拟环境目录 | R:- | A:- | S:-
+.gitignore[FC3T]: F:兜底忽略系统杂项、禁止的 Python 虚拟环境与 docs 站点构建产物 .mkdocs-site/ | R:code:mkdocs.yml | A:- | S:-
 .gitmodules[FG8T]: F:声明五个语言子模块的远端、跟踪分支与 ignore=all 策略 | R:code:.scripts/init-submodules.ps1,code:README.md | A:新增语言子模块时在此登记并补 branch 与 ignore=all | S:ignore=all 拦截普通 git add，提交子模块指针必须 git add --force
 AGENTS.md[SG9M]: F:父仓库最高约定：强约束规则、仓库结构、归档与文档布局、脚本规范，含 AOCI 运行契约块 | R:code:README.md,code:.gitmodules,code:MONOREPO.md | A:AI 会话进仓先读；改仓库级约定先改此文件；末尾 aoci 托管块禁手改 | S:子模块改动必须在子仓提交；父仓提交指针必须 git add --force
 CLAUDE.md[SG3T]: F:单行 @AGENTS.md 引用，让 Claude Code 复用父仓库约定 | R:code:AGENTS.md | A:- | S:-
@@ -11,12 +11,16 @@ NOTES.md[SZ2T]: F:零散备忘，当前记录归档 projstat README 的古法编
 README.md[SG8S]: F:父仓库总览：子模块结构、克隆更新命令、脚本清单、数据存放规范、子仓约定与归档/盘点入口 | R:code:.gitmodules,code:AGENTS.md,code:MONOREPO.md,code:docs/guides/GUIDE-ARCHIVE.md | A:新会话与新机器从本文件入门，命令可直接执行 | S:项目运行时数据只允许 %APPDATA%\language_projects\<项目名>\，无 APPDATA 回退 ~/.language_projects/
 SPEC-AGENT.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
 SPEC-HUMAN.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
+mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkdocs-site/、file:// 直开（use_directory_urls=false）、awesome-pages 目录即导航 | R:code:.scripts/build_docs.py,code:docs/index.md | A:use_directory_urls 必须保持 false 保证 file:// 直开；主题/插件改动后用 build --strict 验证 | S:内置搜索无中文分词器，分词在构建后处理完成；勿在 plugin 层用 separator 切汉字（lunr 逐字符 match 恒失败）
 
 ===D:/Users/language_projects/.scripts/===
 gen_icon.py[XG4T]: F:PNG 源图转 16-256 七帧 Windows .ico，非方形等比居中到透明画布 | R:- | A:uv run .scripts/gen_icon.py <input.png> <output.ico> | S:-
 init-submodules.ps1[XV6T]: F:初始化未拉取的子模块并按 .gitmodules 的 branch 字段切跟踪分支 | R:code:.gitmodules | A:克隆后在父仓库根执行一次 ./.scripts/init-submodules.ps1 | S:只初始化 status 前缀 - 的子模块，不拽回领先指针
 install_tool.py[XV5S]: F:把子仓构建产物安装到 ~/.local/bin，jtree 自动选语义版本最高者 | R:- | A:uv run .scripts/install_tool.py <instancelock|clictl|jtree|all> | S:-
 lark_group_bridge.py[XM6L]: F:飞书外部群消息桥：bot 通道发文本/图片/文件并附 AI 代发标注，read/groups 查回复与群 | R:- | A:子命令 init/send/groups/read；--json 输出标准包络或透传 lark-cli JSON | S:.CMD 垫片经 cmd.exe 二次解析会截断多行参数，已直调 node 绕开
+build_docs.py[XV5S]: F:docs 静态站点构建入口：build/serve/preview 三模式，含 jieba 中文分词后处理，preview=构建+分词+静态服务+自动开浏览器 | R:code:mkdocs.yml | A:build 后双击 .mkdocs-site/index.html 浏览；preview 供搜索（127.0.0.1:8766）；serve 供写作热刷新（不做分词） | S:mkdocs worker 无中文分词器，分词只能构建后处理；本文件必须 UTF-8 无 BOM，带 BOM 会让 uv 的 PEP 723 依赖识别失效
+docs-preview.bat[XV2T]: F:双击启动 docs 站点搜索预览：构建+分词+静态服务+自动开浏览器 | R:code:.scripts/build_docs.py | A:用 %~dp0.. 定位仓库根，不硬编码路径；退出前 pause 保留窗口看输出 | S:-
+docs-serve.bat[XV2T]: F:双击启动 docs 站点写作热刷新（mkdocs serve，不做分词） | R:code:.scripts/build_docs.py | A:用 %~dp0.. 定位仓库根，不硬编码路径；退出前 pause 保留窗口看输出 | S:-
 
 ===D:/Users/language_projects/.zed/===
 extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本，配合 auto_install_extensions 安装 | R:code:.zed/settings.json | A:- | S:-
@@ -33,6 +37,8 @@ README.md[SW7T]: F:GUIDE 编写规范：父仓级 AI 工作指南的定位、触
 
 ===D:/Users/language_projects/docs/plans/===
 01-lark-group-bridge.md[SW5S]: F:lark_group_bridge.py 开发计划：bot 通道发文本/媒体、lark-cli 读消息的接口与错误码设计 | R:code:.scripts/lark_group_bridge.py | A:计划已执行完毕作决策存档 | S:计划内 webhook 必填等旧设计与脚本 v2.0（bot 默认）不一致，以脚本为准
+02-docs-static-site.md[SG3T]: F:docs 静态文档站点实施计划（mkdocs-material + awesome-pages + jieba 分词），四个 Stage 已全部执行完毕并记录结论 | R:code:docs/repo/docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md | A:站点维护方式变更前先读 Stage 2 执行记录了解中文搜索方案演进 | S:separator 切汉字在 lunr 逐字符架构下失败，分词采用构建期 jieba 预分词
+02-aoci-baseline-drift-recovery.md[SW5S]: F:父仓 AOCI 基线漂移修复计划：排除 .archived 与 docs/assets、acknowledge 待审指纹、五阶段重建全量索引的治理全流程 | R:code:docs/guides/GUIDE-AOCI-SETUP.md | A:计划已全部执行完毕（v1.1），作决策存档；重走治理流程前先读文中实测偏差批注 | S:顺序不可颠倒：先 exclude、再 acknowledge、最后 apply，颠倒会令基线二次漂移；失败恢复绝不手改 .aoci/baseline.json
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
@@ -150,7 +156,11 @@ PLAN.md[SW6M]: F:tooldeck 开发计划（已实施）：Electron 单应用多模
 ===D:/Users/language_projects/docs/repo/===
 Git 子模块临时注销（native、rust）.md[SW5T]: F:native/rust 子模块本地注销的操作记录、克隆保持注销态流程与恢复步骤 | R:code:docs/repo/Git 子模块分支机制.md | A:恢复时 update --init 后切 main；勿跑 init-submodules.ps1 全量初始化 | S:deinit 未动 .gitmodules 与远端；gitlink 漂移属已知
 Git 子模块分支机制.md[SW7T]: F:子模块 detached HEAD 原理、三种挂分支机制辨析与本仓库 init 脚本方案 | R:code:.gitmodules,code:.scripts/init-submodules.ps1 | A:- | S:无单一开关让 clone 直站本地分支；--remote 取远端最新与指针约定冲突
+docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md[SG4S]: F:对比 SQLite 文档库与 md 源+静态站点两条路线，给出分层架构结论并推荐 Material for MkDocs | R:code:docs/guides/GUIDE-DOCS-RENAME.md | A:实施 docs 静态站前先读第 4 节推荐与第 6 节遗留问题；中文搜索分词须先实测再定 mkdocs 主线 | S:调研性质为未立项笔记；若实施，site/ 构建产物须入 .gitignore 防仓库膨胀
 
 ===D:/Users/language_projects/docs/repo/lark_group_bridge/===
 参考-鱼皮-7个神级技巧去AI味.md[SG3S]: F:鱼皮《7 个神级技巧去网站 AI 味》离线存档：特征清单、7 方法与 AGENTS.md 模板 | R:code:docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html | A:设计 AI 生成页面前阅读；禁止清单与 AGENTS.md 模板可直接套用 | S:转载存档版权归原作者，仅个人本地参考；外链时效不保证
 2026-09-20 自言自语存档.html[SG3S]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌并逐张图注 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击浏览器打开；图片点击放大，Ctrl+滚轮缩放；编后记按主题归组分析 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文
+
+===D:/Users/language_projects/docs/===
+index.md[SG3T]: F:文档库站点首页：四分区导览表与站点构建/浏览方式说明 | R:code:mkdocs.yml,code:.scripts/build_docs.py | A:mkdocs 以本文件为站点入口页；docs 新增顶层分区时同步更新导览表 | S:-
