@@ -4,3 +4,6 @@ Thumbs.db
 
 # Python 虚拟环境（根目录 scripts 约定禁止，兜底防误入库）
 .venv/
+
+# docs 静态站点构建产物（mkdocs，随时用 uv run .scripts/build_docs.py build 重建）
+.mkdocs-site/

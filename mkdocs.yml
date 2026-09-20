@@ -1,0 +1,43 @@
+# docs/ 静态站点配置（Material for MkDocs）
+# 构建入口：uv run .scripts/build_docs.py build；写作热刷新：uv run .scripts/build_docs.py serve
+site_name: language_projects 文档库
+# 留空 site_url 并关闭目录型 URL，保证 file:// 直开（双击 site/index.html 即可浏览）
+site_url: ""
+docs_dir: docs
+site_dir: .mkdocs-site
+use_directory_urls: false
+
+# docs 里的 md 大量链接到 docs 外的仓库源码（file:// 下实际可达），
+# 按"文档内死链"降级为忽略，避免 strict 构建误报
+validation:
+  links:
+    not_found: ignore
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.tracking
+    - navigation.top
+    - navigation.expand
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换到深色模式
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换到浅色模式
+
+plugins:
+  - search:
+      lang: zh
+      # 注意：mkdocs 内置搜索的 worker bundle 无中文分词器，且 lunr tokenizer
+      # 按单字符 match separator，无法用零宽断言切汉字。中文分词由
+      # .scripts/build_docs.py 在构建后用 jieba 预分词 search_index.json 实现。
+  # 目录即导航：按 docs/ 层级自动生成侧边栏树，中文文件名即导航标题
+  - awesome-pages
