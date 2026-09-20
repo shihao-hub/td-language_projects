@@ -1,0 +1,56 @@
+info:
+  name: 写入配置
+  type: http
+  seq: 1
+
+http:
+  method: PUT
+  url: "{{base_url}}/api/app1/dev"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |
+      {
+        "db": {
+          "host": "127.0.0.1",
+          "port": 3306
+        },
+        "feature_flags": {
+          "enable_new_ui": true
+        }
+      }
+
+settings:
+  encodeUrl: false
+
+runtime:
+  scripts:
+    after-response: |
+      // 提取新版本号，供后续 watch 长轮询请求使用
+      const body = res.getBody();
+      if (body && body.code === "ok" && body.data && body.data.version) {
+        bru.setVar("version", body.data.version);
+      }
+    tests: |
+      test("status is 200", () => {
+        expect(res.getStatus()).to.equal(200);
+      });
+      test("code is ok", () => {
+        expect(res.getBody().code).to.equal("ok");
+      });
+      test("version is a positive integer", () => {
+        const v = res.getBody().data.version;
+        expect(typeof v).to.equal("number");
+        expect(v).to.be.at.least(1);
+      });
+
+docs: |
+  写入配置 `PUT /api/{app}/{env}`。
+
+  - body 即配置 JSON 对象（顶层必须是 object），服务端原子写盘、版本号 +1
+  - 响应：`{"code":"ok","data":{"version":新版本}}`
+  - after-response 脚本会把新版本号存入 `{{version}}`，供 `04-watch.yml` 长轮询消费
+  - 错误码：`invalid_name`（400，app/env 不满足 `[a-zA-Z0-9_-]+`）、`invalid_json`（400，body 非法 JSON 或非顶层对象）
+  - 链路：本请求是整条链的起点，先跑本请求再跑 04-watch

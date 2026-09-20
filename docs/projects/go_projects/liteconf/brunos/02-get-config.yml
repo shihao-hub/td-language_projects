@@ -1,0 +1,33 @@
+info:
+  name: 读取配置
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/api/app1/dev"
+
+settings:
+  encodeUrl: false
+
+runtime:
+  scripts:
+    tests: |
+      test("status is 200", () => {
+        expect(res.getStatus()).to.equal(200);
+      });
+      test("code is ok", () => {
+        expect(res.getBody().code).to.equal("ok");
+      });
+      test("content and version are present", () => {
+        const data = res.getBody().data;
+        expect(data.content).to.be.an("object");
+        expect(data.version).to.be.a("number");
+      });
+
+docs: |
+  读取配置 `GET /api/{app}/{env}`。
+
+  - 响应：`{"code":"ok","data":{"content":{...配置对象...},"version":N}}`
+  - 依赖：先跑 `01-put-config.yml` 写入一份配置，否则返回 404
+  - 错误码：`not_found`（404）、`invalid_name`（400）

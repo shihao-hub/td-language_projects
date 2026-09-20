@@ -1,0 +1,39 @@
+info:
+  name: 长轮询监听变更
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{base_url}}/api/watch/app1/dev?version={{version}}&timeout=10"
+
+settings:
+  encodeUrl: false
+
+runtime:
+  scripts:
+    tests: |
+      test("status is 200", () => {
+        expect(res.getStatus()).to.equal(200);
+      });
+      test("code is ok", () => {
+        expect(res.getBody().code).to.equal("ok");
+      });
+      test("returns content and version", () => {
+        const data = res.getBody().data;
+        expect(data.content).to.be.an("object");
+        expect(data.version).to.be.a("number");
+      });
+
+docs: |
+  长轮询变更通知 `GET /api/watch/{app}/{env}?version=N`。
+
+  - `version`：客户端已知版本号（默认引用 `01-put-config.yml` 提取的 `{{version}}`）
+  - `timeout`：挂起上限秒数（默认 30，上限 120；本请求设 10s 方便测试）
+  - 行为：
+    - 当前版本 != N → **立即返回**最新内容与版本
+    - 当前版本 == N → 挂起；期间有人写入/外部编辑该配置 → **立即唤醒**返回新版本
+    - 挂起到超时仍无变化 → 返回当前版本（客户端据此发起下一轮）
+  - 验证唤醒玩法：先跑 `01-put-config.yml`，再发起本请求（会挂起），挂起期间改服务端配置文件
+    （`configs/app1/dev.json`，6 秒内被外部编辑检测感知）或再跑一次 01，本请求立即返回新版本
+  - 响应结构与 `02-get-config.yml` 相同

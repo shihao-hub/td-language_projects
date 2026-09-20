@@ -1,0 +1,30 @@
+info:
+  name: 发现接口
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: "{{base_url}}/api/discovery"
+
+settings:
+  encodeUrl: false
+
+runtime:
+  scripts:
+    tests: |
+      test("status is 200", () => {
+        expect(res.getStatus()).to.equal(200);
+      });
+      test("code is ok", () => {
+        expect(res.getBody().code).to.equal("ok");
+      });
+      test("apps is a list", () => {
+        expect(res.getBody().data.apps).to.be.an("array");
+      });
+
+docs: |
+  发现接口 `GET /api/discovery`，列出全部应用、环境与当前版本。
+
+  - 响应：`{"code":"ok","data":{"apps":[{"app":"app1","envs":[{"env":"dev","version":3}]}]}}`
+  - 依赖：无（空目录时返回 `apps: []`），适合作为连通性健康检查——起服后第一个跑
