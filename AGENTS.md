@@ -19,6 +19,7 @@
   - **必须先完整阅读该标准再动手的场景**：① 新建任何 CLI/工具类项目（不限语言）；② 给已有项目新增 CLI / MCP 入口或 `schema` 导出；③ 需要豁免标准要求（如服务 + 库形态不配 CLI）时；④ 重构/评审已有项目的 CLI 入口契约时。
 - 数据文件存放强约束：所有项目运行时产生的自有数据文件（JSON 数据库、SQLite db、索引/哈希缓存、锁文件、日志、会话存储、settings 等）只允许放在 `%APPDATA%\language_projects\<项目名>\`；取不到 `APPDATA` 时回退 `~/.language_projects/<项目名>/`；代码必须在写入前自动创建完整目录链（含 `language_projects` 一层）。例外：只读外部数据源（opencode.db、Zed db 等）不受限；django-lab 的 `db.sqlite3` 保留项目根目录；zed-opencode-sessions 仓库内归档 db 为有意提交，保持现状。
 - lark-cli 创建的飞书文档默认放在用户的飞书「我的文档库」（创建时加 `--parent-position my_library`），不要落在云盘根目录；用户明确指定位置时以用户为准。
+- 测试资源用后即清：chrome-devtools 等工具打开的浏览器测试页、临时起的服务、后台进程，验证完成立即关闭或终止，不得遗留（浏览器最后一个空白页可保留）；确需保留时必须向用户说明并获得同意。
 
 ### 开发约束（手工编写）
 
@@ -91,13 +92,14 @@
 ## 归档与文档布局约定（重要）
 
 - **文档只允许放在父仓库**：子模块内的项目目录中**一律禁止**出现任何文档目录与文档内容（`docs/`、`docs/specs/`、`docs/plans/`、`spec/`、`specs/`、`plans/` 等均不允许）。
-- **`docs/` 根目录不放散装文件**，各类各归其位：`docs/projects/<lang>/`（项目镜像文档）、`docs/guides/`（AI 工作指南）、`docs/plans/`（父仓级开发计划）、`docs/repo/`（仓库自身文档，如 git 子模块机制说明）、`docs/assets/projects/<lang>/`（跨项目二进制资源，如默认图标）；`.archived/` 同理，跨项目内容收入 `.archived/projects/<lang>/` 分层。
-- 所有项目文档（知识沉淀、spec、plan、设计说明等）统一放父仓库 `docs/projects/<lang>/` 下，按子模块内相对路径**镜像层级命名**，并去掉中间冗余的 `docs/` 一层：
+- **`docs/` 根目录不放散装文件**，各类各归其位：`docs/projects/<lang>/`（项目镜像文档）、`docs/guides/`（AI 工作指南）、`docs/plans/`（父仓级开发计划）、`docs/repo/`（仓库自身文档与通用技术知识沉淀：git 子模块机制说明、与项目无关的技术介绍等）、`docs/assets/projects/<lang>/`（跨项目二进制资源，如默认图标）；`.archived/` 同理，跨项目内容收入 `.archived/projects/<lang>/` 分层。
+- 所有**项目相关**文档（spec、plan、设计说明、项目知识沉淀等）统一放父仓库 `docs/projects/<lang>/` 下，按子模块内相对路径**镜像层级命名**，并去掉中间冗余的 `docs/` 一层：
   - 例：`go_projects/a/b.md` → `docs/projects/go_projects/a/b.md`；
   - 例：`typescript_projects/taskmon/docs/x.md` → `docs/projects/typescript_projects/taskmon/x.md`。
 - 例外：子模块内全大写命名的文档（如 `README.md`、`SUBMODULES.md`）与子仓根级说明文件无需迁移，可原地保留。
 - **方法论文档与 AI agent 工作指南**（跨项目、供 AI agent 直接执行，不归属单个子项目，如 `docs/projects/go_projects/CLI 工具开发标准.md`）：放 `docs/projects/<lang>/` 语言层目录（当前集中在 `docs/projects/go_projects/`），不镜像子仓路径、不进项目子目录；跨语言标准维护单一文件，其他语言引用同一标准；指南中引用的项目参考实现与项目文档，仍按上述 `docs/projects/<lang>/<项目>/` 规则存放。
 - **父仓级 AI 工作指南（GUIDE 系列）**：当用户要求"把流程沉淀下来 / 写个操作手册 / 沉淀成 GUIDE"，或一次任务中出现可复用的多阶段工作流（分阶段执行、有人工确认点、有踩坑记录）值得沉淀时，按《[GUIDE 编写规范](<docs/guides/README.md>)》产出 `docs/guides/GUIDE-<英文名>.md`（语言专属指南仍按上一条放 `docs/projects/<lang>/`，如 `docs/projects/go_projects/GUIDE-GO-EXE-ICON.md`）；GUIDE 仿 skill 规范编写但**不注册为 skill**，禁止放入任何 skills 目录。
+- **通用技术知识文档**（与任何项目无关的知识介绍/沉淀，如协议介绍、技术调研）：放 `docs/repo/`；`docs/projects/<lang>/` 只收项目相关文档与语言层方法论文档，禁止把此类文档放语言层根目录或任何项目目录。
 - 归档项目统一放 `.archived/projects/<lang>/<项目名>/`；语言通用文档放 `docs/projects/<lang>/`。
 - 子仓内不再维护各自的 `.archived/`、`docs/`、`.zed/` 与 `.zcode/`。
 - 后续新增归档项目时，同样按 `.archived/projects/<lang>/` 嵌套放入对应位置。

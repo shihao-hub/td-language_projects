@@ -2,9 +2,9 @@
 
 ===D:/Users/language_projects/===
 .gitattributes[FR7T]: F:统一全仓文本 LF 检出，保证各平台 checkout 字节一致 | R:- | A:- | S:AOCI 按原始字节建基线，改行尾策略会令整树 Stale
-.gitignore[FC3T]: F:兜底忽略系统杂项、禁止的 Python 虚拟环境与 docs 站点构建产物 .mkdocs-site/ | R:code:mkdocs.yml | A:- | S:-
+.gitignore[FC3T]: F:兜底忽略系统杂项、Python 虚拟环境、mkdocs 构建产物 .mkdocs-site/ 与第三方参考克隆 .thirdparty/ | R:code:mkdocs.yml | A:- | S:-
 .gitmodules[FG8T]: F:声明五个语言子模块的远端、跟踪分支与 ignore=all 策略 | R:code:.scripts/init-submodules.ps1,code:README.md | A:新增语言子模块时在此登记并补 branch 与 ignore=all | S:ignore=all 拦截普通 git add，提交子模块指针必须 git add --force
-AGENTS.md[SG9M]: F:父仓库最高约定：强约束规则、仓库结构、归档与文档布局、脚本规范，含 AOCI 运行契约块 | R:code:README.md,code:.gitmodules,code:MONOREPO.md | A:AI 会话进仓先读；改仓库级约定先改此文件；末尾 aoci 托管块禁手改 | S:子模块改动必须在子仓提交；父仓提交指针必须 git add --force
+AGENTS.md[SG9M]: F:父仓库最高约定：强约束规则、仓库结构、归档与文档布局、脚本规范，含 AOCI 运行契约块 | R:code:README.md,code:.gitmodules,code:MONOREPO.md | A:AI 会话进仓先读；改仓库级约定先改此文件；末尾 aoci 托管块禁手改 | S:子模块改动必须在子仓提交；父仓提交指针必须 git add --force；测试资源用后即清
 CLAUDE.md[SG3T]: F:单行 @AGENTS.md 引用，让 Claude Code 复用父仓库约定 | R:code:AGENTS.md | A:- | S:-
 MONOREPO.md[SG6T]: F:个人项目价值盘点表：按目录分节列摘要、状态、源码阅读、价值与下一步 | R:code:docs/guides/GUIDE-INVENTORY.md | A:主观列只由表主人填，AI 仅起草摘要待过目 | S:六列表每行恰 7 个管道符，归档行保留全列
 NOTES.md[SZ2T]: F:零散备忘，当前记录归档 projstat README 的古法编程思路线索 | R:- | A:- | S:-
@@ -33,12 +33,16 @@ GUIDE-DOCS-RENAME.md[SW5T]: F:docs 英文命名 md 批量改中文名并修复�
 GUIDE-INVENTORY.md[SW6S]: F:MONOREPO.md 盘点表维护工作流：存量对照、摘要起草、联动同步与格式验证 | R:code:MONOREPO.md | A:项目增删/归档/迁移时按联动速查同步盘点表 | S:AI 不得代填主观列；结构变了表不变盘点即失真
 GUIDE-MCP-INSPECTOR.md[SO5S]: F:用 MCP Inspector 调试自定义 stdio MCP server：catalog 机制、配置对照与冒烟路径 | R:- | A:server 列表即 ~/.mcp-inspector/mcp.json，直改刷新即生效；Command 用绝对路径 | S:脚本灌 JSON-RPC 须交互时序（init→响应→initialized）否则断连
 GUIDE-RESTORE.md[SW7S]: F:归档项目恢复回子仓的镜像工作流：冲突排查、精确暂存、指针更新 | R:code:docs/guides/GUIDE-ARCHIVE.md | A:恢复前必查子仓同名占用与 .archived 无关未跟踪目录 | S:父仓暂存必须精确到项目路径，git add .archived 整目录会吸入无关文件
-README.md[SW7T]: F:GUIDE 编写规范：父仓级 AI 工作指南的定位、触发式 description、文件骨架与命名 | R:code:docs/guides/GUIDE-ARCHIVE.md,code:AGENTS.md | A:沉淀新 GUIDE 前必读；禁止放入任何 skills 目录 | S:GUIDE 改名/移动是高危操作，迁移后旧名 grep 清零才算完成
+README.md[SW7T]: F:GUIDE 编写规范：父仓级 AI 工作指南的定位、触发式 description、文件骨架、命名与现有清单表维护 | R:code:docs/guides/GUIDE-ARCHIVE.md,code:docs/guides/GUIDE-THIRDPARTY-CLONE.md,code:AGENTS.md | A:沉淀新 GUIDE 前必读；新增 GUIDE 后需在清单表加行；禁止放入任何 skills 目录 | S:GUIDE 改名/移动是高危操作，迁移后旧名 grep 清零才算完成
+GUIDE-THIRDPARTY-CLONE.md[SW5S]: F:第三方开源项目克隆工作流：.thirdparty/ 点前缀目录 + gitignore 忽略 + 可选 myfork remote 推自己 fork，默认不用 submodule | R:code:docs/guides/README.md,code:docs/guides/GUIDE-ARCHIVE.md,code:AGENTS.md | A:克隆第三方项目进本仓时使用；触发式 description 已列常见说法 | S:.thirdparty/ 被父仓 .gitignore 忽略不入库，多机需手动重新 clone；submodule 仅在用户明确要求版本锁定时才用
 
 ===D:/Users/language_projects/docs/plans/===
 01-lark-group-bridge.md[SW5S]: F:lark_group_bridge.py 开发计划：bot 通道发文本/媒体、lark-cli 读消息的接口与错误码设计 | R:code:.scripts/lark_group_bridge.py | A:计划已执行完毕作决策存档 | S:计划内 webhook 必填等旧设计与脚本 v2.0（bot 默认）不一致，以脚本为准
 02-docs-static-site.md[SG3T]: F:docs 静态文档站点实施计划（mkdocs-material + awesome-pages + jieba 分词），四个 Stage 已全部执行完毕并记录结论 | R:code:docs/repo/docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md | A:站点维护方式变更前先读 Stage 2 执行记录了解中文搜索方案演进 | S:separator 切汉字在 lunr 逐字符架构下失败，分词采用构建期 jieba 预分词
 02-aoci-baseline-drift-recovery.md[SW5S]: F:父仓 AOCI 基线漂移修复计划：排除 .archived 与 docs/assets、acknowledge 待审指纹、五阶段重建全量索引的治理全流程 | R:code:docs/guides/GUIDE-AOCI-SETUP.md | A:计划已全部执行完毕（v1.1），作决策存档；重走治理流程前先读文中实测偏差批注 | S:顺序不可颠倒：先 exclude、再 acknowledge、最后 apply，颠倒会令基线二次漂移；失败恢复绝不手改 .aoci/baseline.json
+03-skill-mandatory-plan-gate.md[SW5T]: F:skill 强制计划门修改计划：删除直接执行豁免、一切修改先落盘待批，含违规追认与回滚任务 | R:- | A:批准保留 v2.1.0，驳回按 Task 2 回滚 | S:修改对象在用户目录 .agents\skills\，不受版本控制
+04-archive-html-inline-editor.md[SW4T]: F:存档页内编辑功能补落计划：删条/删节/改正文图注、序列化覆盖保存，含入口修复与回滚任务 | R:code:docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html | A:已批准关闭（2026-09-21），Task 3 回滚作废 | S:兼作 v2.0 直接执行漏洞的事后追认记录，执行先于批准属违规
+06-lark-chat-archive-skill.md[SW5S]: F:创建 sh-lark-chat-archive skill 的计划（已执行完毕 v1.1）：聊天区间/话题读取 → 去 AI 味 HTML 存档 → 可选转发归档 → 可选撤回，含需求拍板、方案与五任务 | R:code:AGENTS.md,code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md,code:docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html | A:计划已执行完毕，作决策存档；迭代该 skill 或做同类归档工具前先读实施说明的实测结论（applink 降级、position 坑、post 内嵌图挂接） | S:话题模式到 HTML 交付为止，永不归档/撤回；归档/撤回分级确认，--yes 仅用户批准后；applink 不可解析，定位话题降级关键词搜索；回复 position 恒 -3，排序锚定用 thread_message_position
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
@@ -157,10 +161,15 @@ PLAN.md[SW6M]: F:tooldeck 开发计划（已实施）：Electron 单应用多模
 Git 子模块临时注销（native、rust）.md[SW5T]: F:native/rust 子模块本地注销的操作记录、克隆保持注销态流程与恢复步骤 | R:code:docs/repo/Git 子模块分支机制.md | A:恢复时 update --init 后切 main；勿跑 init-submodules.ps1 全量初始化 | S:deinit 未动 .gitmodules 与远端；gitlink 漂移属已知
 Git 子模块分支机制.md[SW7T]: F:子模块 detached HEAD 原理、三种挂分支机制辨析与本仓库 init 脚本方案 | R:code:.gitmodules,code:.scripts/init-submodules.ps1 | A:- | S:无单一开关让 clone 直站本地分支；--remote 取远端最新与指针约定冲突
 docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md[SG4S]: F:对比 SQLite 文档库与 md 源+静态站点两条路线，给出分层架构结论并推荐 Material for MkDocs | R:code:docs/guides/GUIDE-DOCS-RENAME.md | A:实施 docs 静态站前先读第 4 节推荐与第 6 节遗留问题；中文搜索分词须先实测再定 mkdocs 主线 | S:调研性质为未立项笔记；若实施，site/ 构建产物须入 .gitignore 防仓库膨胀
+MQTT 与 WebSocket 协议.md[SG4S]: F:MQTT 与 WebSocket 协议知识参考：定位区分（消息协议 vs 传输通道）、核心机制、对比选型与 MQTT over WebSocket 组合 | R:- | A:- | S:通用技术知识文档按约定放 docs/repo，禁止放入 docs/projects/<lang>/ 语言层或项目目录
 
 ===D:/Users/language_projects/docs/repo/lark_group_bridge/===
 参考-鱼皮-7个神级技巧去AI味.md[SG3S]: F:鱼皮《7 个神级技巧去网站 AI 味》离线存档：特征清单、7 方法与 AGENTS.md 模板 | R:code:docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html | A:设计 AI 生成页面前阅读；禁止清单与 AGENTS.md 模板可直接套用 | S:转载存档版权归原作者，仅个人本地参考；外链时效不保证
-2026-09-20 自言自语存档.html[SG3S]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌并逐张图注 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击浏览器打开；图片点击放大，Ctrl+滚轮缩放；编后记按主题归组分析 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文
+2026-09-20 自言自语存档.html[SG3L]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌逐张图注，支持页内编辑删除后覆盖原文件 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击打开；图片点击放大（Ctrl+滚轮缩放）；侧栏「编辑此页」可删条/删节/改字，保存后序列化覆盖原文件 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文
 
 ===D:/Users/language_projects/docs/===
 index.md[SG3T]: F:文档库站点首页：四分区导览表与站点构建/浏览方式说明 | R:code:mkdocs.yml,code:.scripts/build_docs.py | A:mkdocs 以本文件为站点入口页；docs 新增顶层分区时同步更新导览表 | S:-
+
+===D:/Users/language_projects/docs/memories/===
+README.md[SG2T]: F:记忆功能文档区的占位想法：仅一行「参考 claude code 的记忆功能」，尚无实质内容 | R:- | A:- | S:仅一行想法占位，扩充实际内容后本 Entry 转 stale，须重读重写
+
