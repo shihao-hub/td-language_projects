@@ -65,7 +65,7 @@
   - 验证：每个 commit 前执行 `git diff --cached --check` 并复核暂存文件列表，每次 push 后检查 `git status --short --branch`；预期每个 commit 只包含一个逻辑主题且远端同步。
   - Demo：列出父仓库每个 commit 的哈希、主题、文件范围和 push 结果。
 
-- [ ] **Task 8：更新并提交父仓库子模块指针**
+- [x] **Task 8：更新并提交父仓库子模块指针**
   - 文件：父仓库对应 `python_projects` 子模块指针
   - 实现：确认 Python 子仓库的目标 commit 均已 push 后，回到父仓库更新子模块指针；仅提交指针变更，完成后立即 push。
   - 验证：执行 `git submodule status`、父仓库 `git diff --cached`、`git status --short --branch`；预期父仓库指针与远端 Python 子仓库提交一致，工作区清洁。
