@@ -15,7 +15,11 @@
 
 ```powershell
 uv run .scripts/build_docs.py build   # 构建 .mkdocs-site/（双击其中 index.html 以 file:// 浏览）
-uv run .scripts/build_docs.py serve   # 写作期热刷新 / 搜索（http://127.0.0.1:8765）
+uv run .scripts/build_docs.py serve   # 写作期热刷新 + 中文搜索（http://127.0.0.1:8765）
+uv run .scripts/build_docs.py preview # 构建后起一次性静态服务（只读浏览，http://127.0.0.1:8766）
 ```
+
+中文搜索由 mkdocs-material 内置（需 jieba，已声明在 `.scripts/build_docs.py` 的 PEP 723 依赖里），
+build / serve / preview 三个入口行为一致；`file://` 直开时浏览器禁止加载搜索 Worker，搜索需走 http。
 
 `docs/` 下的 Markdown 是唯一事实源（随 git 管理）；`.mkdocs-site/` 为构建产物，不入 git，随时删除重建。

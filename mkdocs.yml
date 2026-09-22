@@ -36,8 +36,10 @@ theme:
 plugins:
   - search:
       lang: zh
-      # 注意：mkdocs 内置搜索的 worker bundle 无中文分词器，且 lunr tokenizer
-      # 按单字符 match separator，无法用零宽断言切汉字。中文分词由
-      # .scripts/build_docs.py 在构建后用 jieba 预分词 search_index.json 实现。
+      # 中文搜索：material 的搜索插件在 jieba 可导入时自动把索引里的汉字按 jieba 词切分
+      # 并用 \u200b 连接，zh 语言包又把 \u200b 与空白当分隔符，查询侧再按索引词典贪心切分。
+      # jieba 由 .scripts/build_docs.py 的 PEP 723 依赖提供；缺了它 material 会静默跳过
+      # 中文切分，中文搜索退化为整段匹配。无需额外钩子或后处理。
+      # 如需补充专名词典，用上游选项 jieba_dict_user 指一个词表文件即可。
   # 目录即导航：按 docs/ 层级自动生成侧边栏树，中文文件名即导航标题
   - awesome-pages

@@ -75,6 +75,7 @@ mkdocs.yml（仓库根，docs_dir=docs, site_dir=site）
 - [x] Task 3（含 Pagefind 条件分支）
 - ✅ 2026-09-21 完成，未走 Pagefind 分支，最终方案为 **jieba 构建期预分词后处理**。曲折记录：① mkdocs worker bundle（39KB）无任何 CJK 分词器；② `separator` 零宽断言方案在 lunr tokenizer 的"逐字符 match"架构下恒失败，死路；③ 深入 worker 源码发现 mkdocs 原生设计了查询侧中文机制 `fe()`（基于倒排索引词典的子串匹配 + wildcard），索引侧只缺分词器——jieba 后处理恰好补位。实现：build 后对 search_index.json 的 title/text（标签外文本、仅中文连续段）jieba 分词为空格分隔；补词（飞书/子模块/多维表格）。离线模拟 worker 全链路（索引构建+fe 切分+AND 匹配）验证 8 个中文查询全部正确命中（子模块→33 篇、微调→15 篇、发件箱精确命中、规范→GUIDE/CLI 标准等）。
 - ⚠️ 已知限制：`file://` 下浏览/导航/链接全可用，但浏览器安全策略禁止 fetch 索引与 Worker，搜索必须经 http（serve 模式）；serve 模式不跑分词后处理，中文搜索以 build 产物为准。
+- 🔧 **2026-09-23 更正**（见《[09-docs-serve-chinese-search.md](09-docs-serve-chinese-search.md)》）：上述「中文分词靠本计划加的 jieba 后处理」是误判——mkdocs-material 搜索插件自带 CJK 处理（jieba 切词 + `\u200b` 分隔），只要 jieba 可导入，**build 与 serve 行为一致、中文搜索开箱即用**；该后处理工序实测对搜索结果零影响，已删除。
 
 ## Stage 3: 直开与脚本定稿 ✅
 - [x] Task 4
