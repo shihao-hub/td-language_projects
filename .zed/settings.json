@@ -2,6 +2,23 @@
   // 语言项目总仓：合并自四个语言子仓的 .zed/settings.json，
   // 按语言开 LSP 白名单（配合全局 enable_language_server: false）
   // 自动安装项目声明的扩展（官方格式为对象：扩展名 → 允许/禁止安装）
+  // 文件扫描排除：子模块构建产物（node_modules/.venv/target/dist 等）会把工作区
+  // 撑到 27 万条目，导致 Zed 扫描缓慢、watcher 漏事件（新建文件不出现在侧栏）
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.thirdparty",
+    "**/node_modules",
+    "**/target",
+    "**/.venv",
+    "**/venv",
+    "**/dist",
+    "**/build",
+    "**/__pycache__",
+    "**/.next",
+    "**/vendor",
+    "**/*.exe",
+    "**/*.syso"
+  ],
   "auto_install_extensions": {
     "lua": true,
     "toml": true,
