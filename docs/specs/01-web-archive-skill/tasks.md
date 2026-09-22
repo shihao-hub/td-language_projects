@@ -1,0 +1,33 @@
+# Task List
+
+- [x] 1. FSA 可行性验证（gate）：实证 Chrome `file://` 下 `showDirectoryPicker` 可用性
+  - Files: `C:\Users\29580\AppData\Local\Temp\opencode\fsa-probe.html`（临时验证页，用后即清）
+  - 实现细节：写一个最小验证页（检测 `window.isSecureContext`、`typeof showDirectoryPicker`、"启用编辑"按钮触发 `showDirectoryPicker({mode:'readwrite'})`、写测试文件到所选目录、IndexedDB 存 handle、重载后恢复）；用 chrome-devtools 以 `file://` 打开，evaluate_script 断言前两项自动通过、调用不抛 SecurityError 即判定 gate 通过。完整人工闭环（真实选目录→写→重载恢复）合并到任务 6 交付验收时由用户完成。gate 失败则按 design.md 模块三回退方案（下载导出 + 手动导入模式）实现后续编辑保存，并在任务 3 的模板中启用回退分支。
+  - Verify: chrome-devtools evaluate_script 返回 `isSecureContext === true` 且 `typeof showDirectoryPicker === "function"` 且调用未抛 SecurityError；预期三项全部满足（任一不满足即走回退分支，本任务仍算完成——gate 结论本身就是产出）
+  - Ref: design.md 模块三"执行前置验证（gate）"、Design Review Notes #1
+- [x] 2. 编写 `build_archive.py` 的 `fetch` 子命令并对 Jev 文章真实执行
+  - Files: `C:\Users\29580\.agents\skills\sh-web-archive\scripts\build_archive.py`（新建）
+  - 实现细节：PEP 723 头（`requires-python >= 3.11`、`dependencies = ["beautifulsoup4"]`）；实现 URL 校验（`bad_url` 退出码 2）、目录规则（`%APPDATA%\agents-skills\sh-web-archive\{YYYY-MM-DD 标题}\`，`--dir` 覆盖，重名报错，清洗 `[\\/:*?"<>|]`→`_` + strip 结尾点/空格 + 截 60 字符）、匿名 GET（浏览器 UA、30s 超时、网络错误/5xx 重试 1 次）、鉴权三级判定（`auth_required`/`login_wall`/`blocked_by_site`，拒绝不建目录退出码 1）、正文三级提取（微信 `#js_content` → `article/main/[role=main]` → 文本密度最大 div，< 200 字报 `extract_failed`）、元数据提取、资源统一懒加载规则（`data-src`/`data-original` 优先）下载（`MAX_ASSETS=300`、失败重试 1 次、微信图不带 Referer、`mpvoice` 走 getvoice、iframe 补全 `https:` 保留）、产出 `article.json`。首次执行命令：`uv run C:\Users\29580\.agents\skills\sh-web-archive\scripts\build_archive.py fetch --url "https://mp.weixin.qq.com/s/tKzLooBWfsNQ3xcFVQOjCw" --dir "2026-09-21 Jev模型开放"`
+  - Verify: 上述命令退出码 0；`%APPDATA%\agents-skills\sh-web-archive\2026-09-21 Jev模型开放\article.json` 存在且 `meta.title` 含"Jev"、`assets` 列表图片多为 `ok: true`；`assets\` 目录内有 `img-001.*` 等文件；控制台打印资源成功/失败计数
+  - Ref: AC-1、AC-2、AC-6、AC-7
+- [x] 3. 编写 `render` 子命令与页面模板（三主 tab + 子 tab + 编辑 + FSA/回退保存）
+  - Files: `C:\Users\29580\.agents\skills\sh-web-archive\scripts\build_archive.py`（同文件追加）
+  - 实现细节：`render --dir <目录> [--summary <summary.json>]`——读 `article.json`、校验 summary（`one_liner` 必填 ≤ 60 字、`sections` 非空、每节 `title`/`paragraphs` 必填，违规报 JSON 路径）；生成 `index.html`：纸面排版（复用 design-rules 规范：纸底噪点/衬线/朱砂/左侧 rail，无蓝紫渐变无 Emoji 图标）、三 `<section data-tab>` 内嵌初始内容、`<noscript>` 纵向全展、左 rail 主 tab + 子 tab 行（原文/总结=版本倒序、可编辑页=动作时间线，点击跳转）、原文 lightbox、失败媒体占位框、iframe 在线视频提示、scratch 引导文字；内嵌 JS：tab 切换、IndexedDB handle 恢复 + `queryPermission`/`requestPermission`、经 handle 读 `manifest.json` 与快照（不走 fetch）、编辑工作台（选对象→contenteditable→保存）、保存链路（写 `history/{tab}-<ts>.html` → 改写 manifest `tabs` unshift + `actions` unshift → 前端插列表最前）、历史版本只读查看、无 FSA 浏览器只读提示；任务 1 gate 失败则保存链路换回退分支（`a[download]` 导出快照与 manifest）；render 幂等重跑（history 已存在时仅内容变化的 tab 追加快照）；首次执行：`uv run C:\Users\29580\.agents\skills\sh-web-archive\scripts\build_archive.py render --dir "%APPDATA%\agents-skills\sh-web-archive\2026-09-21 Jev模型开放"`
+  - Verify: 上述命令退出码 0；目录内出现 `index.html`、`history\`（original/scratch 各 1 个 v1 快照）、`manifest.json`（列表降序、含 `actions`）；chrome-devtools 以 `file://` 打开 `index.html`：三主 tab 切换正常、原文文字完整、图片从本地 `assets\` 加载（Network 面板无红色失败）、子 tab 行显示 v1
+  - Ref: AC-1、AC-2、AC-5
+- [x] 4. 撰写 `references/design-rules.md` 与 Jev 文章 `summary.json`，注入完成总结 tab
+  - Files: `C:\Users\29580\.agents\skills\sh-web-archive\references\design-rules.md`（新建）、`%APPDATA%\agents-skills\sh-web-archive\2026-09-21 Jev模型开放\summary.json`（新建）
+  - 实现细节：design-rules.md 从 sh-lark-chat-archive 版改写（保留禁止清单/纸底衬线朱砂规范；"编后记纪律"改为"网页总结纪律"：主题分节、每节引原文原句、成段不成列、指得到原文位置、禁套话不升华、数字具体化）；通读 `article.json` 的 `text` 后按纪律写 summary.json（`one_liner` + 3-6 节，覆盖 Jev 是什么/三种原语/与传统 LLM 区别/实测数据/使用感受，关键数字如 70-500ms、$0.042/百万 token、15.6s/1000 封必须与原文一致）；执行 `uv run C:\Users\29580\.agents\skills\sh-web-archive\scripts\build_archive.py render --dir "%APPDATA%\agents-skills\sh-web-archive\2026-09-21 Jev模型开放" --summary "%APPDATA%\agents-skills\sh-web-archive\2026-09-21 Jev模型开放\summary.json"`
+  - Verify: render 退出码 0 且控制台显示 summary tab 追加新版本；chrome-devtools 打开 index.html 的 AI 总结 tab 呈现全部小节；抽查 3 个关键数字与 article.json 原文一致
+  - Ref: AC-3
+- [x] 5. 编写 `SKILL.md` 完成 skill 安装（skill-creator 规范）
+  - Files: `C:\Users\29580\.agents\skills\sh-web-archive\SKILL.md`（新建）
+  - 实现细节：YAML frontmatter（name: sh-web-archive；description 写得 pushy：覆盖"总结这个网页/存档这篇文章/把网页做成三 tab 页面/归档公众号文章"等触发语，明确"无需鉴权网页"边界）；正文：七步工作流（接 URL → fetch → 读 design-rules 后写 summary.json → render → chrome-devtools 打开交付 → 反馈改 JSON 重跑 render → 收尾清理临时页）、fetch/render 用法与参数表、两处同名目录职责区别（`.agents\skills\` = skill 本体代码；`%APPDATA%\agents-skills\` = 存档产物数据）、安全门（鉴权拒绝如实上报不绕过、SPA 报错说明、测试页用后即清）；结构对齐 skill-creator 解剖（SKILL.md + scripts/ + references/，渐进披露，正文 < 500 行）
+  - Verify: `SKILL.md` frontmatter 含 name 与 description；目录树为 `SKILL.md + scripts\build_archive.py + references\design-rules.md`；正文工作流步骤与任务 2-4 已实际验证的命令一致
+  - Ref: AC-7、FR8
+- [x] 6. 端到端交付验收（对照全部 AC）并清理测试资源
+  - 执行记录：AC-1/2/3/5/6/7 已机器核对通过（图片 33/33 本地加载、总结 7 项关键数字与原文一致、tab 切换高亮正常、httpbin 403 退出码 1 且 `auth_required` 未建目录、阮一峰博客全流程复用成功）；AC-4 的 FSA 编辑持久化人工闭环（授权 → 改字 → 保存 → 重开核对）待用户完成确认。临时验证页与专属 Chrome 进程组已清理。
+  - Files: 无新文件（验收 `%APPDATA%\agents-skills\sh-web-archive\2026-09-21 Jev模型开放\` 全部产物）
+  - 实现细节：chrome-devtools 打开存档 `index.html` 逐项核对：AC-1（目录结构 + file:// 打开）、AC-2（原文完整性 + 图片本地加载 + 占位）、AC-3（总结事实一致）、AC-5（主/子 tab 切换与高亮）；请用户完成 FSA 人工闭环（点"启用编辑"授权目录 → 在可编辑页面修改文字 → 保存 → 重开页面核对 AC-4：修改仍在、子 tab 最前出现新版本）；另开终端跑 `uv run C:\Users\29580\.agents\skills\sh-web-archive\scripts\build_archive.py fetch --url "https://httpbin.org/status/403"` 验证 AC-6；完成后删除任务 1 的临时验证页并按 AGENTS.md 约定终止 chrome-devtools 专属 Chrome 进程组
+  - Verify: AC-1~AC-7 逐条核对通过（AC-4 以用户确认编辑闭环为准）；`fetch --url https://httpbin.org/status/403` 退出码 1、stderr 含 `auth_required`、未创建任何新目录；`%TEMP%\opencode\fsa-probe.html` 已删除
+  - Ref: AC-1、AC-2、AC-3、AC-4、AC-5、AC-6、AC-7
