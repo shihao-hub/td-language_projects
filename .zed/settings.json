@@ -4,20 +4,17 @@
   // 自动安装项目声明的扩展（官方格式为对象：扩展名 → 允许/禁止安装）
   // 文件扫描排除：子模块构建产物（node_modules/.venv/target/dist 等）会把工作区
   // 撑到 27 万条目，导致 Zed 扫描缓慢、watcher 漏事件（新建文件不出现在侧栏）
+  // 260922-这个项目子项目太多了，.venv 不能忽略，但是其他的暂时可以
   "file_scan_exclusions": [
     "**/.git",
-    "**/.thirdparty",
+    "**/__pycache__",
     "**/node_modules",
     "**/target",
-    "**/.venv",
-    "**/venv",
-    "**/dist",
-    "**/build",
-    "**/__pycache__",
-    "**/.next",
-    "**/vendor",
-    "**/*.exe",
-    "**/*.syso"
+    // 排除 .thirdparty 各子项目下的深层目录和代码，但保留第一层
+    // ".thirdparty/*/*/**",
+    // 精确排除占用 6 万条目的两个大仓库代码体
+    ".thirdparty/screenshot-to-code/*/**",
+    ".thirdparty/deepseek-harness/*/**"
   ],
   "auto_install_extensions": {
     "lua": true,
