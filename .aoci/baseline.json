@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-09-21T07:57:44Z",
+  "updated_at": "2026-09-22T18:30:59Z",
   "files": {
     ".gitattributes": {
       "sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476",
@@ -19,9 +19,14 @@
       "normalized_sha256": "38031dc6b6a67c94ff18d8c8014fd261a0d97cd5353d311eae18e8b056cb58b7"
     },
     ".scripts/build_docs.py": {
-      "sha256": "341c737bae2f37505a344c1fb62fef80659ce653647aca24ec6a88c157c06b25",
-      "size": 5608,
-      "normalized_sha256": "341c737bae2f37505a344c1fb62fef80659ce653647aca24ec6a88c157c06b25"
+      "sha256": "8bdef08f8b8a3149546a68286db97561955ba23be9d74f6765bfeccdb6e9ca2c",
+      "size": 3576,
+      "normalized_sha256": "8bdef08f8b8a3149546a68286db97561955ba23be9d74f6765bfeccdb6e9ca2c"
+    },
+    ".scripts/check-agy-upstream.ps1": {
+      "sha256": "17e029f64dd9ddf27fbcf302a9bfcb1b1d9d5921fccc03eb519ef0e934da3414",
+      "size": 4469,
+      "normalized_sha256": "17e029f64dd9ddf27fbcf302a9bfcb1b1d9d5921fccc03eb519ef0e934da3414"
     },
     ".scripts/docs-preview.bat": {
       "sha256": "84113899c011ae8284a7dd7dae1504a96c30cfa735e8e3f50433845c15ac9afb",
@@ -44,9 +49,9 @@
       "normalized_sha256": "158293d4cf655c67487d9cc9159b31605e686a986ab6fd8a49ca4e84e56818d9"
     },
     ".scripts/install_tool.py": {
-      "sha256": "87af3fccf39ce953db415980e8fb1a98045af9cd06a78dc3ae0e5e9e3169cdc5",
-      "size": 3702,
-      "normalized_sha256": "87af3fccf39ce953db415980e8fb1a98045af9cd06a78dc3ae0e5e9e3169cdc5"
+      "sha256": "07308e8e08696365d882b82056ebf984429bd13602d18c477fd7204ad200b7f8",
+      "size": 3761,
+      "normalized_sha256": "07308e8e08696365d882b82056ebf984429bd13602d18c477fd7204ad200b7f8"
     },
     ".scripts/lark_group_bridge.py": {
       "sha256": "d31f1dc8cba7d718f95cf017bd7255e0b011ee2c84b121ba69d3059bc1da02c3",
@@ -59,14 +64,14 @@
       "normalized_sha256": "234ecd34c8a783f813d0cdf3b9a99c2635cf6089484e40f4d6e187d088986e11"
     },
     ".zed/settings.json": {
-      "sha256": "3635faefc5c84c7dfdaf8522fb9b6f5382e6c38733d635290935cf1a5ed06949",
-      "size": 3933,
-      "normalized_sha256": "df89032c596178465148ec795d2612c5c173fba257417601f79b7819947fa52f"
+      "sha256": "728ba53c2fe504f291e6916ba28495a2458f7937c7263c59669110693d1481e4",
+      "size": 4503,
+      "normalized_sha256": "728ba53c2fe504f291e6916ba28495a2458f7937c7263c59669110693d1481e4"
     },
     "AGENTS.md": {
-      "sha256": "ec31b01d5ca526680cd05f24d3ba3f767edd969fb0a4983fa73e5a660e4a541a",
-      "size": 29835,
-      "normalized_sha256": "6ed13c04c7d2abc8faee0b31980fd1d34d256f90900ea0f5cc94ba6b69e69324"
+      "sha256": "51d5eb06b725eaedf193851e9848645ac316c8350bbb5b48547b78d60109cdf9",
+      "size": 30241,
+      "normalized_sha256": "1baf49b86ede5741fe1f5ab4282ccd24ea241f62a295e95657f19c1c2955a23c"
     },
     "CLAUDE.md": {
       "sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55",
@@ -74,9 +79,9 @@
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "MONOREPO.md": {
-      "sha256": "4510aea614bbc8377a0f778f3a9270d5f06ded6566b58baca97a8acacee2d18f",
-      "size": 6314,
-      "normalized_sha256": "4510aea614bbc8377a0f778f3a9270d5f06ded6566b58baca97a8acacee2d18f"
+      "sha256": "bfad061d8a2136b649e8ddc8691374a6484547dc364ba698c3e9ecc06595b039",
+      "size": 8512,
+      "normalized_sha256": "bfad061d8a2136b649e8ddc8691374a6484547dc364ba698c3e9ecc06595b039"
     },
     "NOTES.md": {
       "sha256": "f604be67040c0f8d13f7b2129254b9b89be557736e2ecd883c5c0c3c84c2abbd",
@@ -97,9 +102,9 @@
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "ad6b65ae2e0141dfaa93d7a20905897052bc737dbfd372823878d4736e58aacc",
-      "size": 33785,
-      "normalized_sha256": "ad6b65ae2e0141dfaa93d7a20905897052bc737dbfd372823878d4736e58aacc"
+      "sha256": "157d11ee2d1f922521bdbbfe7ee199fa02c63617d1ccc9ab46c30464fadcb6a8",
+      "size": 48536,
+      "normalized_sha256": "157d11ee2d1f922521bdbbfe7ee199fa02c63617d1ccc9ab46c30464fadcb6a8"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -133,6 +138,11 @@
       "size": 7044,
       "normalized_sha256": "0b9011bb938fb8514812a01188cc0ae6ab858232ee7d9f50fec7551a2d70017f"
     },
+    "docs/guides/GUIDE-LLM-PROVIDER-COMPAT.md": {
+      "sha256": "4eabecd64cb8dd51790519c457eeaa9f8313a12f963d9a2970d6347ca30641c5",
+      "size": 12773,
+      "normalized_sha256": "4eabecd64cb8dd51790519c457eeaa9f8313a12f963d9a2970d6347ca30641c5"
+    },
     "docs/guides/GUIDE-MCP-INSPECTOR.md": {
       "sha256": "e9f1092ada1ec6b558f69a1a7a7fa286bdd0c18f782d12b1ee0a868f100f837d",
       "size": 6671,
@@ -149,14 +159,14 @@
       "normalized_sha256": "63ee521f43332e3763d69fcca21932d87cd7eaf28bc75b53aa5bc35d48e8d93b"
     },
     "docs/guides/README.md": {
-      "sha256": "363726bd1e3c963fe2b6c4c4b69030573a4bfa2cd4495e27db12649507819e0d",
-      "size": 5157,
-      "normalized_sha256": "363726bd1e3c963fe2b6c4c4b69030573a4bfa2cd4495e27db12649507819e0d"
+      "sha256": "9d2b4a24af4390e4b4504034456886d2cfe0c4a5dddbdbb3424a09aa59c1250b",
+      "size": 5349,
+      "normalized_sha256": "9d2b4a24af4390e4b4504034456886d2cfe0c4a5dddbdbb3424a09aa59c1250b"
     },
     "docs/index.md": {
-      "sha256": "3e7d1d721d43755d8ea821a3a72a46766c6ae5762037dd9f0d9185f6e918c9f0",
-      "size": 1113,
-      "normalized_sha256": "3e7d1d721d43755d8ea821a3a72a46766c6ae5762037dd9f0d9185f6e918c9f0"
+      "sha256": "22da11d0a0b4ebda712a70113b2d1c616397b01b838dacc289979a507827bc72",
+      "size": 1508,
+      "normalized_sha256": "e3fe9eb08944c0263e212527b061c21078f18699749337826347449cb7a1be92"
     },
     "docs/memories/README.md": {
       "sha256": "6f6236d0b67ab99a63ce0628787ac8eb476afdd9f8911a3300ec60df2db90d14",
@@ -174,9 +184,9 @@
       "normalized_sha256": "63601a0ad3703c7e8ee58c1793ef5062d958ffd7e524c6889fdb34bd6a5ead23"
     },
     "docs/plans/02-docs-static-site.md": {
-      "sha256": "0ee9cca415099d157af7fd2fe6a443febe90a1bb2b031e79af31c2fe22d47264",
-      "size": 7152,
-      "normalized_sha256": "0ee9cca415099d157af7fd2fe6a443febe90a1bb2b031e79af31c2fe22d47264"
+      "sha256": "813d30b24ad39a0c3a8ac22dcf4c374abfee42f247baa791a0623a5f67388a90",
+      "size": 7572,
+      "normalized_sha256": "813d30b24ad39a0c3a8ac22dcf4c374abfee42f247baa791a0623a5f67388a90"
     },
     "docs/plans/03-skill-mandatory-plan-gate.md": {
       "sha256": "7732037b56787c8ac970d1ef4907387457c602de69e0c35672c0b628300f61e9",
@@ -192,6 +202,41 @@
       "sha256": "c35543f6111ab6cf05aac7792387c6c53ca1362573ad0245427a51e137b06c0b",
       "size": 12063,
       "normalized_sha256": "c35543f6111ab6cf05aac7792387c6c53ca1362573ad0245427a51e137b06c0b"
+    },
+    "docs/plans/07-k8s-reconciliation-architecture.md": {
+      "sha256": "b846d9a3c111ab684963387b0443a7d857456bf6ca4fb9cc3293664dc0a0c248",
+      "size": 6940,
+      "normalized_sha256": "02987ddc525b57e5d87633ce14abcfa9b862e19f1036c8921370291c1865038c"
+    },
+    "docs/plans/08-archive-agyquota-exestarter.md": {
+      "sha256": "f3ee42c1f3717f16b5cbe8ea6a6a4fbc0a468074a0930fc2e37a61c3e6dc9d00",
+      "size": 7279,
+      "normalized_sha256": "f3ee42c1f3717f16b5cbe8ea6a6a4fbc0a468074a0930fc2e37a61c3e6dc9d00"
+    },
+    "docs/plans/09-docs-serve-chinese-search.md": {
+      "sha256": "bb4b0e7bbec73ee55f52e784c229c650f846ce0b1baf7c9daad0aa5c2375006f",
+      "size": 8432,
+      "normalized_sha256": "bb4b0e7bbec73ee55f52e784c229c650f846ce0b1baf7c9daad0aa5c2375006f"
+    },
+    "docs/plans/09-restore-agyquota.md": {
+      "sha256": "fd166420d8bac6e7fa2a63138e07b42c1b33e5e14ad2163c1b7d4ad9d3f99fd0",
+      "size": 4950,
+      "normalized_sha256": "b611be0dd85c94ce6a442c9b67294c0cf84288d3e21b951b27be35d94f5c9a56"
+    },
+    "docs/plans/10-antigravity-acp-inspection.md": {
+      "sha256": "aeb628d3630bebd17065efcfd06ec0f3e091aa9d994c7e46acde15b446b99935",
+      "size": 6823,
+      "normalized_sha256": "aeb628d3630bebd17065efcfd06ec0f3e091aa9d994c7e46acde15b446b99935"
+    },
+    "docs/plans/11-document-clictl-mcp-cli-alignment.md": {
+      "sha256": "20b776b142b5c0ad72937cc8ab8b5c3bf83083bcb60e42f542e64d8b15b070bc",
+      "size": 2333,
+      "normalized_sha256": "20b776b142b5c0ad72937cc8ab8b5c3bf83083bcb60e42f542e64d8b15b070bc"
+    },
+    "docs/plans/12-zed-pi-token-stats.md": {
+      "sha256": "bfde04538c38849b0f8251b97f3f7ee66449a5ca9c0bf0388e86ca6e72d77659",
+      "size": 5794,
+      "normalized_sha256": "aa9f116e97767839f9d144b1530bf8e9bd3a34f75dbe88a369a62eea2b503042"
     },
     "docs/projects/go_projects/CLI 与 MCP 双壳架构工作指南.md": {
       "sha256": "2be0d47bdbf52698b1ad70490366131eb5f8181a992fb0cb7495dd1377a42203",
@@ -212,6 +257,16 @@
       "sha256": "8ce94bdf14e5fafbd8b7e097bb3aa600bf587d6797a655a800e1baff9dfbcdc5",
       "size": 385,
       "normalized_sha256": "25f08140e9fea34bf1a2ba6e4ac2fdd2a5f7240dc1f5751f5b036da08b52210a"
+    },
+    "docs/projects/go_projects/agyquota/plans/01-agyquota-quota-cli.md": {
+      "sha256": "b591a0c3ed4323ae30e9996ca0a29d4dfa27c4c9f39500db561258d35fc8744f",
+      "size": 7016,
+      "normalized_sha256": "b591a0c3ed4323ae30e9996ca0a29d4dfa27c4c9f39500db561258d35fc8744f"
+    },
+    "docs/projects/go_projects/agyquota/设计说明.md": {
+      "sha256": "2f2e80f1c8e57f3ae79cb105a3d88859e97d00d6930d74a397e23d9b219c4f27",
+      "size": 5903,
+      "normalized_sha256": "2f2e80f1c8e57f3ae79cb105a3d88859e97d00d6930d74a397e23d9b219c4f27"
     },
     "docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md": {
       "sha256": "fc620888a70bafe99ddb7b0abbc0019d7c96d0118ae3f6f59e3989bb36b5b3e8",
@@ -378,6 +433,31 @@
       "size": 7795,
       "normalized_sha256": "5f03c3e25d05d47e52fdf81e9311020098971471674be4c819e12ee6bbbad137"
     },
+    "docs/projects/python_projects/django-lab/plans/01-douyin-new-video-notify.md": {
+      "sha256": "b7316b401974132d0b915c0440a633a3d4bd359101610f0fc089e4bab74e5b04",
+      "size": 16995,
+      "normalized_sha256": "b7316b401974132d0b915c0440a633a3d4bd359101610f0fc089e4bab74e5b04"
+    },
+    "docs/projects/python_projects/django-lab/plans/02-douyin-fetch-api-source.md": {
+      "sha256": "31334060023f35142e83ed3ae47e766c1142aa0d124892f32188ff9d6914e8cc",
+      "size": 12636,
+      "normalized_sha256": "31334060023f35142e83ed3ae47e766c1142aa0d124892f32188ff9d6914e8cc"
+    },
+    "docs/projects/python_projects/douyin_notify/plans/01-douyin-new-video-notify.md": {
+      "sha256": "633ddd5469e4a96d4259eda0402ccafff866c3975d348c42b3332cff0d9a948d",
+      "size": 11816,
+      "normalized_sha256": "633ddd5469e4a96d4259eda0402ccafff866c3975d348c42b3332cff0d9a948d"
+    },
+    "docs/projects/python_projects/douyinnotify/plans/01-douyin-new-video-notify.md": {
+      "sha256": "5e13ff4fd5ece44a2daa3c5db590f9d8a473b5f5b0d68e0c51f3090f492d6f0e",
+      "size": 16654,
+      "normalized_sha256": "5e13ff4fd5ece44a2daa3c5db590f9d8a473b5f5b0d68e0c51f3090f492d6f0e"
+    },
+    "docs/projects/python_projects/hucci-registration-use-case-layered/2026-09-21 分层架构话题.html": {
+      "sha256": "7d21e9e27b43f1265c883c5b9004249923641416c345747ea47d86bf5f7c5f48",
+      "size": 588502,
+      "normalized_sha256": "800136293ff00de4e7164c4a680be3f764b1c8606b3f6901f0b74c832bbfe13a"
+    },
     "docs/projects/python_projects/llm-finetune-lab/01 环境与显存预算.md": {
       "sha256": "8bd5df55b142d6d9ceb882dc0c348bcb7c4138098326cd411a9ff9ef9398c348",
       "size": 3749,
@@ -483,6 +563,11 @@
       "size": 5444,
       "normalized_sha256": "a2b6850fc8ec4d6ba5b3ea0fedb9e078071d5c255e442bad808d5bb70b9a02b2"
     },
+    "docs/projects/python_projects/zedhub/specs/01-zed-session-hub/requirements.md": {
+      "sha256": "ee9915bd6eb0ed3b7ddadf0dac843300b4e734e84720bcd3f7055c7056a9c189",
+      "size": 16058,
+      "normalized_sha256": "ee9915bd6eb0ed3b7ddadf0dac843300b4e734e84720bcd3f7055c7056a9c189"
+    },
     "docs/projects/python_projects/zedhub/zedhub 对接协议.md": {
       "sha256": "5c9c21cc7fe985ef726d0bb42cdcda8dc960620f0ae12e478f25063066bc19fa",
       "size": 6698,
@@ -533,15 +618,35 @@
       "size": 3022,
       "normalized_sha256": "a5f8e6f36ec8f86e84f6b6c45cf17e186f774cb0f236e07d4502d807b5d2c95d"
     },
+    "docs/repo/K8S 核心声明式调和链路原理剖析与自研架构设计.md": {
+      "sha256": "233aeb69bf8fc061e884294fe25ac9953ec7de57971f8d8d50d4558a9f053295",
+      "size": 31204,
+      "normalized_sha256": "bce960b9c26966b7e0595e9bd5c985ad63c32c09e889d6cbac27119b2ba4f1b0"
+    },
     "docs/repo/MQTT 与 WebSocket 协议.md": {
       "sha256": "3caf5978c6c38132315eeea3a253a3fca7b76d5841aae7ff8f32fa6bdc6d8a54",
       "size": 7965,
       "normalized_sha256": "3caf5978c6c38132315eeea3a253a3fca7b76d5841aae7ff8f32fa6bdc6d8a54"
     },
+    "docs/repo/Qwen3.8-27B 本地部署配置调研.md": {
+      "sha256": "64b1eb716667848cd78dc5d6bba2a3b4ebb9cc481db82d3090eea891941be22a",
+      "size": 18390,
+      "normalized_sha256": "64b1eb716667848cd78dc5d6bba2a3b4ebb9cc481db82d3090eea891941be22a"
+    },
+    "docs/repo/antigravity-acp-architecture-research.md": {
+      "sha256": "27ef7db6b56c45ffbffb1a63f923e8b9a97bbb7cfb52a9498ba2404346e6f860",
+      "size": 24032,
+      "normalized_sha256": "27ef7db6b56c45ffbffb1a63f923e8b9a97bbb7cfb52a9498ba2404346e6f860"
+    },
     "docs/repo/docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md": {
       "sha256": "3718859fb96681754192c0f16c35c5ee6477e64a278c4d1c178cabfc8a005c6c",
       "size": 10856,
       "normalized_sha256": "3718859fb96681754192c0f16c35c5ee6477e64a278c4d1c178cabfc8a005c6c"
+    },
+    "docs/repo/fill-in-the-middle-research.md": {
+      "sha256": "2d6b31d5c8180d11785d19fd00ec574d56df69f761b1db9125f16256bdffcc0a",
+      "size": 17147,
+      "normalized_sha256": "ad576f8f497e088ad5d79f97de16c6f87e1a7a0a17cdd4d18d85454c08110f83"
     },
     "docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html": {
       "sha256": "358fd9c1e50fddc67ddc8d82e6e7309d8a76ec5792430b70d33eb1f8b431fd00",
@@ -553,10 +658,35 @@
       "size": 9063,
       "normalized_sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088"
     },
+    "docs/repo/zed-edit-prediction-providers-research.md": {
+      "sha256": "cdd1b3a42141131b7cecd97fe6a15e34e8eea5229413a76264e259f2801b7505",
+      "size": 9433,
+      "normalized_sha256": "cdd1b3a42141131b7cecd97fe6a15e34e8eea5229413a76264e259f2801b7505"
+    },
+    "docs/repo/zed-multi-session-agent-architecture-research.md": {
+      "sha256": "4016d41b90623b2843f5a6b64d7d53480bbdb872cd52593bf78e3b59617c4b09",
+      "size": 14429,
+      "normalized_sha256": "b921b899e6915c2599714d72b40434760dd4ab3edfb0d537e9fbe58d1e3bee79"
+    },
+    "docs/specs/01-web-archive-skill/design.md": {
+      "sha256": "964eaff472ac7bb1d1a98c32600cc1c1d07e007aa20ae45c1839447f05fc5eed",
+      "size": 16731,
+      "normalized_sha256": "964eaff472ac7bb1d1a98c32600cc1c1d07e007aa20ae45c1839447f05fc5eed"
+    },
+    "docs/specs/01-web-archive-skill/requirements.md": {
+      "sha256": "fc1438dd58e4740f4e4ec0f0d9edff0b59abccf793c4de662fac7f3b5dd807be",
+      "size": 6928,
+      "normalized_sha256": "fc1438dd58e4740f4e4ec0f0d9edff0b59abccf793c4de662fac7f3b5dd807be"
+    },
+    "docs/specs/01-web-archive-skill/tasks.md": {
+      "sha256": "21fc8e87f9e9f264053b9aed61a778bb95ec8166a164e547a4b10f18bb87cff5",
+      "size": 8976,
+      "normalized_sha256": "21fc8e87f9e9f264053b9aed61a778bb95ec8166a164e547a4b10f18bb87cff5"
+    },
     "mkdocs.yml": {
-      "sha256": "2cc92c83abf2d341e237811e68ff3aa2714977df2c57d0f0e495c6f18596102c",
-      "size": 1423,
-      "normalized_sha256": "2cc92c83abf2d341e237811e68ff3aa2714977df2c57d0f0e495c6f18596102c"
+      "sha256": "7733faa934673dd6d615e191c1298602f57047b442cf286a67dd974520547755",
+      "size": 1684,
+      "normalized_sha256": "7733faa934673dd6d615e191c1298602f57047b442cf286a67dd974520547755"
     }
   },
   "managed_scope": {

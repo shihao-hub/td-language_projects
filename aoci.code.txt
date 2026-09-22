@@ -4,27 +4,28 @@
 .gitattributes[FR7T]: F:统一全仓文本 LF 检出，保证各平台 checkout 字节一致 | R:- | A:- | S:AOCI 按原始字节建基线，改行尾策略会令整树 Stale
 .gitignore[FC3T]: F:兜底忽略系统杂项、Python 虚拟环境、mkdocs 构建产物 .mkdocs-site/ 与第三方参考克隆 .thirdparty/ | R:code:mkdocs.yml | A:- | S:-
 .gitmodules[FG8T]: F:声明五个语言子模块的远端、跟踪分支与 ignore=all 策略 | R:code:.scripts/init-submodules.ps1,code:README.md | A:新增语言子模块时在此登记并补 branch 与 ignore=all | S:ignore=all 拦截普通 git add，提交子模块指针必须 git add --force
-AGENTS.md[SG9M]: F:父仓库最高约定：强约束规则、仓库结构、归档与文档布局、脚本规范，含 AOCI 运行契约块 | R:code:README.md,code:.gitmodules,code:MONOREPO.md | A:AI 会话进仓先读；改仓库级约定先改此文件；末尾 aoci 托管块禁手改 | S:子模块改动必须在子仓提交；父仓提交指针必须 git add --force；测试资源用后即清
+AGENTS.md[SG9M]: F:父仓库最高约定：强约束规则、仓库结构、归档与文档布局、脚本规范，含 AOCI 运行契约块 | R:code:README.md,code:.gitmodules,code:MONOREPO.md | A:AI 会话进仓先读；改仓库级约定先改此文件；末尾 aoci 托管块禁手改 | S:子模块改动必须在子仓提交；父仓提交指针必须 git add --force；chrome-devtools 浏览器任务收尾需按 user-data-dir 过滤终止专属 Chrome 进程树，MCP 关不掉最后一个 about:blank 初始页
 CLAUDE.md[SG3T]: F:单行 @AGENTS.md 引用，让 Claude Code 复用父仓库约定 | R:code:AGENTS.md | A:- | S:-
-MONOREPO.md[SG6T]: F:个人项目价值盘点表：按目录分节列摘要、状态、源码阅读、价值与下一步 | R:code:docs/guides/GUIDE-INVENTORY.md | A:主观列只由表主人填，AI 仅起草摘要待过目 | S:六列表每行恰 7 个管道符，归档行保留全列
+MONOREPO.md[SG6S]: F:个人项目价值盘点表：五语言子仓活跃项目 + native_projects 未初始化规划 + .archived 三语言归档项目，列摘要/状态/源码阅读/价值/下一步 | R:code:docs/guides/GUIDE-INVENTORY.md | A:主观列只由表主人填，AI 仅起草摘要待过目 | S:六列表每行恰 7 个管道符，归档行保留全列；agyquota 实际已恢复至 go_projects（09-restore 计划），盘点表归档区行尚未更新
 NOTES.md[SZ2T]: F:零散备忘，当前记录归档 projstat README 的古法编程思路线索 | R:- | A:- | S:-
 README.md[SG8S]: F:父仓库总览：子模块结构、克隆更新命令、脚本清单、数据存放规范、子仓约定与归档/盘点入口 | R:code:.gitmodules,code:AGENTS.md,code:MONOREPO.md,code:docs/guides/GUIDE-ARCHIVE.md | A:新会话与新机器从本文件入门，命令可直接执行 | S:项目运行时数据只允许 %APPDATA%\language_projects\<项目名>\，无 APPDATA 回退 ~/.language_projects/
 SPEC-AGENT.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
 SPEC-HUMAN.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
-mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkdocs-site/、file:// 直开（use_directory_urls=false）、awesome-pages 目录即导航 | R:code:.scripts/build_docs.py,code:docs/index.md | A:use_directory_urls 必须保持 false 保证 file:// 直开；主题/插件改动后用 build --strict 验证 | S:内置搜索无中文分词器，分词在构建后处理完成；勿在 plugin 层用 separator 切汉字（lunr 逐字符 match 恒失败）
+mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkdocs-site/、file:// 直开（use_directory_urls=false）、zh 语言 + search/awesome-pages 插件 | R:code:.scripts/build_docs.py,code:docs/index.md | A:use_directory_urls 必须保持 false 保证 file:// 直开；主题/插件改动后用 build --strict 验证 | S:中文搜索依赖 jieba 可导入（material 自动切词插零宽空格），缺 jieba 静默退化为整段匹配；补专名词典用 jieba_dict_user
 
 ===D:/Users/language_projects/.scripts/===
 gen_icon.py[XG4T]: F:PNG 源图转 16-256 七帧 Windows .ico，非方形等比居中到透明画布 | R:- | A:uv run .scripts/gen_icon.py <input.png> <output.ico> | S:-
 init-submodules.ps1[XV6T]: F:初始化未拉取的子模块并按 .gitmodules 的 branch 字段切跟踪分支 | R:code:.gitmodules | A:克隆后在父仓库根执行一次 ./.scripts/init-submodules.ps1 | S:只初始化 status 前缀 - 的子模块，不拽回领先指针
-install_tool.py[XV5S]: F:把子仓构建产物安装到 ~/.local/bin，jtree 自动选语义版本最高者 | R:- | A:uv run .scripts/install_tool.py <instancelock|clictl|jtree|all> | S:-
+install_tool.py[XV5S]: F:按工具名把子仓构建产物安装到 D:\Users\language_projects_bin：instancelock/clictl 固定路径拷贝，jtree 在 release 目录按语义版本号选最大 | R:- | A:uv run .scripts/install_tool.py <instancelock|clictl|jtree|all> | S:安装目标目录 260922 起由 ~/.local/bin 改为 D:\Users\language_projects_bin
 lark_group_bridge.py[XM6L]: F:飞书外部群消息桥：bot 通道发文本/图片/文件并附 AI 代发标注，read/groups 查回复与群 | R:- | A:子命令 init/send/groups/read；--json 输出标准包络或透传 lark-cli JSON | S:.CMD 垫片经 cmd.exe 二次解析会截断多行参数，已直调 node 绕开
-build_docs.py[XV5S]: F:docs 静态站点构建入口：build/serve/preview 三模式，含 jieba 中文分词后处理，preview=构建+分词+静态服务+自动开浏览器 | R:code:mkdocs.yml | A:build 后双击 .mkdocs-site/index.html 浏览；preview 供搜索（127.0.0.1:8766）；serve 供写作热刷新（不做分词） | S:mkdocs worker 无中文分词器，分词只能构建后处理；本文件必须 UTF-8 无 BOM，带 BOM 会让 uv 的 PEP 723 依赖识别失效
+build_docs.py[XV5T]: F:docs 静态站点构建入口：build/serve/preview 三模式行为一致，serve=写作热刷新+中文搜索（8765），preview=构建+一次性静态服务+自动开浏览器（8766），支持 --strict 断链校验 | R:code:mkdocs.yml,code:docs/index.md | A:uv run .scripts/build_docs.py build|serve|preview | S:中文搜索来自 material 搜索插件 jieba 链路（PEP 723 声明 jieba 仅为触发它，缺 jieba 时静默退化为整段匹配），无构建后处理；本文件必须 UTF-8 无 BOM，带 BOM 会让 uv 的 PEP 723 依赖识别失效
 docs-preview.bat[XV2T]: F:双击启动 docs 站点搜索预览：构建+分词+静态服务+自动开浏览器 | R:code:.scripts/build_docs.py | A:用 %~dp0.. 定位仓库根，不硬编码路径；退出前 pause 保留窗口看输出 | S:-
 docs-serve.bat[XV2T]: F:双击启动 docs 站点写作热刷新（mkdocs serve，不做分词） | R:code:.scripts/build_docs.py | A:用 %~dp0.. 定位仓库根，不硬编码路径；退出前 pause 保留窗口看输出 | S:-
+check-agy-upstream.ps1[XV4S]: F:antigravity-acp 上游监控：拉官方 ACP Registry JSON 与 Zed 本地已装版本比对并提示升级路径，GitHub Search API 检索社区仓库；-OnlyRegistry 跳过搜索段 | R:code:docs/plans/10-antigravity-acp-inspection.md,code:docs/repo/antigravity-acp-architecture-research.md | A:powershell -ExecutionPolicy Bypass -File .scripts/check-agy-upstream.ps1 | S:-
 
 ===D:/Users/language_projects/.zed/===
 extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本，配合 auto_install_extensions 安装 | R:code:.zed/settings.json | A:- | S:-
-settings.json[FC7S]: F:按语言配置 LSP 白名单与省内存参数，默认全局关 LSP、白名单内开启 | R:code:.zed/extensions.toml | A:调整语言 LSP 开关或 server 调优参数时编辑此文件 | S:lua-language-server 必须显式指定 Lua 5.1 运行时，否则按 5.4 签名与嵌入版本错位
+settings.json[FC7S]: F:Zed 总仓配置：按语言开 LSP 白名单（Go/Python/TS/C/C++/Lua）并逐 server 调优省内存，file_scan_exclusions 排除构建产物与 .thirdparty 两个大仓深路径 | R:code:.zed/extensions.toml | A:调整语言 LSP 开关、server 参数或文件扫描排除时编辑此文件 | S:lua-language-server 必须显式 Lua 5.1（本仓嵌入 5.1.5/LuaJIT，默认按 5.4 签名错位）；用户要求 .venv 不忽略，仅精确排除 screenshot-to-code 与 deepseek-harness
 
 ===D:/Users/language_projects/docs/guides/===
 GUIDE-AOCI-SETUP.md[SV7M]: F:AOCI-CODE 安装手册：发行包校验、二进制落位、opencode/claude/codex 三工具 MCP 全局配置与升降级 | R:- | A:新机器接入或升级 AOCI 按第 2、3 节执行 | S:MCP server 是 per-repo 的，全局配置 --repo 固定指父仓库；改配置后须重启 host
@@ -33,16 +34,25 @@ GUIDE-DOCS-RENAME.md[SW5T]: F:docs 英文命名 md 批量改中文名并修复�
 GUIDE-INVENTORY.md[SW6S]: F:MONOREPO.md 盘点表维护工作流：存量对照、摘要起草、联动同步与格式验证 | R:code:MONOREPO.md | A:项目增删/归档/迁移时按联动速查同步盘点表 | S:AI 不得代填主观列；结构变了表不变盘点即失真
 GUIDE-MCP-INSPECTOR.md[SO5S]: F:用 MCP Inspector 调试自定义 stdio MCP server：catalog 机制、配置对照与冒烟路径 | R:- | A:server 列表即 ~/.mcp-inspector/mcp.json，直改刷新即生效；Command 用绝对路径 | S:脚本灌 JSON-RPC 须交互时序（init→响应→initialized）否则断连
 GUIDE-RESTORE.md[SW7S]: F:归档项目恢复回子仓的镜像工作流：冲突排查、精确暂存、指针更新 | R:code:docs/guides/GUIDE-ARCHIVE.md | A:恢复前必查子仓同名占用与 .archived 无关未跟踪目录 | S:父仓暂存必须精确到项目路径，git add .archived 整目录会吸入无关文件
-README.md[SW7T]: F:GUIDE 编写规范：父仓级 AI 工作指南的定位、触发式 description、文件骨架、命名与现有清单表维护 | R:code:docs/guides/GUIDE-ARCHIVE.md,code:docs/guides/GUIDE-THIRDPARTY-CLONE.md,code:AGENTS.md | A:沉淀新 GUIDE 前必读；新增 GUIDE 后需在清单表加行；禁止放入任何 skills 目录 | S:GUIDE 改名/移动是高危操作，迁移后旧名 grep 清零才算完成
+README.md[SW7T]: F:GUIDE 编写规范：父仓级 AI 工作指南的定位、三级披露机制、触发式 description、文件骨架、命名与现有清单表（9 份）维护 | R:code:docs/guides/GUIDE-ARCHIVE.md,code:docs/guides/GUIDE-THIRDPARTY-CLONE.md,code:docs/guides/GUIDE-LLM-PROVIDER-COMPAT.md,code:AGENTS.md | A:沉淀新 GUIDE 前必读；新增 GUIDE 后需在清单表加行；禁止放入任何 skills 目录 | S:GUIDE 改名/移动是高危操作，迁移后旧名 grep 清零才算完成
 GUIDE-THIRDPARTY-CLONE.md[SW5S]: F:第三方开源项目克隆工作流：.thirdparty/ 点前缀目录 + gitignore 忽略 + 可选 myfork remote 推自己 fork，默认不用 submodule | R:code:docs/guides/README.md,code:docs/guides/GUIDE-ARCHIVE.md,code:AGENTS.md | A:克隆第三方项目进本仓时使用；触发式 description 已列常见说法 | S:.thirdparty/ 被父仓 .gitignore 忽略不入库，多机需手动重新 clone；submodule 仅在用户明确要求版本锁定时才用
+GUIDE-LLM-PROVIDER-COMPAT.md[SW5S]: F:GUIDE：把只内置 OpenAI/Anthropic/Gemini 的外部工具接到自家模型（GLM/DeepSeek/Kimi 等）——接入点定位、探针七枪参数兼容矩阵、最小补丁+本地分支隔离、协议层+UI 层双层验证 | R:code:docs/guides/README.md | A:触发式 description 已列常见说法；用户要求接兼容端点或排查 key 跑不通时进入流程 | S:探针第 2 枪（多模态）失败即止损停手改推他案，不做补丁；探针脚本放系统临时目录不进仓库；密钥只写 .gitignore 内配置文件
 
 ===D:/Users/language_projects/docs/plans/===
 01-lark-group-bridge.md[SW5S]: F:lark_group_bridge.py 开发计划：bot 通道发文本/媒体、lark-cli 读消息的接口与错误码设计 | R:code:.scripts/lark_group_bridge.py | A:计划已执行完毕作决策存档 | S:计划内 webhook 必填等旧设计与脚本 v2.0（bot 默认）不一致，以脚本为准
-02-docs-static-site.md[SG3T]: F:docs 静态文档站点实施计划（mkdocs-material + awesome-pages + jieba 分词），四个 Stage 已全部执行完毕并记录结论 | R:code:docs/repo/docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md | A:站点维护方式变更前先读 Stage 2 执行记录了解中文搜索方案演进 | S:separator 切汉字在 lunr 逐字符架构下失败，分词采用构建期 jieba 预分词
+02-docs-static-site.md[SG3T]: F:docs 静态文档站点实施计划（mkdocs-material + awesome-pages），四 Stage 全部执行完毕并留执行记录 | R:code:.scripts/build_docs.py,code:docs/plans/09-docs-serve-chinese-search.md | A:站点维护方式变更前先读 Stage 2 执行记录与 09 号更正注 | S:Stage 2 的 jieba 后处理结论是误判，中文搜索实为 material 内置链路
 02-aoci-baseline-drift-recovery.md[SW5S]: F:父仓 AOCI 基线漂移修复计划：排除 .archived 与 docs/assets、acknowledge 待审指纹、五阶段重建全量索引的治理全流程 | R:code:docs/guides/GUIDE-AOCI-SETUP.md | A:计划已全部执行完毕（v1.1），作决策存档；重走治理流程前先读文中实测偏差批注 | S:顺序不可颠倒：先 exclude、再 acknowledge、最后 apply，颠倒会令基线二次漂移；失败恢复绝不手改 .aoci/baseline.json
 03-skill-mandatory-plan-gate.md[SW5T]: F:skill 强制计划门修改计划：删除直接执行豁免、一切修改先落盘待批，含违规追认与回滚任务 | R:- | A:批准保留 v2.1.0，驳回按 Task 2 回滚 | S:修改对象在用户目录 .agents\skills\，不受版本控制
 04-archive-html-inline-editor.md[SW4T]: F:存档页内编辑功能补落计划：删条/删节/改正文图注、序列化覆盖保存，含入口修复与回滚任务 | R:code:docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html | A:已批准关闭（2026-09-21），Task 3 回滚作废 | S:兼作 v2.0 直接执行漏洞的事后追认记录，执行先于批准属违规
 06-lark-chat-archive-skill.md[SW5S]: F:创建 sh-lark-chat-archive skill 的计划（已执行完毕 v1.1）：聊天区间/话题读取 → 去 AI 味 HTML 存档 → 可选转发归档 → 可选撤回，含需求拍板、方案与五任务 | R:code:AGENTS.md,code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md,code:docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html | A:计划已执行完毕，作决策存档；迭代该 skill 或做同类归档工具前先读实施说明的实测结论（applink 降级、position 坑、post 内嵌图挂接） | S:话题模式到 HTML 交付为止，永不归档/撤回；归档/撤回分级确认，--yes 仅用户批准后；applink 不可解析，定位话题降级关键词搜索；回复 position 恒 -3，排序锚定用 thread_message_position
+07-k8s-reconciliation-architecture.md[SG5T]: F:父仓级执行计划：产出 K8S 声明式调和链路白皮书（docs/repo），5 任务覆盖机制剖析与自研接口抽象，已全部完成 | R:code:docs/repo/K8S 核心声明式调和链路原理剖析与自研架构设计.md,code:AGENTS.md | A:已完成交付；产物归 docs/repo 通用技术知识目录而非项目文档；需通过 MkDocs 静态构建校验 | S:计划的交付物是单篇 docs/repo 白皮书而非项目代码，理解 K8S 调和机制类需求时应先读产物而非本计划
+08-archive-agyquota-exestarter.md[SG4S]: F:归档计划（已执行完毕）：agyquota 与 exestarter 从 go_projects 迁入 .archived/projects/go_projects/，三段式提交纪律、构建产物清理与镜像文档同步 | R:code:docs/guides/GUIDE-ARCHIVE.md,code:docs/plans/09-restore-agyquota.md,code:MONOREPO.md | A:已完成；作为 GUIDE-ARCHIVE 流程的实操范例 | S:归档动因：配额接口对非 IDE 请求一律 429；后经 09-restore 改走 agy CLI 复活
+09-docs-serve-chinese-search.md[SG4S]: F:核查计划（结论先行，已执行）：docs 站点「serve 无中文搜索」是误判——material 搜索插件自带 jieba 切词+零宽空格分隔链路，build/serve/preview 行为本就一致；冗余后处理已从 build_docs.py 删除 | R:code:.scripts/build_docs.py,code:docs/plans/02-docs-static-site.md,code:docs/index.md | A:已执行；含 Node 直跑站点搜索 worker 的可复现端到端验证方法 | S:验证：Node 直载 .mkdocs-site 搜索 worker 发 SETUP/QUERY 统计命中，10 查询证明后处理零影响
+09-restore-agyquota.md[SG4T]: F:恢复计划（已执行完毕）：agyquota 从 .archived 还原回 go_projects 并重构数据源——弃直连 HTTP（429 封锁），改执行 agy -p /usage --output-format json 解析官方配额 JSON | R:code:docs/guides/GUIDE-RESTORE.md,code:docs/plans/08-archive-agyquota-exestarter.md,code:MONOREPO.md | A:已执行；CLI/--json/--raw/mcp/schema 契约全部保留 | S:底层 token 读取与 429 退避代码已随重构清理；MONOREPO.md 盘点表归档区行是旧信息未更新
+10-antigravity-acp-inspection.md[SG5T]: F:检查计划（已全部完成）：PyInstaller 解包 agy_acp_server.exe 提取核心源码到 .thirdparty/antigravity-acp-src、Zed 扫描排除规则优化、上游监控脚本 check-agy-upstream.ps1 三任务 | R:code:.scripts/check-agy-upstream.ps1,code:docs/repo/antigravity-acp-architecture-research.md,code:.zed/settings.json | A:已完成；附 workspace 各一级目录条目数摸底实测表 | S:提取范围经用户确认为仅 google3/... 纯 Python 核心并过滤二进制与 wheel；.thirdparty 被 gitignore，多机需手动重新提取
+11-document-clictl-mcp-cli-alignment.md[SG3T]: F:文档补充计划（待执行，Task 1 未勾选）：在 clictl MCP 接口文档第 4 节对照表前补 CLI↔MCP 能力对齐总述（run 非交互差异、completion/help/schema 不暴露原因、clictl mcp 是协议入口非工具） | R:code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:获批未执行；明确不改 Go 代码与工具注册 | S:-
+12-zed-pi-token-stats.md[SG5T]: F:zed-pi-stats 开发计划：Zed pi-acp 会话 Token/成本统计工具——Zed SQLite 会话元数据 + session-map.json + pi JSONL 三源关联，按会话/模型/项目多维聚合（Rich 看板 + --json） | R:code:docs/projects/go_projects/CLI 工具开发标准.md,code:MONOREPO.md | A:Task 1-3 已完成，Task 4（CLI 入口接线与收尾）待执行 | S:SQLite 遵循 safe read：复制 WAL 三件套到临时目录再读；单会话切模型按每条 assistant 消息的 provider/model 独立归集
+13-commit-and-push-pending-projects.md[SG5T]: F:父仓库与 python_projects 子仓库待提交内容的整改、范围隔离、逐 commit 推送与子模块指针对齐计划 | R:code:AGENTS.md,code:README.md | A:按仓库边界和逻辑项目逐项提交，子项目先推子仓库再更新父仓指针；运行时产物不入库 | S:每个 commit 完成后立即 push；父仓库与子仓库不可跨范围混提；验证失败或远端拒绝时必须停在当前提交边界
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
@@ -162,14 +172,41 @@ Git 子模块临时注销（native、rust）.md[SW5T]: F:native/rust 子模块�
 Git 子模块分支机制.md[SW7T]: F:子模块 detached HEAD 原理、三种挂分支机制辨析与本仓库 init 脚本方案 | R:code:.gitmodules,code:.scripts/init-submodules.ps1 | A:- | S:无单一开关让 clone 直站本地分支；--remote 取远端最新与指针约定冲突
 docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md[SG4S]: F:对比 SQLite 文档库与 md 源+静态站点两条路线，给出分层架构结论并推荐 Material for MkDocs | R:code:docs/guides/GUIDE-DOCS-RENAME.md | A:实施 docs 静态站前先读第 4 节推荐与第 6 节遗留问题；中文搜索分词须先实测再定 mkdocs 主线 | S:调研性质为未立项笔记；若实施，site/ 构建产物须入 .gitignore 防仓库膨胀
 MQTT 与 WebSocket 协议.md[SG4S]: F:MQTT 与 WebSocket 协议知识参考：定位区分（消息协议 vs 传输通道）、核心机制、对比选型与 MQTT over WebSocket 组合 | R:- | A:- | S:通用技术知识文档按约定放 docs/repo，禁止放入 docs/projects/<lang>/ 语言层或项目目录
+K8S 核心声明式调和链路原理剖析与自研架构设计.md[SG7L]: F:K8S 控制面声明式调和机制白皮书：Level-Triggered 哲学、etcd MVCC/Watch、client-go 管线（Reflector/DeltaFIFO/Indexer/Informer/RateLimitingQueue）、调和循环与自研 Mini-Controller 的 Go 接口规范 | R:code:docs/plans/07-k8s-reconciliation-architecture.md | A:通用技术知识沉淀（docs/repo），与任何项目无关；含 7 章、3 张 Mermaid 图与无第三方依赖的可运行最小闭环代码 | S:第 6 章接口规范是无外部依赖的最小闭环，可直接作为自研控制器/配置中心/工作流引擎项目的脚手架参考
+Qwen3.8-27B 本地部署配置调研.md[SG5M]: F:Qwen3.8-27B 本地部署调研：模型存在性验证、Gated DeltaNet+Gated Attention 混合架构解析、各精度显存与上下文估算、硬件推荐，关键论断均标注一手来源 | R:- | A:只读技术调研文档（docs/repo 通用知识）；显存与上下文数字多为理论估算，已标注 | S:27B 是原生视觉-语言模型（VLM）而非纯文本 LLM；64 层中仅 16 层全注意力（full_attention_interval: 4），KV cache 显存显著低于传统全注意力模型，选硬件时不可按 64 层满配估算
+antigravity-acp-architecture-research.md[SG5S]: F:antigravity-acp v1.1.1 源码级架构调研：三层进程拓扑（IDE→Python 协议壳→Go localharness/Jetski 引擎→CCPA 云端）、认证/建会话/回合全链路时序、本地反代凭据注入、权限闭环与证据索引（file:line+二进制 strings+实测） | R:code:docs/plans/10-antigravity-acp-inspection.md,code:.scripts/check-agy-upstream.ps1,code:docs/repo/zed-multi-session-agent-architecture-research.md | A:写给 AI 读者的一次性心智模型文档，读完无需重新逆向；源码快照在本机 .thirdparty/antigravity-acp-src/（gitignore 不入库） | S:Python 壳不跑 Agent 循环，真引擎是 Go localharness（回环 WS 全双工，Python 是客户端）；OAuth 凭据不出 Python 进程，模型流量经 127.0.0.1 反代注入；SDK 未提取，WS 握手与鉴权不可考
+fill-in-the-middle-research.md[SG4M]: F:FIM（Fill-in-the-Middle）技术调研：PSM/SPM 数据变换数学机制、哨兵 token 约定，StarCoder/Code Llama/DeepSeek-Coder/Qwen2.5-Coder/Codestral 各家实现对比，全部一手论文信源 | R:code:docs/repo/zed-edit-prediction-providers-research.md | A:通用技术知识沉淀；理解编辑器行内补全与模型选型时查阅 | S:-
+zed-edit-prediction-providers-research.md[SG3S]: F:Zed Edit Prediction 提供商调研对比：GitHub Copilot（自回归+订阅制）、Mercury（扩散模型）、Codestral（Token 计量），覆盖架构/防抖延迟/计费/接入方式 | R:code:docs/repo/fill-in-the-middle-research.md | A:Zed 补全提供商选型参考 | S:-
+zed-multi-session-agent-architecture-research.md[SG4M]: F:Zed 多会话单 Agent 进程架构与 ACP 协议调研：同一工作区多对话线程共用唯一 ACP 子进程（stdio 多路复用，类 LSP 解耦），含进程树、Zed.log 与 db.sqlite 实证 | R:code:docs/repo/antigravity-acp-architecture-research.md | A:通用技术知识沉淀；理解 Zed 外部 agent 进程模型时查阅 | S:agy_acp_server onefile 实为父子双进程（PyInstaller 引导+payload），5 线程仍仅一组进程
 
 ===D:/Users/language_projects/docs/repo/lark_group_bridge/===
 参考-鱼皮-7个神级技巧去AI味.md[SG3S]: F:鱼皮《7 个神级技巧去网站 AI 味》离线存档：特征清单、7 方法与 AGENTS.md 模板 | R:code:docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html | A:设计 AI 生成页面前阅读；禁止清单与 AGENTS.md 模板可直接套用 | S:转载存档版权归原作者，仅个人本地参考；外链时效不保证
 2026-09-20 自言自语存档.html[SG3L]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌逐张图注，支持页内编辑删除后覆盖原文件 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击打开；图片点击放大（Ctrl+滚轮缩放）；侧栏「编辑此页」可删条/删节/改字，保存后序列化覆盖原文件 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文
 
 ===D:/Users/language_projects/docs/===
-index.md[SG3T]: F:文档库站点首页：四分区导览表与站点构建/浏览方式说明 | R:code:mkdocs.yml,code:.scripts/build_docs.py | A:mkdocs 以本文件为站点入口页；docs 新增顶层分区时同步更新导览表 | S:-
 
 ===D:/Users/language_projects/docs/memories/===
 README.md[SG2T]: F:记忆功能文档区的占位想法：仅一行「参考 claude code 的记忆功能」，尚无实质内容 | R:- | A:- | S:仅一行想法占位，扩充实际内容后本 Entry 转 stale，须重读重写
+
+===D:/Users/language_projects/docs/projects/go_projects/agyquota/plans/===
+01-agyquota-quota-cli.md[SG5T]: F:agyquota 开发计划：不打开 IDE 查询 Antigravity 模型配额的 Go CLI，5 任务分解（骨架/配额核心/CLI 输出/MCP+schema/图标文档收尾） | R:code:docs/projects/go_projects/agyquota/设计说明.md,code:AGENTS.md,code:docs/projects/go_projects/CLI 工具开发标准.md | A:已按 C 方案交付；交付后追加：stderr 进度提示（退避重试倒计时）与完整 README 注意事项 | S:凭据文件 scopes 字段可能是字符串或数组须宽松解码；fetchAvailableModels 对非 IDE 客户端 429 是 Google 服务端策略而非本工具缺陷，复活仅需改 internal/agapi
+
+===D:/Users/language_projects/docs/projects/go_projects/agyquota/===
+设计说明.md[SG6S]: F:agyquota 设计说明：Antigravity 配额接口地图（REST/gRPC 端点、proto 结构、OAuth 鉴权）、429 客户端封锁调查全记录与复活路径 | R:code:AGENTS.md,code:docs/projects/go_projects/CLI 工具开发标准.md | A:调查结论沉淀文档；若封锁解除或拿到 IDE 请求形状，代码改动只落在 go_projects/agyquota/internal/agapi 一处 | S:LS 的 gRPC 与 REST 通道均内置 Google 根证书池（证书锁定），本机 MITM 无法抓包；FetchAvailableModels 需 entitlement{userTier}，合法值由服务端下发
+
+===D:/Users/language_projects/docs/projects/python_projects/hucci-registration-use-case-layered/===
+2026-09-21 分层架构话题.html[SG4M]: F:hucci 注册用例分层架构讨论的聊天记录存档页（单文件 HTML，纸面排版 + lightbox + 页内编辑器） | R:- | A:sh-lark-chat-archive 风格的归档产物，只读参考；文件名含日期与主题，目录归属 hucci-registration-use-case-layered 项目镜像 | S:页面自带页内编辑器可删改消息，编辑结果直接写回该 HTML 文件本身
+
+===D:/Users/language_projects/docs/specs/01-web-archive-skill/===
+index.md[SG2T]: F:sh-web-archive spec 目录入口：关联需求、设计与任务清单三份规格文档 | R:code:docs/specs/01-web-archive-skill/requirements.md,code:docs/specs/01-web-archive-skill/design.md,code:docs/specs/01-web-archive-skill/tasks.md | A:阅读该功能规格时先从本入口确认三文档关系 | S:本文件只做规格导航，不承载实现约束
+design.md[SG5S]: F:sh-web-archive skill 设计文档：fetch/render 两子命令确定性管线、三主 tab+子 tab 页面、FSA 编辑留痕与下载回退分支、模块与复杂度清单 | R:code:docs/specs/01-web-archive-skill/requirements.md,code:docs/specs/01-web-archive-skill/tasks.md | A:spec 三文档之一；skill 本体装于 ~/.agents/skills/sh-web-archive，与 %APPDATA% 同名存档产物目录职责不同 | S:资源下载全站统一懒加载规则（data-src/data-original 优先于 src）；目标目录已存在则报错退出防覆盖编辑产物；MAX_ASSETS=300 超限保留远程 URL 不中断流程
+requirements.md[SG5T]: F:sh-web-archive 需求文档：FR1-FR8（鉴权筛选、正文抓取、多媒体本地化、目录产物、三 tab+历史、版本化编辑、AI 总结、skill 化）与 AC-1~AC-7 | R:code:docs/specs/01-web-archive-skill/design.md,code:docs/specs/01-web-archive-skill/tasks.md | A:产物根路径用户指定 %APPDATA%\agents-skills\，执行期实测后经用户确认迁移至 ~\agents-skills\（变更记录见 A1） | S:需鉴权页面明确拒绝且不绕过；产物明确为目录形态而非单文件 HTML；A1 的 %APPDATA% 表述已被主目录变更取代，引用时以变更记录为准
+tasks.md[SG5T]: F:sh-web-archive 任务清单：6 任务（FSA gate 实证、fetch、render、design-rules+summary、SKILL.md、端到端验收），全部勾选完成 | R:code:docs/specs/01-web-archive-skill/design.md,code:docs/specs/01-web-archive-skill/requirements.md | A:已全部执行完成；AC-4 的 FSA 编辑持久化人工闭环以用户确认为准 | S:任务 1 是 gate：FSA 不可用时走 a[download] 回退分支仍算完成；skill 装在 C:\Users\29580\.agents\skills\ 而非本仓库内
+
+===D:/Users/language_projects/docs/projects/python_projects/django-lab/plans/===
+01-douyin-new-video-notify.md[SG5S]: F:douyinnotify 开发计划：抖音博主更新监控 + 飞书推送（typer+uv+lark-cli+CDP 无头 Chrome），含澄清结论、能力表与 9 任务分解 | R:code:AGENTS.md,code:docs/projects/go_projects/CLI 工具开发标准.md,code:docs/projects/python_projects/django-lab/plans/02-douyin-fetch-api-source.md | A:已获批并连续执行完毕；计划文件按仓库约束放父仓 docs 镜像路径，项目子目录内不建 plans | S:纯 HTTP 被抖音 jsvmprt 风控挑战页拦截，须无头 Chrome+CDP 且免登录；新视频=aweme_id 集合差，首检只记基线不推送；先原子写 state 再发消息，宁漏发不重发；DOM 路径被 02 号计划证伪换源
+02-douyin-fetch-api-source.md[SG4T]: F:douyinnotify 数据源修订计划（已执行）：证伪计划 01 的 DOM 锚点路径（抓到的是页脚推荐流假信号），改为页面内 fetch() 调 /aweme/v1/web/aweme/post/ 取真实作品列表；抓取异常一律抛 FetchError | R:code:docs/projects/python_projects/django-lab/plans/01-douyin-new-video-notify.md | A:已执行；只动 fetcher/detector/cli，CLI/MCP/schema 契约不变 | S:同页 fetch() 可得完整 JSON 而 CDP 取 XHR 恒空体；换源清空 seen 走首检基线
+
+===D:/Users/language_projects/docs/projects/python_projects/zedhub/specs/01-zed-session-hub/===
+requirements.md[SG6M]: F:zedhub 统一会话中枢需求文档：吸收 OpenCode 能力与 ocstat，Zed 会话索引 + OpenCode 会话统一查询、模型/effort 统计、导出、补登与跨机迁移；概念契约须容纳未来 Pi/Claude Code/Codex/Antigravity 数据源 | R:code:MONOREPO.md | A:spec 驱动开发的需求阶段产物；自动化接口以 CLI --json、MCP、按需 WebSocket 为主，zedhub rpc 仅兼容保留 | S:不得把 OpenCode 字段未经区分定义为所有 agent 通用事实；两侧关联缺失时不得伪造另一侧数据；WebSocket 本阶段仅最小只读骨架
 
