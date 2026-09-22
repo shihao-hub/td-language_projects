@@ -17,7 +17,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 # 安装目标目录：用户级 PATH
-DEST_DIR = Path.home() / ".local" / "bin"
+# 260922-修改为 D:\Users\language_projects_bin/ 下
+DEST_DIR = "D:\\Users\\language_projects_bin"
 
 # 固定路径类工具：参数名 -> (源文件相对路径, 目标文件名)
 FIXED_TOOLS: dict[str, tuple[str, str]] = {
