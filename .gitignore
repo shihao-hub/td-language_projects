@@ -7,3 +7,6 @@ Thumbs.db
 
 # docs 静态站点构建产物（mkdocs，随时用 uv run .scripts/build_docs.py build 重建）
 .mkdocs-site/
+
+# 第三方参考项目克隆（点前缀基础设施层，不入库）
+.thirdparty/
