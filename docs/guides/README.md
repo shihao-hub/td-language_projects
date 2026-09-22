@@ -78,4 +78,6 @@ GUIDE 会被其他文档、子仓 README 交叉引用，**改名/移动是高危
 | [GUIDE-DOCS-RENAME.md](GUIDE-DOCS-RENAME.md) | docs 下英文命名文档批量改中文名并修引用 |
 | [GUIDE-AOCI-SETUP.md](GUIDE-AOCI-SETUP.md) | AOCI-CODE 仓库认知索引的安装与配置 |
 | [GUIDE-MCP-INSPECTOR.md](GUIDE-MCP-INSPECTOR.md) | MCP Inspector 测试调试自定义 stdio MCP server |
+| [GUIDE-THIRDPARTY-CLONE.md](GUIDE-THIRDPARTY-CLONE.md) | 第三方开源项目克隆到 .thirdparty/（gitignore + 自有 remote，不用 submodule） |
+| [GUIDE-LLM-PROVIDER-COMPAT.md](GUIDE-LLM-PROVIDER-COMPAT.md) | 把只支持 OpenAI/Anthropic/Gemini 的外部工具接到自己的模型上（探针先行 + 最小补丁 + 双层验证） |
 | [../projects/go_projects/GUIDE-GO-EXE-ICON.md](../projects/go_projects/GUIDE-GO-EXE-ICON.md) | go_projects exe 默认地鼠图标（语言专属） |
