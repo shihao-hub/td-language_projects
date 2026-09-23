@@ -27,7 +27,7 @@
 | douyinnotify | 监控抖音博主更新并推送飞书提醒的 CLI，支持计划任务无人值守 |  |  |  |  |
 | hucci-registration-use-case-layered | 报名用例四层分层架构示例（FastAPI），源自架构设计课的分层解耦实践 |  |  |  |  |
 | llm-finetune-lab | 本地小模型微调学习实验室：手写 LoRA/QLoRA 全流程，数据生成与评测全走本机 Ollama |  |  |  |  |
-| next-scene | 为卡文的小说作者生成 3 个剧情发展方向、选定后扩写成下一场戏的 NiceGUI Web 工具 |  |  |  |  |
+
 | sql-pg-sqlalchemy | SQL → PostgreSQL → SQLAlchemy 三阶段学习仓，含索引 EXPLAIN 实验与速查表 |  |  |  |  |
 | tech_learning_room | 计划采用 apps 结构，一个 app 地去学习 cv 涉及到的技术 | pass |  |  |  |
 | todo_notify | 扫描 Markdown 待办文件汇总未完成任务，推送飞书机器人私聊提醒 |  |  |  |  |
@@ -39,7 +39,7 @@
 | 项目 | 摘要 | 状态 | 源码阅读情况 | 价值 | 下一步 |
 |-|-|-|-|-|-|
 | clictl | Windows 单文件 CLI 工具注册器/启动器：注册任意 exe，前台透传或后台分离启动并记账 |  |  |  |  |
-| glmquotawatch | 定时采样智谱 GLM 编码套餐用量，跨越阈值时弹 Windows Toast 通知的 CLI |  |  |  |  |
+
 | instancelock | 基于锁文件的进程单实例锁库，支持 try/hold 模式、超时与父进程存活检测 |  |  |  |  |
 | liteconf | 轻量配置中心：单实例 Go server + client SDK，长轮询热更新（.env 替代品；例外收录的非 CLI 项目，规划 GUI 客户端） |  |  |  |  |
 | ocstat | 统计 opencode 各会话启动所用模型与思考档位的 CLI |  |  |  |  |
@@ -78,6 +78,7 @@
 | file-sync | 带 gitignore 式忽略规则、Web UI 与托盘的本地目录同步工具 |  |  |  |  |
 | file-sync-native | 带忽略规则的本地目录同步工具，Wails v2 GUI（CLI 版 filesync 已替代） | 归档 |  |  |  |
 | filesync | 带忽略规则的本地目录同步 CLI，三级判定加速，与 GUI 版共享任务配置（file-sync-native 的 CLI 版） |  |  |  |  |
+| glmquotawatch | 定时采样智谱 GLM 编码套餐用量，跨越阈值时弹 Windows Toast 通知的 CLI | 归档 |  |  |  |
 | mcp-cleanup | 查找并击杀 AI 工具异常退出后泄漏的 MCP server 进程树 |  |  |  |  |
 | mini-http-server-go | 用 Go 复刻 Rust 版迷你 HTTP 服务器，学习练手 |  |  |  |  |
 | projstat | 总仓项目状态标注 CLI，合并 PROJECT.toml 手工标注与 git 元数据 |  |  |  |  |
@@ -93,6 +94,7 @@
 | file-sync-py | python 复刻 file-sync-go |  | 还未开始，待办 | 高价值，锻炼 python 的手写能力 | 期待 9.15 左右能开始 |
 | flet-android-lab | Flet 纯 Python 开发 Android 应用实验（数日子 App） |  |  |  |  |
 | lele | 高一化学教学资料合集（小测试卷与复习笔记），非代码项目 |  |  |  |  |
+| next-scene | 为卡文的小说作者生成 3 个剧情发展方向、选定后扩写成下一场戏的 NiceGUI Web 工具 | 归档 |  |  |  |
 | pystand-lab | PyStand 打包 Python 桌面应用的踩坑实验 |  |  |  |  |
 | script-lab | 学习类项目，结构正在思考 | pass |  |  |  |
 | sublime-rider-dark | Sublime Text 4 的 Rider Dark 主题配色包 |  |  |  |  |
