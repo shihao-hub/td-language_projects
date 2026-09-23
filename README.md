@@ -78,6 +78,20 @@ uv run .scripts/install_tool.py all
 | `.scripts/gen_icon.py` | PNG 源图转多尺寸 Windows .ico | `uv run .scripts/gen_icon.py <input.png> <output.ico>` |
 | `.scripts/lark_group_bridge.py` | 外部群消息桥（发送/读取/群列表/初始化） | `uv run .scripts/lark_group_bridge.py <send\|read\|groups\|init>` |
 
+## 文档站点
+
+`docs/` 下的 Markdown 可构建成带导航树与中文搜索的本地站点（Material for MkDocs，产物 `.mkdocs-site/` 不入库）：
+
+```powershell
+uv run .scripts/build_docs.py build   # 构建 .mkdocs-site/（双击其中 index.html 以 file:// 浏览）
+uv run .scripts/build_docs.py serve   # 写作期热刷新 + 中文搜索（http://127.0.0.1:8765）
+uv run .scripts/build_docs.py preview # 构建后起一次性静态服务（只读浏览，http://127.0.0.1:8766）
+```
+
+- 入口页是 `docs/index.md`（mkdocs 的 `docs_dir` 根 index），**不可删除**——删了构建产物就没有 `index.html`，站点根路径 404；
+- 中文搜索由 mkdocs-material 内置（jieba 切词），三个入口行为一致；`file://` 直接打开时浏览器禁止加载搜索 Worker，搜索需走 http；
+- serve 是**全量重建**：任一被监听文件变化即重建一次（本仓库规模约 2s），常驻内存约 150MB；写完 Ctrl+C 正常退出即可（会自动清理临时构建目录）。
+
 ## 数据文件存放规范（重要）
 
 各项目运行时产生的数据文件（JSON 数据库、SQLite db、索引/哈希缓存、锁文件、日志、会话存储、settings 等）**统一且仅**存放于：

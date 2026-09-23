@@ -93,6 +93,7 @@
 
 - **文档只允许放在父仓库**：子模块内的项目目录中**一律禁止**出现任何文档目录与文档内容（`docs/`、`docs/specs/`、`docs/plans/`、`spec/`、`specs/`、`plans/` 等均不允许）。
 - **`docs/` 根目录不放散装文件**，各类各归其位：`docs/projects/<lang>/`（项目镜像文档）、`docs/guides/`（AI 工作指南）、`docs/plans/`（父仓级开发计划）、`docs/repo/`（仓库自身文档与通用技术知识沉淀：git 子模块机制说明、与项目无关的技术介绍等）、`docs/assets/projects/<lang>/`（跨项目二进制资源，如默认图标）；`.archived/` 同理，跨项目内容收入 `.archived/projects/<lang>/` 分层。
+- **例外且硬规则：`docs/index.md` 是文档站点入口页，禁止删除**（mkdocs 的 `docs_dir` 根目录必须有 `index.md` 才能生成首页，它不属于“散装文件”而是站点首页本身）；删了会导致构建产物无 `index.html`、站点根路径 404。站点用法见仓库根 `README.md` 的「文档站点」一节。
 - 所有**项目相关**文档（spec、plan、设计说明、项目知识沉淀等）统一放父仓库 `docs/projects/<lang>/` 下，按子模块内相对路径**镜像层级命名**，并去掉中间冗余的 `docs/` 一层：
   - 例：`go_projects/a/b.md` → `docs/projects/go_projects/a/b.md`；
   - 例：`typescript_projects/taskmon/docs/x.md` → `docs/projects/typescript_projects/taskmon/x.md`。
