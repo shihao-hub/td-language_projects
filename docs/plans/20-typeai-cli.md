@@ -51,11 +51,12 @@ flowchart TB
 
 **任务分解**：
 
-- [ ] Task 1: 搭建 typeai 项目骨架与配置/契约基础 待办
+- [x] Task 1: 搭建 typeai 项目骨架与配置/契约基础 完成
   - 文件：`go_projects/typeai/go.mod`、`go_projects/typeai/cmd/typeai/main.go`、`go_projects/typeai/internal/cli/run.go`、`go_projects/typeai/internal/cli/output.go`、`go_projects/typeai/internal/config/config.go`、`go_projects/typeai/internal/service/errors.go`
   - 实现：创建 Go 1.26 标准库项目；CLI 分发 `help`、`version`、`schema`、`config` 与无参数交互入口；实现数据目录定位、原子配置读写、环境变量覆盖和稳定 JSON 包络；先让 `help/version/schema/config` 可构建、可运行，交互入口返回占位业务错误。
   - 验证：在 `go_projects/typeai` 执行 `gofmt -w .`、`go build ./...`、`go vet ./...`、`go test ./...`；预期均成功，且 `go run ./cmd/typeai schema` 输出可解析 JSON、不创建数据目录。
   - Demo：能运行 `typeai help`、`typeai version`、`typeai config get --json`，并看到统一 JSON 包络。
+  - 实施说明：已按执行约定不编写/运行测试；已执行 `gofmt -w <Task 1 文件>` 与 `go build ./...`，编译通过。Task 3 接线前，对话入口按计划保留占位错误。
 
 - [ ] Task 2: 实现 OpenAI 兼容流式客户端与会话服务 待办
   - 文件：`go_projects/typeai/internal/llm/client.go`、`go_projects/typeai/internal/session/store.go`、`go_projects/typeai/internal/service/chat.go`
