@@ -72,11 +72,12 @@ flowchart TB
   - Demo：配置真实 OpenAI 兼容端点后，运行 `typeai` 即可连续问答；退出后可直接打开 `%APPDATA%\language_projects\typeai\sessions\` 中对应 JSON 阅读。
   - 实施说明：已按执行约定不编写/运行测试与 fake SSE 端到端流程；已执行 `gofmt -w <Task 3 文件>` 与 `go build ./...`，编译通过。REPL 已接入 ChatService，成功轮按“业务追加、文件级全量重写”落盘，失败轮保留可重试历史。
 
-- [ ] Task 4: 补齐 schema、README、构建脚本与 Windows 图标 待办
+- [x] Task 4: 补齐 schema、README、构建脚本与 Windows 图标 完成
   - 文件：`go_projects/typeai/internal/cli/schema.go`、`go_projects/typeai/README.md`、`go_projects/typeai/build.ps1`、`go_projects/typeai/.gitignore`、`go_projects/typeai/cmd/typeai/icon.ico`、`go_projects/typeai/cmd/typeai/rsrc_windows_amd64.syso`
   - 实现：让 `schema` 与命令契约同源导出 `interface: "cli"` 目录；README 记录命令、配置优先级、session JSON 结构、数据目录、无 MCP 例外理由与第二期 backlog；build.ps1 构建 Windows amd64 exe；按父仓默认图标流程复制地鼠图标并生成 `.syso`。
   - 验证：在 `go_projects/typeai` 执行 `go build ./...`、`go vet ./...`、`go test ./...`、`.\build.ps1`；预期构建成功，`typeai schema` 与 README 描述一致，exe 图标提取结果为 32x32。
   - Demo：用户可按 README 配置一次后，通过构建出的 `typeai.exe` 直接进入打字机对话。
+  - 实施说明：已按执行约定不编写/运行测试；已执行 `go build ./...`、`.\build.ps1 -Version dev` 与图标提取检查，编译成功且提取结果为 32x32。README、CLI schema、构建脚本、默认图标与 `.gitignore` 已补齐。
 
 - [ ] Task 5: 端到端收尾与轻量启动核对 待办
   - 文件：`go_projects/typeai/README.md`、`go_projects/typeai/internal/cli/*.go`、`go_projects/typeai/internal/service/*.go`
