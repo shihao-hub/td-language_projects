@@ -100,3 +100,4 @@ flowchart TB
 - 业务代码位于 `go_projects/typeai`，尚未提交；提交命令见交付说明。
 - 2026-09-25 用户明确要求补测后，已新增并运行单元测试与 race 检查：`go test ./...` 与 `go test -race ./...` 全部通过。
 - 2026-09-25 已按用户要求只读复用 cc-switch 中 `opencode/zhipu-glm` 配置，使用 `glm-5.3-flash` 对 `typeai` 做真实端到端测试；提问“1+1等于几？”，回答“1+1等于2。”，session JSON 记录 2 条消息，端到端耗时约 2170ms。测试使用临时 APPDATA，结束后已清理，未修改 cc-switch。
+- 2026-09-25 用户实测发现 GLM flash 思考阶段界面静止。原始 SSE 诊断确认服务端从约 1.17s 起持续返回 `reasoning_content`，正式 `content` 直到约 35s 后才出现。已修复为同时流式透传思考增量，进入正式回答前换行；思考内容不写入 session 历史。修复后新增 reasoning SSE 测试，`go test ./...`、`go test -race ./...` 通过；真实 GLM flash 流式验证产生 19 个 stdout 事件，首个输出约 16ms。
