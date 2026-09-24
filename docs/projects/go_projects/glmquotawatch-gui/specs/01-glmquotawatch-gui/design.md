@@ -21,7 +21,7 @@
 | 通知 | `pkg/services/notifications`：`NotificationService.SendNotification(NotificationOptions)`，以 Service 注册；`NotificationOptions.Sound *NotificationSound`——`&NotificationSound{Silent:true}` 即静音（Windows 映射 ms-winsoundevent） | `services/notifications/notifications.go` 结构体定义 |
 | 事件推送 | `app.Event.Emit(name, data)` + 前端 `@wailsio/runtime` `Events.On` | `event_manager.go`、pkg.go.dev 索引 |
 | 服务绑定 | `application.NewService[T](instance)` + wails3 CLI 生成前端 bindings | `app.go` `RegisterService` |
-| autostart | **不存在内置服务**（services 仅 dock/fileserver/kvstore/log/notifications/sqlite）→ 自行实现注册表 Run 键 | `v3/pkg/services` 目录清单 |
+| autostart | `app.Autostart`（AutostartManager，`application.go:436`）：`EnableWithOptions(AutostartOptions{Identifier, Arguments})` / `Disable` / `IsEnabled`；Windows 实现为 HKCU\…\CurrentVersion\Run 注册表值（`autostart_windows.go`） | `v3/pkg/application/autostart*.go`（实现期核实修正：初判"pkg/services 无 autostart"不全面，application 包内建） |
 
 ```mermaid
 flowchart TB
@@ -153,7 +153,7 @@ flowchart TB
   - **Complexity** High
 - `CREATED` `internal/guiapp/autostart.go`
   - **Purpose** 开机自启（FR-12）
-  - **Changes** `IsAutostartEnabled() bool` / `SetAutostart(bool) error`；注册表键 `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`，值名 `glmquotawatch-gui`，值数据 `"当前exe绝对路径" --hidden`（exe 路径取 `os.Executable()`，含空格加引号）；移除即删值；读失败/键不存在视为未启用。**dev 期防呆**：注册前校验 `os.Executable()` 路径——位于 `os.TempDir()` 前缀或路径含 `go-build`（go run / wails3 dev 临时产物）即拒绝，返回稳定错误 `dev_executable` 并提示改用 `wails3 build` 产物验证。任何失败 → 托盘勾选回退并 Toast 提示
+  - **Changes** 薄封装 Wails 内建 `app.Autostart`（实现期核实其 Windows 落地即 HKCU Run 键，与设计意图一致）：`EnableWithOptions(AutostartOptions{Identifier:"glmquotawatch-gui", Arguments:["--hidden"]})` / `Disable` / `IsEnabled`；**dev 期防呆**：启用前校验 `os.Executable()` 路径——位于 `os.TempDir()` 前缀或路径含 `go-build`（go run 临时产物）即拒绝，返回稳定错误 `dev_executable` 并提示改用 `wails3 build` 产物验证。任何失败 → 托盘勾选回退并错误对话框提示
   - **Complexity** Low
 - `CREATED` `internal/guiapp/icons.go`
   - **Purpose** 图标资源装配
@@ -296,3 +296,14 @@ flowchart TB
 4. `WebviewWindowOptions.Hidden` 静默启动不闪窗（AC-12）
 
 评审方标注的其余存疑项（`app.Event.Emit` 跨 goroutine 安全性、bindings 生成链、Service 方法并发调用）由 service/store 层 mutex 兜底，评审方认可该处理。
+
+## Implementation Notes（实现期修订，2026-09-25）
+
+实现过程中按真实框架行为做的设计修订（不影响已批准需求与验收标准）：
+
+- **R-17 autostart 改用内建能力**：核实 beta.25 `pkg/application` 自带 `app.Autostart`（初判只查了 `pkg/services` 不全）；Windows 实现即 HKCU Run 键，与设计意图一致，自实现代码替换为薄封装 + dev 防呆（Context 表与 autostart.go 卡片已同步更新）。
+- **R-18 RunDaemon 钩子结构化**：`onSample func(StatusView)` 单参数扩展为 `DaemonHooks{OnSample, OnError}`（GUI 错误横幅需要独立错误回调，避免解析日志文本）；daemon_test 调用点同步适配。
+- **R-19 Notifier 接口带 silent 参数**：`Notify(title, msg string, silent bool)`——静音随每轮 config 热读传递（归档版在构造时固化，运行期切换静音不生效）；适配器映射 `Sound:&NotificationSound{Silent:true}`。
+- **R-20 exe 图标走 wails 管线**：wails3 build 由 `build/windows/icon.ico`（= go-default.ico）`wails3 generate syso` 生成并构建后自动删除根目录 `*.syso`——静态 rsrc syso 与其冲突，改为不提交静态 syso（GUIDE 意图「exe 带地鼠图标」不变）。
+- **R-21 移动端脚手架删除**：模板自带 `build/ios`、`build/android` 含破坏 `go build ./...` 的占位 main 包（Windows 项目用不到），删除目录与 Taskfile include。
+- **R-22 前端 bindings 值导入调整**：isolatedModules 下生成类的再导出受限，前端统一按「纯 JSON 对象 + 类型断言」消费绑定返回值，不依赖生成的 `createFrom` 类构造器。

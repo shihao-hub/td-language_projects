@@ -3,7 +3,7 @@
 > 依据 `specs/01-glmquotawatch-gui/` 已批准的需求与设计。执行默认：从任务 1 连续执行到最后，不写新测试、不跑测试（Verify 为备用信息）；`[test]` 任务默认跳过。
 > 所有命令的工作目录：`D:\Users\language_projects\go_projects\glmquotawatch-gui`（T1 创建）。
 
-- [ ] 1. 项目脚手架：Wails v3 + Vue 3 工程落地
+- [x] 1. 项目脚手架：Wails v3 + Vue 3 工程落地
   - Files: `go_projects/glmquotawatch-gui/`（整目录：go.mod、main.go、Taskfile.yml、build/、frontend/、.gitignore、icon.ico、rsrc_windows_amd64.syso）
   - 实现细节：
     - 安装 wails3 CLI：`go install github.com/wailsapp/wails/v3/cmd/wails3@v3.0.0-beta.25`（GOPROXY 已配 goproxy.cn）
@@ -42,7 +42,7 @@
   - Verify: `go run . schema` → 输出含 `interface:"cli"` 的 JSON 目录；`go run . --help` → 信封 usage；`go run . token set short` → `ok:false` 信封退出码 1
   - Ref: AC-5、AC-6、AC-7
 
-- [ ] 6. main 分流与 guiapp 壳（窗口/托盘/单实例/关窗到托盘）
+- [x] 6. main 分流与 guiapp 壳（窗口/托盘/单实例/关窗到托盘）
   - Files: `main.go`、`internal/guiapp/app.go`、`internal/guiapp/icons.go`
   - 实现细节：
     - main.go 分流：args 空或全部 ∈ {`--demo`,`--hidden`} → `guiapp.Run(demo, hidden)`；其余 → `os.Exit(cli.Run(args))`
@@ -52,7 +52,7 @@
   - Verify: `wails3 build` → exe 双击：主窗+托盘出现；关窗隐藏到托盘、托盘可恢复；二次启动激活既有窗口（真机手工）
   - Ref: AC-3、AC-4、AC-10
 
-- [ ] 7. guiapp 行为层：runtime 模式管理 + bindings + 自启 + 通知
+- [x] 7. guiapp 行为层：runtime 模式管理 + bindings + 自启 + 通知
   - Files: `internal/guiapp/runtime.go`、`internal/guiapp/bindings.go`、`internal/guiapp/autostart.go`
   - 实现细节：
     - runtime.go：`MonitorRuntime{Start/EnterDemo/ExitDemo/Stop}`；onSample → 托盘 tooltip 三态（正常/`· 已告警 N%`/`（采样失败）`）+ `Emit("status")`；采样失败 `Emit("sample-error")`；EnterDemo：cancel 旧 daemon → demo 目录全等校验 + ResetDir（失败拒绝）→ 写 demo config（虚拟 token 64 字符、thresholds 50,60,80,90、hysteresis 5）→ DemoFetcher + `WithFixedInterval(5s)` → 起 daemon；Notifier 适配器（silent → `Sound:&NotificationSound{Silent:true}`）；notifications Service 注册
@@ -61,19 +61,19 @@
   - Verify: `wails3 build` → 真机手工：托盘立即采样/静音勾选/自启开关注册表生效；进入演示后 5 分钟内依次 4 条 Toast（依赖任务 8 前端展示，可先用托盘 tooltip 观察）
   - Ref: AC-1、AC-2、AC-11、AC-12
 
-- [ ] 8. 前端：布局 + 仪表盘 + 事件
+- [x] 8. 前端：布局 + 仪表盘 + 事件
   - Files: `frontend/src/App.vue`、`frontend/src/pages/Dashboard.vue`、`frontend/src/components/UsageCard.vue`、`frontend/src/composables/useEvents.ts`、`frontend/src/style.css`（Tailwind 暗色主题）
   - 实现细节：顶栏（应用名 + 模式徽标 + tab：仪表盘/历史/设置）；UsageCard（大号百分比、按档分色进度条 <50 绿/50-79 黄/80+ 红、阈值刻度、本地每秒重算倒计时、已通知档位 tags）；「立即采样」loading 态；无 token 引导卡片；demo 横幅（剩余倒计时 + 退出演示）；`Events.On` 订阅 status/sample-error/mode-changed/config-changed；bindings 经 `wails3 generate bindings` 生成后调用
   - Verify: `wails3 dev` → 仪表盘渲染、立即采样联动、演示模式横幅与告警刷新（真机手工，配合任务 7）
   - Ref: AC-1、AC-2、AC-8、AC-10、AC-11
 
-- [ ] 9. 前端：历史曲线 + 设置页
+- [x] 9. 前端：历史曲线 + 设置页
   - Files: `frontend/src/pages/History.vue`、`frontend/src/pages/Settings.vue`
   - 实现细节：History——窗口下拉（取自最新 status）+ 范围 24h/7d → `ReadHistory`；ECharts 折线（y 0-100、阈值 markLine 虚线、tooltip）；空态。Settings——token 脱敏显示/录入/清除；interval/thresholds/hysteresis/silent 表单（service 错误 code+message 原样展示）；数据目录路径展示；demo 态禁用编辑（服务端已拒，前端同步置灰）
   - Verify: `wails3 dev` → 演示模式积累样本后历史曲线可渲染；设置修改即生效（真机手工）
   - Ref: AC-7、AC-8
 
-- [ ] 10. 收尾：README + 版本注入 + 最终构建与验收清单
+- [x] 10. 收尾：README + 版本注入 + 最终构建与验收清单
   - Files: `README.md`（子项目根级）、`Taskfile.yml`（ldflags 版本注入：`-X glmquotawatch-gui/internal/cli.Version=v0.1.0`）
   - 实现细节：README 含构建（wails3 build / 纯 go build 前置条件）、CLI 恒 JSON 用法（含 schema）、数据目录、通知排查、CLI 标准偏离记录（无 MCP、恒 JSON）；`wails3 build` 最终产物验证；输出对照 AC-1~12 的真机手工验收清单（标注 beta 升级必回归 4 项）
   - Verify: `wails3 build` → 成功；`go run . version` → `{"ok":true,"data":{"version":"v0.1.0"}}`（ldflags 注入后）
@@ -84,3 +84,9 @@
   - 实现细节：DemoFetcher 时序（固定时钟注入断言 150/180/240/270s 越档值）；ReadHistory（临时目录造 JSONL 含坏行）；cli_test 断言 schema 命令名集合 == 命令树名称集合
   - Verify: `go test ./...` → 全绿
   - Ref: AC-2、AC-6、AC-8
+
+## 实施说明（2026-09-25 执行完毕）
+
+任务 1~10 全部完成并经 `wails3 build` 产出可用 exe（版本 0.1.0 已注入）；任务 11 按默认跳过（未写新测试、未跑测试）。实现期偏差详见 design.md「Implementation Notes」（R-17~R-22）：autostart 改用 Wails 内建 `app.Autostart`、RunDaemon 钩子结构化为 `DaemonHooks{OnSample,OnError}`、Notifier 带 silent 参数、exe 图标走 wails generate syso 管线（不提交静态 syso）、删除模板移动端脚手架、前端按纯 JSON 消费绑定返回值。
+
+已机验：CLI 信封与退出码（0/1/2）、schema 零 I/O 目录、演示模式全链路（5s 采样间隔、60 倍速 0→56%、50% 档 Toast 触发且 `notified:[50]` 记账落盘、demo 独立目录）；`go build ./...`、`go vet ./...`、`gofmt` 全绿。真机交互项（托盘/关窗到托盘/单实例/通知静音/自启）见 README 验收清单待人工走查。
