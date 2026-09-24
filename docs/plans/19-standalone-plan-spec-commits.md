@@ -31,23 +31,29 @@
 - [x] Task 1: 在根 `AGENTS.md` 增加 plans/specs 独立提交强约束 完成
   - 文件：`AGENTS.md`
   - 实现：在 Git 提交约定区域新增规则，覆盖 `**/plans/**`、`**/specs/**` 下文件的所有变更类型；规定每个 plan/spec 变更独立 commit，不混入其他路径或其他 plan/spec 文件；明确无需用户再次授权，失败时才询问。已额外记录本轮一次性合并现有未提交 plan/spec 基线的用户授权。
-  - 验证：已执行定向编辑核对；待 Task 2 完成 `git diff -- AGENTS.md` 与 `git diff --check`。
+  - 验证：已执行 `git diff -- AGENTS.md` 与 `git diff --check`；`AGENTS.md` 仅包含本规则和工作区原有数据路径规则改动，检查无空白错误。
   - Demo：读取 `AGENTS.md` 后，Agent 能判断一个计划文件的修改必须单独提交，并知道何时可自动提交、何时需要询问。
 
-- [ ] Task 2: 完成范围核对并保留现有工作区隔离 待办
+- [x] Task 2: 完成范围核对并保留现有工作区隔离 完成
   - 文件：`AGENTS.md`
-  - 实现：确认本次不触碰其他源码、计划、规格或用户已有未提交文件；记录最终 diff 范围，避免把已有工作区变更误纳入提交。
-  - 验证：执行 `git status --short` 与 `git diff --check`；预期除本任务产生的 `AGENTS.md` 差异外，其他既有状态保持不变。
+  - 实现：确认本次未触碰其他源码、计划、规格或用户已有未提交文件；`AGENTS.md` 仅保留本规则和工作区原有数据路径规则差异。
+  - 验证：已执行 `git status --short`、`git diff -- AGENTS.md` 与 `git diff --check`；除本任务产生的 `AGENTS.md` 差异外，其他既有状态保持不变。
   - Demo：使用 `git diff -- AGENTS.md` 可单独审阅本次规则变更，并可按规则对后续每个 plan/spec 文件追踪独立提交。
 
-- [ ] Task 3: 按用户授权提交当前已有的 plans/specs 历史基线 待办
+- [x] Task 3: 按用户授权提交当前已有的 plans/specs 历史基线 完成
   - 文件：当前工作区中已有的 `**/plans/**`、`**/specs/**` 未提交文件
-  - 实现：仅暂存上述路径下本轮开始前已经存在的变更，合并为一个独立的基线 commit；不暂存 `AGENTS.md`、其他源码、配置或文档文件。
-  - 验证：执行定向 `git diff --cached --name-status`、`git diff --cached --check` 和提交后的 `git status --short`；预期暂存区只包含 `plans/specs` 文件，commit 成功后这些文件不再显示为未提交。
-  - Demo：通过该基线 commit 可集中查看当前遗留的计划/规格变更，后续新变更按新规则单独提交。
+  - 实现：仅暂存上述路径下本轮开始前已经存在的变更，合并为独立基线 commit `c6e3f19`；未暂存 `AGENTS.md`、其他源码、配置或文档文件。
+  - 验证：暂存区文件清单仅包含 10 个 `plans/specs` 文件并已成功提交；`git status --short --untracked-files=all -- ':(glob)**/plans/**' ':(glob)**/specs/**'` 无输出。`git diff --cached --check` 曾报告已有 Markdown 行尾空格，但未改写正文，提交已完成。
+  - Demo：通过 `c6e3f19` 可集中查看当前遗留的计划/规格变更，后续新变更按新规则单独提交。
 
 ---
 
 - 最后更新：2026-09-23
 - 作者：AI
-- 版本：v1
+- 版本：v1.1
+
+## 执行记录
+
+- 已在 `AGENTS.md` 增加 `plans/specs` 独立提交规则。
+- 已将本轮开始前已有的 10 个未提交 plan/spec 文件按用户授权合并提交为 `c6e3f19`。
+- 未处理或提交其他既有工作区变更。
