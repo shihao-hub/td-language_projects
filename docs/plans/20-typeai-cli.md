@@ -40,7 +40,7 @@ flowchart TB
 
 关键行为约定：
 
-- 启动后创建 session 元数据，但首轮成功回答前不写 session 文件；之后每次成功回答覆盖写同一个 JSON。
+- 启动后创建 session 元数据，但首轮成功回答前不写 session 文件；之后每次成功回答都业务追加本轮 user/assistant 消息，并在落盘时把完整会话重新序列化为一个合法 JSON，用临时文件原子替换同一个 session 文件（文件级全量重写，不丢历史）。
 - 发送请求时使用“历史消息 + 本轮用户消息”的副本；请求失败不改变可重试的内存历史。
 - 成功收到完整 assistant 回答后，才把 user 与 assistant 两条消息追加进正式历史并落盘。
 - session 文件名使用 `YYYYMMDD-HHMMSS-<短随机ID>.json`，避免同秒冲突。
@@ -65,7 +65,7 @@ flowchart TB
 
 - [ ] Task 3: 接线原始打字机 REPL 与配置命令 待办
   - 文件：`go_projects/typeai/internal/cli/run.go`、`go_projects/typeai/internal/cli/chat.go`、`go_projects/typeai/internal/cli/config.go`、`go_projects/typeai/cmd/typeai/main.go`
-  - 实现：无参数启动时读取有效配置并进入 `> ` 行输入循环；AI 增量直接写 stdout，成功后换行并落盘，失败输出人读错误并保留可重试历史；实现 `/exit`、`/quit`、空行与 Ctrl+C 退出；实现 `config get/set` 的人读与 `--json` 模式，`set` 支持部分更新且不回显 API Key。
+  - 实现：无参数启动时读取有效配置并进入 `> ` 行输入循环；AI 增量直接写 stdout，成功后换行并按“业务追加、文件级全量重写”方式落盘，失败输出人读错误并保留可重试历史；实现 `/exit`、`/quit`、空行与 Ctrl+C 退出；实现 `config get/set` 的人读与 `--json` 模式，`set` 支持部分更新且不回显 API Key。
   - 验证：在 `go_projects/typeai` 执行 `go build ./...`、`go vet ./...`、`go test ./...`；再用本地 fake OpenAI SSE 服务启动 `go run ./cmd/typeai` 连续输入两轮，预期两轮回答都流式输出、上下文生效、session JSON 在第二轮后被更新。
   - Demo：配置真实 OpenAI 兼容端点后，运行 `typeai` 即可连续问答；退出后可直接打开 `%APPDATA%\language_projects\typeai\sessions\` 中对应 JSON 阅读。
 
