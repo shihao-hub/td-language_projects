@@ -15,7 +15,7 @@
 
 ```powershell
 uv run .scripts/build_docs.py build   # 构建 .mkdocs-site/（双击其中 index.html 以 file:// 浏览）
-uv run .scripts/build_docs.py serve   # 写作期热刷新 + 中文搜索（http://127.0.0.1:8765）
+uv run .scripts/build_docs.py serve   # 写作期热刷新 + 中文搜索（http://127.0.0.1:12345）
 uv run .scripts/build_docs.py preview # 构建后起一次性静态服务（只读浏览，http://127.0.0.1:8766）
 ```
 

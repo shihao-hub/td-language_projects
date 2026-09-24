@@ -10,7 +10,7 @@
 # 用法:
 #   uv run .scripts/build_docs.py build           # 构建 .mkdocs-site/（file:// 双击 index.html 浏览）
 #   uv run .scripts/build_docs.py preview         # 构建后起一次性静态服务并自动开浏览器（只读浏览，Ctrl+C 退出）
-#   uv run .scripts/build_docs.py serve           # 写作期热刷新 + 中文搜索（http://127.0.0.1:8765）
+#   uv run .scripts/build_docs.py serve           # 写作期热刷新 + 中文搜索（http://127.0.0.1:12345）
 #   uv run .scripts/build_docs.py build --strict  # 严格校验（警告视为错误，断链检查）
 # 说明: 依赖由 PEP 723 内联声明，uv 全局缓存解析，仓库内不产生任何 Python 工程文件；
 #       .mkdocs-site/ 为构建产物，已入 .gitignore，随时删除重建。
@@ -69,7 +69,7 @@ def main() -> int:
     if args.command == "build" and args.strict:
         cmd.append("--strict")
     if args.command == "serve":
-        cmd += ["--dev-addr", "127.0.0.1:8765"]
+        cmd += ["--dev-addr", "127.0.0.1:12345"]
 
     return subprocess.call(cmd, cwd=str(ROOT))
 
