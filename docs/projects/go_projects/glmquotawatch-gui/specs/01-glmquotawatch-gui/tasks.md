@@ -15,19 +15,19 @@
   - Verify: `cd go_projects\glmquotawatch-gui; npm install; wails3 build` → 构建成功产出 exe，双击出现空主窗（无业务功能）
   - Ref: AC-1~12 前置（工程地基）
 
-- [ ] 2. api 层移植与模拟上游
+- [x] 2. api 层移植与模拟上游
   - Files: `internal/api/client.go`、`internal/api/client_test.go`（移植）、`internal/api/fetcher.go`、`internal/api/demo.go`
   - 实现细节：client.go 自归档版逐行移植（Usage/Limit/rawEnvelope/FetchUsage/HTTPError/APIError），仅改包注释与环境变量名 `GLMQUOTAWATCH_GUI_API_BASE`；`Fetcher` 接口（client 天然实现）；`DemoFetcher{start time.Time}`：`pct=min(100, elapsed/300s×100)`、单窗口 `Limit{Type:"TOKENS_LIMIT",Unit:3,Number:5,Percentage,NextResetTime:start+300s 毫秒}`、`Level="DEMO"`、data 原文由 `json.Marshal(api.Usage{…})` 产生（禁止手工拼 map）
   - Verify: `cd go_projects\glmquotawatch-gui && go build ./... && go vet ./internal/api/` → 编译与静态检查通过
   - Ref: AC-2、AC-11
 
-- [ ] 3. store 与 quota 移植
+- [x] 3. store 与 quota 移植
   - Files: `internal/store/store.go`、`internal/store/store_test.go`（移植，去 Lock 用例）、`internal/quota/threshold.go`、`internal/quota/format.go`、`internal/quota/quota_test.go`（移植）
   - 实现细节：store 移植后三处调整——`DefaultDir()` 指向 `%APPDATA%\language_projects\glmquotawatch-gui`（回退 `~/.language_projects/glmquotawatch-gui`）；删除 `Lock/LockError/pid_alive*.go`；新增 `ResetDir(target) error`（内部二级校验：`filepath.Base(target)=="demo"`、拒绝空串/卷根）。quota 两文件仅改 import 路径，逻辑零改动（`pid_alive_windows.go`、`pid_alive_other.go` 不移植）
   - Verify: `go build ./... && go vet ./internal/store/ ./internal/quota/` → 通过
   - Ref: AC-2、AC-7、AC-9
 
-- [ ] 4. service 层移植与注入点改造
+- [x] 4. service 层移植与注入点改造
   - Files: `internal/service/service.go`、`internal/service/daemon.go`、`internal/service/history.go`、`internal/service/service_test.go`、`internal/service/daemon_test.go`（移植适配，daemon_test 调用点补第 4 参 nil）
   - 实现细节：
     - service.go 移植全部用例与校验；调整：`Open(dir string, opts ...Option)` 显式收目录；`WithFetcherFactory(func() api.Fetcher)`（默认按 config token 现读构造 Client，demo 传固定 DemoFetcher 工厂）；新增 `WithFixedInterval(d)`（非零时 daemon 启动与热加载直用，跳过 clamp）
@@ -36,7 +36,7 @@
   - Verify: `go build ./... && go vet ./internal/service/` → 通过
   - Ref: AC-1、AC-2、AC-5、AC-7、AC-8
 
-- [ ] 5. CLI 恒 JSON 壳
+- [x] 5. CLI 恒 JSON 壳
   - Files: `internal/cli/root.go`、`internal/cli/output.go`、`internal/cli/schema.go`、`internal/cli/cli_test.go`（移植适配）
   - 实现细节：子命令 `token set/show/remove`、`status`、`config show/set`、`schema`、`version`；删 start/mcp 与 `--json` flag；output.go 删除人读分支（envelope 恒输出）；`--help`/`--version` 信封化（SetHelpFunc / SetVersionTemplate）；schema.go 由 `newRootCmd()` 命令树结构化生成 commands 骨架 + 手写 map 补 args/退出码（零 I/O，`interface:"cli"`）；退出码 0/1/2
   - Verify: `go run . schema` → 输出含 `interface:"cli"` 的 JSON 目录；`go run . --help` → 信封 usage；`go run . token set short` → `ok:false` 信封退出码 1
