@@ -65,11 +65,12 @@ flowchart TB
   - Demo：通过注入 fake HTTP client 与临时目录调用 Service 后，session JSON 中按顺序包含 user/assistant 消息且无 API Key。
   - 实施说明：已按执行约定不编写/运行测试；已执行 `gofmt -w <Task 2 文件>` 与 `go build ./...`，编译通过。Service 已实现请求历史副本、成功后提交历史、失败轮不落盘和 session 原子替换。
 
-- [ ] Task 3: 接线原始打字机 REPL 与配置命令 待办
+- [x] Task 3: 接线原始打字机 REPL 与配置命令 完成
   - 文件：`go_projects/typeai/internal/cli/run.go`、`go_projects/typeai/internal/cli/chat.go`、`go_projects/typeai/internal/cli/config.go`、`go_projects/typeai/cmd/typeai/main.go`
   - 实现：无参数启动时读取有效配置并进入 `> ` 行输入循环；AI 增量直接写 stdout，成功后换行并按“业务追加、文件级全量重写”方式落盘，失败输出人读错误并保留可重试历史；实现 `/exit`、`/quit`、空行与 Ctrl+C 退出；实现 `config get/set` 的人读与 `--json` 模式，`set` 支持部分更新且不回显 API Key。
   - 验证：在 `go_projects/typeai` 执行 `go build ./...`、`go vet ./...`、`go test ./...`；再用本地 fake OpenAI SSE 服务启动 `go run ./cmd/typeai` 连续输入两轮，预期两轮回答都流式输出、上下文生效、session JSON 在第二轮后被更新。
   - Demo：配置真实 OpenAI 兼容端点后，运行 `typeai` 即可连续问答；退出后可直接打开 `%APPDATA%\language_projects\typeai\sessions\` 中对应 JSON 阅读。
+  - 实施说明：已按执行约定不编写/运行测试与 fake SSE 端到端流程；已执行 `gofmt -w <Task 3 文件>` 与 `go build ./...`，编译通过。REPL 已接入 ChatService，成功轮按“业务追加、文件级全量重写”落盘，失败轮保留可重试历史。
 
 - [ ] Task 4: 补齐 schema、README、构建脚本与 Windows 图标 待办
   - 文件：`go_projects/typeai/internal/cli/schema.go`、`go_projects/typeai/README.md`、`go_projects/typeai/build.ps1`、`go_projects/typeai/.gitignore`、`go_projects/typeai/cmd/typeai/icon.ico`、`go_projects/typeai/cmd/typeai/rsrc_windows_amd64.syso`
