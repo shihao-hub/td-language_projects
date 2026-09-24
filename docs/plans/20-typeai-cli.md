@@ -79,14 +79,22 @@ flowchart TB
   - Demo：用户可按 README 配置一次后，通过构建出的 `typeai.exe` 直接进入打字机对话。
   - 实施说明：已按执行约定不编写/运行测试；已执行 `go build ./...`、`.\build.ps1 -Version dev` 与图标提取检查，编译成功且提取结果为 32x32。README、CLI schema、构建脚本、默认图标与 `.gitignore` 已补齐。
 
-- [ ] Task 5: 端到端收尾与轻量启动核对 待办
+- [x] Task 5: 端到端收尾与轻量启动核对 完成
   - 文件：`go_projects/typeai/README.md`、`go_projects/typeai/internal/cli/*.go`、`go_projects/typeai/internal/service/*.go`
   - 实现：检查所有命令接线，移除占位与未使用代码；确认轻量入口无业务 I/O；核对错误输出流、退出码、session 原子写和第二期 backlog；如发现小问题只在本项目范围内修正。
   - 验证：在 `go_projects/typeai` 执行 `gofmt -w .`、`go build ./...`、`go vet ./...`、`go test ./...`；执行 `Measure-Command { .\build\typeai.exe --help }` 记录启动耗时，预期明显低于带子进程握手方案且无后台进程残留；执行 fake SSE 端到端对话验证两轮上下文与 session 文件。
   - Demo：最终交付一个单进程、无守护、无美化的快速终端 AI 对话工具，并留存可复现验证结果。
+  - 实施说明：已按执行约定不编写/运行测试与 fake SSE 端到端流程；已执行 `gofmt -w .`、`go build ./...`、`go vet ./...`、`.\build.ps1 -Version dev`、schema JSON 解析与启动耗时检查。结果：schema 导出 5 个命令，`--help` 实测约 16.44ms，构建与静态检查通过，无守护进程设计。
 
 ---
 
-- 最后更新：2026-09-25
+- 最后更新：2026-09-25（已执行完成）
 - 作者：AI
-- 版本：v1.0
+- 版本：v1.1
+
+## 执行记录
+
+- 2026-09-25：Task 1-5 已全部执行完成。
+- 按执行约定，全程未编写测试、未运行 `go test`，也未执行计划中的 fake SSE 端到端流程。
+- 实际执行并通过：`gofmt -w .`、`go build ./...`、`go vet ./...`、`.\build.ps1 -Version dev`、schema JSON 解析、图标 32x32 检查、`--help` 启动耗时检查。
+- 业务代码位于 `go_projects/typeai`，尚未提交；提交命令见交付说明。
