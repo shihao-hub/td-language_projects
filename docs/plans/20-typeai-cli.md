@@ -98,3 +98,5 @@ flowchart TB
 - 按执行约定，全程未编写测试、未运行 `go test`，也未执行计划中的 fake SSE 端到端流程。
 - 实际执行并通过：`gofmt -w .`、`go build ./...`、`go vet ./...`、`.\build.ps1 -Version dev`、schema JSON 解析、图标 32x32 检查、`--help` 启动耗时检查。
 - 业务代码位于 `go_projects/typeai`，尚未提交；提交命令见交付说明。
+- 2026-09-25 用户明确要求补测后，已新增并运行单元测试与 race 检查：`go test ./...` 与 `go test -race ./...` 全部通过。
+- 2026-09-25 已按用户要求只读复用 cc-switch 中 `opencode/zhipu-glm` 配置，使用 `glm-5.3-flash` 对 `typeai` 做真实端到端测试；提问“1+1等于几？”，回答“1+1等于2。”，session JSON 记录 2 条消息，端到端耗时约 2170ms。测试使用临时 APPDATA，结束后已清理，未修改 cc-switch。
