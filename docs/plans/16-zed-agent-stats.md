@@ -66,6 +66,7 @@ graph TD
 
 - [x] Task 3: antigravity 采集器（protobuf 解码 + 会话库聚合）
   - 实施说明：镜像源仅有 blackboxprotobuf 1.0.1（2.x 不在索引），带来 protobuf 3.10/six/setuptools 三个传递依赖，功能不受影响。锚点验证通过：gemini-3.8-flash 23 会话/1358 轮/in 13.40M/out 700.1K，总 112.00M = in+out+thoughts 97.9M；另见探索期未出现的 gemini-3.7-flash（新会话）。
+  - 性能返工（用户实测 `agy` 过慢触发）：进程内剖析 1396 条 blob——bbp 逐条全量解码 22.37s、typedef 复用 2.45s（工具内因 typedef 不完整反复回退实测仍 ~25s）、手写字段遍历 0.04s 且结果逐位一致。**推翻 1=a 决策**，热路径改为手写 wire-format 遍历，`uv remove blackboxprotobuf`（含 3 个传递依赖全部移除）。端到端 `agy --by-model` 25s → 0.46s，数字与锚点一致。
   - 文件：`src/zed_agent_stats/collectors/antigravity.py`（新建）、`pyproject.toml`（新增 `blackboxprotobuf` 依赖）、`models.py`（thoughts 等字段映射）
   - 实现：`uv add blackboxprotobuf`；快照复制 `conversations/*.db`（单库 ≤6MB 可复制）；用 blackboxprotobuf 解码 `gen_metadata.data`，按字段号路径提取：field 19 → model、field 1.4 → {f2 input, f3 output, f5 reasoning}，f9/f10 按假设 1 忽略并注释；读 `<sid>.meta` 的 `cwd`；与 Zed threads 按 sid join 补标题/时间；无 cost 置 0
   - 验证：`uv run --project python_projects/zed-agent-stats zed-agent-stats antigravity --by-model` 输出 `gemini-3.8-flash` 且 in≈13.4M / out≈0.7M / reasoning≈97.9M（对照锚点数字）；`agy` 缩写等价
