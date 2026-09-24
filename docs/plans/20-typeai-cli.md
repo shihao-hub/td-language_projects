@@ -58,11 +58,12 @@ flowchart TB
   - Demo：能运行 `typeai help`、`typeai version`、`typeai config get --json`，并看到统一 JSON 包络。
   - 实施说明：已按执行约定不编写/运行测试；已执行 `gofmt -w <Task 1 文件>` 与 `go build ./...`，编译通过。Task 3 接线前，对话入口按计划保留占位错误。
 
-- [ ] Task 2: 实现 OpenAI 兼容流式客户端与会话服务 待办
+- [x] Task 2: 实现 OpenAI 兼容流式客户端与会话服务 完成
   - 文件：`go_projects/typeai/internal/llm/client.go`、`go_projects/typeai/internal/session/store.go`、`go_projects/typeai/internal/service/chat.go`
   - 实现：用标准库实现 `/chat/completions` SSE 请求与增量回调；ChatService 维护多轮消息副本，成功后追加 user/assistant 消息；SessionStore 负责创建文件名、缩进序列化和临时文件原子替换；定义 `bad_args`、`not_configured`、`upstream`、`internal` 等业务错误。
   - 验证：在 `go_projects/typeai` 执行 `go test ./internal/llm ./internal/session ./internal/service`；预期覆盖 SSE 成功/HTTP 错误/取消、失败轮不落盘、成功轮完整落盘与同秒文件名不冲突。
   - Demo：通过注入 fake HTTP client 与临时目录调用 Service 后，session JSON 中按顺序包含 user/assistant 消息且无 API Key。
+  - 实施说明：已按执行约定不编写/运行测试；已执行 `gofmt -w <Task 2 文件>` 与 `go build ./...`，编译通过。Service 已实现请求历史副本、成功后提交历史、失败轮不落盘和 session 原子替换。
 
 - [ ] Task 3: 接线原始打字机 REPL 与配置命令 待办
   - 文件：`go_projects/typeai/internal/cli/run.go`、`go_projects/typeai/internal/cli/chat.go`、`go_projects/typeai/internal/cli/config.go`、`go_projects/typeai/cmd/typeai/main.go`
