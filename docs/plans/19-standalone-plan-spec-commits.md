@@ -28,10 +28,10 @@
 
 **任务分解**：
 
-- [ ] Task 1: 在根 `AGENTS.md` 增加 plans/specs 独立提交强约束 待办
+- [x] Task 1: 在根 `AGENTS.md` 增加 plans/specs 独立提交强约束 完成
   - 文件：`AGENTS.md`
-  - 实现：在 Git 提交约定区域新增规则，覆盖 `**/plans/**`、`**/specs/**` 下文件的所有变更类型；规定每个 plan/spec 变更独立 commit，不混入其他路径或其他 plan/spec 文件；明确无需用户再次授权，失败时才询问。
-  - 验证：执行 `git diff -- AGENTS.md` 与 `git diff --check`；预期仅出现本规则及当前既有改动，且无空白错误。
+  - 实现：在 Git 提交约定区域新增规则，覆盖 `**/plans/**`、`**/specs/**` 下文件的所有变更类型；规定每个 plan/spec 变更独立 commit，不混入其他路径或其他 plan/spec 文件；明确无需用户再次授权，失败时才询问。已额外记录本轮一次性合并现有未提交 plan/spec 基线的用户授权。
+  - 验证：已执行定向编辑核对；待 Task 2 完成 `git diff -- AGENTS.md` 与 `git diff --check`。
   - Demo：读取 `AGENTS.md` 后，Agent 能判断一个计划文件的修改必须单独提交，并知道何时可自动提交、何时需要询问。
 
 - [ ] Task 2: 完成范围核对并保留现有工作区隔离 待办
