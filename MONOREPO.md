@@ -30,7 +30,7 @@
 
 | sql-pg-sqlalchemy | SQL → PostgreSQL → SQLAlchemy 三阶段学习仓，含索引 EXPLAIN 实验与速查表 |  |  |  |  |
 | tech_learning_room | 计划采用 apps 结构，一个 app 地去学习 cv 涉及到的技术 | pass |  |  |  |
-| todo_notify | 扫描 Markdown 待办文件汇总未完成任务，推送飞书机器人私聊提醒 |  |  |  |  |
+| todonotify | 扫描 Markdown 待办文件汇总未完成任务，推送飞书机器人私聊提醒 |  |  |  |  |
 | zed-opencode-sessions | MCP server + CLI，查询、导出、跨机迁移 Zed 与 OpenCode 的 AI 会话数据 |  |  |  |  |
 | zedhub | zed 表数据 read 和 write，CLI 与 GUI 分离架构 | 待测试 | 核心链路阅读完毕，未阅读具体实现，其实不需要阅读，去了解 zed sqlite 表结构字段即可，具体实现不是关键 | 超高价值 |  |
 
