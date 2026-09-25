@@ -69,40 +69,49 @@
 
 ## 任务分解
 
-- [ ] Task 1: 设计令牌与字体基建 待办
+- [x] Task 1: 设计令牌与字体基建 完成
   - 文件：`frontend/package.json`、`frontend/package-lock.json`、`frontend/src/style.css`、`frontend/src/main.ts`
   - 实现：npm 安装 `@fontsource/jetbrains-mono`（main.ts 引 latin-400/700）；style.css 用 `@theme` 注册上表色板、写 body 扫描线背景/字体栈/光标闪烁/角括号工具类，清空旧 zinc 时代样式
   - 验证（备用，默认不跑）：`cd frontend && npm install && npm run build` 零错误
   - Demo：全局底色变墨绿近黑 + 等宽字体 + 扫描线纹理可见
-- [ ] Task 2: App.vue 顶栏终端化 + 页脚状态栏 待办
+- [x] Task 2: App.vue 顶栏终端化 + 页脚状态栏 完成
   - 文件：`frontend/src/App.vue`
   - 实现：标题 `▮ GLM QUOTAWATCH` 闪烁光标；DEMO 徽标 `DEMO ×60`；tab 方括号样式；底部新增四段状态栏（MODE/INTERVAL/LAST/TOKEN），Task 1 的令牌类
   - 验证（备用）：`npm run build` 零错误
   - Demo：窗口出现 tmux 式底栏，tab 变方括号高亮
-- [ ] Task 3: UsageCard 直角终端卡片 待办
+- [x] Task 3: UsageCard 直角终端卡片 完成
   - 文件：`frontend/src/components/UsageCard.vue`
   - 实现：直角 + 角括号标记；`$` 提示符前缀 + label；百分比大数字 phos/warn/crit 三档；直角进度条 + well 轨道 + 阈值刻度；档位标签 `[50]` 已告警
   - 验证（备用）：`npm run build` 零错误
   - Demo：主仪表卡片完全脱离圆角卡片观感，数字变磷光绿等宽
-- [ ] Task 4: Dashboard 横幅/引导/空态/文案 待办
+- [x] Task 4: Dashboard 横幅/引导/空态/文案 完成
   - 文件：`frontend/src/pages/Dashboard.vue`
   - 实现：DEMO/错误横幅换 warn/crit 色 + 直角；token 引导卡终端化；采样按钮 `> 采样`；采样时间移入页脚（概览行只留套餐徽标 + 按钮）；空态文案按对照表替换
   - 验证（备用）：`npm run build` 零错误
   - Demo：空态与横幅均为终端口吻 + 磷光配色
-- [ ] Task 5: History 图表与选择器换肤 待办
+- [x] Task 5: History 图表与选择器换肤 完成
   - 文件：`frontend/src/pages/History.vue`
   - 实现：`option()` 内全部硬编码色换新调色板（线 phos、面积渐变同色、阈值线 warn 虚线、轴/分割线/tooltip 用 edge/dim/panel）；select 与 24h/7d 切换方括号化；空态文案替换
   - 验证（备用）：`npm run build` 零错误
   - Demo：曲线变磷光绿，图表与页面浑然一体
-- [ ] Task 6: Settings 表单终端化收尾接线 待办
+- [x] Task 6: Settings 表单终端化收尾接线 完成
   - 文件：`frontend/src/pages/Settings.vue`
   - 实现：区块标题大写宽字距；输入框直角 + focus 描边 phos；主按钮 `[ 写入 ]` 次按钮 `[ 移除 ]`；胶囊开关改 `[ON]/[OFF]` 文本开关；demo 只读横幅换 warn 色
   - 验证（备用）：`cd frontend && npm run build` 零错误；整包 `wails3 build` 产出 exe
   - Demo：设置页全部控件终端化，与前三页风格统一（接线收尾：所有页面共享同一令牌，无遗留 zinc/sky 类）
 
-依赖关系：Task 2-6 均依赖 Task 1 的令牌与字体；Task 6 为收尾接线任务（全局 grep 确认无残留旧色类）。
+依赖关系：Task 2-6 均依赖 Task 1 的令牌与字体；Task 6 为收尾任务（全局 grep 确认无残留旧色类）。
+
+## 实施说明（2026-09-25 执行完毕）
+
+- 6 个任务全部完成；收尾 grep 确认 `frontend/src` 无 zinc/sky/emerald/amber/rounded-lg/xl/full 残留
+- 实际字体包：`@fontsource/jetbrains-mono@5.3.0`，main.ts 引 `latin-400.css` / `latin-700.css`
+- 偏差：Dashboard 采样按钮的加载指示保留原旋转 SVG（原计划未提；自旋字符观感差，弃用 `›` 方案）
+- 页脚状态栏取值：MODE（LIVE/DEMO）、INTERVAL、LAST（采样于，来自 `status.sampled_at`）、TOKEN（OK/UNSET）
+- 图表凹槽分割线取 `#152119`（bg 与 edge 之间的自定值，计划未单列）
+- 按执行默认未跑构建/测试：`npm run build` 与 `wails3 build` 为备用验证，留待用户实机 `wails3 dev` 目验
 
 ---
 **最后更新：** 2026-09-25
 **作者：** AI & User
-**版本：** v1.0
+**版本：** v1.1（实施完成）
