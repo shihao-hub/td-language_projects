@@ -2,7 +2,7 @@
 
 ## Summary
 
-Demo 模式跨过阈值后，主窗口和 `state.json` 已把档位记录为“已告警”，但 Windows Toast 可能没有出现，且应用没有暴露任何通知失败状态。
+Demo 模式跨过阈值后，主窗口和 `state.json` 已把档位记录为“已告警”，但用户未观察到 Windows Toast；当前证据不能区分 `Notify` 返回错误还是 OS 抑制展示，应用也没有暴露任何通知结果状态。
 
 ## Reproduction
 
@@ -15,7 +15,7 @@ Demo 模式跨过阈值后，主窗口和 `state.json` 已把档位记录为“�
 
 阈值状态机本身正确：`api.DemoFetcher` 会生成单调增长百分比，`quota.Evaluate` 会返回 `Notify=true`，当前 demo 的 `state.json` 也证明 50/60/80/90 均已被评估。
 
-问题在告警交付链路：
+本次排查不能确认 Toast API 已返回失败；能确认的是应用层没有可靠的交付确认与失败反馈。问题在告警交付链路：
 
 - `Service.SampleOnce` 在 daemon 发送通知前就调用 `SaveState(next)`，把本轮命中的档位提前标记为“已通知”。
 - `RunDaemon` 随后调用 `Notifier.Notify`；发送失败时只调用 `log.Warn`。
