@@ -45,7 +45,6 @@
         "tags_options": "stippled_underline",
         "highlight": "#3574F0",
         "shadow": "#000000",
-        "shadow_width": 8,
         "misspelling": "#E06C75",
         "accent": "#3574F0",
         "popup_css": "html { background-color: #2B2D30; color: #BDBDBD; } a { color: #6C95EB; }",
