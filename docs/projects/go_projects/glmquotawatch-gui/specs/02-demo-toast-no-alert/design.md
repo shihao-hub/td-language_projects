@@ -2,7 +2,7 @@
 
 ## Overview
 
-把告警从“评估后立刻记账”改为“Toast 发送返回成功后记账”。daemon 采样仍走同一套上游、历史、阈值状态机，但新增一条未提交采样路径；通知失败通过 GUI 错误横幅、托盘状态和下一轮重试暴露。CLI `status` 的既有“立即采样、推进状态、不通知”语义保持不变。
+修复两件事：第一，给 Wails `NotificationOptions` 填充必填且唯一的 `ID`，消除现场捕获的 `notification ID cannot be empty`；第二，把告警从“评估后立刻记账”改为“Toast 发送返回成功后记账”。daemon 采样仍走同一套上游、历史、阈值状态机，但新增一条未提交采样路径；通知失败通过 GUI 错误横幅、托盘状态和下一轮重试暴露。CLI `status` 的既有“立即采样、推进状态、不通知”语义保持不变。
 
 ## Context
 
@@ -61,6 +61,7 @@
 - `UPDATED` `internal/guiapp/runtime.go`
   - **Purpose**: 把通知结果接到用户可见状态，同时避免手动刷新抢占告警记账。
   - **Changes**:
+    - `toastNotifier.Notify` 构造 `NotificationOptions` 时填充非空 `ID`，格式为 `glmquotawatch-gui-<UnixNano>`；每次告警生成新 ID，避免不同轮次共用通知标识。
     - 新增事件常量 `EventNotifyErr = "notify-error"`。
     - 新增 `onNotifyError`：在 runtime 锁内更新 `lastErr`，错误码保留 `notify_failed` 或 `state_save_failed`，广播 `notify-error`，并更新托盘 tooltip。
     - `startDaemonLocked` 注入 `OnNotifyError: r.onNotifyError`。
@@ -104,7 +105,7 @@ daemon 只有一个 goroutine 读写自己的 `pendingAlerts`；store 的 config
 
 | AC ID | Design Component |
 |---|---|
-| AC-1 | `sample(commit=false)`、`Notifier.Notify` 成功分支、`SaveState(next)` |
+| AC-1 | `NotificationOptions.ID` 消除 Wails 入参校验失败；`sample(commit=false)`、`Notifier.Notify` 成功分支、`SaveState(next)` |
 | AC-2 | `notify_failed`、`OnNotifyError`、不保存 next、pending 重试 |
 | AC-3 | `Outcome.Newly`、pending 合并、单条多窗口通知 |
 | AC-4 | DemoFetcher + 固定 5s 采样 + 每档成功通知后记账 |
@@ -121,3 +122,5 @@ daemon 只有一个 goroutine 读写自己的 `pendingAlerts`；store 的 config
 - **R-7 [NIT] Wails 返回成功不等于 Windows 实际展示横幅**：保持范围外；本设计只把 API 返回结果定义为应用内“发送成功”边界，README 记录该限制。
 
 已验证假设：`RunDaemon` 和 GUI hooks 在同一 daemon goroutine 内串行调用；`Store` 已有 mutex；`SampleOnce` 当前在返回前保存状态；`toastNotifier.Notify` 会透传 Wails `SendNotification` 的错误。未验证假设：Windows 是否因系统设置抑制过本轮横幅，留待修复后通过可见错误或成功 Toast 现场区分。
+
+已由现场复测验证：13:42:07 诊断日志捕获 `notification ID cannot be empty`；同一 AUMID 的独立 Toast 调用返回成功，并且 Windows 事件日志记录 `delivered to glmquotawatch-gui`。

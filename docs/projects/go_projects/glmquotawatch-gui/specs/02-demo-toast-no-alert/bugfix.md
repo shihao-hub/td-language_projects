@@ -2,7 +2,7 @@
 
 ## Summary
 
-Demo 模式跨过阈值后，主窗口和 `state.json` 已把档位记录为“已告警”，但用户未观察到 Windows Toast；当前证据不能区分 `Notify` 返回错误还是 OS 抑制展示，应用也没有暴露任何通知结果状态。
+Demo 模式跨过阈值后，主窗口和 `state.json` 已把档位记录为“已告警”，但 Windows Toast 未出现；开启临时诊断日志后确认 `Notifier.Notify` 返回 `notification ID cannot be empty`。
 
 ## Reproduction
 
@@ -15,14 +15,22 @@ Demo 模式跨过阈值后，主窗口和 `state.json` 已把档位记录为“�
 
 阈值状态机本身正确：`api.DemoFetcher` 会生成单调增长百分比，`quota.Evaluate` 会返回 `Notify=true`，当前 demo 的 `state.json` 也证明 50/60/80/90 均已被评估。
 
-本次排查不能确认 Toast API 已返回失败；能确认的是应用层没有可靠的交付确认与失败反馈。问题在告警交付链路：
+2026-09-25 13:42:07 的 overlay 诊断日志捕获到直接异常：
+
+```text
+level=WARN msg=通知发送失败 err="notification ID cannot be empty"
+```
+
+该错误来自 Wails v3 beta.25 的 `validateNotificationOptions`：`NotificationOptions.ID` 是必填字段。当前 `toastNotifier.Notify` 只填充 `Title` 和 `Body`，没有填充 `ID`，所以请求在校验阶段就被拒绝，根本未进入 Windows 投递链路。同日独立 Toast 投递测试使用同一 `glmquotawatch-gui` AUMID 返回成功，Windows 事件日志记录 `delivered to glmquotawatch-gui`，证明系统和通知身份本身可用。
+
+告警交付链路还有第二个缺陷：
 
 - `Service.SampleOnce` 在 daemon 发送通知前就调用 `SaveState(next)`，把本轮命中的档位提前标记为“已通知”。
 - `RunDaemon` 随后调用 `Notifier.Notify`；发送失败时只调用 `log.Warn`。
 - `MonitorRuntime.logger()` 明确把日志写入 `io.Discard`，`toastNotifier` 和 GUI 都没有错误回调，所以 Toast 创建、注册或系统投递失败被完全吞掉。
 - 结果是应用层面永远显示“已告警”，即使用户从未收到 Toast；后续采样也会因为已记账而不再重试。
 
-Windows 自身的“专注助手/请勿打扰”可能导致应用收到成功返回但仍不展示横幅；这类 OS 侧抑制不可由当前 API 直接判定，不属于本次应用内修复范围。
+Windows 自身的“专注助手/请勿打扰”仍可能导致应用收到成功返回但不展示横幅；这类 OS 侧抑制不可由当前 API 直接判定，不属于本次应用内修复范围。本次已确认的直接异常是缺少 `NotificationOptions.ID`。
 
 ## Impact
 
