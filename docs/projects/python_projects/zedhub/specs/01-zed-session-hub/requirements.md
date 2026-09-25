@@ -202,6 +202,14 @@ WebSocket 初版默认只允许本机回环地址访问，不承担公网服务�
 WebSocket 使用 JSON 文本消息承载请求和响应；具体字段和握手细节在设计文档中锁定。未
 声明支持的操作必须返回明确的“不支持”错误，不得静默忽略请求。
 
+本渠道的角色边界参考 `docs/repo/antigravity-acp-architecture-research.md`：文中
+Antigravity ACP Server 与 Go 引擎之间的回环 WebSocket 属于 agent 进程内部的引擎桥接
+协议（双向请求、protobuf、每会话进程、断线重放），与 `zedhub` 规划的对外查询通道
+不是同一角色。当前 WebSocket 是 `zedhub` 对外的只读查询通道，不是 Agent 引擎桥接
+协议；未来 Pi agent、Claude Code、Codex、Antigravity 等数据源接入所需的 ACP、
+WebSocket、protobuf 或子进程等内部通信机制，由各数据源适配器自行封装，不进入公共
+会话模型和公共 WebSocket 契约。
+
 ## Acceptance Criteria
 
 ### AC-1 统一只读查询
