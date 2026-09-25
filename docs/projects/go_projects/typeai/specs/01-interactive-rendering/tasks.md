@@ -1,0 +1,38 @@
+# Task List
+
+- [ ] 1. 搭建 Bubble Tea TUI 骨架并替换原始 REPL
+  - Files: `go_projects/typeai/go.mod`, `go_projects/typeai/go.sum`, `go_projects/typeai/internal/tui/run.go`, `go_projects/typeai/internal/tui/model.go`, `go_projects/typeai/internal/tui/view.go`, `go_projects/typeai/internal/cli/chat.go`
+  - 实现细节：按设计引入 Charmbracelet 四个依赖；实现 alt-screen、textarea、viewport、状态栏、Enter 提交、Ctrl+J 换行、Ctrl+C 退出和 `/exit` `/quit`；先以“running 占位”不接 LLM，保证 shell 可构建。
+  - Verify: 在 `go_projects/typeai` 执行 `go build ./...`；预期编译通过，无参数非 TTY 启动能返回清晰错误。
+  - Ref: AC-1
+- [ ] 2. 接入流式 bridge 与 thinking 折叠
+  - Files: `go_projects/typeai/internal/tui/stream.go`, `go_projects/typeai/internal/tui/model.go`, `go_projects/typeai/internal/tui/view.go`, `go_projects/typeai/internal/tui/run.go`
+  - 实现细节：单 goroutine 调用现有 `service.Chat.Send`，通过 `program.Send` 投递 reasoning/answer/result；实现每轮默认折叠、Ctrl+T 展开、64 KiB 最近窗口、running/saved/error 状态和取消等待。
+  - Verify: 配置真实或本地 fake OpenAI SSE 后启动 TUI；思考阶段默认只见统计行，Ctrl+T 可切换，成功后 session JSON 无思考文本。
+  - Ref: AC-2, AC-3, AC-6
+- [ ] 3. 实现流式 Markdown 渲染与缓存
+  - Files: `go_projects/typeai/internal/tui/markdown.go`, `go_projects/typeai/internal/tui/render_job.go`, `go_projects/typeai/internal/tui/model.go`, `go_projects/typeai/internal/tui/view.go`
+  - 实现细节：Glamour 只处理 assistant 文本；实现内容/宽度/style 缓存 key、generation、80ms 节流、单飞行渲染和失败原文本降级；用户消息保持纯文本。
+  - Verify: 通过 fake SSE 返回标题、列表、代码块、行内样式和链接的增量；预期流式期间界面逐步呈现富文本，渲染异常时显示原始文本且进程不退出。
+  - Ref: AC-4, AC-5
+- [ ] 4. 完成 resize、滚动与整体状态优化
+  - Files: `go_projects/typeai/internal/tui/model.go`, `go_projects/typeai/internal/tui/view.go`, `go_projects/typeai/internal/tui/markdown.go`
+  - 实现细节：处理 WindowSizeMsg 和内容尺寸；实现 PageUp/PageDown/Up/Down、跟随底部、向上滚动暂停跟随；模型/session/请求状态压缩到一行，`NO_COLOR` 禁用彩色样式。
+  - Verify: 手工改变 Windows Terminal 宽高；预期无横向滚动、缓存按新宽度重建、状态栏不遮挡输入区。
+  - Ref: AC-1, AC-7
+- [ ] 5. 同步 CLI 契约与项目 README
+  - Files: `go_projects/typeai/internal/cli/schema.go`, `go_projects/typeai/internal/cli/help.go`, `go_projects/typeai/README.md`
+  - 实现细节：更新无参数入口的 TTY 行为、快捷键、Markdown 支持范围、非 TTY 错误、渲染降级和第二期 backlog；保持管理命令和 MCP 例外理由不变。
+  - Verify: 执行 `.\build\typeai.exe schema` 与 `.\build\typeai.exe help`；预期 JSON 可解析，描述与实现一致，且两个命令不创建数据目录。
+  - Ref: AC-8
+- [ ] 6. 端到端验收和发布构建
+  - Files: `go_projects/typeai/README.md`, `go_projects/typeai/build.ps1`
+  - 实现细节：用 fake SSE 覆盖成功、Markdown、thinking、失败轮不落盘、resize 和退出清理；再执行完整构建并检查单进程无残留。README 只追加实测验证记录，不改无关章节。
+  - Verify: 在 `go_projects/typeai` 执行 `gofmt -w .`、`go vet ./...`、`go test ./...`、`go test -race ./...`、`.\build.ps1 -Version dev`；预期全部成功，TUI 退出后终端恢复且无后台进程。
+  - Ref: AC-1, AC-2, AC-3, AC-4, AC-6, AC-7, AC-8
+- [ ] 7. 补充 renderer 与 stream state 单元测试
+  - Files: `go_projects/typeai/internal/tui/markdown_test.go`, `go_projects/typeai/internal/tui/model_test.go`
+  - 实现细节：覆盖基础 Markdown 渲染/降级、缓存 key、用户纯文本、thinking 默认折叠、Ctrl+T、resize 缓存失效、并发单飞行节流和错误不落盘 UI 状态。
+  - Verify: 执行 `go test ./internal/tui ./internal/service ./internal/session`；预期全部通过。
+  - Ref: AC-2, AC-3, AC-4, AC-5, AC-7
+  - [test]
