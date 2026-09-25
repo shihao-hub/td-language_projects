@@ -19,7 +19,7 @@
 
 - `CREATED` Go 依赖
   - **Purpose**: 使用已维护的终端 UI 和 Markdown 生态，避免手写 ANSI 局部刷新。
-  - **Changes**: 引入 `github.com/charmbracelet/bubbletea v1.3.10`、`github.com/charmbracelet/bubbles v1.0.0`、`github.com/charmbracelet/lipgloss v1.1.0`、`github.com/charmbracelet/glamour v1.0.0`；`go mod tidy` 后锁定间接依赖。
+  - **Changes**: 引入 `github.com/charmbracelet/bubbletea v1.3.10`、`github.com/charmbracelet/bubbles v1.0.0`、`github.com/charmbracelet/glamour v1.0.0` 与其要求的 `github.com/charmbracelet/lipgloss v1.1.1-0.20250404203927-76690c660834`；`go mod tidy` 后锁定间接依赖。
   - **Complexity**: Low
 
 ### TUI shell
