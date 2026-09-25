@@ -18,7 +18,7 @@
 **方案**：把生成首选 `build/glmquotawatch.ico` 复制为构建入口使用的 `build/windows/icon.ico`；删除冗余的项目根 `icon.ico`，让 Go 入口直接嵌入 `build/windows/icon.ico`，使托盘、exe、任务栏和开始菜单共用同一份自定义用量图标；同步修正源码注释和 README。无需修改 `internal/guiapp` 的运行时逻辑。
 
 **任务分解**：
-- [ ] Task 1: 托盘图标切换到自定义用量图标并收敛图标来源 待办
+- [x] Task 1: 托盘图标切换到自定义用量图标并收敛图标来源 完成
   - 文件：`go_projects/glmquotawatch-gui/main.go`、`go_projects/glmquotawatch-gui/internal/guiapp/app.go`、`go_projects/glmquotawatch-gui/README.md`、删除 `go_projects/glmquotawatch-gui/icon.ico`
   - 实现：将 `build/glmquotawatch.ico` 覆盖到 `build/windows/icon.ico`；将 `//go:embed icon.ico` 改为 `//go:embed build/windows/icon.ico`；更新变量注释与 `RunOptions.Icon` 注释为 `build/windows/icon.ico`；修正 README 图标来源说明；删除不再使用的根 `icon.ico`。
   - 验证：在 `go_projects/glmquotawatch-gui` 执行 `wails3 task windows:build`，预期构建成功且生成 `bin\glmquotawatch-gui.exe`。
