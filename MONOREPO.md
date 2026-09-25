@@ -31,8 +31,6 @@
 | sql-pg-sqlalchemy | SQL → PostgreSQL → SQLAlchemy 三阶段学习仓，含索引 EXPLAIN 实验与速查表 |  |  |  |  |
 | tech_learning_room | 计划采用 apps 结构，一个 app 地去学习 cv 涉及到的技术 | pass |  |  |  |
 | todonotify | 扫描 Markdown 待办文件汇总未完成任务，推送飞书机器人私聊提醒 |  |  |  |  |
-| zed-opencode-sessions | MCP server + CLI，查询、导出、跨机迁移 Zed 与 OpenCode 的 AI 会话数据 |  |  |  |  |
-| zedhub | zed 表数据 read 和 write，CLI 与 GUI 分离架构 | 待测试 | 核心链路阅读完毕，未阅读具体实现，其实不需要阅读，去了解 zed sqlite 表结构字段即可，具体实现不是关键 | 超高价值 |  |
 
 ## go_projects
 
@@ -40,9 +38,7 @@
 |-|-|-|-|-|-|
 | clictl | Windows 单文件 CLI 工具注册器/启动器：注册任意 exe，前台透传或后台分离启动并记账 |  |  |  |  |
 
-| instancelock | 基于锁文件的进程单实例锁库，支持 try/hold 模式、超时与父进程存活检测 |  |  |  |  |
 | liteconf | 轻量配置中心：单实例 Go server + client SDK，长轮询热更新（.env 替代品；例外收录的非 CLI 项目，规划 GUI 客户端） |  |  |  |  |
-| ocstat | 统计 opencode 各会话启动所用模型与思考档位的 CLI |  |  |  |  |
 | pythonlauncher | go 编写的 python 本地项目启动器，本质就是找到 python project path 和 uv，用 uv 的命令配合 pro（原 python-launcher-go） | 稳定 | 已阅读，但意义不大，毕竟也不用 go 干活，哪怕干活用的 python 也不咋看代码了，需要思考一下 |  |  |
 | quickask | 命令行快速问 AI：预设指令 + 流式输出 + REPL，C/S 架构后端 quickaskd（aiquick 的 CLI 版） |  |  |  |  |
 | sublimefolders | 托盘常驻，定时将 Sublime 打开的目录记入 SQLite |  |  |  |  |
@@ -79,8 +75,10 @@
 | file-sync-native | 带忽略规则的本地目录同步工具，Wails v2 GUI（CLI 版 filesync 已替代） | 归档 |  |  |  |
 | filesync | 带忽略规则的本地目录同步 CLI，三级判定加速，与 GUI 版共享任务配置（file-sync-native 的 CLI 版） |  |  |  |  |
 | glmquotawatch | 定时采样智谱 GLM 编码套餐用量，跨越阈值时弹 Windows Toast 通知的 CLI | 归档 |  |  |  |
+| instancelock | 基于锁文件的进程单实例锁库，支持 try/hold 模式、超时与父进程存活检测 | 归档 |  |  |  |
 | mcp-cleanup | 查找并击杀 AI 工具异常退出后泄漏的 MCP server 进程树 |  |  |  |  |
 | mini-http-server-go | 用 Go 复刻 Rust 版迷你 HTTP 服务器，学习练手 |  |  |  |  |
+| ocstat | 统计 opencode 各会话启动所用模型与思考档位的 CLI | 归档 |  |  |  |
 | projstat | 总仓项目状态标注 CLI，合并 PROJECT.toml 手工标注与 git 元数据 |  |  |  |  |
 | taskmon | 空壳项目，刚初始化（taskmon 的 Go 版起点，原 taskmon-go） |  |  |  |  |
 | zread-tray | 系统托盘常驻，为工作区一键启动/重启 zread 服务并拉起浏览器（CLI 版 zreadmanager 已替代） | 归档 |  |  |  |
@@ -98,6 +96,8 @@
 | pystand-lab | PyStand 打包 Python 桌面应用的踩坑实验 |  |  |  |  |
 | script-lab | 学习类项目，结构正在思考 | pass |  |  |  |
 | sublime-rider-dark | Sublime Text 4 的 Rider Dark 主题配色包 |  |  |  |  |
+| zed-opencode-sessions | MCP server + CLI，查询、导出、跨机迁移 Zed 与 OpenCode 的 AI 会话数据 | 归档 |  |  |  |
+| zedhub | zed 表数据 read 和 write，CLI 与 GUI 分离架构 | 归档 | 核心链路阅读完毕，未阅读具体实现，其实不需要阅读，去了解 zed sqlite 表结构字段即可，具体实现不是关键 | 超高价值 |  |
 
 ### .archived/projects/rust_projects
 
