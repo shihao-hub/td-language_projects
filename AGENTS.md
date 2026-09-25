@@ -12,12 +12,13 @@
   - type 限：`feat`（新功能）、`fix`（Bug 修复）、`docs`（文档）、`style`（格式）、`refactor`（重构）、`perf`（性能）、`test`（测试）、`chore`（构建/工具）、`ci`（CI/CD）、`revert`（回滚）；
   - Subject：中文描述，≤ 50 字符，不以句号结尾；祈使语气（添加、修复、优化、重构、移除、更新）；
   - Body：中文，每行 ≤ 72 字符，说明是什么和为什么，`-` 列表格式。
+- `**/plans/**`、`**/specs/**` 下文件的任何新增、修改、删除或重命名，都必须单独 commit（注意，对于某一个文件，你需要评估接下来的任务是否要对其进行多次改动，如果是可以将其合并，像改动几个字符等操作不如合并起来，commit message 用无序列表展示）；该 commit 不得混入代码、配置、其他无关文件或其他独立的 plan/spec 变更。Agent 可直接完成此类 commit，无需再次征得用户同意；只有遇到 Git 身份、权限、钩子、冲突或其他安全边界导致无法提交时，才向用户询问。当前工作区中已存在的未提交 plan/spec 文件，本轮按用户明确授权作为一次性历史基线合并为一个独立 commit；此后恢复前述独立提交规则。
 - Git 提交范围隔离：一次提交的文件只能属于同一范围——父仓库自身、某个子仓库根目录、或某个子仓库内的单个子项目；禁止跨范围混提（如多个子项目的改动混在一次提交，或子项目文件与子仓根目录文件混提）。
 - 代码修改完成后，向用户展示改动摘要，并给出可直接在 PowerShell 下执行的 git commit 命令（需要有 cd 命令）。
 - 禁止 `SELECT *`：任何 ORM 查询与手写 SQL 一律显式列出所需字段。
 - CLI 工具开发统一遵循《[CLI 工具开发标准](<docs/projects/go_projects/CLI 工具开发标准.md>)》（跨语言适用）：新工具默认配套 MCP，CLI 默认人读并提供 `--json`，独立工具提供 `schema` 导出；适用例外与存量兼容迁移按标准执行。
   - **必须先完整阅读该标准再动手的场景**：① 新建任何 CLI/工具类项目（不限语言）；② 给已有项目新增 CLI / MCP 入口或 `schema` 导出；③ 需要豁免标准要求（如服务 + 库形态不配 CLI）时；④ 重构/评审已有项目的 CLI 入口契约时。
-- 数据文件存放强约束：所有项目运行时产生的自有数据文件（JSON 数据库、SQLite db、索引/哈希缓存、锁文件、日志、会话存储、settings 等）只允许放在 `%APPDATA%\language_projects\<项目名>\`；取不到 `APPDATA` 时回退 `~/.language_projects/<项目名>/`；代码必须在写入前自动创建完整目录链（含 `language_projects` 一层）。例外：只读外部数据源（opencode.db、Zed db 等）不受限；django-lab 的 `db.sqlite3` 保留项目根目录；zed-opencode-sessions 仓库内归档 db 为有意提交，保持现状。
+- 数据文件存放强约束：所有项目运行时产生的自有数据文件（JSON 数据库、SQLite db、索引/哈希缓存、锁文件、日志、会话存储、settings 等）只允许放在 `%APPDATA%\language_projects\<项目名>\`；取不到 `APPDATA` 时回退 `~/.language_projects/<项目名>/`；代码必须在写入前自动创建完整目录链（含 `language_projects` 一层）。**写路径禁止“跟随”外部文件所在目录推导**：不得因读取某外部程序/项目的文件（如凭据、数据库）就把自产文件（缓存/锁/临时文件等）落到其所在目录，历史违规案例：agyquota 曾把 token 缓存写进 Zed 凭据目录 `~/.gemini/antigravity-acp/`。例外：只读外部数据源（opencode.db、Zed db 等）仅指读取不受限，向其目录写入仍属违规；django-lab 的 `db.sqlite3` 保留项目根目录；zed-opencode-sessions 仓库内归档 db 为有意提交，保持现状。
 - lark-cli 创建的飞书文档默认放在用户的飞书「我的文档库」（创建时加 `--parent-position my_library`），不要落在云盘根目录；用户明确指定位置时以用户为准。
 - 测试资源用后即清：chrome-devtools 等工具打开的浏览器测试页、临时起的服务、后台进程，验证完成立即关闭或终止，不得遗留；chrome-devtools 浏览器任务收尾时，其专属 Chrome 的最后一个 about:blank 标签页 MCP 关不掉（属启动初始页，非残留错误），收尾标准为不残留任何窗口与后台进程，需按 user-data-dir 过滤整组终止：`Get-CimInstance Win32_Process -Filter "Name='chrome.exe'" | Where-Object { $_.CommandLine -like '*chrome-devtools-mcp\chrome-profile*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }`；确需保留时必须向用户说明并获得同意。
 
