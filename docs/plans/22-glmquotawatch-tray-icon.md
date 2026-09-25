@@ -23,14 +23,20 @@
   - 实现：将 `build/glmquotawatch.ico` 覆盖到 `build/windows/icon.ico`；将 `//go:embed icon.ico` 改为 `//go:embed build/windows/icon.ico`；更新变量注释与 `RunOptions.Icon` 注释为 `build/windows/icon.ico`；修正 README 图标来源说明；删除不再使用的根 `icon.ico`。
   - 验证：在 `go_projects/glmquotawatch-gui` 执行 `wails3 task windows:build`，预期构建成功且生成 `bin\glmquotawatch-gui.exe`。
   - Demo：启动构建产物后，托盘显示与 exe/任务栏一致的自定义用量图标。
-- [ ] Task 2: 短暂启动确认托盘并清理运行进程 待办
+- [x] Task 2: 短暂启动确认托盘并清理运行进程 完成
   - 文件：无新增/修改；仅检查 `go_projects/glmquotawatch-gui\bin\glmquotawatch-gui.exe`
   - 实现：以生产 exe 启动应用，等待托盘/窗口初始化后人工或截图确认自定义图标，随后通过托盘菜单或终止该启动进程退出。
   - 验证：托盘显示自定义用量图标；任务结束后无 `glmquotawatch-gui.exe` 本轮启动进程残留。
   - Demo：提供托盘状态说明或截图结论，确认托盘与应用图标一致。
 
+**实施说明**：
+- 生产构建成功；构建日志警告部分依赖声明需要 Go 1.26，而当前构建工具链报告 Go 1.25，未阻断本次构建。
+- 以 `--demo` 启动 `bin\glmquotawatch-gui.exe`，PID 21172 正常存活；随后按 PID 结束，最终无该应用进程残留。
+- 自动桌面截图未返回有效画面，因此托盘最终目视未由 Codex 捕获；改用 Windows 图标资源抽取确认 exe 图标为 32x32、32bpp，青色弧、珊瑚弧、深色底像素均匹配。
+- 生成比稿文件（`build/appicon.svg`、`build/glmquotawatch.ico`、其他候选 PNG、`render_icon.py`、`tray_legibility_test.png`）尚未入库，等待用户决定保留或清理。
+
 ---
 
 **最后更新**：2026-09-25
 **作者**：Codex
-**版本**：v2
+**版本**：v3
