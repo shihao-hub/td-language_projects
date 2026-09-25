@@ -150,6 +150,12 @@ isError=true 但结果完整**。无活实例幂等成功。
 
 ## 4. CLI ↔ MCP 对照
 
+`clictl` 的 MCP 入口复用 CLI 的核心业务能力，并保持同一业务用例的校验、状态变更和副作用语义。当前已覆盖 `list`、`info`、`add`、`set`、`rm`、`start`、`stop`、`cp`、`run` 和 `version`。
+
+其中，`run` 在 MCP 侧采用非交互、收集输出的执行语义，不提供 CLI 的 stdin/PTY 透传能力。需要交互式 stdin、PTY 或 TUI 的场景仍应使用 CLI `run`。
+
+`completion`、`help` 和 `schema` 属于 CLI 专属或离线契约能力，不暴露为 MCP 工具。`clictl mcp` 是启动 MCP stdio server 的协议入口，不是一个 MCP 工具。
+
 | CLI 命令 | MCP 工具 | 差异 |
 |---|---|---|
 | list / info / add / set / rm / cp / start / stop / version | 同名工具 | meta 在 MCP 侧展开为对象；`--pretty` 等输出开关不适用 |
