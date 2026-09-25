@@ -1,0 +1,66 @@
+# Task List
+
+> 执行目录：`D:\Users\language_projects\go_projects\agyquota`（Verify 命令均在此目录运行）；执行阶段默认跳过 `[test]` 任务与 Verify 命令，Verify 仅作备用信息。
+
+- [x] 1. 建立 `internal/api` 契约包（只新增，不动调用方）
+  - Files: go_projects/agyquota/internal/api/api.go
+  - 实现细节：按 design §1.1 定义——错误码常量（既有 6：source_required/agy_not_found/agy_execute_failed/zed_execute_failed/response_parse_failed/bad_args；新增 3：daemon_unreachable/daemon_start_failed/build_mismatch；internal 兜底）、`Error{Code,Message,Suggestions}`（Error()=Message）、DTO `Snapshot/Bucket/ModelQuota/Window`（json tag 与现 `internal/service` 逐字段一致）、`QuotaRequest/PingResponse/RawResponse/StopResponse`、端点常量（`/v1/ping`、`/v1/quota/get`、`/v1/quota/raw`、`/v1/stop`）与头常量 `X-Agyquota-Build`、`Envelope`（`json:"data,omitempty"`/`json:"error,omitempty"`）与 `WriteEnvelope/ReadEnvelope`
+  - Verify: `go build ./...`；预期无输出（成功）
+  - Ref: AC-1、AC-6
+- [x] 2. 建立 `internal/appdata` 并迁移 agapi 数据目录解析
+  - Files: go_projects/agyquota/internal/appdata/appdata.go、go_projects/agyquota/internal/agapi/zed.go、go_projects/agyquota/internal/agapi/pe_windows.go
+  - 实现细节：`ProjectName="agyquota"`、`Dir()`（%APPDATA%→HOME 回退，路径拼接与现 `resolveDataDir` 完全一致）、`AddressFile()`、`LogFile()`；删除 agapi 内两份 `resolveDataDir`，改调 `appdata.Dir()`；缓存文件名 `.quota_token_cache.json` 与静默副本路径 `bin\agy_silent.exe` 不变
+  - Verify: `go build ./...` 与 `go vet ./...`；预期均无输出（成功）
+  - Ref: AC-9
+- [x] 3. 建立 `internal/buildinfo` 指纹包（先不切换注入点）
+  - Files: go_projects/agyquota/internal/buildinfo/buildinfo.go
+  - 实现细节：`var Version/BuildID string`；`init()` 在未注入时读 `runtime/debug.ReadBuildInfo()` 的 `vcs.revision`/`vcs.modified` 生成 `短hash[-dirty]`，取不到则 `dev`；`IsProduction()` 仅当 BuildID 末尾段为 ≥9 位纯十进制数时剥离，再匹配 `^(?:agyquota/)?v\d+\.\d+\.\d+$`
+  - Verify: `go build ./...`；预期无输出（成功）
+  - Ref: AC-3、AC-11
+- [x] 4. service 契约化与并发改造（进程内行为不变）
+  - Files: go_projects/agyquota/internal/service/service.go、internal/service/quota.go、internal/cli/quota.go、internal/cli/output.go、internal/mcp/server.go、internal/mcp/tools.go
+  - 实现细节：DTO/Error 改用 `internal/api` 类型；`GetQuota(ctx, opt Options, progress func(string))`、`FetchRaw(ctx, opt Options, progress func(string))`（删除 `Service.Progress` 字段）；`singleflight.Group` 只包 fetch（key=`source+"|"+tokenFile`，解析在调用方，仅 leader 出进度）；新增 `type Fetcher func(ctx context.Context, opt Options) (*agapi.UsageResult, string, error)` 与 `Service.Fetcher`（nil→默认 `fetchBySource`）；cli 传 stderr 进度回调（保持 `[agyquota] ` 前缀与 `--raw` 进度）、输出改 api 类型并统一走 `WriteEnvelope`（信封字节形态与 0.2.3 一致）；mcp 传 nil 进度、输出 `api.Snapshot`
+  - Verify: `go build ./...` 与 `go vet ./...`；预期均无输出（成功）
+  - Ref: AC-6、AC-10
+- [x] 5. 实现 `internal/daemon`（Serve/HTTP/SSE/握手/空闲/serve 命令）
+  - Files: go_projects/agyquota/internal/daemon/daemon.go、internal/daemon/http.go、internal/daemon/cmd.go
+  - 实现细节：按 design §2——`Config{Bind,Port,IdleTimeout,DataDir}`（DataDir 空取 appdata.Dir()）与 `Serve`；监听成功后地址文件临时文件+rename 原子写（`{schema:1,addr,version,buildID,pid,startedAt}`）、退出删除；`http.Server{ReadHeaderTimeout:5s, BaseContext:rootCtx}`；空闲监控周期 `clamp(IdleTimeout/2,50ms,30s)`、条件 `inflight==0 && since(last)>IdleTimeout`；退出序（shuttingDown→503→cancel→Shutdown(5s)→删地址文件）；路由与状态矩阵、SSE 单行 data+空行、`/v1/quota/*` 头校验（缺失/不等→200 包络 build_mismatch，消息含双方指纹与 stop 建议）、ping/stop 豁免；`POST /v1/stop` 先 Flush 再异步 shutdown；`NewServeCmd`（--bind 默认 127.0.0.1、--port 默认 17625、--idle-timeout 默认 0）
+  - Verify: `go build ./...`；预期无输出（成功）
+  - Ref: AC-1、AC-2、AC-5、AC-8、AC-13
+- [x] 6. 实现 `internal/client`（发现/拉起/握手/SSE/重试/平台 spawn）
+  - Files: go_projects/agyquota/internal/client/client.go、internal/client/spawn_windows.go、internal/client/spawn_other.go
+  - 实现细节：按 design §3——`Config{Host}`、`Resolve()`（--host→AGYQUOTA_HOST→地址文件→默认 127.0.0.1:17625；缺省端口补 17625；env 非法→daemon_unreachable）；`EnsureDaemon`（Ping 500ms→buildID 比对（不等→build_mismatch 原样返回）→显式/开发/生产分支→spawn `serve --idle-timeout 30m` 且异步 `go cmd.Wait()`→候选每轮重读地址文件+默认端口轮询 100ms×10s）；请求失败为 `daemon_unreachable`（传输失败或 503）且生产+非显式时一次重试；`Ping/GetQuota/GetRaw/Stop`；头 `X-Agyquota-Build` 仅 quota 带、`Accept: text/event-stream`；SSE 按 event/data 逐帧（8MiB buffer）；平台 spawn（Windows DETACHED_PROCESS|CREATE_NEW_PROCESS_GROUP+HideWindow，Unix Setsid；拉起前日志 >1MiB 轮转 `.1`）
+  - Verify: `go build ./...` 与 `go vet ./...`；预期均无输出（成功）
+  - Ref: AC-2、AC-3、AC-4、AC-5、AC-13
+- [x] 7. CLI 切换与 main 组装（serve/stop/--host）
+  - Files: go_projects/agyquota/internal/cli/root.go、internal/cli/quota.go、cmd/agyquota/main.go
+  - 实现细节：cli 去除 service/daemon 依赖；导出 `NewRootCmd()` 与 `Execute(root,args) int`（原 Run 的退出码映射迁入，保持 0/1/2）；持久 `--host` + `PersistentPreRunE` 格式校验（非法返回普通 error→bad_args/2）；新增 `stop` 命令（`client.Stop`，未运行→人读「daemon 未运行」、`--json` 为 `{"ok":true,"data":{"stopped":false}}`）；quotaRun 改 `Resolve→EnsureDaemon→GetQuota/GetRaw`；main 组装 `root.AddCommand(daemon.NewServeCmd())` 后 `os.Exit(cli.Execute(...))`
+  - Verify: `go build ./...` 与 `go vet ./...`；预期均无输出（成功）
+  - Ref: AC-1、AC-4、AC-8
+- [x] 8. MCP 桥切换为 HTTP client 并锁定依赖断言
+  - Files: go_projects/agyquota/internal/mcp/server.go、internal/mcp/tools.go、internal/mcp/schema.go、internal/cli/root.go
+  - 实现细节：`mcp.Run(ctx, client.Config)`、`NewServer(cfg client.Config)`；`mustClient(cfg)`；`cli.mcpCmd` 读取 `--host` 构造 `client.Config` 下传（不允许静默忽略）；工具定义/`quotaGetIn` 描述/工具名/Annotations 不变，输出 `api.Snapshot`；`schema.go` 改调 `NewServer(client.Config{})`（离线不触达 daemon）；确认 mcp 无 `internal/service` 依赖
+  - Verify: `go build ./...`；`go list -deps ./internal/cli ./internal/mcp | Select-String "agyquota/internal/service"`；预期前者成功、后者无输出
+  - Ref: AC-1、AC-7、AC-8
+- [x] 9. 构建脚本、版本注入与文档同步
+  - Files: go_projects/agyquota/scripts/build.ps1、internal/cli/root.go、internal/mcp/server.go、go.mod、go.sum、README.md、docs/projects/go_projects/agyquota/设计说明.md
+  - 实现细节：build.ps1 改 `git describe --tags --always --dirty`、`$buildID="$describe.$(Unix秒)"`、注入 `-X agyquota/internal/buildinfo.Version/BuildID`、删除 `-Version` 参数、新增 `-Release` 守卫（非 `^(?:agyquota/)?v\d+\.\d+\.\d+$` 或含 `-dirty` 拒绝）；cli/mcp 版本源切 `buildinfo.Version`（删 `cli.Version` 与 mcp 版本赋值链）；`golang.org/x/sync` 转直接依赖并 `go mod tidy`；README 与镜像文档更新（serve/stop/--host/AGYQUOTA_HOST/端口/地址文件/空闲退出/数据目录/开发双终端/发布流 `agyquota/vX.Y.Z`）
+  - Verify: `.\scripts\build.ps1`；预期生成 `agyquota.exe` 且 `.\agyquota.exe --version` 输出非空 describe；`go vet ./...` 无输出
+  - Ref: AC-11、FR-8
+- [ ] 10. [test] 单元测试（api/buildinfo/client/轮转）
+  - Files: go_projects/agyquota/internal/api/api_test.go、internal/buildinfo/buildinfo_test.go、internal/client/client_test.go
+  - 实现细节：包络 omitempty 字节形态；`IsProduction` 表驱动（生产：v1.2.3/v1.2.3.1700000000/agyquota/v1.2.3/agyquota/v1.2.3.1700000000；开发：v1.2.3-4-g9f3a1e2/9f3a1e2-dirty/dev）；`--host` 归一化；SSE 大帧（>64KiB）解析；spawn 前日志轮转
+  - Verify: `go test ./...`；预期全部 PASS
+  - Ref: AC-12
+  - [test]
+- [ ] 11. [test] 集成测试（daemon/client/mcp/空闲/单飞）
+  - Files: go_projects/agyquota/internal/daemon/daemon_test.go、internal/client/client_test.go
+  - 实现细节：按 design §10——`serve --port 0`+临时 `DataDir`+`Service.Fetcher` 注入；覆盖 ping/握手（build_mismatch 与 stop 豁免）、quota 成功/业务错误包络、SSE 进度与 result、stop、空闲退出（`--idle-timeout 100ms`）、单飞（同源并发只调一次 Fetcher）、503/断连竞态一次重试、mcp `--host` 下传连通
+  - Verify: `go test ./...`；预期全部 PASS
+  - Ref: AC-10、AC-13
+  - [test]
+- [ ] 12. 手工验收与发布准备
+  - Files: go_projects/agyquota/README.md（验收结果与发布步骤记录；不改代码）
+  - 实现细节：干净检出 + 临时 tag `agyquota/v0.0.0` + `.\scripts\build.ps1` → 生产自动拉起（`--agy --json`，无窗口/焦点、无多余控制台）→ 删 tag；开发构建报错提示；MCP 真实进程 `tools/list` + 成功/失败调用；`schema` 离线导出与 0.2.3 对照；`--raw`；静默副本缺失回退无可见窗口；`GOOS=linux go build ./...`；`-Release` 守卫；数据目录/凭据只读核对；打 tag 发布步骤文档化（不自动执行打 tag/push）
+  - Verify: 逐项记录实测结果，全部通过后勾选
+  - Ref: AC-2、AC-3、AC-5、AC-7、AC-9、AC-11、AC-12、AC-13
