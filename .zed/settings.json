@@ -10,11 +10,9 @@
     "**/__pycache__",
     "**/node_modules",
     "**/target",
-    // 排除 .thirdparty 各子项目下的深层目录和代码，但保留第一层
-    // ".thirdparty/*/*/**",
-    // 精确排除占用 6 万条目的两个大仓库代码体
-    ".thirdparty/screenshot-to-code/*/**",
-    ".thirdparty/deepseek-harness/*/**"
+    ".aoci/*/*/**",
+    ".mkdocs-site/*/*/**",
+    ".thirdparty/*/*/**",
   ],
   "auto_install_extensions": {
     "lua": true,
