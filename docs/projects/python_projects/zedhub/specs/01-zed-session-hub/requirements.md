@@ -202,6 +202,12 @@ WebSocket 初版默认只允许本机回环地址访问，不承担公网服务�
 WebSocket 使用 JSON 文本消息承载请求和响应；具体字段和握手细节在设计文档中锁定。未
 声明支持的操作必须返回明确的“不支持”错误，不得静默忽略请求。
 
+本项目的 WebSocket 是对外的本地只读查询通道，不是 Agent 运行时桥接协议。它不得负责
+启动或管理 Agent 引擎进程、转发 prompt/tool/policy/permission 调用，或暴露 ACP 内部
+WebSocket、protobuf（例如 CortexStep）等 agent 专属协议。未来数据源若需 ACP、WebSocket、
+protobuf 或子进程桥接来读取自身数据，必须将通信细节封装在对应的数据源适配器内，并映射
+为公共领域结果；不得把这些内部协议并入 zedhub 对外 WebSocket 契约。
+
 本渠道的角色边界参考 `docs/repo/antigravity-acp-architecture-research.md`：文中
 Antigravity ACP Server 与 Go 引擎之间的回环 WebSocket 属于 agent 进程内部的引擎桥接
 协议（双向请求、protobuf、每会话进程、断线重放），与 `zedhub` 规划的对外查询通道
@@ -304,12 +310,20 @@ WebSocket 返回的业务数据必须来自现有公共核心，与相同输入�
 通过 WebSocket 发送补登、归档导入或其他未声明的写操作时，系统必须拒绝请求，不修改 Zed、
 OpenCode 或项目内部数据。
 
+### AC-17 对外查询通道与 Agent 桥接隔离
+
+WebSocket 入口只处理已声明的 zedhub 查询请求。它不启动 Agent 引擎、不处理 ACP 会话或
+工具权限回调、不接收 protobuf 消息；客户端发送这些未支持的内部桥接消息时，服务端返回
+明确错误且不触发 Agent 执行或数据库写入。
+
 ## Out of Scope
 
 - 本次不开发 Web UI、桌面 GUI 或远程 HTTP 服务。
 - 本次不要求 WebSocket 覆盖全部 CLI、MCP 或 JSON-RPC 能力；初版只实现 `threads.list` 和
   `stats` 两个只读操作。
 - 本次不为 WebSocket 实现公网部署、身份认证、跨机器安全接入或复杂连接管理。
+- 本次不实现 Antigravity ACP Server 与 `localharness` 一类 Agent 运行时桥接，不实现其
+  ACP 生命周期、prompt/tool/permission 双向调用、protobuf 协议或引擎进程管理。
 - 本次不修改 OpenCode 或 Zed 的上游数据库 schema。
 - 本次不实现 Pi agent、Claude Code、Codex 或 Antigravity 的数据源接入；本次只定义兼容它们
   的公共边界与扩展要求。
