@@ -73,7 +73,7 @@ uv run .scripts/install_tool.py all
 
 | 脚本 | 功能 | 用法 |
 |---|---|---|
-| `.scripts/install_tool.py` | 把子仓构建产物安装到 `~/.local/bin`（在 PATH 上即装即用） | `uv run .scripts/install_tool.py <instancelock\|clictl\|jtree\|all>` |
+| `.scripts/install_tool.py` | 把子仓构建产物安装到 `~/.local/bin`（在 PATH 上即装即用） | `uv run .scripts/install_tool.py <clictl\|jtree\|all>` |
 | `.scripts/init-submodules.ps1` | 克隆后初始化子模块并切换到跟踪分支 | `./.scripts/init-submodules.ps1` |
 | `.scripts/gen_icon.py` | PNG 源图转多尺寸 Windows .ico | `uv run .scripts/gen_icon.py <input.png> <output.ico>` |
 | `.scripts/lark_group_bridge.py` | 外部群消息桥（发送/读取/群列表/初始化） | `uv run .scripts/lark_group_bridge.py <send\|read\|groups\|init>` |

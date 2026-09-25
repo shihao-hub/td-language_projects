@@ -5,7 +5,7 @@
 """按工具名把子仓构建产物安装到 ~/.local/bin。
 
 用法：
-    uv run .scripts/install_tool.py <instancelock|clictl|jtree|all>
+    uv run .scripts/install_tool.py <clictl|jtree|all>
 """
 import argparse
 import re
@@ -22,7 +22,6 @@ DEST_DIR = "D:\\Users\\language_projects_bin"
 
 # 固定路径类工具：参数名 -> (源文件相对路径, 目标文件名)
 FIXED_TOOLS: dict[str, tuple[str, str]] = {
-    "instancelock": ("go_projects/instancelock/build/instancelock.exe", "instancelock.exe"),
     "clictl": ("go_projects/clictl/clictl.exe", "clictl.exe"),
 }
 
