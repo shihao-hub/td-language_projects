@@ -25,12 +25,12 @@
 
 ## 任务分解
 
-- [ ] Task 1: 主窗几何横向化 待办
+- [x] Task 1: 主窗几何横向化 完成
   - 文件：`internal/guiapp/app.go`
   - 实现：`buildWindow()` 内 Width/Height 改 920/560，补 MinWidth/MinHeight 720/460，BackgroundColour 改 `application.NewRGB(9, 12, 10)`
   - 验证（备用，默认不跑）：`go build ./...` 零错误
   - Demo：`wails3 build` 后启动即为横版窗口，启动瞬间无旧蓝黑闪屏
-- [ ] Task 2: 前端横窗布局适配 待办
+- [x] Task 2: 前端横窗布局适配 完成
   - 文件：`frontend/src/pages/Dashboard.vue`、`frontend/src/pages/History.vue`
   - 实现：Dashboard 容器 max-w-3xl + 卡片 auto-fit 网格；History 容器 max-w-3xl + 图表 h-80
   - 验证（备用，默认不跑）：`cd frontend && npm run build` 零错误
@@ -38,7 +38,12 @@
 
 依赖关系：Task 2 不依赖 Task 1（可独立构建），但目验需两者合力。
 
+## 实施说明（2026-09-25 执行完毕）
+
+- 两个任务完成；用户要求构建，`wails3 build` 由默认跳过改为实际执行
+- Dashboard 卡片网格用任意值 `grid-cols-[repeat(auto-fit,minmax(300px,1fr))]`，单卡占满整行、多卡自动两列
+
 ---
 **最后更新：** 2026-09-25
 **作者：** AI & User
-**版本：** v1.0
+**版本：** v1.1（实施完成）
