@@ -68,7 +68,7 @@
 
 ## 任务分解
 
-- [ ] Task 1: 升级样式基础与设计令牌（Design Tokens & 微质感） 待办
+- [x] Task 1: 升级样式基础与设计令牌（Design Tokens & 微质感） 已完成
   - 文件：`frontend/src/style.css`
   - 实现：引入 `--color-bg`、`--color-edge-strong`、`--color-brand-light` 等高级质感调色板，定义卡片双层阴影、内高光（inset highlight）与呼吸微点样式。
   - 验证：`cd frontend && npm run build` 编译成功。
@@ -92,7 +92,7 @@
   - 验证：`cd frontend && npm run build` 编译成功。
   - Demo：图表呈现出精密数据工具质感，设置项排版整齐优雅。
 
-- [ ] Task 5: 最终整体验收与打包验证 待办
+- [x] Task 5: 最终整体验收与打包验证 已完成
   - 文件：`frontend/src/style.css`、`frontend/src/App.vue`、`frontend/src/pages/Dashboard.vue`、`frontend/src/pages/History.vue`、`frontend/src/pages/Settings.vue`
   - 实现：全面检查各页面在 920x560 横向比例下的视觉表现，检查高 DPI 缩放下的边缘微细节，完成生产构建。
   - 验证：`cd frontend && npm run build` 零告警通过。
