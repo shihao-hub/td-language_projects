@@ -1,4 +1,4 @@
-﻿# Bug Fix Document
+# Bug Fix Document
 
 ## Summary
 
@@ -76,13 +76,13 @@ WHEN 通过人读 CLI、`--json`、`--raw`、daemon API 或 MCP 调用 `agy` 数
 
 ## Tasks
 
-- [ ] 1. 为 `agy` 配额查询增加瞬态错误分类与有界重试
+- [x] 1. 为 `agy` 配额查询增加瞬态错误分类与有界重试
   - Files: `go_projects/agyquota/internal/agapi/client.go`
   - 实现细节：抽取单次执行函数；增加最多 3 次总尝试、250ms/750ms 等待、stderr 白名单分类、重试诊断日志和上下文取消检查；失败后返回最后一次错误；不得改变已有进程回收和成功 JSON 解析流程。
   - Verify: `go build ./...` 与 `go vet ./...`；预期无编译或静态检查错误，已有 `agy` 成功响应结构不变。
   - Ref: AC-1、AC-3、AC-4、AC-6
 
-- [ ] 2. 修正 agy 执行失败建议，保持业务错误契约兼容
+- [x] 2. 修正 agy 执行失败建议，保持业务错误契约兼容
   - Files: `go_projects/agyquota/internal/service/service.go`
   - 实现细节：保持 `agy_execute_failed` 错误码、错误主消息和 Zed 分支不变；建议同时覆盖命令可执行性、网络/代理和稍后重试，避免把已启动成功但上游暂时失败的 `agy` 误报为未安装。
   - Verify: `go build ./...` 与 `go vet ./...`；预期 agy/zed 两条服务路径均可编译，错误包络字段保持原契约。
@@ -93,4 +93,7 @@ WHEN 通过人读 CLI、`--json`、`--raw`、daemon API 或 MCP 调用 `agy` 数
   - 实现细节：构建后运行 `.\agyquota.exe --agy`；确认正常查询仍返回配额，重试诊断只出现在 stderr；若再次遇到报告中的 `retrieveUserQuotaSummary ... EOF`，确认后续尝试能够成功或最终保留最后一次底层错误。
   - Verify: `go build ./...` 后执行 `.\agyquota.exe --agy`；预期成功时 stdout 保持原格式，失败时错误码仍为 `agy_execute_failed` 且建议包含网络/代理重试指引。
   - Ref: AC-1、AC-2、AC-6
+## Implementation Notes
 
+- Task 1、Task 2 已完成：代码增加了 agy 瞬态配额错误的有界重试，并修正了失败建议文案。
+- Task 3 暂保持未勾选：按默认执行规则未主动运行 `go build`、`go vet` 或真实 `agyquota --agy` 验证命令；该验证可在用户明确要求执行测试/验收时补做。
