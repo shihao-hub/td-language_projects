@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-09-26T15:21:23Z",
+  "updated_at": "2026-09-26T16:49:24Z",
   "files": {
     ".gitattributes": {
       "sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476",
@@ -58,6 +58,11 @@
       "size": 23536,
       "normalized_sha256": "d31f1dc8cba7d718f95cf017bd7255e0b011ee2c84b121ba69d3059bc1da02c3"
     },
+    ".scripts/submodule-toggle.ps1": {
+      "sha256": "7d33ffa3640472031e63228a4dbb540c6541a80a7c15431f698d468264018f36",
+      "size": 19168,
+      "normalized_sha256": "7d33ffa3640472031e63228a4dbb540c6541a80a7c15431f698d468264018f36"
+    },
     ".zed/extensions.toml": {
       "sha256": "234ecd34c8a783f813d0cdf3b9a99c2635cf6089484e40f4d6e187d088986e11",
       "size": 1076,
@@ -89,9 +94,9 @@
       "normalized_sha256": "896759d898eb1a8a8abcecebba0b90bf8f8b549d167dee49fd9dcc2a2831a7fc"
     },
     "README.md": {
-      "sha256": "c4d272605aea2ba9163b61054101bd6fbbb20b2198cd8070673f6dc87041dd04",
-      "size": 7059,
-      "normalized_sha256": "1621c0b2d7148e4e437dfe3d2cbf7aabc32d7f0d92c037442b1ad7ab6da03c7d"
+      "sha256": "e599e6163bfdb36be60bde85d082b91015a4d8dc0723e8fe89a047b3a704ce34",
+      "size": 7324,
+      "normalized_sha256": "aa7e14e0882d51f75a6b8336a362bcd136ff6a1ebed543e844b2a5228e565869"
     },
     "SPEC-AGENT.md": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -102,9 +107,9 @@
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "db6090b32514c93511a667a8b3c665be60664d47a52dab4a4aee6cb4f4fb0e06",
-      "size": 71888,
-      "normalized_sha256": "db6090b32514c93511a667a8b3c665be60664d47a52dab4a4aee6cb4f4fb0e06"
+      "sha256": "d167d244579bedecbb9fd284f9ecb7aa65e26427fc71285b1509ea697072cfd6",
+      "size": 75756,
+      "normalized_sha256": "d167d244579bedecbb9fd284f9ecb7aa65e26427fc71285b1509ea697072cfd6"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -173,6 +178,11 @@
       "size": 7201,
       "normalized_sha256": "63ee521f43332e3763d69fcca21932d87cd7eaf28bc75b53aa5bc35d48e8d93b"
     },
+    "docs/guides/GUIDE-子项目拆分子模块.md": {
+      "sha256": "81a3a9270e4d4bd993d1f19fe3ad6b496b0099f73f325752766632db816bf5c4",
+      "size": 10606,
+      "normalized_sha256": "f25d35b561e3fa4ac4103fe361f895ba04c67df44f09e3a72e3e64c50e7397f7"
+    },
     "docs/guides/GUIDE-文档中文命名整改.md": {
       "sha256": "7fd6b47ccbb9974e272b1691bd12801188c94155e6bccb82b7149c2e0076f709",
       "size": 4301,
@@ -199,9 +209,9 @@
       "normalized_sha256": "a9668d9ca014998ef494d6a20fc38ddc5adaf9e5b7400ffa1e092bec55500e11"
     },
     "docs/guides/README.md": {
-      "sha256": "a8bb24c57f7d7ca6a052bc2c55a44373576687c0cddf4f99278772b00d33f6ac",
-      "size": 5664,
-      "normalized_sha256": "a8bb24c57f7d7ca6a052bc2c55a44373576687c0cddf4f99278772b00d33f6ac"
+      "sha256": "b064f6111b7537cf915415072374501319cc998f2bbd2cb159dbae6e1a1a93d3",
+      "size": 5822,
+      "normalized_sha256": "b064f6111b7537cf915415072374501319cc998f2bbd2cb159dbae6e1a1a93d3"
     },
     "docs/index.md": {
       "sha256": "b8177dd1468d94f3ecc2a8fd2c81118025d04c5f3643f29656974cdd4bd422a5",
@@ -334,9 +344,9 @@
       "normalized_sha256": "dff6d2b826df0df88efcc64846fdccf74d4e130731e3b274980d89bb07b31c68"
     },
     "docs/plans/24-submodule-toggle-script.md": {
-      "sha256": "7530003e34d888113bd23d760e1f89fb671d82afa4e329188a7d9be84c5a751b",
-      "size": 9416,
-      "normalized_sha256": "7530003e34d888113bd23d760e1f89fb671d82afa4e329188a7d9be84c5a751b"
+      "sha256": "4a7532b97f9d6567c3e2bc47159a94290f4c701cab5377d744167860f080d0de",
+      "size": 9419,
+      "normalized_sha256": "4a7532b97f9d6567c3e2bc47159a94290f4c701cab5377d744167860f080d0de"
     },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "sha256": "ff41ba5b47c36d21b5860b68d1153b4d4f7cabc8e985fef7bf22e492d2ed84d0",
@@ -422,6 +432,11 @@
       "sha256": "3aa4808c5661ddf125777e422a1a836b92e25f17fa91bc185a873fb91bbc429e",
       "size": 10070,
       "normalized_sha256": "3aa4808c5661ddf125777e422a1a836b92e25f17fa91bc185a873fb91bbc429e"
+    },
+    "docs/projects/go_projects/agyquota/specs/03-agy-usage-eof-retry/bugfix.md": {
+      "sha256": "d2fab872b68f282882e6910aa686c64f6ba031262f63bf576c176d36de64049f",
+      "size": 3897,
+      "normalized_sha256": "e5d1748f577cf81ee07a7866e173a9183f8b0b0204c9ffca603d241e488ceda4"
     },
     "docs/projects/go_projects/agyquota/设计说明.md": {
       "sha256": "2d78bef529e575111a9540411a3b20d3ad010c60d3c8cde886b1a01c6470099a",
@@ -653,6 +668,21 @@
       "size": 5373,
       "normalized_sha256": "ad83151e0a0c3b01ed8c44b79ad4f0371528f866ed0f7e29dff6be30cde6648e"
     },
+    "docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/design.md": {
+      "sha256": "f01f052dacc2288dea258fd80538a87db2afa378ec2922b3976eef367dfa0ae2",
+      "size": 17691,
+      "normalized_sha256": "f01f052dacc2288dea258fd80538a87db2afa378ec2922b3976eef367dfa0ae2"
+    },
+    "docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/requirements.md": {
+      "sha256": "b4a88c015b81463ac688bc2c40030ad0e6c20aced376d36d1f21f3dd5f4b27f0",
+      "size": 6146,
+      "normalized_sha256": "b4a88c015b81463ac688bc2c40030ad0e6c20aced376d36d1f21f3dd5f4b27f0"
+    },
+    "docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/tasks.md": {
+      "sha256": "ba1b6288dba383072dc4ddf2ada94a8ee47ca46698757d61d3c4abcb737106ef",
+      "size": 4030,
+      "normalized_sha256": "ba1b6288dba383072dc4ddf2ada94a8ee47ca46698757d61d3c4abcb737106ef"
+    },
     "docs/projects/go_projects/统一核心与多通道投影指南.md": {
       "sha256": "dc8679fcef4bf19148933fbeb790496dea80708f3c70e93a0693b6aa112c4dcb",
       "size": 405,
@@ -854,9 +884,9 @@
       "normalized_sha256": "9e55599fe10f1346016f993a6dc0814da51d3fc3e0db118b0250c6cc412ee8ef"
     },
     "docs/repo/Git 子模块临时注销（native、rust）.md": {
-      "sha256": "19df355f06f05fafd39c3f8be3a3087b995fe5772f861014eeef4c8277efa749",
-      "size": 5946,
-      "normalized_sha256": "19df355f06f05fafd39c3f8be3a3087b995fe5772f861014eeef4c8277efa749"
+      "sha256": "08e9a4f9131b2f7d0727eff82b2ab538dd0fded4c6d218b9fe2888d90af9fccd",
+      "size": 7517,
+      "normalized_sha256": "08e9a4f9131b2f7d0727eff82b2ab538dd0fded4c6d218b9fe2888d90af9fccd"
     },
     "docs/repo/Git 子模块分支机制.md": {
       "sha256": "a5f8e6f36ec8f86e84f6b6c45cf17e186f774cb0f236e07d4502d807b5d2c95d",

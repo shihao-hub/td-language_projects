@@ -8,7 +8,7 @@ AGENTS.md[SG9M]: F:父仓库最高约定：强约束规则、仓库结构、归�
 CLAUDE.md[SG3T]: F:单行 @AGENTS.md 引用，让 Claude Code 复用父仓库约定 | R:code:AGENTS.md | A:- | S:-
 MONOREPO.md[SG6S]: F:个人项目价值盘点表：五语言子仓活跃项目 + native_projects 未初始化规划 + .archived 三语言归档项目，列摘要/状态/源码阅读/价值/下一步 | R:code:docs/guides/GUIDE-INVENTORY.md | A:主观列只由表主人填，AI 仅起草摘要待过目 | S:六列表每行恰 7 个管道符，归档行保留全列；native_projects 子模块未初始化（父仓索引无 gitlink、本地无目录），该区条目仅为规划；agyquota 行仍在归档区未随 09-restore 更新
 NOTES.md[SZ2T]: F:零散备忘，当前记录归档 projstat README 的古法编程思路线索 | R:- | A:- | S:-
-README.md[SG8S]: F:父仓库总览：子模块结构、克隆更新命令、脚本清单、文档站点用法、数据存放规范、子仓约定与归档/盘点入口 | R:code:.gitmodules,code:AGENTS.md,code:MONOREPO.md,code:docs/guides/GUIDE-项目归档.md,code:docs/guides/GUIDE-项目盘点维护.md,code:.scripts/build_docs.py,code:docs/index.md | A:新会话与新机器从本文件入门，命令可直接执行 | S:项目运行时数据只允许 %APPDATA%\language_projects\<项目名>\，无 APPDATA 回退 ~/.language_projects/；「可用脚本」表中 install_tool 一行仍写 ~/.local/bin，实际安装目录为 D:\Users\language_projects_bin
+README.md[SG8S]: F:父仓库总览：子模块结构、克隆更新命令、脚本清单、文档站点用法、数据存放规范、子仓约定与归档/盘点入口 | R:code:.gitmodules,code:AGENTS.md,code:MONOREPO.md,code:docs/guides/GUIDE-项目归档.md,code:docs/guides/GUIDE-项目盘点维护.md,code:.scripts/build_docs.py,code:docs/index.md,code:.scripts/submodule-toggle.ps1 | A:新会话与新机器从本文件入门，命令可直接执行 | S:项目运行时数据只允许 %APPDATA%\language_projects\<项目名>\，无 APPDATA 回退 ~/.language_projects/；「可用脚本」表中 install_tool 一行仍写 ~/.local/bin，实际安装目录为 D:\Users\language_projects_bin
 SPEC-AGENT.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
 SPEC-HUMAN.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
 mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkdocs-site/、file:// 直开、zh 语言 + search/awesome-pages、mermaid 与 pymdownx 扩展 | R:code:.scripts/build_docs.py,code:docs/index.md,code:docs/assets/javascripts/mermaid.min.js | A:use_directory_urls 必须保持 false；主题/插件改动后用 build --strict 验证 | S:链接校验 not_found=ignore 是为放行指向仓库源码的文档外链接；中文搜索依赖 jieba 可导入，缺则静默退化为整段匹配
@@ -22,13 +22,14 @@ build_docs.py[XV5T]: F:docs 静态站点构建入口：build/serve/preview 三�
 docs-preview.bat[XV2T]: F:双击启动 docs 站点搜索预览：构建+分词+静态服务+自动开浏览器 | R:code:.scripts/build_docs.py | A:用 %~dp0.. 定位仓库根，不硬编码路径；退出前 pause 保留窗口看输出 | S:-
 docs-serve.bat[XV2T]: F:双击启动 docs 站点写作热刷新（mkdocs serve，不做分词） | R:code:.scripts/build_docs.py | A:用 %~dp0.. 定位仓库根，不硬编码路径；退出前 pause 保留窗口看输出 | S:-
 check-agy-upstream.ps1[XV4S]: F:antigravity-acp 上游监控：拉官方 ACP Registry JSON 与 Zed 本地已装版本比对并提示升级路径，GitHub Search API 检索社区仓库；-OnlyRegistry 跳过搜索段 | R:code:docs/plans/10-antigravity-acp-inspection.md,code:docs/repo/antigravity-acp-architecture-research.md | A:powershell -ExecutionPolicy Bypass -File .scripts/check-agy-upstream.ps1 | S:-
+submodule-toggle.ps1[XV6M]: F:语言子模块临时注销与恢复一键脚本：status 只读体检、deinit 本地注销、restore 恢复并切跟踪分支 | R:code:.gitmodules,code:README.md,code:.scripts/init-submodules.ps1,code:docs/repo/Git 子模块临时注销（native、rust）.md | A:在父仓根执行 ./.scripts/submodule-toggle.ps1 -Action <status|deinit|restore> -Name <子模块名> | S:deinit 对未提交/未推送子模块整批拒绝且零修改，已注销幂等跳过；gitlink 缺失时 restore 自动回溯历史提交重建并 add --force，事后需人工提交父仓指针；UTF-8 BOM 保 PS5.1 中文不乱码
 
 ===D:/Users/language_projects/.zed/===
 extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本，配合 auto_install_extensions 安装 | R:code:.zed/settings.json | A:- | S:-
 settings.json[FC7S]: F:Zed 总仓配置：按语言开 LSP 白名单（Go/Python/TS/C/C++/Lua）并逐 server 调优省内存，file_scan_exclusions 忽略构建产物与大仓深路径（target、.venv 深层、.aoci、.mkdocs-site、.thirdparty） | R:code:.zed/extensions.toml | A:调整语言 LSP 开关、server 参数或文件扫描排除时编辑此文件 | S:lua-language-server 必须显式 Lua 5.1（本仓嵌入 5.1.5/LuaJIT，默认按 5.4 签名错位）；.venv 不整体忽略，`**/.venv/*/**` 保留一级目录只忽略深层；Rust 段保留但 enable_language_server=false
 
 ===D:/Users/language_projects/docs/guides/===
-README.md[SW7T]: F:GUIDE 编写规范：父仓级 AI 工作指南的定位、三级披露机制、触发式 description、文件骨架、中文命名约定与现有清单表（9 份）维护 | R:code:docs/guides/GUIDE-项目归档.md,code:docs/guides/GUIDE-第三方项目克隆.md,code:docs/guides/GUIDE-LLM兼容接入.md,code:AGENTS.md | A:沉淀新 GUIDE 前必读；新增 GUIDE 后需在清单表加行；禁止放入任何 skills 目录 | S:GUIDE 改名/移动是高危操作，迁移后旧名 grep 清零才算完成
+README.md[SW7T]: F:GUIDE 编写规范：父仓级 AI 工作指南的定位、三级披露机制、触发式 description、文件骨架、中文命名约定与现有清单表维护 | R:code:docs/guides/GUIDE-项目归档.md,code:docs/guides/GUIDE-第三方项目克隆.md,code:docs/guides/GUIDE-LLM兼容接入.md,code:AGENTS.md | A:沉淀新 GUIDE 前必读；新增 GUIDE 后需在清单表加行；禁止放入任何 skills 目录 | S:GUIDE 改名/移动是高危操作，迁移后旧名 grep 清零才算完成
 GUIDE-AOCI安装配置.md[SV7M]: F:AOCI-CODE 安装手册：发行包校验、二进制落位、opencode/claude/codex 三工具 MCP 全局配置与升降级 | R:- | A:新机器接入或升级 AOCI 按第 2、3 节执行 | S:MCP server 是 per-repo 的，全局配置 --repo 固定指父仓库；改配置后须重启 host
 GUIDE-LLM兼容接入.md[SW5S]: F:把只内置 OpenAI/Anthropic/Gemini 的外部工具接到自家模型（GLM/DeepSeek/Kimi 等）：接入点定位、探针七枪参数兼容矩阵、最小补丁+本地分支隔离、协议层+UI 层双层验证 | R:code:docs/guides/README.md | A:触发式 description 已列常见说法；用户要求接兼容端点或排查 key 跑不通时进入流程 | S:探针第 2 枪（多模态）失败即止损停手改推他案，不做补丁；探针脚本放系统临时目录不进仓库；密钥只写 .gitignore 内配置文件
 GUIDE-MCP调试接入.md[SO5S]: F:用 MCP Inspector 调试自定义 stdio MCP server：catalog 机制、配置对照与冒烟路径 | R:- | A:server 列表即 ~/.mcp-inspector/mcp.json，直改刷新即生效；Command 用绝对路径 | S:脚本灌 JSON-RPC 须交互时序（init→响应→initialized）否则断连
@@ -37,6 +38,7 @@ GUIDE-第三方项目克隆.md[SW5S]: F:第三方开源项目克隆工作流：.
 GUIDE-项目归档.md[SW7S]: F:项目归档工作流：调研、逐项目提交、父仓归档文件与指针分离提交的完整流程 | R:code:docs/guides/GUIDE-项目恢复.md,code:docs/guides/GUIDE-项目盘点维护.md | A:归档必经阶段 0 只读调研，用户确认后才动文件 | S:父仓固定两次提交（归档文件与 --force 指针），先子仓 push 再提交指针防悬空
 GUIDE-项目恢复.md[SW7S]: F:归档项目恢复回子仓的镜像工作流：冲突排查、精确暂存、指针更新 | R:code:docs/guides/GUIDE-项目归档.md | A:恢复前必查子仓同名占用与 .archived 无关未跟踪目录 | S:父仓暂存必须精确到项目路径，git add .archived 整目录会吸入无关文件
 GUIDE-项目盘点维护.md[SW6S]: F:MONOREPO.md 盘点表维护工作流：存量对照、摘要起草、联动同步与格式验证 | R:code:MONOREPO.md | A:项目增删/归档/迁移时按联动速查同步盘点表 | S:AI 不得代填主观列；结构变了表不变盘点即失真
+GUIDE-子项目拆分子模块.md[SW7M]: F:GUIDE：把子仓平铺子项目拆为独立 Git 仓库并以二级 Submodule 原位重挂载的全流程手册（gh 建仓→subtree split→清理→挂载降噪→指针同步） | R:code:docs/guides/README.md,code:docs/guides/GUIDE-项目归档.md,code:docs/guides/GUIDE-第三方项目克隆.md,code:.gitmodules | A:拆分需独立发版/独立 CI 的子项目时按五阶段执行；废弃项目走归档、第三方引入走克隆 | S:先推子仓再提父仓指针否则递归克隆悬空；.gitmodules 必配 branch+ignore=all 且父仓指针须 add --force；git rm 前先杀常驻进程防文件锁；add 报目录已存在可先目录内 clone
 
 ===D:/Users/language_projects/docs/plans/===
 01-lark-group-bridge.md[SW5S]: F:lark_group_bridge.py 开发计划：bot 通道发文本/媒体、lark-cli 读消息的接口与错误码设计 | R:code:.scripts/lark_group_bridge.py | A:计划已执行完毕作决策存档 | S:计划内 webhook 必填等旧设计与脚本 v2.0（bot 默认）不一致，以脚本为准
@@ -64,7 +66,7 @@ GUIDE-项目盘点维护.md[SW6S]: F:MONOREPO.md 盘点表维护工作流：存�
 22-glmquotawatch-tray-icon.md[SU5T]: F:glmquotawatch-gui 托盘图标对齐计划（已执行完成）：托盘/exe/任务栏统一用自定义用量图标（icon_cyan_coral），根 icon.ico 删除 | R:code:docs/plans/walkthrough-22-glmquotawatch-tray-icon.md,code:docs/plans/23-split-glmquotawatch-submodule.md | A:改图标须同步 main.go 嵌入路径与 README；比稿生成文件去留待用户决定 | S:托盘最终目视确认未由 AI 捕获（截图无效改图标抽取验证），需用户自验；比稿文件尚未入库
 23-split-glmquotawatch-submodule.md[SW5T]: F:计划（已全部完成，Task 1-5 勾选）：glmquotawatch-gui 从 go_projects 拆为二级 submodule td-go_projects-glmquotawatch-gui，历史无损迁移并重新挂载 | R:code:MONOREPO.md | A:方案 A 保留原物理路径；gh 建仓 + subtree split 迁历史 + git rm + submodule add 重新挂载，均已执行完毕 | S:Windows 托盘进程锁 exe 须先终止再移目录；挂载降噪必须 branch=main + ignore=all；node_modules/bin/dist 缓存原样迁回无需重装
 walkthrough-22-glmquotawatch-tray-icon.md[SG5T]: F:22 号托盘图标计划的 Walkthrough：变更清单、构建与图标资源验证、遗留事项 | R:code:docs/plans/22-glmquotawatch-tray-icon.md | A:与 22 号计划配对阅读；对应 Go 子仓提交 5bae4c6 | S:未跑 go test；app.go 窗口改动与前端改动未混入该提交（局部 staging 隔离）；比稿文件仍未入库
-24-submodule-toggle-script.md[SW4S]: F:计划（v1.0 待批准，Task 1-5 未执行）：新建 .scripts/submodule-toggle.ps1，为 native/rust 子模块提供 status/deinit/restore 一键注销与恢复 | R:code:README.md,code:docs/repo/Git 子模块临时注销（native、rust）.md | A:-Name 必填防误伤主力子模块；子模块不干净整体拒绝；native gitlink 缺失自动从历史回溯重建 | S:UTF-8 with BOM 保 PS5.1 中文不乱码；只动本地不碰远端；不自动 commit/push
+24-submodule-toggle-script.md[SW5S]: F:计划（已执行完成，Task 1-5 全部勾选）：新建 .scripts/submodule-toggle.ps1，为 native/rust 子模块提供 status/deinit/restore 一键注销与恢复 | R:code:.scripts/submodule-toggle.ps1,code:README.md,code:docs/repo/Git 子模块临时注销（native、rust）.md | A:计划已执行完毕作决策存档；调整脚本行为前先读三项用户决策 | S:三项用户决策为行为契约：不干净整批拒绝、gitlink 缺失自动重建、-Name 必填；按执行约定未跑 mini 测试仓验证，首次真实使用时留意输出
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
@@ -181,7 +183,7 @@ taskmon-go 复刻规格说明书.md[SW7L]: F:taskmon v0.2.0 的 Go 复刻规格�
 PLAN.md[SW6M]: F:tooldeck 开发计划（已实施）：Electron 单应用多模块 GUI 壳 exestarter 模块与 CLI 增强决策 | R:code:docs/projects/go_projects/exestarter/接口文档.md | A:八条操作流待用户手工验收 | S:GUI 一切数据操作走 CLI 子命令+JSON 包络，不直接读写 config.json
 
 ===D:/Users/language_projects/docs/repo/===
-Git 子模块临时注销（native、rust）.md[SW5S]: F:native/rust 子模块本地注销记录：两次注销时间线（09-15 双注、09-26 rust 再次）、克隆保持注销态流程与恢复步骤 | R:code:docs/repo/Git 子模块分支机制.md | A:恢复 rust 可直接 update --init；native gitlink 已被 a134f32 静默移除，需先重建 | S:deinit 未动 .gitmodules 与远端；ignore=all 使 git add -A 会静默删除已注销子模块 gitlink（native 即此遭遇）
+Git 子模块临时注销（native、rust）.md[SW5S]: F:native/rust 子模块本地注销记录：两次注销时间线、克隆保持注销态流程、脚本操作入口与恢复步骤（rust 直接恢复；native 需重建 gitlink） | R:code:docs/repo/Git 子模块分支机制.md,code:.scripts/submodule-toggle.ps1 | A:常规注销/恢复优先用 submodule-toggle.ps1；手工命令保留作原理说明 | S:deinit 未动 .gitmodules 与远端；ignore=all 使 git add -A 会静默删除已注销子模块 gitlink（native 即此遭遇）；脚本绝不自动 commit/push
 Git 子模块分支机制.md[SW7T]: F:子模块 detached HEAD 原理、三种挂分支机制辨析与本仓库 init 脚本方案 | R:code:.gitmodules,code:.scripts/init-submodules.ps1 | A:- | S:无单一开关让 clone 直站本地分支；--remote 取远端最新与指针约定冲突
 docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md[SG4S]: F:对比 SQLite 文档库与 md 源+静态站点两条路线，给出分层架构结论并推荐 Material for MkDocs | R:code:docs/guides/GUIDE-DOCS-RENAME.md | A:实施 docs 静态站前先读第 4 节推荐与第 6 节遗留问题；中文搜索分词须先实测再定 mkdocs 主线 | S:调研性质为未立项笔记；若实施，site/ 构建产物须入 .gitignore 防仓库膨胀
 MQTT 与 WebSocket 协议.md[SG4S]: F:MQTT 与 WebSocket 协议知识参考：定位区分（消息协议 vs 传输通道）、核心机制、对比选型与 MQTT over WebSocket 组合 | R:- | A:- | S:通用技术知识文档按约定放 docs/repo，禁止放入 docs/projects/<lang>/ 语言层或项目目录
@@ -263,4 +265,12 @@ tasks.md[SW5T]: F:Toast 修复任务清单（Task 1-5 全部完成）：Newly �
 design.md[SG6S]: F:typeai TUI 设计：Bubble Tea/Bubbles/Lip Gloss/Glamour 栈、stream bridge goroutine、80ms 节流单飞渲染、折叠思维块 | R:code:docs/projects/go_projects/typeai/specs/01-interactive-rendering/requirements.md | A:实现按本文；Glamour v1.0.0 需锁定 Lip Gloss 兼容版本 | S:Markdown 渲染不得放 SSE callback 同步执行；渲染失败降级原文；退出先 cancel 再等结果消息
 requirements.md[SG6T]: F:typeai TUI 化需求：无参数入口升级 Bubble Tea TUI——思考折叠、流式 Markdown、滚动/resize/错误状态，FR-1~9 与 AC-1~8 | R:code:docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md | A:不改 session 持久化与管理命令；不做 MCP | S:reasoning 只在内存 UI 不落盘；用户输入纯文本、仅 assistant 渲染 Markdown；失败轮不写 session 不进入后续上下文
 tasks.md[SW5T]: F:typeai TUI 任务清单（Task 1-6 完成，Task 7 [test] 待办）：骨架/流式桥/渲染缓存/resize/契约文档/构建 | R:code:docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md | A:已用 fake SSE 验证思考折叠、Markdown、失败不落盘与终端恢复 | S:按执行默认未跑单元/race；Task 7 补 renderer 与 stream state 单测
+
+===D:/Users/language_projects/docs/projects/go_projects/agyquota/specs/03-agy-usage-eof-retry/===
+bugfix.md[SG6T]: F:agyquota --agy 瞬态 EOF 失败 bugfix 报告：单次执行无重试致可恢复故障直接失败，AC-1~6 约定有界重试边界 | R:code:docs/projects/go_projects/agyquota/plans/03-restore-agy-cli-command.md,code:docs/projects/go_projects/agyquota/设计说明.md | A:实现修复时按 AC 执行；核心是区分瞬态与非瞬态错误 | S:有界重试仅限 retrieveUserQuotaSummary 瞬态网络错误（如 EOF）；认证失败、命令缺失、参数错误等非瞬态错误禁止重试；--zed 数据源行为不变；重试诊断不污染 JSON 输出
+
+===D:/Users/language_projects/docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/===
+design.md[SG6S]: F:typeai 图片重构设计：blobs 归档、按需 loadImage、轮次窗口降级三模块与 TUI staged 透传修复，含零上下文自审（2 MEDIUM 已修复） | R:code:docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/requirements.md,code:docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md | A:实现按本文；AC 与设计组件映射表在文末 | S:clipboard 仅做平台捕获，归档收口 service 层；blobs 内 hex 文件名被识别为剪贴板图命名 clipboard.png；历史含图消息统一剥离标记；TUI staged 须先存局部变量再置 nil
+requirements.md[SG6T]: F:typeai 图片重构需求：SHA-256 内容寻址 blob 归档、按需加载、最近 3 轮真实图片窗口与更早轮次降级占位符，FR-1~5 与 AC-1~4 | R:code:docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/design.md | A:需求基线；实现与验收以 AC 为准；Out of Scope（轮数配置、blob GC、文本裁剪）不得越界 | S:session.json 始终保留原始文本与完整 images 元数据，请求级图片降级不影响持久化；blobs 按 sha256 内容寻址去重；图片上限 10MiB 且仅 png/jpeg/webp/gif
+tasks.md[SW5T]: F:typeai 图片重构任务清单：3 项（归档+缓存移除+轮次降级、TUI 绑定+staged 透传+README、测试适配），全部未勾选待执行 | R:code:docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/design.md | A:待执行；任务 3 [test] 默认跳过 | S:-
 
