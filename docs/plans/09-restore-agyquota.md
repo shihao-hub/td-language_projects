@@ -7,7 +7,7 @@
 
 ## 需求
 1. **项目恢复**：
-   - 严格按照 `docs/guides/GUIDE-RESTORE.md` 规范把 `agyquota` 从父仓 `.archived/projects/go_projects/agyquota` 还原至 `go_projects/agyquota`。
+   - 严格按照 `docs/guides/GUIDE-项目恢复.md` 规范把 `agyquota` 从父仓 `.archived/projects/go_projects/agyquota` 还原至 `go_projects/agyquota`。
    - 保持 monorepo 提交纪律（子仓移入+提交+push，父仓移除副本+强制更新指针+push）。
 2. **代码重构（复活方案）**：
    - 将底层配额数据源重构：不再走易受阻的底层 HTTP 直接调用，而是通过执行 `agy -p "/usage" --output-format json` 获取官方权威配额数据。
