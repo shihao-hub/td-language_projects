@@ -8,7 +8,7 @@
 |---|---|
 | [guides](guides/README.md) | 父仓级 AI 工作指南（GUIDE 系列）与 GUIDE 编写规范 |
 | [plans](plans/01-lark-group-bridge.md) | 父仓级开发计划 |
-| [projects](projects/go_projects/GUIDE-GO-EXE-ICON.md) | 各语言子仓的项目文档，按 `projects/<语言子仓>/<项目>/` 镜像层级组织；语言级方法论文档（如《CLI 工具开发标准》）直接放在语言层目录 |
+| [projects](projects/go_projects/go%20exe%20默认图标.md) | 各语言子仓的项目文档，按 `projects/<语言子仓>/<项目>/` 镜像层级组织；语言级方法论文档（如《CLI 工具开发标准》）直接放在语言层目录 |
 | [repo](repo/Git%20子模块分支机制.md) | 仓库自身文档（git 子模块机制、迁移记录、调研笔记） |
 
 ## 站点维护
