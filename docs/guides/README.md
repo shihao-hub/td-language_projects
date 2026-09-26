@@ -74,6 +74,7 @@ GUIDE 会被其他文档、子仓 README 交叉引用，**改名/移动是高危
 |---|---|
 | [GUIDE-项目归档.md](GUIDE-项目归档.md) | 子仓项目归档到 `.archived/projects/<lang>/` |
 | [GUIDE-项目恢复.md](GUIDE-项目恢复.md) | 归档项目恢复回子仓（归档逆操作） |
+| [GUIDE-子项目拆分子模块.md](GUIDE-子项目拆分子模块.md) | 子仓平铺项目拆分为独立仓库并以二级 Submodule 形式重新挂载 |
 | [GUIDE-项目盘点维护.md](GUIDE-项目盘点维护.md) | MONOREPO.md 项目价值盘点表维护 |
 | [GUIDE-文档中文命名整改.md](GUIDE-文档中文命名整改.md) | docs 下英文命名文档批量改中文名并修引用 |
 | [GUIDE-AOCI安装配置.md](GUIDE-AOCI安装配置.md) | AOCI-CODE 仓库认知索引的安装与配置 |
