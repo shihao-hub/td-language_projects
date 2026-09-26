@@ -29,32 +29,45 @@ language_projects (父仓库, Monorepo / Submodules)
 
 **任务分解**：
 
-- [ ] Task 1: 创建 GitHub 远端独立仓库
+- [x] Task 1: 创建 GitHub 远端独立仓库
   - 文件：无本地修改
   - 实现：使用 `gh repo create shihao-hub/td-go_projects-glmquotawatch-gui --public --description "GLM 编码套餐用量监控 GUI（Wails v3 + 托盘常驻）"`
   - 验证：`gh repo view shihao-hub/td-go_projects-glmquotawatch-gui` 成功返回仓库信息
   - Demo：GitHub 上已存在空仓库 `shihao-hub/td-go_projects-glmquotawatch-gui`
 
-- [ ] Task 2: 提取 glmquotawatch-gui 历史并推送到新远端
+- [x] Task 2: 提取 glmquotawatch-gui 历史并推送到新远端
   - 文件：`go_projects` 内部临时分支
   - 实现：在 `go_projects` 执行 `git subtree split -P glmquotawatch-gui -b split/glmquotawatch-gui`；推送至 `git@github.com:shihao-hub/td-go_projects-glmquotawatch-gui.git` 的 `main` 分支；清理本地临时分支
   - 验证：`git ls-remote git@github.com:shihao-hub/td-go_projects-glmquotawatch-gui.git` 能查到 `refs/heads/main`
   - Demo：新仓库拥有完整的提交历史与根目录源码结构
 
-- [ ] Task 3: 移除 go_projects 内的原生目录并提交
+- [x] Task 3: 移除 go_projects 内的原生目录并提交
   - 文件：`go_projects/glmquotawatch-gui/`（物理目录移除）
   - 实现：在 `go_projects` 执行 `git rm -r glmquotawatch-gui` 并执行规范提交
   - 验证：`git status` 显示 `deleted: glmquotawatch-gui/...` 全部暂存，提交后工作区干净
   - Demo：`glmquotawatch-gui` 目录在 `go_projects` 历史中被移除并封版
 
-- [ ] Task 4: 挂载 td-go_projects-glmquotawatch-gui 为 submodule 并配置降噪
+- [x] Task 4: 挂载 td-go_projects-glmquotawatch-gui 为 submodule 并配置降噪
   - 文件：`go_projects/.gitmodules`、`go_projects/glmquotawatch-gui`
   - 实现：执行 `git submodule add git@github.com:shihao-hub/td-go_projects-glmquotawatch-gui.git glmquotawatch-gui`；配置 `submodule.glmquotawatch-gui.branch main` 与 `submodule.glmquotawatch-gui.ignore all`；提交并推送 `go_projects`
   - 验证：`git submodule status` 显示正常指针，`cat .gitmodules` 包含预期配置
   - Demo：`glmquotawatch-gui` 成功恢复到原路径，以 submodule 方式运行且构建正常
 
-- [ ] Task 5: 更新文档记录并同步父仓指针
+- [x] Task 5: 更新文档记录并同步父仓指针
   - 文件：`go_projects/SUBMODULES.md`、`language_projects` 父仓指针
   - 实现：在 `SUBMODULES.md` 中记录 `glmquotawatch-gui` 已完成 submodule 化；提交并推送；回到 `language_projects` 根目录执行 `git add --force go_projects` 并提交父仓变更
   - 验证：父仓 `git status` 干净，`git submodule status` 正常
   - Demo：完成整个迁移闭环，父仓与子仓状态完全对齐
+
+---
+**实施说明与偏差**：
+- Windows 托盘常驻进程 `glmquotawatch-gui.exe` 和 `glmquotawatch-gui-dev.exe` 会锁定 exe 导致目录移除失败，实施期间已安全终止进程。
+- 本地 `node_modules`、`bin`、`dist`、`.task` 等缓存已完整保留并迁回，无需重新 `npm install`。
+- 新建远端仓库地址：`https://github.com/shihao-hub/td-go_projects-glmquotawatch-gui`。
+- `go_projects` 仓库已提交并推送到 GitHub 远端 `main` 分支。
+- 父仓库 `language_projects` 已完成 `go_projects` 指针更新并提交。
+
+**最后更新：** 2026-09-26
+**作者：** Antigravity & User
+**版本：** v1.0.0
+**最终状态：** 全部任务已完成
