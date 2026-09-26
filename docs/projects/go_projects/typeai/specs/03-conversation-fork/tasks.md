@@ -36,11 +36,11 @@
 - [ ] 6. 补齐分支恢复、兼容性和用户文档
   - Files: `internal/session/store.go`, `internal/session/store_test.go`, `internal/tui/model_test.go`, `README.md`, `internal/cli/help.go`
   - 实现细节：覆盖 schema v2 到 v3 的读取迁移、schema v3 分支恢复、激活 Tab 恢复、命令/快捷键帮助和首版范围说明；明确鼠标右键选区、精确字符 Fork、双 Pane 为后续范围。
-  - Verify: `go test ./...`、`go build ./...`、`.uild.ps1 -Version dev`，预期全仓 typeai 测试和构建通过，生成的可执行文件可启动 TUI。
+  - Verify: `go test ./...`、`go build ./...`、`.\build.ps1 -Version dev`，预期全仓 typeai 测试和构建通过，生成的可执行文件可启动 TUI。
   - Ref: AC-5, AC-6, AC-8
 
 - [ ] 7. 完成真实 TTY 手工验收与发布前检查
   - Files: `internal/tui/model.go`, `internal/tui/view.go`, `internal/session/store.go`, `README.md`
   - 实现细节：在 Windows Terminal 中验证 `/fork`、Tab 切换、父子上下文、分支独立流式响应、重启恢复和窄终端布局；记录 `Ctrl+Shift+F` 若被终端吞掉时使用 `/fork` 的备用路径；确认没有残留进程和临时 session 文件。
-  - Verify: `.uild\typeai.exe`，预期手工验收完成后退出 TUI，后台无残留 typeai 进程；该任务不替代自动化测试。
+  - Verify: `.\build\typeai.exe`，预期手工验收完成后退出 TUI，后台无残留 typeai 进程；该任务不替代自动化测试。
   - Ref: AC-1, AC-3, AC-4, AC-5, AC-7
