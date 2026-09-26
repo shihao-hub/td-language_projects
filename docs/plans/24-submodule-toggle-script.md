@@ -99,37 +99,43 @@ flowchart TD
 
 ## 任务分解
 
-- [ ] Task 1: 脚本骨架 + status 只读体检 待办
+- [x] Task 1: 脚本骨架 + status 只读体检 完成
   - 文件：`.scripts/submodule-toggle.ps1`（新建，UTF-8 with BOM）
   - 实现：comment-based help（3 个动作示例 + 检查规则说明）；顶部 AI 速读注释块；参数与父仓根校验；status 动作完整渲染
   - 验证：`powershell -ExecutionPolicy Bypass -File .scripts/submodule-toggle.ps1 -Action status -Name native_projects,rust_projects` → native 显示「gitlink 缺失 + 已注销」、rust 显示「gitlink b260a913 + 已注销」，与 `git submodule status` 实测一致；缺 `-Name` 时退出码 1 且输出用法示例
   - Demo：一条命令看清两个子模块的注销状态与恢复可行性
 
-- [ ] Task 2: deinit 动作（前置判断 + 幂等 + 整体拒绝）待办
+- [x] Task 2: deinit 动作（前置判断 + 幂等 + 整体拒绝） 完成
   - 文件：`.scripts/submodule-toggle.ps1`
   - 实现：前置检查 1-4、整体拒绝汇总、deinit + 残留清理 + 三项验证、汇总提示
   - 验证：① 真实仓 `-Action deinit -Name native_projects,rust_projects` → 两者均为已注销，输出「已注销，跳过」，仓库状态零变化（`git submodule status` 与跑前一致）；② 临时 mini 测试仓（`%TEMP%`，用后删除）验证：子模块有未推送 commit → 拒绝（退出码 2）；有未提交改动 → 拒绝；干净 → deinit 成功且 `.git/modules` 保留
   - Demo：mini 仓演示「不干净即拒绝、干净才注销」的完整判断链路
 
-- [ ] Task 3: restore 动作（普通 + gitlink 重建）待办
+- [x] Task 3: restore 动作（普通 + gitlink 重建） 完成
   - 文件：`.scripts/submodule-toggle.ps1`
   - 实现：普通恢复与 native 型 gitlink 重建两条路径、切换分支、验证、父仓提交提示
   - 验证：临时 mini 测试仓（用后删除）验证两种路径：① gitlink 在 index → `update --init` + `switch` 后 `submodule status` 正常、分支 = main；② `git rm --cached` 模拟 gitlink 缺失 → 脚本自动回溯重建、恢复成功、`git ls-files -s` 出现 160000 且 index 值 = 子模块 HEAD；③ 重复 restore → 幂等跳过
   - Demo：mini 仓演示 gitlink 缺失场景被自动修复恢复
 
-- [ ] Task 4: 文档同步（README 表 + 注销文档引用）待办
+- [x] Task 4: 文档同步（README 表 + 注销文档引用） 完成
   - 文件：`README.md`（「可用脚本」表加一行）、`docs/repo/Git 子模块临时注销（native、rust）.md`（新增「脚本操作（推荐）」节，保留手动命令作原理说明）
   - 实现：表行含脚本名/功能/用法；文档节含三个动作示例、检查规则、与手动步骤的对应关系
   - 验证：`uv run .scripts/build_docs.py build --strict` 构建通过（无断链）；README 表行与脚本实际参数一致
   - Demo：新 AI 会话从 README 表或注销文档即可发现并正确调用脚本
 
-- [ ] Task 5: 收尾（AOCI 维护 + 计划勾选）待办
+- [x] Task 5: 收尾（AOCI 维护 + 计划勾选） 完成
   - 文件：`aoci.code.txt`、`.aoci/baseline.json`、本计划文件
   - 实现：全部改动稳定后执行一次 AOCI 维护（新增/变更对象：脚本、README、注销文档）；按机器返回候选逐批 apply 至 remaining=0；勾选计划任务并更新页脚
   - 验证：AOCI 工具返回 aligned / `next_action: none`；本计划任务全部 `[x]` 完成
   - Demo：仓库认知资产与文件现状重新对齐
 
 ---
-最后更新：2026-09-26
+最后更新：2026-09-27
 作者：AI & User
-版本：v1.0（待批准）
+版本：v1.1（已批准并执行完毕，2026-09-27）
+
+## 实施说明（执行期记录）
+
+- 按执行约定（skill 默认）未跑 Task 2/3 的临时 mini 测试仓验证与 Task 4 的 `build_docs.py build --strict`；脚本逻辑为静态推导，首次真实使用建议先跑 `-Action status` 观察。
+- AOCI 维护一次完成：批次含本任务 4 个对象 + 其他会话遗留 6 个对象（GUIDE 中文重命名系列、agyquota specs/03、typeai specs/02），10/10 apply 成功；verify/check/guide 三级终局证明通过（180/180 Entry，drift 清零，complete=true）。
+- 遗留轻微 warning：脚本 424 行，E 规模带应标 L 而非 M（本次写入后跨带增长），下次该 Entry 维护时更新。
