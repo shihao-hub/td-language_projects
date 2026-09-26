@@ -33,14 +33,21 @@
   - Ref: AC-2, AC-5, AC-6, AC-7
   - [test]
 
-- [ ] 6. 补齐分支恢复、兼容性和用户文档
-  - Files: `internal/session/store.go`, `internal/session/store_test.go`, `internal/tui/model_test.go`, `README.md`, `internal/cli/help.go`
-  - 实现细节：覆盖 schema v2 到 v3 的读取迁移、schema v3 分支恢复、激活 Tab 恢复、命令/快捷键帮助和首版范围说明；明确鼠标右键选区、精确字符 Fork、双 Pane 为后续范围。
-  - Verify: `go test ./...`、`go build ./...`、`.\build.ps1 -Version dev`，预期全仓 typeai 测试和构建通过，生成的可执行文件可启动 TUI。
-  - Ref: AC-5, AC-6, AC-8
+- [ ] 6. 实现按 session ID 的 /resume 恢复入口
+  - Files: `internal/session/store.go`, `internal/service/chat.go`, `internal/tui/model.go`, `internal/cli/help.go`, `README.md`
+  - 实现细节：实现只接受 8 位小写十六进制 session ID 的加载接口，扫描应用自己的 sessions 目录但不向用户展示目录；在 TUI 空闲且输入无未提交内容时处理 `/resume <session-id>`，成功后替换 Chat Store、session 元数据、分支树、激活 Tab 和 viewport；失败时保持当前会话不变；schema v2 在内存中迁移为 `main` 分支，后续保存写成 schema v3。
+  - Verify: `go test ./internal/session ./internal/service ./internal/tui`，预期合法 ID 恢复成功，非法/不存在 ID、运行中恢复和脏输入恢复被拒绝，v2 session 可迁移。
+  - Ref: AC-5, AC-6, AC-9, AC-10, AC-11
+  - [test]
 
-- [ ] 7. 完成真实 TTY 手工验收与发布前检查
+- [ ] 7. 补齐分支恢复、兼容性和用户文档
+  - Files: `internal/session/store.go`, `internal/session/store_test.go`, `internal/tui/model_test.go`, `README.md`, `internal/cli/help.go`
+  - 实现细节：覆盖 schema v2 到 v3 的读取迁移、schema v3 分支恢复、激活 Tab 恢复、`/resume <session-id>` 帮助和首版范围说明；明确鼠标右键选区、精确字符 Fork、双 Pane、session 列表和目录浏览为后续范围。
+  - Verify: `go test ./...`、`go build ./...`、`.\build.ps1 -Version dev`，预期全仓 typeai 测试和构建通过，生成的可执行文件可启动 TUI。
+  - Ref: AC-5, AC-6, AC-8, AC-9, AC-11
+
+- [ ] 8. 完成真实 TTY 手工验收与发布前检查
   - Files: `internal/tui/model.go`, `internal/tui/view.go`, `internal/session/store.go`, `README.md`
-  - 实现细节：在 Windows Terminal 中验证 `/fork`、Tab 切换、父子上下文、分支独立流式响应、重启恢复和窄终端布局；记录 `Ctrl+Shift+F` 若被终端吞掉时使用 `/fork` 的备用路径；确认没有残留进程和临时 session 文件。
+  - 实现细节：在 Windows Terminal 中验证 `/fork`、Tab 切换、父子上下文、分支独立流式响应、`/resume <session-id>`、重启恢复和窄终端布局；记录 `Ctrl+Shift+F` 若被终端吞掉时使用 `/fork` 的备用路径；确认没有残留进程和临时 session 文件。
   - Verify: `.\build\typeai.exe`，预期手工验收完成后退出 TUI，后台无残留 typeai 进程；该任务不替代自动化测试。
-  - Ref: AC-1, AC-3, AC-4, AC-5, AC-7
+  - Ref: AC-1, AC-3, AC-4, AC-5, AC-7, AC-9

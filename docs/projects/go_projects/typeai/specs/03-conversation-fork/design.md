@@ -20,6 +20,7 @@
 
 - **Goals**
   - 在一个进程和一个 session 中创建、切换、继续多个对话分支。
+  - 提供最小的 `/resume <session-id>` 恢复入口，不增加目录面板或 session 浏览器。
   - 让每个分支拥有独立的消息追加、流式状态、取消操作和错误状态。
   - 用共享父历史避免复制完整上下文。
   - 将 session JSON 升级到 schema version 3，并兼容读取 version 2。
@@ -209,6 +210,37 @@ session branch model -> tui branch state -> service.Chat request
 
 禁止让 `service.Chat` 反向依赖 TUI branch state，也禁止让隐藏分支直接写当前 viewport。
 
+### 8. `/resume <session-id>` 恢复
+
+- `UPDATED` `internal/session/store.go`
+  - **Purpose**：从应用自己的 sessions 目录按短 session ID 读取已有 JSON。
+  - **Changes**：新增按 ID 加载接口；只接受当前 `randomID` 生成的 8 位小写十六进制 ID，拒绝路径分隔符、绝对路径和任意文件名；在 `sessions` 目录中匹配 `*-<id>.json`，匹配 0 个或多个时返回明确错误；不向 TUI 暴露目录路径或目录列表。
+  - **Complexity**：Medium
+
+- `UPDATED` `internal/service/chat.go`
+  - **Purpose**：把已读取的 session 和 Store 绑定到当前 Chat。
+  - **Changes**：提供恢复/替换当前 session 的能力；替换 Store、session 元数据和图片缓存，保留当前配置与 LLM client；schema version 2 在加载阶段迁移为只有 `main` 分支的内存模型，schema version 3 直接读取。
+  - **Complexity**：Medium
+
+- `UPDATED` `internal/tui/model.go`
+  - **Purpose**：在当前 TUI 进程内切换到目标 session。
+  - **Changes**：在 `submit` 的命令分流中识别 `/resume <session-id>`；运行中、输入框有未提交内容或 pending submit 时拒绝；成功后替换分支 map、active branch、消息/viewport 投影、session ID 和输入状态；失败时保持原分支和输入不变。成功恢复只显示短 ID 或状态，不展示文件路径。
+  - **Complexity**：Medium
+
+恢复数据流：
+
+```text
+/resume <id>
+  -> validate exact session ID
+  -> session.LoadByID(APPDATA session dir, id)
+  -> decode v2/v3 and migrate v2 in memory
+  -> Chat replaces Store + session
+  -> TUI replaces branch runtime + active tab
+  -> refresh current viewport
+```
+
+恢复不自动发送 LLM 请求，也不创建新的 OS 进程；目标 session 的后续成功回答才会继续写回原 session 文件。
+
 ## Acceptance Criteria Mapping
 
 | AC ID | Design Component |
@@ -221,6 +253,9 @@ session branch model -> tui branch state -> service.Chat request
 | AC-6 | schema v2 读取迁移 |
 | AC-7 | 错误处理与边界不变量 |
 | AC-8 | 当前单分支投影与 service 外部契约保持不变 |
+| AC-9 | `/resume` 恢复设计、Store 按 ID 加载、TUI 状态替换 |
+| AC-10 | 恢复安全边界与错误处理 |
+| AC-11 | v2 读取迁移与 v3 继续保存 |
 
 ## Design Review Notes
 
@@ -228,7 +263,8 @@ session branch model -> tui branch state -> service.Chat request
 
 - **HIGH：0**
 - **MEDIUM：0**
-- **NIT：1** —— `Ctrl+Shift+F` 是否被终端完整传递需要在实现阶段用实际 Windows Terminal 验证；同时保留 `/fork` 作为确定性回退入口。
+- **NIT：2** —— `Ctrl+Shift+F` 是否被终端完整传递需要在实现阶段用实际 Windows Terminal 验证；同时保留 `/fork` 作为确定性回退入口。
+- **NIT：**当前 session ID 是 8 位小写十六进制；恢复实现必须复用该生成规则，不接受路径输入。
 
 ### 已验证假设
 

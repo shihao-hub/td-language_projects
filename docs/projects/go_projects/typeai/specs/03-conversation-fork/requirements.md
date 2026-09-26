@@ -4,7 +4,7 @@
 
 为 typeai 增加同一 TUI session 内的对话分支能力。用户可以从当前已完成的对话节点创建 Fork，分支继承父分支在 Fork 点之前的完整上下文，并通过 Tab 在多个分支之间切换。每个分支拥有独立的后续输入、AI 响应、流式状态和持久化数据，不启动新的操作系统进程，也不复制一份完整上下文。
 
-当前 typeai 使用线性 `session.Session.Messages` 和单一 TUI `model.messages`，本功能将其扩展为可向后兼容的对话分支树。
+当前 typeai 使用线性 `session.Session.Messages` 和单一 TUI `model.messages`，本功能将其扩展为可向后兼容的对话分支树，并提供按 session ID 恢复已持久化会话的最小入口。
 
 ## Functional Requirements
 
@@ -18,13 +18,15 @@
 - **FR-8 旧 session 兼容**：schema version 2 的线性 session 必须能够读取，并在内存中映射为只有一个根分支的 schema version 3 模型；旧文件不能因为缺少分支字段而损坏或无法打开。
 - **FR-9 分支命名与定位**：每个分支必须拥有稳定、短且唯一的 branch ID；Tab 与状态栏显示可读名称，至少能区分 `main`、第一层 Fork 和后续子分支。
 - **FR-10 分支切换入口**：除 Tab 切换外，必须提供不依赖鼠标的键盘或命令入口，例如 `Ctrl+PageUp`、`Ctrl+PageDown` 与 `/branch <id>`，保证纯键盘终端可用。
+- **FR-11 session 恢复**：用户可以执行 `/resume <session-id>` 加载指定的已持久化 session；命令只接受 session ID，不接受文件路径，不展示 session 目录或目录列表。
+- **FR-12 恢复安全边界**：正在运行请求、存在未提交输入或目标 session 不存在/格式不支持时，`/resume` 必须拒绝并保留当前会话；成功恢复后替换当前内存中的分支树、激活分支和 session Store。
 
 ## Non-Functional Requirements
 
 - **数据完整性**：分支关系、消息顺序和消息内容必须通过现有临时文件 + 原子替换方式保存；写盘失败不能覆盖已有有效 session。
 - **资源效率**：分支共享父历史的逻辑前缀，不为每个分支重复复制完整上下文；只有分支新增消息和必要索引独立存储。
 - **响应性**：切换 Tab 不得等待网络请求；隐藏分支的流式请求可以继续，但事件必须安全地进入对应分支状态。
-- **兼容性**：旧版线性 session 可以读取；没有分支时，TUI 行为与当前单分支模式一致。
+- **兼容性**：旧版线性 session 可以读取；没有分支时，TUI 行为与当前单分支模式一致；`/resume` 可以加载 schema version 2 和 version 3。
 - **终端适配**：首版采用 Tab，不实现左右双 Pane；窄终端不因分支数量增加而改变最小可用布局。
 - **可测试性**：上下文解析、分支隔离、schema 迁移、流式事件路由和 Tab 切换必须具备不依赖真实网络的测试入口。
 
@@ -62,10 +64,23 @@
 
 没有创建任何 Fork 时，现有文本输入、图片输入、流式显示、取消、session 保存和退出行为保持不变。
 
+### AC-9 按 ID 恢复 session
+
+给定 sessions 目录中存在一个合法的 session 文件，用户执行 `/resume <session-id>` 后，当前 TUI 在同一进程内加载该 session 的分支树、激活分支和消息历史；成功路径不展示文件路径，不需要目录面板。
+
+### AC-10 恢复失败保护
+
+在当前请求运行中、输入框存在未提交内容、session ID 不存在、ID 格式非法或 JSON/schema 不支持时执行 `/resume`，系统显示错误并保持当前会话、输入和分支状态不变。
+
+### AC-11 v2 恢复迁移
+
+使用 `/resume` 加载 schema version 2 线性 session 后，系统将其映射为只有 `main` 分支的内存模型；后续成功保存时再按 schema version 3 写回。
+
 ## Out of Scope
 
 - 首版不实现鼠标拖选、右键上下文菜单和终端选区坐标映射。
 - 首版不支持从 AI 消息的任意字符位置截断上下文；未来鼠标选区默认仍按所在完整消息边界 Fork，并可把选中文字作为子分支输入草稿引用。
 - 首版不实现左右并排双 Pane；所有分支通过 Tab 在同一渲染区域切换。
 - 首版不实现跨进程、跨机器或远程 session 协作。
+- 首版不提供 session 列表、搜索、目录浏览、文件路径输入或独立恢复面板；只提供 `/resume <session-id>`。
 - 首版不改变 LLM 协议、CLI 参数、配置结构和图片传输协议。
