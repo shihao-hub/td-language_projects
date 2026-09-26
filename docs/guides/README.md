@@ -24,10 +24,10 @@
 
 | 指南范围 | 位置 | 命名 |
 |---|---|---|
-| 父仓级（归档、盘点、跨项目工具链等） | `docs/guides/` | `GUIDE-<kebab-case 英文名>.md` |
-| 语言专属（go exe 图标等） | `docs/projects/<lang>/` | 同上（如 `docs/projects/go_projects/GUIDE-GO-EXE-ICON.md`） |
+| 父仓级（归档、盘点、跨项目工具链等） | `docs/guides/` | `GUIDE-<中文主题>.md`（专有名词保留英文，如 `GUIDE-AOCI安装配置.md`） |
+| 语言专属（go exe 图标等） | `docs/projects/<lang>/` | 语言层方法论文档，不加 GUIDE 前缀（如 `docs/projects/go_projects/go exe 默认图标.md`） |
 
-- 文件名 = `GUIDE-` 前缀 + kebab-case 英文标识，与 frontmatter `name` 对应（`GUIDE-GO-EXE-ICON.md` ↔ `name: go-exe-icon`）。
+- 文件名 = `GUIDE-` 前缀 + 中文主题（专有名词如 AOCI/LLM/MCP 保留英文原文）；frontmatter `name` 仍用英文 kebab-case 标识（`GUIDE-项目归档.md` ↔ `name: project-archive`），与文件名松散对应即可。
 - 一份 GUIDE 只沉淀一个工作流；多个相关流程分文件，互链即可。
 
 ## 文件结构
@@ -58,7 +58,7 @@ description: 做什么 + 何时该翻这份指南。用触发式写法列举真�
 - **祈使句写指令**：指南的读者是执行者（AI 或人），"先做 X 再做 Y"，不要写"我们会考虑先做 X"。
 - **渐进式披露**：单文件 < 500 行；快超限时把细节拆成同目录姊妹文件并留明确跳转指引，不要无限膨胀单文件。
 - **示例给足上下文**：Input/Output 示例用真实项目名和真实场景，抽象占位符示例没有校准价值。
-- **引用带路径**：提到其他文档一律写仓库相对路径（如 `docs/guides/GUIDE-ARCHIVE.md`），裸文件名无法定位。
+- **引用带路径**：提到其他文档一律写仓库相对路径（如 `docs/guides/GUIDE-项目归档.md`），裸文件名无法定位。
 
 ## 改名与迁移纪律
 
@@ -72,12 +72,12 @@ GUIDE 会被其他文档、子仓 README 交叉引用，**改名/移动是高危
 
 | 文件 | 主题 |
 |---|---|
-| [GUIDE-ARCHIVE.md](GUIDE-ARCHIVE.md) | 子仓项目归档到 `.archived/projects/<lang>/` |
-| [GUIDE-RESTORE.md](GUIDE-RESTORE.md) | 归档项目恢复回子仓（归档逆操作） |
-| [GUIDE-INVENTORY.md](GUIDE-INVENTORY.md) | MONOREPO.md 项目价值盘点表维护 |
-| [GUIDE-DOCS-RENAME.md](GUIDE-DOCS-RENAME.md) | docs 下英文命名文档批量改中文名并修引用 |
-| [GUIDE-AOCI-SETUP.md](GUIDE-AOCI-SETUP.md) | AOCI-CODE 仓库认知索引的安装与配置 |
-| [GUIDE-MCP-INSPECTOR.md](GUIDE-MCP-INSPECTOR.md) | MCP Inspector 测试调试自定义 stdio MCP server |
-| [GUIDE-THIRDPARTY-CLONE.md](GUIDE-THIRDPARTY-CLONE.md) | 第三方开源项目克隆到 .thirdparty/（gitignore + 自有 remote，不用 submodule） |
-| [GUIDE-LLM-PROVIDER-COMPAT.md](GUIDE-LLM-PROVIDER-COMPAT.md) | 把只支持 OpenAI/Anthropic/Gemini 的外部工具接到自己的模型上（探针先行 + 最小补丁 + 双层验证） |
-| [../projects/go_projects/GUIDE-GO-EXE-ICON.md](../projects/go_projects/GUIDE-GO-EXE-ICON.md) | go_projects exe 默认地鼠图标（语言专属） |
+| [GUIDE-项目归档.md](GUIDE-项目归档.md) | 子仓项目归档到 `.archived/projects/<lang>/` |
+| [GUIDE-项目恢复.md](GUIDE-项目恢复.md) | 归档项目恢复回子仓（归档逆操作） |
+| [GUIDE-项目盘点维护.md](GUIDE-项目盘点维护.md) | MONOREPO.md 项目价值盘点表维护 |
+| [GUIDE-文档中文命名整改.md](GUIDE-文档中文命名整改.md) | docs 下英文命名文档批量改中文名并修引用 |
+| [GUIDE-AOCI安装配置.md](GUIDE-AOCI安装配置.md) | AOCI-CODE 仓库认知索引的安装与配置 |
+| [GUIDE-MCP调试接入.md](GUIDE-MCP调试接入.md) | MCP Inspector 测试调试自定义 stdio MCP server |
+| [GUIDE-第三方项目克隆.md](GUIDE-第三方项目克隆.md) | 第三方开源项目克隆到 .thirdparty/（gitignore + 自有 remote，不用 submodule） |
+| [GUIDE-LLM兼容接入.md](GUIDE-LLM兼容接入.md) | 把只支持 OpenAI/Anthropic/Gemini 的外部工具接到自己的模型上（探针先行 + 最小补丁 + 双层验证） |
+| [../projects/go_projects/go exe 默认图标.md](../projects/go_projects/go%20exe%20默认图标.md) | go_projects exe 默认地鼠图标（语言专属，不加 GUIDE 前缀） |

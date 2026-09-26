@@ -3,7 +3,7 @@ name: go-exe-icon
 description: go_projects 子仓产 Windows exe 的项目默认配置站标地鼠图标的四步流程（复制 go-default.ico → rsrc 生成 .syso → go build → 入库），含触发与豁免条件、验证方法与 PE 资源原理。当 go_projects 下新建项目首次构建 exe、已有项目重建或换图标，且用户未对图标提出要求时使用；用户明确指定图标或明确不要时豁免。
 ---
 
-# GUIDE-GO-EXE-ICON：go_projects exe 默认图标
+# go_projects exe 默认图标
 
 适用于 `go_projects` 子仓内产出 Windows exe 的项目。当用户未对图标提出任何要求时，默认为该项目的 exe 配置站标地鼠图标，直接按本文执行，无需再次询问。
 

@@ -9,7 +9,7 @@ cd go_projects\glmquotawatch
 go build -ldflags "-X glmquotawatch/internal/cli.Version=v0.1.0" -o glmquotawatch.exe .
 ```
 
-exe 默认带站标地鼠图标：项目根下的 `icon.ico` 与 `rsrc_windows_amd64.syso` 由 `go build` 自动链接，无需额外参数；更换图标时用 rsrc 重出 syso（见父仓 `docs/projects/go_projects/GUIDE-GO-EXE-ICON.md`）。
+exe 默认带站标地鼠图标：项目根下的 `icon.ico` 与 `rsrc_windows_amd64.syso` 由 `go build` 自动链接，无需额外参数；更换图标时用 rsrc 重出 syso（见父仓 `docs/projects/go_projects/go exe 默认图标.md`）。
 
 ## 快速上手
 

@@ -1,4 +1,4 @@
-# AGENTS.md
+﻿# AGENTS.md
 
 ## 强约束规则
 
@@ -12,7 +12,16 @@
   - type 限：`feat`（新功能）、`fix`（Bug 修复）、`docs`（文档）、`style`（格式）、`refactor`（重构）、`perf`（性能）、`test`（测试）、`chore`（构建/工具）、`ci`（CI/CD）、`revert`（回滚）；
   - Subject：中文描述，≤ 50 字符，不以句号结尾；祈使语气（添加、修复、优化、重构、移除、更新）；
   - Body：中文，每行 ≤ 72 字符，说明是什么和为什么，`-` 列表格式。
-- `**/plans/**`、`**/specs/**` 下文件的任何新增、修改、删除或重命名，都必须单独 commit（注意，对于某一个文件，你需要评估接下来的任务是否要对其进行多次改动，如果是可以将其合并，像改动几个字符等操作不如合并起来，commit message 用无序列表展示）；该 commit 不得混入代码、配置、其他无关文件或其他独立的 plan/spec 变更。Agent 可直接完成此类 commit，无需再次征得用户同意；只有遇到 Git 身份、权限、钩子、冲突或其他安全边界导致无法提交时，才向用户询问。当前工作区中已存在的未提交 plan/spec 文件，本轮按用户明确授权作为一次性历史基线合并为一个独立 commit；此后恢复前述独立提交规则。
+- **`**/plans/**` 与 `**/specs/**` 文件的独立提交规则（强约束）**：
+  - **触发时机（必须单独 commit）**：
+    1. **新建计划**：实施计划/需求设计一旦落盘，**必须立即单独提交**，严禁与随后的开发代码混在一起；
+    2. **任务结束归档**：整组任务执行完成、勾选完最终状态后，**必须立即单独提交该文件的状态更新**，不得拖延到后续无关对话；
+    3. **中间任务折叠**：在连续执行 Task 1 到 Task N 期间，计划文件内微小的勾选改动可折叠合并，在整批任务完成或停下等待用户确认时**一次性独立提交**（无须每一个 Task 单独 commit 一次计划）。
+  - **隔离纪律（单文件独占）**：
+    - 严禁代码、配置或其他业务文件混入；
+    - 每个不同的 plan/spec 文件互不干扰，禁止跨 plan 批量合并提交。
+  - **自治权限**：Agent 可直接完成此类 commit，无需再次征得用户同意；只有遇到 Git 身份、权限、钩子、冲突或其他安全边界导致无法提交时，才向用户询问。
+  - **Commit Message 规范**：标题使用规范类别（如 `docs(plans): ...`），Body 必须使用 `- ` 无序列表说明变动详情。
 - Git 提交范围隔离：一次提交的文件只能属于同一范围——父仓库自身、某个子仓库根目录、或某个子仓库内的单个子项目；禁止跨范围混提（如多个子项目的改动混在一次提交，或子项目文件与子仓根目录文件混提）。
 - 代码修改完成后，向用户展示改动摘要，并给出可直接在 PowerShell 下执行的 git commit 命令（需要有 cd 命令）。
 - 禁止 `SELECT *`：任何 ORM 查询与手写 SQL 一律显式列出所需字段。
@@ -58,7 +67,7 @@
 
 - 定位：以 CLI 工具为主；非 CLI 的服务端/SDK 及带 GUI 项目属例外（个位数，如 liteconf），收录须注明理由，详见父仓 README「子仓约定」。
 - 曾计划采用 git submodules 管理子项目，后因维护成本退回 monorepo；背景与操作方案见子仓内 `SUBMODULES.md`。
-- 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `docs\assets\projects\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[GUIDE-GO-EXE-ICON](<docs/projects/go_projects/GUIDE-GO-EXE-ICON.md>)》。
+- 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `docs\assets\projects\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[go exe 默认图标](<docs/projects/go_projects/go exe 默认图标.md>)》。
 
 ### rust_projects
 
@@ -100,7 +109,7 @@
   - 例：`typescript_projects/taskmon/docs/x.md` → `docs/projects/typescript_projects/taskmon/x.md`。
 - 例外：子模块内全大写命名的文档（如 `README.md`、`SUBMODULES.md`）与子仓根级说明文件无需迁移，可原地保留。
 - **方法论文档与 AI agent 工作指南**（跨项目、供 AI agent 直接执行，不归属单个子项目，如 `docs/projects/go_projects/CLI 工具开发标准.md`）：放 `docs/projects/<lang>/` 语言层目录（当前集中在 `docs/projects/go_projects/`），不镜像子仓路径、不进项目子目录；跨语言标准维护单一文件，其他语言引用同一标准；指南中引用的项目参考实现与项目文档，仍按上述 `docs/projects/<lang>/<项目>/` 规则存放。
-- **父仓级 AI 工作指南（GUIDE 系列）**：当用户要求"把流程沉淀下来 / 写个操作手册 / 沉淀成 GUIDE"，或一次任务中出现可复用的多阶段工作流（分阶段执行、有人工确认点、有踩坑记录）值得沉淀时，按《[GUIDE 编写规范](<docs/guides/README.md>)》产出 `docs/guides/GUIDE-<英文名>.md`（语言专属指南仍按上一条放 `docs/projects/<lang>/`，如 `docs/projects/go_projects/GUIDE-GO-EXE-ICON.md`）；GUIDE 仿 skill 规范编写但**不注册为 skill**，禁止放入任何 skills 目录。
+- **父仓级 AI 工作指南（GUIDE 系列）**：当用户要求"把流程沉淀下来 / 写个操作手册 / 沉淀成 GUIDE"，或一次任务中出现可复用的多阶段工作流（分阶段执行、有人工确认点、有踩坑记录）值得沉淀时，按《[GUIDE 编写规范](<docs/guides/README.md>)》产出 `docs/guides/GUIDE-<中文主题>.md`（专有名词保留英文，如 `GUIDE-AOCI安装配置.md`；语言层方法论文档按上一条放 `docs/projects/<lang>/`，不加 GUIDE 前缀，如 `docs/projects/go_projects/go exe 默认图标.md`）；GUIDE 仿 skill 规范编写但**不注册为 skill**，禁止放入任何 skills 目录。
 - **通用技术知识文档**（与任何项目无关的知识介绍/沉淀，如协议介绍、技术调研）：放 `docs/repo/`；`docs/projects/<lang>/` 只收项目相关文档与语言层方法论文档，禁止把此类文档放语言层根目录或任何项目目录。
 - 归档项目统一放 `.archived/projects/<lang>/<项目名>/`；语言通用文档放 `docs/projects/<lang>/`。
 - 子仓内不再维护各自的 `.archived/`、`docs/`、`.zed/` 与 `.zcode/`。

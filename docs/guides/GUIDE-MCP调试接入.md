@@ -3,7 +3,7 @@ name: mcp-inspector-setup
 description: 用 MCP Inspector（官方 @modelcontextprotocol/inspector v2.x）测试与调试自定义 stdio MCP server 的完整配置工作流：server 列表持久化机制（~/.mcp-inspector/mcp.json writable catalog）、Web 表单字段与 JSON 条目对照、liteconf 实测示例、连接后测试路径，以及自写脚本灌 JSON-RPC 消息必踩的协议时序坑。当用户说"用 inspector 测一下 mcp"、"配到 inspector"、"npx @modelcontextprotocol/inspector 怎么用"、"mcp.json 怎么配"、"inspector 页面里怎么加 server"，或要把自己项目的 mcp 子命令接入调试工具时使用。
 ---
 
-# GUIDE-MCP-INSPECTOR：配置与测试自定义 stdio MCP server
+# GUIDE-MCP调试接入：配置与测试自定义 stdio MCP server
 
 适用于本仓各语言子项目（`liteconf mcp`、未来的其他 MCP 入口）在 MCP Inspector 中注册、连接与冒烟。核心结论一句话：**Inspector 的 server 列表就是一个本地 JSON 文件 `~/.mcp-inspector/mcp.json`，直接编辑它（或填 Web 表单，两者等价）即可把任何 stdio MCP server 配进去。**
 

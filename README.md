@@ -115,8 +115,8 @@ uv run .scripts/build_docs.py preview # 构建后起一次性静态服务（只�
 
 ## 项目归档
 
-项目停更后移出子仓、归档到父仓库 `.archived/projects/<lang>/`，完整流程（前置调研、范围隔离提交、子模块指针更新）见 [GUIDE-ARCHIVE.md](docs/guides/GUIDE-ARCHIVE.md)。
+项目停更后移出子仓、归档到父仓库 `.archived/projects/<lang>/`，完整流程（前置调研、范围隔离提交、子模块指针更新）见 [GUIDE-项目归档.md](<docs/guides/GUIDE-项目归档.md>)。
 
 ## 项目盘点
 
-各项目（含归档）的摘要、状态、源码阅读情况与价值评估见 [MONOREPO.md](MONOREPO.md)；盘点表的维护规则与联动纪律见 [GUIDE-INVENTORY.md](docs/guides/GUIDE-INVENTORY.md)。
+各项目（含归档）的摘要、状态、源码阅读情况与价值评估见 [MONOREPO.md](MONOREPO.md)；盘点表的维护规则与联动纪律见 [GUIDE-项目盘点维护.md](<docs/guides/GUIDE-项目盘点维护.md>)。
