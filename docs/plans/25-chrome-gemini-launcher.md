@@ -30,7 +30,7 @@ graph LR
 
 **任务分解**：
 
-- [ ] Task 1: 初始化项目目录与 Chrome 扩展核心文件
+- [x] Task 1: 初始化项目目录与 Chrome 扩展核心文件
   - 文件：
     - `typescript_projects/gemini-launcher/extension/manifest.json`
     - `typescript_projects/gemini-launcher/extension/background.js`
@@ -44,7 +44,7 @@ graph LR
   - 验证：文件结构完整，manifest 符合 Chrome MV3 规范。
   - Demo：Chrome 以开发者模式加载该扩展后，工具栏出现极简四角星芒图标。
 
-- [ ] Task 2: 编写基于 uv 的 Python Native Host 与无黑框启动脚本
+- [x] Task 2: 编写基于 uv 的 Python Native Host 与无黑框启动脚本
   - 文件：
     - `typescript_projects/gemini-launcher/host/host.py`
     - `typescript_projects/gemini-launcher/host/run_host.bat`
@@ -56,7 +56,7 @@ graph LR
   - 验证：直接在终端通过 stdin 管道写入 4 字节前缀的测试 JSON 消息，验证按键发送逻辑且正常退出。
   - Demo：运行测试命令后能成功触发系统热键。
 
-- [ ] Task 3: 编写一键注册与解除注册脚本并打通端到端链路
+- [x] Task 3: 编写一键注册与解除注册脚本并打通端到端链路
   - 文件：
     - `typescript_projects/gemini-launcher/register.ps1`
     - `typescript_projects/gemini-launcher/unregister.ps1`
