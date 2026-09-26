@@ -75,6 +75,7 @@ uv run .scripts/install_tool.py all
 |---|---|---|
 | `.scripts/install_tool.py` | 把子仓构建产物安装到 `~/.local/bin`（在 PATH 上即装即用） | `uv run .scripts/install_tool.py <clictl\|jtree\|all>` |
 | `.scripts/init-submodules.ps1` | 克隆后初始化子模块并切换到跟踪分支 | `./.scripts/init-submodules.ps1` |
+| `.scripts/submodule-toggle.ps1` | 子模块临时注销/恢复（status 体检、deinit 本地注销、restore 恢复；有未提交或未推送改动时拒绝注销） | `./.scripts/submodule-toggle.ps1 -Action <status\|deinit\|restore> -Name <子模块名>` |
 | `.scripts/gen_icon.py` | PNG 源图转多尺寸 Windows .ico | `uv run .scripts/gen_icon.py <input.png> <output.ico>` |
 | `.scripts/lark_group_bridge.py` | 外部群消息桥（发送/读取/群列表/初始化） | `uv run .scripts/lark_group_bridge.py <send\|read\|groups\|init>` |
 
