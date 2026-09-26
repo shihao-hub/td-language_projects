@@ -1,6 +1,6 @@
 # 08 - 归档 agyquota 与 exestarter 到父仓库 .archived
 
-> 工作流依据：`docs/guides/GUIDE-ARCHIVE.md`（project-archive）。
+> 工作流依据：`docs/guides/GUIDE-项目归档.md`（project-archive）。
 
 ## 问题陈述
 
