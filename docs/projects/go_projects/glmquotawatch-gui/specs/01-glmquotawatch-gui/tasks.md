@@ -9,7 +9,7 @@
     - 安装 wails3 CLI：`go install github.com/wailsapp/wails/v3/cmd/wails3@v3.0.0-beta.25`（GOPROXY 已配 goproxy.cn）
     - 临时目录执行 `wails3 init -n glmquotawatch-gui -t vue-ts`（模板名以 `wails3 init -l` 实际清单为准，无 vue-ts 则用 vue 补 TS 配置），产物迁入 `go_projects/glmquotawatch-gui/`（子仓内直接建子目录，禁止单独 git init）
     - module 名改为 `glmquotawatch-gui`；主窗参数改为 Title「GLM 用量监控」、480x760
-    - 复制父仓 `docs\assets\projects\go_projects\go-default.ico` → 项目根 `icon.ico`，按《GUIDE-GO-EXE-ICON》生成 `rsrc_windows_amd64.syso`（rsrc 工具：go install github.com/akavel/rsrc）
+    - 复制父仓 `docs\assets\projects\go_projects\go-default.ico` → 项目根 `icon.ico`，按《go exe 默认图标》生成 `rsrc_windows_amd64.syso`（rsrc 工具：go install github.com/akavel/rsrc）
     - frontend 增加 `tailwindcss` + `@tailwindcss/vite` + `echarts` 依赖，接入 Tailwind v4（vite 插件方式）
     - `.gitignore`：`frontend/node_modules/`、`frontend/dist/`、`frontend/bindings/`、`dist/`、`build/bin/`、`*.exe`
   - Verify: `cd go_projects\glmquotawatch-gui; npm install; wails3 build` → 构建成功产出 exe，双击出现空主窗（无业务功能）

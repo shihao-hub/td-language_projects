@@ -157,7 +157,7 @@ flowchart TB
   - **Complexity** Low
 - `CREATED` `internal/guiapp/icons.go`
   - **Purpose** 图标资源装配
-  - **Changes** `//go:embed icon.ico`（复制自父仓 `docs/assets/projects/go_projects/go-default.ico`，按 GUIDE-GO-EXE-ICON 同时生成 `rsrc_windows_amd64.syso` 供 exe 图标）；托盘 `SetIcon` 用同一份字节
+  - **Changes** `//go:embed icon.ico`（复制自父仓 `docs/assets/projects/go_projects/go-default.ico`，按《go exe 默认图标》同时生成 `rsrc_windows_amd64.syso` 供 exe 图标）；托盘 `SetIcon` 用同一份字节
   - **Complexity** Low
 
 #### 7. `internal/cli` — 恒 JSON 壳
