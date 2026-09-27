@@ -9,6 +9,7 @@
     "**/.git",
     "**/__pycache__",
     "**/node_modules",
+    "**/.venv/*/**",
     "**/target",
     ".aoci/*/*/**",
     ".mkdocs-site/*/*/**",
