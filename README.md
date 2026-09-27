@@ -31,7 +31,7 @@ git submodule update --init --recursive
 git 子模块默认以 **detached HEAD** checkout 父仓库记录的 commit（这是子模块的设计行为，不是异常）。若希望各子模块直接站在 `main`/`master` 本地分支上，克隆后在仓库根执行一次：
 
 ```powershell
-./.scripts/init-submodules.ps1
+uv run .scripts/init-submodules.py
 ```
 
 脚本做两件事：初始化子模块 → 按 `.gitmodules` 中各子模块的 `branch` 字段切换到对应本地分支（`git switch` 会在本地无同名分支时自动创建并跟踪 `origin/<branch>`）。
@@ -73,9 +73,10 @@ uv run .scripts/install_tool.py all
 
 | 脚本 | 功能 | 用法 |
 |---|---|---|
-| `.scripts/install_tool.py` | 把子仓构建产物安装到 `~/.local/bin`（在 PATH 上即装即用） | `uv run .scripts/install_tool.py <clictl\|jtree\|all>` |
-| `.scripts/init-submodules.ps1` | 克隆后初始化子模块并切换到跟踪分支 | `./.scripts/init-submodules.ps1` |
-| `.scripts/submodule-toggle.ps1` | 子模块临时注销/恢复（status 体检、deinit 本地注销、restore 恢复；有未提交或未推送改动时拒绝注销） | `./.scripts/submodule-toggle.ps1 -Action <status\|deinit\|restore> -Name <子模块名>` |
+| `.scripts/install_tool.py` | 把子仓构建产物安装到 `D:\Users\language_projects_bin`（用户级工具目录，已入 PATH） | `uv run .scripts/install_tool.py <clictl\|jtree\|all>` |
+| `.scripts/init-submodules.py` | 克隆后初始化子模块并切换到跟踪分支 | `uv run .scripts/init-submodules.py` |
+| `.scripts/submodule-toggle.py` | 子模块临时注销/恢复（status 体检、deinit 本地注销、restore 恢复；有未提交或未推送改动时拒绝注销） | `uv run .scripts/submodule-toggle.py -Action <status\|deinit\|restore> -Name <子模块名>` |
+| `.scripts/check-agy-upstream.py` | antigravity-acp 上游监控（Registry 版本比对 + GitHub 社区仓库检索） | `uv run .scripts/check-agy-upstream.py [--only-registry\|--query <关键词>]` |
 | `.scripts/gen_icon.py` | PNG 源图转多尺寸 Windows .ico | `uv run .scripts/gen_icon.py <input.png> <output.ico>` |
 | `.scripts/lark_group_bridge.py` | 外部群消息桥（发送/读取/群列表/初始化） | `uv run .scripts/lark_group_bridge.py <send\|read\|groups\|init>` |
 

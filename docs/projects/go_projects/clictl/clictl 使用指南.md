@@ -13,7 +13,7 @@ Windows 单文件 CLI 工具注册器/启动器：注册任意 exe，`clictl run
 ```powershell
 # 构建（产出单文件 clictl.exe，版本号注入）
 cd go_projects/clictl
-./scripts/build.ps1 -Version 1.0.0
+uv run scripts/build.py --version 1.0.0
 
 # 注册（name 默认=文件名去 .exe 小写化）
 clictl add "D:\Program Files\Go\bin\go.exe" --desc "Go toolchain" --meta '{\"source\":\"go\",\"tags\":[\"dev\"]}'

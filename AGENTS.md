@@ -93,7 +93,7 @@
 
 ## 仓库脚本约定（.scripts）
 
-- 仓库运维脚本统一放 `.scripts/`（点前缀目录，与 `.archived`/`.zed` 同属仓库基础设施层，不占根目录可见位置；Python / PowerShell）；项目自有脚本随各自子仓，不入该目录。
+- 仓库运维脚本统一放 `.scripts/`（点前缀目录，与 `.archived`/`.zed` 同属仓库基础设施层，不占根目录可见位置）；项目自有脚本随各自子仓，不入该目录。脚本语言**统一 Python**（PEP 723 + uv 单文件），**禁止新增 ps1/bat**：历史 ps1/bat 已全部迁移删除（迁移记录见 `docs/plans/26-script-migration-py-ts.md`），双击入口一并放弃；typescript_projects 子仓内部脚本用 TS（Bun）。
 - 例外：`docs/assets/projects/` 目录存放跨项目二进制资源，按语言子仓名嵌套（当前仅 `docs/assets/projects/go_projects/go-default.ico` 默认图标），不属于脚本约束范围。
 - **一个脚本只做一件事**：单一职责，禁止膨胀为万能工具脚本。
 - Python 脚本**必须**带 PEP 723 内联元数据（`# /// script` 块）声明 `requires-python` 与 `dependencies`；无第三方依赖也要保留该块（形式统一），统一在仓库根用 `uv run .scripts/<脚本> <args>` 执行。
@@ -124,7 +124,7 @@
 ## 常用命令
 
 - 完整克隆：`git clone --recurse-submodules <URL>`
-- 克隆后初始化并切换子模块到跟踪分支：`./.scripts/init-submodules.ps1`（初始化 + 按 `.gitmodules` 的 `branch` 字段切分支，解决子模块默认 detached HEAD）
+- 克隆后初始化并切换子模块到跟踪分支：`uv run .scripts/init-submodules.py`（初始化 + 按 `.gitmodules` 的 `branch` 字段切分支，解决子模块默认 detached HEAD）
 - 初始化/补拉子模块：`git submodule update --init --recursive`
 - 跟进子仓库远端新提交：`git submodule update --remote`
 - 提交指针变更：`git add --force <子模块名>`（`ignore = all` 会拦截普通 `git add`，必须 `--force`）→ `git commit` → `git push`

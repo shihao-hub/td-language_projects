@@ -9,9 +9,6 @@ version = "0.1.10"
 # TOML 语法高亮（Cargo.toml、pyproject.toml、.zed/extensions.toml 等）
 [toml]
 version = "1.0.3"
-# PowerShell 语法 + LSP（init-submodules.ps1 与各项目构建脚本）
-[powershell]
-version = "0.4.3"
 # SQL 高亮（clictl migrations）
 [sql]
 version = "1.1.8"

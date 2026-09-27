@@ -57,20 +57,20 @@ Test-Path .git\modules\rust_projects     # True（git 库保留）
 
 ## 脚本操作（推荐）
 
-上述手工步骤已封装为 `.scripts/submodule-toggle.ps1`（见 README「仓库脚本」表），新接手的 AI 会话可直接按脚本内注释帮助与示例使用：
+上述手工步骤已封装为 `.scripts/submodule-toggle.py`（见 README「仓库脚本」表），新接手的 AI 会话可直接按脚本内注释帮助与示例使用：
 
 ```powershell
 # 只读体检（不修改任何东西）：注销状态、gitlink、工作区与未推送情况
-./.scripts/submodule-toggle.ps1 -Action status  -Name native_projects,rust_projects
+uv run .scripts/submodule-toggle.py -Action status  -Name native_projects,rust_projects
 
 # 临时注销：等价于手工 deinit -f + 清理残留 + 验证；
 # 子模块有未提交改动或未推送提交时整批拒绝，已注销的自动跳过（幂等）
-./.scripts/submodule-toggle.ps1 -Action deinit  -Name native_projects,rust_projects
+uv run .scripts/submodule-toggle.py -Action deinit  -Name native_projects,rust_projects
 
 # 恢复：update --init + 切换 .gitmodules 声明的跟踪分支；
 # native 的 gitlink 缺失会被自动处理（回溯历史提交重建 + git add --force），
 # 结束后按提示提交父仓库指针即可
-./.scripts/submodule-toggle.ps1 -Action restore -Name rust_projects
+uv run .scripts/submodule-toggle.py -Action restore -Name rust_projects
 ```
 
 与手工操作的对应关系：
@@ -91,7 +91,7 @@ cd language_projects
 git submodule update --init go_projects python_projects typescript_projects
 ```
 
-再对已初始化的子模块切换跟踪分支（与 `init-submodules.ps1` 第 2 步同款命令，只会作用于已初始化的子模块）：
+再对已初始化的子模块切换跟踪分支（与 `init-submodules.py` 第 2 步同款命令，只会作用于已初始化的子模块）：
 
 ```powershell
 git submodule foreach 'branch=$(git config -f $toplevel/.gitmodules submodule.$name.branch); if [ -z "$branch" ]; then branch=main; fi; git switch "$branch" 2>/dev/null || git switch main'
@@ -99,9 +99,9 @@ git submodule foreach 'branch=$(git config -f $toplevel/.gitmodules submodule.$n
 
 注意：
 
-- **不要直接运行 `./.scripts/init-submodules.ps1`**：它会初始化 `git submodule status` 中所有 `-` 前缀的子模块（含 native/rust）；
+- **不要直接运行 `uv run .scripts/init-submodules.py`**：它会初始化 `git submodule status` 中所有 `-` 前缀的子模块（含 native/rust）；
 - `git submodule update --init`（不带路径）同样会拉取全部子模块，必须显式列出三个路径；
-- 备选做法：正常 `git clone --recurse-submodules` + `./.scripts/init-submodules.ps1` 拉全五个，然后回到本文档「本目录注销操作」再次注销这两个。
+- 备选做法：正常 `git clone --recurse-submodules` + `uv run .scripts/init-submodules.py` 拉全五个，然后回到本文档「本目录注销操作」再次注销这两个。
 
 ## 恢复（未来继续做 native/rust 时）
 

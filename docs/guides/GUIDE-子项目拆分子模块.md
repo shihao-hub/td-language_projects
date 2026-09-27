@@ -200,7 +200,7 @@ git push origin main
 | `git rm -r` 报错 `PermissionDenied / Access to the path ... is denied` | Windows 下 exe/dll 被后台常驻或托盘进程锁定 | 使用 `Get-Process` 找到匹配进程并执行 `Stop-Process -Force`，再清理目录 |
 | `git submodule add` 报错 `'<dir>' already exists and is not a valid git repo` | 文件系统残留了空目录或未完全释放的句柄 | 先 `cd <dir>; git clone <remote> .`，然后再执行 `git submodule add <remote> <dir>`，Git 会直接识别现存仓库为 index 条目 |
 | `git add <submodule>` 没有任何反应，指针未暂存 | `.gitmodules` 配置了 `ignore = all` 拦截了常规暂存 | 必须使用 `git add --force <submodule>` 强制暂存指针变动 |
-| 克隆父仓后子模块内容为空 | Git 嵌套子模块未递归拉取 | 执行 `git submodule update --init --recursive`，或使用仓库内置脚本 `./.scripts/init-submodules.ps1` |
+| 克隆父仓后子模块内容为空 | Git 嵌套子模块未递归拉取 | 执行 `git submodule update --init --recursive`，或使用仓库内置脚本 `uv run .scripts/init-submodules.py` |
 | 切分历史后包含其他目录的提交 | 原 monorepo 历史上存在跨项目的混合 commit | 提前排查 `git log`，`subtree split` 仅提取改动影响到该目录的提交，尽量在日常保持一个 commit 对应一个 scope |
 
 ---
