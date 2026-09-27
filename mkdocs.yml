@@ -43,3 +43,19 @@ plugins:
       # 如需补充专名词典，用上游选项 jieba_dict_user 指一个词表文件即可。
   # 目录即导航：按 docs/ 层级自动生成侧边栏树，中文文件名即导航标题
   - awesome-pages
+
+extra_javascript:
+  - assets/javascripts/mermaid.min.js
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
