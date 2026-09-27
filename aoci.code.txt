@@ -67,6 +67,7 @@ GUIDE-子项目拆分子模块.md[SW7M]: F:GUIDE：把子仓平铺子项目拆�
 23-split-glmquotawatch-submodule.md[SW5T]: F:计划（已全部完成，Task 1-5 勾选）：glmquotawatch-gui 从 go_projects 拆为二级 submodule td-go_projects-glmquotawatch-gui，历史无损迁移并重新挂载 | R:code:MONOREPO.md | A:方案 A 保留原物理路径；gh 建仓 + subtree split 迁历史 + git rm + submodule add 重新挂载，均已执行完毕 | S:Windows 托盘进程锁 exe 须先终止再移目录；挂载降噪必须 branch=main + ignore=all；node_modules/bin/dist 缓存原样迁回无需重装
 walkthrough-22-glmquotawatch-tray-icon.md[SG5T]: F:22 号托盘图标计划的 Walkthrough：变更清单、构建与图标资源验证、遗留事项 | R:code:docs/plans/22-glmquotawatch-tray-icon.md | A:与 22 号计划配对阅读；对应 Go 子仓提交 5bae4c6 | S:未跑 go test；app.go 窗口改动与前端改动未混入该提交（局部 staging 隔离）；比稿文件仍未入库
 24-submodule-toggle-script.md[SW5S]: F:计划（已执行完成，Task 1-5 全部勾选）：新建 .scripts/submodule-toggle.ps1，为 native/rust 子模块提供 status/deinit/restore 一键注销与恢复 | R:code:.scripts/submodule-toggle.ps1,code:README.md,code:docs/repo/Git 子模块临时注销（native、rust）.md | A:计划已执行完毕作决策存档；调整脚本行为前先读三项用户决策 | S:三项用户决策为行为契约：不干净整批拒绝、gitlink 缺失自动重建、-Name 必填；按执行约定未跑 mini 测试仓验证，首次真实使用时留意输出
+25-chrome-gemini-launcher.md[SW5S]: F:Chrome Gemini 图标极简启动器计划：Chrome 扩展通过 Native Messaging 调用 uv 驱动的 Python host，发送 Alt+Shift+G 唤起原生 Gemini 侧边栏；Task 1-3 已完成 | R:- | A:计划已执行完成；扩展图标、Native Messaging manifest/host、注册与解除注册脚本及使用说明均已落地 | S:Native Messaging host 的 stdout 必须遵守长度前缀 JSON 协议，宿主启动脚本需无黑框运行
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
@@ -196,6 +197,7 @@ zed-multi-session-agent-architecture-research.md[SG4M]: F:Zed 多会话单 Agent
 agent-session-handoff-research.md[SG5L]: F:跨 agent 会话交接调研：换 agent 时原生续接全失效，只做路线二（发送方总结 Markdown 简报），含模板、落地形态与坑清单 | R:code:docs/repo/zed-multi-session-agent-architecture-research.md | A:通用技术知识沉淀；做交接简报或 sh-agent-handoff 类流程时先读 | S:简报必须由发送方（旧会话）生成；简报不放仓库（污染 git status）放 APPDATA；只贴 diff/报错/签名三类原文，其余给路径
 参考-鱼皮-7个神级技巧去AI味.md[SG4M]: F:去 AI 味网页设计技巧离线存档（鱼皮）：AI 味成因分析与七类去味手法（参考真实网站/设计先行/图片/反向提示/技能库/组件库/自主配色） | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/01-de-ai-flavor-ui.md | A:个人离线存档，版权归原作者；做前端去 AI 味改造时参考 | S:核心成因是 AI 求稳选常见配色；破局用强约束变指挥官；含可复用 AGENTS.md 设计规则模板
 源码阅读方法调研.md[SG4M]: F:源代码阅读方法调研（以 archery-mcp 为例）：六问顺序、八阶段工作流（契约→数据流→调用链→分支→验证→回忆）与练习/风险清单 | R:code:docs/plans/17-source-reading-research.md | A:通用技术知识沉淀；阅读陌生代码时按本文路线执行 | S:文档描述≠实际行为；MCP 入口必查 stdout 是否被 print 污染；客户端黑名单不是安全边界
+nosql-vs-rdbms-architecture-research.md[SG7L]: F:NoSQL 与 RDBMS 深度调研：理论基石、事务/一致性、主流引擎分类、选型决策矩阵与 Polyglot Persistence 融合架构 | R:- | A:通用技术调研报告，面向架构师和后端团队；核心论断按学术论文、国际标准及数据库官方文档组织 | S:报告将选型边界建立在 ACID/BASE、CAP/PACELC、查询驱动建模和混合持久化的证据链上；具体引擎能力需以当前官方文档复核
 
 ===D:/Users/language_projects/docs/repo/lark_group_bridge/===
 2026-09-20 自言自语存档.html[SG3L]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌逐张图注，支持页内编辑删除后覆盖原文件 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击打开；图片点击放大（Ctrl+滚轮缩放）；侧栏「编辑此页」可删条/删节/改字，保存后序列化覆盖原文件 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文
@@ -267,10 +269,26 @@ requirements.md[SG6T]: F:typeai TUI 化需求：无参数入口升级 Bubble Tea
 tasks.md[SW5T]: F:typeai TUI 任务清单（Task 1-6 完成，Task 7 [test] 待办）：骨架/流式桥/渲染缓存/resize/契约文档/构建 | R:code:docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md | A:已用 fake SSE 验证思考折叠、Markdown、失败不落盘与终端恢复 | S:按执行默认未跑单元/race；Task 7 补 renderer 与 stream state 单测
 
 ===D:/Users/language_projects/docs/projects/go_projects/agyquota/specs/03-agy-usage-eof-retry/===
-bugfix.md[SG6T]: F:agyquota --agy 瞬态 EOF 失败 bugfix 报告：单次执行无重试致可恢复故障直接失败，AC-1~6 约定有界重试边界 | R:code:docs/projects/go_projects/agyquota/plans/03-restore-agy-cli-command.md,code:docs/projects/go_projects/agyquota/设计说明.md | A:实现修复时按 AC 执行；核心是区分瞬态与非瞬态错误 | S:有界重试仅限 retrieveUserQuotaSummary 瞬态网络错误（如 EOF）；认证失败、命令缺失、参数错误等非瞬态错误禁止重试；--zed 数据源行为不变；重试诊断不污染 JSON 输出
+bugfix.md[SG6T]: F:agyquota --agy 瞬态 EOF 失败 bugfix 报告：单次执行无重试致可恢复故障直接失败，AC-1~6 约定有界重试边界 | R:code:docs/projects/go_projects/agyquota/plans/03-restore-agy-cli-command.md,code:docs/projects/go_projects/agyquota/设计说明.md | A:Task 1-2 已完成；Task 3 真实命令验收按默认执行规则暂未运行；实现核心是区分瞬态与非瞬态错误 | S:有界重试仅限 retrieveUserQuotaSummary 瞬态网络错误（如 EOF）；认证失败、命令缺失、参数错误等非瞬态错误禁止重试；--zed 数据源行为不变；重试诊断不污染 JSON 输出
 
 ===D:/Users/language_projects/docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/===
 design.md[SG6S]: F:typeai 图片重构设计：blobs 归档、按需 loadImage、轮次窗口降级三模块与 TUI staged 透传修复，含零上下文自审（2 MEDIUM 已修复） | R:code:docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/requirements.md,code:docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md | A:实现按本文；AC 与设计组件映射表在文末 | S:clipboard 仅做平台捕获，归档收口 service 层；blobs 内 hex 文件名被识别为剪贴板图命名 clipboard.png；历史含图消息统一剥离标记；TUI staged 须先存局部变量再置 nil
 requirements.md[SG6T]: F:typeai 图片重构需求：SHA-256 内容寻址 blob 归档、按需加载、最近 3 轮真实图片窗口与更早轮次降级占位符，FR-1~5 与 AC-1~4 | R:code:docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/design.md | A:需求基线；实现与验收以 AC 为准；Out of Scope（轮数配置、blob GC、文本裁剪）不得越界 | S:session.json 始终保留原始文本与完整 images 元数据，请求级图片降级不影响持久化；blobs 按 sha256 内容寻址去重；图片上限 10MiB 且仅 png/jpeg/webp/gif
 tasks.md[SW5T]: F:typeai 图片重构任务清单：3 项（归档+缓存移除+轮次降级、TUI 绑定+staged 透传+README、测试适配），全部未勾选待执行 | R:code:docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/design.md | A:待执行；任务 3 [test] 默认跳过 | S:-
+
+===D:/Users/language_projects/docs/projects/go_projects/agyquota/specs/04-silent-copy-hardening/===
+bugfix.md[SG6T]: F:agyquota Windows 静默 agy 副本回退与校验强化 bugfix：agy_silent.exe 失败回退原始 CUI 程序可能重新触发弹窗，需硬拦截、真实路径日志、多维缓存校验与 daemon 重启复用 | R:code:go_projects/agyquota/internal/agapi/pe_windows.go,code:go_projects/agyquota/internal/agapi/proc_windows.go,code:go_projects/agyquota/internal/agapi/client.go | A:待按 AC-1~5 实施；与 EOF 重试问题独立处理 | S:静默副本生成/校验失败时禁止回退原始 agy.exe；Subsystem=2 与源 SHA-256 绑定是防止缓存漂移和窗口回归的关键不变量
+
+===D:/Users/language_projects/docs/projects/go_projects/typeai/specs/03-conversation-fork/===
+design.md[SG7M]: F:typeai 多对话分支设计：session schema v3、父历史 Fork 解析、TUI Tab/命令切换、branch/turn 流式隔离与按 ID 恢复 | R:code:docs/projects/go_projects/typeai/specs/03-conversation-fork/requirements.md | A:设计文档待用户批准，Task 1-8 尚未执行；实现需以 requirements.md AC-1~11 为边界 | S:子分支通过不可变 parent_id 与半开区间 fork_message_index 继承历史；异步流和渲染结果必须同时校验 branch ID、turn ID 与 generation
+requirements.md[SG6S]: F:typeai 多对话分支需求：同一 session 内创建/切换/恢复分支，分支消息与流式状态隔离，schema v2 兼容迁移，并提供 /fork、Tab 与 /resume | R:code:docs/projects/go_projects/typeai/specs/03-conversation-fork/design.md | A:需求基线含 AC-1~11；后续设计与任务必须遵守 Out of Scope，不实现双 Pane、鼠标选区和精确字符 Fork | S:旧 schema v2 读取时迁移为 main 分支；非法父关系、环、悬空分支或越界 fork 索引必须拒绝加载而不猜测修复
+tasks.md[SW5T]: F:typeai 多对话分支任务清单：8 项，覆盖 session 分支模型、TUI 状态、Fork/Tab、流式路由、原子保存、/resume、文档与 TTY 验收 | R:code:docs/projects/go_projects/typeai/specs/03-conversation-fork/design.md | A:Task 2/3/7 已完成；Task 1/4/5/6 为 [test] 任务按默认跳过（实现已落地非缺失）；Task 8 真实 TTY 手工验收待执行；实施说明记录 schema v3、分支隔离、/resume、测试修复与构建验证 | S:SendBranch 修改 candidate.Branches 前必须 copyBranches，否则保存失败会经共享底层数组污染 c.session 内存历史
+
+===D:/Users/language_projects/docs/projects/go_projects/sourcecount/specs/01-source-statistics/===
+design.md[SQ7M]: F:sourcecount 设计基线，定义公共 Server 与 CLI/MCP 适配、配置 Glob、扫描分类、聚合和错误边界 | R:code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/requirements.md,code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/tasks.md | A:按本文实现；CLI 与 MCP 共用 internal/service.Server，schema 与工具注册同源 | S:无 daemon、数据库或 .gitignore 语义；Glob 支持 **，默认排除可关闭
+requirements.md[SQ7S]: F:sourcecount 功能需求：按后缀统计文本/二进制、JSON 过滤配置、CLI/MCP 双入口、稳定错误和验收标准 | R:code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md,code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/tasks.md | A:已批准；文本按 Unicode code point 与逻辑行统计，二进制按文件数与字节统计，部分失败保留诊断结果 | S:范围不含 GUI、daemon、历史数据库、单文件明细和 .gitignore 语义
+tasks.md[SQ5S]: F:sourcecount 实施任务清单：项目骨架、配置 Glob、扫描统计、公共 Server、CLI/MCP、文档和测试任务 | R:code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/requirements.md,code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md | A:Task 1-7 已完成；Task 8 测试任务按默认执行策略暂未执行 | S:本清单记录实施状态；测试任务保持未勾选，避免把未执行验证宣称为完成
+
+===D:/Users/language_projects/docs/projects/go_projects/sourcecount/===
+使用指南.md[SQ5S]: F:sourcecount 使用指南：构建、CLI/MCP 调用、JSON 配置、过滤语义、统计口径、错误码和范围限制 | R:code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/requirements.md,code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md | A:面向使用者；命令为 sourcecount，MCP 工具为 sourcecount.project.scan，配置按显式路径、当前目录、单根目录顺序发现 | S:无持久化状态；默认排除可关闭，且不解析 .gitignore
 

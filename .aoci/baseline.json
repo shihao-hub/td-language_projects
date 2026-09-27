@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-09-26T16:49:24Z",
+  "updated_at": "2026-09-27T04:26:47Z",
   "files": {
     ".gitattributes": {
       "sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476",
@@ -107,9 +107,9 @@
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "d167d244579bedecbb9fd284f9ecb7aa65e26427fc71285b1509ea697072cfd6",
-      "size": 75756,
-      "normalized_sha256": "d167d244579bedecbb9fd284f9ecb7aa65e26427fc71285b1509ea697072cfd6"
+      "sha256": "a9a5e3330ea1c28e97ce03ad4a19bb35e3db1dcebcfb84f8194a20bda69644e2",
+      "size": 81530,
+      "normalized_sha256": "a9a5e3330ea1c28e97ce03ad4a19bb35e3db1dcebcfb84f8194a20bda69644e2"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -344,9 +344,14 @@
       "normalized_sha256": "dff6d2b826df0df88efcc64846fdccf74d4e130731e3b274980d89bb07b31c68"
     },
     "docs/plans/24-submodule-toggle-script.md": {
-      "sha256": "4a7532b97f9d6567c3e2bc47159a94290f4c701cab5377d744167860f080d0de",
-      "size": 9419,
-      "normalized_sha256": "4a7532b97f9d6567c3e2bc47159a94290f4c701cab5377d744167860f080d0de"
+      "sha256": "ab921a5d278c29bbce6f501cbba72785276672230e9e7ea3a43e912415ce7130",
+      "size": 10128,
+      "normalized_sha256": "ab921a5d278c29bbce6f501cbba72785276672230e9e7ea3a43e912415ce7130"
+    },
+    "docs/plans/25-chrome-gemini-launcher.md": {
+      "sha256": "28a6eff5f8f40f4ab765edf0d411c13394aec3eff48b70645e6355f9ce564535",
+      "size": 5427,
+      "normalized_sha256": "621e99a5bfbe4678a53075185ef8f956480e50976e3c254a163cfe9739884fef"
     },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "sha256": "ff41ba5b47c36d21b5860b68d1153b4d4f7cabc8e985fef7bf22e492d2ed84d0",
@@ -434,9 +439,14 @@
       "normalized_sha256": "3aa4808c5661ddf125777e422a1a836b92e25f17fa91bc185a873fb91bbc429e"
     },
     "docs/projects/go_projects/agyquota/specs/03-agy-usage-eof-retry/bugfix.md": {
-      "sha256": "d2fab872b68f282882e6910aa686c64f6ba031262f63bf576c176d36de64049f",
-      "size": 3897,
-      "normalized_sha256": "e5d1748f577cf81ee07a7866e173a9183f8b0b0204c9ffca603d241e488ceda4"
+      "sha256": "36a9dc394524a77837b61385627a5e60b55001cc664f983233f32d3c900a35dd",
+      "size": 7123,
+      "normalized_sha256": "36a9dc394524a77837b61385627a5e60b55001cc664f983233f32d3c900a35dd"
+    },
+    "docs/projects/go_projects/agyquota/specs/04-silent-copy-hardening/bugfix.md": {
+      "sha256": "99c964131b1172f91fe4eb5f61b20e20dfe63b6e93ace0fa53eed2e66c10cfb4",
+      "size": 7534,
+      "normalized_sha256": "f51f4a0fca00633313cf68dfd858fae6a2350ff5cb82ad867111c7a48b87c2d5"
     },
     "docs/projects/go_projects/agyquota/设计说明.md": {
       "sha256": "2d78bef529e575111a9540411a3b20d3ad010c60d3c8cde886b1a01c6470099a",
@@ -653,6 +663,26 @@
       "size": 6500,
       "normalized_sha256": "7efbc131cbee6f1ac1da95701bb8ce4d67458b87415fabf44cd8956482ce5e6c"
     },
+    "docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md": {
+      "sha256": "661f0e95bde927337fd4ff36a95420a8cfafa81adc5531452de0b6cf64cf0545",
+      "size": 8129,
+      "normalized_sha256": "661f0e95bde927337fd4ff36a95420a8cfafa81adc5531452de0b6cf64cf0545"
+    },
+    "docs/projects/go_projects/sourcecount/specs/01-source-statistics/requirements.md": {
+      "sha256": "afb9a60dcf0888fa27b5d015f494dadcef09dd27ca7af67df73704b841a763a9",
+      "size": 4484,
+      "normalized_sha256": "afb9a60dcf0888fa27b5d015f494dadcef09dd27ca7af67df73704b841a763a9"
+    },
+    "docs/projects/go_projects/sourcecount/specs/01-source-statistics/tasks.md": {
+      "sha256": "a80b0a7e83fda7d50124d6ebf22225fb558703838b619496bddc645e4b12b42b",
+      "size": 4294,
+      "normalized_sha256": "a80b0a7e83fda7d50124d6ebf22225fb558703838b619496bddc645e4b12b42b"
+    },
+    "docs/projects/go_projects/sourcecount/使用指南.md": {
+      "sha256": "f8234e112e8ccd2d0dcccff5e12359d9d7901d0f7c2ac10806ec1876fcf6d4c7",
+      "size": 3903,
+      "normalized_sha256": "f8234e112e8ccd2d0dcccff5e12359d9d7901d0f7c2ac10806ec1876fcf6d4c7"
+    },
     "docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md": {
       "sha256": "22a21ffd6fac27c8867eac305c2302111413e124fb2871ab342c0aeae7201a64",
       "size": 8948,
@@ -682,6 +712,21 @@
       "sha256": "ba1b6288dba383072dc4ddf2ada94a8ee47ca46698757d61d3c4abcb737106ef",
       "size": 4030,
       "normalized_sha256": "ba1b6288dba383072dc4ddf2ada94a8ee47ca46698757d61d3c4abcb737106ef"
+    },
+    "docs/projects/go_projects/typeai/specs/03-conversation-fork/design.md": {
+      "sha256": "12937e3d38f6dab9a01714ab7733c7ef26e8fbe6b0a37503a67b6cfcc38044a2",
+      "size": 13111,
+      "normalized_sha256": "12937e3d38f6dab9a01714ab7733c7ef26e8fbe6b0a37503a67b6cfcc38044a2"
+    },
+    "docs/projects/go_projects/typeai/specs/03-conversation-fork/requirements.md": {
+      "sha256": "a257c45fe8ace6ac70b17369da5a5e145cddf824e7604feb371eab6c63f266e7",
+      "size": 7417,
+      "normalized_sha256": "a257c45fe8ace6ac70b17369da5a5e145cddf824e7604feb371eab6c63f266e7"
+    },
+    "docs/projects/go_projects/typeai/specs/03-conversation-fork/tasks.md": {
+      "sha256": "76cf2d25882b303a9fdbe9b609168915d998fd2eb8cadffb1afaf9e54717ce2a",
+      "size": 7975,
+      "normalized_sha256": "76cf2d25882b303a9fdbe9b609168915d998fd2eb8cadffb1afaf9e54717ce2a"
     },
     "docs/projects/go_projects/统一核心与多通道投影指南.md": {
       "sha256": "dc8679fcef4bf19148933fbeb790496dea80708f3c70e93a0693b6aa112c4dcb",
@@ -937,6 +982,11 @@
       "sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088",
       "size": 9063,
       "normalized_sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088"
+    },
+    "docs/repo/nosql-vs-rdbms-architecture-research.md": {
+      "sha256": "c640f3c1d91944019cb5daf5e3cb3525d76f5bfd10f764913fe2fccf9adec1ce",
+      "size": 37601,
+      "normalized_sha256": "de3d507c608477033c8df204b7e6c6cb2f6e5ff7e3bd1f730eb81792e5355992"
     },
     "docs/repo/zed-edit-prediction-providers-research.md": {
       "sha256": "81f285f8b3cfddb1dc6da9de6aca518ff6f93694c1490dac9b84210c02fb0c31",
