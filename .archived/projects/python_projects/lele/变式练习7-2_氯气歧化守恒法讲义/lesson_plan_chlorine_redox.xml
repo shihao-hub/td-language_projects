@@ -1,0 +1,67 @@
+<title>高中化学教学讲义：氧化还原反应守恒法详解（变式练习7-2）</title>
+<h1>一、 题目呈现与考点定位</h1>
+<p><b>【题目来源】</b> 变式练习 7-2</p>
+<p><b>【原题内容】</b> <latex>\text{Cl}_2</latex>在70℃的<latex>\text{NaOH}</latex>水溶液中能同时发生两个自身氧化还原反应，生成的产物为 <latex>\text{NaClO}</latex>、<latex>\text{NaClO}_3</latex>、<latex>\text{NaCl}</latex>。反应完全后，测得溶液中 <latex>\text{NaClO}</latex> 与 <latex>\text{NaClO}_3</latex> 物质的量之比为 5:1，则溶液中 <latex>\text{NaCl}</latex> 与 <latex>\text{NaClO}_3</latex> 的物质的量之比为 _________。</p>
+<callout emoji="📌" background-color="light-blue" border-color="blue">
+<p><b>【参考答案】</b> 10:1（或填 10）</p>
+<p><b>【核心考点】</b> 必修一氧化还原反应规律、歧化反应本质、得失电子守恒（化合价升降守恒）。</p>
+</callout>
+
+<h1>二、 教学重难点与学情分析</h1>
+<p>1. <b>认知困境：</b> 学生往往习惯于“写出化学方程式并配平”，但本题是两个反应同时发生（竞争反应），无法直接通过单一常规配平法得出答案。</p>
+<p>2. <b>教学突破口：</b> 引导学生跳出“写方程式”的思维定势，抓住氧化还原反应的本质——<b>“升高的总价数等于降低的总价数”</b>，结合<b>“特值赋值法”</b>，化繁为简。</p>
+
+<h1>三、 推荐解法：赋值法 + 化合价升降守恒（最快、最直观）</h1>
+<h2>1. 标变价，明确升降关系</h2>
+<p>分析反应中氯元素的化合价转移：</p>
+<ul>
+<li>反应物：<latex>\text{Cl}_2</latex> 中 <latex>\text{Cl}</latex> 元素为 <b>0 价</b>；</li>
+<li>产物一：<latex>\text{NaClO}</latex> 中 <latex>\text{Cl}</latex> 为 <b>+1 价</b>（化合价升高 1，失电子，氧化产物）；</li>
+<li>产物二：<latex>\text{NaClO}_3</latex> 中 <latex>\text{Cl}</latex> 为 <b>+5 价</b>（化合价升高 5，失电子，氧化产物）；</li>
+<li>产物三：<latex>\text{NaCl}</latex> 中 <latex>\text{Cl}</latex> 为 <b>-1 价</b>（化合价降低 1，得电子，还原产物）。</li>
+</ul>
+
+<h2>2. 巧妙赋值（消除字母变量）</h2>
+<p>已知 <latex>n(\text{NaClO}) : n(\text{NaClO}_3) = 5 : 1</latex>，不妨直接设：</p>
+<ul>
+<li><latex>n(\text{NaClO}_3) = 1\text{ mol}</latex></li>
+<li><latex>n(\text{NaClO}) = 5\text{ mol}</latex></li>
+</ul>
+
+<h2>3. 应用化合价升降守恒计算</h2>
+<p>在氧化还原反应中，<b>化合价升高总数 = 化合价降低总数</b>（失电子总数 = 得电子总数）：</p>
+<p><b>① 计算化合价升高总数（失电子总数）：</b></p>
+<ul>
+<li>生成 <latex>5\text{ mol}</latex> <latex>\text{NaClO}</latex> 升高：<latex>5 \times (1 - 0) = 5</latex></li>
+<li>生成 <latex>1\text{ mol}</latex> <latex>\text{NaClO}_3</latex> 升高：<latex>1 \times (5 - 0) = 5</latex></li>
+<li>化合价升高总量 <latex>= 5 + 5 = 10</latex></li>
+</ul>
+
+<p><b>② 计算化合价降低总数（得电子总数）：</b></p>
+<ul>
+<li>还原产物仅有 <latex>\text{NaCl}</latex>，每个 <latex>\text{Cl}</latex> 从 0 降到 -1，降低 1。</li>
+<li>由守恒可得：<latex>n(\text{NaCl}) \times 1 = 10\text{ mol} \implies n(\text{NaCl}) = 10\text{ mol}</latex></li>
+</ul>
+
+<callout emoji="🎯" background-color="light-green" border-color="green">
+<p><b>得出结论：</b> <latex>n(\text{NaCl}) : n(\text{NaClO}_3) = 10\text{ mol} : 1\text{ mol} = 10 : 1</latex></p>
+</callout>
+
+<h1>四、 备选解法：方程式叠加法（加权消元法）</h1>
+<p>对于思维较传统、一定要看化学方程式的学生，可以板书两个分步独立反应：</p>
+<p>反应①（常温生成次氯酸钠）：<latex>\text{Cl}_2 + 2\text{NaOH} = \text{NaCl} + \text{NaClO} + \text{H}_2\text{O}</latex></p>
+<p>反应②（加热生成氯酸钠）：<latex>3\text{Cl}_2 + 6\text{NaOH} = 5\text{NaCl} + \text{NaClO}_3 + 3\text{H}_2\text{O}</latex></p>
+<p>为了满足 <latex>\text{NaClO} : \text{NaClO}_3 = 5 : 1</latex> 的比例关系，将 <b>反应① × 5 + 反应② × 1</b>：</p>
+<p><latex>8\text{Cl}_2 + 16\text{NaOH} = 10\text{NaCl} + 5\text{NaClO} + \text{NaClO}_3 + 8\text{H}_2\text{O}</latex></p>
+<p>直接观察配平后的化学计量数：<latex>\text{NaCl}</latex> 为 10，<latex>\text{NaClO}_3</latex> 为 1，比值为 <b>10:1</b>。</p>
+
+<h1>五、 课堂讲授话术建议</h1>
+<callout emoji="🎤" background-color="light-purple" border-color="purple">
+<p><b>【教师参考讲授用语】</b></p>
+<p>“同学们看黑板，这道题千万别一上来就死磕配平复杂方程式！我们抓住反应的本质——电子转移。</p>
+<p>氯气自己跟自己反应，一部分氯化合价升高变成了 +1 价的 NaClO 和 +5 价的 NaClO3；另一部分氯化合价降低变成了 -1 价的 NaCl。</p>
+<p>题目告诉我们，NaClO 和 NaClO3 的比例是 5:1。我们直接假设有 5 个 NaClO，1 个 NaClO3。</p>
+<p>那么它们总共交出了多少个电子呢？5 个升 1 价交出 5 个电子，1 个升 5 价交出 5 个电子，加起来刚好升了 10 价！</p>
+<p>能量守恒、电子守恒，有人交了 10 个，就必须有人收下这 10 个电子。谁收的？NaCl！每个 NaCl 只能收 1 个电子，所以必须生成 10 个 NaCl！</p>
+<p>所以 NaCl 与 NaClO3 的比值一眼看出来就是 10:1。”</p>
+</callout>
