@@ -1,8 +1,13 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-09-27T04:26:47Z",
+  "updated_at": "2026-09-27T07:32:53Z",
   "files": {
+    ".claude/settings.json": {
+      "sha256": "63ae84904cdf84f830b61fb1031cf2986d15b5f0f1ec520aa88fdcfbf4a24aa2",
+      "size": 45,
+      "normalized_sha256": "b20e015c58d6c2ba70e74f56aab80263f540e42058c420544620d00bd71e5615"
+    },
     ".gitattributes": {
       "sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476",
       "size": 291,
@@ -28,6 +33,11 @@
       "size": 4469,
       "normalized_sha256": "17e029f64dd9ddf27fbcf302a9bfcb1b1d9d5921fccc03eb519ef0e934da3414"
     },
+    ".scripts/check-agy-upstream.py": {
+      "sha256": "623a772f37e61c00108263dc85fcef6277f020623c42192235f3966e9f1f0927",
+      "size": 6402,
+      "normalized_sha256": "623a772f37e61c00108263dc85fcef6277f020623c42192235f3966e9f1f0927"
+    },
     ".scripts/docs-preview.bat": {
       "sha256": "84113899c011ae8284a7dd7dae1504a96c30cfa735e8e3f50433845c15ac9afb",
       "size": 70,
@@ -48,6 +58,11 @@
       "size": 1397,
       "normalized_sha256": "158293d4cf655c67487d9cc9159b31605e686a986ab6fd8a49ca4e84e56818d9"
     },
+    ".scripts/init-submodules.py": {
+      "sha256": "4148b2189b3122f7fddf73fce8ddd520b84a26219d704d7d39fb4fdff0da81df",
+      "size": 2854,
+      "normalized_sha256": "4148b2189b3122f7fddf73fce8ddd520b84a26219d704d7d39fb4fdff0da81df"
+    },
     ".scripts/install_tool.py": {
       "sha256": "2a34fcd8ff333197da8f75418af1e154b19f08af0ba51e306e975a72697bce71",
       "size": 3655,
@@ -63,20 +78,25 @@
       "size": 19168,
       "normalized_sha256": "7d33ffa3640472031e63228a4dbb540c6541a80a7c15431f698d468264018f36"
     },
+    ".scripts/submodule-toggle.py": {
+      "sha256": "485a421f1aca6891a4944d4cacd1903a1b61e49df01a3f4736fc2ddefb01979c",
+      "size": 17484,
+      "normalized_sha256": "485a421f1aca6891a4944d4cacd1903a1b61e49df01a3f4736fc2ddefb01979c"
+    },
     ".zed/extensions.toml": {
-      "sha256": "234ecd34c8a783f813d0cdf3b9a99c2635cf6089484e40f4d6e187d088986e11",
-      "size": 1076,
-      "normalized_sha256": "234ecd34c8a783f813d0cdf3b9a99c2635cf6089484e40f4d6e187d088986e11"
+      "sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da",
+      "size": 969,
+      "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "be479aaa7f58b0ba6f220f1d857c111e25be8fa39e11c6f5ba33d5d61df968a9",
-      "size": 4333,
-      "normalized_sha256": "be479aaa7f58b0ba6f220f1d857c111e25be8fa39e11c6f5ba33d5d61df968a9"
+      "sha256": "90547721162784e6039685a564a0974c43a42539c024124bdc64364076b121f9",
+      "size": 4309,
+      "normalized_sha256": "90547721162784e6039685a564a0974c43a42539c024124bdc64364076b121f9"
     },
     "AGENTS.md": {
-      "sha256": "90140bc9c0e41c1e8319cfe030cf4062c0f54def440c6dd0a8ee4db7ad46187d",
-      "size": 32422,
-      "normalized_sha256": "4b92cc6c3d42c4f00ad1d48db395b56782bc4515e938abe8d8b52cbaccdaa43d"
+      "sha256": "13690dea13d41bbfb89626c489632e52323f90efbe673e39e7f5b0a7bb010fae",
+      "size": 32685,
+      "normalized_sha256": "bcedadce29cd6aed5c2c63c31b351aa0b92f55fd07637809c03103983981b272"
     },
     "CLAUDE.md": {
       "sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55",
@@ -94,9 +114,9 @@
       "normalized_sha256": "896759d898eb1a8a8abcecebba0b90bf8f8b549d167dee49fd9dcc2a2831a7fc"
     },
     "README.md": {
-      "sha256": "e599e6163bfdb36be60bde85d082b91015a4d8dc0723e8fe89a047b3a704ce34",
-      "size": 7324,
-      "normalized_sha256": "aa7e14e0882d51f75a6b8336a362bcd136ff6a1ebed543e844b2a5228e565869"
+      "sha256": "b77e4eaf2350604715f28ef67e8a9f42ac071a2cbfb3dfe684c552097ab9d970",
+      "size": 7568,
+      "normalized_sha256": "770a037ef87895cd7171bb8a8a28eb6241fed43a2f28aba3df24136cd11967e8"
     },
     "SPEC-AGENT.md": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -107,9 +127,9 @@
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "a9a5e3330ea1c28e97ce03ad4a19bb35e3db1dcebcfb84f8194a20bda69644e2",
-      "size": 81530,
-      "normalized_sha256": "a9a5e3330ea1c28e97ce03ad4a19bb35e3db1dcebcfb84f8194a20bda69644e2"
+      "sha256": "0eceec8a6584b8d18410273145cfa471a4f632054185b623967538430fb5cde4",
+      "size": 82959,
+      "normalized_sha256": "0eceec8a6584b8d18410273145cfa471a4f632054185b623967538430fb5cde4"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -179,9 +199,9 @@
       "normalized_sha256": "63ee521f43332e3763d69fcca21932d87cd7eaf28bc75b53aa5bc35d48e8d93b"
     },
     "docs/guides/GUIDE-子项目拆分子模块.md": {
-      "sha256": "81a3a9270e4d4bd993d1f19fe3ad6b496b0099f73f325752766632db816bf5c4",
-      "size": 10606,
-      "normalized_sha256": "f25d35b561e3fa4ac4103fe361f895ba04c67df44f09e3a72e3e64c50e7397f7"
+      "sha256": "88bca9b9d1a7224af5009180b40e17368f3649e6c61245acb84de1a240c8e9c0",
+      "size": 10610,
+      "normalized_sha256": "613f0135f682d41b4e1232abe7b7031bc58b919637416c607c0a0276922a7513"
     },
     "docs/guides/GUIDE-文档中文命名整改.md": {
       "sha256": "7fd6b47ccbb9974e272b1691bd12801188c94155e6bccb82b7149c2e0076f709",
@@ -353,10 +373,25 @@
       "size": 5427,
       "normalized_sha256": "621e99a5bfbe4678a53075185ef8f956480e50976e3c254a163cfe9739884fef"
     },
+    "docs/plans/26-script-migration-py-ts.md": {
+      "sha256": "71736ff7ffb114828227e14886e672a1883f58e0527163f7986f9ecf67929577",
+      "size": 14009,
+      "normalized_sha256": "71736ff7ffb114828227e14886e672a1883f58e0527163f7986f9ecf67929577"
+    },
+    "docs/plans/27-commit-and-push-all-repos.md": {
+      "sha256": "6be0b6c635b0abb7092e44ff7d26ddcd89d42d846c89c7c8ea80db77abbc0da8",
+      "size": 7531,
+      "normalized_sha256": "0e1e9ef56c2451de3c68f46dab3afbe6212d124fe09108856fd8866d7ad153af"
+    },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "sha256": "ff41ba5b47c36d21b5860b68d1153b4d4f7cabc8e985fef7bf22e492d2ed84d0",
       "size": 1872,
       "normalized_sha256": "ff41ba5b47c36d21b5860b68d1153b4d4f7cabc8e985fef7bf22e492d2ed84d0"
+    },
+    "docs/plans/walkthrough-27-commit-and-push-all-repos.md": {
+      "sha256": "1edb18cb1fe04cb425b8d70125bafbf84bbf938c0ab2b4b9503f1750bd23d0f7",
+      "size": 3758,
+      "normalized_sha256": "fdd70fa68abcb90fb9bf2ec0f84b8c9469f840812d6c0d5546fd7ec1d9b80a87"
     },
     "docs/projects/go_projects/CLI 与 MCP 双壳架构工作指南.md": {
       "sha256": "2be0d47bdbf52698b1ad70490366131eb5f8181a992fb0cb7495dd1377a42203",
@@ -464,9 +499,9 @@
       "normalized_sha256": "2fd6ce928343abe880541f9613319768d083c976aeaa9cf9768c980cfdc82c52"
     },
     "docs/projects/go_projects/clictl/clictl 使用指南.md": {
-      "sha256": "5f059341944ba76aad81259cef228f3ae6d3d7f6fd40445404d9feb03192b93a",
-      "size": 9817,
-      "normalized_sha256": "5f059341944ba76aad81259cef228f3ae6d3d7f6fd40445404d9feb03192b93a"
+      "sha256": "b7b30ec8ba25d383f23f48e4580249d347e39f59cf6dbe02826bc77fee17518c",
+      "size": 9822,
+      "normalized_sha256": "b7b30ec8ba25d383f23f48e4580249d347e39f59cf6dbe02826bc77fee17518c"
     },
     "docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
       "sha256": "2004352e339d68e56cd90434cc3d839be0477c9127db0d5bb2aeac7310d06720",
@@ -679,9 +714,9 @@
       "normalized_sha256": "a80b0a7e83fda7d50124d6ebf22225fb558703838b619496bddc645e4b12b42b"
     },
     "docs/projects/go_projects/sourcecount/使用指南.md": {
-      "sha256": "f8234e112e8ccd2d0dcccff5e12359d9d7901d0f7c2ac10806ec1876fcf6d4c7",
-      "size": 3903,
-      "normalized_sha256": "f8234e112e8ccd2d0dcccff5e12359d9d7901d0f7c2ac10806ec1876fcf6d4c7"
+      "sha256": "c6bec181894293d2e6b5dc551d62b1959b5b7a71c7483180e54670c5d1c1a271",
+      "size": 3908,
+      "normalized_sha256": "c6bec181894293d2e6b5dc551d62b1959b5b7a71c7483180e54670c5d1c1a271"
     },
     "docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md": {
       "sha256": "22a21ffd6fac27c8867eac305c2302111413e124fb2871ab342c0aeae7201a64",
@@ -929,14 +964,14 @@
       "normalized_sha256": "9e55599fe10f1346016f993a6dc0814da51d3fc3e0db118b0250c6cc412ee8ef"
     },
     "docs/repo/Git 子模块临时注销（native、rust）.md": {
-      "sha256": "08e9a4f9131b2f7d0727eff82b2ab538dd0fded4c6d218b9fe2888d90af9fccd",
-      "size": 7517,
-      "normalized_sha256": "08e9a4f9131b2f7d0727eff82b2ab538dd0fded4c6d218b9fe2888d90af9fccd"
+      "sha256": "8c69223ee26a806b14aacf9f0bbab942f3a1162822fdb5e0c67edaba41025040",
+      "size": 7535,
+      "normalized_sha256": "8c69223ee26a806b14aacf9f0bbab942f3a1162822fdb5e0c67edaba41025040"
     },
     "docs/repo/Git 子模块分支机制.md": {
-      "sha256": "a5f8e6f36ec8f86e84f6b6c45cf17e186f774cb0f236e07d4502d807b5d2c95d",
-      "size": 3022,
-      "normalized_sha256": "a5f8e6f36ec8f86e84f6b6c45cf17e186f774cb0f236e07d4502d807b5d2c95d"
+      "sha256": "bb4dcd94d16ef039b83b592c32cbe8d138f11b9b4e4ac575b6c9d8723c0367b4",
+      "size": 3025,
+      "normalized_sha256": "bb4dcd94d16ef039b83b592c32cbe8d138f11b9b4e4ac575b6c9d8723c0367b4"
     },
     "docs/repo/K8S 核心声明式调和链路原理剖析与自研架构设计.md": {
       "sha256": "3f83f7ef5d8fa8537b6a4483fef6e792ae0aef0c7e0cdac530bafe985f0c9072",
