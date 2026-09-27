@@ -7,13 +7,13 @@
   - Ref: AC-2, AC-5, AC-6, AC-7
   - [test]
 
-- [ ] 2. 将 TUI 的单线消息状态重构为按分支管理的运行时状态
+- [x] 2. 将 TUI 的单线消息状态重构为按分支运行时的状态
   - Files: `internal/tui/model.go`, `internal/tui/branch.go`, `internal/tui/model_test.go`
   - 实现细节：增加 branch map、`activeBranchID` 和每分支的 messages/active/running/status/cancel 状态；把当前输入框和 viewport 作为激活 Tab 的渲染投影；切换分支时保存/恢复输入草稿并重建 transcript；没有 Fork 时保持 `main` 单分支行为。
   - Verify: `go test ./internal/tui`，预期现有输入、动态高度、取消和单分支流式测试继续通过。
   - Ref: AC-2, AC-3, AC-8
 
-- [ ] 3. 实现 Fork 命令、稳定消息边界校验和分支切换命令
+- [x] 3. 实现 Fork 命令、稳定消息边界校验和分支切换命令
   - Files: `internal/tui/model.go`, `internal/tui/view.go`, `internal/cli/help.go`, `README.md`
   - 实现细节：实现 `/fork`、`Ctrl+Shift+F` 和 `/branch <id>`；使用最近一条已完成 AI 消息作为 Fork 边界；流式中、无可继承消息或当前回合失败时拒绝；增加 Tab 条、当前分支标记、`Ctrl+PageUp/PageDown` 切换与文本命令回退入口；保留 `/fork` 作为终端无法传递 `Ctrl+Shift+F` 时的可靠入口。
   - Verify: `go test ./internal/tui` 与 `go build ./...`，预期可创建子分支、切换 Tab、拒绝非法 Fork，且 CLI help 包含新入口。
@@ -40,7 +40,7 @@
   - Ref: AC-5, AC-6, AC-9, AC-10, AC-11
   - [test]
 
-- [ ] 7. 补齐分支恢复、兼容性和用户文档
+- [x] 7. 补齐分支恢复、兼容性和用户文档
   - Files: `internal/session/store.go`, `internal/session/store_test.go`, `internal/tui/model_test.go`, `README.md`, `internal/cli/help.go`
   - 实现细节：覆盖 schema v2 到 v3 的读取迁移、schema v3 分支恢复、激活 Tab 恢复、`/resume <session-id>` 帮助和首版范围说明；明确鼠标右键选区、精确字符 Fork、双 Pane、session 列表和目录浏览为后续范围。
   - Verify: `go test ./...`、`go build ./...`、`.\build.ps1 -Version dev`，预期全仓 typeai 测试和构建通过，生成的可执行文件可启动 TUI。
@@ -51,3 +51,25 @@
   - 实现细节：在 Windows Terminal 中验证 `/fork`、Tab 切换、父子上下文、分支独立流式响应、`/resume <session-id>`、重启恢复和窄终端布局；记录 `Ctrl+Shift+F` 若被终端吞掉时使用 `/fork` 的备用路径；确认没有残留进程和临时 session 文件。
   - Verify: `.\build\typeai.exe`，预期手工验收完成后退出 TUI，后台无残留 typeai 进程；该任务不替代自动化测试。
   - Ref: AC-1, AC-3, AC-4, AC-5, AC-7, AC-9
+
+---
+
+## 实施说明与新发现
+1. **Schema Version 3 与向后兼容**：
+   - 在 `internal/session/branch.go` 中定义了 `Branch`，`ResolveMessages` 递归解析父分支消息并校验环和索引越界，`CreateBranch` 与 `GenerateBranchID` 统一为 `fork-01`、`fork-01-01` 命名规范。
+   - 在 `internal/session/store.go` 中实现了 Schema Version 3 支持与 `Session.Normalize`，读入旧版 Schema Version 2 数据时在内存中无缝迁移为包含 `main` 的单分支结构，写盘时自动以标准 v3 结构持久化并移除冗余顶层线性消息。
+   - `LoadByID` 严格限制只接收 8 位小写十六进制短 ID，杜绝路径穿越与非持久化会话探测。
+2. **多分支运行时与事件隔离**：
+   - 在 `internal/tui/branch.go` 定义了 `branchState`，将消息、激活 Turn、输入草稿、暂存图片和取消函数按分支完全隔离。
+   - 在 `internal/tui/stream.go` 中将流式 delta 和结果消息绑定 `BranchID` 与 `TurnID`，使得非激活分支在后台流式接收数据时不会污染激活 Tab 的 viewport，切回后自动刷新呈现。
+   - 在 `internal/tui/render_job.go` 中校验了 `markdownRenderMsg` 的 `Generation`、`BranchID` 与 `Key`，确保 Markdown 异步渲染安全。
+3. **交互与视图**：
+   - 顶部 Tab 栏展示全部已有分支，激活分支高亮，后台流式分支追加 `*` 标识。
+   - 支持 `Ctrl+Shift+F` / `/fork` 创建分支，`Ctrl+PageUp` / `Ctrl+PageDown` / `/branch <id>` 切换分支，`/resume <session-id>` 恢复已有会话。
+4. **编译与构建验证**：
+   - `go build ./...` 与 `.\build.ps1 -Version dev` 均已构建通过，生成可执行文件 `build\typeai.exe`，契约目录 `typeai schema` 与帮助信息 `typeai help` 验证正常。
+5. **测试套件修复与收尾加固**：
+   - 旧 `model_test.go` 适配分支化 API（`finishStream` 新签名、分支内构造 activeTurn），`newModel` 兼容 nil chat（测试无服务场景），`go test ./...` 全绿。
+   - 修复 `SendBranch` 中 `candidate.Branches` 与 `c.session.Branches` 共享底层数组、保存失败时污染内存历史的别名问题（先 `copyBranches` 再修改）。
+   - `/resume` 拒绝条件扩展为任意分支（含后台 Tab）流式请求中或存在暂存图片，满足 FR-12/AC-10 边界。
+   - 清理 `writeFileAtomic` 错误分支中多余的重复 `tmp.Close()`。
