@@ -23,21 +23,21 @@
 
 ```mermaid
 graph TD
-    subgraph CLI 层（argparse 子命令）
+    subgraph cli_layer ["CLI 层（argparse 子命令）"]
         A[zedagentstats] --> B{子命令}
-        B -->|pi / antigravity·agy / opencode·oc| C[单 agent 投影]
+        B -->|"pi / antigravity·agy / opencode·oc"| C[单 agent 投影]
         B -->|无子命令| D[合并总览]
     end
-    subgraph Service 核心
-        C --> E[AgentSpec 注册表<br/>zed_id / cli名 / 别名 / collector]
+    subgraph service_core ["Service 核心"]
+        C --> E["AgentSpec 注册表<br/>zed_id / cli名 / 别名 / collector"]
         D --> E
-        E --> F1[PiCollector<br/>session-map + JSONL]
-        E --> F2[AntigravityCollector<br/>conversations/*.db + protobuf 解码]
-        E --> F3[OpencodeCollector<br/>opencode.db 只读 URI]
-        F1 & F2 & F3 --> G[统一 SessionStats 列表<br/>新增 agent 字段]
+        E --> F1["PiCollector<br/>session-map + JSONL"]
+        E --> F2["AntigravityCollector<br/>conversations/*.db + protobuf 解码"]
+        E --> F3["OpencodeCollector<br/>opencode.db 只读 URI"]
+        F1 & F2 & F3 --> G["统一 SessionStats 列表<br/>新增 agent 字段"]
     end
-    G --> H[reporter 渲染层<br/>表格 / --json / --schema]
-    Z[Zed db 快照读取<br/>sidebar_threads 按 agent_id] --> F1 & F2 & F3
+    G --> H["reporter 渲染层<br/>表格 / --json / --schema"]
+    Z["Zed db 快照读取<br/>sidebar_threads 按 agent_id"] --> F1 & F2 & F3
 ```
 
 关键决策与假设：
