@@ -62,7 +62,7 @@ flowchart TB
     subgraph ThinClients ["薄客户端 Shells"]
         CLI["CLI 终端命令<br/>(list / check / set / scan / ui)"]
         MCP["MCP 桥接工具 (stdio)<br/>(AI Agent 专用集成)"]
-        HumanWeb["开发者浏览器"]
+        HumanWeb["开发者浏览器 / Web 看板"]
     end
 
     CLI -->|HTTP 调用| APIServer
@@ -88,43 +88,43 @@ flowchart TB
 
 ## 任务分解
 
-- [ ] Task 1: 初始化项目骨架与数据层核心（go.mod、SQLite 驱动与 SQL 重放引擎）
+- [x] Task 1: 初始化项目骨架与数据层核心（go.mod、SQLite 驱动与 SQL 重放引擎）
   - 文件：`go_projects/plansql/go.mod`、`go_projects/plansql/internal/core/store.go`、`go_projects/plansql/internal/core/wal.go`
   - 实现：创建 Go 模块（引入 `modernc.org/sqlite`），定义 `plan_spec_status` DDL 与约束规则；实现 WAL 引擎：读取 `.sql` 文件逐句重放执行以构建 SQLite 投影、语法与语义校验器（检测 JSON 合法性与字段约束）、以及原子追加 SQL 变更方法。
   - 验证：编写针对内存 SQLite 与临时 SQL 文件的单元测试，验证建表、连续插入、更新重放与语法错误拦截。命令：`go test ./internal/core/...`，预期全部通过。
   - Demo：能够从包含多条 INSERT/UPDATE 语句的测试 SQL 文件成功还原出正确的数据库投影。
 
-- [ ] Task 2: 实现文件系统规划文档对齐扫描器（Scanner / Reconciler）
+- [x] Task 2: 实现文件系统规划文档对齐扫描器（Scanner / Reconciler）
   - 文件：`go_projects/plansql/internal/core/scanner.go`
   - 实现：遍历工作区中所有匹配 `**/plans/*.md` 与 `**/specs/**/*.md` 的真实文件，获取相对路径；与 SQLite 投影比对，输出 4 类状态集合：已登记已完成、已登记进行中、未登记文档（待纳入）、悬空记录（文件已被删除但 SQL 中存在）。
   - 验证：编写测试针对模拟目录树进行扫描比对。命令：`go test ./internal/core -run TestScanner`，预期精确识别各分类。
   - Demo：调用 Scanner 能输出结构化的对齐比对报告。
 
-- [ ] Task 3: 实现 Daemon 守护进程与 HTTP REST API（API + 自动 Detach 机制）
+- [x] Task 3: 实现 Daemon 守护进程与 HTTP REST API（API + 自动 Detach 机制）
   - 文件：`go_projects/plansql/internal/daemon/server.go`、`go_projects/plansql/internal/daemon/handlers.go`、`go_projects/plansql/internal/daemon/lifecycle.go`
   - 实现：提供 HTTP 服务（默认端口 18090），暴露 `/api/v1/items`（查改）、`/api/v1/check`（验）、`/api/v1/scan`（扫）、`/api/v1/append`（写）；接入 `%APPDATA%\language_projects\plansql\` 存放锁文件与端口探测；实现标准 v2 的生产环境自动拉起、闲置 30 分钟优雅退出。
   - 验证：编译并启动服务，使用 curl 验证 `/api/v1/items` 获取列表与 `/api/v1/check` 校验返回。
   - Demo：后台启动服务后可通过 HTTP 请求实现状态查询与追加写入。
 
-- [ ] Task 4: 实现内嵌轻量 Web 可视化看板（Dashboard Web UI）
+- [x] Task 4: 实现内嵌轻量 Web 可视化看板（Dashboard Web UI）
   - 文件：`go_projects/plansql/internal/web/embed.go`、`go_projects/plansql/internal/web/static/{index.html,app.js,style.css}`
   - 实现：采用原生 HTML5/Tailwind-like 纯净 CSS 与原生 JS，利用 Go `embed.FS` 打包入二进制；提供看板视图（按 pending / in_progress / completed 分栏）与表格视图；支持搜索过滤、一键变更状态、直观展示未登记文档并支持“一键生成初始化 SQL”。
   - 验证：启动 daemon 并在浏览器中访问 `http://127.0.0.1:18090`，操作卡片变更状态，确认磁盘上的 `.sql` 文件实时追加对应变更语句。
   - Demo：浏览器打开页面，可拖拽或点击改变任务状态，页面刷新后数据依然保持同步。
 
-- [ ] Task 5: 实现 CLI 薄客户端命令集（list, check, set, scan, ui, serve）
+- [x] Task 5: 实现 CLI 薄客户端命令集（list, check, set, scan, ui, serve）
   - 文件：`go_projects/plansql/cmd/plansql/main.go`、`go_projects/plansql/internal/cli/{root.go,list.go,check.go,set.go,scan.go,ui.go}`
   - 实现：实现薄客户端：命令行参数解析并请求 daemon API；`list` 输出美观的终端 ASCII 表格与 `--json` 格式；`check` 在检测到 SQL 错误时退出码返回非 0 并高亮错误行；`set` 命令支持快捷设置状态；`ui` 命令自动调用默认浏览器唤起 Web 仪表盘。
   - 验证：在终端执行 `plansql list`、`plansql check`、`plansql set docs/plans/28-plansql-tracker.md --status completed`，检查输出及返回码。
   - Demo：在终端无需浏览器即可一目了然查看当前全部 plan 的完成情况与校验结果。
 
-- [ ] Task 6: 实现 MCP stdio 桥接与 Schema 导出（AI Agent 专用通道）
+- [x] Task 6: 实现 MCP stdio 桥接与 Schema 导出（AI Agent 专用通道）
   - 文件：`go_projects/plansql/internal/mcp/{bridge.go,tools.go,schema.go}`
   - 实现：遵循标准 v1/v2，基于 `github.com/modelcontextprotocol/go-sdk` 实现 stdio MCP 服务器，桥接 HTTP daemon；对外暴露 `plansql_list`、`plansql_set_status`、`plansql_check`、`plansql_scan` 工具；实现 `plansql schema` 子命令输出 JSON Schema。
   - 验证：通过 stdio 管道发送 JSON-RPC `tools/list` 与 `tools/call` 请求，验证 AI 成功调用并正确收到 JSON 结构响应；运行 `plansql schema` 验证输出格式。
   - Demo：AI Agent 可通过 MCP 协议在任务完成后自动调用 `plansql_set_status` 完成安全归档。
 
-- [ ] Task 7: 接线收尾、项目初始化文档与父仓集成
+- [x] Task 7: 接线收尾、项目初始化文档与父仓集成
   - 文件：`go_projects/plansql/README.md`、`docs/projects/go_projects/plansql/设计说明.md`、`plans_status.sql`
   - 实现：编写工具说明文档与 AI 交互指南；在工作区根目录初始化第一个 `plans_status.sql` 记录历史 plans/specs 状态；全量编译二进制并完成端到端冒烟验证。
   - 验证：执行 `go build -o plansql.exe ./cmd/plansql`；执行 `./plansql.exe scan`、`./plansql.exe check` 校验通过；验证无遗留悬空文件。
@@ -132,6 +132,6 @@ flowchart TB
 
 ---
 
-- 最后更新：2026-09-28
+- 最后更新：2026-09-29
 - 作者：AI & User
-- 版本：v1.0.0
+- 版本：v1.0.1
