@@ -25,13 +25,13 @@ glmquotawatch-gui 已完成 Wails v3 托盘 GUI + 恒 JSON CLI 的首轮开发�
 
 **任务分解**：
 
-- [ ] Task 1: 补 .gitignore 忽略 bin/ 并提交
+- [x] Task 1: 补 .gitignore 忽略 bin/ 并提交
   - 文件：`go_projects/glmquotawatch-gui/.gitignore`
   - 实现：`git switch main`；在「子仓根 .gitignore 已覆盖 *.exe 等通用产物；此处补充项目特有规则」区追加 `*.exe~` 与 `bin/`；提交 `glmquotawatch-gui:chore: gitignore 忽略 bin 构建产物目录`
   - 验证：`git -C go_projects/glmquotawatch-gui status --short` 输出为空（bin/ 不再显示未跟踪）
   - Demo：工作区干净，`git log -1` 显示新 chore 提交
 
-- [ ] Task 2: 打 annotated tag v0.1.0 并推送
+- [x] Task 2: 打 annotated tag v0.1.0 并推送
   - 文件：无（git 元数据操作）
   - 实现：`git tag -a v0.1.0 -m "glmquotawatch-gui v0.1.0"`；`git push origin main v0.1.0`
   - 验证：`git ls-remote --tags origin` 出现 `refs/tags/v0.1.0`；`git ls-remote --heads origin` 中 main 指向新提交
@@ -45,4 +45,4 @@ glmquotawatch-gui 已完成 Wails v3 托盘 GUI + 恒 JSON CLI 的首轮开发�
 ---
 **最后更新：** 2026-09-29
 **作者：** AI & User
-**版本：** v1.0
+**版本：** v1.1（已完成）
