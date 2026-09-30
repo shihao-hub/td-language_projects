@@ -8,7 +8,7 @@
 > 架构基准：同目录 `design.md`（daemon 架构，遵循《CLI 工具开发标准 v2》+ v1 契约细节）。
 > Service 层只存在于 daemon；CLI、MCP 桥、兼容 RPC 均为 HTTP 薄客户端。
 
-- [ ] 1. 重建 `zedhub` Python 项目骨架、数据目录与构建身份基础，使新项目能够独立安装、
+- [x] 1. 重建 `zedhub` Python 项目骨架、数据目录与构建身份基础，使新项目能够独立安装、
   显示帮助和版本信息，并具备生产/开发构建判定能力。
   - Files:
     - `python_projects/zedhub/pyproject.toml`
@@ -43,7 +43,7 @@
     网络连接。
   - Ref: AC-1、AC-10、AC-18、NFR-4、NFR-5
 
-- [ ] 2. 恢复 Zed WAL 安全读取核心和既有 Zed 查询业务（Service 层），保持旧 `zedhub`
+- [x] 2. 恢复 Zed WAL 安全读取核心和既有 Zed 查询业务（Service 层），保持旧 `zedhub`
   的线程、项目与总览语义。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/snapshot.py`
@@ -62,7 +62,7 @@
     zedhub.core.repo import ZedDb"`；预期导入成功；`uv run zedhub --help` 仍退出码 0。
   - Ref: AC-2、AC-11、FR-2、NFR-1、NFR-2
 
-- [ ] 3. 建立通用会话模型、OpenCode 只读数据源和 agent source 注册表（Service 层），
+- [x] 3. 建立通用会话模型、OpenCode 只读数据源和 agent source 注册表（Service 层），
   完成 Zed/OpenCode 关联查询所需的底层能力。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/model.py`
@@ -88,7 +88,7 @@
     'opencode' in SOURCES"`；预期导入成功且注册表含 opencode。
   - Ref: AC-1、AC-3、AC-11、AC-13、AC-14、FR-1、FR-3、FR-10
 
-- [ ] 4. 移植启动模型与 effort 分析（Service 层），补齐 OpenCode 配置合并、三级降级和
+- [x] 4. 移植启动模型与 effort 分析（Service 层），补齐 OpenCode 配置合并、三级降级和
   watch 计算核心。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/analytics.py`
@@ -108,7 +108,7 @@
     预期导入成功。
   - Ref: AC-4、AC-5、AC-11、FR-4
 
-- [ ] 5. 建立公共契约模块 `contract.py`，为 daemon、MCP 桥、兼容 RPC 和 schema 导出提供
+- [x] 5. 建立公共契约模块 `contract.py`，为 daemon、MCP 桥、兼容 RPC 和 schema 导出提供
   同源的纯协议定义。
   - Files:
     - `python_projects/zedhub/src/zedhub/contract.py`
@@ -123,7 +123,7 @@
     （不创建数据目录、不访问数据库）。
   - Ref: AC-9、AC-10、AC-18、NFR-3
 
-- [ ] 6. 恢复公共 API 注册表并实现 daemon HTTP API 与 `serve` 子命令，使 HTTP+JSON 成为
+- [x] 6. 恢复公共 API 注册表并实现 daemon HTTP API 与 `serve` 子命令，使 HTTP+JSON 成为
   唯一业务契约。
   - Files:
     - `python_projects/zedhub/src/zedhub/api.py`
@@ -150,7 +150,7 @@
     JSON，Ctrl+C 退出后进程与端口释放。
   - Ref: AC-9、AC-18、AC-19、FR-8、FR-11、NFR-3、NFR-7
 
-- [ ] 7. 实现 daemon 生命周期与客户端发现：地址文件、发现优先级、自动拉起（仅生产）、
+- [x] 7. 实现 daemon 生命周期与客户端发现：地址文件、发现优先级、自动拉起（仅生产）、
   buildID 握手、空闲退出与拉起互斥。
   - Files:
     - `python_projects/zedhub/src/zedhub/lifecycle.py`
@@ -175,7 +175,7 @@
     serve 启动后 `runtime/daemon.json` 存在、退出后被清理。
   - Ref: AC-19、FR-11、NFR-4
 
-- [ ] 8. 实现 CLI 薄壳的查询命令：恢复旧命令并新增只读命令，统一人读模式与 `--json`
+- [x] 8. 实现 CLI 薄壳的查询命令：恢复旧命令并新增只读命令，统一人读模式与 `--json`
   契约，全部经 HTTP 调 daemon。
   - Files:
     - `python_projects/zedhub/src/zedhub/cli.py`
@@ -200,7 +200,7 @@
     构建下不带 serve 执行查询命令返回「先运行 `zedhub serve`」类错误而非 traceback。
   - Ref: AC-1、AC-2、AC-3、AC-4、AC-5、AC-9、FR-3、FR-4、FR-5、NFR-3
 
-- [ ] 9. 实现兼容 JSON-RPC 薄壳：`zedhub rpc` 经 HTTP 调 daemon，`rpc.discover` 本地响应。
+- [x] 9. 实现兼容 JSON-RPC 薄壳：`zedhub rpc` 经 HTTP 调 daemon，`rpc.discover` 本地响应。
   - Files:
     - `python_projects/zedhub/src/zedhub/rpc.py`
     - `python_projects/zedhub/src/zedhub/cli.py`
@@ -216,7 +216,7 @@
     JSON-RPC 响应（discover 不依赖 daemon）。
   - Ref: AC-2、AC-9、AC-18、FR-8、FR-9、NFR-3
 
-- [ ] 10. 实现 MCP 桥：stdio MCP ↔ HTTP daemon，只读工具注册与 schema 同源。
+- [x] 10. 实现 MCP 桥：stdio MCP ↔ HTTP daemon，只读工具注册与 schema 同源。
   - Files:
     - `python_projects/zedhub/src/zedhub/mcp_bridge.py`
     - `python_projects/zedhub/src/zedhub/cli.py`
@@ -234,7 +234,7 @@
     清晰报错而非挂起。
   - Ref: AC-9、AC-10、AC-18、FR-8、NFR-3
 
-- [ ] 11. 实现 WebSocket 学习通道（daemon 内组件，白名单双方法），并在 README 声明冻结。
+- [x] 11. 实现 WebSocket 学习通道（daemon 内组件，白名单双方法），并在 README 声明冻结。
   - Files:
     - `python_projects/zedhub/src/zedhub/ws.py`
     - `python_projects/zedhub/src/zedhub/http_api.py`
@@ -260,7 +260,7 @@
     收到 `method_not_supported`。
   - Ref: AC-15、AC-16、AC-17、FR-8、NFR-7
 
-- [ ] 12. 实现写操作安全基础设施和 OpenCode 会话补登（Service 层 + CLI + HTTP 端点），
+- [x] 12. 实现写操作安全基础设施和 OpenCode 会话补登（Service 层 + CLI + HTTP 端点），
   保持 dry-run 默认与幂等行为。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/writes.py`
@@ -289,7 +289,7 @@
     执行会跳过已关联 session，并报告实际插入数量和复查结果。
   - Ref: AC-6、AC-7、AC-11、FR-6、NFR-1、NFR-4
 
-- [ ] 13. 实现归档导出与归档检查（Service 层 + CLI + HTTP 端点），生成带版本和来源标识的
+- [x] 13. 实现归档导出与归档检查（Service 层 + CLI + HTTP 端点），生成带版本和来源标识的
   可迁移 SQLite 文件。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/archive.py`
@@ -310,7 +310,7 @@
     各表数量，且归档文件可被 SQLite 只读打开。
   - Ref: AC-8、AC-11、FR-5、NFR-2
 
-- [ ] 14. 实现跨机器归档导入（Service 层 + CLI + HTTP 端点）、分库写入状态和写后验证，
+- [x] 14. 实现跨机器归档导入（Service 层 + CLI + HTTP 端点）、分库写入状态和写后验证，
   明确处理部分成功与未知结果。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/migration.py`
@@ -335,7 +335,7 @@
     复查数量与计划一致；模拟第二库失败时返回非成功状态并输出 operation_id 与备份位置。
   - Ref: AC-6、AC-7、AC-8、AC-11、FR-7、NFR-1、NFR-5
 
-- [ ] 15. 实现 SSE 进度流：写类长任务的 daemon 端点流式阶段事件与 CLI 实时渲染。
+- [x] 15. 实现 SSE 进度流：写类长任务的 daemon 端点流式阶段事件与 CLI 实时渲染。
   - Files:
     - `python_projects/zedhub/src/zedhub/http_api.py`
     - `python_projects/zedhub/src/zedhub/core/writes.py`
@@ -359,7 +359,7 @@
     未知损坏状态）。
   - Ref: AC-20、AC-6、AC-7、FR-8、NFR-7
 
-- [ ] 16. 实现离线 schema 导出、协议说明和项目交付文档，保证契约与实际注册同源。
+- [x] 16. 实现离线 schema 导出、协议说明和项目交付文档，保证契约与实际注册同源。
   - Files:
     - `python_projects/zedhub/src/zedhub/schema_export.py`
     - `python_projects/zedhub/src/zedhub/cli.py`
@@ -383,6 +383,8 @@
 
 - [ ] 17. [test] 补齐公共核心、数据源、模型、effort、写入安全和 daemon 生命周期的单元
   测试与临时 SQLite fixture。
+  - 未执行原因：[test] 任务默认跳过（执行约定），本轮未要求跑测试；
+    执行阶段已用临时 fixture 脚本完成同等冒烟验证（快照/降级/时间线/写流水线/partial）。
   - Files:
     - `python_projects/zedhub/tests/conftest.py`
     - `python_projects/zedhub/tests/fixtures.py`
@@ -441,7 +443,7 @@
     NFR-3、NFR-7
   - [test]
 
-- [ ] 19. 完成发布前清理、迁移说明和任务状态回写，确保旧项目退出运行时链路且新项目可
+- [x] 19. 完成发布前清理、迁移说明和任务状态回写，确保旧项目退出运行时链路且新项目可
   独立交付。
   - Files:
     - `python_projects/zedhub/README.md`
