@@ -13,9 +13,20 @@ Pi agent、Claude Code、Codex、Antigravity 等数据源，不得把 OpenCode �
 统一项目继续使用 `zedhub` 名称。现有 `zedhub` 的 CLI、JSON-RPC 和 MCP 能力需要保持
 兼容；新增能力不得通过运行时依赖另外两个旧项目实现。
 
-新的自动化接口以 CLI 的 `--json`、MCP 和按需使用的 WebSocket 为主。现有
-`zedhub rpc` 作为兼容入口保留，但不作为新增业务能力必须同步建设的第三套接口。
-WebSocket 本阶段只提供最小只读骨架，不要求覆盖全部业务能力。
+### daemon 架构（遵循《CLI 工具开发标准》v2）
+
+本项目作为 v2 daemon 架构标准的 Python 试点，遵循 v2《CLI 工具开发标准 v2（daemon
+架构）》与 v1《CLI 工具开发标准》的分工：daemon 架构、单进程双角色、buildID 握手、
+自动拉起与空闲退出等运行机制遵循 v2；JSON 包络、业务错误、`--schema` 导出、MCP
+协议核对、验收矩阵等契约细节遵循 v1。
+
+- `zedhub serve` 是唯一业务进程（daemon）：Service 层只存在于 daemon，对本地回环
+  地址提供 HTTP+JSON API，该 API 是唯一业务契约。
+- CLI、MCP 桥、兼容 JSON-RPC 均为 daemon 的薄客户端：壳内只有参数解析、HTTP client
+  与输出渲染，不含业务逻辑。
+- WebSocket 是**一次性学习实现**的只读查询通道，与 HTTP API 并存于 daemon 进程；
+  本轮实现完成后冻结、不再扩展，README 必须点明其学习定位与生产替代方案（HTTP API）。
+- 写类长任务（补登、归档导入）通过 SSE 流式输出进度；CLI 人读模式实时显示进度。
 
 ## Functional Requirements
 
@@ -95,21 +106,33 @@ WebSocket 本阶段只提供最小只读骨架，不要求覆盖全部业务能�
 - 写入后重新读取并验证导入结果；
 - 目标 schema、目标目录或进程状态不满足要求时拒绝执行并说明原因。
 
-### FR-8 多入口一致性
+### FR-8 多入口与 daemon 契约
 
-系统必须提供以下入口能力：
+系统必须采用 daemon 架构提供以下入口能力：
 
-- CLI：查询类命令默认提供人类可读输出，并提供稳定的 `--json` 输出；
-- MCP：第一阶段提供只读查询、内容查看和统计能力；
-- JSON-RPC：保留现有 `zedhub rpc` 的程序化查询能力，作为兼容入口；新增业务能力不要求
-  自动增加对应的 RPC 方法；
-- WebSocket：提供最小 JSON 消息通信骨架。本阶段默认支持两个只读操作：`threads.list`
-  和 `stats`；不要求与 CLI、MCP 或完整业务核心完全覆盖；
-- `schema`：导出与实际 MCP 注册定义同源的静态契约；
-- `--help` 和 `--version`：不连接业务数据库、不执行写操作。
+- **daemon（`zedhub serve`）**：Service 层（业务核心）只存在于 daemon 进程；daemon
+  对本地回环地址提供 HTTP+JSON API，该 API 是唯一业务契约；进度类输出使用 SSE 流。
+- **CLI**：除纯本地命令外，查询与写命令均为 daemon 的薄客户端，职责仅限参数解析、
+  HTTP 调用与输出渲染；`--help`、`--version`、`schema`、补全脚本生成等纯本地命令
+  直接本地输出，不触发 daemon 或任何后台进程。
+- **MCP**：独立 MCP 桥进程，stdin/stdout 说 MCP 协议，内部经 HTTP 调用 daemon；
+  第一阶段提供只读查询、内容查看和统计工具；MCP 协议细节按 v1 标准执行。
+- **JSON-RPC（兼容）**：`zedhub rpc` 改为薄客户端，经 HTTP 调用 daemon 执行既有
+  业务方法；`rpc.discover` 为纯元数据，本地直接响应、不依赖 daemon；既有方法名、
+  payload 和错误语义保持，新增业务能力不要求自动增加 RPC 方法。
+- **WebSocket（学习性冻结通道）**：与 HTTP API 并存于 daemon 进程的最小 JSON 文本
+  消息骨架，仅支持 `threads.list` 和 `stats` 两个只读操作；本轮实现完成后冻结、
+  不再扩展任何新方法或新能力；README 必须点明其定位是学习 WebSocket 实现的一次性
+  代码，生产与自动化用途一律使用 HTTP API。
+- **`schema`**：导出与实际注册定义同源的静态契约，覆盖 HTTP API、MCP、WebSocket、
+  兼容 RPC 和 CLI 命令。
+- **`--help` 和 `--version`**：纯本地命令，不连接业务数据库、不连接 daemon、不执行
+  写操作。
 
-数据库写入能力，包括补登和归档导入，第一阶段只通过 CLI 提供，并要求明确的
-`--apply` 参数。写操作暂不作为 MCP 或 WebSocket 功能暴露。
+数据库写入能力（补登和归档导入）第一阶段只由 CLI 命令面提供，并要求明确的 `--apply`
+参数；HTTP API 的写端点是 CLI 的承载通道，处于本地回环边界内，属于对外契约的一部
+分；MCP 桥与 WebSocket 不注册、不转发任何写操作。写类长任务在 apply 执行时必须提供
+SSE 进度事件流；CLI 人读模式实时渲染进度，`--json` 模式输出最终结果对象。
 
 ### FR-9 兼容现有 zedhub
 
@@ -120,6 +143,12 @@ WebSocket 本阶段只提供最小只读骨架，不要求覆盖全部业务能�
 - MCP 只读工具的业务结果；
 - `--db` 等已有数据库路径参数；
 - 成功、空结果、参数错误和运行错误的区分。
+
+已知行为变化（必须登记进迁移说明）：
+
+- 查询与写命令改为经 daemon 执行：开发构建下需先运行 `zedhub serve`，生产构建按
+  FR-11 自动拉起；daemon 未运行时旧命令返回可诊断的连接错误，而非直接读库；
+- 旧 `zedhub rpc` 同样依赖 daemon（`rpc.discover` 除外）。
 
 旧项目的代码不作为新项目的运行时依赖。旧项目可以在迁移完成后进入弃用或归档状态。
 
@@ -135,6 +164,28 @@ WebSocket 本阶段只提供最小只读骨架，不要求覆盖全部业务能�
   统计、导出和迁移结果。
 
 本次不实现上述未来数据源，但需求、错误和结果契约必须为后续接入保留明确边界。
+
+### FR-11 daemon 生命周期与连接发现
+
+系统必须实现 v2 标准定义的 daemon 运行机制：
+
+- **前台 serve**：`zedhub serve` 前台运行、日志直接输出，由操作者管理，不设空闲退出。
+- **地址发现优先级**：`--host` 参数 → `ZEDHUB_HOST` 环境变量 → 地址文件 → 内置默认
+  回环地址端口。
+- **地址文件**：daemon 启动时写入项目数据目录 `runtime/` 子目录（含地址、pid、构建
+  指纹），退出时清理；地址文件是所有壳的共同入口。
+- **自动拉起（仅生产构建）**：生产构建（包版本为干净发布号）且未显式指定地址时，
+  连接失败可用自身入口拉起 daemon；拉起必须脱离客户端进程关系（detach）；拉起必须
+  互斥——已有可用实例或端口被占用时放弃拉起改为连接。生产构建显式指定地址连不上时
+  必须报错、绝不本地拉起；开发构建（源码或开发版本运行）一律不拉起，报错并提示先
+  运行 `zedhub serve`。
+- **buildID 握手**：客户端连接 daemon 后核对双方构建指纹，相等放行，不等报错并提示
+  重启；开发构建使用源码指纹，使单边重启（只重启了一端）能被当场检出。
+- **空闲退出**：被自动拉起的 daemon 在无在途请求且持续空闲超过默认 30 分钟后优雅
+  退出并清理地址文件；空闲计时只累计无在途请求的空档，长任务执行中不触发退出；
+  前台 serve 不设空闲退出。
+- **优雅关闭**：daemon 关闭时等待在途请求与后台任务结束，释放监听端口、删除地址
+  文件，不遗留快照、备份或后台线程。
 
 ## Non-Functional Requirements
 
@@ -157,31 +208,30 @@ Zed 和 OpenCode 的数据库 schema 均视为可能变化。缺少必需表或�
 
 系统不得依赖 `SELECT *`，所有 SQL 查询必须显式列出字段。
 
-### NFR-3 入口与核心解耦
+### NFR-3 Service 层与壳的物理隔离
 
-CLI、MCP、WebSocket 和现有 JSON-RPC 兼容入口必须调用同一套业务核心，不得分别实现会话
-筛选、统计、导出、补登或导入流程。新增业务能力至少由 CLI 或 MCP 暴露；WebSocket 和兼容
-RPC 只按已声明的能力范围提供，不要求入口之间完全对称。
-
-入口层负责参数解析、协议适配和输出渲染；数据库访问、业务校验、写入编排、错误分类
-和结果模型属于公共核心。
+业务核心（Service 层：数据库访问、业务校验、写入编排、错误分类、结果模型）只允许
+存在于 daemon 进程。CLI、MCP 桥、兼容 RPC 等壳内只允许 API client 代码、参数解析与
+输出渲染，不得内嵌任何数据库访问或业务逻辑实现；不得为绕过 daemon 而在壳内复制
+Service 代码。stdio 协议仅保留给 MCP 桥与兼容 RPC 两个入口。
 
 ### NFR-4 本地运行环境
 
 项目必须继续支持 Windows + PowerShell + `uv` 的主要运行方式，并使用 Python 3.12
 或更高版本。
 
-项目自身运行时产生的数据库、备份、缓存、锁和日志等数据必须遵守仓库约定，写入
-`%APPDATA%\language_projects\zedhub\`；未设置 `APPDATA` 时回退到
-`~/.language_projects/zedhub/`，并在写入前创建完整目录链。
+项目自身运行时产生的数据库、备份、缓存、锁、日志、daemon 地址文件与拉起锁等数据
+必须遵守仓库约定，写入 `%APPDATA%\language_projects\zedhub\`；未设置 `APPDATA` 时
+回退到 `~/.language_projects/zedhub/`，并在写入前创建完整目录链。
 
 ### NFR-5 可诊断性
 
 所有失败结果必须区分至少以下类别：参数错误、数据源不存在、schema 不兼容、记录未找到、
-进程仍在运行、写入失败、验证失败和结果未知。
+进程仍在运行、写入失败、验证失败、结果未知，以及 daemon 连接失败（含握手失败、
+开发构建未启动 serve）。
 
-人类输出可以包含诊断信息；JSON、RPC 和 MCP 结果必须提供稳定的错误类别和可公开说明，
-不得将内部堆栈或敏感路径信息作为唯一错误契约。
+人类输出可以包含诊断信息；JSON、HTTP、RPC 和 MCP 结果必须提供稳定的错误类别和可
+公开说明，不得将内部堆栈或敏感路径信息作为唯一错误契约。
 
 ### NFR-6 多 agent 扩展兼容性
 
@@ -193,28 +243,32 @@ RPC 只按已声明的能力范围提供，不要求入口之间完全对称。
 等不同状态，不能统一降级为空字符串、零值或伪造的 OpenCode 结果。新增数据源的接入应
 局限在其数据读取、解析和能力声明范围内，不得要求修改已有 agent 的业务语义。
 
-### NFR-7 WebSocket 初版安全边界
+### NFR-7 本地通道安全边界
 
-WebSocket 初版默认只允许本机回环地址访问，不承担公网服务、身份认证或跨机器安全接入
-职责。连接处理必须有明确的关闭和错误行为，不能因客户端断开而遗留数据库连接、快照文件
-或后台任务。
+daemon 的 HTTP API 与 WebSocket 通道默认只允许本机回环地址访问，不承担公网服务、
+身份认证或跨机器安全接入职责。
+
+- HTTP 层必须校验 `Host` 头为回环域（防 DNS rebinding 类探测）；WebSocket 沿用
+  `Origin`/`Host` 回环校验。
+- 连接与请求处理必须有明确的关闭和错误行为，不能因客户端断开而遗留数据库连接、
+  快照文件或后台任务；客户端在写流水线执行中断开 SSE/连接时，已开始的数据库写入
+  流水线必须安全执行到可验证状态，不得半途中止或回滚到不可知状态。
 
 WebSocket 使用 JSON 文本消息承载请求和响应；具体字段和握手细节在设计文档中锁定。未
 声明支持的操作必须返回明确的“不支持”错误，不得静默忽略请求。
 
-本项目的 WebSocket 是对外的本地只读查询通道，不是 Agent 运行时桥接协议。它不得负责
+本项目的 WebSocket 是一次性的本地只读学习通道，不是 Agent 运行时桥接协议。它不得负责
 启动或管理 Agent 引擎进程、转发 prompt/tool/policy/permission 调用，或暴露 ACP 内部
 WebSocket、protobuf（例如 CortexStep）等 agent 专属协议。未来数据源若需 ACP、WebSocket、
 protobuf 或子进程桥接来读取自身数据，必须将通信细节封装在对应的数据源适配器内，并映射
-为公共领域结果；不得把这些内部协议并入 zedhub 对外 WebSocket 契约。
+为公共领域结果；不得把这些内部协议并入 zedhub 对外契约。
 
 本渠道的角色边界参考 `docs/repo/antigravity-acp-architecture-research.md`：文中
 Antigravity ACP Server 与 Go 引擎之间的回环 WebSocket 属于 agent 进程内部的引擎桥接
-协议（双向请求、protobuf、每会话进程、断线重放），与 `zedhub` 规划的对外查询通道
-不是同一角色。当前 WebSocket 是 `zedhub` 对外的只读查询通道，不是 Agent 引擎桥接
-协议；未来 Pi agent、Claude Code、Codex、Antigravity 等数据源接入所需的 ACP、
+协议（双向请求、protobuf、每会话进程、断线重放），与 `zedhub` 的对外查询通道不是
+同一角色。未来 Pi agent、Claude Code、Codex、Antigravity 等数据源接入所需的 ACP、
 WebSocket、protobuf 或子进程等内部通信机制，由各数据源适配器自行封装，不进入公共
-会话模型和公共 WebSocket 契约。
+会话模型和公共契约。
 
 ## Acceptance Criteria
 
@@ -227,7 +281,8 @@ session、完整会话内容、项目统计和总览统计；这些能力不需�
 ### AC-2 Zed 查询兼容
 
 当使用现有 `zedhub` 的线程、项目和总览查询参数时，统一项目返回的业务结果、排序和
-错误类别与迁移前一致；空数据库结果仍然是成功的空结果。
+错误类别与迁移前一致；空数据库结果仍然是成功的空结果。daemon 未运行时的连接错误
+按 FR-9 迁移说明处理，不算业务语义变化。
 
 ### AC-3 OpenCode 内容正确关联
 
@@ -265,14 +320,16 @@ OpenCode session 关联可被重新查询。
 
 ### AC-9 多入口结果一致
 
-对现有 RPC 已支持的同一份只读数据和相同业务参数，CLI `--json`、JSON-RPC 和 MCP 返回的
-核心业务字段、排序和错误类别一致；新增业务能力至少保证 CLI `--json` 与 MCP 的结果一致。
-入口可以使用不同的展示包装，但不得各自维护不同的业务筛选和统计规则。
+对现有 RPC 已支持的同一份只读数据和相同业务参数，CLI `--json`、daemon HTTP API、
+JSON-RPC 和 MCP 返回的核心业务字段、排序和错误类别一致；新增业务能力至少保证
+CLI `--json` 与 HTTP API 的结果一致。入口可以使用不同的展示包装，但不得各自维护不同
+的业务筛选和统计规则。
 
 ### AC-10 契约可离线发现
 
-执行 `zedhub schema` 时，即使 Zed 或 OpenCode 数据库不存在，也能输出可解析的 JSON 契约；
-输出中的只读 MCP 工具名称、输入约束、输出约束和行为标注与实际注册定义一致。
+执行 `zedhub schema` 时，即使 Zed 或 OpenCode 数据库不存在、daemon 未运行，也能输出
+可解析的 JSON 契约；输出中的 HTTP API 端点与实际路由注册同源，MCP 只读工具名称、
+输入约束、输出约束和行为标注与实际注册定义一致。
 
 ### AC-11 数据库结构变化可控
 
@@ -298,37 +355,59 @@ OpenCode 专属字段不会被无标记地当作所有 agent 都具备的必填�
 
 ### AC-15 WebSocket 最小能力可用
 
-启动 WebSocket 入口后，客户端能够建立连接，并通过 JSON 文本消息调用 `threads.list` 和
-`stats` 两个只读操作，收到可解析的成功响应；参数错误、数据库错误和未声明操作能够收到
-可区分的错误响应。
+daemon 启动后，客户端能够建立 WebSocket 连接，并通过 JSON 文本消息调用
+`threads.list` 和 `stats` 两个只读操作，收到可解析的成功响应；参数错误、数据库错误
+和未声明操作能够收到可区分的错误响应。
 
-WebSocket 返回的业务数据必须来自现有公共核心，与相同输入下 CLI `--json` 的核心数据一致。
-客户端断开后，服务端能够释放本次请求的数据库连接和临时资源。
+WebSocket 返回的业务数据必须来自与 HTTP API 相同的业务核心，与相同输入下 CLI
+`--json` 的核心数据一致。客户端断开后，服务端能够释放本次请求的数据库连接和临时资源。
 
 ### AC-16 WebSocket 不越权
 
-通过 WebSocket 发送补登、归档导入或其他未声明的写操作时，系统必须拒绝请求，不修改 Zed、
-OpenCode 或项目内部数据。
+通过 WebSocket 发送补登、归档导入或其他未声明的写操作时，系统必须拒绝请求，不修改
+Zed、OpenCode 或项目内部数据。
 
 ### AC-17 对外查询通道与 Agent 桥接隔离
 
-WebSocket 入口只处理已声明的 zedhub 查询请求。它不启动 Agent 引擎、不处理 ACP 会话或
+WebSocket 通道只处理已声明的 zedhub 查询请求。它不启动 Agent 引擎、不处理 ACP 会话或
 工具权限回调、不接收 protobuf 消息；客户端发送这些未支持的内部桥接消息时，服务端返回
 明确错误且不触发 Agent 执行或数据库写入。
 
+### AC-18 Service 层只进 daemon
+
+除 daemon 进程外，任何入口（CLI、MCP 桥、兼容 RPC）的可执行代码路径中不包含数据库
+访问、业务筛选、统计、导出、补登或导入实现；查询与写命令的执行路径为
+壳 → HTTP → daemon → Service 层；`--help`、`--version`、`schema`、`rpc.discover`
+等纯本地命令在不启动 daemon 的情况下正常工作。
+
+### AC-19 daemon 生命周期正确
+
+前台 `zedhub serve` 正常启动并写入地址文件、退出时清理；生产构建客户端在 daemon 不在
+时能自动拉起并连接，显式指定地址连不上时报错不拉起；开发构建一律不拉起并给出
+“先运行 `zedhub serve`”提示；buildID 不一致时握手报错并提示重启；自动拉起的
+daemon 空闲超过默认时长后自动退出且地址文件被清理；并发拉起不产生重复 daemon。
+
+### AC-20 SSE 进度可用
+
+写类长任务（补登、归档导入的 apply 执行）提供 SSE 进度事件流：CLI 人读模式实时显示
+阶段进度，`--json` 模式输出最终结果对象；SSE 连接中断不中止已开始的写流水线，已开始
+的写入按 AC-6/AC-7 的安全语义执行到可验证状态。
+
 ## Out of Scope
 
-- 本次不开发 Web UI、桌面 GUI 或远程 HTTP 服务。
-- 本次不要求 WebSocket 覆盖全部 CLI、MCP 或 JSON-RPC 能力；初版只实现 `threads.list` 和
-  `stats` 两个只读操作。
-- 本次不为 WebSocket 实现公网部署、身份认证、跨机器安全接入或复杂连接管理。
+- 本次不开发 Web UI、桌面 GUI 或远程 HTTP 服务；daemon HTTP API 仅监听本机回环。
+- WebSocket 本轮实现后冻结：不再新增方法、能力或协议扩展；生产与自动化用途一律使用
+  HTTP API。
+- 本次不为 HTTP API 或 WebSocket 实现公网部署、身份认证、跨机器安全接入或复杂连接管理。
+- 本次不采用 gRPC；不实现通用日志流 SSE（SSE 仅覆盖写类长任务进度）。
 - 本次不实现 Antigravity ACP Server 与 `localharness` 一类 Agent 运行时桥接，不实现其
   ACP 生命周期、prompt/tool/permission 双向调用、protobuf 协议或引擎进程管理。
 - 本次不修改 OpenCode 或 Zed 的上游数据库 schema。
-- 本次不实现 Pi agent、Claude Code、Codex 或 Antigravity 的数据源接入；本次只定义兼容它们
-  的公共边界与扩展要求。
+- 本次不实现 Pi agent、Claude Code、Codex 或 Antigravity 的数据源接入；本次只定义兼容
+  它们的公共边界与扩展要求。
 - 本次不删除 Zed 或 OpenCode 中已有的会话数据。
-- 本次不把数据库写入能力暴露为 MCP 或 WebSocket 功能；后续是否开放另行评估。
+- 本次不把数据库写入能力暴露为 MCP 或 WebSocket 功能；HTTP API 写端点仅作为 CLI 的
+  承载通道；后续是否对第三方开放写能力另行评估。
 - 本次不保证跨版本数据库导入对所有未来 Zed/OpenCode 版本永久兼容；遇到未知 schema
   必须拒绝或降级，而不是猜测字段含义。
 - 本次不在 `go_projects/ocstat` 中继续扩展功能；Go 项目的归档或弃用属于独立迁移事项。
