@@ -4,51 +4,66 @@
 >
 > 目标项目当前已从 `python_projects` 子仓归档，本清单中的前几个任务会重新创建
 > `python_projects/zedhub`；`.archived/` 下的源码只作为迁移参考，不作为运行时依赖。
+>
+> 架构基准：同目录 `design.md`（daemon 架构，遵循《CLI 工具开发标准 v2》+ v1 契约细节）。
+> Service 层只存在于 daemon；CLI、MCP 桥、兼容 RPC 均为 HTTP 薄客户端。
 
-- [ ] 1. 重建 `zedhub` Python 项目骨架与运行时路径基础，使新项目能够独立安装、显示帮助和版本信息。
+- [ ] 1. 重建 `zedhub` Python 项目骨架、数据目录与构建身份基础，使新项目能够独立安装、
+  显示帮助和版本信息，并具备生产/开发构建判定能力。
   - Files:
     - `python_projects/zedhub/pyproject.toml`
     - `python_projects/zedhub/src/zedhub/__init__.py`
+    - `python_projects/zedhub/src/zedhub/__main__.py`
     - `python_projects/zedhub/src/zedhub/cli.py`
     - `python_projects/zedhub/src/zedhub/core/__init__.py`
     - `python_projects/zedhub/src/zedhub/core/paths.py`
     - `python_projects/zedhub/src/zedhub/core/errors.py`
+    - `python_projects/zedhub/src/zedhub/buildid.py`
     - `python_projects/zedhub/README.md`
     - `python_projects/zedhub/.gitignore`
     - `python_projects/zedhub/uv.lock`
   - 实现细节：
-    - 恢复 `zedhub` console script，Python 版本设为 `>=3.12`。
-    - 固定 `mcp==2.2.0`，加入 `websockets>=15,<16`、`typer`、`pydantic` 和 pytest 开发依赖。
-    - 实现 `--help`、`--version` 的零业务 I/O 入口。
-    - 实现 `zedhub_data_dir()`：优先 `%APPDATA%\\language_projects\\zedhub\\`，否则使用
-      `~/.language_projects/zedhub/`，并提供 `snapshots/`、`backups/`、`operations/` 的安全建目录函数。
-    - 定义公共错误代码和入口无关的异常基类；不得在公共核心调用 `os.Exit`。
-    - README 先记录项目定位、数据源边界和当前尚未实现的命令，不复制旧项目运行时依赖。
-  - Verify: `uv sync`；预期依赖安装成功并生成可复现的 `uv.lock`；`uv run zedhub --help` 和
-    `uv run zedhub --version` 均以退出码 0 返回，且不访问 Zed/OpenCode 数据库。
-  - Ref: AC-1、AC-10、NFR-4、NFR-5
+    - 恢复 `zedhub` console script，Python 版本设为 `>=3.12`；构建后端 hatchling +
+      hatch-vcs（版本由 git tag 推导，开发态天然带 `.dev`/local 段）。
+    - 固定 `mcp==2.2.0`，加入 `websockets>=15,<16`、`starlette>=0.40,<1`、
+      `uvicorn>=0.30,<1`、`typer`、`pydantic` 和 pytest 开发依赖。
+    - 实现 `--help`、`--version` 的纯本地入口（零网络、零数据库 I/O）。
+    - 实现 `zedhub_data_dir()`：优先 `%APPDATA%\language_projects\zedhub\`，否则使用
+      `~/.language_projects/zedhub/`，并提供 `snapshots/`、`backups/`、`operations/`、
+      `runtime/` 的安全建目录函数。
+    - `buildid.py`：生产/开发构建判定（PEP 440 版本含 `.dev`/local 段即开发构建）；
+      buildID 生成——生产 `v{version}`，开发 `dev-{源码指纹}`（`src/zedhub/**/*.py`
+      size+mtime 聚合哈希，进程内只算一次）。
+    - 定义公共错误代码（含 `daemon_unreachable`、`handshake_mismatch`）和入口无关的
+      异常基类；不得在公共核心调用 `os.Exit`。
+    - README 先记录 daemon 架构定位、数据源边界和当前尚未实现的命令，不复制旧项目
+      运行时依赖。
+  - Verify: `uv sync`；预期依赖安装成功并生成可复现的 `uv.lock`；`uv run zedhub --help`
+    和 `uv run zedhub --version` 均以退出码 0 返回，且不访问 Zed/OpenCode 数据库、不产生
+    网络连接。
+  - Ref: AC-1、AC-10、AC-18、NFR-4、NFR-5
 
-- [ ] 2. 恢复 Zed WAL 安全读取核心和既有 Zed 查询业务，保持旧 `zedhub` 的线程、项目与总览语义。
+- [ ] 2. 恢复 Zed WAL 安全读取核心和既有 Zed 查询业务（Service 层），保持旧 `zedhub`
+  的线程、项目与总览语义。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/snapshot.py`
     - `python_projects/zedhub/src/zedhub/core/model.py`
     - `python_projects/zedhub/src/zedhub/core/repo.py`
     - `python_projects/zedhub/src/zedhub/core/service.py`
-    - `python_projects/zedhub/src/zedhub/cli.py`
   - 实现细节：
     - 从 `.archived/projects/python_projects/zedhub/src/zedhub/core/` 恢复并重写 Zed 模型、
       schema 检查、时间/路径/BLOB 解析和筛选聚合逻辑。
     - Zed 读取始终复制 `db.sqlite`、`db.sqlite-wal`、`db.sqlite-shm` 到
       `zedhub_data_dir()/snapshots/<id>/`，使用显式字段查询，禁止 `SELECT *`。
-    - 保留 `threads list/show`、`projects`、`stats` 的参数、排序、空结果和错误语义；
-      既有 `--db` 路径参数必须继续透传到快照入口。
+    - 保留 `threads list/show`、`projects`、`stats` 的参数、排序、空结果和错误语义，
+      作为 Service 方法供后续 HTTP API 调用。
     - 快照和 SQLite 连接由最短业务范围拥有并关闭，schema 缺失时返回稳定错误。
-  - Verify: `uv run zedhub threads list --help`、`uv run zedhub threads show --help`、
-    `uv run zedhub projects --help`、`uv run zedhub stats --help`；预期均退出码 0，且帮助命令
-    不触碰业务数据库。
+  - Verify: `uv run python -c "from zedhub.core.service import ThreadService; from
+    zedhub.core.repo import ZedDb"`；预期导入成功；`uv run zedhub --help` 仍退出码 0。
   - Ref: AC-2、AC-11、FR-2、NFR-1、NFR-2
 
-- [ ] 3. 建立通用会话模型、OpenCode 只读数据源和 agent source 注册表，完成 Zed/OpenCode 关联查询所需的底层能力。
+- [ ] 3. 建立通用会话模型、OpenCode 只读数据源和 agent source 注册表（Service 层），
+  完成 Zed/OpenCode 关联查询所需的底层能力。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/model.py`
     - `python_projects/zedhub/src/zedhub/core/opencode_repo.py`
@@ -64,37 +79,17 @@
       只注册 `opencode`，未注册的 Pi、Claude Code、Codex、Antigravity 返回
       `source_not_supported`，不得伪造为空结果。
     - 实现 `OpencodeDb`：显式读取 `session`、`message`、`part` 所需字段，支持 session 列表、
-      单 session、完整消息内容和 schema 分级探测。
+      单 session、完整消息内容和 schema 分级探测（full/basic/broken）。
     - OpenCode 默认使用 `mode=ro` + `busy_timeout`；读取失败时复制三件套到项目数据目录
       后重试，禁止 `immutable=1` 直接忽略 WAL。
     - Zed 作为独立索引源，通过 `session_id` 为 OpenCode session 增加可选的
       `zed_thread_id` 关联，缺失时明确返回 `None`。
-  - Verify: `uv run zedhub --help`；预期命令仍能启动；使用显式不存在的 `--opencode-db` 路径
-    调用新查询入口时返回稳定的数据源缺失错误，而不是 traceback 或空成功结果。
+  - Verify: `uv run python -c "from zedhub.core.sources import SOURCES; assert
+    'opencode' in SOURCES"`；预期导入成功且注册表含 opencode。
   - Ref: AC-1、AC-3、AC-11、AC-13、AC-14、FR-1、FR-3、FR-10
 
-- [ ] 4. 恢复公共 API 注册表并接入兼容 CLI、JSON-RPC 与 MCP，使参数校验和序列化只有一个事实源。
-  - Files:
-    - `python_projects/zedhub/src/zedhub/api.py`
-    - `python_projects/zedhub/src/zedhub/rpc.py`
-    - `python_projects/zedhub/src/zedhub/mcp_server.py`
-    - `python_projects/zedhub/src/zedhub/cli.py`
-    - `python_projects/zedhub/src/zedhub/core/service.py`
-  - 实现细节：
-    - 从归档基线恢复 `threads.list`、`threads.show`、`projects`、`stats` 和
-      `rpc.discover`，保持旧 RPC 方法名、payload 和错误映射。
-    - 在同一注册表增加 `sessions.list`、`sessions.show`、`sessions.content`、
-      `stats.effort` 的参数说明、JSON Schema 片段和结果序列化函数。
-    - 入口层只负责解析、协议适配和渲染；公共 `api.call()` 负责参数校验、source 路由、
-      错误分类和业务调用，不操作标准流。
-    - 使用 `mcp==2.2.0` 的 `MCPServer.tool(name=..., annotations=..., structured_output=True)`；
-      新只读工具显式使用三段式名称和 Pydantic 对象根 output schema，写操作不注册。
-    - 兼容 RPC 不新增新业务方法，新增能力由 CLI/MCP 提供。
-  - Verify: `'{"jsonrpc":"2.0","id":1,"method":"rpc.discover"}' | uv run zedhub rpc`；
-    预期输出一行合法 JSON-RPC 响应且不要求数据库存在；`uv run zedhub mcp --help` 退出码 0。
-  - Ref: AC-2、AC-9、AC-10、FR-8、FR-9、NFR-3
-
-- [ ] 5. 移植启动模型与 effort 分析，补齐 OpenCode 配置合并、三级降级和 watch 计算核心。
+- [ ] 4. 移植启动模型与 effort 分析（Service 层），补齐 OpenCode 配置合并、三级降级和
+  watch 计算核心。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/analytics.py`
     - `python_projects/zedhub/src/zedhub/core/config.py`
@@ -109,68 +104,177 @@
       `reasoningEffort`/`effort`；配置文件缺失或解析失败不能使主统计失败。
     - 实现 effort 排序、provider/model 分组、占比、生成时间、降级说明和 `default→effort`
       展示口径；分析核心无状态，watch 只负责重复调用。
-  - Verify: `uv run zedhub stats effort --help`；预期退出码 0；针对一个包含完整 session、
-    message、event 的 fixture 执行统计时，结果能区分启动模型与当前模型，并在缺少 event
-    表时返回 `degraded=true` 或等价降级标记。
+  - Verify: `uv run python -c "from zedhub.core.analytics import resolve_startup"`；
+    预期导入成功。
   - Ref: AC-4、AC-5、AC-11、FR-4
 
-- [ ] 6. 实现新的只读 CLI 命令和 Markdown/文本内容输出，统一人读模式与 `--json` 契约。
+- [ ] 5. 建立公共契约模块 `contract.py`，为 daemon、MCP 桥、兼容 RPC 和 schema 导出提供
+  同源的纯协议定义。
+  - Files:
+    - `python_projects/zedhub/src/zedhub/contract.py`
+  - 实现细节：
+    - 纯协议定义、零业务依赖：不 import sqlite、Service 或任何入口模块。
+    - 定义 HTTP 端点参数/响应 pydantic 模型、MCP 工具元数据（名称、描述、输入模型、
+      输出 DTO）、兼容 RPC 方法表（4 旧方法映射 + rpc.discover 静态文档）、WS 帧信封
+      模型与白名单。
+    - 契约与实现同源的不变量：daemon 路由、桥注册、schema 导出均迭代本模块定义，不得
+      手抄副本。
+  - Verify: `uv run python -c "import zedhub.contract"`；预期导入成功且无业务模块副作用
+    （不创建数据目录、不访问数据库）。
+  - Ref: AC-9、AC-10、AC-18、NFR-3
+
+- [ ] 6. 恢复公共 API 注册表并实现 daemon HTTP API 与 `serve` 子命令，使 HTTP+JSON 成为
+  唯一业务契约。
+  - Files:
+    - `python_projects/zedhub/src/zedhub/api.py`
+    - `python_projects/zedhub/src/zedhub/http_api.py`
+    - `python_projects/zedhub/src/zedhub/cli.py`
+  - 实现细节：
+    - 恢复归档基线的方法注册表（`threads.list/show`、`projects`、`stats`），并新增
+      `sessions.list/show/content`、`stats.effort` 的参数说明、JSON Schema 片段和结果
+      序列化函数；参数未注册 source → `source_not_supported`。
+    - `http_api.py`：Starlette 数据驱动路由表 `ROUTES`（method/path/业务方法/参数
+      schema/SSE 能力），路由注册与 schema 导出迭代同一张表。
+    - 实现设计文档 §5 的全部 GET/POST 端点；JSON 包络沿用 v1（`ok/data/error`），HTTP
+      状态码按错误表映射，`error.code` 为唯一稳定契约。
+    - 每请求校验 `Host` 头为回环域，否则 403；`X-Zedhub-Build` 握手校验，不等返回 409 +
+      `handshake_mismatch`。
+    - 同步 Service 调用经 `asyncio.to_thread` 进入有界线程池（默认 8）；写流水线全局
+      互斥（本轮可为占位锁，写端点在任务 12-15 落地）。
+    - `zedhub serve` 前台子命令：uvicorn 承载、日志输出、优雅关闭（等待在途请求与线程
+      池结束、删地址文件）。
+    - 本任务先实现同步 JSON 形态；SSE 流式形态在任务 15 落地。
+  - Verify: `uv run zedhub serve --help`；预期退出码 0；手动 `uv run zedhub serve` 后
+    `uv run python -c "import urllib.request; print(urllib.request.urlopen(
+    'http://127.0.0.1:8766/api/v1/health').read().decode())"` 返回含 `build_id` 的
+    JSON，Ctrl+C 退出后进程与端口释放。
+  - Ref: AC-9、AC-18、AC-19、FR-8、FR-11、NFR-3、NFR-7
+
+- [ ] 7. 实现 daemon 生命周期与客户端发现：地址文件、发现优先级、自动拉起（仅生产）、
+  buildID 握手、空闲退出与拉起互斥。
+  - Files:
+    - `python_projects/zedhub/src/zedhub/lifecycle.py`
+    - `python_projects/zedhub/src/zedhub/client.py`
+    - `python_projects/zedhub/src/zedhub/cli.py`
+    - `python_projects/zedhub/src/zedhub/http_api.py`
+  - 实现细节：
+    - 地址文件 `zedhub_data_dir()/runtime/daemon.json`（host/port/pid/build_id/
+      started_at/auto_spawned），原子写、退出清理；`runtime/daemon.lock` 启动互斥；存活
+      判定以端口可连 + `/health` 握手为准，pid 仅诊断（Windows 不用信号探活）。
+    - `client.py` 共享 HTTP client：发现优先级 `--host` → `ZEDHUB_HOST` → 地址文件 →
+      默认 `127.0.0.1:8766`；自动附带 `X-Zedhub-Build` 头。
+    - 自动拉起仅生产构建且未显式指定地址：`sys.executable -m zedhub serve
+      --auto-spawned`，`DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP`，stderr 重定向
+      `runtime/daemon.log`；拉起后轮询地址文件 + 握手（默认 10 秒）。
+    - 生产构建显式指定地址连不上报错不拉起；开发构建一律报 `daemon_unreachable` 并提示
+      「先运行 `zedhub serve`」；拉起前二次探测互斥。
+    - `--auto-spawned` 启用的空闲退出（默认 30 分钟，仅无在途请求期间累计，请求结束
+      重置）；前台 serve 不设空闲退出。
+  - Verify: `uv run zedhub serve --host 0.0.0.0` 以参数错误拒绝；dev 构建下不启动 serve
+    直接 `uv run zedhub threads list`（任务 8 落地后）报「先运行 `zedhub serve`」；
+    serve 启动后 `runtime/daemon.json` 存在、退出后被清理。
+  - Ref: AC-19、FR-11、NFR-4
+
+- [ ] 8. 实现 CLI 薄壳的查询命令：恢复旧命令并新增只读命令，统一人读模式与 `--json`
+  契约，全部经 HTTP 调 daemon。
   - Files:
     - `python_projects/zedhub/src/zedhub/cli.py`
-    - `python_projects/zedhub/src/zedhub/core/service.py`
+    - `python_projects/zedhub/src/zedhub/client.py`
     - `python_projects/zedhub/src/zedhub/export/__init__.py`
     - `python_projects/zedhub/src/zedhub/export/markdown.py`
-    - `python_projects/zedhub/src/zedhub/core/serialization.py`
+    - `python_projects/zedhub/src/zedhub/serialization.py`
   - 实现细节：
-    - 增加 `sessions list/show/content` 和 `stats effort`，支持设计中列出的筛选、limit、
-      `--format`、`--out`、`--watch`、`-i`、数据源路径及 `--json` 参数。
-    - 新命令默认人类可读；新命令 JSON 使用 `{"ok":true,"data":...}` 或
-      `{"ok":false,"error":...}`，旧兼容命令保留历史 `status` 信封。
-    - `sessions list` 通过 `session_id` 关联 Zed thread，任一侧缺失都显式表达；详情命令不
-      将原始数据库 JSON 未筛选地输出。
-    - Markdown 导出沿用归档脚本的可读结构，文件写入仅使用用户明确指定的输出路径；内部
-      快照、缓存和操作记录仍写入项目数据目录。
-  - Verify: `uv run zedhub sessions list --help`、`uv run zedhub sessions content --help`、
-    `uv run zedhub stats effort --help`；预期均退出码 0；对空 fixture 使用 `--json` 时输出
-    可解析成功对象和空数据，而非错误或人读表格。
-  - Ref: AC-1、AC-3、AC-4、AC-5、FR-3、FR-4、FR-5、NFR-3
+    - 恢复 `threads list/show`、`projects`、`stats` 旧命令（参数、排序、旧 `status`
+      兼容信封不变），实现为参数解析 → `client.call()` → 渲染的薄壳。
+    - 新增 `sessions list/show/content` 和 `stats effort`：支持设计中列出的筛选、limit、
+      `--format`、`--out`、`--watch`、`-i`、`--host` 及 `--json` 参数；watch = CLI 循环
+      调 HTTP；`-i<=0` 报 invalid_params。
+    - 新命令默认人类可读；新命令 JSON 使用 `{"ok":true,"data":...}` /
+    `{"ok":false,"error":...}`，旧兼容命令保留历史 `status` 信封。
+    - Markdown 导出沿用归档脚本的可读结构；文件写入仅使用用户明确指定的输出路径。
+    - `sessions list` 结果含 `zed_linked` 关联标记，任一侧缺失都显式表达；详情命令不将
+      原始数据库 JSON 未筛选地输出。
+    - daemon 连接失败按任务 7 的发现/拉起/报错策略处理。
+  - Verify: `uv run zedhub threads list --help`、`uv run zedhub sessions list --help`、
+    `uv run zedhub stats effort --help`；预期均退出码 0（纯本地，不触发 daemon）；dev
+    构建下不带 serve 执行查询命令返回「先运行 `zedhub serve`」类错误而非 traceback。
+  - Ref: AC-1、AC-2、AC-3、AC-4、AC-5、AC-9、FR-3、FR-4、FR-5、NFR-3
 
-- [ ] 7. 实现最小 WebSocket 只读通道，并严格隔离 Agent 内部 ACP/WebSocket 协议。
+- [ ] 9. 实现兼容 JSON-RPC 薄壳：`zedhub rpc` 经 HTTP 调 daemon，`rpc.discover` 本地响应。
+  - Files:
+    - `python_projects/zedhub/src/zedhub/rpc.py`
+    - `python_projects/zedhub/src/zedhub/cli.py`
+  - 实现细节：
+    - stdin 读 JSON-RPC 请求；`rpc.discover` 用 `contract.py` 方法表本地静态响应，
+      不依赖 daemon。
+    - 既有 4 方法（`threads.list/show`、`projects`、`stats`）转 HTTP 调用，payload 与
+      错误映射维持旧码（`-32602`/`-32001`/`-32000` 等）；方法表冻结不新增。
+    - daemon 连接失败 → `-32000` + 「daemon 未运行，请先执行 zedhub serve」类 message。
+    - 未知方法 → `-32601`（旧语义）。
+  - Verify: `uv run zedhub rpc --help` 退出码 0；`echo '{"jsonrpc":"2.0","id":1,
+    "method":"rpc.discover"}' | uv run zedhub rpc` 在 daemon 未运行时输出一行合法
+    JSON-RPC 响应（discover 不依赖 daemon）。
+  - Ref: AC-2、AC-9、AC-18、FR-8、FR-9、NFR-3
+
+- [ ] 10. 实现 MCP 桥：stdio MCP ↔ HTTP daemon，只读工具注册与 schema 同源。
+  - Files:
+    - `python_projects/zedhub/src/zedhub/mcp_bridge.py`
+    - `python_projects/zedhub/src/zedhub/cli.py`
+  - 实现细节：
+    - `zedhub mcp` 启动 stdio MCP server（`mcp==2.2.0`），工具实现全部经 HTTP 调
+      daemon；桥不 import sqlite/Service。
+    - 保留存量工具名 `threads_list` 等 + 新增三段式
+      `zedhub.sessions.list/show/content`、`zedhub.stats.effort`；显式
+      `MCPServer.tool(name=..., annotations=ToolAnnotations(read_only_hint=True,
+      destructive_hint=False, idempotent_hint=True), structured_output=True)`；
+      工具元数据来自 `contract.py`，与 schema 导出同源。
+    - 桥启动先与 daemon 握手（失败即启动报错并提示先 `zedhub serve`）；HTTP 错误码 →
+      MCP 错误；写操作不注册。
+  - Verify: `uv run zedhub mcp --help` 退出码 0；dev 构建下 daemon 未运行时启动桥收到
+    清晰报错而非挂起。
+  - Ref: AC-9、AC-10、AC-18、FR-8、NFR-3
+
+- [ ] 11. 实现 WebSocket 学习通道（daemon 内组件，白名单双方法），并在 README 声明冻结。
   - Files:
     - `python_projects/zedhub/src/zedhub/ws.py`
+    - `python_projects/zedhub/src/zedhub/http_api.py`
     - `python_projects/zedhub/src/zedhub/cli.py`
-    - `python_projects/zedhub/src/zedhub/api.py`
-    - `python_projects/zedhub/src/zedhub/README.md`
+    - `python_projects/zedhub/README.md`
   - 实现细节：
-    - 增加 `zedhub ws`，默认监听 `127.0.0.1:8765`，拒绝非回环 host；并发连接上限为 8，
-      单帧上限 1 MiB，binary 帧关闭码 1003，超限关闭码 1013。
-    - 使用 JSON 文本帧请求/响应，白名单只允许 `threads.list` 和 `stats`；参数校验直接
-      复用公共 `api.call()`，未知方法和写操作返回 `method_not_supported`。
-    - 使用有界线程池执行同步 SQLite/快照调用，每请求独立资源、30 秒上限、断连取消等待，
-      并在 `finally` 中释放连接和快照；服务关闭时等待线程池清理。
-    - 校验 `Origin`/`Host` 的回环范围，错误响应保持连接，未捕获异常记录 stderr 并返回
-      `internal_error`；不得启动 Agent 引擎或接收 ACP/protobuf/CortexStep 消息。
-    - README 记录帧信封、关闭码、回环安全边界和当前不支持的内部桥接协议。
-    - `python_projects/zedhub` 代码与父仓库文档若需同时提交，必须分别在 Python 子仓和父仓库
-      创建独立 commit，不跨提交范围混提。
-  - Verify: `uv run zedhub ws --help`；预期退出码 0；启动 `uv run zedhub ws --host 0.0.0.0`
-    时以参数错误拒绝；使用 WebSocket 客户端发送 `threads.list` 和 `stats` 能收到合法响应，
-    发送写操作或 binary 帧不会修改数据库。
+    - daemon 启动时同时监听 WS `127.0.0.1:8765`（`websockets>=15,<16`，与 uvicorn 共享
+      事件循环与线程池）；拒绝非回环 host；并发连接上限 8，单帧上限 1 MiB，binary 帧
+      关闭码 1003，超限关闭码 1013。
+    - JSON 文本帧请求/响应，白名单只允许 `threads.list` 和 `stats`；参数校验直接复用
+      `api.call()`（daemon 进程内直调，与 HTTP 同源），未知方法和写操作返回
+      `method_not_supported`。
+    - 每请求独立资源、30 秒上限、断连取消等待并在 `finally` 释放连接和快照；校验
+      `Origin`/`Host` 回环范围；错误响应保持连接，未捕获异常记录 stderr 并返回
+      `internal_error`。
+    - 不得启动 Agent 引擎或接收 ACP/protobuf/CortexStep 消息（收到未支持消息返回明确
+      错误）。
+    - README 记录帧信封、关闭码、回环安全边界，并**明确声明**：WS 是一次性学习实现，
+      本轮之后冻结不再扩展，生产与自动化用途一律使用 HTTP API。
+  - Verify: `uv run zedhub serve --help` 退出码 0；手动启动 serve 后用
+    `uv run python -c`（websockets sync client）发送
+    `{"id":1,"method":"threads.list","params":{}}` 收到合法 JSON 响应，发送写操作方法名
+    收到 `method_not_supported`。
   - Ref: AC-15、AC-16、AC-17、FR-8、NFR-7
 
-- [ ] 8. 实现写操作安全基础设施和 OpenCode 会话补登，保持 dry-run 默认与幂等行为。
+- [ ] 12. 实现写操作安全基础设施和 OpenCode 会话补登（Service 层 + CLI + HTTP 端点），
+  保持 dry-run 默认与幂等行为。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/writes.py`
     - `python_projects/zedhub/src/zedhub/core/processes.py`
     - `python_projects/zedhub/src/zedhub/core/backup.py`
     - `python_projects/zedhub/src/zedhub/core/journal.py`
     - `python_projects/zedhub/src/zedhub/core/linking.py`
+    - `python_projects/zedhub/src/zedhub/http_api.py`
     - `python_projects/zedhub/src/zedhub/cli.py`
   - 实现细节：
-    - 实现 Windows `tasklist` 进程检查；仅 `--apply` 强制要求 Zed/OpenCode 退出，dry-run 不
-      写入且允许进程运行。
+    - 实现 Windows `tasklist` 进程检查；仅 `--apply` 强制要求 Zed/OpenCode 退出，dry-run
+      不写入且允许进程运行。
     - 备份 Zed/OpenCode 数据库三件套到
-      `%APPDATA%\\language_projects\\zedhub\\backups\\<operation_id>\\`，路径不可写时在
+      `%APPDATA%\language_projects\zedhub\backups\<operation_id>\`，路径不可写时在
       写入前终止；不得把备份写到外部数据库目录或 `%TEMP%`。
     - 实现 operation journal 的 `planned`、`partial`、`unknown` 等状态、operation_id、
       备份路径和阶段记录；公共写入核心不调用 `os.Exit`。
@@ -178,72 +282,107 @@
       session_id 幂等跳过、UUID thread_id、毫秒到 Zed UTC 时间转换和写后复查。
     - 写入使用单库短事务、参数化 SQL、显式字段和 `PRAGMA wal_checkpoint(TRUNCATE)`；
       失败不得报告成功。
-  - Verify: `uv run zedhub sessions link --help`；预期退出码 0；不带 `--apply` 执行时只输出
-    计划且目标数据库字节不变；对临时目标库执行 `--apply` 后，重复执行会跳过已关联 session，
-    并报告实际插入数量和复查结果。
+    - HTTP `POST /api/v1/sessions/link` 与 CLI `sessions link` 命令（dry-run 本任务同步
+      JSON 形态；apply 的 SSE 流式形态在任务 15 落地）。
+  - Verify: `uv run zedhub sessions link --help`；预期退出码 0；daemon 运行时不带
+    `--apply` 执行只输出计划且目标数据库字节不变；对临时目标库执行 `--apply` 后，重复
+    执行会跳过已关联 session，并报告实际插入数量和复查结果。
   - Ref: AC-6、AC-7、AC-11、FR-6、NFR-1、NFR-4
 
-- [ ] 9. 实现归档导出与归档检查，生成带版本和来源标识的可迁移 SQLite 文件。
+- [ ] 13. 实现归档导出与归档检查（Service 层 + CLI + HTTP 端点），生成带版本和来源标识的
+  可迁移 SQLite 文件。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/archive.py`
+    - `python_projects/zedhub/src/zedhub/http_api.py`
     - `python_projects/zedhub/src/zedhub/cli.py`
     - `python_projects/zedhub/src/zedhub/core/opencode_repo.py`
-    - `python_projects/zedhub/README.md`
   - 实现细节：
     - 移植归档导出能力，但把所有 `SELECT *` 改为显式字段列表，并固定归档表结构和索引。
     - 写入 `_archive_meta`：`schema_version`、`source_agent`、导出时间、项目、归档开关及
       thread/session/message/part 数量。
-    - 支持 `archive export <project> -o FILE [--archived] [--json]` 和
-      `archive inspect FILE [--json]`；用户指定的归档输出路径按用户意图执行，内部运行数据
-      不因此写入外部数据库目录。
+    - 实现 `archive export <project> -o FILE [--archived] [--json]` 和
+      `archive inspect FILE [--json]`（HTTP `POST /api/v1/archive/export`、
+      `/archive/inspect`）；用户指定的归档输出路径按用户意图执行，内部运行数据不因此
+      写入外部数据库目录。
     - 导出前通过统一 Zed/OpenCode 只读源获取数据，归档中不写入不属于选定项目的 session。
-  - Verify: `uv run zedhub archive export --help`、`uv run zedhub archive inspect --help`；预期
-    退出码 0；对临时 fixture 导出后，`archive inspect` 能读取版本、source_agent 和各表数量，
-    且归档文件可被 SQLite 只读打开。
-  - Ref: AC-8、AC-11、FR-5、FR-7、NFR-2
+  - Verify: `uv run zedhub archive export --help`、`uv run zedhub archive inspect --help`；
+    预期退出码 0；对临时 fixture 导出后，`archive inspect` 能读取版本、source_agent 和
+    各表数量，且归档文件可被 SQLite 只读打开。
+  - Ref: AC-8、AC-11、FR-5、NFR-2
 
-- [ ] 10. 实现跨机器归档导入、分库写入状态和写后验证，明确处理部分成功与未知结果。
+- [ ] 14. 实现跨机器归档导入（Service 层 + CLI + HTTP 端点）、分库写入状态和写后验证，
+  明确处理部分成功与未知结果。
   - Files:
     - `python_projects/zedhub/src/zedhub/core/migration.py`
     - `python_projects/zedhub/src/zedhub/core/writes.py`
     - `python_projects/zedhub/src/zedhub/core/journal.py`
+    - `python_projects/zedhub/src/zedhub/http_api.py`
     - `python_projects/zedhub/src/zedhub/cli.py`
   - 实现细节：
-    - 支持 `archive import FILE --target DIR` dry-run 和显式 `--apply`；先校验归档
-      `schema_version/source_agent`、目标目录、Zed/OpenCode schema、进程状态和备份可写性。
-    - 读取归档时显式列出 `_archive_meta`、Zed thread、OpenCode session/message/part 所需字段，
-      不猜测未知版本，不使用 `SELECT *`。
+    - 实现 `archive import FILE --target DIR`（HTTP `POST /api/v1/archive/import`）dry-run
+      和显式 `--apply`；先校验归档 `schema_version/source_agent`、目标目录、Zed/OpenCode
+      schema、进程状态和备份可写性。
+    - 读取归档时显式列出 `_archive_meta`、Zed thread、OpenCode session/message/part 所需
+      字段，不猜测未知版本，不使用 `SELECT *`。
     - 生成并保存 session/message/part/thread ID 映射，创建或复用目标 project，重写外键，
       保留目标机已有数据。
     - 分别执行 OpenCode 与 Zed 短事务；每次提交后 checkpoint，最后分别只读复查。不得使用
       `ATTACH` 宣称跨 WAL 数据库单事务原子性。
     - 任一阶段失败时保留 operation journal、备份、映射和已提交阶段，返回 `partial` 或
       `unknown`；成功必须满足两库复查和数量一致，才返回成功。
-  - Verify: `uv run zedhub archive import --help`；预期退出码 0；默认执行只输出导入计划且不
-    写目标库；对临时目标库使用 `--apply` 后，目标原有记录仍存在、导入记录可查询、复查数量
-    与计划一致；模拟第二库失败时返回非成功状态并输出 operation_id 与备份位置。
+  - Verify: `uv run zedhub archive import --help`；预期退出码 0；默认执行只输出导入计划
+    且不写目标库；对临时目标库使用 `--apply` 后，目标原有记录仍存在、导入记录可查询、
+    复查数量与计划一致；模拟第二库失败时返回非成功状态并输出 operation_id 与备份位置。
   - Ref: AC-6、AC-7、AC-8、AC-11、FR-7、NFR-1、NFR-5
 
-- [ ] 11. 实现离线 schema 导出、协议说明和项目交付文档，保证契约与实际 MCP/WS 注册同源。
+- [ ] 15. 实现 SSE 进度流：写类长任务的 daemon 端点流式阶段事件与 CLI 实时渲染。
+  - Files:
+    - `python_projects/zedhub/src/zedhub/http_api.py`
+    - `python_projects/zedhub/src/zedhub/core/writes.py`
+    - `python_projects/zedhub/src/zedhub/core/linking.py`
+    - `python_projects/zedhub/src/zedhub/core/migration.py`
+    - `python_projects/zedhub/src/zedhub/client.py`
+    - `python_projects/zedhub/src/zedhub/cli.py`
+  - 实现细节：
+    - 写类端点（`sessions/link`、`archive/export`、`archive/import` 的 apply/长任务形态）
+      在 `Accept: text/event-stream` 时返回 SSE：`stage` 事件（阶段 + 明细 + 可选 pct）、
+      `result` 事件（完整结果对象，同同步形态 data）、`error` 事件（错误码 + message）。
+    - 写流水线在关键阶段（validate/process_check/backup/write/checkpoint/verify）发射
+      进度回调；SSE 客户端断开仅丢弃进度事件，流水线继续执行到可验证状态，结果照常落
+      operation journal（NFR-7）。
+    - CLI 人读模式 apply 执行走 SSE 并单行刷新渲染阶段进度，结束时打印计划数量、备份
+      路径、实际写入数和复查结论；`--json` 模式输出最终 result 对象。
+    - 未带 SSE Accept 的写端点保持同步 JSON 形态（小任务可用）。
+  - Verify: `uv run zedhub sessions link --help` 退出码 0；对临时目标库执行 `--apply`
+    （人读模式）能看到阶段进度行，`--json` 输出可解析的结果对象；apply 进行中断开
+    SSE/终止 CLI 后重启 daemon 查询，目标库状态与 journal 记录一致（不出现半途中止的
+    未知损坏状态）。
+  - Ref: AC-20、AC-6、AC-7、FR-8、NFR-7
+
+- [ ] 16. 实现离线 schema 导出、协议说明和项目交付文档，保证契约与实际注册同源。
   - Files:
     - `python_projects/zedhub/src/zedhub/schema_export.py`
     - `python_projects/zedhub/src/zedhub/cli.py`
     - `python_projects/zedhub/README.md`
     - `docs/projects/python_projects/zedhub/zedhub 对接协议.md`
   - 实现细节：
-    - 增加 `zedhub schema`，默认输出 MCP、WS、兼容 RPC 和 CLI 的契约摘要；MCP 部分从实际
-      注册定义生成，并完整处理 `tools/list` 分页，不连接任何业务数据库。
-    - 记录 WebSocket JSON 信封、白名单、错误码、回环限制、关闭码和 Agent 内部协议隔离；
-      记录新旧 CLI JSON 信封差异、MCP 启动方式和兼容 RPC 方法。
+    - 增加 `zedhub schema`（纯本地，不连 daemon、不连数据库）：默认输出 http、mcp、ws、
+      rpc、cli 五通道契约摘要；http 段迭代 `ROUTES` 声明表、mcp 段来自 `contract.py`
+      工具元数据、ws 段含白名单与冻结声明、rpc 段含兼容方法表、cli 段列命令契约摘要。
+    - 记录 daemon 架构（serve/发现优先级/自动拉起/buildID 握手/空闲退出）、HTTP JSON
+      包络与错误码、SSE 事件协议、WebSocket JSON 信封/白名单/关闭码/回环限制/**冻结
+      声明**、新旧 CLI JSON 信封差异、MCP 桥启动方式和兼容 RPC 方法。
     - README 记录真实安装、`uv run`、数据源默认路径、数据目录、dry-run/`--apply`、备份、
       部分成功恢复边界和未来 agent source 扩展限制。
-    - 代码与父仓库文档分别提交，不能把 Python 子仓代码和 `docs/projects/...` 文档放入同一
-      commit。
-  - Verify: `uv run zedhub schema`；预期在 Zed/OpenCode 数据库不存在时仍以退出码 0 输出合法
-    JSON；`uv run zedhub --help` 与协议文档中的命令、参数和能力列表一致。
-  - Ref: AC-10、AC-13、AC-14、AC-15、AC-17、FR-8、NFR-3、NFR-6、NFR-7
+    - 代码与父仓库文档分别提交，不能把 Python 子仓代码和 `docs/projects/...` 文档放入
+      同一 commit。
+  - Verify: `uv run zedhub schema`；预期在 Zed/OpenCode 数据库不存在、daemon 未运行时
+    仍以退出码 0 输出合法 JSON；`uv run zedhub --help` 与协议文档中的命令、参数和能力
+    列表一致。
+  - Ref: AC-10、AC-13、AC-14、AC-15、AC-17、AC-18、FR-8、NFR-3、NFR-6、NFR-7
 
-- [ ] 12. [test] 补齐公共核心、数据源、模型、effort 和写入安全的单元测试与临时 SQLite fixture。
+- [ ] 17. [test] 补齐公共核心、数据源、模型、effort、写入安全和 daemon 生命周期的单元
+  测试与临时 SQLite fixture。
   - Files:
     - `python_projects/zedhub/tests/conftest.py`
     - `python_projects/zedhub/tests/fixtures.py`
@@ -252,40 +391,58 @@
     - `python_projects/zedhub/tests/test_analytics.py`
     - `python_projects/zedhub/tests/test_api.py`
     - `python_projects/zedhub/tests/test_writes.py`
+    - `python_projects/zedhub/tests/test_lifecycle.py`
   - 实现细节：
-    - 构造最小 Zed/OpenCode/归档数据库，不读取真实用户数据库；覆盖空结果、完整数据、缺表/缺列、
-      错误 JSON、时间线边界、配置合并、source 未支持、记录未找到和多目录消歧。
+    - 构造最小 Zed/OpenCode/归档数据库，不读取真实用户数据库；覆盖空结果、完整数据、
+      缺表/缺列、错误 JSON、时间线边界、配置合并、source 未支持、记录未找到和多目录
+      消歧。
     - 覆盖 dry-run 字节不变、幂等补登、备份路径、显式字段查询、journal 状态和写后复查；
       所有临时路径使用 pytest 临时目录或注入的数据目录，并在测试结束清理。
-    - 覆盖跨库第二阶段失败时的 `partial/unknown` 结果和 operation_id 输出，不测试未经设计
-      承诺的自动回滚。
-  - Verify: `uv run pytest tests/test_core.py tests/test_sources.py tests/test_analytics.py tests/test_api.py tests/test_writes.py -q`；预期所有测试通过，且测试过程不读取 `%LOCALAPPDATA%\\Zed`、
-    `OPENCODE_DATA` 或用户 home 下的真实 agent 数据。
-  - Ref: AC-3、AC-4、AC-5、AC-6、AC-7、AC-8、AC-11、AC-13、AC-14
+    - 覆盖跨库第二阶段失败时的 `partial/unknown` 结果和 operation_id 输出，不测试未经
+      设计承诺的自动回滚。
+    - 覆盖 buildID 生成与生产/开发判定、地址文件原子写与清理、空闲计时重置逻辑
+      （注入缩短时长）。
+  - Verify: `uv run pytest tests/test_core.py tests/test_sources.py tests/test_analytics.py
+    tests/test_api.py tests/test_writes.py tests/test_lifecycle.py -q`；预期所有测试
+    通过，且测试过程不读取 `%LOCALAPPDATA%\Zed`、`OPENCODE_DATA` 或用户 home 下的真实
+    agent 数据。
+  - Ref: AC-3、AC-4、AC-5、AC-6、AC-7、AC-8、AC-11、AC-13、AC-14、AC-19
   - [test]
 
-- [ ] 13. [test] 补齐 CLI、MCP、JSON-RPC、WebSocket 的真实进程与兼容性验证，形成最终交付证据。
+- [ ] 18. [test] 补齐 daemon HTTP、CLI、MCP 桥、JSON-RPC、WebSocket、SSE 的真实进程与
+  兼容性验证，形成最终交付证据。
   - Files:
+    - `python_projects/zedhub/tests/test_daemon.py`
     - `python_projects/zedhub/tests/test_cli.py`
     - `python_projects/zedhub/tests/test_rpc.py`
     - `python_projects/zedhub/tests/test_mcp.py`
     - `python_projects/zedhub/tests/test_ws.py`
+    - `python_projects/zedhub/tests/test_sse.py`
     - `python_projects/zedhub/tests/test_compatibility.py`
   - 实现细节：
-    - 通过子进程验证 `--help`、`--version`、旧命令、new command `--json`、参数错误、空结果、
-      schema 离线导出和退出码；禁止把 grep 或 import 成功当作 CLI 验证。
-    - 真实启动 MCP stdio server，完成 initialize、完整 tools/list 分页、只读 tool 成功调用和
-      工具失败路径；检查 stdout 无诊断污染，确认 output schema 与 `schema` 导出一致。
-    - 真实启动 WebSocket server，验证连接、`threads.list`、`stats`、非法 JSON、binary 帧、
-      未知方法、写操作拒绝、Origin/Host 边界、连接关闭后的资源清理和端口关闭。
-    - 对归档 `zedhub` 的旧 RPC 方法、旧 CLI 输出契约和 `--db` 透传建立回归样例；新方法不要求
-      出现在旧 RPC 方法表中。
-  - Verify: `uv run pytest tests/test_cli.py tests/test_rpc.py tests/test_mcp.py tests/test_ws.py tests/test_compatibility.py -q`；预期所有真实入口测试通过，MCP/WS 子进程在测试结束后退出，
-    不留下监听端口、后台进程、快照或备份文件。
-  - Ref: AC-2、AC-9、AC-10、AC-15、AC-16、AC-17、FR-8、FR-9、NFR-3、NFR-7
+    - daemon 子进程（随机回环端口）验证 HTTP 端点、包络、错误码、Host 头校验、buildID
+      握手失败路径、优雅关闭与地址文件清理；不把 grep 或 import 成功当作验证。
+    - 通过子进程验证 `--help`、`--version`、纯本地命令不产生网络连接、旧命令、新命令
+      `--json`、参数错误、空结果、schema 离线导出和退出码。
+    - 真实启动 MCP 桥 stdio 子进程：initialize、完整 tools/list 分页、只读 tool 成功调用
+      和失败路径；确认 output schema 与 `schema` 导出一致、stdout 无诊断污染。
+    - 真实验证 WS：连接、`threads.list`、`stats`、非法 JSON、binary 帧、未知方法、写
+      操作拒绝、Origin/Host 边界、连接关闭后的资源清理。
+    - 真实验证 SSE：apply 长任务的 stage/result/error 事件序列、CLI 渲染、断流后 daemon
+      端流水线完成并可从 journal 查到结果。
+    - rpc 子进程验证旧方法 payload/错误映射与 `rpc.discover` 离线可用；对归档 `zedhub`
+      的旧 CLI 输出契约和 `--db` 透传建立回归样例。
+    - 所有子进程（daemon/桥/CLI）在测试结束后退出，不留下监听端口、后台进程、快照或
+      备份文件。
+  - Verify: `uv run pytest tests/test_daemon.py tests/test_cli.py tests/test_rpc.py
+    tests/test_mcp.py tests/test_ws.py tests/test_sse.py tests/test_compatibility.py -q`；
+    预期所有真实入口测试通过。
+  - Ref: AC-2、AC-9、AC-10、AC-15、AC-16、AC-17、AC-18、AC-19、AC-20、FR-8、FR-9、
+    NFR-3、NFR-7
   - [test]
 
-- [ ] 14. 完成发布前清理、迁移说明和任务状态回写，确保旧项目退出运行时链路且新项目可独立交付。
+- [ ] 19. 完成发布前清理、迁移说明和任务状态回写，确保旧项目退出运行时链路且新项目可
+  独立交付。
   - Files:
     - `python_projects/zedhub/README.md`
     - `python_projects/zedhub/pyproject.toml`
@@ -293,14 +450,16 @@
     - `docs/projects/python_projects/zedhub/zedhub 对接协议.md`
     - `docs/projects/python_projects/zedhub/specs/01-zed-session-hub/tasks.md`
   - 实现细节：
-    - 核对新项目不 import `.archived` 或 `python_projects/zedagentstats`，不启动 `ocstat.exe`，
-      不把内部数据写回 Zed/OpenCode/agent home。
-    - 更新 README、对接协议和版本号，记录当前仅支持 OpenCode、WebSocket 仅两个只读方法、
-      未来 agent source 未实现、旧 RPC 兼容边界和跨库部分成功恢复方式；代码、父仓库文档和
-      本 `tasks.md` 分别按仓库范围提交。
-    - 仅在任务实际完成并验证后将对应任务标记为 `[x]`；跳过的 `[test]` 任务保持 `[ ]`，并在
-      实施说明中记录未执行原因。
-  - Verify: `uv sync`、`uv run pytest tests -q`、`uv run zedhub --help`、`uv run zedhub schema`；
-    预期依赖、测试、帮助和离线 schema 均成功，且 `git grep`/运行时依赖检查确认旧项目不在
-    新项目 import 或子进程链路中。
-  - Ref: AC-1、AC-10、AC-12、AC-13、AC-14、NFR-3、NFR-4
+    - 核对新项目不 import `.archived` 或 `python_projects/zedagentstats`，不启动
+      `ocstat.exe`，不把内部数据写回 Zed/OpenCode/agent home；壳模块（cli/rpc/
+      mcp_bridge）不 import sqlite 或 Service 层。
+    - 更新 README、对接协议和版本号，记录当前仅支持 OpenCode、WebSocket 冻结声明、
+      未来 agent source 未实现、旧 RPC 兼容边界、daemon 依赖的行为变化和跨库部分成功
+      恢复方式；代码、父仓库文档和本 `tasks.md` 分别按仓库范围提交。
+    - 仅在任务实际完成并验证后将对应任务标记为 `[x]`；跳过的 `[test]` 任务保持 `[ ]`，
+      并在实施说明中记录未执行原因。
+  - Verify: `uv sync`、`uv run pytest tests -q`、`uv run zedhub --help`、
+    `uv run zedhub schema`；预期依赖、测试、帮助和离线 schema 均成功，且 `git grep`/
+    运行时依赖检查确认旧项目不在新项目 import 或子进程链路中、Service 层仅存在于
+    daemon 代码路径。
+  - Ref: AC-1、AC-10、AC-12、AC-13、AC-14、AC-18、NFR-3、NFR-4
