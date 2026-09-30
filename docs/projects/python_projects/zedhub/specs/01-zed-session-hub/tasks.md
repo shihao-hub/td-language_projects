@@ -465,3 +465,48 @@
     运行时依赖检查确认旧项目不在新项目 import 或子进程链路中、Service 层仅存在于
     daemon 代码路径。
   - Ref: AC-1、AC-10、AC-12、AC-13、AC-14、AC-18、NFR-3、NFR-4
+
+- [x] 20. 扩展 archive export/import 支持 claude-code / codex / antigravity 三 agent
+  源的会话归档迁移（schema v2 整文件字节搬运 + import 写回闭环）。
+  - Files:
+    - `python_projects/zedhub/src/zedhub/core/agent_paths.py`
+    - `python_projects/zedhub/src/zedhub/core/archive.py`
+    - `python_projects/zedhub/src/zedhub/core/migration.py`
+    - `python_projects/zedhub/src/zedhub/core/journal.py`
+    - `python_projects/zedhub/src/zedhub/core/sources/base.py`
+    - `python_projects/zedhub/src/zedhub/core/sources/file_sources.py`
+    - `python_projects/zedhub/src/zedhub/core/sources/__init__.py`
+    - `python_projects/zedhub/src/zedhub/contract.py`
+    - `python_projects/zedhub/src/zedhub/api.py`
+    - `python_projects/zedhub/src/zedhub/cli.py`
+    - `python_projects/zedhub/src/zedhub/schema_export.py`
+    - `python_projects/zedhub/README.md`
+  - 实现细节：
+    - 新增 `agent_paths.py`：source↔Zed agent_id 映射（claude-acp/codex-acp/
+      antigravity-acp）、各源数据根（`~/.claude` | `~/.codex` | `~/.gemini`）与
+      `locate_session_files`（claude `projects/*/<sid>.jsonl`、codex
+      `sessions/**/*-<sid>.jsonl`、antigravity `conversations/<sid>.db` 及旁带
+      `.meta`；同 sid 多文件全收）。
+    - 归档 schema v2（只增不改，v1 opencode 路径零改动）：`zed_threads` + 新表
+      `agent_files(source, session_id, rel_path, size_bytes, content BLOB)`，JSONL
+      与 SQLite 统一为整文件字节 blob（antigravity protobuf 无公开 schema，不做
+      结构化解析）；meta 新增 missing_session_count/file_count/total_bytes。
+    - `export_archive` 增加 `source` 形参分派 v1/v2；v2 结果含 missing_session_ids；
+      `read_archive_meta`/`inspect_archive` 兼容两种 schema 计数。
+    - v2 import：`_load_archive` 按 schema_version+source_agent 分派；apply 流程
+      = find_running 进程检查（zed+opencode）→ Zed db 备份 → 先写源数据文件
+      （已存在一律 skip，幂等）→ 再写 Zed threads（新 thread_id、session_id 原样
+      保留、folder_paths=target、已存在 session_id 跳过防重复补登）→ 复查；journal
+      新增 `files_committed` 状态；Zed 阶段失败 → partial（重跑安全）。
+    - 三源注册 EXPORT-only `SourceInfo`（availability 按数据根存在性，会话查询
+      raise source_not_supported 不伪造空结果）；`PLANNED_SOURCES` 收缩为 `("pi",)`。
+    - 契约面：`ArchiveExportBody.source` 默认 opencode、endpoint summary 与
+      schema 导出 cli 行更新；CLI `archive export --source` + export/inspect/import
+      渲染适配 v2 计数字段。
+  - Verify: 真实链路（遵循任务 17/18 跳过 pytest 惯例）：daemon 起后三源真实导出
+    （claude 16 thread/16 file、codex 4 thread/1 file/3 missing、antigravity --exact
+    21 thread/42 file）+ opencode v1 回归导出；inspect ×4 meta/计数正确；import
+    dry-run ×3 计划正确且零写入；apply 级隔离验证（Zed db 副本 + monkeypatch 数据根
+    与进程检查）三源全 PASS（文件字节一致、Zed 行写入、session_id 保留、复查计数、
+    二次运行 skip 幂等）；sources 端点三源 supported(export)；schema 导出含 source。
+  - Ref: FR-7、AC-13
