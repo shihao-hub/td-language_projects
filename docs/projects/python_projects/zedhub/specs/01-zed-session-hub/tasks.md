@@ -510,3 +510,46 @@
     与进程检查）三源全 PASS（文件字节一致、Zed 行写入、session_id 保留、复查计数、
     二次运行 skip 幂等）；sources 端点三源 supported(export)；schema 导出含 source。
   - Ref: FR-7、AC-13
+
+- [x] 21. sessions link 三源补登与跨目录挂载：`--source claude-code|codex|antigravity`
+  把三源会话补登进 Zed 索引；三源查重按 (agent_id, session_id, 目标目录) 三元组，
+  同会话可在另一工作区目录新挂入口（新 thread_id、沿用 session_id、原目录行保留）。
+  - Files:
+    - `python_projects/zedhub/src/zedhub/core/agent_sessions.py`（新增）
+    - `python_projects/zedhub/src/zedhub/core/linking.py`
+    - `python_projects/zedhub/src/zedhub/core/sources/file_sources.py`
+    - `python_projects/zedhub/src/zedhub/contract.py`
+    - `python_projects/zedhub/src/zedhub/api.py`
+    - `python_projects/zedhub/src/zedhub/cli.py`
+    - `python_projects/zedhub/src/zedhub/schema_export.py`
+    - `python_projects/zedhub/README.md`
+  - 实现细节：
+    - 新增 `agent_sessions.py`：`AgentSessionRecord` + `scan_agent_sessions(source,
+      home=)` 浅层元数据扫描（只读每会话头部 ~300 行与尾部 64KB 残段，不解析正文）：
+      claude 行内 cwd/首条真人 user 消息/行内 ISO Z 时间戳；codex 首行 session_meta
+      锚定 + response_item user 消息；antigravity 以 `.db` 为锚、`.meta` JSON 读
+      cwd（title 留空、mtime 兜底时间）；环境注入块（`<...>`、`# AGENTS.md`）不作
+      标题；同 sid 多文件（codex resume 沿用原 sid、claude 目录改名）按"首个非空
+      标题 + 最早 created + 最晚 updated"合并去重；时间 helper iso_z_to_zed_ts /
+      mtime_ns_to_zed_ts 统一 9 位小数 +00:00 格式；空目录 normpath 修正（""
+      不得变 "."）。
+    - `linking.py` 泛化：`plan_link`/`run_link`/`LinkPlan` 加 source（默认
+      opencode）；opencode 路径与全局 session_id 查重语义零改动；三源查重走
+      `_zed_linked_folders`（按 agent_id 过滤、folder_paths 换行拆分 + normpath
+      比较）；`execute_link` INSERT 按 source 参数化 agent_id 与时间（opencode 仍
+      ms_to_zed_ts，三源直用 Zed ISO、archived=0）；复查升级为 (session_id,
+      folder) 集合比对（跨目录挂载时同 sid 已有原目录行，只查 sid 会误判）；结果
+      增加 source / no_directory 字段。
+    - 参数面：`LinkBody.source` 默认 opencode（schema 导出同源）；api 透传；CLI
+      `sessions link --source`（help 列四值）+ 渲染 source 行与 no_directory 行；
+      file_sources capabilities 加 LINK（note 同步）；README 新增「会话补登」章节
+      与跨目录挂载示例。
+  - Verify: apply 级隔离验证（临时 home + Zed db 副本 + 绕进程检查）32 断言全
+    PASS：antigravity 跨目录挂载（新 thread_id/原行不动/agent_id/archived=0/时间
+    格式/复查计数）+ 幂等重跑 0 新增 + no_directory=2 + claude/codex title 与时间
+    断言 + 未知 source 拒绝；daemon 真实链路 dry-run：claude 37 matched/5 planned、
+    codex 17/2（去重后）、antigravity --all 10/4 + no_directory=2、用户场景
+    `.thirdparty --target <nanocode>` 10 条全挂目标目录；opencode link 回归（全局
+    查重、--all、消歧报错不变）；sources 端点三源 capabilities=[export,link]；
+    schema 导出含 source 参数。
+  - Ref: FR-6、FR-7 扩展、AC-13
