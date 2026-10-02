@@ -10,3 +10,6 @@ Thumbs.db
 
 # 第三方参考项目克隆（点前缀基础设施层，不入库）
 .thirdparty/
+
+# agy 下载到仓根了，先排除掉
+ComfyUI/
