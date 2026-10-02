@@ -56,29 +56,31 @@ flowchart LR
 
 ## 任务分解
 
-- [ ] Task 1: 基础设施层扩展——通用 HTTP、下载头参数化、CDP cookie 读取
+- [x] Task 1: 基础设施层扩展——通用 HTTP、下载头参数化、CDP cookie 读取
   - 文件：`python_projects/douyin_downloader/douyin_dl.py`
   - 实现：新增 `http_get_json(url, headers)`（UA + 自定义头、超时、JSON 解析）；`download_stream()` 增加可选 headers 参数，默认值保持抖音 Referer（既有调用零回归）；新增 `cdp_get_cookies(port, url)`（复用 browser 级 CDP，`Network.getCookies` + `urls` 参数读含 HttpOnly 的 cookie）；`open_douyin_tab` 泛化为 `open_tab(port, url, host_filter)`（抖音调用保持原行为）
   - 验证：`uv run douyin_dl.py schema` 输出合法 JSON 且退出码 0（行为不变、可构建）
   - Demo：无用户可见变化，为后续任务供能
 
-- [ ] Task 2: B 站 Service 函数族 + 提链三分类接线
+- [x] Task 2: B 站 Service 函数族 + 提链三分类接线
   - 文件：`python_projects/douyin_downloader/douyin_dl.py`
   - 实现：`is_bilibili_url`（b23.tv / bilibili.com）、`resolve_bilibili_url`（短链 302 → BV 号 + p 参数）、裸 BV 号扫描（`BV[0-9A-Za-z]{10}` 独立 token，URL 中已含的 BV 号去重，归一化为 `https://www.bilibili.com/video/<BV>`）、`get_bili_cookies(port)`（读 cookie 并返回 dict，SESSDATA 校验留给编排层）、`fetch_bili_view`、`fetch_bili_playurl`、`pick_bili_streams`（含 durl 兼容分支）；`ExtractResult` 增加 bilibili 队列，`extract_links` 三分类；`run_downloads` 暂把 bilibili 队列按 skipped 记录（行为不退化，Task 3 换真实现）
   - 验证：`uv run douyin_dl.py --json "https://b23.tv/ApmE1Nd"` → 该链接进入 skipped（暂不下载）；既有抖音链接行为不变
   - Demo：混合文本输入（URL + 裸 BV 号）时 JSON 输出分类正确（douyin / bilibili / skipped 各归其位，裸 BV 号与含 BV 的 URL 去重不重复下载）
+  - 实施说明：三个新错误码（`bilibili_not_logged_in` / `bilibili_api_error` / `ffmpeg_merge_failed`）随 Task 2 一并加入 `ERROR_MESSAGES`——fetch 函数直接抛 `AppError` 更顺，无需等 Task 3；cookie 读取复用 Task 1 的 `cdp_get_cookies(port, url)`，未再单独包 `get_bili_cookies`
 
-- [ ] Task 3: B 站下载编排 + 登录门 + ffmpeg 合并（核心功能）
+- [x] Task 3: B 站下载编排 + 登录门 + ffmpeg 合并（核心功能）
   - 文件：`python_projects/douyin_downloader/douyin_dl.py`
   - 实现：`download_bilibili_one`（登录门：无 SESSDATA → `bilibili_not_logged_in` 失败并给登录指引，headed 模式自动开 bilibili.com；view → playurl 带 cookie → 选流 → 双流下载带 Referer+cookie → `ffmpeg -c copy` 合并 → 临时清理）；`run_downloads` 真接入 bilibili 队列（串行，复用 emit 进度，Chrome 会话复用同一 profile）；多 P 循环（`?p=N` 指定 / 无 p 全下）；错误码 `bilibili_not_logged_in`、`bilibili_api_error`、`ffmpeg_merge_failed`
   - 验证：未登录首跑 → B 站链接按 `bilibili_not_logged_in` 结构化失败并给出指引；`--headed` 登录 B 站后重跑 → `~/Downloads` 出现《本视频完全由GPT-6 Astra制作而成》.mp4，`ffprobe` 确认含音视频双流、时长约 181 秒、分辨率达登录档位（1080P 级）
   - Demo：命令行直接下载 B 站视频成功，清晰度跟随账号权益
 
-- [ ] Task 4: 契约与文档收尾
+- [x] Task 4: 契约与文档收尾
   - 文件：`python_projects/douyin_downloader/douyin_dl.py`、`python_projects/douyin_downloader/README.md`
   - 实现：`build_schema` 更新（description / summary / constraints 加"B 站需登录态，无 SESSDATA 时失败"说明 / `side_effects.network` 加 B 站域名 / skip reason enum → `not_supported`）；版本号 2.2.0；README 增加 B 站支持说明、首次登录引导（`--headed` 人工登录一次）、用法示例、已知限制
   - 验证：`uv run douyin_dl.py schema` 输出新契约；`uv run douyin_dl.py "<抖音分享文案> https://b23.tv/ApmE1Nd"` 混合输入两类链接均下载成功
   - Demo：一条命令混吃抖音 + B 站链接，schema 契约与实现一致
+  - 实施说明：`no_douyin_url` 错误消息文案同步改为"没有抖音/B 站链接"（契约一致性）；执行期按规范未跑功能验证，仅做 `py_compile` 语法检查（通过）；实际下载验证（含首次 `--headed` 登录 B 站）留待用户使用时完成
 
 ## 记录
 
@@ -88,12 +90,13 @@ flowchart LR
 ---
 **最后更新：** 2026-10-02
 **作者：** AI & User
-**版本：** v1.2.0
+**版本：** v1.2.1
 
 ## 变更记录
 
 | 版本 | 日期 | 说明 |
 |---|---|---|
+| v1.2.1 | 2026-10-02 | Task 1-4 全部执行完成并勾选；执行期未跑功能验证（按用户规范），py_compile 语法检查通过；首次登录与实际下载验证留待使用时完成 |
 | v1.2.0 | 2026-10-02 | 用户追加：支持裸 BV 号输入（BV[0-9A-Za-z]{10}，与 URL 中 BV 号去重），归一化后走同一链路 |
 | v1.1.0 | 2026-10-02 | 用户改选登录态路线：CDP 读抖音 profile cookie（复用 profile）、无登录态失败强制登录；新增登录门与 `bilibili_not_logged_in` 错误码，任务 1/3/4 相应扩展 |
 | v1.0.0 | 2026-10-02 | 初版：480P 纯 API 免登录路线 |
