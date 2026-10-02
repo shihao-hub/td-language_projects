@@ -1,0 +1,36 @@
+[
+  {
+    "label": "CRAP: Go (Current Subproject)",
+    "command": "go-crap scan --threshold=30 ./...",
+    "cwd": "$ZED_DIRNAME",
+    "reveal": "always",
+    "use_new_terminal": false
+  },
+  {
+    "label": "CRAP: Go (Show All Functions)",
+    "command": "go-crap scan ./...",
+    "cwd": "$ZED_DIRNAME",
+    "reveal": "always",
+    "use_new_terminal": false
+  },
+  {
+    "label": "CRAP: Python (Current Subproject)",
+    "command": "coverage run -m pytest ; coverage json -o coverage.json ; python \"$ZED_WORKTREE_ROOT/.scripts/calc_crap.py\" --cov coverage.json --threshold 30",
+    "cwd": "$ZED_DIRNAME",
+    "reveal": "always",
+    "use_new_terminal": false
+  },
+  {
+    "label": "CRAP: TypeScript (Current Subproject)",
+    "command": "npm test -- --coverage ; npx crap coverage/coverage-final.json",
+    "cwd": "$ZED_DIRNAME",
+    "reveal": "always",
+    "use_new_terminal": false
+  },
+  {
+    "label": "CRAP: [Setup] Install go-crap CLI",
+    "command": "go install github.com/padiazg/go-crap@latest",
+    "reveal": "always",
+    "use_new_terminal": false
+  }
+]
