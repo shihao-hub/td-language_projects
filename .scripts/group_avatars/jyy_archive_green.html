@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="margin:0; padding:0; background:transparent; overflow:hidden;">
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+      <defs>
+        
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#10B981" stroke-width="0.75" stroke-opacity="0.25"/>
+        <circle cx="40" cy="40" r="1.5" fill="#10B981" fill-opacity="0.35"/>
+      </pattern>
+      <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#047857"/>
+      </marker>
+      <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.12"/>
+      </filter>
+      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+      </filter>
+    
+      </defs>
+
+      <!-- Background Canvas (Off-white / Paper aesthetic) -->
+      <rect width="1024" height="1024" fill="#F9FAFB"/>
+
+      <!-- ================= 1. CIRCLE BADGE ================= -->
+      <g id="badge" filter="url(#shadow)">
+        <!-- Outer Solid Color Fill -->
+        <circle cx="512" cy="400" r="365" fill="#ECFDF5"/>
+        <!-- Blueprint Grid Pattern inside badge -->
+        <circle cx="512" cy="400" r="365" fill="url(#grid)"/>
+
+        <!-- Outer Double Green Borders (Strictly matching reference!) -->
+        <circle cx="512" cy="400" r="375" fill="none" stroke="#10B981" stroke-width="18"/>
+        <circle cx="512" cy="400" r="364" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+
+        <!-- Technical Corner Markings -->
+        <g stroke="#10B981" stroke-width="1.5" stroke-opacity="0.4">
+          <text x="200" y="120" font-family="monospace" font-size="14" fill="#10B981" fill-opacity="0.5">01.011</text>
+          <line x1="820" y1="60" x2="840" y2="60"/>
+          <line x1="830" y1="50" x2="830" y2="70"/>
+          <circle cx="850" cy="45" r="3" fill="#10B981" fill-opacity="0.4"/>
+          <circle cx="865" cy="45" r="3" fill="#10B981" fill-opacity="0.4"/>
+          <circle cx="880" cy="45" r="3" fill="#10B981" fill-opacity="0.4"/>
+        </g>
+
+        <!-- Circular Arc Clip for Badge Content -->
+        <clipPath id="badgeClip">
+          <circle cx="512" cy="400" r="362"/>
+        </clipPath>
+
+        <g clip-path="url(#badgeClip)">
+          <!-- Characters and Floating Props -->
+          
+      <!-- Dashed Workflow Loop -->
+      <!-- Top arc: Cat -> Hat -> Flask -->
+      <path d="M 270,180 Q 512,90 730,175" fill="none" stroke="#047857" stroke-width="4.5" stroke-dasharray="10 8" stroke-linecap="round" marker-end="url(#arrow)"/>
+      <!-- Left arc: Cat -> Mid-left -> Bottom-left -->
+      <path d="M 205,270 L 195,305" fill="none" stroke="#047857" stroke-width="4.5" stroke-dasharray="8 6" stroke-linecap="round" marker-end="url(#arrow)"/>
+      <path d="M 215,395 Q 220,440 215,460" fill="none" stroke="#047857" stroke-width="4.5" stroke-dasharray="8 6" stroke-linecap="round" marker-end="url(#arrow)"/>
+      <!-- Right arc: Terminal -> Flask -->
+      <path d="M 645,440 Q 660,390 660,370" fill="none" stroke="#047857" stroke-width="4.5" stroke-dasharray="8 6" stroke-linecap="round" marker-end="url(#arrow)"/>
+      <path d="M 660,370 Q 665,340 680,310" fill="none" stroke="#047857" stroke-width="4.5" stroke-dasharray="8 6" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+          
+      <g transform="translate(200, 180)">
+        <!-- Green Cat Head / Mascot -->
+        <path d="M 25,65 C 10,65 0,50 0,35 C 0,15 15,5 30,18 C 45,5 60,15 60,35 C 60,50 50,65 35,65 Z" fill="#10B981" stroke="#1E293B" stroke-width="5"/>
+        <circle cx="20" cy="36" r="4" fill="#1E293B"/>
+        <circle cx="40" cy="36" r="4" fill="#1E293B"/>
+        <path d="M 26,45 Q 30,48 34,45" fill="none" stroke="#1E293B" stroke-width="3" stroke-linecap="round"/>
+        <!-- Mouse Pointer Click -->
+        <polygon points="45,45 68,65 56,66 64,82 56,86 48,70 38,78" fill="#1E293B" stroke="#FFF" stroke-width="3"/>
+      </g>
+    
+          
+      <g transform="translate(155, 310)">
+        <!-- Tool box with pencil/plus -->
+        <rect x="0" y="0" width="70" height="70" rx="16" fill="#1E293B" stroke="#334155" stroke-width="4"/>
+        <circle cx="50" cy="50" r="14" fill="#10B981"/>
+        <path d="M 50,42 L 50,58 M 42,50 L 58,50" stroke="#FFF" stroke-width="4" stroke-linecap="round"/>
+        <path d="M 18,50 L 40,22 L 48,30 L 26,58 Z" fill="#F59E0B" stroke="#FFF" stroke-width="2"/>
+      </g>
+      <g transform="translate(240, 325)">
+        <!-- Mini card window with toggle -->
+        <rect x="0" y="0" width="60" height="55" rx="10" fill="#FFF" stroke="#1E293B" stroke-width="4"/>
+        <circle cx="15" cy="16" r="4" fill="#A855F7"/>
+        <line x1="26" y1="16" x2="48" y2="16" stroke="#94A3B8" stroke-width="3"/>
+        <line x1="12" y1="34" x2="30" y2="34" stroke="#64748B" stroke-width="4"/>
+        <line x1="12" y1="42" x2="26" y2="42" stroke="#64748B" stroke-width="4"/>
+        <line x1="38" y1="32" x2="48" y2="42" stroke="#047857" stroke-width="3"/>
+        <line x1="48" y1="32" x2="38" y2="42" stroke="#047857" stroke-width="3"/>
+      </g>
+    
+          
+      <g transform="translate(685, 200)">
+        <!-- Flask outline -->
+        <path d="M 45,0 L 75,0 L 75,40 L 115,140 Q 120,165 95,175 Q 85,180 60,180 Q 35,180 25,175 Q 0,165 5,140 L 45,40 Z" fill="#FFFFFF" stroke="#1E293B" stroke-width="6" stroke-linejoin="round"/>
+        <!-- Liquid Level -->
+        <path d="M 12,130 Q 35,120 60,132 Q 85,122 108,130 L 115,140 Q 120,165 95,175 Q 85,180 60,180 Q 35,180 25,175 Q 0,165 5,140 Z" fill="#10B981" fill-opacity="0.85"/>
+        <!-- Measurement ticks -->
+        <line x1="38" y1="65" x2="48" y2="65" stroke="#94A3B8" stroke-width="3"/>
+        <line x1="34" y1="85" x2="48" y2="85" stroke="#94A3B8" stroke-width="3"/>
+        <line x1="28" y1="105" x2="48" y2="105" stroke="#94A3B8" stroke-width="3"/>
+        <!-- Label on bottle -->
+        <text x="60" y="160" font-family="-apple-system, sans-serif" font-size="16" font-weight="900" fill="#FFFFFF" text-anchor="middle">Store</text>
+        <!-- Annotation text outside -->
+        <text x="125" y="90" font-family="-apple-system, sans-serif" font-size="13" font-weight="bold" fill="#64748B">&gt;</text>
+        <text x="125" y="112" font-family="-apple-system, 'Microsoft YaHei', sans-serif" font-size="15" font-weight="bold" fill="#1E293B">结晶</text>
+      </g>
+    
+          
+      <g transform="translate(740, 420)">
+        <rect x="0" y="0" width="75" height="100" rx="10" fill="#FFFFFF" stroke="#1E293B" stroke-width="5"/>
+        <path d="M 0,0 L 50,0 L 75,25 L 75,100 L 0,100 Z" fill="#FFFFFF"/>
+        <path d="M 50,0 L 50,25 L 75,25 Z" fill="#CBD5E1" stroke="#1E293B" stroke-width="4"/>
+        <!-- 3 header dots -->
+        <circle cx="55" cy="14" r="3" fill="#64748B"/>
+        <!-- Lines -->
+        <line x1="14" y1="40" x2="60" y2="40" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="14" y1="55" x2="60" y2="55" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="14" y1="70" x2="45" y2="70" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="14" y1="85" x2="52" y2="85" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+      </g>
+    
+          
+      <g transform="translate(180, 460)">
+        <rect x="0" y="0" width="130" height="120" rx="14" fill="#FFFFFF" stroke="#1E293B" stroke-width="5"/>
+        <rect x="0" y="0" width="130" height="26" rx="14" fill="#E2E8F0"/>
+        <circle cx="15" cy="13" r="4" fill="#EF4444"/>
+        <circle cx="27" cy="13" r="4" fill="#F59E0B"/>
+        <circle cx="39" cy="13" r="4" fill="#10B981"/>
+        <line x1="20" y1="45" x2="80" y2="45" stroke="#94A3B8" stroke-width="5" stroke-linecap="round"/>
+        <line x1="20" y1="65" x2="110" y2="65" stroke="#CBD5E1" stroke-width="4" stroke-linecap="round"/>
+        <line x1="20" y1="85" x2="95" y2="85" stroke="#CBD5E1" stroke-width="4" stroke-linecap="round"/>
+      </g>
+      <g transform="translate(250, 595)">
+        <rect x="0" y="0" width="70" height="70" rx="12" fill="#334155" stroke="#1E293B" stroke-width="4"/>
+        <circle cx="14" cy="12" r="3" fill="#EF4444"/>
+        <circle cx="24" cy="12" r="3" fill="#F59E0B"/>
+        <circle cx="34" cy="12" r="3" fill="#10B981"/>
+        <text x="35" y="48" font-family="Consolas, monospace" font-size="24" font-weight="900" fill="#10B981" text-anchor="middle">&amp;3</text>
+      </g>
+    
+          
+      <!-- CHARACTER GROUP -->
+      <g id="character">
+        <!-- Body / Gown -->
+        <path d="M 330,520 Q 370,440 430,420 L 512,470 L 594,420 Q 654,440 694,520 L 694,580 L 330,580 Z" fill="#10B981" stroke="#1E293B" stroke-width="7" stroke-linejoin="round"/>
+        <!-- White Shirt Collar & Tie -->
+        <polygon points="512,470 470,420 554,420" fill="#FFFFFF" stroke="#1E293B" stroke-width="6"/>
+        <polygon points="512,450 495,490 512,560 529,490" fill="#047857" stroke="#1E293B" stroke-width="5"/>
+        
+        <!-- Neck -->
+        <rect x="477" y="380" width="70" height="60" rx="10" fill="#FFE0B2" stroke="#1E293B" stroke-width="7"/>
+        
+        <!-- Ears -->
+        <circle cx="365" cy="335" r="28" fill="#FFE0B2" stroke="#1E293B" stroke-width="7"/>
+        <circle cx="659" cy="335" r="28" fill="#FFE0B2" stroke="#1E293B" stroke-width="7"/>
+        
+        <!-- Head / Face -->
+        <path d="M 380,260 Q 380,410 512,410 Q 644,410 644,260 Q 644,180 512,180 Q 380,180 380,260 Z" fill="#FFE5D9" stroke="#1E293B" stroke-width="7"/>
+        
+        <!-- Hair Base -->
+        <path d="M 370,260 Q 365,190 420,160 Q 480,135 550,150 Q 640,165 650,260 Q 635,220 610,210 Q 560,205 520,225 Q 470,200 420,215 Q 390,230 370,260 Z" fill="#2D3748" stroke="#1E293B" stroke-width="7"/>
+        
+        <!-- Bangs (Forehead Hair) -->
+        <path d="M 400,220 Q 430,260 450,225 Q 480,270 515,225 Q 550,265 580,225 Q 610,255 625,225" fill="none" stroke="#2D3748" stroke-width="12" stroke-linecap="round"/>
+
+        
+        <!-- Academic Cap -->
+        <g id="cap" transform="translate(512, 190)">
+          <!-- Under shadow -->
+          <polygon points="-160,0 0,-50 160,0 0,50" fill="#047857"/>
+          <polygon points="-155,-5 0,-52 155,-5 0,42" fill="#10B981"/>
+          <!-- Cap base -->
+          <path d="M -60,20 Q 0,45 60,20 L 50,55 Q 0,75 -50,55 Z" fill="#047857"/>
+          <!-- Button and Tassel -->
+          <circle cx="0" cy="-8" r="7" fill="#FBBF24"/>
+          <!-- Tassel cord -->
+          <path d="M 0,-8 Q 70,-10 95,30 Q 100,55 98,80" fill="none" stroke="#F59E0B" stroke-width="4" stroke-linecap="round"/>
+          <rect x="90" y="80" width="16" height="35" rx="5" fill="#D97706"/>
+          <line x1="98" y1="80" x2="98" y2="115" stroke="#FDE68A" stroke-width="2"/>
+        </g>
+        
+
+        <!-- Face Details -->
+        <!-- Cheeks Blush -->
+        <ellipse cx="430" cy="360" rx="20" ry="12" fill="#FCA5A5" fill-opacity="0.6"/>
+        <ellipse cx="594" cy="360" rx="20" ry="12" fill="#FCA5A5" fill-opacity="0.6"/>
+
+        <!-- Eyes -->
+        <ellipse cx="455" cy="330" rx="12" ry="16" fill="#1E293B"/>
+        <ellipse cx="569" cy="330" rx="12" ry="16" fill="#1E293B"/>
+        <!-- Eye highlights -->
+        <circle cx="452" cy="324" r="5" fill="#FFFFFF"/>
+        <circle cx="566" cy="324" r="5" fill="#FFFFFF"/>
+
+        <!-- Eyebrows -->
+        <path d="M 430,295 Q 455,285 475,295" fill="none" stroke="#1E293B" stroke-width="6" stroke-linecap="round"/>
+        <path d="M 549,295 Q 569,285 594,295" fill="none" stroke="#1E293B" stroke-width="6" stroke-linecap="round"/>
+
+        <!-- Round Glasses (Key visual feature from reference!) -->
+        <!-- Left Frame -->
+        <circle cx="455" cy="330" r="48" fill="none" stroke="#1E293B" stroke-width="9"/>
+        <!-- Right Frame -->
+        <circle cx="569" cy="330" r="48" fill="none" stroke="#1E293B" stroke-width="9"/>
+        <!-- Bridge -->
+        <path d="M 503,326 Q 512,320 521,326" fill="none" stroke="#1E293B" stroke-width="8"/>
+        <!-- Frame Temples -->
+        <line x1="407" y1="326" x2="368" y2="330" stroke="#1E293B" stroke-width="7" stroke-linecap="round"/>
+        <line x1="617" y1="326" x2="656" y2="330" stroke="#1E293B" stroke-width="7" stroke-linecap="round"/>
+
+        <!-- Nose -->
+        <path d="M 512,340 Q 515,355 508,358" fill="none" stroke="#1E293B" stroke-width="5" stroke-linecap="round"/>
+        
+        <!-- Smile Mouth -->
+        <path d="M 488,375 Q 512,395 536,375" fill="none" stroke="#1E293B" stroke-width="6" stroke-linecap="round"/>
+      </g>
+    
+          
+      <g transform="translate(340, 460)">
+        <!-- Terminal Body -->
+        <rect x="0" y="0" width="340" height="175" rx="18" fill="#F8FAFC" stroke="#1E293B" stroke-width="7"/>
+        <!-- Window Top Bar -->
+        <path d="M 0,18 Q 0,0 18,0 L 322,0 Q 340,0 340,18 L 340,36 L 0,36 Z" fill="#334155"/>
+        <!-- Traffic light dots -->
+        <circle cx="20" cy="18" r="5.5" fill="#EF4444"/>
+        <circle cx="36" cy="18" r="5.5" fill="#F59E0B"/>
+        <circle cx="52" cy="18" r="5.5" fill="#10B981"/>
+        <!-- Terminal title -->
+        <text x="170" y="23" font-family="-apple-system, sans-serif" font-size="14" font-weight="bold" fill="#F8FAFC" text-anchor="middle">Clean -> Zip -> Archive</text>
+        
+        <!-- Code Content -->
+        <text x="25" y="65" font-family="Consolas, monospace" font-size="15" font-weight="bold" fill="#334155">Project -> FinalAudit</text>
+<text x="25" y="89" font-family="Consolas, monospace" font-size="15" font-weight="bold" fill="#334155">> Compress to tar.zst</text>
+<text x="25" y="113" font-family="Consolas, monospace" font-size="15" font-weight="bold" fill="#334155">Index: #knowledge-base</text>
+<text x="25" y="137" font-family="Consolas, monospace" font-size="15" font-weight="bold" fill="#334155">> Safe Locked & Ready!</text>
+
+      </g>
+    
+          
+      <g transform="translate(640, 550)">
+        <!-- Robot Body -->
+        <ellipse cx="65" cy="100" rx="35" ry="30" fill="#E2E8F0" stroke="#1E293B" stroke-width="5"/>
+        <!-- Robot Head -->
+        <rect x="20" y="25" width="90" height="70" rx="28" fill="#FFFFFF" stroke="#1E293B" stroke-width="6"/>
+        <!-- Screen Face -->
+        <rect x="30" y="35" width="70" height="50" rx="18" fill="#0F172A"/>
+        <!-- Glowing Eyes -->
+        <circle cx="50" cy="60" r="9" fill="#10B981" filter="url(#glow)"/>
+        <circle cx="80" cy="60" r="9" fill="#10B981" filter="url(#glow)"/>
+        <!-- Antenna -->
+        <line x1="65" y1="25" x2="65" y2="10" stroke="#1E293B" stroke-width="5"/>
+        <circle cx="65" cy="8" r="6" fill="#F59E0B"/>
+        <!-- Ears -->
+        <rect x="12" y="48" width="8" height="22" rx="4" fill="#94A3B8" stroke="#1E293B" stroke-width="3"/>
+        <rect x="110" y="48" width="8" height="22" rx="4" fill="#94A3B8" stroke="#1E293B" stroke-width="3"/>
+      </g>
+    
+        </g>
+      </g>
+
+      <!-- ================= 2. BOTTOM TYPOGRAPHY ================= -->
+      <!-- Main Title (Strictly matching reference: "生成式软件工程 2026秋") -->
+      <g transform="translate(512, 840)">
+        <text x="0" y="0" font-family="'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif" font-size="60" font-weight="900" fill="#062F24" letter-spacing="4" text-anchor="middle">归档区 2026</text>
+      </g>
+
+      <!-- Subtitle (GSE 2026 Autumn style) -->
+      <g transform="translate(512, 888)">
+        <text x="0" y="0" font-family="'Segoe UI', Roboto, -apple-system, sans-serif" font-size="28" font-weight="800" fill="#1E293B" letter-spacing="1" text-anchor="middle">ARCHIVE & STORAGE</text>
+      </g>
+
+      <!-- Bottom Tag Pill (Left) -->
+      <g transform="translate(140, 915)">
+        <rect x="0" y="0" width="220" height="46" rx="23" fill="#10B981"/>
+        <text x="110" y="29" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="20" font-weight="bold" fill="#FFFFFF" text-anchor="middle">封存 + 沉淀 + 检索</text>
+      </g>
+
+      <!-- Bottom Handwritten Signature (Right, jyy style!) -->
+      <g transform="translate(850, 942)">
+        <text x="0" y="0" font-family="'Brush Script MT', 'Segoe Script', 'Caveat', cursive, sans-serif" font-size="44" font-weight="bold" font-style="italic" fill="#0F172A" text-anchor="middle">archive</text>
+      </g>
+    </svg>
+    
+</body>
+</html>
