@@ -10,7 +10,8 @@
 CLI 薄壳 ─┐
 rpc 薄壳 ─┤
 MCP 桥  ──┼──→ HTTP+JSON API（127.0.0.1:8766，唯一契约）──→ daemon（zedhub serve）
-第三方 curl┘        + SSE 进度流
+Web 检索页┤        + SSE 进度流
+第三方 curl┘        + /ui 静态资源（同一个 daemon、同一个端口）
                    WebSocket 学习通道（127.0.0.1:8765，冻结）
 ```
 
@@ -65,6 +66,7 @@ MCP 桥  ──┼──→ HTTP+JSON API（127.0.0.1:8766，唯一契约）─�
 | GET | /sessions | sessions.list | source/project/agent/archived/limit |
 | GET | /sessions/{session_id} | sessions.show | |
 | GET | /sessions/{session_id}/content | sessions.content | |
+| GET | /search | search.sessions | 会话元数据检索：q/agent/project/archived/since/until/limit/include_unlinked |
 | GET | /stats/effort | stats.effort | 启动模型×档位（降级标志在 payload） |
 | POST | /sessions/link | sessions.link | 补登；SSE |
 | POST | /archive/export | archive.export | SSE |
@@ -92,7 +94,22 @@ event: error\ndata: {"code": "...", "message": "..."}
 - 存量平名（兼容，不迁移）：`threads_list`、`threads_show`、`projects`、`stats`；
 - 三段式（`ToolAnnotations(read_only)` + structured_output）：
   `zedhub.sessions.list`、`zedhub.sessions.show`、`zedhub.sessions.content`、
-  `zedhub.stats.effort`。
+  `zedhub.stats.effort`、`zedhub.search.sessions`。
+
+## Web 检索页（GUI 壳，`/ui`）
+
+- daemon 直接托管：`GET /` → 302 `Location: /ui`；`GET /ui` → 页面；
+  `GET /ui/{asset}` → 白名单后缀（html/js/css/svg/ico/png）的静态资源，
+  其余一律 404；三者与 API 同一安全防线（`Host` 必须回环，否则 403），
+  响应 `Cache-Control: no-store`；
+- 页面是**薄客户端**：只调上表既有端点（`/search`、`/stats`、`/projects`、
+  `/threads/{id}`、`/sessions/{id}`、`/sessions/{id}/content`），不含业务逻辑；
+- 打开方式：`zedhub ui`（按地址发现自动指向真实端口；`--print` 只打印 URL）；
+- 能力边界：**一期只检索元数据**（标题/agent/id/项目路径/时间/归档）；
+  会话正文全文检索为二期，尚未实现（端点与页面都不伪造该能力）；
+- 与既有 spec 的关系：`specs/01-zed-session-hub/requirements.md` 里「本次不开发
+  Web UI」的非目标已被本增量取代（Web 检索页即元数据检索的 GUI 壳）；
+  其余非目标（公网服务、鉴权、gRPC）继续有效。
 
 ## 兼容 JSON-RPC（`zedhub rpc`，stdio，冻结）
 
@@ -126,8 +143,9 @@ event: error\ndata: {"code": "...", "message": "..."}
 
 - 旧命令（threads/projects/stats）：`{"status":"ok","data":...,"count":...,
   "elapsed_ms":...}`（默认 JSON、`--table` 人读）；
-- 新命令（sessions/stats effort/archive）：默认人读、`--json` 输出
+- 新命令（sessions/stats effort/archive/search）：默认人读、`--json` 输出
   `{"ok":true,"data":...}` / `{"ok":false,"error":{...}}`；
+- `ui`：打开 daemon 托管的检索页（纯壳操作，不触发业务；`--print` 只打印 URL）；
 - 退出码：0 成功（含空结果）、1 运行错误、2 用法错误。
 
 ## 写操作安全语义
