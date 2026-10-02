@@ -11,7 +11,7 @@
 >
 > 本文完整取代《CLI 与 MCP 双壳架构工作指南》《统一核心与多通道投影指南》《MCP 契约为先》。旧文档只保留跳转入口，后续统一维护本文。
 >
-> 协议依据采用 MCP 2025-11-25，SDK 行为另标版本。此日期是本文的核对基线，不代表最新版本；项目须记录实际协议、SDK 与目标客户端版本。
+> 协议基线采用 MCP **2026-07-28**（当前 Current 修订版），SDK 行为另标版本。**存量项目按「存量基线」处理，不强制重写**——两份基线的差别、适用对象与兼容边界见 §0.2。项目须记录实际协议、SDK 与目标客户端版本。
 
 ## 0. 标准速查
 
@@ -51,7 +51,51 @@
 
 提供 MCP 不要求每个 CLI 命令都变成工具。`help`、终端补全等可以仅留在 CLI；每项业务能力的暴露范围须列入能力表。存在真实 GUI/HTTP 需求时，再增加相应入口。
 
-### 0.2 仓库约束
+### 0.2 协议基线与兼容边界（2026-07-28 vs 2025-11-25）
+
+MCP 在 `2026-07-28` 这一版做的是**架构级改造**，不是参数微调：协议从「先握手建会话、再在会话里通信」的**有状态**模型，改成**每请求自描述的无状态**请求/响应模型。官方给两代起了名字：以 `initialize` 握手建立会话的是 **Legacy**（`2025-11-25` 及更早），用每请求元数据的是 **Modern**（`2026-07-28` 及以后）。
+
+**两条基线，两种适用对象：**
+
+| | **当前基线 `2026-07-28`** | **存量基线 `2025-11-25`** |
+|---|---|---|
+| 适用对象 | 新设计的 MCP 入口；存量项目新增或修改 MCP 能力时 | 本仓已按旧版落地、且暂不升级 SDK 的 MCP 实现 |
+| 典型特征 | 无 `initialize` 握手；版本与能力走每请求 `_meta`；无协议级会话；服务器不得主动发请求 | 有 `initialize` 握手与协议级会话；服务器可在 SSE 流上发请求 |
+| 本仓已知存量 | —— | liteconf、agyquota（Go SDK `v1.8.0`）、zedhub（Python `mcp==2.2.0`）、douyinnotify（FastMCP） |
+| 状态 | **新设计默认** | **兼容保留**：不因对齐基线而重写 |
+
+**四条硬边界，避免误读与误改：**
+
+1. **MCP 协议基线变更，不影响本标准的核心结构。** §0 的「Service 核心 + 多壳」、§1 的业务契约先行、§3 的 `--json`/`--schema` 第一基石、CLI 人读与退出码契约、数据目录约束，**全部与协议版本无关**，不因本次基线更新而改变。协议差异只落在 MCP 适配器这一层（第 5 章）与 SDK 核对事项（第 10 章）。
+2. **存量实现可以继续用 `2025-11-25`。** 已按旧版落地并验证过的项目，**不要求**为对齐基线而重写 MCP 代码；但必须在项目文档中记录「已核对的协议版本 + SDK 版本 + 已验证客户端清单」三件套。**未记录这三项**的 MCP 实现，视为状态不明，下次改动时必须先补齐。
+3. **新增或修改 MCP 能力，默认按「当前基线」设计。** 仅当目标客户端明确只支持旧版时，才可用「存量基线」，并在 §1.1 能力表的「暴露或不暴露的理由」列写明所选版本与理由。**不要指望两代行为靠同一段代码隐式兼顾**：读请求里有没有 `_meta`、结果里有没有 `resultType`，两代的形状不同。
+4. **同一 server 同时支持两代（dual-era）是规范的显式允许项，不是本标准的默认要求。** 规范原文允许「A dual-era server **MAY** serve both eras concurrently on the same endpoint or process.」——若采用，两代行为必须由**一个明确的显式开关**决定（例如启动参数或配置键），禁止按「之前有没有收到过某个请求」「进程活了多少秒」等隐式状态推断；升级必须是**独立、可回退**的任务，不并入业务功能改动。
+
+**两代之间的关键差异，按对本仓实现的实际影响排序：**
+
+| # | 差异（`2025-11-25` → `2026-07-28`） | 对现有实现的实际影响 |
+|---|---|---|
+| 1 | **`initialize` 握手与 `notifications/initialized` 被移除**；版本与能力改为每请求在 `_meta` 携带 `io.modelcontextprotocol/protocolVersion`（必填）与 `io.modelcontextprotocol/clientCapabilities`（必填） | 把「启动时协商一次、进程内缓存」当作前提的实现**整体失效**；缺必填字段按 `-32602` 拒绝，HTTP 上回 `400` |
+| 2 | **协议级会话与 `Mcp-Session-Id` 被移除**；服务器不得签发或回显会话 ID，收到时应忽略；跨调用状态改用服务器自行颁发的句柄，作为普通工具参数传递 | stdio 进程的生命周期不再等价于「一个会话」；把进程当会话缓存的做法是自担风险，新版客户端不作保证 |
+| 3 | **Streamable HTTP 新增必需头 `Mcp-Method`（`tools/call`、`resources/read`、`prompts/get` 还需 `Mcp-Name`）**；不匹配回 `400` | 只影响远程 HTTP 部署；本地 stdio 实现不受影响 |
+| 4 | **所有 result 新增必需 `resultType`**（`"complete"` / `"input_required"`） | 互操作时形状不同；客户端须把旧服务器缺少该字段的结果按 `"complete"` 处理 |
+| 5 | **六类列表/读取结果新增必需缓存提示 `ttlMs` + `cacheScope`**（`server/discover`、`tools/list`、`prompts/list`、`resources/list`、`resources/templates/list`、`resources/read`） | 新增必填字段，影响 `schema` 导出与手工构造结果的测试代码 |
+| 6 | **服务器主动发请求的通道被移除**，改为 **MRTR**：服务器在普通结果里回 `resultType: "input_required"`，客户端带 `inputResponses` 重试原请求 | 依赖 `ctx.elicit()` / `server.elicitInput` / `sampling/createMessage` 的实现在新连接上**直接报错**（不是降级）；这不是「以后再说」的兼容问题，而是运行期失败 |
+| 7 | **HTTP+SSE 降级为 Deprecated**；`resources/subscribe` / `unsubscribe` 与 HTTP GET 端点被移除，统一由 `subscriptions/listen` 长连接取代；SSE 断线不可恢复，流断即请求丢失 | 远程订阅类实现需要改写；本地 stdio 不受影响 |
+| 8 | **`ping`、`logging/setLevel`、`notifications/roots/list_changed` 被移除**；日志级别改为每请求 `_meta` 的 `io.modelcontextprotocol/logLevel`，未带该字段的请求服务器不得发 `notifications/message` | 「心跳探活 + 会话级日志级别」两套机制都要改；日志落到 `stderr`（stdio）或用 OpenTelemetry 成为官方推荐路径（与本文 §5.1 的 stdio 分流要求一致） |
+| 9 | **Roots / Sampling / Logging 三个能力整体进入 Deprecated**（SEP-2577），仍在规范内、最早可移除时间为 `2027-07-28` 之后的第一个修订版 | 新实现**不应**再接入这三项；存量实现继续可用，但排期时应视为「有期限」能力 |
+| 10 | **实验性 tasks 移出核心成为官方扩展** `io.modelcontextprotocol/tasks`：`tasks/get` 轮询取代阻塞式 `tasks/result`，新增 `tasks/update`，移除 `tasks/list` | 「跨请求查询状态」的实现基础变了，见 §5.4 |
+| 11 | **错误码重编号**：资源未找到 `-32002` → `-32602`；`HeaderMismatch` `-32001` → `-32020`、`MissingRequiredClientCapability` `-32003` → `-32021`、`UnsupportedProtocolVersion` `-32004` → `-32022`；`-32042` 不得再发出 | 项目若手工映射错误码，需要按此表更新；客户端仍应接受旧服务器的 `-32002` |
+| 12 | **`structuredContent` 放宽为任意 JSON 值**（原为 JSON object）；`inputSchema`/`outputSchema` 放宽为允许任意 JSON Schema 2020-12 关键字 | 规范层面放宽，但本文 §5.2 的「对象根」仍是本标准的交付要求，不因放宽而改变 |
+| 13 | **OAuth**：DCR（RFC 7591）弃用，改用 Client ID Metadata Documents；新增 `application_type` 要求；凭证必须按 issuer 标识绑定，不得跨授权服务器复用 | 仅影响提供远程 HTTP 入口的 server，本地 stdio 不涉及 |
+
+> 上一版相对更早版本的差异（`2025-03-26` → `2025-11-25`：OAuth 2.1 框架、Streamable HTTP 取代 HTTP+SSE、structured output、elicitation 等）不在本节的适用范围；存量项目若卡在更早版本，按第 8 章的迁移流程另行评估。
+>
+> **旧基线页面的入口**（阅读存量实现代码、或核对旧行为时需要，正文其余链接一律指向当前基线）：`2025-11-25` 的规范页以 `https://modelcontextprotocol.io/specification/2025-11-25/...` 为前缀，与当前基线同名（如 `/basic/transports`、`/server/tools`、`/basic/lifecycle`）；仅个别页面在换版时改了路径，需要注意：Security Best Practices 现在位于 `/docs/<revision>/tutorials/security/security_best_practices`，而 elicitation 的投递方式已改（见上表第 6 项，MRTR 取代服务器主动请求）。
+>
+> 本节结论的规范原文、逐条英文原句与来源 URL，见《[MCP 2026-07-28 相对 2025-11-25 的变更清单](<../../../repo/mcp-2026-07-28-delta.md>)》；协议设计取舍对工具生态的影响，见《[「未来的一切都是 CLI or MCP」与「Unix 思想焕发新生」一手资料调研](<../../../repo/ai-cli-mcp-research.md>)》。
+
+### 0.3 仓库约束
 
 - 先读取目标项目及上级的 `AGENTS.md`。本文适用时须同时遵守仓库约束与用户明确要求。
 - 各项目保持独立；参考其他项目不等于允许修改其他项目或建立共享依赖。
@@ -268,27 +312,33 @@ JSON 模式禁止横幅、颜色控制符、进度文本或交互提示。需要
 
 ### 5.1 本地工具默认 stdio
 
-`<prog> mcp` 在进入会话前解析启动配置，随后由 SDK 处理协议初始化和消息编码。stdio 的 stdin/stdout 专用于协议，启动失败和日志写 stderr；客户端不能仅因收到 stderr 就认定调用失败。[MCP 传输](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports)
+`<prog> mcp` 启动后先解析启动配置，随后由 SDK 处理协议消息的编码与解码。stdio 的 stdin/stdout 专用于协议，启动失败和日志写 stderr；客户端不能仅因收到 stderr 就认定调用失败。stdio 的帧格式（换行分隔、stdout 不得混入非协议内容、关 stdin 即优雅退出）在新旧两版中一致。[MCP stdio 传输](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio)
 
-按实际协商结果使用可选能力，分别记录应用、SDK 和协议版本。能力协商表示对方支持什么功能，不代表身份认证、访问授权或用户已同意某项业务操作。[MCP 初始化](https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle)
+按实际协商结果使用可选能力，分别记录应用、SDK 和协议版本。**协议新旧两代的协商方式不同**：存量基线在连接建立时经 `initialize` 一次性交换版本与能力；当前基线**没有握手**，版本与客户端能力由每个请求的 `_meta` 携带（`io.modelcontextprotocol/protocolVersion`、`io.modelcontextprotocol/clientCapabilities`）。能力协商表示对方支持什么功能，不代表身份认证、访问授权或用户已同意某项业务操作。[MCP 生命周期与版本](https://modelcontextprotocol.io/specification/2026-07-28/basic/lifecycle)
 
-需要远程访问时，另行采用合适的 MCP HTTP 传输，落实认证、授权与连接生命周期；不能直接套用本地子进程模型。MCP 客户端可以是程序、测试工具或 GUI，不要求一定由 AI host 启动 server。
+按当前基线实现的 stdio server **不要**假定「本进程内已经协商过」：规范明确禁止服务器依赖同一连接上的先前请求来建立上下文。双代支持与版本选择见 §0.2；SDK 是否已支持当前基线见 §10.2。
+
+需要远程访问时，另行采用合适的 MCP HTTP 传输，落实认证、授权与连接生命周期；不能直接套用本地子进程模型。MCP 客户端可以是程序、测试工具或 GUI，不要求一定由 AI host 启动 server。[MCP Streamable HTTP 传输](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http)
 
 ### 5.2 工具定义与结果
 
 默认工具名采用 `<prog>.<资源>.<动词>` 三段式（如 `gqw.token.set`），与 CLI 命令路径一一对应：资源段与动词段即 CLI 子命令路径（空格换点号），CLI 已暴露而 MCP 缺工具或名字对不上须说明理由；无资源段的顶层动词命令退化为 `<prog>.<动词>`（如 `gqw.status`）。存量两段式 `<prog>.<动词_宾语>` 命名不强制迁移，新增工具与重命名时按三段式对齐。工具名在同一 server 内唯一；聚合端用 server 身份与工具名共同定位。说明至少包括用途、参数单位与缺省、重要限制和副作用。
 
-工具输入必须有准确的 `inputSchema`。本标准要求具有结构化业务结果的工具同时声明 `outputSchema`；按本文协议基线，`structuredContent` 使用对象根，数组和标量用命名字段封装。这是本标准的交付要求，不能说成协议强制每个工具提供输出 Schema。
+工具输入必须有准确的 `inputSchema`。本标准要求具有结构化业务结果的工具同时声明 `outputSchema`；按本文协议基线，`structuredContent` 使用对象根，数组和标量用命名字段封装。这是本标准的交付要求，不能说成协议强制每个工具提供输出 Schema（当前基线在规范层面已放宽 `inputSchema`/`outputSchema` 与 `structuredContent` 的取值类型，本标准的对象根约定不随之放宽）。
 
-成功和携带结构化数据的失败分支必须符合对应输出契约；返回结构化内容时宜同时提供序列化 JSON 文本块以兼容客户端。MCP 的内容还可包含图片、音频及资源信息，不能把它概括为“只支持 JSON”。[MCP 工具结果与 Schema](https://modelcontextprotocol.io/specification/2025-11-25/server/tools#structured-content)
+工具结果必须满足所在协议版本的形状要求：当前基线要求 `resultType`（`"complete"` 或 `"input_required"`），且列表与读取类结果还必须带缓存提示 `ttlMs` 与 `cacheScope`。这部分由 SDK 承担，但手工构造结果、写夹具或在 `schema` 里复刻 wire 形状时必须显式核对，不能假定「SDK 能序列化就等于协议兼容」。
+
+成功和携带结构化数据的失败分支必须符合对应输出契约；返回结构化内容时宜同时提供序列化 JSON 文本块以兼容客户端。MCP 的内容还可包含图片、音频及资源信息，不能把它概括为“只支持 JSON”。[MCP 工具结果与 Schema](https://modelcontextprotocol.io/specification/2026-07-28/server/tools#structured-content)
 
 MCP 结果 DTO 按用例定义；可复用 CLI JSON 包络，但不要求把 CLI 的进程和输出流约定装入 MCP。复用包络时，`ok` 与 `isError` 必须按同一完成状态映射，成功/失败分支一并纳入 Schema。
 
-`readOnlyHint`、`destructiveHint`、`idempotentHint`、`openWorldHint` 应按实际业务效果填写，包括隐式记账。它们是行为提示，不能代替访问检查或确认机制。[ToolAnnotations](https://modelcontextprotocol.io/specification/2025-11-25/schema#toolannotations)
+`readOnlyHint`、`destructiveHint`、`idempotentHint`、`openWorldHint` 应按实际业务效果填写，包括隐式记账。它们是行为提示，不能代替访问检查或确认机制；客户端**必须**把来自不可信服务器的工具注解视为不可信，因此不要指望注解承担安全语义。[ToolAnnotations](https://modelcontextprotocol.io/specification/2026-07-28/schema#toolannotations)
 
 ### 5.3 工具失败与协议失败
 
-工具执行中的业务失败、外部 API 失败等使用 `isError=true` 的工具结果；无法处理的协议请求使用 JSON-RPC 错误。输入校验须区分协议请求结构与工具业务参数，最终行为还要核对 SDK。[MCP 错误处理](https://modelcontextprotocol.io/specification/2025-11-25/server/tools#error-handling)
+工具执行中的业务失败、外部 API 失败等使用 `isError=true` 的工具结果；无法处理的协议请求使用 JSON-RPC 错误。输入校验须区分协议请求结构与工具业务参数，最终行为还要核对 SDK。[MCP 错误处理](https://modelcontextprotocol.io/specification/2026-07-28/server/tools#error-handling)
+
+当前基线**重编号了部分错误码**：资源未找到由 `-32002` 改为 `-32602`，`HeaderMismatch` / `MissingRequiredClientCapability` / `UnsupportedProtocolVersion` 分别由 `-32001` / `-32003` / `-32004` 改为 `-32020` / `-32021` / `-32022`；客户端仍应接受旧服务器回的 `-32002`。项目若在适配层手工映射错误码，须按此表核对后再升级。[MCP 错误码分配](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#error-codes)
 
 需要机器读取业务错误时，使用已声明的结构化 `code`、`message` 等字段，并保证相应结果符合 Schema；不能要求客户端从 `code: message` 文案拆出稳定错误码。
 
@@ -300,16 +350,20 @@ handler 返回语言层面的 error/exception 后走哪条通道，是具体 SDK
 |---|---|---|
 | 有限时间完成的操作 | 普通工具调用 | 执行预算与结果大小 |
 | 长操作进度 | progress 通知 | 仅表示进度，不等于持续日志流或结果交付 |
-| 执行中补充信息 | elicitation | 检查客户端能力；拒绝、取消或不支持时的处理 |
-| 跨请求查询状态 | 项目任务接口，或支持的 MCP Tasks | 状态、结果保留、取消、恢复与任务所有者 |
+| 执行中补充信息 | MRTR（当前基线）或 elicitation（存量基线） | 检查客户端能力；拒绝、取消或不支持时的处理 |
+| 跨请求查询状态 | 项目任务接口，或官方 tasks 扩展 `io.modelcontextprotocol/tasks` | 状态、结果保留、取消、恢复与任务所有者 |
 | 持续日志 | 资源、订阅或带游标的有限读取 | 保留期、容量、丢失/截断标记与读取上限 |
 | PTY/TUI 终端字节交互 | CLI，或另行设计终端会话协议 | 普通 tools/call 不提供通用终端透传 |
 
-进度通知使用请求提供的关联标识；客户端未请求进度时不能假定一定可显示。[MCP Progress](https://modelcontextprotocol.io/specification/2025-11-25/basic/utilities/progress)
+进度通知使用请求提供的关联标识；客户端未请求进度时不能假定一定可显示。[MCP Progress](https://modelcontextprotocol.io/specification/2026-07-28/basic/utilities/progress)
 
-elicitation 支持结构化交互，但依赖客户端声明的能力，不等同于任意子进程 stdin。业务确认条件由用例维护，适配器实现询问；客户端不支持时使用明确的非交互输入或拒绝该操作，不能绕过确认条件。[MCP Elicitation](https://modelcontextprotocol.io/specification/2025-11-25/client/elicitation)
+**当前基线不允许服务器主动向客户端发请求**：`roots/list`、`sampling/createMessage`、`elicitation/create` 这些「服务器发起、客户端回答」的交互，一律改为 **MRTR（Multi Round-Trip Requests）**——服务器在普通结果里返回 `resultType: "input_required"` 与待答问题，客户端带 `inputResponses` 重试**原请求**，服务器据此继续。因此：
 
-本文基线中的 Tasks 是实验性能力。项目任务接口和协议 Tasks 是两种契约，采用前分别核对支持情况；轮询真实任务状态是合理实现，不能把普通分页输出伪称为实时终端流。[MCP Tasks](https://modelcontextprotocol.io/specification/2025-11-25/basic/utilities/tasks)
+- 依赖「服务器主动询问」的实现（SDK 侧的 `ctx.elicit()` / `server.elicitInput` / `sampling/createMessage`）在当前基线的连接上**直接报错**，不是自动降级；需要在设计阶段就改成 MRTR 形状。[MCP MRTR](https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr)
+- 「客户端是否支持询问」的声明位置也变了：存量基线用 `initialize` 协商出的能力，当前基线在**每个请求**的 `_meta` 里由客户端声明；服务器不得假定客户端一定具备该能力，客户端不支持时按 §5.4 的降级规则处理，不能绕过确认条件。
+- 业务确认条件由用例维护、适配器实现询问，这一点不因协议版本改变。
+
+任务能力在本版已**移出核心成为官方扩展** `io.modelcontextprotocol/tasks`：`tasks/get` 轮询取代了阻塞式的 `tasks/result`，新增 `tasks/update` 供客户端回传输入，`tasks/list` 被移除；扩展采用双向 opt-in——服务器不得把任务返回给未声明支持该扩展的客户端。项目任务接口与协议任务仍是两种契约，采用前分别核对支持情况；轮询真实任务状态是合理实现，不能把普通分页输出伪称为实时终端流。[MCP Tasks 扩展](https://modelcontextprotocol.io/extensions/tasks/overview)
 
 能力矩阵按“直接支持 / 有条件支持或降级 / 不暴露或拒绝”记录。降级需要说明发生了什么：例如无交互、输出截断、超时预算；应在描述中预告，在可返回的结果中保留实际状态。
 
@@ -323,7 +377,7 @@ elicitation 支持结构化交互，但依赖客户端声明的能力，不等�
 
 `tools` 中每项与实际注册定义同源，包含工具名称、描述、输入 Schema、已声明的输出 Schema 和行为标注。工具附带其他影响调用的公开元数据时也一并保留；不为导出而维护另一份手抄目录。
 
-可以直接导出注册定义，或经内存 transport 读取实际工具视图。读取 `tools/list` 时必须遍历所有 `nextCursor`，处理中途失败；一次调用不能证明完整发现。[MCP 工具发现](https://modelcontextprotocol.io/specification/2025-11-25/server/tools#listing-tools)
+可以直接导出注册定义，或经内存 transport 读取实际工具视图。读取 `tools/list` 时必须遍历所有 `nextCursor`，处理中途失败；一次调用不能证明完整发现。当前基线还要求 `tools/list` 的返回顺序保持确定性（官方理由是为提高上游 prompt cache 命中率），并带上缓存提示 `ttlMs` 与 `cacheScope`——离线导出若复刻 wire 形状，须把这些字段一并考虑，且不得用「顺序不稳定」的实现破坏缓存假设。[MCP 工具发现](https://modelcontextprotocol.io/specification/2026-07-28/server/tools#listing-tools)
 
 静态工具目录应与同配置下的完整发现结果一致。动态或按身份过滤的 server 必须说明离线目录是静态全集还是指定上下文的视图，并在导出元数据中标明；比较时使用相同上下文。不要为了导出静态目录启动业务依赖。
 
@@ -368,7 +422,7 @@ elicitation 支持结构化交互，但依赖客户端声明的能力，不等�
 
 适配器将取消传入用例，用例传入实际阻塞操作；仅有 context 参数不证明取消有效。区分客户端等待预算、服务端执行预算和清理预算，配置有限等待并给结果返回留出余量。
 
-普通 MCP 取消是通知，可能与完成竞态；规范允许某些情况下忽略取消，客户端还可能不再接收该请求的返回结果。不能承诺取消后必定收到 `cancelled=true`。需要确认完成状态时，通过正式的操作状态接口查询；任务增强调用使用对应的任务取消机制。[MCP Cancellation](https://modelcontextprotocol.io/specification/2025-11-25/basic/utilities/cancellation)
+普通 MCP 取消是通知，可能与完成竞态；规范允许某些情况下忽略取消，客户端还可能不再接收该请求的返回结果。不能承诺取消后必定收到 `cancelled=true`。需要确认完成状态时，通过正式的操作状态接口查询；任务增强调用使用对应的任务取消机制。[MCP Cancellation](https://modelcontextprotocol.io/specification/2026-07-28/basic/utilities/cancellation)
 
 执行外部程序时必须落实以下适用项：
 
@@ -549,6 +603,19 @@ CLI 与 MCP 分别调用该接口并做结果适配。公开 JSON DTO 可以独�
 
 该版本还会在处理 Schema 时应用默认值；SDK 接受的输出根类型可能超过本文协议基线的对象形状。采用何种 wire 形状必须按协议与客户端验证，不能仅因 SDK 能序列化就认定兼容。实现依据：[Go handler 类型](https://github.com/modelcontextprotocol/go-sdk/blob/v1.8.0/mcp/tool.go)、[Go 泛型适配](https://github.com/modelcontextprotocol/go-sdk/blob/v1.8.0/mcp/server.go)。
 
+### 10.2.1 协议基线升级与 SDK 支持窗口
+
+**包版本号不等于协议版本号**：项目记录的 `mcp==2.2.0`（Python）或 `go-sdk v1.8.0`（Go）是 SDK 的发布版本，它们决定的是**能说哪一代协议**，不是协议 revision 本身。判断一个实现属于哪条基线，看的是它在 wire 上说什么（有无 `initialize`、有无每请求 `_meta`、结果有无 `resultType`），不是看 `go.mod` / `pyproject.toml` 里的版本号。
+
+**落地要求：**
+
+- **能力表登记两项信息**：每个 MCP 工具在 §1.1 能力表中同时记录「协议基线（当前 / 存量）」与「已核对的 SDK 版本 + 已验证客户端」。缺任一项，视为该工具的兼容状态未确认。
+- **升级 SDK 前先做三件事**：① 确认目标 SDK 版本确实支持目标协议基线（不要假定「装了新版 SDK 就自动变新协议」——有的 SDK 默认行为仍是旧代，需要显式开启版本协商）；② 核对 §10.2 的 handler/错误/输出校验行为是否随版本变化；③ 核对 §0.2 表格中与本项目相关的差异项（尤其每请求 `_meta`、`resultType`、`ttlMs`/`cacheScope`、服务器主动请求通道）。
+- **升级与功能改动分开提交**：协议基线升级应是独立、可回退的任务；升级完成后必须重跑 §9 的真机验收（启动、完整发现、成功调用、工具失败与协议失败、stdout 无污染）。
+- **存量实现不设强制升级期限**，但**新增能力按当前基线设计**；若某工具必须同时服务两代客户端，按 §0.2 第 4 条以显式开关实现双代，不做隐式推断。
+
+> 基线的规范依据与逐条原句见《[MCP 2026-07-28 相对 2025-11-25 的变更清单](<../../../repo/mcp-2026-07-28-delta.md>)》。
+
 ### 10.3 本仓案例只供定位
 
 以下按 2026-09-15 工作区核对。它们体现部分可复用思路，并非已完全符合本标准的模板：
@@ -580,5 +647,13 @@ CLI 与 MCP 分别调用该接口并做结果适配。公开 JSON DTO 可以独�
 | service 不做任何 I/O，或常驻必须长持一个连接 | 核心不直接操作标准流，可经依赖执行 I/O；连接池可复用，事务和借用连接及时释放 |
 | 业务失败必须手工返回错误结果加零值 | 按 SDK/API 与输出 Schema 设计，不套用会触发二次校验错误的模板 |
 | 同源发现保证完整；clictl 已是完整范例 | 同源与全量是两项检查；分页必须验证，存量案例的偏差明确标注 |
+| MCP 协议基线是否随规范最新版滚动 | 不滚动绑定最新版：**新设计按「当前基线」`2026-07-28`，存量按「存量基线」`2025-11-25` 兼容保留**；两者差别与边界见 §0.2，升级 SDK 的核对要求见 §10.2.1 |
+| 协议基线升级是否要顺带重写存量 MCP 实现 | 不要求；但存量实现必须登记「协议基线 + SDK 版本 + 已验证客户端」，新增能力按当前基线设计 |
 
-修订记录：v1.0（2026-09-15），合并三份指南，统一默认交付要求、职责边界与验收规则；旧指南改为跳转页。
+修订记录：
+- v1.0（2026-09-15），合并三份指南，统一默认交付要求、职责边界与验收规则；旧指南改为跳转页。
+- v1.1（2026-10-02），MCP 协议基线由 `2025-11-25` 更新为 `2026-07-28`（无状态化：移除 `initialize` 握手与协议级会话、每请求 `_meta` 携带版本与能力、服务器主动请求改为 MRTR、`resultType` 与缓存提示字段、Roots/Sampling/Logging 弃用、tasks 移出核心为扩展）。
+  - 新增 §0.2「协议基线与兼容边界」，明确当前基线与存量基线的适用对象、四条硬边界与 13 项差异的影响面（原 §0.2 仓库约束顺延为 §0.3，其余章节编号不变）。
+  - 第 5 章各条的规范链接更新到 `2026-07-28`，并补每请求 `_meta`、`resultType`、`ttlMs`/`cacheScope`、MRTR 与 tasks 扩展的现行要求；错误码重编号写入 §5.3。
+  - 新增 §10.2.1「协议基线升级与 SDK 支持窗口」，区分 SDK 包版本与协议版本，规定升级前的核对与验收。
+  - **存量项目（liteconf、agyquota、zedhub、douyinnotify 等）无需重写**：按存量基线继续运行，补齐登记信息即可；新增 MCP 能力按当前基线设计。协议变更依据见 `docs/repo/mcp-2026-07-28-delta.md`。
