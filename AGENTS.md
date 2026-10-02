@@ -70,6 +70,10 @@
 - 曾计划采用 git submodules 管理子项目，后因维护成本退回 monorepo；背景与操作方案见子仓内 `SUBMODULES.md`。
 - 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `docs\assets\projects\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[go exe 默认图标](<docs/projects/go_projects/go exe 默认图标.md>)》。
 
+### python_projects
+
+- 产 exe 的项目默认带 Python 双蛇标志图标（用户明确指定其他图标或明确不要时除外）：以**绝对路径**引用 `docs\assets\projects\python_projects\python-default.ico`（Nuitka 构建期写入 PE 资源，无需复制进项目目录），操作步骤遵循《[python exe 默认图标](<docs/projects/python_projects/python exe 默认图标.md>)》。
+
 ### rust_projects
 
 - 使用 rustup 管理的 stable-x86_64-pc-windows-msvc 工具链，链接器来自 VS Build Tools 2022。
