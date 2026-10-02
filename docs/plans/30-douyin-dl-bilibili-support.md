@@ -9,7 +9,8 @@
 1. 清晰度：**1080P+，走登录态路线**——通过 CDP 读取 Chrome 专用 profile 的 cookie（含 HttpOnly 的 SESSDATA），**复用现有抖音 profile**（一个实例同时携带两站登录态）；检测不到登录态时**直接失败报错，强制先登录**（用户原话："1=a（b记录为下次任务）"→ 后改为登录态；"1=a 2=a 3=b"）。
 2. CLI 形态：**同一命令自动识别**——按域名分流，抖音链接走既有 CDP 流程，B 站链接走新 API+cookie 流程，一条命令混吃两类链接。
 3. 范围：**顺带考虑多 P 视频**——链接带 `?p=N` 时下载指定 P；不带 `p` 且为多 P 视频时全部下载（每 P 一条记录）。
-4. 实现路线：**API + CDP cookie 混合**——B 站公开 web API 拿元数据与流地址（免签名，已实测），登录态经 CDP 从浏览器 profile 取，不解析任何签名。
+4. 输入形式：**URL 与裸 BV 号均支持**——`https://b23.tv/xxx`、`https://www.bilibili.com/video/BVxxx`、以及文本中直接出现的 `BV1B6YR6gEyd` 这类裸 BV 号（2026-10-02 用户追加确认），裸 BV 号归一化为 `https://www.bilibili.com/video/<BV>` 后走同一链路。
+5. 实现路线：**API + CDP cookie 混合**——B 站公开 web API 拿元数据与流地址（免签名，已实测），登录态经 CDP 从浏览器 profile 取，不解析任何签名。
 
 ## 背景（探索发现，均已实测）
 
@@ -27,7 +28,7 @@
 
 ```mermaid
 flowchart LR
-    A[输入文本] --> B[extract_links 三分类]
+    A[输入文本<br/>URL 或裸 BV 号] --> B[extract_links 三分类]
     B -->|douyin 队列| C[既有 CDP 流程<br/>Chrome 嗅探直链]
     B -->|bilibili 队列| D[CDP 读 profile cookie<br/>校验 SESSDATA]
     D -->|无登录态| X[bilibili_not_logged_in<br/>失败并提示登录方法]
@@ -63,9 +64,9 @@ flowchart LR
 
 - [ ] Task 2: B 站 Service 函数族 + 提链三分类接线
   - 文件：`python_projects/douyin_downloader/douyin_dl.py`
-  - 实现：`is_bilibili_url`（b23.tv / bilibili.com）、`resolve_bilibili_url`（短链 302 → BV 号 + p 参数）、`get_bili_cookies(port)`（读 cookie 并返回 dict，SESSDATA 校验留给编排层）、`fetch_bili_view`、`fetch_bili_playurl`、`pick_bili_streams`（含 durl 兼容分支）；`ExtractResult` 增加 bilibili 队列，`extract_links` 三分类；`run_downloads` 暂把 bilibili 队列按 skipped 记录（行为不退化，Task 3 换真实现）
+  - 实现：`is_bilibili_url`（b23.tv / bilibili.com）、`resolve_bilibili_url`（短链 302 → BV 号 + p 参数）、裸 BV 号扫描（`BV[0-9A-Za-z]{10}` 独立 token，URL 中已含的 BV 号去重，归一化为 `https://www.bilibili.com/video/<BV>`）、`get_bili_cookies(port)`（读 cookie 并返回 dict，SESSDATA 校验留给编排层）、`fetch_bili_view`、`fetch_bili_playurl`、`pick_bili_streams`（含 durl 兼容分支）；`ExtractResult` 增加 bilibili 队列，`extract_links` 三分类；`run_downloads` 暂把 bilibili 队列按 skipped 记录（行为不退化，Task 3 换真实现）
   - 验证：`uv run douyin_dl.py --json "https://b23.tv/ApmE1Nd"` → 该链接进入 skipped（暂不下载）；既有抖音链接行为不变
-  - Demo：混合文本输入时 JSON 输出分类正确（douyin / bilibili / skipped 各归其位）
+  - Demo：混合文本输入（URL + 裸 BV 号）时 JSON 输出分类正确（douyin / bilibili / skipped 各归其位，裸 BV 号与含 BV 的 URL 去重不重复下载）
 
 - [ ] Task 3: B 站下载编排 + 登录门 + ffmpeg 合并（核心功能）
   - 文件：`python_projects/douyin_downloader/douyin_dl.py`
@@ -87,11 +88,12 @@ flowchart LR
 ---
 **最后更新：** 2026-10-02
 **作者：** AI & User
-**版本：** v1.1.0
+**版本：** v1.2.0
 
 ## 变更记录
 
 | 版本 | 日期 | 说明 |
 |---|---|---|
+| v1.2.0 | 2026-10-02 | 用户追加：支持裸 BV 号输入（BV[0-9A-Za-z]{10}，与 URL 中 BV 号去重），归一化后走同一链路 |
 | v1.1.0 | 2026-10-02 | 用户改选登录态路线：CDP 读抖音 profile cookie（复用 profile）、无登录态失败强制登录；新增登录门与 `bilibili_not_logged_in` 错误码，任务 1/3/4 相应扩展 |
 | v1.0.0 | 2026-10-02 | 初版：480P 纯 API 免登录路线 |
