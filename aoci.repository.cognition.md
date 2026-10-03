@@ -1,5 +1,7 @@
 > 本文件为 AGENTS.md 中 AOCI 托管块（aoci:begin/end 标记）的迁出原文，供按需阅读，不再随会话自动注入。
 >
+> 何时读取本文件、何时调用 aoci_* 工具的触发时机，见 AGENTS.md 的「AOCI Repository Cognition」一节。
+>
 > 恢复方式：将下方标记块原样贴回 AGENTS.md（原位于文末）。
 
 <!-- aoci:begin -->
