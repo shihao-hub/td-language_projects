@@ -1,27 +1,31 @@
 # Task List
 
 > 前置已满足：30 号计划（B 站支持）已落地（eadee1f + 90615eb + a2734d1），`http_get_json` / `cdp_get_cookies` / `open_tab` / 三分类骨架 / `not_supported` 均已合入；当前 VERSION 2.4.0。
+>
+> 执行记录（2026-10-03，VERSION 已升至 2.5.0）：Task 1-3 一次落地（Service 函数族与编排同批实现，未走「zhihu 先按 skipped 占位」的中间态），Task 4 含打包实测。全部验收项通过：AC-1（四分类路由）、AC-2（未登录结构化失败）、AC-3（真实回答提取）、AC-4（真实专栏文章提取）、AC-5（图片部分失败不致命，注入单图失败实测）、AC-6（契约与版本）。实测中修正了 4 个设计阶段未预见的问题：无图文章不建目录导致落盘失败、长图文滚动超 CDP 超时、知乎标题带「(N 条消息)」前缀、html2text 对中文强调标记补多余空格。
 
-- [ ] 1. 基础设施扩展：新增通用字节下载函数与知乎域名识别
+- [x] 1. 基础设施扩展：新增通用字节下载函数与知乎域名识别
   - Files: `python_projects/douyin_downloader/douyin_dl.py`
   - 实现细节：新增 `http_get_bytes(url, headers)`（UA + 自定义头、60s 超时、返回 bytes、非 2xx 抛异常；与 30 号 `http_get_json` 并列于基础设施层，不打印进度）；新增 `is_zhihu_url(url)`（去 www 前缀后等于 `zhihu.com` 或以 `.zhihu.com` 结尾，含 zhuanlan 子域，模式仿 `is_bilibili_url`）
   - Verify: `uv run douyin_dl.py schema` 输出合法 JSON 且退出码 0（行为不变、可构建）
   - Ref: FR-1, FR-5
 
-- [ ] 2. 知乎 Service 函数族 + 四分类接线 + 数据模型
+- [x] 2. 知乎 Service 函数族 + 四分类接线 + 数据模型
   - Files: `python_projects/douyin_downloader/douyin_dl.py`
   - 实现细节：PEP 723 dependencies 增加 `beautifulsoup4`、`html2text`（均纯 Python）；`ZHIHU_EXTRACT_JS` 常量（滚动加载 + 返回正文容器 innerHTML 与标题/作者，JSON 字符串，不做块数组转换）；`resolve_zhihu_url(url)`（answer/<aid> 与 /p/<pid> 提取，失败抛 `invalid_url`）；`check_zhihu_login(port)`（复用 `cdp_get_cookies` 校验 `z_c0`）；`extract_zhihu_article(ws_url, url)`（导航 + 轮询正文容器 30s 超时 + 执行提取 JS，标题复用 `page_title` 清洗「 - 知乎」后缀，失败抛 `zhihu_extract_failed` 且 detail 带诊断信息）；`download_zhihu_images(image_urls, images_dir, cookie_header)`（去重下载、返回「绝对 URL → 本地文件名」映射、`images_failed` 计数、失败不进入映射保留原 URL）；`clean_zhihu_html(html, images_map)`（bs4：图片候选提取/绝对化/本地化替换/剥壳）；`render_zhihu_markdown(...)`（html2text `body_width=0` 转换 + 元信息引用块）；`ExtractRecord` dataclass 与 `RunResult.extracted`、`to_data` 扩展；`ExtractResult.zhihu` 与 `extract_links` 四分类；`run_downloads` 暂把 zhihu 队列按 skipped 记录（行为不退化，任务 3 换真实现）
   - Verify: `uv run douyin_dl.py --json "https://www.zhihu.com/question/1923534024288236685/answer/2021258227166319271"` → 该链接进入 skipped；既有抖音链接行为不变
   - Ref: FR-1, FR-2, FR-8, AC-1
 
-- [ ] 3. 知乎提取编排 + 登录门 + 落盘（核心功能）
+- [x] 3. 知乎提取编排 + 登录门 + 落盘（核心功能）
   - Files: `python_projects/douyin_downloader/douyin_dl.py`
   - 实现细节：`extract_zhihu_one(input_url, ...)`（登录门：无 z_c0 → `zhihu_not_logged_in` 失败并 emit 登录指引，headed 模式自动开 zhihu.com；resolve → `open_tab(port, url, host_filter="zhihu.com")` → extract → 建文章目录 `{output_dir}/zhihu/{标题}/`（目录名唯一化：已存在则 `_1` 顺延）→ bs4 提取图片清单 → `download_zhihu_images` 落盘 `images/` → `clean_zhihu_html` → `render_zhihu_markdown` → 写入 `article.md` UTF-8）；`run_downloads` 真接入 zhihu 队列（串行、复用 emit 进度与同一 Chrome 会话）；实测校准设计评审中的未验证假设（图片候选顺序 / 正文容器选择器 / CDN Referer 要求 / html2text 转换效果）
   - Verify: 未登录首跑 → 知乎链接按 `zhihu_not_logged_in` 结构化失败并给出指引；`--headed` 登录知乎后重跑 → `~/Downloads/zhihu/{标题}/` 出现 `article.md` 与 `images/`，正文文字与网页一致、图片为原图且相对引用可打开
   - Ref: FR-3, FR-4, FR-5, FR-6, FR-7, AC-2, AC-3, AC-4, AC-5
+  - 实测校准结论：① 图片候选 `data-actualsrc` 优先成立（71/71 张与页面 URL 逐字节一致，`_r.jpg` 原图而非 `_l/_b` 缩略图）；② 三个容器选择器在回答页与专栏页均命中（`.Post-RichTextContainer` 命中新版专栏/回答）；③ 图片 CDN 只需 `Referer: https://www.zhihu.com/` + cookie 即可下载（71 张 0 失败）；④ html2text 需 `emphasis_mark="*"`（中文词内 `_` 不生效）并用 `ZhihuHtml2Text` 子类修掉中文强调标记两侧的多余空格，段落空行与 `<br>` 硬换行均保真
 
-- [ ] 4. 契约与文档收尾
+- [x] 4. 契约与文档收尾
   - Files: `python_projects/douyin_downloader/douyin_dl.py`、`python_projects/douyin_downloader/README.md`
   - 实现细节：`build_schema` 更新（description/summary/constraints 加知乎提取与登录态说明；`side_effects.network` 加 zhihu.com、zhimg.com；`side_effects.filesystem` 加 `{output_dir}/zhihu`；response 增 `extracted` 数组与 `summary.extracted`；新错误码进 enum）；版本号 2.5.0；README 增加知乎提取说明（含目录布局）、`--headed` 首次登录引导、用法示例、已知限制（不做多回答/评论/公式还原）；按 NUITKA.md 实测打包一次，验证 beautifulsoup4 / html2text 被正确打进 exe
   - Verify: `uv run douyin_dl.py schema` 输出新契约（含 extracted、新错误码、2.5.0）；`uv run douyin_dl.py "<抖音文案> <B站链接> <知乎链接>"` 混合输入三类链接均成功；`uv run scripts\build_exe.py` 打包成功且产物可运行
   - Ref: FR-9, AC-6
+  - 实测校准结论：`scripts\build_exe.py` 的 PEP 723 依赖必须同步补 `beautifulsoup4` / `html2text`（Nuitka 按编译期可 import 收集包，漏声明则不入包）；产物 7.6 MB（较 v2.3.0 的 6.9 MB 增约 0.7 MB），exe 在默认 `headless-new` 模式下完成真实知乎提取，登录态跨浏览器重启持久有效
