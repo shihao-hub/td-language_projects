@@ -41,7 +41,6 @@
 | liteconf | 轻量配置中心：单实例 Go server + client SDK，长轮询热更新（.env 替代品；例外收录的非 CLI 项目，规划 GUI 客户端） |  |  |  |  |
 | pythonlauncher | go 编写的 python 本地项目启动器，本质就是找到 python project path 和 uv，用 uv 的命令配合 pro（原 python-launcher-go） | 稳定 | 已阅读，但意义不大，毕竟也不用 go 干活，哪怕干活用的 python 也不咋看代码了，需要思考一下 |  |  |
 | quickask | 命令行快速问 AI：预设指令 + 流式输出 + REPL，C/S 架构后端 quickaskd（aiquick 的 CLI 版） |  |  |  |  |
-| sublimefolders | 托盘常驻，定时将 Sublime 打开的目录记入 SQLite |  |  |  |  |
 | zreadmanager | zread browse 生命周期管理 CLI：启动/树杀/探活，pidfile 跨进程定位（zread-tray 的 CLI 版） |  |  |  |  |
 
 ## rust_projects
@@ -80,6 +79,7 @@
 | mini-http-server-go | 用 Go 复刻 Rust 版迷你 HTTP 服务器，学习练手 |  |  |  |  |
 | ocstat | 统计 opencode 各会话启动所用模型与思考档位的 CLI | 归档 |  |  |  |
 | projstat | 总仓项目状态标注 CLI，合并 PROJECT.toml 手工标注与 git 元数据 |  |  |  |  |
+| sublimefolders | 托盘常驻，定时将 Sublime 打开的目录记入 SQLite | 归档 |  |  |  |
 | taskmon | 空壳项目，刚初始化（taskmon 的 Go 版起点，原 taskmon-go） |  |  |  |  |
 | zread-tray | 系统托盘常驻，为工作区一键启动/重启 zread 服务并拉起浏览器（CLI 版 zreadmanager 已替代） | 归档 |  |  |  |
 
