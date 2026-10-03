@@ -120,17 +120,56 @@
 - 子仓内不再维护各自的 `.archived/`、`docs/`、`.zed/` 与 `.zcode/`。
 - 后续新增归档项目时，同样按 `.archived/projects/<lang>/` 嵌套放入对应位置。
 
-## 新增语言子模块
+## 新增语言子模块及子子模块规范
 
+### 1. 新增语言子模块（一级子仓）
 1. 在 GitHub 创建 `td-<lang>_projects` 仓库并推送内容；
 2. 父仓库执行 `git submodule add git@github.com:shihao-hub/td-<lang>_projects.git <lang>_projects`；
-3. 在 `.gitmodules` 该条目补 `branch = <默认分支>` 与 `ignore = all`，然后 commit。
+3. 在 `.gitmodules` 该条目补 `branch = <默认分支>` 与 `ignore = all`，然后 commit；
+4. **必须在新建子模块根目录配置规则继承指针**（详见下文）。
+
+### 2. 子模块与子子模块的 Agent 规则继承指针（强约束）
+为了防止 Git Submodule 边界隔离导致 Agent（如 Antigravity、Claude Code、Codex）在切入子仓或嵌套子仓时丢失父仓主规则，**所有一级子模块及更深层级的子子模块根目录下，必须配套添加规则继承指针文件**：
+
+1. **`CLAUDE.md`**：保持单行引用（利用 Claude Code 原生 `@import` 机制自动内联）：
+   - 一级子模块（如 `go_projects/CLAUDE.md`）：
+     ```markdown
+     @../AGENTS.md
+     ```
+   - 二级子子模块（如 `go_projects/glmquotawatch-gui/CLAUDE.md`）：
+     ```markdown
+     @../../AGENTS.md
+     ```
+2. **`AGENTS.md`**：声明最高优先级的继承行动指令，指引所有 Agent 工具启动时优先读取顶层主规范：
+   - 一级子模块（如 `go_projects/AGENTS.md`）：
+     ```markdown
+     # Agent Context Pointer
+
+     > **CRITICAL**: This repository is a submodule (`<submodule_name>`) of the parent project.
+     > All base conventions, Git commit rules, and environment guidelines are inherited from:
+     > `file://../AGENTS.md`
+
+     **ACTION REQUIRED**: Before executing any code changes or git commands, you MUST read and follow the root conventions in `../AGENTS.md`.
+     ```
+   - 二级子子模块（如 `go_projects/glmquotawatch-gui/AGENTS.md`）：
+     ```markdown
+     # Agent Context Pointer
+
+     > **CRITICAL**: This repository is a nested submodule (`<path/submodule_name>`) of the parent project.
+     > All base conventions, Git commit rules, and environment guidelines are inherited from:
+     > `file://../../AGENTS.md`
+
+     **ACTION REQUIRED**: Before executing any code changes or git commands, you MUST read and follow the root conventions in `../../AGENTS.md`.
+     ```
+3. **提交与推送规范**：
+   - 指针文件必须在对应子模块/子子模块**自身的 Git 仓库中**先行 `git commit` 并 `git push`；
+   - 随后在父级仓库中更新对应的 submodule 指针并提交推送。
 
 ## 常用命令
 
 - 完整克隆：`git clone --recurse-submodules <URL>`
 - 克隆后初始化并切换子模块到跟踪分支：`uv run .scripts/init-submodules.py`（初始化 + 按 `.gitmodules` 的 `branch` 字段切分支，解决子模块默认 detached HEAD）
-- 初始化/补拉子模块：`git submodule update --init --recursive`
+- 初始化/补格子模块：`git submodule update --init --recursive`
 - 跟进子仓库远端新提交：`git submodule update --remote`
 - 提交指针变更：`git add --force <子模块名>`（`ignore = all` 会拦截普通 `git add`，必须 `--force`）→ `git commit` → `git push`
 
@@ -139,4 +178,3 @@
 AOCI 是仓库级认知索引工具（以 MCP server 形式接入）：通过 aoci.txt / aoci.code.txt / .aoci/ 等索引与数据，让 AI 会话跨任务复用对本仓库的结构化认知（架构、对象职责、关系、外部契约、关键约束）。
 
 完整集成说明与工作流原文存于根目录 aoci.repository.cognition.md：是否阅读、是否调用 AOCI 工具建立认知，由 AI 按任务需要自行判断——大型跨模块改动、新会话接手复杂上下文时价值较大，日常小改动无需加载。
-
