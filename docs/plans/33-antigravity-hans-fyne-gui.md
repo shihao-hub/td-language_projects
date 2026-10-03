@@ -55,13 +55,13 @@ graph TB
 
 **任务分解**：
 
-- [ ] Task 1: 新建开发分支并引入 Fyne 依赖
+- [x] Task 1: 新建开发分支并引入 Fyne 依赖
   - 文件：`go.mod`、`go.sum`（分支操作无文件产物）
   - 实现：`git switch -c feat/fyne-gui`（从 main@v0.4.3）；`go get fyne.io/fyne/v2@v2.8.1`；确认原 CLI（无标签）构建不链接 Fyne。
   - 验证：`git branch --show-current` 输出 `feat/fyne-gui`；`go build ./...` 通过；`go list -m fyne.io/fyne/v2` 输出 v2.8.1。
   - Demo：分支就绪，原 CLI 构建行为不变。
 
-- [ ] Task 2: GUI 入口、主页面与“启动汉化”（构建标签隔离）
+- [x] Task 2: GUI 入口、主页面与“启动汉化”（构建标签隔离）
   - 文件：`main.go`（仅新增 `//go:build !gui` 一行）、`gui_windows.go`、`gui_other.go`、`gui_theme_windows.go`、`gui_singleinstance_windows.go`
   - 实现：
     - `main.go` 文件头加构建约束；默认（无标签）构建完全不变；`-tags gui && windows` 时改由 `gui_windows.go` 提供 `main()`（`gui_other.go` 处理 `gui && !windows` 占位）。
@@ -72,8 +72,9 @@ graph TB
     - `gui_singleinstance_windows.go`：命名互斥体（名称 = 应用名 + release/dev 后缀）；已有实例时提示「已在运行（见系统托盘）」并退出。
   - 验证：`go build ./...` 通过；`go build -tags gui -o dist/antigravity-hans-gui-test.exe .` 通过；`go vet -tags gui ./...` 无报错（备用）。
   - Demo：运行 GUI exe 弹出主窗口（无终端），点击按钮启动 Antigravity 动态汉化；重复启动仅保留一个实例。
+  - 实施说明：未单独建 `gui_theme_windows.go` —— 源码核实 Fyne v2.8.1 自带系统字体回退（`fontscan` 按 rune 解析系统字体），中文自动用系统字体渲染，实现较计划更简；如实测出现方块字再补字体主题。
 
-- [ ] Task 3: 系统托盘与图标资源
+- [x] Task 3: 系统托盘与图标资源
   - 文件：`gui_tray_windows.go`、`gui_assets/tray.png`（新）、`icon.ico`（复制）、`rsrc_windows_amd64.syso`（rsrc 生成）
   - 实现：
     - 托盘：`desktop.App` 断言 + 内嵌 `tray.png` 图标 + `SetSystemTrayWindow`（左键唤窗）；菜单：显示主窗口 / 打开 exe 所在目录 / 开机自启动（Task 4 接线）/ 分隔线 / 退出。
@@ -82,43 +83,46 @@ graph TB
   - 验证：`go build -tags gui ...` 通过；运行 GUI：关主窗后托盘仍在，托盘可唤回窗口、可打开 exe 目录、可退出（备用）。
   - Demo：托盘菜单三项交互逐项演示，任务管理器无终端相关子进程。
 
-- [ ] Task 4: 开机自启（release 限定）
+- [x] Task 4: 开机自启（release 限定）
   - 文件：`gui_autostart_windows.go`（+ `gui_tray_windows.go` 勾选接线）
   - 实现：直写 `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`，值名 `Antigravity-Hans`，数据 `"<exe>" --hidden`；提供查询/写入/删除；`ReleaseMode != "release"` 时菜单置灰且调用返回稳定错误；拒绝注册临时构建产物（go-build / Temp 路径）；切换失败弹对话框并回滚勾选。
   - 验证：dev 构建菜单禁用且调用被拒；`-X main.ReleaseMode=release` 构建后勾选 → 注册表出现该值（检查后手动删除）（备用）。
   - Demo：dev / release 两种构建对比演示开与关。
+  - 实施说明：dev 构建下菜单项显示为「开机自启动（开发版不可用）」并置灰；release 构建（`-X main.ReleaseMode=release`）可正常勾选注册。
 
-- [ ] Task 5: 构建脚本 `scripts/build-gui.py`
+- [x] Task 5: 构建脚本 `scripts/build-gui.py`
   - 文件：`scripts/build-gui.py`（新目录）
   - 实现：PEP 723 + uv（无第三方依赖）；gcc 前置检查；`git describe --tags --exact-match HEAD`（且工作区干净）→ release，否则 dev；`go build -tags gui -ldflags "-s -w -H windowsgui -X main.Version=<VERSION 或 tag> -X main.ReleaseMode=<release 时>"`；产物 `dist/antigravity-hans-gui-windows-amd64.exe`；打印环境判定结果。
   - 验证：`uv run scripts/build-gui.py` 产出 exe；release 判定与实际 tag 状态一致（备用）。
   - Demo：一条命令产出本地 GUI exe；tag 状态下自动启用 release。
 
-- [ ] Task 6: 快捷方式目标切换到 GUI（修复终端闪现）
+- [x] Task 6: 快捷方式目标切换到 GUI（修复终端闪现）
   - 文件：`shortcut_windows.go`
   - 实现：生成快捷方式时探测同目录 GUI exe（`antigravity-hans-gui-windows-amd64.exe` 或 `antigravity-hans-gui.exe`）；存在则将 TargetPath 指向 GUI exe、Arguments 改为 `--app --start --hidden`（IDE 同理）；不存在时保持现状。根因注释写入代码。
   - 验证：`go build` 通过；运行 `--shortcut` 后读取 .lnk 目标确认为 GUI exe 且无终端（备用）。
   - Demo：双击新快捷方式 → 无黑框闪现，托盘常驻并自动启动汉化。
 
-- [ ] Task 7: CI 发布流程改造（tag 即 release）
+- [x] Task 7: CI 发布流程改造（tag 即 release）
   - 文件：`.github/workflows/release.yml`
   - 实现：触发改为 `push: tags: v*`（保留 `workflow_dispatch`）；版本号取 tag；新增 windows-latest + MSYS2 MinGW 的 GUI 构建作业（`-tags gui -H windowsgui -X main.ReleaseMode=release`），产物 `antigravity-hans-gui-windows-amd64.exe`；CLI 三平台产物保持；发布说明补 GUI 行。
   - 验证：YAML 可解析；实际发布验证留待打 tag 时观察 Actions（备用）。
   - Demo：推送 tag 后 GitHub Release 同时含 CLI 与 GUI 产物，GUI 为 release 模式。
 
-- [ ] Task 8: README 更新
+- [x] Task 8: README 更新
   - 文件：`README.md`
   - 实现：GUI 使用说明（页面按钮、托盘菜单、关窗到托盘、无终端）；开机自启 release 限定；构建说明（`uv run scripts/build-gui.py`、gcc 前置）；发布流程改为打 tag；快捷方式指向 GUI 的说明。
   - 验证：README 描述与实现一致（人工核对）。
   - Demo：新用户按 README 可完成构建与使用。
 
-- [ ] Task 9: 收尾验收与计划勾选
+- [x] Task 9: 收尾验收与计划勾选
   - 文件：无（验证任务）
   - 实现：`go build ./...`、GUI 构建、产物检查（GUI 无控制台子系统）、单实例/托盘/自启/快捷方式逐项走查；更新本计划 checkbox 与页脚。
   - 验证：上述每项有明确结果记录。
   - Demo：向用户汇报完整演示清单。
+  - 实施结果：CLI 三平台产物与 GUI 产物（PE 子系统 2，无控制台）构建通过；GUI `--hidden` 冒烟启动正常、终止无残留；dev/release 判定与自启门控符合设计（dev 置灰 + 逻辑拒绝，release 可注册）；快捷方式目标切换逻辑已随 CLI 编译验证。
+  - 遗留：GUI 窗口/托盘的目视交互、快捷方式无终端实测、开机自启注册实机验证需用户在本机确认；CI tag 发布链路待首次打 tag 时验证。
 
 ---
-**最后更新：** 2026-10-03
+**最后更新：** 2026-10-04
 **作者：** AI & User
-**版本：** v1.0（计划待批准）
+**版本：** v1.1（执行完成）
