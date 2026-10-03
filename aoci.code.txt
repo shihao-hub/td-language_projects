@@ -4,7 +4,7 @@
 .gitattributes[FR7T]: F:统一全仓文本 LF 检出，保证各平台 checkout 字节一致 | R:- | A:- | S:AOCI 按原始字节建基线，改行尾策略会令整树 Stale
 .gitignore[FC3T]: F:兜底忽略系统杂项、Python 虚拟环境 .venv/、mkdocs 构建产物 .mkdocs-site/、第三方参考克隆 .thirdparty/ 与误入仓根的 ComfyUI/ | R:code:mkdocs.yml | A:- | S:-
 .gitmodules[FG8T]: F:声明五个语言子模块的远端、跟踪分支与 ignore=all 策略 | R:code:.scripts/init-submodules.ps1,code:README.md | A:新增语言子模块时在此登记并补 branch 与 ignore=all | S:ignore=all 拦截普通 git add，提交子模块指针必须 git add --force
-AGENTS.md[SG9M]: F:父仓库最高约定：强约束（中文回复、plans/specs 独立提交、自产数据文件落 %APPDATA%\language_projects、测试资源用后即清）、仓库结构、归档与文档布局、脚本规范（PEP 723 + uv），AOCI 契约已迁出至 aoci.repository.cognition.md | R:code:README.md,code:.gitmodules,code:MONOREPO.md,code:docs/guides/README.md,code:docs/projects/go_projects/CLI 工具开发标准.md,code:docs/projects/go_projects/go exe 默认图标.md,code:aoci.repository.cognition.md | A:AI 会话进仓先读；改仓库级约定先改此文件 | S:子模块改动必须在子仓提交；父仓提交指针必须 git add --force；plans/specs 变更必须单文件独立 commit 且 Agent 可直接提交；docs/index.md 站点入口页禁删；自产数据文件只准落 %APPDATA%\language_projects\<项目名>；chrome-devtools 收尾须按 user-data-dir 整组终止专属 Chrome 进程
+AGENTS.md[SG9S]: F:父仓库最高约定：强约束（中文回复、plans/specs 独立提交、自产数据文件落 %APPDATA%\language_projects、测试资源用后即清）、仓库结构、归档与文档布局、脚本规范（PEP 723 + uv），AOCI 按需加载指针与三条触发时机（建立认知/收尾维护/小改动豁免） | R:code:README.md,code:.gitmodules,code:MONOREPO.md,code:docs/guides/README.md,code:docs/projects/go_projects/CLI 工具开发标准.md,code:docs/projects/go_projects/go exe 默认图标.md,code:aoci.repository.cognition.md | A:AI 会话进仓先读；改仓库级约定先改此文件；AOCI 工作流详见 aoci.repository.cognition.md | S:子模块改动必须在子仓提交；父仓提交指针必须 git add --force；plans/specs 变更必须单文件独立 commit 且 Agent 可直接提交；docs/index.md 站点入口页禁删；自产数据文件只准落 %APPDATA%\language_projects\<项目名>；chrome-devtools 收尾须按 user-data-dir 整组终止专属 Chrome 进程
 CLAUDE.md[SG3T]: F:单行 @AGENTS.md 引用，让 Claude Code 复用父仓库约定 | R:code:AGENTS.md | A:- | S:-
 MONOREPO.md[SG6S]: F:个人项目价值盘点表：五语言子仓活跃项目与 .archived 三语言归档项目（含 zedhub、agyquota），列摘要/状态/源码阅读/价值/下一步；native_projects 区为未初始化规划 | R:code:docs/guides/GUIDE-INVENTORY.md | A:主观列只由表主人填，AI 仅起草摘要待过目 | S:六列表每行恰 7 个管道符，归档行保留全列；native_projects 子模块未初始化（父仓索引无 gitlink、本地无目录），该区条目仅为规划；agyquota 行仍在归档区未随 09-restore 更新
 NOTES.md[SZ2T]: F:零散备忘，当前记录归档 projstat README 的古法编程思路线索 | R:- | A:- | S:-
@@ -12,7 +12,7 @@ README.md[SG8S]: F:父仓库总览：子模块结构、克隆更新命令、脚�
 SPEC-AGENT.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
 SPEC-HUMAN.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
 mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkdocs-site/、file:// 直开、zh 语言 + search/awesome-pages、mermaid 与 pymdownx 扩展 | R:code:.scripts/build_docs.py,code:docs/index.md,code:docs/assets/javascripts/mermaid.min.js | A:use_directory_urls 必须保持 false；主题/插件改动后用 build --strict 验证 | S:链接校验 not_found=ignore 是为放行指向仓库源码的文档外链接；中文搜索依赖 jieba 可导入，缺则静默退化为整段匹配
-aoci.repository.cognition.md[SC4M]: F:AOCI 仓库认知集成说明：AGENTS.md 托管块迁出原文，定义认知建立/恢复/维护入口（aoci_rules/overview/maintain/update_entry）、上下文压缩重载规则、任务收尾与写边界 | R:code:AGENTS.md | A:- | S:本文件是 aoci:begin/end 托管块存档，恢复时原样贴回 AGENTS.md 文末
+aoci.repository.cognition.md[SC4S]: F:AOCI 仓库认知集成说明：AGENTS.md 托管块迁出原文，定义认知建立/恢复/维护入口（aoci_rules/overview/maintain/update_entry）、上下文压缩重载规则、任务收尾与写边界；触发时机见 AGENTS.md 指针节 | R:code:AGENTS.md | A:- | S:本文件是 aoci:begin/end 托管块存档，恢复时原样贴回 AGENTS.md 文末
 plans_status.sql[FD3T]: F:plansql 的 Append-Only 状态流：记录 docs/plans/28 号计划置 completed 的两条 UPSERT 语句（plansql CLI 追加生成） | R:code:docs/plans/28-plansql-tracker.md,code:docs/projects/go_projects/plansql/设计说明.md | A:- | S:SQLite 投影由此文件重放生成，禁止直接改投影库
 
 ===D:/Users/language_projects/.scripts/===

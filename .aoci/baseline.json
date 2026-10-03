@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-03T14:29:18Z",
+  "updated_at": "2026-10-03T14:34:04Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -247,9 +247,9 @@
       "normalized_sha256": "068af2746b8cf6c1e8ccf6d2d9c1459bb9e28b94432e9478265ee2f804b6e008"
     },
     "AGENTS.md": {
-      "sha256": "b2392f8b4aec4e3e96b4bd2aaeeee3b172613b2dca7bcf901510636ea4939b95",
-      "size": 20263,
-      "normalized_sha256": "49d548a147b8a1f5c2e2567ba0c01ceacf8c7592dc31b98fc1f69517875a7ea1"
+      "sha256": "b49960e71f435fd29b62278567cd9ffdc0c4f47d762d59ffaa521446caecf5e2",
+      "size": 20996,
+      "normalized_sha256": "99e18c3576eec5d0965fa58f1d7ed647d471e13b4a7602ae8894680eadc571c4"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -285,9 +285,9 @@
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "1cf869d6a48f55c32b9afc33f3ab84709287e45798c58dcac75a1720e272abfc",
-      "size": 104444,
-      "normalized_sha256": "1cf869d6a48f55c32b9afc33f3ab84709287e45798c58dcac75a1720e272abfc"
+      "sha256": "05e52e68180e4a05328cff60b6c5880eb74107d02bf3739a219ab64d2b7db55a",
+      "size": 104573,
+      "normalized_sha256": "05e52e68180e4a05328cff60b6c5880eb74107d02bf3739a219ab64d2b7db55a"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -296,9 +296,9 @@
       "normalized_sha256": "8508a315a09be5e3c75491b68c51ab5e2cdd26cca61588be21a19cea2941d674"
     },
     "aoci.repository.cognition.md": {
-      "sha256": "f86d9b8567e438985a465d661c0c5efceb8d6eab06a0c29be0695717d6e5e1d1",
-      "size": 15927,
-      "normalized_sha256": "0be5e29be3a929457f3eeefce3d87bf7d8f99a810801661bdf3797208de73ece"
+      "sha256": "12ea411c5cd56776b587d9d6df00a0a3501a256978a2ae5c65abc49106a40a02",
+      "size": 16059,
+      "normalized_sha256": "39446a73f6fb704160192a9f755948eae40cc9b13f1830eea493132660d836c6"
     },
     "aoci.txt": {
       "role": "index",
