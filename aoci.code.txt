@@ -29,6 +29,7 @@ gen_python_logo.py[XV4S]: F:生成 1024 透明底 Python 双蛇标志 PNG：内�
 link-submodule-agents.py[XC5M]: F:把父仓 AGENTS.md 以 NTFS 硬链接同步到各子模块/子仓库根目录，解决 Agent 遇子模块 .git 停止向上查找规则文件的问题；支持状态检查、清理与 gitignore 管理 | R:code:AGENTS.md | A:默认建链；--status 查 Inode 状态；--unlink 清理；--add-gitignore/--remove-gitignore 维护忽略规则；--force 覆盖独立文件 | S:硬链接与源同 Inode：编辑任一子仓副本 AGENTS.md 即实时修改父仓原文件
 patch_deepseek_harness_icon.py[XU4L]: F:DeepSeek Harness 桌面端图标补丁：rcedit 注入自定义 ICO 进 EXE PE 资源（未启动/运行态统一），自动备份并同步托盘 tray.ico，支持一键还原官方原始状态 | R:code:.scripts/custom_icons/3_dark_monochrome_centered.svg | A:参数 --custom-icon/--restore/--kill/--restart-explorer/--target-exe/--rcedit-path/--scale/--no-tray | S:rcedit 缺失时自动从 GitHub 下载；EXE 被官方自动更新覆写后需重跑脚本恢复
 perfect_dark_icon.py[XV3T]: F:生成居中校准版暗黑鲸鱼图标：官方鲸鱼 path 左移 25px 上移 50px 光学居中（原版偏右偏下），988px rx=150 底板，Edge 截图后 PIL 合成多尺寸 ICO | R:code:.scripts/custom_icons/3_dark_monochrome_centered.svg | A:输出 3_dark_monochrome_centered 的 .svg/.png/.ico 三件套 | S:依赖 .thirdparty 源图标与本机 Edge
+install-aoci-mcp.py[XC3L]: F:把本仓 AOCI MCP 统一配置到五处用户级配置：claude/opencode（JSON 合并）、codex（config.toml 追加段）、antigravity ACP（mcp.json）与桌面 IDE（.gemini/config/mcp_config.json，空文件容错）；幂等——缺则写、一致跳过 | R:- | A:uv run .scripts/install-aoci-mcp.py [--agent ...] [--exe ...] [--force] [--json]；自动探测 aoci.exe（固定路径→PATH） | S:codex 段边界按行识别节标题（数组方括号会误判）；agy 双形态两份配置；JSON 原子写
 
 ===D:/Users/language_projects/.zed/===
 extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本（lua/toml/sql/neocmake/html/ini/xmake），配合 auto_install_extensions 安装；PowerShell 扩展已随全仓 ps1 清零移除 | R:code:.zed/settings.json | A:- | S:-

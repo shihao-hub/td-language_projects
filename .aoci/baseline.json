@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-03T14:34:04Z",
+  "updated_at": "2026-10-03T14:48:52Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -197,6 +197,11 @@
       "size": 2854,
       "normalized_sha256": "4148b2189b3122f7fddf73fce8ddd520b84a26219d704d7d39fb4fdff0da81df"
     },
+    ".scripts/install-aoci-mcp.py": {
+      "sha256": "c4c1129014b681d8702149ab7c81fc1d069d2f3941e883d8ecd47eb31e94d16e",
+      "size": 9967,
+      "normalized_sha256": "c4c1129014b681d8702149ab7c81fc1d069d2f3941e883d8ecd47eb31e94d16e"
+    },
     ".scripts/install_tool.py": {
       "role": "index",
       "sha256": "2a34fcd8ff333197da8f75418af1e154b19f08af0ba51e306e975a72697bce71",
@@ -285,9 +290,9 @@
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "05e52e68180e4a05328cff60b6c5880eb74107d02bf3739a219ab64d2b7db55a",
-      "size": 104573,
-      "normalized_sha256": "05e52e68180e4a05328cff60b6c5880eb74107d02bf3739a219ab64d2b7db55a"
+      "sha256": "7ce538af8972a50d8a164f5d6258b7ccac00c03f6009be02a4c6245a23c996b1",
+      "size": 105122,
+      "normalized_sha256": "7ce538af8972a50d8a164f5d6258b7ccac00c03f6009be02a4c6245a23c996b1"
     },
     "aoci.meta.txt": {
       "role": "index",
