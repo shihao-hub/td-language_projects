@@ -23,7 +23,7 @@
 
 - `UPDATED` `douyin_dl.py`
   - **Purpose** 错误码、JSON 包络、schema 定义
-  - **Changes** `ERROR_MESSAGES` 新增 `zhihu_not_logged_in`、`zhihu_extract_failed`；`_schema_response_property` 增 `extracted` 数组（item：`input_url`/`article_url`/`article_id`/`ok`/`title`/`path`/`images_total`/`images_failed`/`error`），`summary` 增 `extracted`；`build_schema` 更新 description/summary/constraints/`side_effects.network`（加 zhihu.com、zhimg.com）/VERSION=2.5.0
+  - **Changes** `ERROR_MESSAGES` 新增 `zhihu_not_logged_in`、`zhihu_extract_failed`；`_schema_response_property` 增 `extracted` 数组（item：`input_url`/`article_url`/`article_id`/`ok`/`title`/`path`/`images_total`/`images_failed`/`error`），`summary` 增 `extracted`；`build_schema` 更新 description/summary/constraints/`side_effects.network`（加 zhihu.com、zhimg.com）/`side_effects.filesystem`（加 `{output_dir}/zhihu`）/VERSION=2.5.0
   - **Complexity** Low
 
 ### 基础设施层
@@ -34,7 +34,7 @@
   - **Complexity** Low
 - `UPDATED` `unique_path(directory, stem, suffix=".mp4")`
   - **Purpose** 输出路径防覆盖
-  - **Changes** 无改动（md 落盘时以 `.md` 后缀调用；`_images` 目录由调用方 `os.makedirs` 创建）
+  - **Changes** 无改动（知乎落盘时对**目录名**做同款唯一化：候选 `{标题}` 已存在则 `_1`、`_2` 顺延，逻辑内联在 `extract_zhihu_one`；目录内文件名固定，不再调用本函数）
   - **Complexity** Low
 
 ### Service 层
@@ -65,7 +65,7 @@
   - **Complexity** Low
 - `CREATED` `clean_zhihu_html(html, images_map) -> str`（`douyin_dl.py`，BeautifulSoup 预处理）
   - **Purpose** 把知乎正文 HTML 清洗为可转换形态并本地化图片
-  - **Changes** 遍历 `img`：按 `data-actualsrc` → `data-original` → `srcset` 最大候选 → `src` 取候选、`new URL(x, "https://www.zhihu.com")` 绝对化、跳过 `data:` 占位图；URL 命中 `images_map` 时把 `src` 替换为本地相对路径并补 alt（`图N`）；剥掉投票/广告等无关壳元素与冗余 `noscript` 包裹；返回清洗后的 HTML 字符串
+  - **Changes** 遍历 `img`：按 `data-actualsrc` → `data-original` → `srcset` 最大候选 → `src` 取候选、`new URL(x, "https://www.zhihu.com")` 绝对化、跳过 `data:` 占位图；URL 命中 `images_map` 时把 `src` 替换为相对路径 `images/image_00N.ext`（md 与 images 同级）并补 alt（`图N`）；剥掉投票/广告等无关壳元素与冗余 `noscript` 包裹；返回清洗后的 HTML 字符串
   - **Complexity** Medium
 - `CREATED` `render_zhihu_markdown(title, author, article_url, clean_html, fetched_at) -> str`（`douyin_dl.py`）
   - **Purpose** 清洗后 HTML → Markdown 文本
@@ -73,7 +73,7 @@
   - **Complexity** Low
 - `CREATED` `extract_zhihu_one(input_url, ...) -> ExtractRecord`（`douyin_dl.py`）
   - **Purpose** 单条知乎提取编排
-  - **Changes** 登录门（无 z_c0 → `zhihu_not_logged_in` 失败，emit 指引；headed 且未登录时自动 `open_tab` 打开 zhihu.com）→ resolve → `open_tab(port, url, host_filter="zhihu.com")` → extract → bs4 提取图片清单并 `download_zhihu_images` 落盘 `{output_dir}/{标题}_images/` → `clean_zhihu_html` 本地化 → `render_zhihu_markdown` → `unique_path(output_dir, 标题, ".md")` 写入 UTF-8 → 填 `ExtractRecord`
+  - **Changes** 登录门（无 z_c0 → `zhihu_not_logged_in` 失败，emit 指引；headed 且未登录时自动 `open_tab` 打开 zhihu.com）→ resolve → `open_tab(port, url, host_filter="zhihu.com")` → extract → 建文章目录 `{output_dir}/zhihu/{标题}/`（`os.makedirs` 含 zhihu 层；目录名唯一化：已存在则 `_1`、`_2` 顺延）→ bs4 提取图片清单并 `download_zhihu_images` 落盘该目录 `images/` → `clean_zhihu_html` 本地化 → `render_zhihu_markdown` → 写入 `article.md`（UTF-8）→ 填 `ExtractRecord`（path 指向 article.md）
   - **Complexity** Medium
 - `UPDATED` `ExtractResult` / `extract_links` / `RunResult` / `to_data`（`douyin_dl.py`）
   - **Purpose** 四分类与结果承载
@@ -102,13 +102,14 @@ run_downloads(text)
       ├─ 无登录态 → ExtractRecord(zhihu_not_logged_in)，headed 时 open_tab 开 zhihu.com
       └─ 有登录态 → resolve_zhihu_url → open_tab(host_filter=zhihu.com)
                     → extract_zhihu_article: navigate → 轮询正文容器 → ZHIHU_EXTRACT_JS(innerHTML)
-                    → download_zhihu_images: http_get_bytes(Referer+Cookie)
+                    → 建 {output_dir}/zhihu/{标题}/（目录名唯一化）
+                    → download_zhihu_images: http_get_bytes(Referer+Cookie) → images/
                     → clean_zhihu_html(bs4) → render_zhihu_markdown(html2text)
-                    → unique_path(.md) 落盘 UTF-8
+                    → article.md 落盘 UTF-8
 ```
 
 - 依赖方向：CLI 适配层 → Service 层 → 基础设施层 → 外部资源（Chrome CDP / 知乎页面 / zhimg CDN）；契约层零依赖。
-- 组装顺序：图片目录先建（`os.makedirs`），Markdown 引用其相对目录名 `{标题}_images`。
+- 组装顺序：先建文章目录 `{output_dir}/zhihu/{标题}/` 与其 `images/` 子目录，Markdown 中图片引用 `images/image_00N.ext` 相对路径。
 - 并发模型：全部串行；知乎 tab 与抖音 tab 在同一 Chrome 实例并存（`open_tab` 按 host 过滤复用，不跨域导航）。
 
 ### Acceptance Criteria Mapping

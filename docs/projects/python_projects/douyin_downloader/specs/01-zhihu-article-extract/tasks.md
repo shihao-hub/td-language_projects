@@ -16,12 +16,12 @@
 
 - [ ] 3. 知乎提取编排 + 登录门 + 落盘（核心功能）
   - Files: `python_projects/douyin_downloader/douyin_dl.py`
-  - 实现细节：`extract_zhihu_one(input_url, ...)`（登录门：无 z_c0 → `zhihu_not_logged_in` 失败并 emit 登录指引，headed 模式自动开 zhihu.com；resolve → `open_tab(port, url, host_filter="zhihu.com")` → extract → bs4 提取图片清单 → `download_zhihu_images` 落盘 `{output_dir}/{标题}_images/` → `clean_zhihu_html` → `render_zhihu_markdown` → `unique_path(output_dir, 标题, ".md")` UTF-8 写入）；`run_downloads` 真接入 zhihu 队列（串行、复用 emit 进度与同一 Chrome 会话）；实测校准设计评审中的未验证假设（图片候选顺序 / 正文容器选择器 / CDN Referer 要求 / html2text 转换效果）
-  - Verify: 未登录首跑 → 知乎链接按 `zhihu_not_logged_in` 结构化失败并给出指引；`--headed` 登录知乎后重跑 → `~/Downloads` 出现 `{标题}.md` 与 `{标题}_images/`，正文文字与网页一致、图片为原图且相对引用可打开
+  - 实现细节：`extract_zhihu_one(input_url, ...)`（登录门：无 z_c0 → `zhihu_not_logged_in` 失败并 emit 登录指引，headed 模式自动开 zhihu.com；resolve → `open_tab(port, url, host_filter="zhihu.com")` → extract → 建文章目录 `{output_dir}/zhihu/{标题}/`（目录名唯一化：已存在则 `_1` 顺延）→ bs4 提取图片清单 → `download_zhihu_images` 落盘 `images/` → `clean_zhihu_html` → `render_zhihu_markdown` → 写入 `article.md` UTF-8）；`run_downloads` 真接入 zhihu 队列（串行、复用 emit 进度与同一 Chrome 会话）；实测校准设计评审中的未验证假设（图片候选顺序 / 正文容器选择器 / CDN Referer 要求 / html2text 转换效果）
+  - Verify: 未登录首跑 → 知乎链接按 `zhihu_not_logged_in` 结构化失败并给出指引；`--headed` 登录知乎后重跑 → `~/Downloads/zhihu/{标题}/` 出现 `article.md` 与 `images/`，正文文字与网页一致、图片为原图且相对引用可打开
   - Ref: FR-3, FR-4, FR-5, FR-6, FR-7, AC-2, AC-3, AC-4, AC-5
 
 - [ ] 4. 契约与文档收尾
   - Files: `python_projects/douyin_downloader/douyin_dl.py`、`python_projects/douyin_downloader/README.md`
-  - 实现细节：`build_schema` 更新（description/summary/constraints 加知乎提取与登录态说明；`side_effects.network` 加 zhihu.com、zhimg.com；response 增 `extracted` 数组与 `summary.extracted`；新错误码进 enum）；版本号 2.5.0；README 增加知乎提取说明、`--headed` 首次登录引导、用法示例、已知限制（不做多回答/评论/公式还原）；按 NUITKA.md 实测打包一次，验证 beautifulsoup4 / html2text 被正确打进 exe
+  - 实现细节：`build_schema` 更新（description/summary/constraints 加知乎提取与登录态说明；`side_effects.network` 加 zhihu.com、zhimg.com；`side_effects.filesystem` 加 `{output_dir}/zhihu`；response 增 `extracted` 数组与 `summary.extracted`；新错误码进 enum）；版本号 2.5.0；README 增加知乎提取说明（含目录布局）、`--headed` 首次登录引导、用法示例、已知限制（不做多回答/评论/公式还原）；按 NUITKA.md 实测打包一次，验证 beautifulsoup4 / html2text 被正确打进 exe
   - Verify: `uv run douyin_dl.py schema` 输出新契约（含 extracted、新错误码、2.5.0）；`uv run douyin_dl.py "<抖音文案> <B站链接> <知乎链接>"` 混合输入三类链接均成功；`uv run scripts\build_exe.py` 打包成功且产物可运行
   - Ref: FR-9, AC-6
