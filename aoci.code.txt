@@ -2,16 +2,18 @@
 
 ===D:/Users/language_projects/===
 .gitattributes[FR7T]: F:统一全仓文本 LF 检出，保证各平台 checkout 字节一致 | R:- | A:- | S:AOCI 按原始字节建基线，改行尾策略会令整树 Stale
-.gitignore[FC3T]: F:兜底忽略系统杂项、Python 虚拟环境、mkdocs 构建产物 .mkdocs-site/ 与第三方参考克隆 .thirdparty/ | R:code:mkdocs.yml | A:- | S:-
+.gitignore[FC3T]: F:兜底忽略系统杂项、Python 虚拟环境 .venv/、mkdocs 构建产物 .mkdocs-site/、第三方参考克隆 .thirdparty/ 与误入仓根的 ComfyUI/ | R:code:mkdocs.yml | A:- | S:-
 .gitmodules[FG8T]: F:声明五个语言子模块的远端、跟踪分支与 ignore=all 策略 | R:code:.scripts/init-submodules.ps1,code:README.md | A:新增语言子模块时在此登记并补 branch 与 ignore=all | S:ignore=all 拦截普通 git add，提交子模块指针必须 git add --force
-AGENTS.md[SG9M]: F:父仓库最高约定：强约束规则、仓库结构、归档与文档布局、脚本规范（统一 Python PEP 723 + uv 单文件、禁止新增 ps1/bat，typescript_projects 子仓内部用 TS/Bun），含 AOCI 运行契约块 | R:code:README.md,code:.gitmodules,code:MONOREPO.md,code:docs/guides/README.md,code:docs/projects/go_projects/CLI 工具开发标准.md,code:docs/projects/go_projects/go exe 默认图标.md | A:AI 会话进仓先读；改仓库级约定先改此文件；末尾 aoci 托管块禁手改 | S:子模块改动必须在子仓提交；父仓提交指针必须 git add --force；plans/specs 变更必须单文件独立 commit 且 Agent 可直接提交；docs/index.md 站点入口页禁删；chrome-devtools 收尾须按 user-data-dir 过滤终止专属 Chrome 进程树，MCP 关不掉最后一个 about:blank
+AGENTS.md[SG9M]: F:父仓库最高约定：强约束（中文回复、plans/specs 独立提交、自产数据文件落 %APPDATA%\language_projects、测试资源用后即清）、仓库结构、归档与文档布局、脚本规范（PEP 723 + uv），AOCI 契约已迁出至 aoci.repository.cognition.md | R:code:README.md,code:.gitmodules,code:MONOREPO.md,code:docs/guides/README.md,code:docs/projects/go_projects/CLI 工具开发标准.md,code:docs/projects/go_projects/go exe 默认图标.md,code:aoci.repository.cognition.md | A:AI 会话进仓先读；改仓库级约定先改此文件 | S:子模块改动必须在子仓提交；父仓提交指针必须 git add --force；plans/specs 变更必须单文件独立 commit 且 Agent 可直接提交；docs/index.md 站点入口页禁删；自产数据文件只准落 %APPDATA%\language_projects\<项目名>；chrome-devtools 收尾须按 user-data-dir 整组终止专属 Chrome 进程
 CLAUDE.md[SG3T]: F:单行 @AGENTS.md 引用，让 Claude Code 复用父仓库约定 | R:code:AGENTS.md | A:- | S:-
-MONOREPO.md[SG6S]: F:个人项目价值盘点表：五语言子仓活跃项目 + native_projects 未初始化规划 + .archived 三语言归档项目，列摘要/状态/源码阅读/价值/下一步 | R:code:docs/guides/GUIDE-INVENTORY.md | A:主观列只由表主人填，AI 仅起草摘要待过目 | S:六列表每行恰 7 个管道符，归档行保留全列；native_projects 子模块未初始化（父仓索引无 gitlink、本地无目录），该区条目仅为规划；agyquota 行仍在归档区未随 09-restore 更新
+MONOREPO.md[SG6S]: F:个人项目价值盘点表：五语言子仓活跃项目与 .archived 三语言归档项目（含 zedhub、agyquota），列摘要/状态/源码阅读/价值/下一步；native_projects 区为未初始化规划 | R:code:docs/guides/GUIDE-INVENTORY.md | A:主观列只由表主人填，AI 仅起草摘要待过目 | S:六列表每行恰 7 个管道符，归档行保留全列；native_projects 子模块未初始化（父仓索引无 gitlink、本地无目录），该区条目仅为规划；agyquota 行仍在归档区未随 09-restore 更新
 NOTES.md[SZ2T]: F:零散备忘，当前记录归档 projstat README 的古法编程思路线索 | R:- | A:- | S:-
 README.md[SG8S]: F:父仓库总览：子模块结构、克隆更新命令、脚本清单（统一 Python，uv run 执行）、文档站点用法、数据存放规范、子仓约定与归档/盘点入口 | R:code:.gitmodules,code:AGENTS.md,code:MONOREPO.md,code:docs/guides/GUIDE-项目归档.md,code:docs/guides/GUIDE-项目盘点维护.md,code:.scripts/build_docs.py,code:docs/index.md,code:.scripts/submodule-toggle.py | A:新会话和新机器从本文件入门，命令可直接执行 | S:项目运行时数据只允许 %APPDATA%\language_projects\<项目名>\，无 APPDATA 回退 ~/.language_projects/
 SPEC-AGENT.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
 SPEC-HUMAN.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A:- | S:文件填充内容后本 Entry 转 stale，须重读重写
 mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkdocs-site/、file:// 直开、zh 语言 + search/awesome-pages、mermaid 与 pymdownx 扩展 | R:code:.scripts/build_docs.py,code:docs/index.md,code:docs/assets/javascripts/mermaid.min.js | A:use_directory_urls 必须保持 false；主题/插件改动后用 build --strict 验证 | S:链接校验 not_found=ignore 是为放行指向仓库源码的文档外链接；中文搜索依赖 jieba 可导入，缺则静默退化为整段匹配
+aoci.repository.cognition.md[SC4M]: F:AOCI 仓库认知集成说明：AGENTS.md 托管块迁出原文，定义认知建立/恢复/维护入口（aoci_rules/overview/maintain/update_entry）、上下文压缩重载规则、任务收尾与写边界 | R:code:AGENTS.md | A:- | S:本文件是 aoci:begin/end 托管块存档，恢复时原样贴回 AGENTS.md 文末
+plans_status.sql[FD3T]: F:plansql 的 Append-Only 状态流：记录 docs/plans/28 号计划置 completed 的两条 UPSERT 语句（plansql CLI 追加生成） | R:code:docs/plans/28-plansql-tracker.md,code:docs/projects/go_projects/plansql/设计说明.md | A:- | S:SQLite 投影由此文件重放生成，禁止直接改投影库
 
 ===D:/Users/language_projects/.scripts/===
 gen_icon.py[XG4T]: F:PNG 源图转 16-256 七帧 Windows .ico，非方形等比居中到透明画布 | R:- | A:uv run .scripts/gen_icon.py <input.png> <output.ico> | S:-
@@ -21,10 +23,17 @@ build_docs.py[XV5T]: F:docs 静态站点构建入口：build/serve/preview 三�
 check-agy-upstream.py[XV4S]: F:antigravity-acp 上游监控：urllib 拉官方 ACP Registry JSON 与 Zed 本地已装版本比对并提示升级路径，GitHub Search API 检索社区仓库；--only-registry 跳过搜索段 | R:code:docs/plans/10-antigravity-acp-inspection.md,code:docs/repo/antigravity-acp-architecture-research.md | A:uv run .scripts/check-agy-upstream.py [--only-registry\|--query <关键词>] | S:零三方依赖全走标准库 urllib；HTTP 失败降级为警告不中断
 init-submodules.py[XV6T]: F:初始化未拉取的子模块并按 .gitmodules 的 branch 字段切跟踪分支 | R:code:.gitmodules | A:克隆后在父仓库根执行一次 uv run .scripts/init-submodules.py | S:只初始化 status 前缀 - 的子模块，不拽回领先指针；UTF-8 无 BOM（uv 不识别带 BOM 的 PEP 723）
 submodule-toggle.py[XV6M]: F:语言子模块临时注销与恢复一键脚本：status 只读体检、deinit 本地注销、restore 恢复并切跟踪分支 | R:code:.gitmodules,code:README.md,code:.scripts/init-submodules.py,code:docs/repo/Git 子模块临时注销（native、rust）.md | A:在父仓根执行 uv run .scripts/submodule-toggle.py -Action <status|deinit|restore> -Name <子模块名>（-Name 支持空格或逗号分隔多个） | S:deinit 对不干净/未推送整批拒绝，已注销幂等跳过；gitlink 缺失时 restore 回溯历史重建并 add --force，事后人工提交指针；退出码 0/1/2/3=成功/参数/前置/执行
+build_custom_icons.py[XV3S]: F:生成 4 款 DeepSeek 鲸鱼自定义图标：从 .thirdparty 源 SVG 提取鲸鱼 path，套 4 套配色模板写 SVG，Edge headless 截图 PNG，PIL 合成 16-256px 多尺寸 Windows ICO | R:- | A:输出 .scripts/custom_icons/ 下 1_dark_pro_blue、2_pure_floating_whale、3_dark_monochrome、4_official_deep_blue 四变体 | S:依赖 .thirdparty/deepseek-harness 源图标与本机 Edge 绝对路径
+calc_crap.py[XQ4S]: F:按 CRAP 公式 CC^2*(1-cov)^3+CC 评估 Python 函数风险：radon 解析圈复杂度、coverage.json 提供执行行，逐函数计算覆盖率与 CRAP 分并输出超阈值清单 | R:- | A:参数 --src/--cov/--threshold/--all；供 Zed 任务「CRAP: Python」调用 | S:需先 coverage run -m pytest 生成 coverage.json；存在高风险函数时退出码 1
+gen_python_logo.py[XV4S]: F:生成 1024 透明底 Python 双蛇标志 PNG：内嵌 Wikimedia 官方 logo 的 path 数据，贝塞尔展平后 Pillow 多边形填充 PSF 官方蓝黄并挖出眼睛透明孔 | R:code:.scripts/gen_icon.py | A:用法 uv run .scripts/gen_python_logo.py [输出.png]，产物交 gen_icon.py 合成多帧 ico | S:-
+link-submodule-agents.py[XC5M]: F:把父仓 AGENTS.md 以 NTFS 硬链接同步到各子模块/子仓库根目录，解决 Agent 遇子模块 .git 停止向上查找规则文件的问题；支持状态检查、清理与 gitignore 管理 | R:code:AGENTS.md | A:默认建链；--status 查 Inode 状态；--unlink 清理；--add-gitignore/--remove-gitignore 维护忽略规则；--force 覆盖独立文件 | S:硬链接与源同 Inode：编辑任一子仓副本 AGENTS.md 即实时修改父仓原文件
+patch_deepseek_harness_icon.py[XU4L]: F:DeepSeek Harness 桌面端图标补丁：rcedit 注入自定义 ICO 进 EXE PE 资源（未启动/运行态统一），自动备份并同步托盘 tray.ico，支持一键还原官方原始状态 | R:code:.scripts/custom_icons/3_dark_monochrome_centered.svg | A:参数 --custom-icon/--restore/--kill/--restart-explorer/--target-exe/--rcedit-path/--scale/--no-tray | S:rcedit 缺失时自动从 GitHub 下载；EXE 被官方自动更新覆写后需重跑脚本恢复
+perfect_dark_icon.py[XV3T]: F:生成居中校准版暗黑鲸鱼图标：官方鲸鱼 path 左移 25px 上移 50px 光学居中（原版偏右偏下），988px rx=150 底板，Edge 截图后 PIL 合成多尺寸 ICO | R:code:.scripts/custom_icons/3_dark_monochrome_centered.svg | A:输出 3_dark_monochrome_centered 的 .svg/.png/.ico 三件套 | S:依赖 .thirdparty 源图标与本机 Edge
 
 ===D:/Users/language_projects/.zed/===
 extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本（lua/toml/sql/neocmake/html/ini/xmake），配合 auto_install_extensions 安装；PowerShell 扩展已随全仓 ps1 清零移除 | R:code:.zed/settings.json | A:- | S:-
-settings.json[FC7S]: F:Zed 总仓配置：按语言开 LSP 白名单（Go/Python/TS/C/C++/Lua）并逐 server 调优省内存，file_scan_exclusions 忽略构建产物与大仓深路径（target、.venv 深层、.aoci、.mkdocs-site、.thirdparty） | R:code:.zed/extensions.toml | A:调整语言 LSP 开关、server 参数或文件扫描排除时编辑此文件；auto_install_extensions 列表须与 extensions.toml 同步 | S:lua-language-server 必须显式 Lua 5.1（本仓嵌入 5.1.5/LuaJIT，默认按 5.4 签名错位）；.venv 不整体忽略，`**/.venv/*/**` 保留一级目录只忽略深层；Rust 段保留但 enable_language_server=false
+settings.json[FC7S]: F:Zed 总仓配置：按语言 LSP 白名单（Go/Python/TS 开，其余关省内存），file_scan_exclusions 排除构建产物与 .thirdparty/.aoci/.archived 等，vtsls 限堆、basedpyright 关类型检查、clangd 关后台索引 | R:code:.zed/extensions.toml | A:调整语言 LSP 开关、server 参数或文件扫描排除时编辑此文件；auto_install_extensions 列表须与 extensions.toml 同步 | S:lua-language-server 必须显式 Lua 5.1（嵌入 5.1.5/LuaJIT）；.venv 现为 **/.venv/** 整体忽略；Rust/C/C++ LSP 关闭仅留配置
+tasks.json[FC3T]: F:Zed 任务面板配置：四条 CRAP 复杂度检查任务（Go 用 go-crap、Python 走 coverage+calc_crap.py、TypeScript 走 npx crap）与 go-crap 安装任务 | R:code:.scripts/calc_crap.py | A:- | S:-
 
 ===D:/Users/language_projects/docs/guides/===
 README.md[SW7T]: F:GUIDE 编写规范：父仓级 AI 工作指南的定位、三级披露机制、触发式 description、文件骨架、中文命名约定与现有清单表维护 | R:code:docs/guides/GUIDE-项目归档.md,code:docs/guides/GUIDE-第三方项目克隆.md,code:docs/guides/GUIDE-LLM兼容接入.md,code:AGENTS.md | A:沉淀新 GUIDE 前必读；新增 GUIDE 后需在清单表加行；禁止放入任何 skills 目录 | S:GUIDE 改名/移动是高危操作，迁移后旧名 grep 清零才算完成
@@ -37,6 +46,7 @@ GUIDE-项目归档.md[SW7S]: F:项目归档工作流：调研、逐项目提交�
 GUIDE-项目恢复.md[SW7S]: F:归档项目恢复回子仓的镜像工作流：冲突排查、精确暂存、指针更新 | R:code:docs/guides/GUIDE-项目归档.md | A:恢复前必查子仓同名占用与 .archived 无关未跟踪目录 | S:父仓暂存必须精确到项目路径，git add .archived 整目录会吸入无关文件
 GUIDE-项目盘点维护.md[SW6S]: F:MONOREPO.md 盘点表维护工作流：存量对照、摘要起草、联动同步与格式验证 | R:code:MONOREPO.md | A:项目增删/归档/迁移时按联动速查同步盘点表 | S:AI 不得代填主观列；结构变了表不变盘点即失真
 GUIDE-子项目拆分子模块.md[SW7M]: F:GUIDE：把子仓平铺子项目拆为独立 Git 仓库并以二级 Submodule 原位重挂载的全流程手册（gh 建仓→subtree split→清理→挂载降噪→指针同步） | R:code:docs/guides/README.md,code:docs/guides/GUIDE-项目归档.md,code:docs/guides/GUIDE-第三方项目克隆.md,code:.gitmodules | A:拆分需独立发版/独立 CI 的子项目时按五阶段执行；废弃项目走归档、第三方引入走克隆 | S:先推子仓再提父仓指针否则递归克隆悬空；.gitmodules 必配 branch+ignore=all 且父仓指针须 add --force；git rm 前先杀常驻进程防文件锁；add 报目录已存在可先目录内 clone
+GUIDE-Cursor-CLI配置与模型支持调研.md[SG3T]: F:Cursor CLI 调研报告：结论为 agent/cursor-agent 完全不支持自定义 base_url 与自定义模型，附官方两层 CLI 能力对照、社区逆向方案风险与 Aider/OpenCode 等替代推荐 | R:- | A:- | S:-
 
 ===D:/Users/language_projects/docs/plans/===
 01-lark-group-bridge.md[SW5S]: F:lark_group_bridge.py 开发计划：bot 通道发文本/媒体、lark-cli 读消息的接口与错误码设计 | R:code:.scripts/lark_group_bridge.py | A:计划已执行完毕作决策存档 | S:计划内 webhook 必填等旧设计与脚本 v2.0（bot 默认）不一致，以脚本为准
@@ -69,10 +79,17 @@ walkthrough-22-glmquotawatch-tray-icon.md[SG5T]: F:22 号托盘图标计划的 W
 26-script-migration-py-ts.md[SW5M]: F:全仓脚本迁移计划（11 任务已完成）：父仓与 go/python 项目脚本迁 PEP 723 Python，typescript_projects 迁 TS，归档区直译且不测试 | R:code:AGENTS.md,code:README.md | A:已执行完毕并归档；脚本规范或迁移路径调整前先读各任务偏差记录 | S:sourcecount build.ps1 实为已跟踪且已随项目提交；typeai build.py 已补 PEP 723；glmquotawatch-gui 历史提交保留项目前缀；仅按用户明示豁免才做归档区验证
 27-commit-and-push-all-repos.md[SG5T]: F:全仓逐项提交与推送计划（已执行完成）：审查父仓与三个活跃子仓的全部工作区变动，按单项目单主题隔离提交、逐仓推送、父仓 --force 更新指针，连同 46 个本地积压历史提交全量上推 | R:code:docs/plans/walkthrough-27-commit-and-push-all-repos.md,code:AGENTS.md | A:计划已执行完毕作决策存档；含推送范围与 ignore=all 指针注意事项 | S:rust/native 子模块未检出保持不动是计划前置决策
 walkthrough-27-commit-and-push-all-repos.md[SG4S]: F:27 号提交推送计划的 Walkthrough：四仓提交哈希、变更内容、测试验证与推送区间的完整执行清单 | R:code:docs/plans/27-commit-and-push-all-repos.md | A:与 27 号计划配对阅读 | S:-
+28-plansql-tracker.md[SV5M]: F:plansql 实施计划：SQL 追加流+SQLite 投影的 Plan/Spec 状态管理 CLI——纯文本 Append-Only .sql 为 Git 真理源、SQLite 运行时重放投影，含 check/scan/看板/CLI+MCP 双入口与表结构定义 | R:code:plans_status.sql,code:docs/projects/go_projects/CLI 工具开发标准.md | A:- | S:-
+29-zedhub-session-search.md[SD5M]: F:zedhub 会话搜索计划：一期元数据检索（标题/agent/项目/时间/归档）+ daemon 托管本地 Web 检索页（不新增进程不引入前端构建链），二期正文全文检索；Service 层只在 daemon，GUI/CLI/MCP 皆薄客户端 | R:code:docs/projects/python_projects/zedhub/zedhub 对接协议.md | A:- | S:-
+30-douyin-dl-bilibili-support.md[SN4S]: F:douyin_downloader 扩展 B 站下载计划：同命令按域名分流，b23.tv/BV 号归一化，view/playurl API+CDP 读 SESSDATA 登录态取 1080P DASH 流，ffmpeg -c copy 合并，支持多 P；无登录态直接失败提示 --headed 登录 | R:- | A:- | S:-
+31-glmquotawatch-tray-doubleclick-open-dir.md[SU5S]: F:glmquotawatch-gui 计划：托盘双击唤醒置顶主窗（OnDoubleClick→ensureMainWindow），托盘菜单新增「打开 exe 目录」（os.Executable 取目录调 explorer 打开，失败 NotifyError） | R:code:docs/plans/walkthrough-31-glmquotawatch-tray-doubleclick-open-dir.md | A:- | S:菜单项排在「显示主窗」之后「立即采样」之前
+32-commit-all-repos-by-theme.md[SV5M]: F:全仓逐主题提交计划：父仓与 go/python/typescript 三子仓全部改动按「一主题一笔、一笔一范围」拆分推送；含 zedhub 查重改三元组说明、143MB 视频产物排除与 AOCI 遗留记录 | R:code:docs/plans/walkthrough-32-commit-all-repos-by-theme.md | A:- | S:全程禁 git add -A 与 git add .（rust_projects 未检出删除态会被误暂存）；plans/specs 单独成笔
+walkthrough-31-glmquotawatch-tray-doubleclick-open-dir.md[SU4T]: F:Plan 31 执行记录：托盘双击与「打开 exe 目录」落地 internal/guiapp/tray.go，README 交互表同步；go test 全模块通过，生产构建产出 exe | R:code:docs/plans/31-glmquotawatch-tray-doubleclick-open-dir.md | A:- | S:-
+walkthrough-32-commit-all-repos-by-theme.md[SV4M]: F:Plan 32 执行记录：父仓与三子仓改动拆为 32 笔提交全量推送，含各笔哈希清单、zedhub 三元组查重与 --exact 变更说明、父仓 23 笔积压一并上推 | R:code:docs/plans/32-commit-all-repos-by-theme.md | A:- | S:-
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
-CLI 工具开发标准.md[SG9L]: F:跨语言 CLI 工具现行标准 v1.0：业务契约先行、CLI+MCP 双入口、schema 导出、公共核心与验收基线；契约细节主依据 | R:code:docs/projects/go_projects/CLI 工具开发标准 v2.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:新建 CLI/工具类项目或加 MCP/schema 入口前必须完整阅读；v1 与 v2 按任务判断，冲突回 v1 裁决 | S:取代三份旧文档；协议基线 2025-11-25 仅为核对基线，项目须记录实际协议/SDK 版本；v2 出现不代表本文失效
+CLI 工具开发标准.md[SG9L]: F:跨语言 CLI 工具现行标准 v1.0：Service 核心多壳解耦、--json/--schema 三位一体基线、CLI+MCP 双入口、公共核心与验收矩阵；契约细节主依据，v2 探索中不取代本文 | R:code:docs/projects/go_projects/CLI 工具开发标准 v2.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:新建 CLI/工具类项目或加 MCP/schema 入口前必须完整阅读；v1 与 v2 按任务判断，冲突回 v1 裁决 | S:取代三份旧文档；协议基线 2026-07-28（Current 修订版），项目须记录实际协议/SDK 版本；v2 出现不代表本文失效
 MCP 契约为先.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧文档跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施 | S:-
 统一核心与多通道投影指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施 | S:-
 CLI 工具开发标准 v2.md[SG9S]: F:daemon 架构探索标准（非现行）：Service 只进 daemon、HTTP+JSON 唯一契约、CLI/GUI/MCP 薄壳、单二进制双角色、buildID 握手、git tag 发布流 | R:code:docs/projects/go_projects/CLI 工具开发标准.md,code:docs/projects/go_projects/agyquota/specs/02-daemon-architecture/design.md | A:走 daemon 架构的新工具参考；契约细节按 v1，冲突回 v1 裁决 | S:探索迭代中允许修订偏离；自动拉起仅限生产构建（describe 为干净 tag），开发构建一律报错；空闲 30 分钟自动退出并清理地址文件，替代 ollama 式常驻；stdio 只留给 MCP 桥
@@ -81,7 +98,7 @@ go exe 默认图标.md[SV7T]: F:go_projects 产 exe 项目默认配地鼠图标�
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/===
 Go CLI JSON 输出模式参考.md[SO7M]: F:提炼 clictl 的 CLI 骨架 + JSON 输出通用模式：包络出口函数、stdout/stderr 分工、退出码与错误码映射 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:其他 Go CLI 项目直接参考套用，与 clictl 业务无关 | S:管理命令错误 JSON 走 stdout、run 透传前置错误走 stderr，stdout 只属于子进程
 MCP 接口文档.md[SN7M]: F:clictl 的 MCP server 契约：10 个工具、Schema、错误语义与接入方式；第 4 节含 CLI↔MCP 能力对齐总述 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md | A:与 internal/mcp 同源维护，改实现必须同步更新本文档 | S:业务失败返回 isError 而非协议级 error；run 在 MCP 侧为非交互收集，不提供 stdin/PTY 透传；clictl mcp 是 server 启动入口不是工具
-clictl 使用指南.md[SG7S]: F:clictl 使用指南：exe 注册/启动记账工具的命令、run vs start 语义、JSON 包络与退出码 | R:code:docs/projects/go_projects/clictl/MCP 接口文档.md,code:docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql | A:父仓镜像文档，与子仓 README 同步；构建命令为 uv run scripts/build.py | S:PS5.1 管道中文变 ? 是 PS 编码重写所致，--ascii 转义免疫；exit_code=1 是 stop 强杀约定值
+clictl 使用指南.md[SG7S]: F:clictl 使用指南：exe 注册/启动记账工具的命令、run vs start 语义、stop 树杀、cp 复制到指定目录、JSON 包络与退出码 | R:code:docs/projects/go_projects/clictl/MCP 接口文档.md,code:docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql | A:父仓镜像文档，与子仓 README 同步；构建命令为 uv run scripts/build.py | S:PS5.1 管道中文变 ? 是 PS 编码重写所致，--ascii 转义免疫；exit_code=1 是 stop 强杀约定值
 
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/migrations/===
 000_init_v1.0.0.sql[FP6T]: F:clictl 初始表结构存档（tools/launches，WAL+外键） | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:- | S:文档存档不参与运行，建表由 store.go schema 常量执行
@@ -165,7 +182,7 @@ SQLAlchemy Session 生命周期.md[SD7T]: F:SQLAlchemy Session 生命周期：�
 计费补偿与对账.md[SD5T]: F:计费补偿与对账：NUMERIC+Decimal、幂等扣费三步一事务、补偿配对与不可变账本对账 | R:code:docs/projects/python_projects/tech_learning_room/README.md | A:- | S:金额恒正+方向字段分离；补偿自身幂等靠 refund 唯一约束兜底
 
 ===D:/Users/language_projects/docs/projects/python_projects/zedhub/===
-zedhub 对接协议.md[SN7S]: F:zedhub 程序化对接协议：JSON-RPC 2.0 与 MCP 双入口、方法表与 rpc.discover 服务发现 | R:- | A:对接方按协议规范+方法表接入，无需了解私有信封 | S:三端（CLI/RPC/MCP）payload 同源；只读快照、无鉴权、每次调用独立快照
+zedhub 对接协议.md[SN7S]: F:zedhub 对接协议（v2 daemon）：五通道薄壳（CLI/rpc/MCP/Web 检索页/curl）统一走 127.0.0.1:8766 HTTP+JSON+SSE+/ui，WebSocket 学习通道 8765 冻结；地址发现、buildID 握手与自动拉起规则 | R:- | A:对接方按协议规范+方法表接入；机器可读版 zedhub schema | S:三端 payload 同源；只读快照、无鉴权；自动拉起仅生产构建，开发态报错提示先 serve
 
 ===D:/Users/language_projects/docs/projects/rust_projects/minieverything/===
 minieverything 开发笔记.md[SD6T]: F:minieverything 开发笔记：NTFS 目录遍历 + USN Journal 增量的架构、数据结构与踩坑实录 | R:- | A:- | S:目录 ref 映射是 USN 路径解析关键；目录改名需整子树前缀重写且按路径段边界
@@ -199,6 +216,13 @@ agent-session-handoff-research.md[SG5L]: F:跨 agent 会话交接调研：换 ag
 参考-鱼皮-7个神级技巧去AI味.md[SG4M]: F:去 AI 味网页设计技巧离线存档（鱼皮）：AI 味成因分析与七类去味手法（参考真实网站/设计先行/图片/反向提示/技能库/组件库/自主配色） | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/01-de-ai-flavor-ui.md | A:个人离线存档，版权归原作者；做前端去 AI 味改造时参考 | S:核心成因是 AI 求稳选常见配色；破局用强约束变指挥官；含可复用 AGENTS.md 设计规则模板
 源码阅读方法调研.md[SG4M]: F:源代码阅读方法调研（以 archery-mcp 为例）：六问顺序、八阶段工作流（契约→数据流→调用链→分支→验证→回忆）与练习/风险清单 | R:code:docs/plans/17-source-reading-research.md | A:通用技术知识沉淀；阅读陌生代码时按本文路线执行 | S:文档描述≠实际行为；MCP 入口必查 stdout 是否被 print 污染；客户端黑名单不是安全边界
 nosql-vs-rdbms-architecture-research.md[SG7L]: F:NoSQL 与 RDBMS 深度调研：理论基石、事务/一致性、主流引擎分类、选型决策矩阵与 Polyglot Persistence 融合架构 | R:- | A:通用技术调研报告，面向架构师和后端团队；核心论断按学术论文、国际标准及数据库官方文档组织 | S:报告将选型边界建立在 ACID/BASE、CAP/PACELC、查询驱动建模和混合持久化的证据链上；具体引擎能力需以当前官方文档复核
+ai-cli-mcp-local-agent-cli-survey.md[SQ4L]: F:本机 Agent CLI 非交互接口实测盘点：PATH 上 9 个 AI agent CLI（claude/codex/gemini/opencode/kilo/pi/iflow/agy/reasonix）的版本、一次性执行入口、机器可读输出、沙箱白名单、MCP 子命令与会话续接对照表 | R:code:docs/repo/ai-cli-mcp-research.md | A:- | S:-
+ai-cli-mcp-research-verification.md[SQ4M]: F:ai-cli-mcp-research 来源校验报告：70 条来源逐条 GET 复核，69 条一致、1 条机构错挂已修、0 条不可达；5 组关键论据 17 原句逐字命中 | R:code:docs/repo/ai-cli-mcp-research.md | A:- | S:-
+ai-cli-mcp-research.md[SG5L]: F:「未来的一切都是 CLI or MCP」与「Unix 思想焕发新生」一手资料调研：70 条来源全量抓取，结论为全称命题不成立、Unix 要素 3 继承 2 打破 1 无证据；证据分级 A/B/C/D/U 标注 | R:code:docs/repo/ai-cli-mcp-research-verification.md,code:docs/repo/mcp-2026-07-28-delta.md | A:- | S:-
+douyin-ai-philosophy-video-creation-research.md[SZ3M]: F:抖音人文哲学/硬核科普视频创作调研：Remotion+ComfyUI 管线（Claude 出代码、生图仅作纯净背景图）、原爆款作者工程底牌逆向与商业化模型 | R:- | A:- | S:-
+mcp-2026-07-28-delta.md[SN5L]: F:MCP 2026-07-28 相对 2025-11-25 变更清单（规范原文提取）：有状态握手改每请求自描述无状态、MRTR 取代服务器发起请求、resultType 必填、subscriptions/listen 取代 HTTP GET 流、Roots/Sampling/Logging 弃用、tasks 移出核心 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:- | S:-
+media-storage-abuse-research.md[SZ3S]: F:「拿 YouTube 当免费网盘」调研：理论可行但体验极差（3~8 倍体积膨胀、转码等待、API 额度低），ISG/youbit/fvid 等代表项目与账号封禁风险 | R:- | A:- | S:-
+subagent-pipeline-tools-research.md[SQ4M]: F:多 Agent 开发流水线工具调研：无开箱即用五步闭环工具，推荐 Claude Code 原生件（.claude/agents + hooks + headless -p）脚本层自建（约 1~2 天），LLM 只修不判 | R:- | A:- | S:-
 
 ===D:/Users/language_projects/docs/repo/lark_group_bridge/===
 2026-09-20 自言自语存档.html[SG3L]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌逐张图注，支持页内编辑删除后覆盖原文件 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击打开；图片点击放大（Ctrl+滚轮缩放）；侧栏「编辑此页」可删条/删节/改字，保存后序列化覆盖原文件 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文
@@ -230,9 +254,9 @@ tasks.md[SG5T]: F:sh-web-archive 任务清单：6 任务（FSA gate 实证、fet
 02-douyin-fetch-api-source.md[SG4T]: F:douyinnotify 数据源修订计划（已执行）：证伪计划 01 的 DOM 锚点路径（抓到的是页脚推荐流假信号），改为页面内 fetch() 调 /aweme/v1/web/aweme/post/ 取真实作品列表；抓取异常一律抛 FetchError | R:code:docs/projects/python_projects/django-lab/plans/01-douyin-new-video-notify.md | A:已执行；只动 fetcher/detector/cli，CLI/MCP/schema 契约不变 | S:同页 fetch() 可得完整 JSON 而 CDP 取 XHR 恒空体；换源清空 seen 走首检基线
 
 ===D:/Users/language_projects/docs/projects/python_projects/zedhub/specs/01-zed-session-hub/===
-requirements.md[SG6M]: F:zedhub 统一会话中枢需求：Zed 索引 + OpenCode 查询/内容/effort 统计/导出补登迁移，FR-1~10 与 AC-1~17；契约须容纳未来 Pi/Claude/Codex/Antigravity | R:code:docs/projects/python_projects/zedhub/specs/01-zed-session-hub/design.md | A:需求基线；写操作第一阶段仅 CLI + 显式 --apply | S:OpenCode 字段不得未区分定义为通用事实；一侧缺失不伪造另一侧；对外 WS 是只读查询通道不是 Agent 引擎桥接协议
-design.md[SG7L]: F:zedhub 重建设计：agent 数据源注册表、Zed 索引源、OpenCode 只读层、effort 分析（ocstat 移植）、WS 最小只读骨架、写操作安全流水线 | R:code:docs/projects/python_projects/zedhub/specs/01-zed-session-hub/requirements.md | A:实现按本文；含三轮零上下文评审（HIGH/MEDIUM 全清） | S:跨库写不用 ATTACH 假回滚，走 journal+备份+partial/unknown；WS 白名单仅 threads.list/stats 并隔离 ACP 桥接；公共 DTO 不暴露 agent 原始 JSON
-tasks.md[SW6M]: F:zedhub 重建任务清单（Task 1-14，全部未勾选）：骨架、Zed 核心、OpenCode 数据源、API/MCP/RPC、effort、CLI、WS、写安全、归档、schema、测试与发布 | R:code:docs/projects/python_projects/zedhub/specs/01-zed-session-hub/design.md | A:待执行；[test] 任务 12/13 默认跳过 | S:代码与父仓文档须分别提交；核心验证命令 uv sync / uv run pytest / zedhub --help / schema
+requirements.md[SG6L]: F:zedhub 统一会话中枢需求：Zed 索引 + OpenCode 查询/内容/effort 统计/导出补登迁移，daemon 架构 v2 试点，FR 与 AC 全集；契约须容纳未来 Pi/Claude/Codex/Antigravity | R:code:docs/projects/python_projects/zedhub/specs/01-zed-session-hub/design.md | A:需求基线；写操作第一阶段仅 CLI + 显式 --apply | S:OpenCode 字段不得未区分定义为通用事实；一侧缺失不伪造另一侧；对外 WS 是只读查询通道不是 Agent 引擎桥接协议
+design.md[SG7L]: F:zedhub 重建设计：daemon 架构 v2 Python 试点（serve 唯一业务进程，HTTP+JSON 唯一契约）、agent 数据源注册表、Zed 索引源、OpenCode 只读层、effort 分析（ocstat 移植）、WS 一次性学习通道、写操作安全流水线 | R:code:docs/projects/python_projects/zedhub/specs/01-zed-session-hub/requirements.md | A:实现按本文；含三轮零上下文评审（HIGH/MEDIUM 全清） | S:跨库写不用 ATTACH 假回滚，走 journal+备份+partial/unknown；WS 白名单仅 threads.list/stats 并隔离 ACP 桥接；公共 DTO 不暴露 agent 原始 JSON
+tasks.md[SW6L]: F:zedhub 重建任务清单（Task 1-14）：骨架、Zed 核心、OpenCode 数据源、API/MCP/RPC、effort、CLI、WS、写安全、归档、schema、测试与发布；任务 1 骨架已完成勾选 | R:code:docs/projects/python_projects/zedhub/specs/01-zed-session-hub/design.md | A:待执行；[test] 任务 12/13 默认跳过 | S:代码与父仓文档须分别提交；核心验证命令 uv sync / uv run pytest / zedhub --help / schema
 
 ===D:/Users/language_projects/docs/===
 index.md[SG2T]: F:docs 站点入口页：站点定位 + 指向 README 站点用法 + 六大分区导览表（guides/plans/projects/specs/repo/memories） | R:code:mkdocs.yml,code:.scripts/build_docs.py,code:README.md | A:分区导航变化时同步更新导览表 | S:删除本文件站点无首页、根路径 404，AGENTS.md 列为禁删硬规则
@@ -253,6 +277,7 @@ tasks.md[SW5T]: F:agyquota daemon 化任务清单：13 项（契约包/appdata/b
 03-light-ccswitch-theme.md[SU5S]: F:glmquotawatch-gui 浅色产品化改版计划（已实施）：贴近 CC Switch 的浅色+绿主色+圆角卡片，废弃终端暗色风 | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/01-de-ai-flavor-ui.md,code:docs/projects/go_projects/glmquotawatch-gui/plans/02-landscape-window.md | A:UI 现状基准；令牌名保留只换色值；构建走 wails3 build | S:暗色风被用户否决（仍有 AI 味、低对比）；01/02 轮改动未单独提交，本轮合并包含横向化与自适应布局
 04-raycast-linear-style-de-ai.md[SU5T]: F:glmquotawatch-gui Raycast/Linear 质感浅色重构计划：双层阴影、内高光、非对称信息流、精致数字排版 | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/03-light-ccswitch-theme.md,code:docs/projects/go_projects/glmquotawatch-gui/plans/05-dev-prod-isolation-and-build-scripts.md | A:Task 1/5 已完成，Task 2-4（App/卡片/图表设置）待办 | S:纯自研 Tailwind + 内联 SVG 不引外部图标库；禁止蓝紫渐变与对称三卡片、纯平边框
 05-dev-prod-isolation-and-build-scripts.md[SU5T]: F:glmquotawatch-gui 开发/生产隔离计划（已完成）：数据目录 dev/prod 子目录、单例 UniqueID 与窗口标题 [DEV]、双构建脚本 | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/04-raycast-linear-style-de-ai.md | A:开发版严禁开机自启（拦截保护）；build-prod.ps1/build-dev.ps1 产出不同命名 exe | S:数据目录隔离为 glmquotawatch-gui\dev 与 \prod；单例 ID 生产无后缀、开发加 .dev
+06-release-v0.1.0-tag.md[SV4T]: F:glmquotawatch-gui v0.1.0 发布计划：补 .gitignore 忽略 bin/ 与 *.exe~ 后在独立仓库 main 打 annotated tag v0.1.0 并推送；不动二级与父仓指针 | R:- | A:- | S:tag 只打在 glmquotawatch-gui 独立仓库（td-go_projects-glmquotawatch-gui）
 
 ===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/===
 design.md[SG6M]: F:glmquotawatch-gui 设计：Wails v3 + Vue3 前端 + Go 业务核心（api/store/quota/service 自归档移植）+ 托盘常驻；CLI 恒 JSON 壳 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/requirements.md | A:实现按本文；含零上下文评审（1 HIGH/8 MEDIUM 全修复）与 beta 升级必回归 4 项 | S:第二实例须在 application.New() 内退出、先于任何 store 写入；ResetDir 双防线校验；CLI stdout 恒纯 JSON（含 help/version）
@@ -291,8 +316,62 @@ requirements.md[SQ7S]: F:sourcecount 功能需求：按后缀统计文本/二进
 tasks.md[SQ5S]: F:sourcecount 实施任务清单：项目骨架、配置 Glob、扫描统计、公共 Server、CLI/MCP、文档和测试任务 | R:code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/requirements.md,code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md | A:Task 1-7 已完成；Task 8 测试任务按默认执行策略暂未执行 | S:本清单记录实施状态；测试任务保持未勾选，避免把未执行验证宣称为完成
 
 ===D:/Users/language_projects/docs/projects/go_projects/sourcecount/===
-使用指南.md[SQ5S]: F:sourcecount 使用指南：构建、CLI/MCP 调用、JSON 配置、过滤语义、统计口径、错误码和范围限制 | R:code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/requirements.md,code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md | A:面向使用者；构建命令为 uv run scripts/build.py；命令为 sourcecount，MCP 工具为 sourcecount.project.scan，配置按显式路径、当前目录、单根目录顺序发现 | S:无持久化状态；默认排除可关闭，且不解析 .gitignore
+使用指南.md[SQ5S]: F:sourcecount 使用指南：构建（go build + uv run scripts/build.py）、CLI/MCP 调用、JSON 配置、过滤语义、统计口径、错误码和范围限制 | R:code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/requirements.md,code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md | A:面向使用者；构建命令为 uv run scripts/build.py；命令为 sourcecount，MCP 工具为 sourcecount.project.scan，配置按显式路径、当前目录、单根目录顺序发现 | S:无持久化状态；默认排除可关闭，且不解析 .gitignore
 
 ===D:/Users/language_projects/.claude/===
 settings.json[FC2T]: F:Claude Code 项目级配置：plansDirectory 指向 .claude/plans（计划文件目录约定） | R:- | A:- | S:-
+
+===D:/Users/language_projects/.claude/plans/===
+build-uv-run-build-py-prancy-mountain.md[SV3T]: F:历史计划文档：把 4 处构建脚本文档示例统一为默认无参 uv run build.py 形式（clictl、sourcecount 两项目 README 与父仓镜像使用指南），带参用法转注释 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/sourcecount/使用指南.md | A:- | S:-
+staged-inventing-salamander.md[SD4T]: F:zedhub 功能计划：sessions link 增加 claude-code/codex/antigravity 三源会话补登与跨目录挂载（新建 thread_id 沿用 session_id，原目录入口保留），含三源扫描器设计、查重语义与真实验证方案 | R:code:docs/projects/python_projects/zedhub/specs/01-zed-session-hub/tasks.md | A:- | S:opencode 源保持全局 session_id 查重；三源按 (agent_id,session_id,目录) 三元组查重
+
+===D:/Users/language_projects/.scripts/custom_icons/===
+1_dark_pro_blue.svg[FV2T]: F:深蓝鲸鱼图标方案一：暗黑渐变圆角底板配微高光描边，发光科技蓝鲸鱼，融入 Zed/Sublime 开发者风格 | R:code:.scripts/build_custom_icons.py | A:- | S:-
+2_pure_floating_whale.svg[FV2T]: F:深蓝鲸鱼图标方案二：去除底板纯透底，科技蓝渐变鲸鱼放大居中带投影，呼应飞书与 Chrome 轻盈风格 | R:code:.scripts/build_custom_icons.py | A:- | S:-
+3_dark_monochrome.svg[FV2T]: F:深蓝鲸鱼图标方案三：暗黑圆角底板配银白微光鲸鱼，极简黑白金属极客风 | R:code:.scripts/build_custom_icons.py | A:- | S:-
+3_dark_monochrome_centered.svg[FV2T]: F:方案三居中校准版：底板改 988px rx=150 与 Zed 圆角一致，鲸鱼平移至画布正中央并加白色与黑色双层投影 | R:code:.scripts/custom_icons/3_dark_monochrome.svg | A:- | S:-
+3_dark_monochrome_perfect.svg[FV2T]: F:方案三终版：鲸鱼放大 1.16 倍重校视觉重心，底板与圆角同 centered 版，微调光晕参数 | R:code:.scripts/custom_icons/3_dark_monochrome_centered.svg | A:- | S:-
+4_official_deep_blue.svg[FV2T]: F:深蓝鲸鱼图标方案四：DeepSeek 官方深海蓝渐变圆角底板配纯白鲸鱼，官方品牌色 | R:code:.scripts/build_custom_icons.py | A:- | S:-
+
+===D:/Users/language_projects/.scripts/group_avatars/===
+.gitignore[FC2T]: F:忽略群头像生成过程的测试与临时文件（test_* 模式），保留「临时区」群成品 temp_zone_avatar.jpg 与 *_temp_*.png 入库 | R:code:.scripts/group_avatars/README.md | A:- | S:-
+README.md[SU3T]: F:四群头像设计文档：JYY 极客学术徽章风格视觉语言提炼，方案 A 极客绿与方案 B 四色光谱两系列 8 张图文对照，附 preview.html 预览入口与复现命令 | R:code:.scripts/group_avatars/generate_all.py,code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:-
+avatar_engine.py[KU3T]: F:群头像共用绘制引擎：numpy 线性/放射渐变、超采样抗锯齿圆角矩形与 Squircle 遮罩等基础绘图函数，独立运行仅输出自检提示 | R:- | A:导出 hex_to_rgb、linear_gradient、radial_gradient、draw_rounded_rect_mask、draw_squircle_mask | S:-
+compare.html[FU2T]: F:群头像设计对比页：暗色卡片网格并列展示 AI 手绘原版三张与 SVG 复刻版四张，圆形裁切预览 | R:code:.scripts/group_avatars/README.md | A:- | S:-
+generate_all.py[XU3L]: F:一次渲染三套风格×四群共 12 张群头像：style1 暗黑微光科技徽章、style2 极简单字大字徽标、style3 马卡龙极简立体插画，numpy+Pillow 超采样绘制并配中英文字排版 | R:code:.scripts/group_avatars/README.md | A:输出 avatar_style{1,2,3}_{notes,todo,temp,archive}.png 到脚本同目录 | S:硬编码依赖 Windows 系统字体 msyhbd.ttc 与 msyh.ttc 绝对路径
+generate_jyy_style_avatars.py[XU3L]: F:按 JYY 学术徽章风格生成群头像：组装圆徽章 SVG（网格底纹、圆框眼镜人物、试剂瓶、红绿灯终端窗、机器人、虚线工作流闭环），写透明底 HTML 后调 Chrome headless 截图 1024 PNG | R:code:.scripts/group_avatars/README.md,code:.scripts/group_avatars/jyy_notes_green.html | A:输出极客绿 4 张与四色光谱 4 张（jyy_*_green、spectrum_* 前缀）HTML+PNG | S:硬编码 Chrome 绝对路径；纯标准库无第三方依赖
+jyy_archive_green.html[FU2M]: F:归档区 JYY 徽章渲染中间产物：透明底 HTML 内嵌 1024 SVG（Store 试剂瓶、Clean->Zip->Archive 终端、archive 手写签名、绿色徽章），供 Chrome headless 截图 | R:code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:由生成脚本重渲染覆盖，勿手工编辑
+jyy_notes_green.html[FU2M]: F:随笔记 JYY 徽章渲染中间产物：透明底 HTML 内嵌 1024 SVG（Idea 试剂瓶、Notes->Memo->Ideas 终端、notes 手写签名、绿色徽章），供 Chrome headless 截图 | R:code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:由生成脚本重渲染覆盖，勿手工编辑
+jyy_temp_green.html[FU2M]: F:临时区 JYY 徽章渲染中间产物：透明底 HTML 内嵌 1024 SVG（Buffer 试剂瓶、Transit->Buffer->Fly 终端、transit 签名、绿色徽章），供 Chrome 截图 | R:code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:由生成脚本重渲染覆盖，勿手工编辑
+jyy_todo_green.html[FU2M]: F:待办项 JYY 徽章渲染中间产物：透明底 HTML 内嵌 1024 SVG（Focus 试剂瓶、Task->Priority->Done 终端、todo 签名、绿色徽章），供 Chrome 截图 | R:code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:由生成脚本重渲染覆盖，勿手工编辑
+make_compare.py[XU2T]: F:生成 compare.html 对比页：把 AI 手绘原版三张与 SVG 复刻版四张并排卡片展示，按文件存在性过滤 | R:code:.scripts/group_avatars/compare.html | A:- | S:-
+preview.html[FU3M]: F:四群头像预览工坊页：暗色主题分风格展区展示两系列 8 张成品，支持圆形/方形裁切切换与 48px 小头像模拟（微信/飞书列表真实效果） | R:code:.scripts/group_avatars/README.md | A:- | S:-
+spectrum_archive_blue.html[FU2M]: F:归档区四色光谱徽章渲染中间产物：透明底 HTML 内嵌 1024 SVG，深海蓝主色（Store 试剂瓶、Clean->Zip->Archive 终端），供 Chrome 截图 | R:code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:由生成脚本重渲染覆盖，勿手工编辑
+spectrum_notes_amber.html[FU2M]: F:随笔记四色光谱徽章渲染中间产物：透明底 HTML 内嵌 1024 SVG，琥珀金主色（Idea 试剂瓶、Notes->Memo->Ideas 终端），供 Chrome 截图 | R:code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:由生成脚本重渲染覆盖，勿手工编辑
+spectrum_temp_purple.html[FU2M]: F:临时区四色光谱徽章渲染中间产物：透明底 HTML 内嵌 1024 SVG，幻彩电紫主色（Buffer 试剂瓶、Transit->Buffer->Fly 终端），供 Chrome 截图 | R:code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:由生成脚本重渲染覆盖，勿手工编辑
+spectrum_todo_green.html[FU2M]: F:待办项四色光谱徽章渲染中间产物：透明底 HTML 内嵌 1024 SVG，极光青绿主色（Focus 试剂瓶、Task->Priority->Done 终端），供 Chrome 截图 | R:code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:由生成脚本重渲染覆盖，勿手工编辑
+
+===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/===
+design.md[SU7L]: F:glmquotawatch-gui Fyne 重写设计：guiapp 换 Fyne v2.8.1 纯 Go 单进程（无 WebView2），托盘/Toast 直调/单实例命名事件/自启 HKCU 直写/自绘折线图落位，含已核实的 Fyne API 对照表 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/requirements.md | A:- | S:后台 goroutine 更新 UI 必须经 fyne.Do；关窗用 SetCloseIntercept 拦截后 Hide 不退出
+requirements.md[SU7S]: F:glmquotawatch-gui Fyne 重写需求：GUI 层从 Wails v3+Vue3 原地重写为纯 Go Fyne，业务核心五包复用不动，功能语义与 AC-1~12 平移，新增单进程无 WebView2 依赖 FR-13 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/design.md | A:- | S:Fyne 无托盘 tooltip API，状态语义改由托盘菜单首项禁用状态行动态文本承载
+tasks.md[SW6T]: F:glmquotawatch-gui Fyne 重写任务清单：依赖准备、字体子集、通知与单实例、自启注册表直写、guiapp 整包置换至恢复整仓构建 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/design.md | A:- | S:任务 2-8 属 guiapp 整包置换，组内中间态该包不可编译，按序推进至任务 9 恢复
+
+===D:/Users/language_projects/docs/projects/go_projects/plansql/===
+设计说明.md[SV4T]: F:plansql 设计说明：Append-Only 纯文本 SQL 为真理层、内存 SQLite 投影（modernc 零 CGO）、daemon 挂 HTTP+JSON API 与内嵌看板、CLI/MCP/Web 三薄客户端 | R:code:docs/plans/28-plansql-tracker.md,code:plans_status.sql | A:- | S:-
+
+===D:/Users/language_projects/docs/projects/python_projects/douyin_downloader/specs/01-zhihu-article-extract/===
+design.md[SW4S]: F:知乎文章提取设计：douyin_dl 新增知乎链路——CDP 校验 z_c0 登录门、页面导航等待正文容器、JS 返回 innerHTML、bs4 清洗、html2text 转 Markdown、原图下载本地化；与抖音/B 站四分类并行 | R:code:docs/projects/python_projects/douyin_downloader/specs/01-zhihu-article-extract/requirements.md | A:- | S:匿名直连 zhihu.com 实测 403，纯 HTTP 抓取不可行；z_c0 为 HttpOnly 只能 CDP 读
+requirements.md[SW4T]: F:知乎文章提取需求：FR-1~9 覆盖链接四分类、URL 归一化、登录门、页面提取、原图下载（失败不致命）、Markdown 组装、契约同步升 2.5.0 | R:code:docs/projects/python_projects/douyin_downloader/specs/01-zhihu-article-extract/design.md | A:- | S:-
+tasks.md[SW4T]: F:知乎提取任务清单（已全部完成）：基础设施扩展、Service 函数族与四分类接线、编排登录门落盘、打包实测；附 4 个实测校准结论（无图文章建目录、滚动超时、标题前缀、强调标记空格） | R:code:docs/projects/python_projects/douyin_downloader/specs/01-zhihu-article-extract/design.md | A:- | S:-
+
+===D:/Users/language_projects/docs/projects/python_projects/===
+python exe 默认图标.md[SV5T]: F:python_projects exe 默认图标规范：打包 exe 未指定图标时默认配 Python 双蛇标志——Nuitka --windows-icon-from-ico 以绝对路径引用父仓 python-default.ico，无需复制进项目目录 | R:code:.scripts/gen_python_logo.py,code:AGENTS.md | A:触发：python_projects 下项目打包 exe 且用户未提图标；豁免：明确指定其他图标/明确不要/非 Windows | S:与 Go 侧不同：构建期一次性写进 PE 资源，不要求 .syso 放主包目录
+
+===D:/Users/language_projects/docs/projects/typescript_projects/gemini-launcher/plans/===
+01-dynamic-hotkey.md[SU4T]: F:gemini-launcher 计划：host 动态读 Chrome Local State 的 glic.launcher_hotkey（mtime 缓存）替代硬编码 Alt+G，解析失败/超范围回退 Alt+G，扩展侧 tooltip 展示生效热键 | R:- | A:- | S:热键为 Chromium accelerator 记法；Local State 落盘约 10s 时滞，按次读取+mtime 缓存即可
+
+===D:/Users/language_projects/docs/specs/02-nginx-ai-proxy/===
+design.md[SN5M]: F:nginx-ai-proxy 设计：系统裸跑 Nginx + Go 单二进制 aiproxy 编排（keygen/init/渲染 nginx.conf/reload/RSS 监控），总内存 5~10MB 不影响同机饥荒游戏服；含客户端-代理-智谱三级架构图 | R:code:docs/specs/02-nginx-ai-proxy/requirements.md | A:- | S:-
+requirements.md[SN5T]: F:nginx-ai-proxy 需求：go_projects 二级子模块，裸跑系统 Nginx 反代智谱 GLM（8088 端口、虚拟 Key 鉴权、注入真实凭证、SSE 零缓冲），Go CLI aiproxy 管理，整合 nanocode 客户端 | R:code:docs/specs/02-nginx-ai-proxy/design.md | A:- | S:-
+tasks.md[SW5T]: F:nginx-ai-proxy 任务清单（未开始）：子模块骨架、Nginx 配置模板、aiproxy 核心包（config/nginx/tester）、nanocode 客户端整合与验证 | R:code:docs/specs/02-nginx-ai-proxy/design.md | A:- | S:-
 

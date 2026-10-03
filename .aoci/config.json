@@ -71,6 +71,39 @@
         "created_by": "user:shihao-hub",
         "order": 0,
         "enabled": true
+      },
+      {
+        "rule_id": "proj-scripts-binicons-excluded",
+        "action": "exclude",
+        "pattern": ".scripts/**/*.ico",
+        "pattern_kind": "glob",
+        "reason": ".scripts 生成的二进制图标产物无文本语义可写 Entry",
+        "source": "user",
+        "created_by": "agent:opencode",
+        "order": 0,
+        "enabled": true
+      },
+      {
+        "rule_id": "proj-scripts-binjpg-excluded",
+        "action": "exclude",
+        "pattern": ".scripts/**/*.jpg",
+        "pattern_kind": "glob",
+        "reason": ".scripts 生成的二进制照片产物无文本语义可写 Entry",
+        "source": "user",
+        "created_by": "agent:opencode",
+        "order": 0,
+        "enabled": true
+      },
+      {
+        "rule_id": "proj-scripts-binpng-excluded",
+        "action": "exclude",
+        "pattern": ".scripts/**/*.png",
+        "pattern_kind": "glob",
+        "reason": ".scripts 生成的二进制图片产物无文本语义可写 Entry",
+        "source": "user",
+        "created_by": "agent:opencode",
+        "order": 0,
+        "enabled": true
       }
     ]
   },

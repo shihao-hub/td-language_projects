@@ -1,135 +1,293 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-09-27T08:56:16Z",
+  "updated_at": "2026-10-03T14:29:18Z",
   "files": {
+    ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
+      "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
+      "size": 2263,
+      "normalized_sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38"
+    },
+    ".claude/plans/staged-inventing-salamander.md": {
+      "sha256": "ea9a7a1b117732936f68f5910bd8b68c1ea2b1313e9516ae3b2d27b963890a20",
+      "size": 5015,
+      "normalized_sha256": "ea9a7a1b117732936f68f5910bd8b68c1ea2b1313e9516ae3b2d27b963890a20"
+    },
     ".claude/settings.json": {
+      "role": "index",
       "sha256": "63ae84904cdf84f830b61fb1031cf2986d15b5f0f1ec520aa88fdcfbf4a24aa2",
       "size": 45,
       "normalized_sha256": "b20e015c58d6c2ba70e74f56aab80263f540e42058c420544620d00bd71e5615"
     },
     ".gitattributes": {
+      "role": "index",
       "sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476",
       "size": 291,
       "normalized_sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476"
     },
     ".gitignore": {
-      "sha256": "96596deb15d333297a69235efa0551bfa039e87d965c41d68302ce8905292fa7",
-      "size": 322,
-      "normalized_sha256": "96596deb15d333297a69235efa0551bfa039e87d965c41d68302ce8905292fa7"
+      "sha256": "4c2bde3f0b3d115033d3b304f59205ecf76d5755634cf475bfc7540807de5fef",
+      "size": 372,
+      "normalized_sha256": "4c2bde3f0b3d115033d3b304f59205ecf76d5755634cf475bfc7540807de5fef"
     },
     ".gitmodules": {
+      "role": "index",
       "sha256": "e8454d964b2ab99d3114bea011dbb4cf1557b36ec3ac9ce67ac8eed7d93b6dcc",
       "size": 713,
       "normalized_sha256": "38031dc6b6a67c94ff18d8c8014fd261a0d97cd5353d311eae18e8b056cb58b7"
     },
+    ".scripts/build_custom_icons.py": {
+      "sha256": "b16fc7fa5595ba67ff8db5b74622f4415d28ed517288c780ecfe005f14cb9edb",
+      "size": 7779,
+      "normalized_sha256": "9af9c7849a3f2ab7c0fda15071ef48df10e0b4bed3b389dd27eb7c0c5cc40469"
+    },
     ".scripts/build_docs.py": {
+      "role": "index",
       "sha256": "43cc3fab9294a8ed233caec89742cef02b5d09dcf3b65729c0947d2889869dd8",
       "size": 3578,
       "normalized_sha256": "43cc3fab9294a8ed233caec89742cef02b5d09dcf3b65729c0947d2889869dd8"
     },
-    ".scripts/check-agy-upstream.ps1": {
-      "sha256": "17e029f64dd9ddf27fbcf302a9bfcb1b1d9d5921fccc03eb519ef0e934da3414",
-      "size": 4469,
-      "normalized_sha256": "17e029f64dd9ddf27fbcf302a9bfcb1b1d9d5921fccc03eb519ef0e934da3414"
+    ".scripts/calc_crap.py": {
+      "sha256": "42ab8232c32536ec98f2ab582a34bb9f9c0d3a7dfe9bcedd5d895830f212a739",
+      "size": 5746,
+      "normalized_sha256": "10a0aa42358a202a60b5cfc4594806cb38f1327213146d078d870f86701b896c"
     },
     ".scripts/check-agy-upstream.py": {
+      "role": "index",
       "sha256": "623a772f37e61c00108263dc85fcef6277f020623c42192235f3966e9f1f0927",
       "size": 6402,
       "normalized_sha256": "623a772f37e61c00108263dc85fcef6277f020623c42192235f3966e9f1f0927"
     },
-    ".scripts/docs-preview.bat": {
-      "sha256": "84113899c011ae8284a7dd7dae1504a96c30cfa735e8e3f50433845c15ac9afb",
-      "size": 70,
-      "normalized_sha256": "84113899c011ae8284a7dd7dae1504a96c30cfa735e8e3f50433845c15ac9afb"
+    ".scripts/custom_icons/1_dark_pro_blue.svg": {
+      "sha256": "56ab7b2a6110f9e6e3375a6eb7561e9af3fe922bf7fc681a1fdacfd0bdd70654",
+      "size": 4938,
+      "normalized_sha256": "95bd5112661013f39b8757eb0783bb90d9cf22785d199ccd62fc696d0cf40a2f"
     },
-    ".scripts/docs-serve.bat": {
-      "sha256": "a08e27d2353754e8aa1948bd00e728456d3e5b42c686edecb6cdaaadf5776b12",
-      "size": 68,
-      "normalized_sha256": "a08e27d2353754e8aa1948bd00e728456d3e5b42c686edecb6cdaaadf5776b12"
+    ".scripts/custom_icons/2_pure_floating_whale.svg": {
+      "sha256": "cc20abed52dcdc61ff0a2261fde9b964ea557c2a286d5512f80574f4343fae4b",
+      "size": 4255,
+      "normalized_sha256": "2a1590c8710e4934b7fc49e4133ecde4e317be26729b9481aa2d476333e46a09"
+    },
+    ".scripts/custom_icons/3_dark_monochrome.svg": {
+      "sha256": "3d9c3019336fcbdfbbc431e5f86acb1234d6bb25cd99b50777932ed4c440d14d",
+      "size": 4506,
+      "normalized_sha256": "41ecd3ed75ac852db7020de9f1cfa2f2788b5c3997732751a7dfe1e9f52c45ae"
+    },
+    ".scripts/custom_icons/3_dark_monochrome_centered.svg": {
+      "sha256": "8049920baf3c727913ede0393191029c7b2aedbabede23dbab8557631257e941",
+      "size": 4809,
+      "normalized_sha256": "3f24986b42f2abf7828ac3312c39812b7620f1d361626baad66c56fb6e0d34c8"
+    },
+    ".scripts/custom_icons/3_dark_monochrome_perfect.svg": {
+      "sha256": "f00300495d246c41d477c5199d69d33fc3bc048c662fec88413b29541dd9fff3",
+      "size": 4864,
+      "normalized_sha256": "d1bec19aa020b0254de597c42bb0b8841d2a160da8299d59ce44e18caed2b923"
+    },
+    ".scripts/custom_icons/4_official_deep_blue.svg": {
+      "sha256": "6390de9f8f42a82864b8cf47d0f74b88025f9f5727f1b7cccb7a19286cf2880f",
+      "size": 4301,
+      "normalized_sha256": "18ad687e327ff77263e232e84f88b927bc3ab4aad42b06b900b8b6d5e5cc2a7a"
     },
     ".scripts/gen_icon.py": {
+      "role": "index",
       "sha256": "a498e15f407f8789a37e78cd9ebe86ed92a55c9a86b0bd0bda07bdacbd439546",
       "size": 1606,
       "normalized_sha256": "a498e15f407f8789a37e78cd9ebe86ed92a55c9a86b0bd0bda07bdacbd439546"
     },
-    ".scripts/init-submodules.ps1": {
-      "sha256": "158293d4cf655c67487d9cc9159b31605e686a986ab6fd8a49ca4e84e56818d9",
-      "size": 1397,
-      "normalized_sha256": "158293d4cf655c67487d9cc9159b31605e686a986ab6fd8a49ca4e84e56818d9"
+    ".scripts/gen_python_logo.py": {
+      "sha256": "9890d5e996e3702f93f460339c8050868f39dcd7e43a69f3059d5497e7b84790",
+      "size": 5835,
+      "normalized_sha256": "9890d5e996e3702f93f460339c8050868f39dcd7e43a69f3059d5497e7b84790"
+    },
+    ".scripts/group_avatars/.gitignore": {
+      "sha256": "687013fb05b8e03e1ef7c91423fd50ba9351aeaf286b50f157c8b97b8ad38b09",
+      "size": 186,
+      "normalized_sha256": "687013fb05b8e03e1ef7c91423fd50ba9351aeaf286b50f157c8b97b8ad38b09"
+    },
+    ".scripts/group_avatars/README.md": {
+      "sha256": "c89b47b3383c75f90a22696a5d1620355399ccd6b5bd5bbac8d82b7d081dbd4a",
+      "size": 3835,
+      "normalized_sha256": "a335fe537b97a9daaf6caff4e3190a7ccc3d123f1403aeff92599ec4b00d5768"
+    },
+    ".scripts/group_avatars/avatar_engine.py": {
+      "sha256": "506265b2afc388d1999a33b28a593174391d3f699a3226a4ea40ec9479d9f868",
+      "size": 2939,
+      "normalized_sha256": "bde0d7ebcb9d9258cad177efd16a1da6b1b5ac52352bf7532da411337e6fd7bf"
+    },
+    ".scripts/group_avatars/compare.html": {
+      "sha256": "719c7feb96d81d9929465c5e83e0db1500414ef82c6d035e360258159cb49619",
+      "size": 2258,
+      "normalized_sha256": "eb0de7e8777672ee9990455c039591224d316a899d1bf8493cf3479581adadeb"
+    },
+    ".scripts/group_avatars/generate_all.py": {
+      "sha256": "c7ea55c2faefa236ab9e090af16efcc3e734cc3cdba41ca28174e0ebd68ea358",
+      "size": 18937,
+      "normalized_sha256": "73f9a36af1f8c3d82c79815f5ab6fa5e149934be6e2a5a9a75f858036610cbad"
+    },
+    ".scripts/group_avatars/generate_jyy_style_avatars.py": {
+      "sha256": "07669de52b6d2a890fee511cda4c735250d9eae48d9f8ac9a3f9566eff8a0c40",
+      "size": 26928,
+      "normalized_sha256": "427c33a112a048be9cb2a501a966a6d784c278a902c8886fa1a6a166c4eb2fa7"
+    },
+    ".scripts/group_avatars/jyy_archive_green.html": {
+      "sha256": "30a5c9bf31e6af7ed03f85cd44f2561b4d142c7620a00b65fd6ccb3d71bb1f17",
+      "size": 17099,
+      "normalized_sha256": "51c8126827ab9b79844918c422218b963adaac1f8f74ba9734c33c1a2c291077"
+    },
+    ".scripts/group_avatars/jyy_notes_green.html": {
+      "sha256": "ba1660a95ee4ded284ca387f6c4934a69b418baf6848ec7d52752319326cef2c",
+      "size": 17111,
+      "normalized_sha256": "404a34092aa5f92f78d1d50e3381bbb0e0e7eba7708ee1c2f514592b5a84e68a"
+    },
+    ".scripts/group_avatars/jyy_temp_green.html": {
+      "sha256": "2ae87327dbe7757f0185f45c7bb2fc33efb361238c8994c880cc85a96e4f8d53",
+      "size": 17107,
+      "normalized_sha256": "1f5980f4938592bdfd2e03a4ed54aaf764d6661d46d159a043d9725df670c0d4"
+    },
+    ".scripts/group_avatars/jyy_todo_green.html": {
+      "sha256": "f7d9e4aff274299cf6df055560b69e4cdd7ff122595f333c0203832cc2fc802c",
+      "size": 17097,
+      "normalized_sha256": "9ca77ef9660a576817c4743d6072055f2954e8df7b09e508c94589149b9b8134"
+    },
+    ".scripts/group_avatars/make_compare.py": {
+      "sha256": "3056045416576f63866a372c19f23c4d0adfa16dec96b3b390cebd1da1ec71cb",
+      "size": 1862,
+      "normalized_sha256": "224501e6dd83c61e219ee890c4e5b3205df7e039ab530aebef6ebddbdf338872"
+    },
+    ".scripts/group_avatars/preview.html": {
+      "sha256": "97a1afc7af871cc1842ce58f38422917e098ef3ab6515dbf4afd6e210da7a834",
+      "size": 12120,
+      "normalized_sha256": "0768d29bff32668dc2d3a7b725be29eb972bdf1440d83af2266a2d8b63fd35ec"
+    },
+    ".scripts/group_avatars/spectrum_archive_blue.html": {
+      "sha256": "680d92d241fa0a7f6806a70f35321e5401b649d0c614fc73d6f106fd216ac1be",
+      "size": 17099,
+      "normalized_sha256": "38b13775a8ddb1ff4f78a3ed0c39810ad7dca2d3977f3fe4282c1544da3b17b4"
+    },
+    ".scripts/group_avatars/spectrum_notes_amber.html": {
+      "sha256": "311e5ddb9523c8c36db48d03c03ddbed0d1bb80f9567c77bcba74c25da9224c4",
+      "size": 17111,
+      "normalized_sha256": "d42e26c20c9514dccf099ec55f7e37d8224ead713faa4f76a4985f344cc83299"
+    },
+    ".scripts/group_avatars/spectrum_temp_purple.html": {
+      "sha256": "05dfaff49bef7a5800874f063d357eb91da276c2be7991280ed83aa64e9f4b21",
+      "size": 17107,
+      "normalized_sha256": "c3db56ee478ebf6d631d4a03ce4d5cdf27a1d9f3e97de487a3da3da48fe37e8b"
+    },
+    ".scripts/group_avatars/spectrum_todo_green.html": {
+      "sha256": "f7d9e4aff274299cf6df055560b69e4cdd7ff122595f333c0203832cc2fc802c",
+      "size": 17097,
+      "normalized_sha256": "9ca77ef9660a576817c4743d6072055f2954e8df7b09e508c94589149b9b8134"
+    },
+    ".scripts/group_avatars/test_chrome.py": {
+      "role": "observe",
+      "sha256": "e3d13fb622e0773bf1a4fc000589114a99759af67fa3055a79c82347b21c9cd3",
+      "size": 1314,
+      "normalized_sha256": "1b040dff7d40cc6cebadb81aca559958fd729a640901b706061965a374219272"
+    },
+    ".scripts/group_avatars/test_script.py": {
+      "role": "observe",
+      "sha256": "93d86f249d58699de56731dbae73e38b255e48a931defc0a48d578811f4e256e",
+      "size": 820,
+      "normalized_sha256": "7f4f999c592c6f5e5e40ca913a3404f85d71521d537a1c926a5fb5068a0c04c5"
     },
     ".scripts/init-submodules.py": {
+      "role": "index",
       "sha256": "4148b2189b3122f7fddf73fce8ddd520b84a26219d704d7d39fb4fdff0da81df",
       "size": 2854,
       "normalized_sha256": "4148b2189b3122f7fddf73fce8ddd520b84a26219d704d7d39fb4fdff0da81df"
     },
     ".scripts/install_tool.py": {
+      "role": "index",
       "sha256": "2a34fcd8ff333197da8f75418af1e154b19f08af0ba51e306e975a72697bce71",
       "size": 3655,
       "normalized_sha256": "2a34fcd8ff333197da8f75418af1e154b19f08af0ba51e306e975a72697bce71"
     },
     ".scripts/lark_group_bridge.py": {
+      "role": "index",
       "sha256": "d31f1dc8cba7d718f95cf017bd7255e0b011ee2c84b121ba69d3059bc1da02c3",
       "size": 23536,
       "normalized_sha256": "d31f1dc8cba7d718f95cf017bd7255e0b011ee2c84b121ba69d3059bc1da02c3"
     },
-    ".scripts/submodule-toggle.ps1": {
-      "sha256": "7d33ffa3640472031e63228a4dbb540c6541a80a7c15431f698d468264018f36",
-      "size": 19168,
-      "normalized_sha256": "7d33ffa3640472031e63228a4dbb540c6541a80a7c15431f698d468264018f36"
+    ".scripts/link-submodule-agents.py": {
+      "sha256": "c6e77afc45a356150b990a00c3ba6220a3262b760933ddcb3f6cb393f5890460",
+      "size": 10671,
+      "normalized_sha256": "eb05bc4b591a8bc088cac2ac6af8d7ea998da2bfb239c8a62a040b63435507ba"
+    },
+    ".scripts/patch_deepseek_harness_icon.py": {
+      "sha256": "aac4c776f3536b6905ebb6b2e2fa7c61450314aeb742582ae1783f57d50bee3c",
+      "size": 17641,
+      "normalized_sha256": "46321f7f6adfac3a60f45580e971f795be83dd1e8fda55dd0e0ec8ccb8b11cbb"
+    },
+    ".scripts/perfect_dark_icon.py": {
+      "sha256": "321f9404a90a4b91a8ff6704dde4be101fde7ec0c8c62b3a3d786f8372a698f0",
+      "size": 3545,
+      "normalized_sha256": "64acf8a20508e201293f59ac21463a58447805f4b92283494b13c8f97fcc2668"
     },
     ".scripts/submodule-toggle.py": {
+      "role": "index",
       "sha256": "485a421f1aca6891a4944d4cacd1903a1b61e49df01a3f4736fc2ddefb01979c",
       "size": 17484,
       "normalized_sha256": "485a421f1aca6891a4944d4cacd1903a1b61e49df01a3f4736fc2ddefb01979c"
     },
     ".zed/extensions.toml": {
+      "role": "index",
       "sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da",
       "size": 969,
       "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "90547721162784e6039685a564a0974c43a42539c024124bdc64364076b121f9",
-      "size": 4309,
-      "normalized_sha256": "90547721162784e6039685a564a0974c43a42539c024124bdc64364076b121f9"
+      "sha256": "ad04b07e88afeb6fc05b8f7948414cb87aff8d7ceabae9a4cf8124f833dde729",
+      "size": 4633,
+      "normalized_sha256": "ad04b07e88afeb6fc05b8f7948414cb87aff8d7ceabae9a4cf8124f833dde729"
+    },
+    ".zed/tasks.json": {
+      "sha256": "feb651bf25b0f8d96125178edca7cfacd2c7c5fe8c0835d8f91ec3f06f00986b",
+      "size": 1104,
+      "normalized_sha256": "068af2746b8cf6c1e8ccf6d2d9c1459bb9e28b94432e9478265ee2f804b6e008"
     },
     "AGENTS.md": {
-      "sha256": "13690dea13d41bbfb89626c489632e52323f90efbe673e39e7f5b0a7bb010fae",
-      "size": 32685,
-      "normalized_sha256": "bcedadce29cd6aed5c2c63c31b351aa0b92f55fd07637809c03103983981b272"
+      "sha256": "b2392f8b4aec4e3e96b4bd2aaeeee3b172613b2dca7bcf901510636ea4939b95",
+      "size": 20263,
+      "normalized_sha256": "49d548a147b8a1f5c2e2567ba0c01ceacf8c7592dc31b98fc1f69517875a7ea1"
     },
     "CLAUDE.md": {
+      "role": "index",
       "sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55",
       "size": 10,
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "MONOREPO.md": {
-      "sha256": "7d5f5a1fb3d9cbbc6fd721d9b71104c1a5d026a8adaa51c1479f929ee5062060",
-      "size": 8540,
-      "normalized_sha256": "7d5f5a1fb3d9cbbc6fd721d9b71104c1a5d026a8adaa51c1479f929ee5062060"
+      "sha256": "f31f030902bcad22be9fd2a26680096414a604356aea71db85ef06585f93aa24",
+      "size": 8546,
+      "normalized_sha256": "f31f030902bcad22be9fd2a26680096414a604356aea71db85ef06585f93aa24"
     },
     "NOTES.md": {
+      "role": "index",
       "sha256": "f604be67040c0f8d13f7b2129254b9b89be557736e2ecd883c5c0c3c84c2abbd",
       "size": 297,
       "normalized_sha256": "896759d898eb1a8a8abcecebba0b90bf8f8b549d167dee49fd9dcc2a2831a7fc"
     },
     "README.md": {
+      "role": "index",
       "sha256": "b77e4eaf2350604715f28ef67e8a9f42ac071a2cbfb3dfe684c552097ab9d970",
       "size": 7568,
       "normalized_sha256": "770a037ef87895cd7171bb8a8a28eb6241fed43a2f28aba3df24136cd11967e8"
     },
     "SPEC-AGENT.md": {
+      "role": "index",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "SPEC-HUMAN.md": {
+      "role": "index",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "d4db08dfd285caf53e4c24db516f8a57ec9e2a10d3dc570cf90a0565cc135837",
-      "size": 82976,
-      "normalized_sha256": "d4db08dfd285caf53e4c24db516f8a57ec9e2a10d3dc570cf90a0565cc135837"
+      "sha256": "1cf869d6a48f55c32b9afc33f3ab84709287e45798c58dcac75a1720e272abfc",
+      "size": 104444,
+      "normalized_sha256": "1cf869d6a48f55c32b9afc33f3ab84709287e45798c58dcac75a1720e272abfc"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -137,941 +295,1191 @@
       "size": 2199,
       "normalized_sha256": "8508a315a09be5e3c75491b68c51ab5e2cdd26cca61588be21a19cea2941d674"
     },
+    "aoci.repository.cognition.md": {
+      "sha256": "f86d9b8567e438985a465d661c0c5efceb8d6eab06a0c29be0695717d6e5e1d1",
+      "size": 15927,
+      "normalized_sha256": "0be5e29be3a929457f3eeefce3d87bf7d8f99a810801661bdf3797208de73ece"
+    },
     "aoci.txt": {
       "role": "index",
       "sha256": "362ad899023326b8bc743865ed8710ec103b1408aaf304e9037b7e7e61425d91",
       "size": 306,
       "normalized_sha256": "362ad899023326b8bc743865ed8710ec103b1408aaf304e9037b7e7e61425d91"
     },
-    "docs/guides/GUIDE-AOCI-SETUP.md": {
-      "sha256": "47ea048d6b7d1cae73da383257c735631be867e6d773373836aeab9a8ca5f4d4",
-      "size": 8527,
-      "normalized_sha256": "47ea048d6b7d1cae73da383257c735631be867e6d773373836aeab9a8ca5f4d4"
-    },
     "docs/guides/GUIDE-AOCI安装配置.md": {
+      "role": "index",
       "sha256": "1e356e2f148aebc45d2f65cbc3cd4ea7198126188828d77198e019679b684ffb",
       "size": 8533,
       "normalized_sha256": "1e356e2f148aebc45d2f65cbc3cd4ea7198126188828d77198e019679b684ffb"
     },
-    "docs/guides/GUIDE-ARCHIVE.md": {
-      "sha256": "8dca1d37df5830a97a3be8b7765f1f50c2b16c551af04cf3d5d2f5f96b796a85",
-      "size": 8466,
-      "normalized_sha256": "8dca1d37df5830a97a3be8b7765f1f50c2b16c551af04cf3d5d2f5f96b796a85"
-    },
-    "docs/guides/GUIDE-DOCS-RENAME.md": {
-      "sha256": "7fd6b47ccbb9974e272b1691bd12801188c94155e6bccb82b7149c2e0076f709",
-      "size": 4301,
-      "normalized_sha256": "7fd6b47ccbb9974e272b1691bd12801188c94155e6bccb82b7149c2e0076f709"
-    },
-    "docs/guides/GUIDE-INVENTORY.md": {
-      "sha256": "0b9011bb938fb8514812a01188cc0ae6ab858232ee7d9f50fec7551a2d70017f",
-      "size": 7044,
-      "normalized_sha256": "0b9011bb938fb8514812a01188cc0ae6ab858232ee7d9f50fec7551a2d70017f"
-    },
-    "docs/guides/GUIDE-LLM-PROVIDER-COMPAT.md": {
-      "sha256": "4eabecd64cb8dd51790519c457eeaa9f8313a12f963d9a2970d6347ca30641c5",
-      "size": 12773,
-      "normalized_sha256": "4eabecd64cb8dd51790519c457eeaa9f8313a12f963d9a2970d6347ca30641c5"
+    "docs/guides/GUIDE-Cursor-CLI配置与模型支持调研.md": {
+      "sha256": "e5afa932094aaf1c11ae8b9d86a848b4f902937eec4ac0df28332b41819ba40f",
+      "size": 3893,
+      "normalized_sha256": "31b4619cb606fe0167fa3362c78c97ae9bb05155195c9ba217f6174dd16a1790"
     },
     "docs/guides/GUIDE-LLM兼容接入.md": {
+      "role": "index",
       "sha256": "4eabecd64cb8dd51790519c457eeaa9f8313a12f963d9a2970d6347ca30641c5",
       "size": 12773,
       "normalized_sha256": "4eabecd64cb8dd51790519c457eeaa9f8313a12f963d9a2970d6347ca30641c5"
     },
-    "docs/guides/GUIDE-MCP-INSPECTOR.md": {
-      "sha256": "e9f1092ada1ec6b558f69a1a7a7fa286bdd0c18f782d12b1ee0a868f100f837d",
-      "size": 6671,
-      "normalized_sha256": "e9f1092ada1ec6b558f69a1a7a7fa286bdd0c18f782d12b1ee0a868f100f837d"
-    },
     "docs/guides/GUIDE-MCP调试接入.md": {
+      "role": "index",
       "sha256": "dbc8d391560d5031b9de7a3217f73264fba88c877d6b23df6c891e260b803bcf",
       "size": 6673,
       "normalized_sha256": "dbc8d391560d5031b9de7a3217f73264fba88c877d6b23df6c891e260b803bcf"
     },
-    "docs/guides/GUIDE-RESTORE.md": {
-      "sha256": "afe23424768e30d99aaf66d3019f39e9d8bc63c61e1a20bf9363a73bc6404621",
-      "size": 9035,
-      "normalized_sha256": "afe23424768e30d99aaf66d3019f39e9d8bc63c61e1a20bf9363a73bc6404621"
-    },
-    "docs/guides/GUIDE-THIRDPARTY-CLONE.md": {
-      "sha256": "63ee521f43332e3763d69fcca21932d87cd7eaf28bc75b53aa5bc35d48e8d93b",
-      "size": 7201,
-      "normalized_sha256": "63ee521f43332e3763d69fcca21932d87cd7eaf28bc75b53aa5bc35d48e8d93b"
-    },
     "docs/guides/GUIDE-子项目拆分子模块.md": {
+      "role": "index",
       "sha256": "88bca9b9d1a7224af5009180b40e17368f3649e6c61245acb84de1a240c8e9c0",
       "size": 10610,
       "normalized_sha256": "613f0135f682d41b4e1232abe7b7031bc58b919637416c607c0a0276922a7513"
     },
     "docs/guides/GUIDE-文档中文命名整改.md": {
+      "role": "index",
       "sha256": "7fd6b47ccbb9974e272b1691bd12801188c94155e6bccb82b7149c2e0076f709",
       "size": 4301,
       "normalized_sha256": "7fd6b47ccbb9974e272b1691bd12801188c94155e6bccb82b7149c2e0076f709"
     },
     "docs/guides/GUIDE-第三方项目克隆.md": {
+      "role": "index",
       "sha256": "8c8260794d3d6143cdd678e82b78f77e704a9499be2abe257d85f5e8908171bc",
       "size": 7211,
       "normalized_sha256": "8c8260794d3d6143cdd678e82b78f77e704a9499be2abe257d85f5e8908171bc"
     },
     "docs/guides/GUIDE-项目归档.md": {
+      "role": "index",
       "sha256": "8dca1d37df5830a97a3be8b7765f1f50c2b16c551af04cf3d5d2f5f96b796a85",
       "size": 8466,
       "normalized_sha256": "8dca1d37df5830a97a3be8b7765f1f50c2b16c551af04cf3d5d2f5f96b796a85"
     },
     "docs/guides/GUIDE-项目恢复.md": {
+      "role": "index",
       "sha256": "afe23424768e30d99aaf66d3019f39e9d8bc63c61e1a20bf9363a73bc6404621",
       "size": 9035,
       "normalized_sha256": "afe23424768e30d99aaf66d3019f39e9d8bc63c61e1a20bf9363a73bc6404621"
     },
     "docs/guides/GUIDE-项目盘点维护.md": {
+      "role": "index",
       "sha256": "a9668d9ca014998ef494d6a20fc38ddc5adaf9e5b7400ffa1e092bec55500e11",
       "size": 7064,
       "normalized_sha256": "a9668d9ca014998ef494d6a20fc38ddc5adaf9e5b7400ffa1e092bec55500e11"
     },
     "docs/guides/README.md": {
+      "role": "index",
       "sha256": "b064f6111b7537cf915415072374501319cc998f2bbd2cb159dbae6e1a1a93d3",
       "size": 5822,
       "normalized_sha256": "b064f6111b7537cf915415072374501319cc998f2bbd2cb159dbae6e1a1a93d3"
     },
     "docs/index.md": {
+      "role": "index",
       "sha256": "b8177dd1468d94f3ecc2a8fd2c81118025d04c5f3643f29656974cdd4bd422a5",
       "size": 1272,
       "normalized_sha256": "b8177dd1468d94f3ecc2a8fd2c81118025d04c5f3643f29656974cdd4bd422a5"
     },
     "docs/memories/README.md": {
+      "role": "index",
       "sha256": "6f6236d0b67ab99a63ce0628787ac8eb476afdd9f8911a3300ec60df2db90d14",
       "size": 39,
       "normalized_sha256": "175d8c654b5553f2cab61f56f5bdf3d67ff38d4bcfb262693bd7fabc1131fc94"
     },
     "docs/plans/01-lark-group-bridge.md": {
+      "role": "index",
       "sha256": "e0b01dee112664fc45c8725606cb6acdef5d63588548d57a566597133a75fcc3",
       "size": 11467,
       "normalized_sha256": "e0b01dee112664fc45c8725606cb6acdef5d63588548d57a566597133a75fcc3"
     },
     "docs/plans/02-aoci-baseline-drift-recovery.md": {
+      "role": "index",
       "sha256": "63601a0ad3703c7e8ee58c1793ef5062d958ffd7e524c6889fdb34bd6a5ead23",
       "size": 10215,
       "normalized_sha256": "63601a0ad3703c7e8ee58c1793ef5062d958ffd7e524c6889fdb34bd6a5ead23"
     },
     "docs/plans/02-docs-static-site.md": {
+      "role": "index",
       "sha256": "813d30b24ad39a0c3a8ac22dcf4c374abfee42f247baa791a0623a5f67388a90",
       "size": 7572,
       "normalized_sha256": "813d30b24ad39a0c3a8ac22dcf4c374abfee42f247baa791a0623a5f67388a90"
     },
     "docs/plans/03-skill-mandatory-plan-gate.md": {
+      "role": "index",
       "sha256": "7732037b56787c8ac970d1ef4907387457c602de69e0c35672c0b628300f61e9",
       "size": 3523,
       "normalized_sha256": "7732037b56787c8ac970d1ef4907387457c602de69e0c35672c0b628300f61e9"
     },
     "docs/plans/04-archive-html-inline-editor.md": {
+      "role": "index",
       "sha256": "f819b92d99e8fd2996c090e9b3b51105576a6feab059fc2ea9875a249c0b0d6d",
       "size": 5342,
       "normalized_sha256": "f819b92d99e8fd2996c090e9b3b51105576a6feab059fc2ea9875a249c0b0d6d"
     },
     "docs/plans/06-lark-chat-archive-skill.md": {
+      "role": "index",
       "sha256": "c35543f6111ab6cf05aac7792387c6c53ca1362573ad0245427a51e137b06c0b",
       "size": 12063,
       "normalized_sha256": "c35543f6111ab6cf05aac7792387c6c53ca1362573ad0245427a51e137b06c0b"
     },
     "docs/plans/07-k8s-reconciliation-architecture.md": {
+      "role": "index",
       "sha256": "21a205226917bfa8b5ecf2f7b843dda8525ae04fb6712a8cca048eee54d5f19e",
       "size": 6933,
       "normalized_sha256": "21a205226917bfa8b5ecf2f7b843dda8525ae04fb6712a8cca048eee54d5f19e"
     },
     "docs/plans/08-archive-agyquota-exestarter.md": {
+      "role": "index",
       "sha256": "93d4320498da4189dcd159c7628561aaa49e2ae02e3e08ac578dfece00fcdff3",
       "size": 7284,
       "normalized_sha256": "93d4320498da4189dcd159c7628561aaa49e2ae02e3e08ac578dfece00fcdff3"
     },
     "docs/plans/09-docs-serve-chinese-search.md": {
+      "role": "index",
       "sha256": "bb4b0e7bbec73ee55f52e784c229c650f846ce0b1baf7c9daad0aa5c2375006f",
       "size": 8432,
       "normalized_sha256": "bb4b0e7bbec73ee55f52e784c229c650f846ce0b1baf7c9daad0aa5c2375006f"
     },
     "docs/plans/09-restore-agyquota.md": {
+      "role": "index",
       "sha256": "8086131d94fb527a310a0b385157db9347237c2cd68372d324b15d2cdb87e700",
       "size": 4955,
       "normalized_sha256": "a6c611d940cf0696c6660e8d064121e321e0f1992563bbb14e197d95a53c2e18"
     },
     "docs/plans/10-antigravity-acp-inspection.md": {
+      "role": "index",
       "sha256": "7e00c15b4434ae5f40cd0b5127258c780ab0d2d87eee8630ab749662490db120",
       "size": 6817,
       "normalized_sha256": "7e00c15b4434ae5f40cd0b5127258c780ab0d2d87eee8630ab749662490db120"
     },
     "docs/plans/11-document-clictl-mcp-cli-alignment.md": {
+      "role": "index",
       "sha256": "a4753f38c98d7bee5a52bb7eb72eb3f695830abc33d0545912c39685a84a459f",
       "size": 2638,
       "normalized_sha256": "a4753f38c98d7bee5a52bb7eb72eb3f695830abc33d0545912c39685a84a459f"
     },
     "docs/plans/12-zed-pi-token-stats.md": {
+      "role": "index",
       "sha256": "6218b0962a4310fe03acc122b9cd5fb5806ecb0901b1a8e08c9eb2b0de1e8aaf",
       "size": 5794,
       "normalized_sha256": "ae4cb158cb36333cbd8056091a06234806863bcbb7d96fe6ff6e0be2eff39c99"
     },
     "docs/plans/13-commit-and-push-pending-projects.md": {
+      "role": "index",
       "sha256": "7f924345db649a78cbc9d88bfdc4cf594be54fb9b1a9e26de87cba2c177f26db",
       "size": 6841,
       "normalized_sha256": "7f924345db649a78cbc9d88bfdc4cf594be54fb9b1a9e26de87cba2c177f26db"
     },
     "docs/plans/14-monorepo-commit-push-skill.md": {
+      "role": "index",
       "sha256": "2122b93f1263f4b4d948efcb1276908bb006398c58bcb4bf63a5664323fd28ef",
       "size": 4163,
       "normalized_sha256": "2122b93f1263f4b4d948efcb1276908bb006398c58bcb4bf63a5664323fd28ef"
     },
     "docs/plans/15-docs-index-entry-page.md": {
+      "role": "index",
       "sha256": "8a6ab7bf1de0c923299db1462fc9d08adbac390e9325d661c91dfd3613be8789",
       "size": 2389,
       "normalized_sha256": "8a6ab7bf1de0c923299db1462fc9d08adbac390e9325d661c91dfd3613be8789"
     },
     "docs/plans/16-zedagentstats.md": {
+      "role": "index",
       "sha256": "8a7a401e41a078097c9cce373e403d33713e56a25c5f5409d9907708d64ead93",
       "size": 11886,
       "normalized_sha256": "37b9325fda1550449d787b7ab7fc790559c08f9a4e3970e506b952de3b58432d"
     },
     "docs/plans/17-source-reading-research.md": {
+      "role": "index",
       "sha256": "5bd9b4a29ce9dd076959ad200ec2379ccb63c20432ecc59a3de779ad18930dad",
       "size": 3693,
       "normalized_sha256": "5bd9b4a29ce9dd076959ad200ec2379ccb63c20432ecc59a3de779ad18930dad"
     },
     "docs/plans/18-mkdocs-port-conflict.md": {
+      "role": "index",
       "sha256": "e943dc2f37ccaf3b51299bf958d079246a09d3486733d13d37d8ec7e887014c6",
       "size": 4067,
       "normalized_sha256": "e943dc2f37ccaf3b51299bf958d079246a09d3486733d13d37d8ec7e887014c6"
     },
     "docs/plans/19-standalone-plan-spec-commits.md": {
+      "role": "index",
       "sha256": "791d7c22993b37d1eba90a2ca8f1172c39d026eed0218a57ead2f78282d3f14b",
       "size": 5099,
       "normalized_sha256": "791d7c22993b37d1eba90a2ca8f1172c39d026eed0218a57ead2f78282d3f14b"
     },
     "docs/plans/20-typeai-cli.md": {
+      "role": "index",
       "sha256": "10720ea8798c87d9f7757ab5dd880a1caa02d45cdf16496d7a60f72e4d03dc12",
       "size": 12073,
       "normalized_sha256": "10720ea8798c87d9f7757ab5dd880a1caa02d45cdf16496d7a60f72e4d03dc12"
     },
     "docs/plans/21-typeai-session-export.md": {
+      "role": "index",
       "sha256": "f4c15b25a93fcfcbfd663dad1c1024160bb892213a04bbfc1f1a18eddb967a8a",
       "size": 4826,
       "normalized_sha256": "f4c15b25a93fcfcbfd663dad1c1024160bb892213a04bbfc1f1a18eddb967a8a"
     },
     "docs/plans/22-glmquotawatch-tray-icon.md": {
+      "role": "index",
       "sha256": "fd07b60710613a9f7e834d5cbbf7edc81b48a126eae6fa211411ccc8861cb33e",
       "size": 4027,
       "normalized_sha256": "fd07b60710613a9f7e834d5cbbf7edc81b48a126eae6fa211411ccc8861cb33e"
     },
     "docs/plans/23-split-glmquotawatch-submodule.md": {
+      "role": "index",
       "sha256": "65c12034d285eb2981e83c34fcee1ec13781941b5d2d973e3369fe5b7e0c631a",
       "size": 5721,
       "normalized_sha256": "dff6d2b826df0df88efcc64846fdccf74d4e130731e3b274980d89bb07b31c68"
     },
     "docs/plans/24-submodule-toggle-script.md": {
+      "role": "index",
       "sha256": "ab921a5d278c29bbce6f501cbba72785276672230e9e7ea3a43e912415ce7130",
       "size": 10128,
       "normalized_sha256": "ab921a5d278c29bbce6f501cbba72785276672230e9e7ea3a43e912415ce7130"
     },
     "docs/plans/25-chrome-gemini-launcher.md": {
+      "role": "index",
       "sha256": "28a6eff5f8f40f4ab765edf0d411c13394aec3eff48b70645e6355f9ce564535",
       "size": 5427,
       "normalized_sha256": "621e99a5bfbe4678a53075185ef8f956480e50976e3c254a163cfe9739884fef"
     },
     "docs/plans/26-script-migration-py-ts.md": {
+      "role": "index",
       "sha256": "d36a13268626ac14edf409179ac43f784abc63770a7025337bf9d1bb864018cb",
       "size": 14974,
       "normalized_sha256": "d36a13268626ac14edf409179ac43f784abc63770a7025337bf9d1bb864018cb"
     },
     "docs/plans/27-commit-and-push-all-repos.md": {
+      "role": "index",
       "sha256": "6be0b6c635b0abb7092e44ff7d26ddcd89d42d846c89c7c8ea80db77abbc0da8",
       "size": 7531,
       "normalized_sha256": "0e1e9ef56c2451de3c68f46dab3afbe6212d124fe09108856fd8866d7ad153af"
     },
+    "docs/plans/28-plansql-tracker.md": {
+      "sha256": "28c859912ac55b9c0aa6894a107faa5dcbfde1870e658bd455e21d79a654a559",
+      "size": 11294,
+      "normalized_sha256": "ab7225e80d323713738c3c5d14a3bd7c63dcc6fd854f19f450bd39ac8c4b7fbf"
+    },
+    "docs/plans/29-zedhub-session-search.md": {
+      "sha256": "f99a183136f2cccf73c6abd07810a32daa3b06bf536bec034e69f0b9752f7e67",
+      "size": 19151,
+      "normalized_sha256": "f99a183136f2cccf73c6abd07810a32daa3b06bf536bec034e69f0b9752f7e67"
+    },
+    "docs/plans/30-douyin-dl-bilibili-support.md": {
+      "sha256": "c666603ae291743a0c4ae4fbc5de380c6124b346d6745c0500ba2fa08bd98fa1",
+      "size": 11001,
+      "normalized_sha256": "c666603ae291743a0c4ae4fbc5de380c6124b346d6745c0500ba2fa08bd98fa1"
+    },
+    "docs/plans/31-glmquotawatch-tray-doubleclick-open-dir.md": {
+      "sha256": "7719d618932805c992a486d5e9612248e6e0428eb3adc18f9ff53f64d875f0f6",
+      "size": 3923,
+      "normalized_sha256": "4d47e870194cb532e364ca5625fff636855f387887e89f4a0a14c0d75109bb25"
+    },
+    "docs/plans/32-commit-all-repos-by-theme.md": {
+      "sha256": "741793270b83383f7e31bafe5d27f9ec30a229c0ef34ddb31dd4bd465422bbd2",
+      "size": 9693,
+      "normalized_sha256": "741793270b83383f7e31bafe5d27f9ec30a229c0ef34ddb31dd4bd465422bbd2"
+    },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
+      "role": "index",
       "sha256": "ff41ba5b47c36d21b5860b68d1153b4d4f7cabc8e985fef7bf22e492d2ed84d0",
       "size": 1872,
       "normalized_sha256": "ff41ba5b47c36d21b5860b68d1153b4d4f7cabc8e985fef7bf22e492d2ed84d0"
     },
     "docs/plans/walkthrough-27-commit-and-push-all-repos.md": {
+      "role": "index",
       "sha256": "1edb18cb1fe04cb425b8d70125bafbf84bbf938c0ab2b4b9503f1750bd23d0f7",
       "size": 3758,
       "normalized_sha256": "fdd70fa68abcb90fb9bf2ec0f84b8c9469f840812d6c0d5546fd7ec1d9b80a87"
     },
+    "docs/plans/walkthrough-31-glmquotawatch-tray-doubleclick-open-dir.md": {
+      "sha256": "84fc8ee0d348fa74de7987a043c35a041f24031f0f12b9e16e6bbb9709b9026d",
+      "size": 2351,
+      "normalized_sha256": "5d30463e2916abf54fc40ad78f14ebffcef28d1891ce8cdd7f9fd42ba6e4ff7e"
+    },
+    "docs/plans/walkthrough-32-commit-all-repos-by-theme.md": {
+      "sha256": "5bb27bc72cee031f7e232842fbd52e9d0406b6509a43d5591834f77df5e9f1f8",
+      "size": 10890,
+      "normalized_sha256": "5bb27bc72cee031f7e232842fbd52e9d0406b6509a43d5591834f77df5e9f1f8"
+    },
     "docs/projects/go_projects/CLI 与 MCP 双壳架构工作指南.md": {
+      "role": "index",
       "sha256": "2be0d47bdbf52698b1ad70490366131eb5f8181a992fb0cb7495dd1377a42203",
       "size": 405,
       "normalized_sha256": "93f790dc647a6d578c78f9a01397fc3bf1957bd39adf233e29aba933fa7c4dfe"
     },
     "docs/projects/go_projects/CLI 工具开发标准 v2.md": {
+      "role": "index",
       "sha256": "000008a14282096296df85d3ed1cd7bc253dfe28b665b6a4aed9e2efcba0c62c",
       "size": 9091,
       "normalized_sha256": "000008a14282096296df85d3ed1cd7bc253dfe28b665b6a4aed9e2efcba0c62c"
     },
     "docs/projects/go_projects/CLI 工具开发标准.md": {
-      "sha256": "052cff7c3d5c8da8505e29d122917a1ba6f597cec807db721f1b47103176f003",
-      "size": 46839,
-      "normalized_sha256": "0684e894a1246e31a733608f0c9e98c67520e127ecb0dbededaac83d652a2238"
-    },
-    "docs/projects/go_projects/GUIDE-GO-EXE-ICON.md": {
-      "sha256": "efbdf68b7649991e3657e4d2bcd422590bfcb7d8a14ab03645bcbd6d109805fb",
-      "size": 3505,
-      "normalized_sha256": "efbdf68b7649991e3657e4d2bcd422590bfcb7d8a14ab03645bcbd6d109805fb"
+      "sha256": "5dbaedce3fb4ea3d61246a80bc436b29822c6394c040a7bb6001d91c442b615d",
+      "size": 62108,
+      "normalized_sha256": "640df0c3ef03a3bc14405f4492772b540f53dc754a0cec2f5bc168c1de33d73e"
     },
     "docs/projects/go_projects/MCP 契约为先.md": {
+      "role": "index",
       "sha256": "8ce94bdf14e5fafbd8b7e097bb3aa600bf587d6797a655a800e1baff9dfbcdc5",
       "size": 385,
       "normalized_sha256": "25f08140e9fea34bf1a2ba6e4ac2fdd2a5f7240dc1f5751f5b036da08b52210a"
     },
     "docs/projects/go_projects/agyquota/plans/01-agyquota-quota-cli.md": {
+      "role": "index",
       "sha256": "b591a0c3ed4323ae30e9996ca0a29d4dfa27c4c9f39500db561258d35fc8744f",
       "size": 7016,
       "normalized_sha256": "b591a0c3ed4323ae30e9996ca0a29d4dfa27c4c9f39500db561258d35fc8744f"
     },
     "docs/projects/go_projects/agyquota/plans/02-agy-direct-quota-degraded-fix.md": {
+      "role": "index",
       "sha256": "c3b5dce8695eb423b24e25bb7b4cbb64e8e1a02369aa76fb641591772cf0ee04",
       "size": 4989,
       "normalized_sha256": "e760b1a0b11b689489969f9cebb0d3d5afcf3afa2c97ed76e4440b4ee518a5d4"
     },
     "docs/projects/go_projects/agyquota/plans/03-restore-agy-cli-command.md": {
+      "role": "index",
       "sha256": "a358276efbd604e19c82cc39a38167b2f3706bc0c6be0439836c5ee13aacc07a",
       "size": 5117,
       "normalized_sha256": "a358276efbd604e19c82cc39a38167b2f3706bc0c6be0439836c5ee13aacc07a"
     },
     "docs/projects/go_projects/agyquota/plans/04-native-console-inheritance.md": {
+      "role": "index",
       "sha256": "227f38bd7034428370e4eba576dffe2cf46400751302bdadef9da70c1e262899",
       "size": 3860,
       "normalized_sha256": "227f38bd7034428370e4eba576dffe2cf46400751302bdadef9da70c1e262899"
     },
     "docs/projects/go_projects/agyquota/plans/05-pe-subsystem-silent-runner.md": {
+      "role": "index",
       "sha256": "3e044b1af28ce9b2b5168208d657ddeb0f843e8ceb7659c30423228e712e4ef0",
       "size": 5266,
       "normalized_sha256": "3e044b1af28ce9b2b5168208d657ddeb0f843e8ceb7659c30423228e712e4ef0"
     },
     "docs/projects/go_projects/agyquota/specs/01-window-focus-steal/bugfix.md": {
+      "role": "index",
       "sha256": "21de2e779f658cd2869301b66c304f87baedc9e6ab1b9eb642019a0cf64c6f73",
       "size": 4708,
       "normalized_sha256": "21de2e779f658cd2869301b66c304f87baedc9e6ab1b9eb642019a0cf64c6f73"
     },
     "docs/projects/go_projects/agyquota/specs/01-window-focus-steal/design.md": {
+      "role": "index",
       "sha256": "c1e0703333ce607523b6da673462840bc0597647efab921da195d10aa21c2385",
       "size": 16922,
       "normalized_sha256": "c1e0703333ce607523b6da673462840bc0597647efab921da195d10aa21c2385"
     },
     "docs/projects/go_projects/agyquota/specs/01-window-focus-steal/tasks.md": {
+      "role": "index",
       "sha256": "c381d6af61f0884a1e77b2dca416325d1cf9c4a74d31040a490e2dd33e003b52",
       "size": 4461,
       "normalized_sha256": "c381d6af61f0884a1e77b2dca416325d1cf9c4a74d31040a490e2dd33e003b52"
     },
     "docs/projects/go_projects/agyquota/specs/02-daemon-architecture/design.md": {
+      "role": "index",
       "sha256": "e1de02517d0da0f5b23f3fd029dd0a5907965ff8348d0d998408bfa7e9041d30",
       "size": 34301,
       "normalized_sha256": "e1de02517d0da0f5b23f3fd029dd0a5907965ff8348d0d998408bfa7e9041d30"
     },
     "docs/projects/go_projects/agyquota/specs/02-daemon-architecture/requirements.md": {
+      "role": "index",
       "sha256": "ed2110474cff0d6d0317a1d2d255d1580ee6e09dac8c76ccae7605584687d1a0",
       "size": 12764,
       "normalized_sha256": "ed2110474cff0d6d0317a1d2d255d1580ee6e09dac8c76ccae7605584687d1a0"
     },
     "docs/projects/go_projects/agyquota/specs/02-daemon-architecture/tasks.md": {
+      "role": "index",
       "sha256": "3aa4808c5661ddf125777e422a1a836b92e25f17fa91bc185a873fb91bbc429e",
       "size": 10070,
       "normalized_sha256": "3aa4808c5661ddf125777e422a1a836b92e25f17fa91bc185a873fb91bbc429e"
     },
     "docs/projects/go_projects/agyquota/specs/03-agy-usage-eof-retry/bugfix.md": {
+      "role": "index",
       "sha256": "36a9dc394524a77837b61385627a5e60b55001cc664f983233f32d3c900a35dd",
       "size": 7123,
       "normalized_sha256": "36a9dc394524a77837b61385627a5e60b55001cc664f983233f32d3c900a35dd"
     },
     "docs/projects/go_projects/agyquota/specs/04-silent-copy-hardening/bugfix.md": {
+      "role": "index",
       "sha256": "99c964131b1172f91fe4eb5f61b20e20dfe63b6e93ace0fa53eed2e66c10cfb4",
       "size": 7534,
       "normalized_sha256": "f51f4a0fca00633313cf68dfd858fae6a2350ff5cb82ad867111c7a48b87c2d5"
     },
     "docs/projects/go_projects/agyquota/设计说明.md": {
+      "role": "index",
       "sha256": "2d78bef529e575111a9540411a3b20d3ad010c60d3c8cde886b1a01c6470099a",
       "size": 7512,
       "normalized_sha256": "2d78bef529e575111a9540411a3b20d3ad010c60d3c8cde886b1a01c6470099a"
     },
     "docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md": {
+      "role": "index",
       "sha256": "fc620888a70bafe99ddb7b0abbc0019d7c96d0118ae3f6f59e3989bb36b5b3e8",
       "size": 9178,
       "normalized_sha256": "fc620888a70bafe99ddb7b0abbc0019d7c96d0118ae3f6f59e3989bb36b5b3e8"
     },
     "docs/projects/go_projects/clictl/MCP 接口文档.md": {
+      "role": "index",
       "sha256": "2fd6ce928343abe880541f9613319768d083c976aeaa9cf9768c980cfdc82c52",
       "size": 11774,
       "normalized_sha256": "2fd6ce928343abe880541f9613319768d083c976aeaa9cf9768c980cfdc82c52"
     },
     "docs/projects/go_projects/clictl/clictl 使用指南.md": {
-      "sha256": "b7b30ec8ba25d383f23f48e4580249d347e39f59cf6dbe02826bc77fee17518c",
-      "size": 9822,
-      "normalized_sha256": "b7b30ec8ba25d383f23f48e4580249d347e39f59cf6dbe02826bc77fee17518c"
+      "sha256": "4ead047305c0bba1a00c5007bf2f888d3374d7a40dbb108273a88d7af1285657",
+      "size": 9886,
+      "normalized_sha256": "4ead047305c0bba1a00c5007bf2f888d3374d7a40dbb108273a88d7af1285657"
     },
     "docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
+      "role": "index",
       "sha256": "2004352e339d68e56cd90434cc3d839be0477c9127db0d5bb2aeac7310d06720",
       "size": 1358,
       "normalized_sha256": "2004352e339d68e56cd90434cc3d839be0477c9127db0d5bb2aeac7310d06720"
     },
     "docs/projects/go_projects/clictl/migrations/001_v1.2.0_add_launches_pid.sql": {
+      "role": "index",
       "sha256": "58efd0896da1e6b6531d3901803c41843f8a8f26773775167244ea97ea91df21",
       "size": 710,
       "normalized_sha256": "58efd0896da1e6b6531d3901803c41843f8a8f26773775167244ea97ea91df21"
     },
     "docs/projects/go_projects/exestarter/接口文档.md": {
+      "role": "index",
       "sha256": "e745148e74be603165cefb08093daa3a57dc6980acd746ad5170d39de956cafc",
       "size": 10296,
       "normalized_sha256": "e745148e74be603165cefb08093daa3a57dc6980acd746ad5170d39de956cafc"
     },
     "docs/projects/go_projects/glmquotawatch-gui/plans/01-de-ai-flavor-ui.md": {
+      "role": "index",
       "sha256": "36a0c1784e8e10400d23c0336fb87ab084d38a39f0e95596c7bd86d7694e541d",
       "size": 7747,
       "normalized_sha256": "36a0c1784e8e10400d23c0336fb87ab084d38a39f0e95596c7bd86d7694e541d"
     },
     "docs/projects/go_projects/glmquotawatch-gui/plans/02-landscape-window.md": {
+      "role": "index",
       "sha256": "1fbd6817f97bade0c079a31e81df833b7d339d6f40bf5456c679dc773d1cd378",
       "size": 2847,
       "normalized_sha256": "1fbd6817f97bade0c079a31e81df833b7d339d6f40bf5456c679dc773d1cd378"
     },
     "docs/projects/go_projects/glmquotawatch-gui/plans/03-light-ccswitch-theme.md": {
+      "role": "index",
       "sha256": "8f8ad4144abf918488e3d2bdda64e589eb78c64c1e76af8cb66f8153b8cd142a",
       "size": 6622,
       "normalized_sha256": "8f8ad4144abf918488e3d2bdda64e589eb78c64c1e76af8cb66f8153b8cd142a"
     },
     "docs/projects/go_projects/glmquotawatch-gui/plans/04-raycast-linear-style-de-ai.md": {
+      "role": "index",
       "sha256": "e30c7b37d3aec86c3dbecad1b9a6df83c82c045a666b99dcf8f0286fd8ef75e8",
       "size": 8214,
       "normalized_sha256": "4f4434d59ea0660383381f1b8e6285ce177202277b045860db9c7d600f0ea6a4"
     },
     "docs/projects/go_projects/glmquotawatch-gui/plans/05-dev-prod-isolation-and-build-scripts.md": {
+      "role": "index",
       "sha256": "803942418cd699f7884a7c8b19e6625f59dbbfe94185faf3136f274434e722f4",
       "size": 4695,
       "normalized_sha256": "803942418cd699f7884a7c8b19e6625f59dbbfe94185faf3136f274434e722f4"
     },
+    "docs/projects/go_projects/glmquotawatch-gui/plans/06-release-v0.1.0-tag.md": {
+      "sha256": "de9cc4e611a1b4c2b372ae874a3370f3a8267556460cb5f192b460f63f572eaa",
+      "size": 3599,
+      "normalized_sha256": "de9cc4e611a1b4c2b372ae874a3370f3a8267556460cb5f192b460f63f572eaa"
+    },
     "docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/design.md": {
+      "role": "index",
       "sha256": "056e2ca27a00369999c982f73120ffd418e3ae91979414aa4dfb506fc2db068b",
       "size": 36143,
       "normalized_sha256": "056e2ca27a00369999c982f73120ffd418e3ae91979414aa4dfb506fc2db068b"
     },
     "docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/requirements.md": {
+      "role": "index",
       "sha256": "76180419845222260ff46da82493ebb76268af160dd33d3ca1b546a6537a7986",
       "size": 9559,
       "normalized_sha256": "76180419845222260ff46da82493ebb76268af160dd33d3ca1b546a6537a7986"
     },
     "docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/tasks.md": {
+      "role": "index",
       "sha256": "3ddaff9a3ffb55ef076e84325a1ac9fd74de5efa778e0c69007be9b7276a670e",
       "size": 11451,
       "normalized_sha256": "3ddaff9a3ffb55ef076e84325a1ac9fd74de5efa778e0c69007be9b7276a670e"
     },
     "docs/projects/go_projects/glmquotawatch-gui/specs/02-demo-toast-no-alert/bugfix.md": {
+      "role": "index",
       "sha256": "d02c270d4c08371d0e0b95dedf609c36821ec90bbee8916793b59168a9316c0d",
       "size": 3990,
       "normalized_sha256": "d02c270d4c08371d0e0b95dedf609c36821ec90bbee8916793b59168a9316c0d"
     },
     "docs/projects/go_projects/glmquotawatch-gui/specs/02-demo-toast-no-alert/design.md": {
+      "role": "index",
       "sha256": "246a9e125023bcd9b13e7dac01951f71af2b5bc0f2fdf4e03abc7106f2f4d8fa",
       "size": 10490,
       "normalized_sha256": "246a9e125023bcd9b13e7dac01951f71af2b5bc0f2fdf4e03abc7106f2f4d8fa"
     },
     "docs/projects/go_projects/glmquotawatch-gui/specs/02-demo-toast-no-alert/tasks.md": {
+      "role": "index",
       "sha256": "742d81b59f3bc936f89c09d4416aae21fee3b5a9a31d7dc7918f84a9fb004915",
       "size": 3319,
       "normalized_sha256": "742d81b59f3bc936f89c09d4416aae21fee3b5a9a31d7dc7918f84a9fb004915"
     },
+    "docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/design.md": {
+      "sha256": "cbb022555984de38ed04d96ebcb9e2b97982f0fb3cce17a21757e8104794d814",
+      "size": 27820,
+      "normalized_sha256": "cbb022555984de38ed04d96ebcb9e2b97982f0fb3cce17a21757e8104794d814"
+    },
+    "docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/requirements.md": {
+      "sha256": "06080bdd19bb1b9c1c16741c225aecf051867c62aff379013c8b005cdfad2ebb",
+      "size": 10883,
+      "normalized_sha256": "06080bdd19bb1b9c1c16741c225aecf051867c62aff379013c8b005cdfad2ebb"
+    },
+    "docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/tasks.md": {
+      "sha256": "75aaf6425f9fe0298aa3307d17aae34f7bae213a4523f641860f0044fed4cc9b",
+      "size": 10604,
+      "normalized_sha256": "75aaf6425f9fe0298aa3307d17aae34f7bae213a4523f641860f0044fed4cc9b"
+    },
     "docs/projects/go_projects/glmquotawatch/plans/01-mcp-schema-portability.md": {
+      "role": "index",
       "sha256": "22e815a76da7190c1967b70693caf3a4f1ce742635913b631e5a93ba12d0c6bf",
       "size": 6335,
       "normalized_sha256": "22e815a76da7190c1967b70693caf3a4f1ce742635913b631e5a93ba12d0c6bf"
     },
     "docs/projects/go_projects/glmquotawatch/使用指南.md": {
+      "role": "index",
       "sha256": "51a178f8e8da5c71a9c1d9169cc04707cb9a834275752ff8ac866e854e83e506",
       "size": 8532,
       "normalized_sha256": "51a178f8e8da5c71a9c1d9169cc04707cb9a834275752ff8ac866e854e83e506"
     },
     "docs/projects/go_projects/go exe 默认图标.md": {
+      "role": "index",
       "sha256": "9b1271082191010490f53371785006ccfd79f536f8fdff25a4fe9f95156e84d0",
       "size": 3485,
       "normalized_sha256": "9b1271082191010490f53371785006ccfd79f536f8fdff25a4fe9f95156e84d0"
     },
     "docs/projects/go_projects/liteconf/brunos/.gitignore": {
+      "role": "index",
       "sha256": "bc7574d6f652d6959ff2f6ecbe187c743c317c5e97437eebe2fcd6a4ef870ad7",
       "size": 76,
       "normalized_sha256": "bc7574d6f652d6959ff2f6ecbe187c743c317c5e97437eebe2fcd6a4ef870ad7"
     },
     "docs/projects/go_projects/liteconf/brunos/01-put-config.yml": {
+      "role": "index",
       "sha256": "2f479aba039cd48116a56682e114eeb51afdf5eccef23faf01ec3a2cce3bf06f",
       "size": 1595,
       "normalized_sha256": "2f479aba039cd48116a56682e114eeb51afdf5eccef23faf01ec3a2cce3bf06f"
     },
     "docs/projects/go_projects/liteconf/brunos/02-get-config.yml": {
+      "role": "index",
       "sha256": "bceb0def929345eae324617d0f7eb65e0f16038773de2a182df04223582998c6",
       "size": 831,
       "normalized_sha256": "bceb0def929345eae324617d0f7eb65e0f16038773de2a182df04223582998c6"
     },
     "docs/projects/go_projects/liteconf/brunos/03-discovery.yml": {
+      "role": "index",
       "sha256": "1e43796647d295715583f961b72e94b21103cad682592c680919c9190a78dcb7",
       "size": 769,
       "normalized_sha256": "1e43796647d295715583f961b72e94b21103cad682592c680919c9190a78dcb7"
     },
     "docs/projects/go_projects/liteconf/brunos/04-watch.yml": {
+      "role": "index",
       "sha256": "21336ef788c5b33b6341c6b14fad9a2a6ff8cd3a67ee9e2ad53a57ca3a7eb72f",
       "size": 1458,
       "normalized_sha256": "21336ef788c5b33b6341c6b14fad9a2a6ff8cd3a67ee9e2ad53a57ca3a7eb72f"
     },
     "docs/projects/go_projects/liteconf/brunos/05-not-found.yml": {
+      "role": "index",
       "sha256": "7185f6bf7f70152fe238a1503d6683879d33d14502143aa3c3ff927a9c1bca4f",
       "size": 889,
       "normalized_sha256": "7185f6bf7f70152fe238a1503d6683879d33d14502143aa3c3ff927a9c1bca4f"
     },
     "docs/projects/go_projects/liteconf/brunos/environments/local.yml": {
+      "role": "index",
       "sha256": "6240f54df9eda1920901ff2fc305c83c393894523d06f22542ac2ca213c895cc",
       "size": 93,
       "normalized_sha256": "6240f54df9eda1920901ff2fc305c83c393894523d06f22542ac2ca213c895cc"
     },
     "docs/projects/go_projects/liteconf/brunos/opencollection.yml": {
+      "role": "index",
       "sha256": "91f679df90ef4b80c21552b5f5de5a3b55954cc036e1085ba466414aa2d0be9a",
       "size": 128,
       "normalized_sha256": "91f679df90ef4b80c21552b5f5de5a3b55954cc036e1085ba466414aa2d0be9a"
     },
     "docs/projects/go_projects/liteconf/plans/01-mcp-server.md": {
+      "role": "index",
       "sha256": "21e12ebf5537054ffce5040d291091db7d27040f66079557cb4795735edef3a0",
       "size": 20276,
       "normalized_sha256": "21e12ebf5537054ffce5040d291091db7d27040f66079557cb4795735edef3a0"
     },
     "docs/projects/go_projects/liteconf/specs/01-liteconf/design.md": {
+      "role": "index",
       "sha256": "45bacd8733cd2b79b38ace350a31f096e28ba2cd655235215720737571c87f22",
       "size": 14601,
       "normalized_sha256": "45bacd8733cd2b79b38ace350a31f096e28ba2cd655235215720737571c87f22"
     },
     "docs/projects/go_projects/liteconf/specs/01-liteconf/requirements.md": {
+      "role": "index",
       "sha256": "e947cb29abbc39946a0892ae0be642205b9f4213c0cf3f70e9143cd7847fae51",
       "size": 7322,
       "normalized_sha256": "e947cb29abbc39946a0892ae0be642205b9f4213c0cf3f70e9143cd7847fae51"
     },
     "docs/projects/go_projects/liteconf/specs/01-liteconf/tasks.md": {
+      "role": "index",
       "sha256": "caa57132a1cb1ffaeb856a926384e5e7ff838458714fb42e7bc8bde37b025e35",
       "size": 11932,
       "normalized_sha256": "caa57132a1cb1ffaeb856a926384e5e7ff838458714fb42e7bc8bde37b025e35"
     },
     "docs/projects/go_projects/liteconf/specs/02-gui-shell/design.md": {
+      "role": "index",
       "sha256": "963ae3f1258612e6460f089cd9cc4ab48fc4314c5174196a18d2eb4c0ba54b6b",
       "size": 11262,
       "normalized_sha256": "963ae3f1258612e6460f089cd9cc4ab48fc4314c5174196a18d2eb4c0ba54b6b"
     },
     "docs/projects/go_projects/liteconf/specs/02-gui-shell/requirements.md": {
+      "role": "index",
       "sha256": "6a1e87dede3f54b2e81f2cba928fc6c0973469eb428691491a7d8187c8448347",
       "size": 6463,
       "normalized_sha256": "6a1e87dede3f54b2e81f2cba928fc6c0973469eb428691491a7d8187c8448347"
     },
     "docs/projects/go_projects/liteconf/specs/02-gui-shell/tasks.md": {
+      "role": "index",
       "sha256": "08d5e90e069a04f4b8dbeee1728bf0f701cbe612f439dc29b53d4cde1eac16e9",
       "size": 7190,
       "normalized_sha256": "08d5e90e069a04f4b8dbeee1728bf0f701cbe612f439dc29b53d4cde1eac16e9"
     },
     "docs/projects/go_projects/liteconf/specs/03-http-passthrough/design.md": {
+      "role": "index",
       "sha256": "c1b4dca9b64460f336206c6b4d9bab84b74a61b24018eb44c08b7bf3fa413061",
       "size": 12354,
       "normalized_sha256": "c1b4dca9b64460f336206c6b4d9bab84b74a61b24018eb44c08b7bf3fa413061"
     },
     "docs/projects/go_projects/liteconf/specs/03-http-passthrough/requirements.md": {
+      "role": "index",
       "sha256": "8fa5e92e862e39d844bd5df85276c1265d6ae798ae17fe396969edd0422f2af1",
       "size": 4841,
       "normalized_sha256": "8fa5e92e862e39d844bd5df85276c1265d6ae798ae17fe396969edd0422f2af1"
     },
     "docs/projects/go_projects/liteconf/specs/03-http-passthrough/tasks.md": {
+      "role": "index",
       "sha256": "303e7694ac90a61d0754c59b36ce8cb27540b3e75c82918d9503b3e2117105d2",
       "size": 8725,
       "normalized_sha256": "303e7694ac90a61d0754c59b36ce8cb27540b3e75c82918d9503b3e2117105d2"
     },
     "docs/projects/go_projects/plans/01-exe-icon-rebuild.md": {
+      "role": "index",
       "sha256": "7ad36d974e8527e824c025ac7c31f46be976526c067c6367b451a544539cbfe2",
       "size": 6072,
       "normalized_sha256": "7ad36d974e8527e824c025ac7c31f46be976526c067c6367b451a544539cbfe2"
     },
+    "docs/projects/go_projects/plansql/设计说明.md": {
+      "sha256": "c04d41103fbb6085dbb833070fc2aebf292033a8fca5fd4883a2f6956fa687bb",
+      "size": 1112,
+      "normalized_sha256": "7a054e0b800f82f63d9588182a8aa80b138f1c9f6d2e368b59e1c31edeb6dbdc"
+    },
     "docs/projects/go_projects/projstat/specs/design.md": {
+      "role": "index",
       "sha256": "b736a418e92c02d26bde0e9fad6939f26171368661f6eb4e4fa92e05d2a388e5",
       "size": 14733,
       "normalized_sha256": "0e73e9cc00764b632da5f55782f9d5751853522e9eab661055d4bf3714f67316"
     },
     "docs/projects/go_projects/projstat/specs/requirements.md": {
+      "role": "index",
       "sha256": "c8b07afaddd15858bf8a89f6dcdbd48d771e978b84f341809ec6bbd92b34c2ad",
       "size": 7765,
       "normalized_sha256": "dc3ef616a60831b790114137ba5be827aa030ee241dfc36f286e2423eb97df63"
     },
     "docs/projects/go_projects/projstat/specs/tasks.md": {
+      "role": "index",
       "sha256": "22b9d973d30ecd82449af54c3b13784b2df80cf9decf79d47232187d6e304e82",
       "size": 6500,
       "normalized_sha256": "7efbc131cbee6f1ac1da95701bb8ce4d67458b87415fabf44cd8956482ce5e6c"
     },
     "docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md": {
+      "role": "index",
       "sha256": "661f0e95bde927337fd4ff36a95420a8cfafa81adc5531452de0b6cf64cf0545",
       "size": 8129,
       "normalized_sha256": "661f0e95bde927337fd4ff36a95420a8cfafa81adc5531452de0b6cf64cf0545"
     },
     "docs/projects/go_projects/sourcecount/specs/01-source-statistics/requirements.md": {
+      "role": "index",
       "sha256": "afb9a60dcf0888fa27b5d015f494dadcef09dd27ca7af67df73704b841a763a9",
       "size": 4484,
       "normalized_sha256": "afb9a60dcf0888fa27b5d015f494dadcef09dd27ca7af67df73704b841a763a9"
     },
     "docs/projects/go_projects/sourcecount/specs/01-source-statistics/tasks.md": {
+      "role": "index",
       "sha256": "a80b0a7e83fda7d50124d6ebf22225fb558703838b619496bddc645e4b12b42b",
       "size": 4294,
       "normalized_sha256": "a80b0a7e83fda7d50124d6ebf22225fb558703838b619496bddc645e4b12b42b"
     },
     "docs/projects/go_projects/sourcecount/使用指南.md": {
-      "sha256": "c6bec181894293d2e6b5dc551d62b1959b5b7a71c7483180e54670c5d1c1a271",
-      "size": 3908,
-      "normalized_sha256": "c6bec181894293d2e6b5dc551d62b1959b5b7a71c7483180e54670c5d1c1a271"
+      "sha256": "1fa1cbdc828429b148b08b3ce03a6f198699aa49b49aec1ddcca8a799ea39c2b",
+      "size": 3943,
+      "normalized_sha256": "1fa1cbdc828429b148b08b3ce03a6f198699aa49b49aec1ddcca8a799ea39c2b"
     },
     "docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md": {
+      "role": "index",
       "sha256": "22a21ffd6fac27c8867eac305c2302111413e124fb2871ab342c0aeae7201a64",
       "size": 8948,
       "normalized_sha256": "22a21ffd6fac27c8867eac305c2302111413e124fb2871ab342c0aeae7201a64"
     },
     "docs/projects/go_projects/typeai/specs/01-interactive-rendering/requirements.md": {
+      "role": "index",
       "sha256": "64ceaac08ec95e49eff6717390debddda02fc05134c4bb466a357b75a3747006",
       "size": 4624,
       "normalized_sha256": "64ceaac08ec95e49eff6717390debddda02fc05134c4bb466a357b75a3747006"
     },
     "docs/projects/go_projects/typeai/specs/01-interactive-rendering/tasks.md": {
+      "role": "index",
       "sha256": "ad83151e0a0c3b01ed8c44b79ad4f0371528f866ed0f7e29dff6be30cde6648e",
       "size": 5373,
       "normalized_sha256": "ad83151e0a0c3b01ed8c44b79ad4f0371528f866ed0f7e29dff6be30cde6648e"
     },
     "docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/design.md": {
+      "role": "index",
       "sha256": "f01f052dacc2288dea258fd80538a87db2afa378ec2922b3976eef367dfa0ae2",
       "size": 17691,
       "normalized_sha256": "f01f052dacc2288dea258fd80538a87db2afa378ec2922b3976eef367dfa0ae2"
     },
     "docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/requirements.md": {
+      "role": "index",
       "sha256": "b4a88c015b81463ac688bc2c40030ad0e6c20aced376d36d1f21f3dd5f4b27f0",
       "size": 6146,
       "normalized_sha256": "b4a88c015b81463ac688bc2c40030ad0e6c20aced376d36d1f21f3dd5f4b27f0"
     },
     "docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/tasks.md": {
+      "role": "index",
       "sha256": "ba1b6288dba383072dc4ddf2ada94a8ee47ca46698757d61d3c4abcb737106ef",
       "size": 4030,
       "normalized_sha256": "ba1b6288dba383072dc4ddf2ada94a8ee47ca46698757d61d3c4abcb737106ef"
     },
     "docs/projects/go_projects/typeai/specs/03-conversation-fork/design.md": {
+      "role": "index",
       "sha256": "12937e3d38f6dab9a01714ab7733c7ef26e8fbe6b0a37503a67b6cfcc38044a2",
       "size": 13111,
       "normalized_sha256": "12937e3d38f6dab9a01714ab7733c7ef26e8fbe6b0a37503a67b6cfcc38044a2"
     },
     "docs/projects/go_projects/typeai/specs/03-conversation-fork/requirements.md": {
+      "role": "index",
       "sha256": "a257c45fe8ace6ac70b17369da5a5e145cddf824e7604feb371eab6c63f266e7",
       "size": 7417,
       "normalized_sha256": "a257c45fe8ace6ac70b17369da5a5e145cddf824e7604feb371eab6c63f266e7"
     },
     "docs/projects/go_projects/typeai/specs/03-conversation-fork/tasks.md": {
+      "role": "index",
       "sha256": "76cf2d25882b303a9fdbe9b609168915d998fd2eb8cadffb1afaf9e54717ce2a",
       "size": 7975,
       "normalized_sha256": "76cf2d25882b303a9fdbe9b609168915d998fd2eb8cadffb1afaf9e54717ce2a"
     },
     "docs/projects/go_projects/统一核心与多通道投影指南.md": {
+      "role": "index",
       "sha256": "dc8679fcef4bf19148933fbeb790496dea80708f3c70e93a0693b6aa112c4dcb",
       "size": 405,
       "normalized_sha256": "6897437bc767618806215944b98e8964100df0f7f69176853a2d170db95f4d6d"
     },
-    "docs/projects/python_projects/MQTT 与 WebSocket 协议.md": {
-      "sha256": "3caf5978c6c38132315eeea3a253a3fca7b76d5841aae7ff8f32fa6bdc6d8a54",
-      "size": 7965,
-      "normalized_sha256": "3caf5978c6c38132315eeea3a253a3fca7b76d5841aae7ff8f32fa6bdc6d8a54"
-    },
     "docs/projects/python_projects/django-lab/ORM 对照手册.md": {
+      "role": "index",
       "sha256": "261d4e56a0ae679dfe6936f854a9004611231f5ca3936dd7fc4087a8a055dc74",
       "size": 7795,
       "normalized_sha256": "5f03c3e25d05d47e52fdf81e9311020098971471674be4c819e12ee6bbbad137"
     },
     "docs/projects/python_projects/django-lab/plans/01-douyin-new-video-notify.md": {
+      "role": "index",
       "sha256": "b7316b401974132d0b915c0440a633a3d4bd359101610f0fc089e4bab74e5b04",
       "size": 16995,
       "normalized_sha256": "b7316b401974132d0b915c0440a633a3d4bd359101610f0fc089e4bab74e5b04"
     },
     "docs/projects/python_projects/django-lab/plans/02-douyin-fetch-api-source.md": {
+      "role": "index",
       "sha256": "31334060023f35142e83ed3ae47e766c1142aa0d124892f32188ff9d6914e8cc",
       "size": 12636,
       "normalized_sha256": "31334060023f35142e83ed3ae47e766c1142aa0d124892f32188ff9d6914e8cc"
     },
-    "docs/projects/python_projects/douyin_notify/plans/01-douyin-new-video-notify.md": {
-      "sha256": "633ddd5469e4a96d4259eda0402ccafff866c3975d348c42b3332cff0d9a948d",
-      "size": 11816,
-      "normalized_sha256": "633ddd5469e4a96d4259eda0402ccafff866c3975d348c42b3332cff0d9a948d"
+    "docs/projects/python_projects/douyin_downloader/specs/01-zhihu-article-extract/design.md": {
+      "sha256": "e5d3bc4f6047ccdee608ddae260cb6111dcd3111aa278a1e9c7d1a11e2aca766",
+      "size": 12776,
+      "normalized_sha256": "e5d3bc4f6047ccdee608ddae260cb6111dcd3111aa278a1e9c7d1a11e2aca766"
     },
-    "docs/projects/python_projects/douyinnotify/plans/01-douyin-new-video-notify.md": {
-      "sha256": "5e13ff4fd5ece44a2daa3c5db590f9d8a473b5f5b0d68e0c51f3090f492d6f0e",
-      "size": 16654,
-      "normalized_sha256": "5e13ff4fd5ece44a2daa3c5db590f9d8a473b5f5b0d68e0c51f3090f492d6f0e"
+    "docs/projects/python_projects/douyin_downloader/specs/01-zhihu-article-extract/requirements.md": {
+      "sha256": "20b99f903f0c5e572506971aa7ce996ce5c42f542155193279853e523cbe08b7",
+      "size": 5386,
+      "normalized_sha256": "20b99f903f0c5e572506971aa7ce996ce5c42f542155193279853e523cbe08b7"
+    },
+    "docs/projects/python_projects/douyin_downloader/specs/01-zhihu-article-extract/tasks.md": {
+      "sha256": "8a28557c766cbc9f436d1ca492735a7b75e300878cbaab42f6ecb6faee5c0515",
+      "size": 6209,
+      "normalized_sha256": "8a28557c766cbc9f436d1ca492735a7b75e300878cbaab42f6ecb6faee5c0515"
     },
     "docs/projects/python_projects/hucci-registration-use-case-layered/2026-09-21 分层架构话题.html": {
+      "role": "index",
       "sha256": "7d21e9e27b43f1265c883c5b9004249923641416c345747ea47d86bf5f7c5f48",
       "size": 588502,
       "normalized_sha256": "800136293ff00de4e7164c4a680be3f764b1c8606b3f6901f0b74c832bbfe13a"
     },
     "docs/projects/python_projects/llm-finetune-lab/01 环境与显存预算.md": {
+      "role": "index",
       "sha256": "8bd5df55b142d6d9ceb882dc0c348bcb7c4138098326cd411a9ff9ef9398c348",
       "size": 3749,
       "normalized_sha256": "8bd5df55b142d6d9ceb882dc0c348bcb7c4138098326cd411a9ff9ef9398c348"
     },
     "docs/projects/python_projects/llm-finetune-lab/02 数据工厂.md": {
+      "role": "index",
       "sha256": "26d42ce7242d63b1943512a5423e5793eb65302bf9c8d650b0cac5033e5512ac",
       "size": 4682,
       "normalized_sha256": "26d42ce7242d63b1943512a5423e5793eb65302bf9c8d650b0cac5033e5512ac"
     },
     "docs/projects/python_projects/llm-finetune-lab/03 LoRA 微调.md": {
+      "role": "index",
       "sha256": "404f8b3c388ce4145a956c86e49065aea4dc82506986e71f99238600e91bd7cd",
       "size": 3900,
       "normalized_sha256": "404f8b3c388ce4145a956c86e49065aea4dc82506986e71f99238600e91bd7cd"
     },
     "docs/projects/python_projects/llm-finetune-lab/04 QLoRA 与 4B.md": {
+      "role": "index",
       "sha256": "643fc59cdfb3198350162c65129ccdea3e0dd0a2563641232473567a6442cad8",
       "size": 2876,
       "normalized_sha256": "643fc59cdfb3198350162c65129ccdea3e0dd0a2563641232473567a6442cad8"
     },
     "docs/projects/python_projects/llm-finetune-lab/05 评测方法.md": {
+      "role": "index",
       "sha256": "c48c12fa1efa332a3fdc1410cd5c66ff0a7673a712135798d4d2f00f2879a18a",
       "size": 2626,
       "normalized_sha256": "c48c12fa1efa332a3fdc1410cd5c66ff0a7673a712135798d4d2f00f2879a18a"
     },
     "docs/projects/python_projects/llm-finetune-lab/06 导出 Ollama 部署.md": {
+      "role": "index",
       "sha256": "9325f0f003320d51508347db231271ab0a17b01c8858bd4ed0914880b075e9c6",
       "size": 2796,
       "normalized_sha256": "9325f0f003320d51508347db231271ab0a17b01c8858bd4ed0914880b075e9c6"
     },
     "docs/projects/python_projects/llm-finetune-lab/07 RAG 对照.md": {
+      "role": "index",
       "sha256": "f064b06de552b3578fd07ffc40f2bbaa125854bec06d66c86f1ab6745dd91b40",
       "size": 2941,
       "normalized_sha256": "f064b06de552b3578fd07ffc40f2bbaa125854bec06d66c86f1ab6745dd91b40"
     },
     "docs/projects/python_projects/llm-finetune-lab/README.md": {
+      "role": "index",
       "sha256": "1fc8b238d25037ff7366450b2177b3d017ce9cf43bf0fd3faf99b6019c885c16",
       "size": 3685,
       "normalized_sha256": "1fc8b238d25037ff7366450b2177b3d017ce9cf43bf0fd3faf99b6019c885c16"
     },
+    "docs/projects/python_projects/python exe 默认图标.md": {
+      "sha256": "d23cfacbca169f6e54d8a5e48a9fbf95c847293ad98abfecb0fa569d8b9a1dab",
+      "size": 3771,
+      "normalized_sha256": "d23cfacbca169f6e54d8a5e48a9fbf95c847293ad98abfecb0fa569d8b9a1dab"
+    },
     "docs/projects/python_projects/rag_lab/specs/01-knowledge-base/requirements.md": {
+      "role": "index",
       "sha256": "4f77bab5a1fef94f80b22787b57e1983a15d6dbf2a567409bd04094eb6a4e2ca",
       "size": 6616,
       "normalized_sha256": "4f77bab5a1fef94f80b22787b57e1983a15d6dbf2a567409bd04094eb6a4e2ca"
     },
     "docs/projects/python_projects/tech_learning_room/Celery 任务可靠性.md": {
+      "role": "index",
       "sha256": "7064ea94612aa3bcd291f5a907ba46e4c73c667491a8e530a4506397534be251",
       "size": 5978,
       "normalized_sha256": "7064ea94612aa3bcd291f5a907ba46e4c73c667491a8e530a4506397534be251"
     },
     "docs/projects/python_projects/tech_learning_room/FastAPI 分层与事务边界.md": {
+      "role": "index",
       "sha256": "a6f52d96a0c5575d5a7dcb536ee80381cd16c70e8cc234e8a45b5d84e1cf6d19",
       "size": 4818,
       "normalized_sha256": "a6f52d96a0c5575d5a7dcb536ee80381cd16c70e8cc234e8a45b5d84e1cf6d19"
     },
     "docs/projects/python_projects/tech_learning_room/Kafka 投递语义.md": {
+      "role": "index",
       "sha256": "bee8492c22795d720518406e3f1dfd64724d068550f07f23221ea58eb27829bf",
       "size": 5277,
       "normalized_sha256": "bee8492c22795d720518406e3f1dfd64724d068550f07f23221ea58eb27829bf"
     },
     "docs/projects/python_projects/tech_learning_room/PG 并发扣减与事务隔离.md": {
+      "role": "index",
       "sha256": "2478419bf6beb7e5782c6bde05e6e59580ce8f44ac5366ad47dad4ee0cb9c4e2",
       "size": 7623,
       "normalized_sha256": "2478419bf6beb7e5782c6bde05e6e59580ce8f44ac5366ad47dad4ee0cb9c4e2"
     },
     "docs/projects/python_projects/tech_learning_room/PG 查询调优.md": {
+      "role": "index",
       "sha256": "f1246a3720bb9b5b045fb21a98a72387397747f34a2b782e8a97dae5678dc9ba",
       "size": 5730,
       "normalized_sha256": "f1246a3720bb9b5b045fb21a98a72387397747f34a2b782e8a97dae5678dc9ba"
     },
     "docs/projects/python_projects/tech_learning_room/Python asyncio 并发.md": {
+      "role": "index",
       "sha256": "dde08abd2f1fece1b4b5a3ecbc15983c37f51413877b17b15218e4f78315a955",
       "size": 5081,
       "normalized_sha256": "dde08abd2f1fece1b4b5a3ecbc15983c37f51413877b17b15218e4f78315a955"
     },
     "docs/projects/python_projects/tech_learning_room/README.md": {
+      "role": "index",
       "sha256": "52107504b51318e8b850075319cee44d9aee307af700ce97dedfc543baa3ec4b",
       "size": 4036,
       "normalized_sha256": "52107504b51318e8b850075319cee44d9aee307af700ce97dedfc543baa3ec4b"
     },
     "docs/projects/python_projects/tech_learning_room/Redis 四种角色.md": {
+      "role": "index",
       "sha256": "2e8deb6dbcb078f534eaff2b73db58e8a99bb0ed1796f4767c12640004c8b69e",
       "size": 4664,
       "normalized_sha256": "2e8deb6dbcb078f534eaff2b73db58e8a99bb0ed1796f4767c12640004c8b69e"
     },
     "docs/projects/python_projects/tech_learning_room/Redis 缓存一致性.md": {
+      "role": "index",
       "sha256": "42884f0e9a20e54a33fe09124d8293dd419c074ca2107c8b06e1ce3adc8acc1f",
       "size": 6480,
       "normalized_sha256": "42884f0e9a20e54a33fe09124d8293dd419c074ca2107c8b06e1ce3adc8acc1f"
     },
     "docs/projects/python_projects/tech_learning_room/SQLAlchemy Session 生命周期.md": {
+      "role": "index",
       "sha256": "79bdce2ae2e8f202eca454c41f65d51015546b0539eaa9e59332e95289ea08b1",
       "size": 5605,
       "normalized_sha256": "79bdce2ae2e8f202eca454c41f65d51015546b0539eaa9e59332e95289ea08b1"
     },
     "docs/projects/python_projects/tech_learning_room/事务发件箱.md": {
+      "role": "index",
       "sha256": "54857e6790f4ef1d0a71c85e97300f5f6eaeac4d72819f1cf437c71559285618",
       "size": 5687,
       "normalized_sha256": "54857e6790f4ef1d0a71c85e97300f5f6eaeac4d72819f1cf437c71559285618"
     },
     "docs/projects/python_projects/tech_learning_room/计费补偿与对账.md": {
+      "role": "index",
       "sha256": "a2b6850fc8ec4d6ba5b3ea0fedb9e078071d5c255e442bad808d5bb70b9a02b2",
       "size": 5444,
       "normalized_sha256": "a2b6850fc8ec4d6ba5b3ea0fedb9e078071d5c255e442bad808d5bb70b9a02b2"
     },
     "docs/projects/python_projects/zedhub/specs/01-zed-session-hub/design.md": {
-      "sha256": "b77c7dd6b1f2d3b3ec21ec8415ac23b763407225f8395b395927b457732452f7",
-      "size": 32855,
-      "normalized_sha256": "b77c7dd6b1f2d3b3ec21ec8415ac23b763407225f8395b395927b457732452f7"
+      "sha256": "38831f6cdbc1356d1189e186d67d32f0017047070e288ce0b3026928b3aed328",
+      "size": 43787,
+      "normalized_sha256": "38831f6cdbc1356d1189e186d67d32f0017047070e288ce0b3026928b3aed328"
     },
     "docs/projects/python_projects/zedhub/specs/01-zed-session-hub/requirements.md": {
-      "sha256": "7a5c2b31b042bbac9782d8118ba9fd9151d13934ae545e05fb4df78486ca70e5",
-      "size": 17818,
-      "normalized_sha256": "7a5c2b31b042bbac9782d8118ba9fd9151d13934ae545e05fb4df78486ca70e5"
+      "sha256": "54399422d8da5c8b3d6484cb0a0d9b6f477ce24d4cad1c9716c8d50e529b000f",
+      "size": 23873,
+      "normalized_sha256": "54399422d8da5c8b3d6484cb0a0d9b6f477ce24d4cad1c9716c8d50e529b000f"
     },
     "docs/projects/python_projects/zedhub/specs/01-zed-session-hub/tasks.md": {
-      "sha256": "e37e610ad77048e47737c8141d0e148803cb63d7373b5823a8b1c6aa896a1a62",
-      "size": 21860,
-      "normalized_sha256": "e37e610ad77048e47737c8141d0e148803cb63d7373b5823a8b1c6aa896a1a62"
+      "sha256": "220787e87ab42d60041848bc123730bca4f4cf12873fde9a2f9ddedaed586b3f",
+      "size": 38880,
+      "normalized_sha256": "f03294a7919846bd341bdd71deb50d47dc89d4ada4cca5a2084e2f6de2c1634b"
     },
     "docs/projects/python_projects/zedhub/zedhub 对接协议.md": {
-      "sha256": "5c9c21cc7fe985ef726d0bb42cdcda8dc960620f0ae12e478f25063066bc19fa",
-      "size": 6698,
-      "normalized_sha256": "1f7cb85a09233b963e31616a0a4a4c2bcd69076725ea96ca53eb7c258e117cd8"
+      "sha256": "cf51ac41df1b2673b0aabaeabf52c24c0daab0a5c7aa3813e66c356d8b3d2a2d",
+      "size": 7922,
+      "normalized_sha256": "cf51ac41df1b2673b0aabaeabf52c24c0daab0a5c7aa3813e66c356d8b3d2a2d"
     },
     "docs/projects/rust_projects/minieverything/minieverything 开发笔记.md": {
+      "role": "index",
       "sha256": "3b71a962f8d84eea85849a09647e3abc77220df5a718c2c029246bba162c8473",
       "size": 4528,
       "normalized_sha256": "3b71a962f8d84eea85849a09647e3abc77220df5a718c2c029246bba162c8473"
     },
+    "docs/projects/typescript_projects/gemini-launcher/plans/01-dynamic-hotkey.md": {
+      "sha256": "e720e7ca3f3897b43ba6c48b9a8c2571cb4391fdece9377f2ab5fd8508d22428",
+      "size": 6292,
+      "normalized_sha256": "e720e7ca3f3897b43ba6c48b9a8c2571cb4391fdece9377f2ab5fd8508d22428"
+    },
     "docs/projects/typescript_projects/taskmon/plans/01-进程树检测.md": {
+      "role": "index",
       "sha256": "ce59cc9549a702ec4cfa3ef3a3b159894013e86e938a5861e3a52caf2b267ab7",
       "size": 7548,
       "normalized_sha256": "ceddf6d70fe9583033706eeae61e435bb94a5b2c53334459c43bb6da7862f63d"
     },
     "docs/projects/typescript_projects/taskmon/plans/02-AI分析对话.md": {
+      "role": "index",
       "sha256": "5f989367459cac7a31c9331e70f0b96b242898286891e0994e93cecfc050fa4f",
       "size": 13725,
       "normalized_sha256": "5f989367459cac7a31c9331e70f0b96b242898286891e0994e93cecfc050fa4f"
     },
     "docs/projects/typescript_projects/taskmon/taskmon AI 问答功能开发计划（人脑思考版）.md": {
+      "role": "index",
       "sha256": "7b7d31c835f5c00b19086698087fccdc53d52a135e69319daed5953ab4121e56",
       "size": 751,
       "normalized_sha256": "03d34a4f45b31137ca391818fe8b52d4b09d07915253e5d1421c21b8a35a4806"
     },
     "docs/projects/typescript_projects/taskmon/taskmon 源码阅读三方法.md": {
+      "role": "index",
       "sha256": "52ef62cdb888362d5211240ceaf8aaa85e4912b8422e13fca01c185e1cd02e7d",
       "size": 14640,
       "normalized_sha256": "bd747467c81213456c95d7180e2e796dfde79ca6ca3ed102595c39d53550dc31"
     },
     "docs/projects/typescript_projects/taskmon/taskmon-v0.2.0-go/taskmon-go 复刻规格说明书.md": {
+      "role": "index",
       "sha256": "a1f56b8ca0dac5fd2d69c3fef210f5af94074e42c5d9d570fe15f611094904fb",
       "size": 33443,
       "normalized_sha256": "6de2b5957410153c7e87a6f0c47c3c2bb50cee775624162c66d94f8b814a5c6d"
     },
     "docs/projects/typescript_projects/tooldeck/PLAN.md": {
+      "role": "index",
       "sha256": "9e55599fe10f1346016f993a6dc0814da51d3fc3e0db118b0250c6cc412ee8ef",
       "size": 17547,
       "normalized_sha256": "9e55599fe10f1346016f993a6dc0814da51d3fc3e0db118b0250c6cc412ee8ef"
     },
     "docs/repo/Git 子模块临时注销（native、rust）.md": {
+      "role": "index",
       "sha256": "8c69223ee26a806b14aacf9f0bbab942f3a1162822fdb5e0c67edaba41025040",
       "size": 7535,
       "normalized_sha256": "8c69223ee26a806b14aacf9f0bbab942f3a1162822fdb5e0c67edaba41025040"
     },
     "docs/repo/Git 子模块分支机制.md": {
+      "role": "index",
       "sha256": "bb4dcd94d16ef039b83b592c32cbe8d138f11b9b4e4ac575b6c9d8723c0367b4",
       "size": 3025,
       "normalized_sha256": "bb4dcd94d16ef039b83b592c32cbe8d138f11b9b4e4ac575b6c9d8723c0367b4"
     },
     "docs/repo/K8S 核心声明式调和链路原理剖析与自研架构设计.md": {
+      "role": "index",
       "sha256": "3f83f7ef5d8fa8537b6a4483fef6e792ae0aef0c7e0cdac530bafe985f0c9072",
       "size": 31153,
       "normalized_sha256": "c5a5b92f529f426f6adc6b7d93057e9fab826e65d639c63dd0b406b0527b1c60"
     },
     "docs/repo/MQTT 与 WebSocket 协议.md": {
+      "role": "index",
       "sha256": "3caf5978c6c38132315eeea3a253a3fca7b76d5841aae7ff8f32fa6bdc6d8a54",
       "size": 7965,
       "normalized_sha256": "3caf5978c6c38132315eeea3a253a3fca7b76d5841aae7ff8f32fa6bdc6d8a54"
     },
     "docs/repo/Qwen3.8-27B 本地部署配置调研.md": {
+      "role": "index",
       "sha256": "64b1eb716667848cd78dc5d6bba2a3b4ebb9cc481db82d3090eea891941be22a",
       "size": 18390,
       "normalized_sha256": "64b1eb716667848cd78dc5d6bba2a3b4ebb9cc481db82d3090eea891941be22a"
     },
     "docs/repo/agent-session-handoff-research.md": {
+      "role": "index",
       "sha256": "c8d8662f7c4e590c52e85696f6c5e5dfcaef161d78a70ee2b2eaee2d1e647eb2",
       "size": 23142,
       "normalized_sha256": "c8d8662f7c4e590c52e85696f6c5e5dfcaef161d78a70ee2b2eaee2d1e647eb2"
     },
+    "docs/repo/ai-cli-mcp-local-agent-cli-survey.md": {
+      "sha256": "a0bf1865db7df4f919aed43ba6822623bf51f5253aab523f45db187b6aaee42b",
+      "size": 28160,
+      "normalized_sha256": "a0bf1865db7df4f919aed43ba6822623bf51f5253aab523f45db187b6aaee42b"
+    },
+    "docs/repo/ai-cli-mcp-research-verification.md": {
+      "sha256": "4201eaee4cab16a72130b1366fa4591d063e4673936af6ca94652bca1179d88a",
+      "size": 38153,
+      "normalized_sha256": "4201eaee4cab16a72130b1366fa4591d063e4673936af6ca94652bca1179d88a"
+    },
+    "docs/repo/ai-cli-mcp-research.md": {
+      "sha256": "cca6f64ad4bbbdfd0390c7498ce0494ed19154eeb951c4db9ac213f4cc6d7290",
+      "size": 79222,
+      "normalized_sha256": "6813ca9fa9ee2ab2921306cbe2f566611374038d408d064e6b7f6b4c4dca8e89"
+    },
     "docs/repo/antigravity-acp-architecture-research.md": {
+      "role": "index",
       "sha256": "27ef7db6b56c45ffbffb1a63f923e8b9a97bbb7cfb52a9498ba2404346e6f860",
       "size": 24032,
       "normalized_sha256": "27ef7db6b56c45ffbffb1a63f923e8b9a97bbb7cfb52a9498ba2404346e6f860"
     },
     "docs/repo/docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md": {
+      "role": "index",
       "sha256": "3718859fb96681754192c0f16c35c5ee6477e64a278c4d1c178cabfc8a005c6c",
       "size": 10856,
       "normalized_sha256": "3718859fb96681754192c0f16c35c5ee6477e64a278c4d1c178cabfc8a005c6c"
     },
+    "docs/repo/douyin-ai-philosophy-video-creation-research.md": {
+      "sha256": "bf1d299a1d1f4dbbf7d12ba43f9cb916438ea0d6a5ef4cdec84c0335e3644f33",
+      "size": 12796,
+      "normalized_sha256": "7757ff91e48f4abbfa8b9aa5305e16e1da80741512946a6c238a6af015f1c33f"
+    },
     "docs/repo/fill-in-the-middle-research.md": {
+      "role": "index",
       "sha256": "77d2ca171d7fe36b10fc8f077b8c94db547b1594d0d17418c7ca967e555badf3",
       "size": 17143,
       "normalized_sha256": "b2ab05e4cac91e250d3852a8dc1acd4a1dc16f407732629d3c8ca46a019f35e5"
     },
     "docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html": {
+      "role": "index",
       "sha256": "358fd9c1e50fddc67ddc8d82e6e7309d8a76ec5792430b70d33eb1f8b431fd00",
       "size": 2788583,
       "normalized_sha256": "358fd9c1e50fddc67ddc8d82e6e7309d8a76ec5792430b70d33eb1f8b431fd00"
     },
-    "docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md": {
-      "sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088",
-      "size": 9063,
-      "normalized_sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088"
+    "docs/repo/mcp-2026-07-28-delta.md": {
+      "sha256": "17818e4c00ad38b24c17d2a7f7ca3c1e842fee3c95153418c97409ea1c615869",
+      "size": 102679,
+      "normalized_sha256": "17818e4c00ad38b24c17d2a7f7ca3c1e842fee3c95153418c97409ea1c615869"
+    },
+    "docs/repo/media-storage-abuse-research.md": {
+      "sha256": "7a703935f4df53378f54d1d57994a044be26b98d1d71dad9b734b212fa464f19",
+      "size": 8043,
+      "normalized_sha256": "0c21fe47d3e2974b8a669d9de3f9179f62005d242dca49a45456e95e9018d162"
     },
     "docs/repo/nosql-vs-rdbms-architecture-research.md": {
+      "role": "index",
       "sha256": "c640f3c1d91944019cb5daf5e3cb3525d76f5bfd10f764913fe2fccf9adec1ce",
       "size": 37601,
       "normalized_sha256": "de3d507c608477033c8df204b7e6c6cb2f6e5ff7e3bd1f730eb81792e5355992"
     },
+    "docs/repo/subagent-pipeline-tools-research.md": {
+      "sha256": "6d3c33033a234f51e2bfd3816a14e29ae4cfb484dfdb710647445a14c238a451",
+      "size": 36087,
+      "normalized_sha256": "6d3c33033a234f51e2bfd3816a14e29ae4cfb484dfdb710647445a14c238a451"
+    },
     "docs/repo/zed-edit-prediction-providers-research.md": {
+      "role": "index",
       "sha256": "81f285f8b3cfddb1dc6da9de6aca518ff6f93694c1490dac9b84210c02fb0c31",
       "size": 9431,
       "normalized_sha256": "81f285f8b3cfddb1dc6da9de6aca518ff6f93694c1490dac9b84210c02fb0c31"
     },
     "docs/repo/zed-multi-session-agent-architecture-research.md": {
+      "role": "index",
       "sha256": "0b6afb86fe2bbcffd1bd0b636cc4fdcc8046d14b559fbb4738e0a6b3d310e17f",
       "size": 14425,
       "normalized_sha256": "1eaa9567c063f380b376e055985c057c5247011e156ccf49f25dfa2fa8bc38a0"
     },
     "docs/repo/参考-鱼皮-7个神级技巧去AI味.md": {
+      "role": "index",
       "sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088",
       "size": 9063,
       "normalized_sha256": "492b8bc98ab3bf89ce3c2fc875cc7660b0cbf23d95f9e0e350ff0bfd0a8c4088"
     },
     "docs/repo/源码阅读方法调研.md": {
+      "role": "index",
       "sha256": "73599dfc183488da3a1aa59cc2a1698ff836e13aa6d69b5f786550a4f9f5b721",
       "size": 17255,
       "normalized_sha256": "73599dfc183488da3a1aa59cc2a1698ff836e13aa6d69b5f786550a4f9f5b721"
     },
     "docs/specs/01-web-archive-skill/design.md": {
+      "role": "index",
       "sha256": "964eaff472ac7bb1d1a98c32600cc1c1d07e007aa20ae45c1839447f05fc5eed",
       "size": 16731,
       "normalized_sha256": "964eaff472ac7bb1d1a98c32600cc1c1d07e007aa20ae45c1839447f05fc5eed"
     },
     "docs/specs/01-web-archive-skill/index.md": {
+      "role": "index",
       "sha256": "51228f08c7c69fcfb4fdaad496c48e5a3cf3549fcb38fb8bf4b107857cb9fdd6",
       "size": 1515,
       "normalized_sha256": "c041a0f125c5788348e3283da02d67e754e4fc91489956391a9c21fa910e2eac"
     },
     "docs/specs/01-web-archive-skill/requirements.md": {
+      "role": "index",
       "sha256": "fc1438dd58e4740f4e4ec0f0d9edff0b59abccf793c4de662fac7f3b5dd807be",
       "size": 6928,
       "normalized_sha256": "fc1438dd58e4740f4e4ec0f0d9edff0b59abccf793c4de662fac7f3b5dd807be"
     },
     "docs/specs/01-web-archive-skill/tasks.md": {
+      "role": "index",
       "sha256": "21fc8e87f9e9f264053b9aed61a778bb95ec8166a164e547a4b10f18bb87cff5",
       "size": 8976,
       "normalized_sha256": "21fc8e87f9e9f264053b9aed61a778bb95ec8166a164e547a4b10f18bb87cff5"
     },
+    "docs/specs/02-nginx-ai-proxy/design.md": {
+      "sha256": "160c7ad975dabc518bf43393487f1bc60dc505c7c059e686e9ca56522d6a1f83",
+      "size": 9409,
+      "normalized_sha256": "cde7fc05eaf339c13e5c2785f674716ad92be31aa8b9f2d9abcea6843b3afb76"
+    },
+    "docs/specs/02-nginx-ai-proxy/requirements.md": {
+      "sha256": "c70699d2ddde5768d66c95942b2174a3d5a4effab59ffadce38adcb85fadebda",
+      "size": 4995,
+      "normalized_sha256": "c01f45c4c0be768cd2f74189354ad83b311c8da6d40702f819cf0223b486bbb4"
+    },
+    "docs/specs/02-nginx-ai-proxy/tasks.md": {
+      "sha256": "affcdd92002e151d6ee423efcbf2be24fb6dbba620160dea30768b218849bb30",
+      "size": 5081,
+      "normalized_sha256": "affcdd92002e151d6ee423efcbf2be24fb6dbba620160dea30768b218849bb30"
+    },
     "mkdocs.yml": {
+      "role": "index",
       "sha256": "5472e9836d40e46e7c4ac68616a840c55bf02f5d4754bdbacf517f081c56b2bd",
       "size": 2087,
       "normalized_sha256": "5472e9836d40e46e7c4ac68616a840c55bf02f5d4754bdbacf517f081c56b2bd"
+    },
+    "plans_status.sql": {
+      "sha256": "a2b27411f804d555e3e71cc9e6b895310710e7505818af1050c8886cdef46bd6",
+      "size": 728,
+      "normalized_sha256": "a2b27411f804d555e3e71cc9e6b895310710e7505818af1050c8886cdef46bd6"
     }
   },
   "managed_scope": {
     "version": "managed-scope-baseline/v1",
-    "policy_identity": "d36163d08cfbd7f82aa2d2f4c68bc926d5190c619fb8e61a002b4d3d74519e43",
+    "policy_identity": "c385399bc52a8f3796f0e6de55664d6cd8c5ffaf87b64966434858e150519559",
     "observe_change_policy": "review_required",
     "budget_policy_identity": "15e9b37a6c57e9bf03c9df3d0d049eb5b9a7f5540f9d34960408114e2538a32d",
     "budget_policy": {
