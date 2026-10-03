@@ -87,6 +87,7 @@ walkthrough-27-commit-and-push-all-repos.md[SG4S]: F:27 号提交推送计划的
 32-commit-all-repos-by-theme.md[SV5M]: F:全仓逐主题提交计划：父仓与 go/python/typescript 三子仓全部改动按「一主题一笔、一笔一范围」拆分推送；含 zedhub 查重改三元组说明、143MB 视频产物排除与 AOCI 遗留记录 | R:code:docs/plans/walkthrough-32-commit-all-repos-by-theme.md | A:- | S:全程禁 git add -A 与 git add .（rust_projects 未检出删除态会被误暂存）；plans/specs 单独成笔
 walkthrough-31-glmquotawatch-tray-doubleclick-open-dir.md[SU4T]: F:Plan 31 执行记录：托盘双击与「打开 exe 目录」落地 internal/guiapp/tray.go，README 交互表同步；go test 全模块通过，生产构建产出 exe | R:code:docs/plans/31-glmquotawatch-tray-doubleclick-open-dir.md | A:- | S:-
 walkthrough-32-commit-all-repos-by-theme.md[SV4M]: F:Plan 32 执行记录：父仓与三子仓改动拆为 32 笔提交全量推送，含各笔哈希清单、zedhub 三元组查重与 --exact 变更说明、父仓 23 笔积压一并上推 | R:code:docs/plans/32-commit-all-repos-by-theme.md | A:- | S:-
+33-antigravity-hans-fyne-gui.md[SU5S]: F:Antigravity-Hans Fyne GUI 壳实施计划（已执行完成）：-tags gui + -H windowsgui 构建无终端 GUI（主页面启动汉化、托盘自启/唤窗/打开目录），快捷方式改指 GUI 修复终端闪现，发布改 tag 触发 | R:- | A:改动全部位于 .thirdparty/Antigravity-Hans（父仓外克隆不入库）；正式发布需先合并分支再打 v* tag | S:release 判定=构建提交带 tag 且工作区干净，仅 release 可注册开机自启；GUI 与 CLI 共用 package main（main.go 带 !gui 约束）
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-

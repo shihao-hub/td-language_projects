@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-03T14:48:52Z",
+  "updated_at": "2026-10-03T16:38:10Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -290,9 +290,9 @@
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "7ce538af8972a50d8a164f5d6258b7ccac00c03f6009be02a4c6245a23c996b1",
-      "size": 105122,
-      "normalized_sha256": "7ce538af8972a50d8a164f5d6258b7ccac00c03f6009be02a4c6245a23c996b1"
+      "sha256": "6f5e1abc2f6e15bd614b21db90b769b360bfe53a76168024a350e4026de03842",
+      "size": 105694,
+      "normalized_sha256": "6f5e1abc2f6e15bd614b21db90b769b360bfe53a76168024a350e4026de03842"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -580,6 +580,11 @@
       "sha256": "741793270b83383f7e31bafe5d27f9ec30a229c0ef34ddb31dd4bd465422bbd2",
       "size": 9693,
       "normalized_sha256": "741793270b83383f7e31bafe5d27f9ec30a229c0ef34ddb31dd4bd465422bbd2"
+    },
+    "docs/plans/33-antigravity-hans-fyne-gui.md": {
+      "sha256": "b5f5a608fe30b00d91d1ce2d4b4c71d06c9d4d0c95f44bd16ba2707d0550f36e",
+      "size": 13601,
+      "normalized_sha256": "b5f5a608fe30b00d91d1ce2d4b4c71d06c9d4d0c95f44bd16ba2707d0550f36e"
     },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "role": "index",
