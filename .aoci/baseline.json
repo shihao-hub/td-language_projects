@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-03T16:38:10Z",
+  "updated_at": "2026-10-04T08:57:05Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -252,9 +252,9 @@
       "normalized_sha256": "068af2746b8cf6c1e8ccf6d2d9c1459bb9e28b94432e9478265ee2f804b6e008"
     },
     "AGENTS.md": {
-      "sha256": "b49960e71f435fd29b62278567cd9ffdc0c4f47d762d59ffaa521446caecf5e2",
-      "size": 20996,
-      "normalized_sha256": "99e18c3576eec5d0965fa58f1d7ed647d471e13b4a7602ae8894680eadc571c4"
+      "sha256": "9fb9ace38c2798ce2c5dccc3a56017ee902ef6c052542f8da0e531de9825227d",
+      "size": 22702,
+      "normalized_sha256": "f1f9fb0b9ebec58cce5bddca52538beb4fe6a4b2a768407130cd124ec32b192d"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -290,9 +290,9 @@
       "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "aoci.code.txt": {
-      "sha256": "6f5e1abc2f6e15bd614b21db90b769b360bfe53a76168024a350e4026de03842",
-      "size": 105694,
-      "normalized_sha256": "6f5e1abc2f6e15bd614b21db90b769b360bfe53a76168024a350e4026de03842"
+      "sha256": "c2aebd873e03cb3b93744b4b7585367be2fc5d914a8e1c5efbd4fa9bf7d06de7",
+      "size": 105772,
+      "normalized_sha256": "c2aebd873e03cb3b93744b4b7585367be2fc5d914a8e1c5efbd4fa9bf7d06de7"
     },
     "aoci.meta.txt": {
       "role": "index",
