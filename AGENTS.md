@@ -1,4 +1,4 @@
-﻿# AGENTS.md
+# AGENTS.md
 
 ## 强约束规则
 
@@ -69,6 +69,15 @@
 - 定位：以 CLI 工具为主；非 CLI 的服务端/SDK 及带 GUI 项目属例外（个位数，如 liteconf），收录须注明理由，详见父仓 README「子仓约定」。
 - 曾计划采用 git submodules 管理子项目，后因维护成本退回 monorepo；背景与操作方案见子仓内 `SUBMODULES.md`。
 - 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `docs\assets\projects\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[go exe 默认图标](<docs/projects/go_projects/go exe 默认图标.md>)》。
+- 产 exe / GUI 项目的 dev 与 release 产物命名隔离约束：
+  - **开发版（dev 构建）**：产物文件名必须显式包含 `-dev` 后缀（如 `<project>-dev.exe` 或 `<project>-gui-dev-windows-amd64.exe`），版本号附带 `-dev`（如 `vX.Y.Z-dev`）；
+  - **正式版（release 构建）**：产物必须是标准的正式名（如 `<project>.exe` 或 `<project>-gui-windows-amd64.exe`），严禁包含任何 dev 标识；
+  - **探测与快捷方式优先级**：任何快捷方式生成（`.lnk`）、开机自启动路径或外部进程查找器，**必须优先查找正式版 exe**，仅当正式版不存在时才允许回退查找开发版 exe，防止开发阶段与正式环境相互踩踏；
+  - **开机自启动与注册表保护**：凡涉及向系统注册表（如 `HKCU\...\Run`）写入开机自启路径的 GUI 程序，开发版必须强校验禁止写入（菜单项置灰并拒绝执行），仅正式版（HEAD 严格命中 Git Tag 且工作区干净）允许注册。
+- 带 GUI / 独立品牌项目的图标规范：
+  - 普通 CLI 工具产 exe 默认使用地鼠图标；
+  - **带 GUI / 托盘桌面壳的项目属独立软件形态，禁止直接拿地鼠图标应付**：必须配套专属的现代多分辨率矢量图标流水线（如 `scripts/render_icon.py`），生成 1024x1024 高清图、16-256px 多尺寸标准 `icon.ico`、托盘与窗口资源，并通过 `rsrc` 生成 `.syso`；
+  - **GUI 窗口图标必须显式注入**：GUI 程序必须在主窗口初始化时显式绑定应用/窗口图标（如 Fyne 调用 `app.SetIcon` / `win.SetIcon`，Wails 绑定 `app.Icon`），严禁遗留 Windows 系统默认的白框线框图标。
 
 ### python_projects
 
