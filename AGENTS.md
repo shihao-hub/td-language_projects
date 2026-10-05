@@ -27,7 +27,7 @@
 - 禁止 `SELECT *`：任何 ORM 查询与手写 SQL 一律显式列出所需字段。
 - CLI 工具开发统一遵循《[CLI 工具开发标准](<docs/projects/go_projects/CLI 工具开发标准.md>)》（跨语言适用）：新工具默认配套 MCP，CLI 默认人读并提供 `--json`，独立工具提供 `schema` 导出；适用例外与存量兼容迁移按标准执行。
   - **必须先完整阅读该标准再动手的场景**：① 新建任何 CLI/工具类项目（不限语言）；② 给已有项目新增 CLI / MCP 入口或 `schema` 导出；③ 需要豁免标准要求（如服务 + 库形态不配 CLI）时；④ 重构/评审已有项目的 CLI 入口契约时。
-- 数据文件存放强约束：所有项目运行时产生的自有数据文件（JSON 数据库、SQLite db、索引/哈希缓存、锁文件、日志、会话存储、settings 等）只允许放在 `%APPDATA%\language_projects\<项目名>\`；取不到 `APPDATA` 时回退 `~/.language_projects/<项目名>/`；代码必须在写入前自动创建完整目录链（含 `language_projects` 一层）。**写路径禁止“跟随”外部文件所在目录推导**：不得因读取某外部程序/项目的文件（如凭据、数据库）就把自产文件（缓存/锁/临时文件等）落到其所在目录，历史违规案例：agyquota 曾把 token 缓存写进 Zed 凭据目录 `~/.gemini/antigravity-acp/`。例外：只读外部数据源（opencode.db、Zed db 等）仅指读取不受限，向其目录写入仍属违规；django-lab 的 `db.sqlite3` 保留项目根目录；zed-opencode-sessions 仓库内归档 db 为有意提交，保持现状。
+- 数据文件存放强约束：所有项目运行时产生的自有数据文件（JSON 数据库、SQLite db、索引/哈希缓存、锁文件、日志、会话存储、settings 等）只允许放在 `%APPDATA%\language_projects\<项目名>\`；取不到 `APPDATA` 时回退 `~/.language_projects/<项目名>/`；代码必须在写入前自动创建完整目录链（含 `language_projects` 一层）。**写路径禁止“跟随”外部文件所在目录推导**：不得因读取某外部程序/项目的文件（如凭据、数据库）就把自产文件（缓存/锁/临时文件等）落到其所在目录，历史违规案例：agyquota 曾把 token 缓存写进 Zed 凭据目录 `~/.gemini/antigravity-acp/`。例外：只读外部数据源（opencode.db、Zed db 等）仅指读取不受限，向其目录写入仍属违规；django-lab 的 `db.sqlite3` 保留项目根目录；zed-opencode-sessions 仓库内归档 db 为有意提交，保持现状。带 dev/prod 双构建形态的项目，数据目录还须按 dev/prod 子目录隔离（详见「各语言子仓约定 - go_projects」）。
 - lark-cli 创建的飞书文档默认放在用户的飞书「我的文档库」（创建时加 `--parent-position my_library`），不要落在云盘根目录；用户明确指定位置时以用户为准。
 - 测试资源用后即清：chrome-devtools 等工具打开的浏览器测试页、临时起的服务、后台进程，验证完成立即关闭或终止，不得遗留；chrome-devtools 浏览器任务收尾时，其专属 Chrome 的最后一个 about:blank 标签页 MCP 关不掉（属启动初始页，非残留错误），收尾标准为不残留任何窗口与后台进程，需按 user-data-dir 过滤整组终止：`Get-CimInstance Win32_Process -Filter "Name='chrome.exe'" | Where-Object { $_.CommandLine -like '*chrome-devtools-mcp\chrome-profile*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }`；确需保留时必须向用户说明并获得同意。
 - 注释中的 `sh-ai-todo` 如果完成了请标记为 `sh-ai-todo[o]`
@@ -108,11 +108,15 @@
 - 定位：以 CLI 工具为主；非 CLI 的服务端/SDK 及带 GUI 项目属例外（个位数，如 liteconf），收录须注明理由，详见父仓 README「子仓约定」。
 - 曾计划采用 git submodules 管理子项目，后因维护成本退回 monorepo；背景与操作方案见子仓内 `SUBMODULES.md`。
 - 产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `docs\assets\projects\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[go exe 默认图标](<docs/projects/go_projects/go exe 默认图标.md>)》。
-- 产 exe / GUI 项目的 dev 与 release 产物命名隔离约束：
+- 产 exe / GUI 项目的 dev 与 release 隔离约束：
+  - **统一构建脚本**：构建统一由单一 `build.py` 完成（uv 单脚本结构，文件头带 PEP 723 内联元数据块，仅用标准库也保留），不搞 ps1/bat 或 dev/prod 双脚本；脚本开头必须有用户可读的使用说明文本（怎么调用、有哪些模式、产出什么），且每次变更脚本时同步更新该说明；
+  - **构建类型自动判定**：仅当 HEAD 严格命中 git tag 且工作区干净时才允许产 release（正式命名产物），其余一律按 dev 处理（产物带 `-dev` 后缀，工作区不干净时版本号再带 `-dirty`）；版本号与 commit 经 `-ldflags` 注入；
   - **开发版（dev 构建）**：产物文件名必须显式包含 `-dev` 后缀（如 `<project>-dev.exe` 或 `<project>-gui-dev-windows-amd64.exe`），版本号附带 `-dev`（如 `vX.Y.Z-dev`）；
   - **正式版（release 构建）**：产物必须是标准的正式名（如 `<project>.exe` 或 `<project>-gui-windows-amd64.exe`），严禁包含任何 dev 标识；
+  - **数据目录隔离**：dev 与 prod 的运行时数据目录必须分开（`%APPDATA%\language_projects\<项目名>\dev` 与 `...\<项目名>\prod`），开发调试严禁读写生产数据；
+  - **单例互斥锁隔离**：带单实例互斥（mutex / SingleInstance UniqueID）的程序，dev 与 prod 必须使用不同 ID（dev 在 prod ID 基础上追加 `.dev` 后缀），防止开发调试实例与后台常驻生产实例互斥冲突；
   - **探测与快捷方式优先级**：任何快捷方式生成（`.lnk`）、开机自启动路径或外部进程查找器，**必须优先查找正式版 exe**，仅当正式版不存在时才允许回退查找开发版 exe，防止开发阶段与正式环境相互踩踏；
-  - **开机自启动与注册表保护**：凡涉及向系统注册表（如 `HKCU\...\Run`）写入开机自启路径的 GUI 程序，开发版必须强校验禁止写入（菜单项置灰并拒绝执行），仅正式版（HEAD 严格命中 Git Tag 且工作区干净）允许注册。
+  - **开机自启动与注册表保护**：凡涉及向系统注册表（如 `HKCU\...\Run`）写入开机自启路径的 GUI 程序，开发版必须强校验禁止写入（菜单项置灰并拒绝执行），并向用户明确提示该功能在 dev 版不生效；此类功能直接用 release 版本测试，仅正式版允许注册。
 - 带 GUI / 独立品牌项目的图标规范：
   - 普通 CLI 工具产 exe 默认使用地鼠图标；
   - **带 GUI / 托盘桌面壳的项目属独立软件形态，禁止直接拿地鼠图标应付**：必须配套专属的现代多分辨率矢量图标流水线（如 `scripts/render_icon.py`），生成 1024x1024 高清图、16-256px 多尺寸标准 `icon.ico`、托盘与窗口资源，并通过 `rsrc` 生成 `.syso`；
