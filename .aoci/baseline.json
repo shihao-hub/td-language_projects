@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-05T16:27:20Z",
+  "updated_at": "2026-10-05T18:12:46Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -25,9 +25,9 @@
       "normalized_sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476"
     },
     ".gitignore": {
-      "sha256": "4c2bde3f0b3d115033d3b304f59205ecf76d5755634cf475bfc7540807de5fef",
-      "size": 372,
-      "normalized_sha256": "4c2bde3f0b3d115033d3b304f59205ecf76d5755634cf475bfc7540807de5fef"
+      "sha256": "a2ccebcfbe4e0f712b7946943c96924e46da12f1257ead22e0c2362062ac3193",
+      "size": 467,
+      "normalized_sha256": "a2ccebcfbe4e0f712b7946943c96924e46da12f1257ead22e0c2362062ac3193"
     },
     ".gitmodules": {
       "role": "index",
@@ -256,9 +256,9 @@
       "normalized_sha256": "068af2746b8cf6c1e8ccf6d2d9c1459bb9e28b94432e9478265ee2f804b6e008"
     },
     "AGENTS.md": {
-      "sha256": "9fb9ace38c2798ce2c5dccc3a56017ee902ef6c052542f8da0e531de9825227d",
-      "size": 22702,
-      "normalized_sha256": "f1f9fb0b9ebec58cce5bddca52538beb4fe6a4b2a768407130cd124ec32b192d"
+      "sha256": "7b7caa9f6849a14d424d69eef0d2c411d2ec45330ff7ce1fa38014fa71856285",
+      "size": 26001,
+      "normalized_sha256": "c833947666c0880eccdbff6787a4a95a4d0582de5992d19b352586f033cea649"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -299,9 +299,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "174c51d6615b8b710e660c219eb4fb959f3235ef4de28da1adae3244cec1a457",
-      "size": 107243,
-      "normalized_sha256": "174c51d6615b8b710e660c219eb4fb959f3235ef4de28da1adae3244cec1a457"
+      "sha256": "080d7cfca84290cc5b65ff782e5e06ea8de4869782808153a399154ac6e4fad2",
+      "size": 107357,
+      "normalized_sha256": "080d7cfca84290cc5b65ff782e5e06ea8de4869782808153a399154ac6e4fad2"
     },
     "aoci.meta.txt": {
       "role": "index",
