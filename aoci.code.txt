@@ -14,6 +14,14 @@ SPEC-HUMAN.md[SZ1T]: F:空占位文件（0 字节），无内容语义 | R:- | A
 mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkdocs-site/、file:// 直开、zh 语言 + search/awesome-pages、mermaid 与 pymdownx 扩展 | R:code:.scripts/build_docs.py,code:docs/index.md,code:docs/assets/javascripts/mermaid.min.js | A:use_directory_urls 必须保持 false；主题/插件改动后用 build --strict 验证 | S:链接校验 not_found=ignore 是为放行指向仓库源码的文档外链接；中文搜索依赖 jieba 可导入，缺则静默退化为整段匹配
 aoci.repository.cognition.md[SC4S]: F:AOCI 仓库认知集成说明：AGENTS.md 托管块迁出原文，定义认知建立/恢复/维护入口（aoci_rules/overview/maintain/update_entry）、上下文压缩重载规则、任务收尾与写边界；触发时机见 AGENTS.md 指针节 | R:code:AGENTS.md | A:- | S:本文件是 aoci:begin/end 托管块存档，恢复时原样贴回 AGENTS.md 文末
 plans_status.sql[FD3T]: F:plansql 的 Append-Only 状态流：记录 docs/plans/28 号计划置 completed 的两条 UPSERT 语句（plansql CLI 追加生成） | R:code:docs/plans/28-plansql-tracker.md,code:docs/projects/go_projects/plansql/设计说明.md | A:- | S:SQLite 投影由此文件重放生成，禁止直接改投影库
+THIRDPARTY.md[SG5M]: F:.thirdparty/ 归档清单：20 个条目（17 Git 仓库 + 3 非 Git 目录）的远端地址、分支/tag、基线 commit、本地定制与恢复命令 | R:code:.scripts/restore-thirdparty.py,code:docs/guides/GUIDE-第三方项目克隆.md | A:换机或目录重置后恢复 .thirdparty/ 的权威清单；新增第三方库须同步登记本文件与恢复脚本 | S:.thirdparty/ 被根 .gitignore 忽略不随仓库提交，多机需手动按清单 clone；PowerShell 全量脚本为备用手段
+bilibili_skill_summary.md[SW2T]: F:B 站视频精读笔记：Codex 双窗协同 Skill——ChatGPT 规划不耗额度、Codex 自动抓取方案并执行的机制与省流原理 | R:- | A:- | S:-
+bilibili_summary.md[SZ2T]: F:B 站《10.4 AI 早报（第171期）》速览笔记：模型与产品动态、AI 安全治理与诉讼争议、算力硬件进展 | R:- | A:- | S:-
+guide.md[SU3S]: F:AutoHotkey v2 应用极速切换指南：Alt+快捷键 Toggle 置顶/最小化、多窗口轮换、拒绝自动启动、开机自启与冲突避坑 | R:- | A:- | S:wt 须映射 WindowsTerminal.exe；PowerToys 同热键会抢先拦截
+opencode.json[FC4T]: F:opencode 项目级配置：为 plan agent 放开 bash 与 external_directory 权限，消除计划模式下的授权弹窗 | R:code:.claude/settings.json | A:与全局 ~/.config/opencode/opencode.json 合并、项目级优先；schema 见 https://opencode.ai/config.json | S:不覆盖 edit 权限，保留内置 deny 与 plan 文件写入特例；子模块内启动不生效
+test.txt[ZZ1T]: F:仅含一行 hello 的临时测试文本文件，无业务用途 | R:- | A:- | S:-
+wechat_offline_pay_summary.md[SS3T]: F:微信离线付款码原理面试笔记：单向离线模型（商户扫码枪联网搭桥）、类 TOTP 动态码、服务端防重放与限额风控、双离线签名方案 | R:- | A:- | S:主扫不可离线；一码一用防重放；公交双离线走非对称签名
+zhihu_summary.md[SZ2T]: F:知乎《当工作不允许我们学习》精读笔记：AI 时代赛练分离、心智模型预训练差距、机会复利与理解债 | R:- | A:- | S:-
 
 ===D:/Users/language_projects/.scripts/===
 gen_icon.py[XG4T]: F:PNG 源图转 16-256 七帧 Windows .ico，非方形等比居中到透明画布 | R:- | A:uv run .scripts/gen_icon.py <input.png> <output.ico> | S:-
@@ -23,13 +31,11 @@ build_docs.py[XV5T]: F:docs 静态站点构建入口：build/serve/preview 三�
 check-agy-upstream.py[XV4S]: F:antigravity-acp 上游监控：urllib 拉官方 ACP Registry JSON 与 Zed 本地已装版本比对并提示升级路径，GitHub Search API 检索社区仓库；--only-registry 跳过搜索段 | R:code:docs/plans/10-antigravity-acp-inspection.md,code:docs/repo/antigravity-acp-architecture-research.md | A:uv run .scripts/check-agy-upstream.py [--only-registry\|--query <关键词>] | S:零三方依赖全走标准库 urllib；HTTP 失败降级为警告不中断
 init-submodules.py[XV6T]: F:初始化未拉取的子模块并按 .gitmodules 的 branch 字段切跟踪分支 | R:code:.gitmodules | A:克隆后在父仓库根执行一次 uv run .scripts/init-submodules.py | S:只初始化 status 前缀 - 的子模块，不拽回领先指针；UTF-8 无 BOM（uv 不识别带 BOM 的 PEP 723）
 submodule-toggle.py[XV6M]: F:语言子模块临时注销与恢复一键脚本：status 只读体检、deinit 本地注销、restore 恢复并切跟踪分支 | R:code:.gitmodules,code:README.md,code:.scripts/init-submodules.py,code:docs/repo/Git 子模块临时注销（native、rust）.md | A:在父仓根执行 uv run .scripts/submodule-toggle.py -Action <status|deinit|restore> -Name <子模块名>（-Name 支持空格或逗号分隔多个） | S:deinit 对不干净/未推送整批拒绝，已注销幂等跳过；gitlink 缺失时 restore 回溯历史重建并 add --force，事后人工提交指针；退出码 0/1/2/3=成功/参数/前置/执行
-build_custom_icons.py[XV3S]: F:生成 4 款 DeepSeek 鲸鱼自定义图标：从 .thirdparty 源 SVG 提取鲸鱼 path，套 4 套配色模板写 SVG，Edge headless 截图 PNG，PIL 合成 16-256px 多尺寸 Windows ICO | R:- | A:输出 .scripts/custom_icons/ 下 1_dark_pro_blue、2_pure_floating_whale、3_dark_monochrome、4_official_deep_blue 四变体 | S:依赖 .thirdparty/deepseek-harness 源图标与本机 Edge 绝对路径
 calc_crap.py[XQ4S]: F:按 CRAP 公式 CC^2*(1-cov)^3+CC 评估 Python 函数风险：radon 解析圈复杂度、coverage.json 提供执行行，逐函数计算覆盖率与 CRAP 分并输出超阈值清单 | R:- | A:参数 --src/--cov/--threshold/--all；供 Zed 任务「CRAP: Python」调用 | S:需先 coverage run -m pytest 生成 coverage.json；存在高风险函数时退出码 1
 gen_python_logo.py[XV4S]: F:生成 1024 透明底 Python 双蛇标志 PNG：内嵌 Wikimedia 官方 logo 的 path 数据，贝塞尔展平后 Pillow 多边形填充 PSF 官方蓝黄并挖出眼睛透明孔 | R:code:.scripts/gen_icon.py | A:用法 uv run .scripts/gen_python_logo.py [输出.png]，产物交 gen_icon.py 合成多帧 ico | S:-
 link-submodule-agents.py[XC5M]: F:把父仓 AGENTS.md 以 NTFS 硬链接同步到各子模块/子仓库根目录，解决 Agent 遇子模块 .git 停止向上查找规则文件的问题；支持状态检查、清理与 gitignore 管理 | R:code:AGENTS.md | A:默认建链；--status 查 Inode 状态；--unlink 清理；--add-gitignore/--remove-gitignore 维护忽略规则；--force 覆盖独立文件 | S:硬链接与源同 Inode：编辑任一子仓副本 AGENTS.md 即实时修改父仓原文件
-patch_deepseek_harness_icon.py[XU4L]: F:DeepSeek Harness 桌面端图标补丁：rcedit 注入自定义 ICO 进 EXE PE 资源（未启动/运行态统一），自动备份并同步托盘 tray.ico，支持一键还原官方原始状态 | R:code:.scripts/custom_icons/3_dark_monochrome_centered.svg | A:参数 --custom-icon/--restore/--kill/--restart-explorer/--target-exe/--rcedit-path/--scale/--no-tray | S:rcedit 缺失时自动从 GitHub 下载；EXE 被官方自动更新覆写后需重跑脚本恢复
-perfect_dark_icon.py[XV3T]: F:生成居中校准版暗黑鲸鱼图标：官方鲸鱼 path 左移 25px 上移 50px 光学居中（原版偏右偏下），988px rx=150 底板，Edge 截图后 PIL 合成多尺寸 ICO | R:code:.scripts/custom_icons/3_dark_monochrome_centered.svg | A:输出 3_dark_monochrome_centered 的 .svg/.png/.ico 三件套 | S:依赖 .thirdparty 源图标与本机 Edge
 install-aoci-mcp.py[XC3L]: F:把本仓 AOCI MCP 统一配置到五处用户级配置：claude/opencode（JSON 合并）、codex（config.toml 追加段）、antigravity ACP（mcp.json）与桌面 IDE（.gemini/config/mcp_config.json，空文件容错）；幂等——缺则写、一致跳过 | R:- | A:uv run .scripts/install-aoci-mcp.py [--agent ...] [--exe ...] [--force] [--json]；自动探测 aoci.exe（固定路径→PATH） | S:codex 段边界按行识别节标题（数组方括号会误判）；agy 双形态两份配置；JSON 原子写
+restore-thirdparty.py[XV5M]: F:检查并恢复 .thirdparty/ 外部参考仓库：内置 17 仓库清单 clone（--depth 50）、可选 tag 检出、--check 只读盘点、--name 过滤单项，另盘点 3 个非 Git 归档目录 | R:code:THIRDPARTY.md,code:docs/guides/GUIDE-第三方项目克隆.md | A:在父仓根执行 uv run .scripts/restore-thirdparty.py [--check] [--name <项目名>]；退出码 0=成功、1=参数或目录缺失 | S:PEP 723 零依赖；stdout/stderr 强制 UTF-8；分支 clone 失败回退裸 clone，仍失败仅告警不中断；.thirdparty 被 gitignore 不入库
 
 ===D:/Users/language_projects/.zed/===
 extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本（lua/toml/sql/neocmake/html/ini/xmake），配合 auto_install_extensions 安装；PowerShell 扩展已随全仓 ps1 清零移除 | R:code:.zed/settings.json | A:- | S:-
@@ -321,19 +327,11 @@ tasks.md[SQ5S]: F:sourcecount 实施任务清单：项目骨架、配置 Glob、
 使用指南.md[SQ5S]: F:sourcecount 使用指南：构建（go build + uv run scripts/build.py）、CLI/MCP 调用、JSON 配置、过滤语义、统计口径、错误码和范围限制 | R:code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/requirements.md,code:docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md | A:面向使用者；构建命令为 uv run scripts/build.py；命令为 sourcecount，MCP 工具为 sourcecount.project.scan，配置按显式路径、当前目录、单根目录顺序发现 | S:无持久化状态；默认排除可关闭，且不解析 .gitignore
 
 ===D:/Users/language_projects/.claude/===
-settings.json[FC2T]: F:Claude Code 项目级配置：plansDirectory 指向 .claude/plans（计划文件目录约定） | R:- | A:- | S:-
+settings.json[FC2T]: F:Claude Code 项目共享配置：plansDirectory 指向 .claude/plans，permissions.allow 以 Bash(*) 预授权全部 shell 命令免询问 | R:- | A:随仓库提交的共享项目配置；个人差异放同目录 settings.local.json | S:allow 只免弹窗，不解锁 plan 模式的文件编辑封锁
 
 ===D:/Users/language_projects/.claude/plans/===
 build-uv-run-build-py-prancy-mountain.md[SV3T]: F:历史计划文档：把 4 处构建脚本文档示例统一为默认无参 uv run build.py 形式（clictl、sourcecount 两项目 README 与父仓镜像使用指南），带参用法转注释 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/sourcecount/使用指南.md | A:- | S:-
 staged-inventing-salamander.md[SD4T]: F:zedhub 功能计划：sessions link 增加 claude-code/codex/antigravity 三源会话补登与跨目录挂载（新建 thread_id 沿用 session_id，原目录入口保留），含三源扫描器设计、查重语义与真实验证方案 | R:code:docs/projects/python_projects/zedhub/specs/01-zed-session-hub/tasks.md | A:- | S:opencode 源保持全局 session_id 查重；三源按 (agent_id,session_id,目录) 三元组查重
-
-===D:/Users/language_projects/.scripts/custom_icons/===
-1_dark_pro_blue.svg[FV2T]: F:深蓝鲸鱼图标方案一：暗黑渐变圆角底板配微高光描边，发光科技蓝鲸鱼，融入 Zed/Sublime 开发者风格 | R:code:.scripts/build_custom_icons.py | A:- | S:-
-2_pure_floating_whale.svg[FV2T]: F:深蓝鲸鱼图标方案二：去除底板纯透底，科技蓝渐变鲸鱼放大居中带投影，呼应飞书与 Chrome 轻盈风格 | R:code:.scripts/build_custom_icons.py | A:- | S:-
-3_dark_monochrome.svg[FV2T]: F:深蓝鲸鱼图标方案三：暗黑圆角底板配银白微光鲸鱼，极简黑白金属极客风 | R:code:.scripts/build_custom_icons.py | A:- | S:-
-3_dark_monochrome_centered.svg[FV2T]: F:方案三居中校准版：底板改 988px rx=150 与 Zed 圆角一致，鲸鱼平移至画布正中央并加白色与黑色双层投影 | R:code:.scripts/custom_icons/3_dark_monochrome.svg | A:- | S:-
-3_dark_monochrome_perfect.svg[FV2T]: F:方案三终版：鲸鱼放大 1.16 倍重校视觉重心，底板与圆角同 centered 版，微调光晕参数 | R:code:.scripts/custom_icons/3_dark_monochrome_centered.svg | A:- | S:-
-4_official_deep_blue.svg[FV2T]: F:深蓝鲸鱼图标方案四：DeepSeek 官方深海蓝渐变圆角底板配纯白鲸鱼，官方品牌色 | R:code:.scripts/build_custom_icons.py | A:- | S:-
 
 ===D:/Users/language_projects/.scripts/group_avatars/===
 .gitignore[FC2T]: F:忽略群头像生成过程的测试与临时文件（test_* 模式），保留「临时区」群成品 temp_zone_avatar.jpg 与 *_temp_*.png 入库 | R:code:.scripts/group_avatars/README.md | A:- | S:-
@@ -376,4 +374,9 @@ python exe 默认图标.md[SV5T]: F:python_projects exe 默认图标规范：打
 design.md[SN5M]: F:nginx-ai-proxy 设计：系统裸跑 Nginx + Go 单二进制 aiproxy 编排（keygen/init/渲染 nginx.conf/reload/RSS 监控），总内存 5~10MB 不影响同机饥荒游戏服；含客户端-代理-智谱三级架构图 | R:code:docs/specs/02-nginx-ai-proxy/requirements.md | A:- | S:-
 requirements.md[SN5T]: F:nginx-ai-proxy 需求：go_projects 二级子模块，裸跑系统 Nginx 反代智谱 GLM（8088 端口、虚拟 Key 鉴权、注入真实凭证、SSE 零缓冲），Go CLI aiproxy 管理，整合 nanocode 客户端 | R:code:docs/specs/02-nginx-ai-proxy/design.md | A:- | S:-
 tasks.md[SW5T]: F:nginx-ai-proxy 任务清单（未开始）：子模块骨架、Nginx 配置模板、aiproxy 核心包（config/nginx/tester）、nanocode 客户端整合与验证 | R:code:docs/specs/02-nginx-ai-proxy/design.md | A:- | S:-
+
+===D:/Users/language_projects/docs/specs/03-clictl-gui/===
+design.md[SU6S]: F:clictl GUI 一期设计：net/http + go:embed 本机网页壳、token/Host 安全中间件、端口复用探测、RunCaptured 编排下沉 runner/service | R:code:docs/specs/03-clictl-gui/requirements.md,code:docs/specs/03-clictl-gui/tasks.md | A:实现约束：业务错误 HTTP 200 + ok:false、/api/version 豁免 token、stop 部分失败作正常 data | S:捕获运行 ctx 取自请求（客户端断开即杀树）；执行原语平移须逐行保持 runOut wire 契约，mcp_test.go 回归保护
+requirements.md[SU6T]: F:clictl GUI 一期需求：gui 子命令四类能力（列表/启停/注册管理/捕获运行）、FR-1~8、零依赖与回环安全基线、AC-1~8 | R:code:docs/specs/03-clictl-gui/design.md,code:docs/specs/03-clictl-gui/tasks.md | A:与 CLI/MCP 同源 JSON 包络契约（ok/data 或 error.code）；实现范围以本文 FR 为准 | S:Out of Scope 不做 WebSocket/SSE、WebView、MCP 转发与新增自动化测试；代码落 go_projects/clictl（子仓）
+tasks.md[SW5T]: F:clictl GUI 实施任务：5 个串行任务（runner 原语下沉→service.RunCaptured→GUI 骨架→前端单页→文档收尾），每步保持可构建 | R:code:docs/specs/03-clictl-gui/requirements.md,code:docs/specs/03-clictl-gui/design.md | A:代码任务均在 go_projects/clictl/ 内执行；任务 5 涉父仓文档，提交须范围隔离 | S:全部任务未勾选（0/5）；Verify 多标注「执行阶段不跑」属备用信息
 
