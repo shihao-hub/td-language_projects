@@ -15,13 +15,7 @@ mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkd
 aoci.repository.cognition.md[SC4S]: F:AOCI 仓库认知集成说明：AGENTS.md 托管块迁出原文，定义认知建立/恢复/维护入口（aoci_rules/overview/maintain/update_entry）、上下文压缩重载规则、任务收尾与写边界；触发时机见 AGENTS.md 指针节 | R:code:AGENTS.md | A:- | S:本文件是 aoci:begin/end 托管块存档，恢复时原样贴回 AGENTS.md 文末
 plans_status.sql[FD3T]: F:plansql 的 Append-Only 状态流：记录 docs/plans/28 号计划置 completed 的两条 UPSERT 语句（plansql CLI 追加生成） | R:code:docs/plans/28-plansql-tracker.md,code:docs/projects/go_projects/plansql/设计说明.md | A:- | S:SQLite 投影由此文件重放生成，禁止直接改投影库
 THIRDPARTY.md[SG5M]: F:.thirdparty/ 归档清单：20 个条目（17 Git 仓库 + 3 非 Git 目录）的远端地址、分支/tag、基线 commit、本地定制与恢复命令 | R:code:.scripts/restore-thirdparty.py,code:docs/guides/GUIDE-第三方项目克隆.md | A:换机或目录重置后恢复 .thirdparty/ 的权威清单；新增第三方库须同步登记本文件与恢复脚本 | S:.thirdparty/ 被根 .gitignore 忽略不随仓库提交，多机需手动按清单 clone；PowerShell 全量脚本为备用手段
-bilibili_skill_summary.md[SW2T]: F:B 站视频精读笔记：Codex 双窗协同 Skill——ChatGPT 规划不耗额度、Codex 自动抓取方案并执行的机制与省流原理 | R:- | A:- | S:-
-bilibili_summary.md[SZ2T]: F:B 站《10.4 AI 早报（第171期）》速览笔记：模型与产品动态、AI 安全治理与诉讼争议、算力硬件进展 | R:- | A:- | S:-
-guide.md[SU3S]: F:AutoHotkey v2 应用极速切换指南：Alt+快捷键 Toggle 置顶/最小化、多窗口轮换、拒绝自动启动、开机自启与冲突避坑 | R:- | A:- | S:wt 须映射 WindowsTerminal.exe；PowerToys 同热键会抢先拦截
 opencode.json[FC4T]: F:opencode 项目级配置：为 plan agent 放开 bash 与 external_directory 权限，消除计划模式下的授权弹窗 | R:code:.claude/settings.json | A:与全局 ~/.config/opencode/opencode.json 合并、项目级优先；schema 见 https://opencode.ai/config.json | S:不覆盖 edit 权限，保留内置 deny 与 plan 文件写入特例；子模块内启动不生效
-test.txt[ZZ1T]: F:仅含一行 hello 的临时测试文本文件，无业务用途 | R:- | A:- | S:-
-wechat_offline_pay_summary.md[SS3T]: F:微信离线付款码原理面试笔记：单向离线模型（商户扫码枪联网搭桥）、类 TOTP 动态码、服务端防重放与限额风控、双离线签名方案 | R:- | A:- | S:主扫不可离线；一码一用防重放；公交双离线走非对称签名
-zhihu_summary.md[SZ2T]: F:知乎《当工作不允许我们学习》精读笔记：AI 时代赛练分离、心智模型预训练差距、机会复利与理解债 | R:- | A:- | S:-
 
 ===D:/Users/language_projects/.scripts/===
 gen_icon.py[XG4T]: F:PNG 源图转 16-256 七帧 Windows .ico，非方形等比居中到透明画布 | R:- | A:uv run .scripts/gen_icon.py <input.png> <output.ico> | S:-
@@ -94,6 +88,7 @@ walkthrough-27-commit-and-push-all-repos.md[SG4S]: F:27 号提交推送计划的
 walkthrough-31-glmquotawatch-tray-doubleclick-open-dir.md[SU4T]: F:Plan 31 执行记录：托盘双击与「打开 exe 目录」落地 internal/guiapp/tray.go，README 交互表同步；go test 全模块通过，生产构建产出 exe | R:code:docs/plans/31-glmquotawatch-tray-doubleclick-open-dir.md | A:- | S:-
 walkthrough-32-commit-all-repos-by-theme.md[SV4M]: F:Plan 32 执行记录：父仓与三子仓改动拆为 32 笔提交全量推送，含各笔哈希清单、zedhub 三元组查重与 --exact 变更说明、父仓 23 笔积压一并上推 | R:code:docs/plans/32-commit-all-repos-by-theme.md | A:- | S:-
 33-antigravity-hans-fyne-gui.md[SU5S]: F:Antigravity-Hans Fyne GUI 壳实施计划（已执行完成）：-tags gui + -H windowsgui 构建无终端 GUI（主页面启动汉化、托盘自启/唤窗/打开目录），快捷方式改指 GUI 修复终端闪现，发布改 tag 触发 | R:- | A:改动全部位于 .thirdparty/Antigravity-Hans（父仓外克隆不入库）；正式发布需先合并分支再打 v* tag | S:release 判定=构建提交带 tag 且工作区干净，仅 release 可注册开机自启；GUI 与 CLI 共用 package main（main.go 带 !gui 约束）
+34-taskbarguard-config-and-build.md[SC4T]: F:TaskbarGuard 阶段一实施计划（已执行完成）：config.json 偏好持久化 + set/config/apply 子命令、build.py 双轨构建（-dev 容忍 dirty、release 强校验 tag HEAD 与干净工作区） | R:- | A:Task 1-4 已全部完成勾选；实现均落在子仓 go_projects/taskbarguard（不在本索引纳管范围） | S:阶段二（计划任务守护巡检与 Toast 通知）经用户明确暂缓，本计划只覆盖阶段一
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
@@ -231,6 +226,7 @@ douyin-ai-philosophy-video-creation-research.md[SZ3M]: F:抖音人文哲学/硬�
 mcp-2026-07-28-delta.md[SN5L]: F:MCP 2026-07-28 相对 2025-11-25 变更清单（规范原文提取）：有状态握手改每请求自描述无状态、MRTR 取代服务器发起请求、resultType 必填、subscriptions/listen 取代 HTTP GET 流、Roots/Sampling/Logging 弃用、tasks 移出核心 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:- | S:-
 media-storage-abuse-research.md[SZ3S]: F:「拿 YouTube 当免费网盘」调研：理论可行但体验极差（3~8 倍体积膨胀、转码等待、API 额度低），ISG/youbit/fvid 等代表项目与账号封禁风险 | R:- | A:- | S:-
 subagent-pipeline-tools-research.md[SQ4M]: F:多 Agent 开发流水线工具调研：无开箱即用五步闭环工具，推荐 Claude Code 原生件（.claude/agents + hooks + headless -p）脚本层自建（约 1~2 天），LLM 只修不判 | R:- | A:- | S:-
+AutoHotkey 极速应用切换与 Toggle 自动化配置指南.md[SU3S]: F:AutoHotkey v2 应用极速切换指南：Alt+快捷键 Toggle 置顶/最小化、多窗口轮换、拒绝自动启动、开机静默自启与冲突避坑 | R:- | A:按文中三步配置：winget 安装 AutoHotkey v2 → 部署 app_switcher.ahk → 放入启动文件夹 | S:wt 须映射 WindowsTerminal.exe；PowerToys 同热键抢先拦截
 
 ===D:/Users/language_projects/docs/repo/lark_group_bridge/===
 2026-09-20 自言自语存档.html[SG3L]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌逐张图注，支持页内编辑删除后覆盖原文件 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击打开；图片点击放大（Ctrl+滚轮缩放）；侧栏「编辑此页」可删条/删节/改字，保存后序列化覆盖原文件 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文

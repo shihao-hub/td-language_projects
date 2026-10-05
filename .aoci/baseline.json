@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-05T15:12:06Z",
+  "updated_at": "2026-10-05T16:27:20Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -299,9 +299,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "6d2f8b26bcb035b7653c30ae6c31ba6e1314d660546c531308159a8f754428f3",
-      "size": 107555,
-      "normalized_sha256": "6d2f8b26bcb035b7653c30ae6c31ba6e1314d660546c531308159a8f754428f3"
+      "sha256": "174c51d6615b8b710e660c219eb4fb959f3235ef4de28da1adae3244cec1a457",
+      "size": 107243,
+      "normalized_sha256": "174c51d6615b8b710e660c219eb4fb959f3235ef4de28da1adae3244cec1a457"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -604,6 +604,11 @@
       "sha256": "b5f5a608fe30b00d91d1ce2d4b4c71d06c9d4d0c95f44bd16ba2707d0550f36e",
       "size": 13601,
       "normalized_sha256": "b5f5a608fe30b00d91d1ce2d4b4c71d06c9d4d0c95f44bd16ba2707d0550f36e"
+    },
+    "docs/plans/34-taskbarguard-config-and-build.md": {
+      "sha256": "f997b26a0aa9a6363beb43212a5b62c04c27a366db375db860f2cd5ec8085455",
+      "size": 5423,
+      "normalized_sha256": "f997b26a0aa9a6363beb43212a5b62c04c27a366db375db860f2cd5ec8085455"
     },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "role": "index",
@@ -1329,6 +1334,11 @@
       "sha256": "9e55599fe10f1346016f993a6dc0814da51d3fc3e0db118b0250c6cc412ee8ef",
       "size": 17547,
       "normalized_sha256": "9e55599fe10f1346016f993a6dc0814da51d3fc3e0db118b0250c6cc412ee8ef"
+    },
+    "docs/repo/AutoHotkey 极速应用切换与 Toggle 自动化配置指南.md": {
+      "sha256": "c9668e320ebbcd7fc099aed8de75da2eeae1b1bcb7dd13ae4022a94978cbc6a7",
+      "size": 7164,
+      "normalized_sha256": "e2f029bd0d3622b97116e96f32f6396b7ffbb7c805d9a622dc954bf377e7aaad"
     },
     "docs/repo/Git 子模块临时注销（native、rust）.md": {
       "role": "index",
