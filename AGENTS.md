@@ -32,6 +32,45 @@
 - 测试资源用后即清：chrome-devtools 等工具打开的浏览器测试页、临时起的服务、后台进程，验证完成立即关闭或终止，不得遗留；chrome-devtools 浏览器任务收尾时，其专属 Chrome 的最后一个 about:blank 标签页 MCP 关不掉（属启动初始页，非残留错误），收尾标准为不残留任何窗口与后台进程，需按 user-data-dir 过滤整组终止：`Get-CimInstance Win32_Process -Filter "Name='chrome.exe'" | Where-Object { $_.CommandLine -like '*chrome-devtools-mcp\chrome-profile*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }`；确需保留时必须向用户说明并获得同意。
 - 注释中的 `sh-ai-todo` 如果完成了请标记为 `sh-ai-todo[o]`
 
+### Windows PowerShell 执行安全规范（通用条件约束）
+
+当且仅当处于 Windows 宿主环境并调用 PowerShell 执行命令行时，所有 AI Agent（包括 Codex、DeepSeek Harness、Antigravity 等）**必须遵循以下跨 Agent 通用安全规范**：
+
+1. **进程无状态与工作目录感知**：
+   - Windows 下 Agent 命令执行通常为**无状态的独立子进程**（如 DeepSeek Harness 等框架每次命令均拉起独立进程）；
+   - 避免假设前一次命令的 `cd` 状态会持久保留到后续轮次；跨目录操作应优先依赖 Agent 工具自带的 `workdir` / `cwd` 参数，或在单次调用内完成路径切换与执行。
+2. **版本感知与语句连接（pwsh 7 vs PowerShell 5.1）**：
+   - **PowerShell 7+（`pwsh`，如 Codex 命中 7 或 DeepSeek Harness 运行时）**：
+     - 原生支持 `&&` 与 `||` 管道链，允许自由使用。
+   - **Windows PowerShell 5.1（`powershell.exe`，系统内置默认）**：
+     - 不支持 `&&` / `||`（抛出语句分隔符语法错误）；
+     - 禁止盲目使用分号 `;` 串联前后强依赖的命令（防止前序失败导致后续命令在错误目录静默执行）；必须拆分为单步独立执行，或使用短路逻辑：
+       ```powershell
+       command1; if ($?) { command2 }
+       ```
+3. **文件 I/O 抽象与编码安全**：
+   - **优先走 Agent 文件工具**：凡涉及源码或配置的查看与编辑，一律优先使用 Agent 宿主提供的专用文件读写工具（File System Tools），杜绝通过命令行终端回显或流重定向读写大文件。
+   - **终端读取防御**：若必须通过终端读取文件，禁止裸调 `Get-Content`（5.1 默认按系统 ANSI/GBK 解析导致中文字符首轮乱码），显式带编码：
+     ```powershell
+     Get-Content -Encoding UTF8 "<filepath>"
+     ```
+   - **终端写入防御**：严禁裸写 `>` 或 5.1 的 `Set-Content -Encoding UTF8`（会强行注入 UTF-8 BOM `EF BB BF`，破坏下游 JSON/编译解析）。确需终端落盘无 BOM 纯正 UTF-8 时：
+     ```powershell
+     [System.IO.File]::WriteAllText("<filepath>", $content, [System.Text.UTF8Encoding]::new($false))
+     ```
+   - **控制台流编码保障**：调用外部 CLI（如 git/go/python）并需捕获中文输出时，显式统一当前会话编码流：
+     ```powershell
+     [Console]::OutputEncoding = [System.Text.Encoding]::UTF8; $OutputEncoding = [System.Text.Encoding]::UTF8
+     ```
+4. **命令原子化与跨平台兜底（契合父仓规范）**：
+   - 终端仅执行确定性的单条原生命令，禁止混用 Linux 专有别名（如带 Linux 参数的 `curl`、`cat`、`grep`、`export`、`rm -rf`）。
+   - 凡涉及复杂文本流提取（正则、awk/sed）或多步骤依赖任务，**严禁在终端拼接复杂脆弱的管道**：
+     - **首选（仓库正统）**：按本仓规范编写单文件 Python 脚本，以 `uv run` 驱动；
+     - **备选（Git Bash）**：若需直接利用 POSIX 工具链，动态定位 Git Bash 执行，严禁硬编码盘符：
+       ```powershell
+       $bash = (Get-Command git -ErrorAction SilentlyContinue).Source -replace '\\cmd\\git\.exe$','\bin\bash.exe'; & $bash -c '<unix-command>'
+       ```
+
 ### 开发约束（手工编写）
 
 - pg 数据库表尽量避免使用 JSONB，如果一定要使用请说明原因，而且该字段要设置最大容量
@@ -87,7 +126,7 @@
 
 - 使用 rustup 管理的 stable-x86_64-pc-windows-msvc 工具链，链接器来自 VS Build Tools 2022。
 - rustup/cargo 均已配置 rsproxy.cn 国内镜像（环境变量 `RUSTUP_DIST_SERVER` / `RUSTUP_UPDATE_ROOT` + `~/.cargo/config.toml`）。
-- cargo 命令均在子项目目录内运行。
+- cargo 命令均在子项目目录下运行。
 
 ### typescript_projects
 
@@ -171,7 +210,7 @@
      **ACTION REQUIRED**: Before executing any code changes or git commands, you MUST read and follow the root conventions in `../../AGENTS.md`.
      ```
 3. **提交与推送规范**：
-   - 指针文件必须在对应子模块/子子模块**自身的 Git 仓库中**先行 `git commit` 并 `git push`；
+   - 指针文件必须在对应子模块/子子模块**自己的 Git 仓库中**先行 `git commit` 并 `git push`；
    - 随后在父级仓库中更新对应的 submodule 指针并提交推送。
 
 ## 常用命令
@@ -189,7 +228,7 @@ AOCI 是仓库级认知索引工具（以 MCP server 形式接入）：通过 ao
 完整集成说明与工作流原文存于根目录 aoci.repository.cognition.md，**按需读取，不随会话默认加载**（原文较长，为省上下文从本文件迁出）。满足以下触发条件之一时，**必须先读该文件**再按其中工作流调用 aoci_* 工具：
 
 1. **建立/恢复认知**：新会话接手复杂或跨模块任务，需要仓库全景（先 `aoci_overview`）；本会话上下文经历过压缩后继续 AOCI 相关工作。
-2. **收尾维护（最易遗漏）**：本会话改动过任何 AOCI 纳管文件（父仓文档、`.scripts/` 脚本、根级配置等）且已到最终稳定状态——调用**一次** `aoci_maintain` 对齐索引；不得边改边逐文件调用，也不得跳过。
+2. **收尾维护（最易遗漏）**：本会话改动过任何 AOCI 纳管文件（父仓文档、.scripts/ 脚本、根级配置等）且已到最终稳定状态——调用**一次** `aoci_maintain` 对齐索引；不得边改边逐文件调用，也不得跳过。
 3. **纯读/小改动豁免**：未改动任何纳管文件的只读任务与日常小改动，无需加载该文件，也无需维护调用。
 
 AOCI 托管资产（aoci*.txt 与 .aoci/）在收尾维护后产生的变更，提交时与业务代码分开成笔。
