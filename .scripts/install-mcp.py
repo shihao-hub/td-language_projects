@@ -44,6 +44,7 @@ DeepSeek Harness 采用 Cordis 微内核架构，通过 @deepseek-ai/dsh-mcp-cli
 --------------------------------------------------------------------------------
 • aoci       : 智能探测本机 aoci.exe 安装路径并自动绑定当前仓库根目录（--repo <REPO_ROOT> mcp）
 • everything : 业界最佳实践 uvx everything-mcp，提供毫秒级全盘秒搜，并自带敏感路径黑名单与 Token 截断保护
+               （已改为按需安装：默认同步不包含；每个 Agent 会话各起一份常驻进程，较占内存）
 • 自定义 MCP : 支持通过 --custom-name / --custom-cmd / --custom-args 自由分发任意第三方 MCP 服务
 
 ================================================================================
@@ -65,11 +66,14 @@ DeepSeek Harness 采用 Cordis 微内核架构，通过 @deepseek-ai/dsh-mcp-cli
    -----------------------------------------------------------------------------
 
 ② 同步特定或全部 MCP（默认幂等）：
-   # 默认同步全部预设（aoci + everything）到所有 7 个 Agent
+   # 默认仅同步 aoci 到所有 7 个 Agent（everything 已改为按需安装）
    $ uv run .scripts/install-mcp.py
 
-   # 仅同步 everything 到特定 agent（如 dsh 和 claude）
+   # 显式安装/恢复 everything 到指定 agent（如 dsh 和 claude）
    $ uv run .scripts/install-mcp.py --mcp everything --agent dsh claude
+
+   # 同步全部内置预设（aoci + everything）
+   $ uv run .scripts/install-mcp.py --mcp all
 
    # 强制覆盖已有但不一致的配置
    $ uv run .scripts/install-mcp.py --force
@@ -614,8 +618,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="通用多 MCP 配置给多 Agent 的强化分发与管理工具（支持 aoci、everything、自定义 MCP，覆盖 7 大 Agent 目标）"
     )
-    parser.add_argument("--mcp", nargs="+", default=["all"],
-                        help="指定要处理的 MCP 服务，例如: aoci, everything, all (默认全部内置预设)")
+    parser.add_argument("--mcp", nargs="+", default=["aoci"],
+                        help="指定要处理的 MCP 服务，例如: aoci, everything, all (默认仅 aoci；everything 需显式指定)")
     parser.add_argument("--agent", nargs="+", choices=sorted(TARGET_AGENTS.keys()),
                         help="只处理指定的 Agent（默认全部: antigravity, antigravity-ide, claude, codex, dsh, opencode, pi）")
     parser.add_argument("--status", "--list", dest="show_status", action="store_true",
