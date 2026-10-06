@@ -86,6 +86,10 @@ C:\Users\29580\.agents\skills                    <- 统一入口（历史文档/
 
 ## 仍缺失的 30 个目标名
 
+> 口径说明：全机复扫按"链接目标路径是否存在"判定，得 **233 个断链 / 29 个缺失目标名**
+> （28 个 `lark-*` + `book-to-skill`）；下面的第 3 项 `.codex\skills\.git` 目标是 gitdir
+> **文件**（`Test-Path` 为真，故不计入扫描），但语义上已不可用，合计 30 项。
+
 1. **`book-to-skill`（真身健在，未入库；能否恢复取决于策略）**
    当初**有意不入库**（`.git/info/exclude` 排除 `/book-to-skill/`，见 `book-to-skill-setup.md`），
    因此远端没有它。但它**完好保存在旧副本**里：`D:\Users\study_projects\older\.agents\skills\book-to-skill`
