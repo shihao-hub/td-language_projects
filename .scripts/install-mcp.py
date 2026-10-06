@@ -1,0 +1,537 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
+# install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
+# 支持将多种 MCP 服务（如 aoci、everything、自定义 MCP）统一配置到各 AI Agent 用户级配置。
+#
+# 支持的 AI Agent 矩阵：
+#   claude          -> ~/.claude.json                                (Claude Code 全局配置)
+#   opencode        -> ~/.config/opencode/opencode.json              (opencode 用户级配置)
+#   codex           -> ~/.codex/config.toml                          (Codex CLI 用户级 TOML)
+#   pi              -> ~/.pi/agent/mcp.json                          (pi coding agent 用户级配置)
+#   antigravity     -> ~/.gemini/antigravity-acp/mcp.json            (Antigravity ACP 形态：Zed 等接入)
+#   antigravity-ide -> ~/.gemini/config/mcp_config.json              (Antigravity 桌面 IDE / CLI 全局)
+#
+# 支持的内置 MCP 服务预设：
+#   aoci            -> aoci.exe --repo <本仓> mcp                    (本代码库 AOCI 索引感知)
+#   everything      -> uvx everything-mcp                            (Voidtools Everything 全盘秒级搜索)
+#
+# 常用用法:
+#   uv run .scripts/install-mcp.py --status                          # 查看所有 Agent 当前已装 MCP 状态矩阵
+#   uv run .scripts/install-mcp.py                                   # 默认检查并同步全部内置 MCP 到所有 Agent
+#   uv run .scripts/install-mcp.py --mcp everything                  # 仅同步 everything 到所有 Agent
+#   uv run .scripts/install-mcp.py --mcp aoci --agent antigravity    # 仅同步 aoci 到 antigravity
+#   uv run .scripts/install-mcp.py --remove everything               # 从所有 Agent 中移除 everything
+#   uv run .scripts/install-mcp.py --force                           # 强制覆盖已有但不一致的配置
+#   uv run .scripts/install-mcp.py --json                            # 机器可读 JSON 输出
+import argparse
+import json
+import os
+import re
+import shutil
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Tuple
+
+# Windows 终端输出 UTF-8 编码防乱码
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if sys.stderr.encoding and sys.stderr.encoding.lower() not in ("utf-8", "utf8"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+
+
+def norm(p: Any) -> str:
+    """路径与命令等价归一化（统一反斜杠与小写，用于跨平台/Windows一致性比对）。"""
+    if p is None:
+        return ""
+    return str(p).replace("/", "\\").lower()
+
+
+def read_json(path: Path) -> Optional[dict]:
+    if not path.is_file():
+        return None
+    text = path.read_text(encoding="utf-8").strip()
+    if not text:
+        return {}  # 空文件视为空字典
+    try:
+        return json.loads(text)
+    except Exception:
+        return None
+
+
+def write_json_atomic(path: Path, data: dict) -> None:
+    """原子写入 JSON：临时文件 + os.replace，杜绝半写中断破坏配置。"""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(tmp, path)
+
+
+# ---------------------------------------------------------------------------
+# MCP Server 定义模型
+# ---------------------------------------------------------------------------
+@dataclass
+class MCPSpec:
+    name: str
+    description: str
+    command: str
+    args: List[str] = field(default_factory=list)
+    env: Dict[str, str] = field(default_factory=dict)
+    type: str = "stdio"
+    extra_by_agent: Dict[str, dict] = field(default_factory=dict)  # 特定 agent 附加字段，如 pi: {"exposure": "direct"}
+
+
+# ---------------------------------------------------------------------------
+# 预设 MCP 探测与构建
+# ---------------------------------------------------------------------------
+AOCI_EXE_CANDIDATES = [
+    Path(os.path.expandvars(r"%LOCALAPPDATA%\Programs\aoci\aoci.exe")),
+    Path.home() / "AppData" / "Local" / "Programs" / "aoci" / "aoci.exe",
+]
+
+
+def resolve_aoci_spec(repo_root: Path = REPO_ROOT, explicit_exe: Optional[str] = None) -> MCPSpec:
+    exe_path: Optional[Path] = None
+    if explicit_exe:
+        exe_path = Path(explicit_exe).resolve()
+    else:
+        for cand in AOCI_EXE_CANDIDATES:
+            if cand.is_file():
+                exe_path = cand
+                break
+        if not exe_path:
+            found = shutil.which("aoci") or shutil.which("aoci.exe")
+            if found:
+                exe_path = Path(found)
+
+    if not exe_path or not exe_path.exists():
+        # 如果未找到，依然给出候选路径避免中断解析
+        exe_path = AOCI_EXE_CANDIDATES[0]
+
+    return MCPSpec(
+        name="aoci",
+        description="AOCI 索引感知（本仓库代码上下文）",
+        command=str(exe_path),
+        args=["--repo", str(repo_root), "mcp"],
+        extra_by_agent={"pi": {"exposure": "direct"}}
+    )
+
+
+def resolve_everything_spec() -> MCPSpec:
+    # 查找 uvx 命令（系统 PATH）
+    cmd = "uvx"
+    # 如果当前安装了 Everything 1.5a，可配置实例变量；默认直连 standard/1.5a
+    env = {}
+    return MCPSpec(
+        name="everything",
+        description="Voidtools Everything 全盘秒级文件发现（带安全黑名单与 Token 保护）",
+        command=cmd,
+        args=["everything-mcp"],
+        env=env,
+        extra_by_agent={"pi": {"exposure": "direct"}}
+    )
+
+
+BUILTIN_PRESETS = {
+    "aoci": resolve_aoci_spec,
+    "everything": resolve_everything_spec,
+}
+
+
+# ---------------------------------------------------------------------------
+# 各 Agent 配置处理器
+# ---------------------------------------------------------------------------
+class AgentHandler:
+    def __init__(self, name: str, config_path: Path, description: str):
+        self.name = name
+        self.config_path = config_path
+        self.description = description
+
+    def get_server(self, mcp_name: str) -> Optional[dict]:
+        raise NotImplementedError
+
+    def upsert_server(self, spec: MCPSpec, force: bool) -> str:
+        """返回状态：ok / written / written_new / skipped_mismatch / error:*"""
+        raise NotImplementedError
+
+    def remove_server(self, mcp_name: str) -> str:
+        """返回状态：removed / not_found / error:*"""
+        raise NotImplementedError
+
+
+class JsonAgentHandler(AgentHandler):
+    def __init__(self, name: str, config_path: Path, description: str, key_path: Tuple[str, ...]):
+        super().__init__(name, config_path, description)
+        self.key_path = key_path
+
+    def _locate_servers_table(self, data: dict, create: bool = False) -> Optional[dict]:
+        node = data
+        for key in self.key_path[:-1]:
+            child = node.get(key)
+            if not isinstance(child, dict):
+                if create:
+                    child = {}
+                    node[key] = child
+                else:
+                    return None
+            node = child
+        table_key = self.key_path[-1]
+        child = node.get(table_key)
+        if not isinstance(child, dict):
+            if create:
+                child = {}
+                node[table_key] = child
+            else:
+                return None
+        return node[table_key]
+
+    def get_server(self, mcp_name: str) -> Optional[dict]:
+        data = read_json(self.config_path)
+        if not data:
+            return None
+        servers = self._locate_servers_table(data, create=False)
+        if servers and mcp_name in servers and isinstance(servers[mcp_name], dict):
+            return servers[mcp_name]
+        return None
+
+    def upsert_server(self, spec: MCPSpec, force: bool) -> str:
+        data = read_json(self.config_path)
+        created = data is None
+        if created:
+            data = {}
+
+        servers = self._locate_servers_table(data, create=True)
+        if servers is None:
+            return "error: 配置文件结构异常，无法定位 MCP 服务器表"
+
+        extra = spec.extra_by_agent.get(self.name, {})
+
+        # 一致性校验
+        if spec.name in servers and isinstance(servers[spec.name], dict):
+            existing = servers[spec.name]
+            cmd = existing.get("command")
+            args = existing.get("args") or []
+            if isinstance(cmd, list):
+                cmd_args, cmd = cmd[1:], cmd[0]
+            else:
+                cmd_args = args
+
+            cmd_match = norm(cmd) == norm(spec.command)
+            args_match = [norm(a) for a in cmd_args] == [norm(a) for a in spec.args]
+            extra_match = all(existing.get(k) == v for k, v in extra.items())
+            env_match = existing.get("env", {}) == spec.env if spec.env else True
+
+            if cmd_match and args_match and extra_match and env_match:
+                return "ok"
+            if not force:
+                return "skipped_mismatch"
+
+        # 写入条目
+        entry = {
+            "type": spec.type,
+            "command": spec.command,
+            "args": spec.args,
+        }
+        if spec.env:
+            entry["env"] = spec.env
+        if extra:
+            entry.update(extra)
+
+        servers[spec.name] = entry
+        write_json_atomic(self.config_path, data)
+        return "written_new" if created else "written"
+
+    def remove_server(self, mcp_name: str) -> str:
+        data = read_json(self.config_path)
+        if not data:
+            return "not_found"
+        servers = self._locate_servers_table(data, create=False)
+        if not servers or mcp_name not in servers:
+            return "not_found"
+        del servers[mcp_name]
+        write_json_atomic(self.config_path, data)
+        return "removed"
+
+
+class CodexTomlHandler(AgentHandler):
+    """专门处理 ~/.codex/config.toml 配置。采用精准正则保留其它段落与注释。"""
+
+    def __init__(self, name: str = "codex", config_path: Optional[Path] = None, description: str = "Codex CLI 用户级配置"):
+        super().__init__(name, config_path or (Path.home() / ".codex" / "config.toml"), description)
+
+    def _get_section_block(self, text: str, mcp_name: str) -> Optional[List[str]]:
+        target_section = f"[mcp_servers.{mcp_name}]"
+        lines = text.splitlines()
+        in_sec = False
+        sec_lines = []
+        for line in lines:
+            stripped = line.strip()
+            if re.fullmatch(r"\[[^\]]+\]", stripped):
+                if in_sec:
+                    break
+                in_sec = (stripped == target_section)
+                continue
+            if in_sec:
+                sec_lines.append(line)
+        return sec_lines if in_sec else None
+
+    def get_server(self, mcp_name: str) -> Optional[dict]:
+        if not self.config_path.is_file():
+            return None
+        text = self.config_path.read_text(encoding="utf-8")
+        sec_lines = self._get_section_block(text, mcp_name)
+        if sec_lines is None:
+            return None
+        res = {"command": "", "args": []}
+        for l in sec_lines:
+            s = l.strip()
+            if s.startswith("command"):
+                parts = s.split("=", 1)
+                if len(parts) == 2:
+                    res["command"] = parts[1].strip().strip("'\"")
+            elif s.startswith("args"):
+                parts = s.split("=", 1)
+                if len(parts) == 2:
+                    # 简易数组解析
+                    try:
+                        res["args"] = json.loads(parts[1].strip().replace("'", '"'))
+                    except Exception:
+                        pass
+        return res
+
+    def upsert_server(self, spec: MCPSpec, force: bool) -> str:
+        text = self.config_path.read_text(encoding="utf-8") if self.config_path.is_file() else ""
+        sec_lines = self._get_section_block(text, spec.name)
+        target_section = f"[mcp_servers.{spec.name}]"
+
+        if sec_lines is not None:
+            cmd_ok = any(norm(line.split("=", 1)[1].strip().strip("'\"")) == norm(spec.command)
+                         for line in sec_lines if line.strip().startswith("command"))
+            # 校验参数包含度
+            args_str = " ".join([norm(a) for a in spec.args])
+            sec_joined = " ".join([norm(l) for l in sec_lines])
+            args_ok = all(norm(a) in sec_joined for a in spec.args)
+
+            if cmd_ok and args_ok:
+                return "ok"
+            if not force:
+                return "skipped_mismatch"
+
+            # 强行覆盖：先移除旧 section
+            self.remove_server(spec.name)
+            text = self.config_path.read_text(encoding="utf-8") if self.config_path.is_file() else ""
+
+        self.config_path.parent.mkdir(parents=True, exist_ok=True)
+        args_json = json.dumps(spec.args, ensure_ascii=False)
+        block = f"\n{target_section}\ncommand = '{spec.command}'\nargs = {args_json}\n"
+        if spec.env:
+            env_json = json.dumps(spec.env, ensure_ascii=False)
+            block += f"env = {env_json}\n"
+
+        with open(self.config_path, "a", encoding="utf-8") as f:
+            f.write(block if text.endswith("\n") or not text else "\n" + block)
+        return "written"
+
+    def remove_server(self, mcp_name: str) -> str:
+        if not self.config_path.is_file():
+            return "not_found"
+        text = self.config_path.read_text(encoding="utf-8")
+        target_section = f"[mcp_servers.{mcp_name}]"
+        if target_section not in text:
+            return "not_found"
+
+        lines = text.splitlines(keepends=True)
+        new_lines = []
+        in_sec = False
+        for line in lines:
+            stripped = line.strip()
+            if re.fullmatch(r"\[[^\]]+\]", stripped):
+                if in_sec:
+                    in_sec = False
+                elif stripped == target_section:
+                    in_sec = True
+                    continue
+            if not in_sec:
+                new_lines.append(line)
+
+        self.config_path.write_text("".join(new_lines), encoding="utf-8")
+        return "removed"
+
+
+# ---------------------------------------------------------------------------
+# 全局 Agent 目标注册表
+# ---------------------------------------------------------------------------
+TARGET_AGENTS: Dict[str, AgentHandler] = {
+    "claude": JsonAgentHandler("claude", Path.home() / ".claude.json", "Claude Code 用户级全局配置", ("mcpServers",)),
+    "opencode": JsonAgentHandler("opencode", Path.home() / ".config" / "opencode" / "opencode.json", "opencode 用户级配置", ("mcp",)),
+    "codex": CodexTomlHandler("codex", Path.home() / ".codex" / "config.toml", "Codex CLI 用户级配置"),
+    "pi": JsonAgentHandler("pi", Path.home() / ".pi" / "agent" / "mcp.json", "pi coding agent 用户级配置", ("mcpServers",)),
+    "antigravity": JsonAgentHandler("antigravity", Path.home() / ".gemini" / "antigravity-acp" / "mcp.json", "Antigravity ACP 形态（Zed/IDE 接入）", ("mcpServers",)),
+    "antigravity-ide": JsonAgentHandler("antigravity-ide", Path.home() / ".gemini" / "config" / "mcp_config.json", "Antigravity 桌面 IDE / CLI / 2.0 全局", ("mcpServers",)),
+}
+
+
+# ---------------------------------------------------------------------------
+# CLI 主逻辑
+# ---------------------------------------------------------------------------
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="通用多 MCP 配置给多 Agent 的强化分发与管理工具（支持 aoci、everything、自定义 MCP）"
+    )
+    parser.add_argument("--mcp", nargs="+", default=["all"],
+                        help="指定要处理的 MCP 服务，例如: aoci, everything, all (默认全部内置预设)")
+    parser.add_argument("--agent", nargs="+", choices=sorted(TARGET_AGENTS.keys()),
+                        help="只处理指定的 Agent（默认全部: claude, opencode, codex, pi, antigravity, antigravity-ide）")
+    parser.add_argument("--status", "--list", dest="show_status", action="store_true",
+                        help="打印所有 Agent 当前各 MCP 服务的配置状态矩阵")
+    parser.add_argument("--remove", metavar="MCP_NAME",
+                        help="从选定的 Agent 中卸载指定的 MCP 服务")
+    parser.add_argument("--force", action="store_true",
+                        help="覆盖已有但不一致的配置")
+    parser.add_argument("--json", action="store_true",
+                        help="以结构化 JSON 输出结果")
+    # 自定义 MCP 参数
+    parser.add_argument("--custom-name", help="自定义 MCP 名称")
+    parser.add_argument("--custom-cmd", help="自定义 MCP 启动命令")
+    parser.add_argument("--custom-args", nargs="*", default=[], help="自定义 MCP 启动参数")
+    # 针对 aoci 的特别参数
+    parser.add_argument("--aoci-exe", default=None, help="显式指定 aoci.exe 路径")
+
+    args = parser.parse_args()
+
+    # 1. 确定目标 Agents
+    agent_keys = args.agent if args.agent else sorted(TARGET_AGENTS.keys())
+
+    # 2. 构建待操作的 MCPSpec 清单
+    specs: List[MCPSpec] = []
+    if args.custom_name and args.custom_cmd:
+        specs.append(MCPSpec(
+            name=args.custom_name,
+            description="自定义 MCP",
+            command=args.custom_cmd,
+            args=args.custom_args
+        ))
+    else:
+        mcp_names = args.mcp
+        if "all" in mcp_names:
+            mcp_names = list(BUILTIN_PRESETS.keys())
+
+        for name in mcp_names:
+            if name == "aoci":
+                specs.append(resolve_aoci_spec(REPO_ROOT, args.aoci_exe))
+            elif name == "everything":
+                specs.append(resolve_everything_spec())
+            else:
+                print(f"[WARN] 未知 MCP 预设: {name}（跳过）", file=sys.stderr)
+
+    # -----------------------------------------------------------------------
+    # 操作分支 A: 查看状态矩阵 (--status / --list)
+    # -----------------------------------------------------------------------
+    if args.show_status:
+        inspect_mcps = ["aoci", "everything"]
+        matrix = []
+        for a_key in agent_keys:
+            handler = TARGET_AGENTS[a_key]
+            row = {"agent": a_key, "path": str(handler.config_path)}
+            for m_name in inspect_mcps:
+                info = handler.get_server(m_name)
+                row[m_name] = "installed" if info else "missing"
+            matrix.append(row)
+
+        if args.json:
+            print(json.dumps(matrix, ensure_ascii=False, indent=2))
+            return 0
+
+        print("=" * 80)
+        print(f"{'Agent':<16} {'AOCI MCP':<14} {'Everything MCP':<18} {'Config Path'}")
+        print("-" * 80)
+        for r in matrix:
+            aoci_mark = "[✔ 已安装]" if r["aoci"] == "installed" else "[- 未配置]"
+            ev_mark = "[✔ 已安装]" if r["everything"] == "installed" else "[- 未配置]"
+            print(f"{r['agent']:<16} {aoci_mark:<14} {ev_mark:<18} {r['path']}")
+        print("=" * 80)
+        return 0
+
+    # -----------------------------------------------------------------------
+    # 操作分支 B: 移除 MCP (--remove)
+    # -----------------------------------------------------------------------
+    if args.remove:
+        remove_results = []
+        for a_key in agent_keys:
+            handler = TARGET_AGENTS[a_key]
+            status = handler.remove_server(args.remove)
+            remove_results.append({"agent": a_key, "mcp": args.remove, "status": status, "path": str(handler.config_path)})
+
+        if args.json:
+            print(json.dumps(remove_results, ensure_ascii=False, indent=2))
+            return 0
+
+        print(f"[-] 正在从各 Agent 中移除 MCP 服务 [{args.remove}]:")
+        for r in remove_results:
+            mark = "[已移除]" if r["status"] == "removed" else "[未配置]"
+            print(f"  {mark:<8} {r['agent']:<16} {r['path']}")
+        return 0
+
+    # -----------------------------------------------------------------------
+    # 操作分支 C: 安装 / 同步配置 (默认)
+    # -----------------------------------------------------------------------
+    results = []
+    failed = False
+    for spec in specs:
+        for a_key in agent_keys:
+            handler = TARGET_AGENTS[a_key]
+            try:
+                status = handler.upsert_server(spec, args.force)
+            except Exception as e:
+                status = f"error: {e}"
+                failed = True
+            results.append({
+                "mcp": spec.name,
+                "agent": a_key,
+                "path": str(handler.config_path),
+                "desc": handler.description,
+                "status": status,
+                "command": spec.command,
+                "args": spec.args
+            })
+
+    if args.json:
+        print(json.dumps(results, ensure_ascii=False, indent=2))
+        return 1 if failed else 0
+
+    print("=" * 84)
+    print("多 MCP -> 多 Agent 通用配置强化工具")
+    print(f"工作区仓库 : {REPO_ROOT}")
+    for spec in specs:
+        args_display = " ".join(spec.args) if spec.args else "(none)"
+        print(f"• MCP [{spec.name}]: {spec.command} {args_display} ({spec.description})")
+    print("-" * 84)
+
+    for r in results:
+        mark = {
+            "ok": "[OK-存在]",
+            "written": "[写入成功]",
+            "written_new": "[新建配置]",
+            "skipped_mismatch": "[跳过-冲突]"
+        }.get(r["status"], "[异常]")
+        if r["status"].startswith("error"):
+            mark = "[失败]"
+
+        print(f"{mark:<11} {r['mcp']:<10} -> {r['agent']:<15} {r['path']}")
+
+    print("-" * 84)
+    print("提示：")
+    print("1. antigravity 需重启或重新打开工作区后生效；")
+    print("2. pi 已运行的会话可输入 /reload 立即生效；")
+    print("3. 其余 Agent（Claude Code、Codex、opencode）在下次启动或新建会话时自动载入。")
+    print("=" * 84)
+
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
