@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-06T20:41:49Z",
+  "updated_at": "2026-10-06T22:21:17Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -201,9 +201,9 @@
       "normalized_sha256": "c3d8e7b66de266b8b1788363e842683eac88bc670c7ae35de673d18a497492d6"
     },
     ".scripts/install-mcp.py": {
-      "sha256": "6351c089bab36080544b08d58743fd552cbf6b2b4a437e80f6814b2b5f0aa4c8",
-      "size": 33823,
-      "normalized_sha256": "55671fa5c4151bbd9df4315689318914fe704e76cc039bf6ccfaef29b1ab815e"
+      "sha256": "429e5a94e99f652067cb5e267f82de3522040d8a132856ce3668d3dc7c6cd12b",
+      "size": 34097,
+      "normalized_sha256": "f413cf1d17463471a5decc74e6ef4e38725e7b02727bc1cada6e68e67edbf357"
     },
     ".scripts/install_tool.py": {
       "role": "index",
@@ -250,9 +250,9 @@
       "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "57e1cd3397d61c911034da694d6508a74cceea203b445f6f77f6e75a8edec34f",
-      "size": 4953,
-      "normalized_sha256": "57e1cd3397d61c911034da694d6508a74cceea203b445f6f77f6e75a8edec34f"
+      "sha256": "d31723fe82d996c2692f766972a4f41e568ede8e4b7c10bdfb566b6c7c5b3c03",
+      "size": 4925,
+      "normalized_sha256": "d31723fe82d996c2692f766972a4f41e568ede8e4b7c10bdfb566b6c7c5b3c03"
     },
     ".zed/tasks.json": {
       "sha256": "feb651bf25b0f8d96125178edca7cfacd2c7c5fe8c0835d8f91ec3f06f00986b",
@@ -303,9 +303,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "e7d408c0ef8e0a2b08cc05ff3e45fab7ad2cfadfbeef2c654602aaa4ad6f82d4",
-      "size": 115675,
-      "normalized_sha256": "e7d408c0ef8e0a2b08cc05ff3e45fab7ad2cfadfbeef2c654602aaa4ad6f82d4"
+      "sha256": "718bd69992f4a852d2d7990a6c4aeb2c19d83be8e32406f8f2e716af43df9a19",
+      "size": 116394,
+      "normalized_sha256": "718bd69992f4a852d2d7990a6c4aeb2c19d83be8e32406f8f2e716af43df9a19"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -673,6 +673,11 @@
       "sha256": "893f9008392a1fb438f7c42768810fad3e9028bddb4b24cfbdb34632b07595aa",
       "size": 15490,
       "normalized_sha256": "893f9008392a1fb438f7c42768810fad3e9028bddb4b24cfbdb34632b07595aa"
+    },
+    "docs/plans/46-python-env-uv-unified.md": {
+      "sha256": "25c59b836b31cd097d5e3ad384d506eb872b011c15848fa8e4afd87b43b2a662",
+      "size": 7127,
+      "normalized_sha256": "25c59b836b31cd097d5e3ad384d506eb872b011c15848fa8e4afd87b43b2a662"
     },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "role": "index",
