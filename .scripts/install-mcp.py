@@ -2,29 +2,80 @@
 # requires-python = ">=3.10"
 # dependencies = []
 # ///
-# install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
-# 支持将多种 MCP 服务（如 aoci、everything、自定义 MCP）统一配置到各 AI Agent 用户级配置。
-#
-# 支持的 AI Agent 矩阵：
-#   claude          -> ~/.claude.json                                (Claude Code 全局配置)
-#   opencode        -> ~/.config/opencode/opencode.json              (opencode 用户级配置)
-#   codex           -> ~/.codex/config.toml                          (Codex CLI 用户级 TOML)
-#   pi              -> ~/.pi/agent/mcp.json                          (pi coding agent 用户级配置)
-#   antigravity     -> ~/.gemini/antigravity-acp/mcp.json            (Antigravity ACP 形态：Zed 等接入)
-#   antigravity-ide -> ~/.gemini/config/mcp_config.json              (Antigravity 桌面 IDE / CLI 全局)
-#
-# 支持的内置 MCP 服务预设：
-#   aoci            -> aoci.exe --repo <本仓> mcp                    (本代码库 AOCI 索引感知)
-#   everything      -> uvx everything-mcp                            (Voidtools Everything 全盘秒级搜索)
-#
-# 常用用法:
-#   uv run .scripts/install-mcp.py --status                          # 查看所有 Agent 当前已装 MCP 状态矩阵
-#   uv run .scripts/install-mcp.py                                   # 默认检查并同步全部内置 MCP 到所有 Agent
-#   uv run .scripts/install-mcp.py --mcp everything                  # 仅同步 everything 到所有 Agent
-#   uv run .scripts/install-mcp.py --mcp aoci --agent antigravity    # 仅同步 aoci 到 antigravity
-#   uv run .scripts/install-mcp.py --remove everything               # 从所有 Agent 中移除 everything
-#   uv run .scripts/install-mcp.py --force                           # 强制覆盖已有但不一致的配置
-#   uv run .scripts/install-mcp.py --json                            # 机器可读 JSON 输出
+"""
+install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
+
+================================================================================
+三、新脚本通用架构与核心能力
+================================================================================
+
+本工具支持【全 Agent 矩阵 × 多 MCP 服务】的双向解耦与灵活调度。
+底层采用原子写入（tmp + os.replace）杜绝配置损坏，并使用正则安全更新 TOML 段落保留注释。
+
+1. 支持的 6 大 Agent 目标与其配置映射：
+--------------------------------------------------------------------------------
+• claude          -> ~/.claude.json                                (Claude Code 全局配置)
+• opencode        -> ~/.config/opencode/opencode.json              (opencode 用户级配置)
+• codex           -> ~/.codex/config.toml                          (Codex CLI 用户级 TOML)
+• pi              -> ~/.pi/agent/mcp.json                          (pi coding agent 用户级配置，支持 exposure: direct)
+• antigravity     -> ~/.gemini/antigravity-acp/mcp.json            (Antigravity ACP 后端形态)
+• antigravity-ide -> ~/.gemini/config/mcp_config.json              (Antigravity 桌面 IDE / VSCode 插件全局配置)
+
+【深入原理解析：关于 Antigravity (agy) 的三种形态与配置收敛】
+用户日常可能接触到三种 Antigravity 形态：
+  形态 1：Zed ACP —— Zed 编辑器或其他外部客户端通过 ACP 协议挂载 agy 后台守护进程。
+          -> 读取: ~/.gemini/antigravity-acp/mcp.json （对应目标: antigravity）
+  形态 2：VS Code 插件面板 —— 在标准 VS Code 中安装 Antigravity 插件所使用的面板。
+          -> 读取: ~/.gemini/config/mcp_config.json   （工具缓存落盘于 ~/.gemini/antigravity/mcp/）
+  形态 3：基于 VS Code 定制的 Antigravity 独立桌面 IDE 本体。
+          -> 读取: ~/.gemini/config/mcp_config.json   （工具缓存落盘于 ~/.gemini/antigravity-ide/mcp/）
+因此：
+• 形态 2（VS Code 插件）与 形态 3（独立定制 IDE）在架构底层共享读取【同一个全局配置】~/.gemini/config/mcp_config.json！
+• 脚本中的 antigravity-ide 即可同时满足形态 2 与形态 3；
+• 配合 antigravity（形态 1），全套脚本仅需维护这两处，即可 100% 完整覆盖 agy 全部三种形态。
+
+2. 内置开箱即用预设：
+--------------------------------------------------------------------------------
+• aoci       : 智能探测本机 aoci.exe 安装路径并自动绑定当前仓库根目录（--repo <REPO_ROOT> mcp）
+• everything : 业界最佳实践 uvx everything-mcp，提供毫秒级全盘秒搜，并自带敏感路径黑名单与 Token 截断保护
+• 自定义 MCP : 支持通过 --custom-name / --custom-cmd / --custom-args 自由分发任意第三方 MCP 服务
+
+================================================================================
+四、常用指令与实测效果
+================================================================================
+
+① 查看当前所有 Agent 的 MCP 挂载状态矩阵：
+   $ uv run .scripts/install-mcp.py --status
+   -----------------------------------------------------------------------------
+   Agent            AOCI MCP       Everything MCP     Config Path
+   -----------------------------------------------------------------------------
+   antigravity      [✔ 已安装]        [✔ 已安装]            ~/.gemini/antigravity-acp/mcp.json
+   antigravity-ide  [✔ 已安装]        [✔ 已安装]            ~/.gemini/config/mcp_config.json
+   claude           [✔ 已安装]        [✔ 已安装]            ~/.claude.json
+   codex            [✔ 已安装]        [✔ 已安装]            ~/.codex/config.toml
+   opencode         [✔ 已安装]        [✔ 已安装]            ~/.config/opencode/opencode.json
+   pi               [✔ 已安装]        [✔ 已安装]            ~/.pi/agent/mcp.json
+   -----------------------------------------------------------------------------
+
+② 同步特定或全部 MCP（默认幂等）：
+   # 默认同步全部预设（aoci + everything）到所有 6 个 Agent
+   $ uv run .scripts/install-mcp.py
+
+   # 仅同步 everything 到特定 agent（如 claude 和 antigravity）
+   $ uv run .scripts/install-mcp.py --mcp everything --agent claude antigravity
+
+   # 强制覆盖已有但不一致的配置
+   $ uv run .scripts/install-mcp.py --force
+
+③ 卸载指定 MCP 服务：
+   $ uv run .scripts/install-mcp.py --remove everything
+
+④ 机器可读 JSON 输出：
+   $ uv run .scripts/install-mcp.py --json
+
+⑤ 兼容老入口：
+   $ uv run .scripts/install-aoci-mcp.py  # 内部已重构为本脚本的转发代理
+"""
 import argparse
 import json
 import os
@@ -122,9 +173,7 @@ def resolve_aoci_spec(repo_root: Path = REPO_ROOT, explicit_exe: Optional[str] =
 
 
 def resolve_everything_spec() -> MCPSpec:
-    # 查找 uvx 命令（系统 PATH）
     cmd = "uvx"
-    # 如果当前安装了 Everything 1.5a，可配置实例变量；默认直连 standard/1.5a
     env = {}
     return MCPSpec(
         name="everything",
@@ -296,7 +345,6 @@ class CodexTomlHandler(AgentHandler):
             elif s.startswith("args"):
                 parts = s.split("=", 1)
                 if len(parts) == 2:
-                    # 简易数组解析
                     try:
                         res["args"] = json.loads(parts[1].strip().replace("'", '"'))
                     except Exception:
@@ -311,7 +359,6 @@ class CodexTomlHandler(AgentHandler):
         if sec_lines is not None:
             cmd_ok = any(norm(line.split("=", 1)[1].strip().strip("'\"")) == norm(spec.command)
                          for line in sec_lines if line.strip().startswith("command"))
-            # 校验参数包含度
             args_str = " ".join([norm(a) for a in spec.args])
             sec_joined = " ".join([norm(l) for l in sec_lines])
             args_ok = all(norm(a) in sec_joined for a in spec.args)
@@ -321,7 +368,6 @@ class CodexTomlHandler(AgentHandler):
             if not force:
                 return "skipped_mismatch"
 
-            # 强行覆盖：先移除旧 section
             self.remove_server(spec.name)
             text = self.config_path.read_text(encoding="utf-8") if self.config_path.is_file() else ""
 
@@ -370,8 +416,8 @@ TARGET_AGENTS: Dict[str, AgentHandler] = {
     "opencode": JsonAgentHandler("opencode", Path.home() / ".config" / "opencode" / "opencode.json", "opencode 用户级配置", ("mcp",)),
     "codex": CodexTomlHandler("codex", Path.home() / ".codex" / "config.toml", "Codex CLI 用户级配置"),
     "pi": JsonAgentHandler("pi", Path.home() / ".pi" / "agent" / "mcp.json", "pi coding agent 用户级配置", ("mcpServers",)),
-    "antigravity": JsonAgentHandler("antigravity", Path.home() / ".gemini" / "antigravity-acp" / "mcp.json", "Antigravity ACP 形态（Zed/IDE 接入）", ("mcpServers",)),
-    "antigravity-ide": JsonAgentHandler("antigravity-ide", Path.home() / ".gemini" / "config" / "mcp_config.json", "Antigravity 桌面 IDE / CLI / 2.0 全局", ("mcpServers",)),
+    "antigravity": JsonAgentHandler("antigravity", Path.home() / ".gemini" / "antigravity-acp" / "mcp.json", "Antigravity ACP 形态（Zed 接入）", ("mcpServers",)),
+    "antigravity-ide": JsonAgentHandler("antigravity-ide", Path.home() / ".gemini" / "config" / "mcp_config.json", "Antigravity 桌面 IDE / VSCode 插件全局", ("mcpServers",)),
 }
 
 
