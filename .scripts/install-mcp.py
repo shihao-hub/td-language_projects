@@ -10,9 +10,9 @@ install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
 ================================================================================
 
 本工具支持【全 Agent 矩阵 × 多 MCP 服务】的双向解耦与灵活调度。
-底层采用原子写入（tmp + os.replace）杜绝配置损坏，并使用正则安全更新 TOML 段落保留注释。
+底层采用原子写入（tmp + os.replace）杜绝配置损坏，并使用正则安全更新 TOML / YAML 段落保留注释。
 
-1. 支持的 6 大 Agent 目标与其配置映射：
+1. 支持的 7 大 Agent 目标与其配置映射：
 --------------------------------------------------------------------------------
 • claude          -> ~/.claude.json                                (Claude Code 全局配置)
 • opencode        -> ~/.config/opencode/opencode.json              (opencode 用户级配置)
@@ -20,6 +20,7 @@ install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
 • pi              -> ~/.pi/agent/mcp.json                          (pi coding agent 用户级配置，支持 exposure: direct)
 • antigravity     -> ~/.gemini/antigravity-acp/mcp.json            (Antigravity ACP 后端形态)
 • antigravity-ide -> ~/.gemini/config/mcp_config.json              (Antigravity 桌面 IDE / VSCode 插件全局配置)
+• dsh             -> ~/.dsh/profiles/desktop/cordis.patch.yml      (DeepSeek Harness 桌面 Profile 配置)
 
 【深入原理解析：关于 Antigravity (agy) 的三种形态与配置收敛】
 用户日常可能接触到三种 Antigravity 形态：
@@ -33,6 +34,11 @@ install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
 • 形态 2（VS Code 插件）与 形态 3（独立定制 IDE）在架构底层共享读取【同一个全局配置】~/.gemini/config/mcp_config.json！
 • 脚本中的 antigravity-ide 即可同时满足形态 2 与形态 3；
 • 配合 antigravity（形态 1），全套脚本仅需维护这两处，即可 100% 完整覆盖 agy 全部三种形态。
+
+【关于 DeepSeek Harness (dsh) 接入 MCP 客户端】
+DeepSeek Harness 采用 Cordis 微内核架构，通过 @deepseek-ai/dsh-mcp-client 插件加载外部 MCP 工具：
+• 目标: dsh (~/.dsh/profiles/desktop/cordis.patch.yml)
+• 机制: 声明式注入 mcp-<serverName> 补丁项，自动挂载 aoci 与 everything 供 DeepSeek 模型直接调度。
 
 2. 内置开箱即用预设：
 --------------------------------------------------------------------------------
@@ -53,16 +59,17 @@ install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
    antigravity-ide  [✔ 已安装]        [✔ 已安装]            ~/.gemini/config/mcp_config.json
    claude           [✔ 已安装]        [✔ 已安装]            ~/.claude.json
    codex            [✔ 已安装]        [✔ 已安装]            ~/.codex/config.toml
+   dsh              [✔ 已安装]        [✔ 已安装]            ~/.dsh/profiles/desktop/cordis.patch.yml
    opencode         [✔ 已安装]        [✔ 已安装]            ~/.config/opencode/opencode.json
    pi               [✔ 已安装]        [✔ 已安装]            ~/.pi/agent/mcp.json
    -----------------------------------------------------------------------------
 
 ② 同步特定或全部 MCP（默认幂等）：
-   # 默认同步全部预设（aoci + everything）到所有 6 个 Agent
+   # 默认同步全部预设（aoci + everything）到所有 7 个 Agent
    $ uv run .scripts/install-mcp.py
 
-   # 仅同步 everything 到特定 agent（如 claude 和 antigravity）
-   $ uv run .scripts/install-mcp.py --mcp everything --agent claude antigravity
+   # 仅同步 everything 到特定 agent（如 dsh 和 claude）
+   $ uv run .scripts/install-mcp.py --mcp everything --agent dsh claude
 
    # 强制覆盖已有但不一致的配置
    $ uv run .scripts/install-mcp.py --force
@@ -160,7 +167,6 @@ def resolve_aoci_spec(repo_root: Path = REPO_ROOT, explicit_exe: Optional[str] =
                 exe_path = Path(found)
 
     if not exe_path or not exe_path.exists():
-        # 如果未找到，依然给出候选路径避免中断解析
         exe_path = AOCI_EXE_CANDIDATES[0]
 
     return MCPSpec(
@@ -408,8 +414,120 @@ class CodexTomlHandler(AgentHandler):
         return "removed"
 
 
+class DshAgentHandler(AgentHandler):
+    """DeepSeek Harness (dsh) 专用处理器。
+    目标配置文件：~/.dsh/profiles/desktop/cordis.patch.yml
+    通过 @deepseek-ai/dsh-mcp-client 插件接入 stdio MCP 服务。
+    """
+
+    def __init__(self, name: str = "dsh", config_path: Optional[Path] = None, description: str = "DeepSeek Harness 桌面 Profile 配置"):
+        super().__init__(name, config_path or (Path.home() / ".dsh" / "profiles" / "desktop" / "cordis.patch.yml"), description)
+
+    def _find_entry_bounds(self, lines: List[str], mcp_name: str) -> Optional[Tuple[int, int]]:
+        """定位 `- id: mcp-{mcp_name}` 的起始行和结束行（下个顶级 `-` 前）。"""
+        target_id_1 = f"id: mcp-{mcp_name}"
+        target_id_2 = f"id: 'mcp-{mcp_name}'"
+        target_id_3 = f'id: "mcp-{mcp_name}"'
+        start_idx = -1
+        for idx, line in enumerate(lines):
+            stripped = line.strip()
+            if (stripped.startswith("- id:") or stripped.startswith("id:")) and (
+                target_id_1 in stripped or target_id_2 in stripped or target_id_3 in stripped
+            ):
+                s = idx
+                while s > 0 and not lines[s].lstrip().startswith("-"):
+                    s -= 1
+                start_idx = s
+                break
+
+        if start_idx == -1:
+            return None
+
+        end_idx = len(lines)
+        for idx in range(start_idx + 1, len(lines)):
+            line = lines[idx]
+            if re.match(r"^-\s+[a-zA-Z0-9_]+:", line) or line.startswith("- id:") or line.startswith("- name:"):
+                end_idx = idx
+                break
+        return (start_idx, end_idx)
+
+    def get_server(self, mcp_name: str) -> Optional[dict]:
+        if not self.config_path.is_file():
+            return None
+        text = self.config_path.read_text(encoding="utf-8")
+        lines = text.splitlines()
+        bounds = self._find_entry_bounds(lines, mcp_name)
+        if bounds is None:
+            return None
+        cmd = ""
+        args = []
+        for line in lines[bounds[0]:bounds[1]]:
+            stripped = line.strip()
+            if stripped.startswith("command:"):
+                cmd = stripped.split(":", 1)[1].strip().strip("'\"")
+            elif stripped.startswith("- ") and "command:" not in stripped and "name:" not in stripped:
+                args.append(stripped[2:].strip().strip("'\""))
+        return {"command": cmd, "args": args}
+
+    def upsert_server(self, spec: MCPSpec, force: bool) -> str:
+        text = self.config_path.read_text(encoding="utf-8") if self.config_path.is_file() else "[]\n"
+        lines = text.splitlines(keepends=True)
+        lines_no_ends = [l.rstrip("\r\n") for l in lines]
+        bounds = self._find_entry_bounds(lines_no_ends, spec.name)
+
+        if bounds is not None:
+            old_block = "".join(lines[bounds[0]:bounds[1]])
+            cmd_ok = norm(spec.command) in norm(old_block)
+            args_ok = all(norm(a) in norm(old_block) for a in spec.args)
+            if cmd_ok and args_ok:
+                return "ok"
+            if not force:
+                return "skipped_mismatch"
+            del lines[bounds[0]:bounds[1]]
+
+        args_yaml = "\n".join([f"      - '{a}'" if (":" in a or "\\" in a or " " in a) else f"      - {a}" for a in spec.args])
+        cmd_val = f"'{spec.command}'" if ("\\" in spec.command or " " in spec.command) else spec.command
+        new_block = (
+            f"- id: mcp-{spec.name}\n"
+            f"  name: '@deepseek-ai/dsh-mcp-client'\n"
+            f"  config:\n"
+            f"    serverName: {spec.name}\n"
+            f"    transport: stdio\n"
+            f"    command: {cmd_val}\n"
+        )
+        if spec.args:
+            new_block += f"    args:\n{args_yaml}\n"
+        if spec.env:
+            new_block += "    env:\n"
+            for k, v in spec.env.items():
+                new_block += f"      {k}: '{v}'\n"
+
+        clean_lines = "".join(lines).rstrip() + "\n\n" + new_block
+        self.config_path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = self.config_path.with_name(self.config_path.name + ".tmp")
+        tmp.write_text(clean_lines, encoding="utf-8")
+        os.replace(tmp, self.config_path)
+        return "written"
+
+    def remove_server(self, mcp_name: str) -> str:
+        if not self.config_path.is_file():
+            return "not_found"
+        text = self.config_path.read_text(encoding="utf-8")
+        lines = text.splitlines(keepends=True)
+        lines_no_ends = [l.rstrip("\r\n") for l in lines]
+        bounds = self._find_entry_bounds(lines_no_ends, mcp_name)
+        if bounds is None:
+            return "not_found"
+        del lines[bounds[0]:bounds[1]]
+        clean_lines = "".join(lines).rstrip() + "\n"
+        tmp = self.config_path.with_name(self.config_path.name + ".tmp")
+        tmp.write_text(clean_lines, encoding="utf-8")
+        os.replace(tmp, self.config_path)
+        return "removed"
+
+
 # ---------------------------------------------------------------------------
-# 全局 Agent 目标注册表
+# 全局 Agent 目标注册表（支持 7 大 Agent）
 # ---------------------------------------------------------------------------
 TARGET_AGENTS: Dict[str, AgentHandler] = {
     "claude": JsonAgentHandler("claude", Path.home() / ".claude.json", "Claude Code 用户级全局配置", ("mcpServers",)),
@@ -418,6 +536,7 @@ TARGET_AGENTS: Dict[str, AgentHandler] = {
     "pi": JsonAgentHandler("pi", Path.home() / ".pi" / "agent" / "mcp.json", "pi coding agent 用户级配置", ("mcpServers",)),
     "antigravity": JsonAgentHandler("antigravity", Path.home() / ".gemini" / "antigravity-acp" / "mcp.json", "Antigravity ACP 形态（Zed 接入）", ("mcpServers",)),
     "antigravity-ide": JsonAgentHandler("antigravity-ide", Path.home() / ".gemini" / "config" / "mcp_config.json", "Antigravity 桌面 IDE / VSCode 插件全局", ("mcpServers",)),
+    "dsh": DshAgentHandler("dsh", Path.home() / ".dsh" / "profiles" / "desktop" / "cordis.patch.yml", "DeepSeek Harness 桌面 Profile 配置"),
 }
 
 
@@ -426,12 +545,12 @@ TARGET_AGENTS: Dict[str, AgentHandler] = {
 # ---------------------------------------------------------------------------
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="通用多 MCP 配置给多 Agent 的强化分发与管理工具（支持 aoci、everything、自定义 MCP）"
+        description="通用多 MCP 配置给多 Agent 的强化分发与管理工具（支持 aoci、everything、自定义 MCP，覆盖 7 大 Agent 目标）"
     )
     parser.add_argument("--mcp", nargs="+", default=["all"],
                         help="指定要处理的 MCP 服务，例如: aoci, everything, all (默认全部内置预设)")
     parser.add_argument("--agent", nargs="+", choices=sorted(TARGET_AGENTS.keys()),
-                        help="只处理指定的 Agent（默认全部: claude, opencode, codex, pi, antigravity, antigravity-ide）")
+                        help="只处理指定的 Agent（默认全部: antigravity, antigravity-ide, claude, codex, dsh, opencode, pi）")
     parser.add_argument("--status", "--list", dest="show_status", action="store_true",
                         help="打印所有 Agent 当前各 MCP 服务的配置状态矩阵")
     parser.add_argument("--remove", metavar="MCP_NAME",
@@ -492,14 +611,14 @@ def main() -> int:
             print(json.dumps(matrix, ensure_ascii=False, indent=2))
             return 0
 
-        print("=" * 80)
+        print("=" * 84)
         print(f"{'Agent':<16} {'AOCI MCP':<14} {'Everything MCP':<18} {'Config Path'}")
-        print("-" * 80)
+        print("-" * 84)
         for r in matrix:
             aoci_mark = "[✔ 已安装]" if r["aoci"] == "installed" else "[- 未配置]"
             ev_mark = "[✔ 已安装]" if r["everything"] == "installed" else "[- 未配置]"
             print(f"{r['agent']:<16} {aoci_mark:<14} {ev_mark:<18} {r['path']}")
-        print("=" * 80)
+        print("=" * 84)
         return 0
 
     # -----------------------------------------------------------------------
@@ -550,7 +669,7 @@ def main() -> int:
         return 1 if failed else 0
 
     print("=" * 84)
-    print("多 MCP -> 多 Agent 通用配置强化工具")
+    print("多 MCP -> 多 Agent 通用配置强化工具（覆盖 7 大 Agent 目标）")
     print(f"工作区仓库 : {REPO_ROOT}")
     for spec in specs:
         args_display = " ".join(spec.args) if spec.args else "(none)"
@@ -573,7 +692,8 @@ def main() -> int:
     print("提示：")
     print("1. antigravity 需重启或重新打开工作区后生效；")
     print("2. pi 已运行的会话可输入 /reload 立即生效；")
-    print("3. 其余 Agent（Claude Code、Codex、opencode）在下次启动或新建会话时自动载入。")
+    print("3. dsh (DeepSeek Harness) 重启桌面应用或命令行后生效；")
+    print("4. 其余 Agent（Claude Code、Codex、opencode）在下次启动或新建会话时自动载入。")
     print("=" * 84)
 
     return 1 if failed else 0
