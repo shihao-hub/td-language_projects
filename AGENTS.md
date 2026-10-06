@@ -91,6 +91,7 @@
   - `docs/projects/<lang>/`：各语言通用文档与项目文档（如 `docs/projects/go_projects/clictl/clictl 使用指南.md`、`docs/projects/python_projects/tech_learning_room/`），详见下方「归档与文档布局约定」。
 - 编辑器配置同样集中在父仓库根目录 `.zed/settings.json`（入库，随仓库分发），子仓内不再各自维护。
 - AI 会话产物（`.zcode/`）同样集中在父仓库根目录，子仓内不再各自维护。
+- 重要客户级资产「真身入本仓 + 链接到使用位置」：`.agents/skills` 是指向 `git@github.com:shihao-hub/td-agents-skills.git` 的子模块（skills 真身），并已用目录联接（junction）暴露为 `~/.agents/skills`（各级工具约定路径，经链接访问与经本仓访问等价）；**该子模块内的技能改动必须在子模块内提交推送**，父仓只更新指针；家目录被误删只会断链接、不再丢数据，重建命令见 `docs/plans/45-agents-skills-submodule.md`。详见该计划。
 - 在本仓库下工作时，先确认目标所在位置（子仓内项目、根 `.archived/`、根 `docs/`），再进入对应目录执行构建、测试等操作。
 - 不要试图从父仓库提交子模块内部的改动：子模块内的变更必须在子模块自己的仓库里 commit + push。
 - 父仓库层面可见的变更有：`.gitmodules`、子模块指针、README/AGENTS 等自有文件，以及根目录的 `.archived/` 与 `docs/`。
