@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-06T15:36:27Z",
+  "updated_at": "2026-10-06T20:41:49Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -30,10 +30,9 @@
       "normalized_sha256": "a2ccebcfbe4e0f712b7946943c96924e46da12f1257ead22e0c2362062ac3193"
     },
     ".gitmodules": {
-      "role": "index",
-      "sha256": "e8454d964b2ab99d3114bea011dbb4cf1557b36ec3ac9ce67ac8eed7d93b6dcc",
-      "size": 713,
-      "normalized_sha256": "38031dc6b6a67c94ff18d8c8014fd261a0d97cd5353d311eae18e8b056cb58b7"
+      "sha256": "5ba6f77d51e270ebaf358eb61940d2416bb70f2e48cfd680c738cd806f12efad",
+      "size": 854,
+      "normalized_sha256": "afb36f93e47c1b12326e64cd761c2c74b097bfc7da9c0b9e9f4054518de83784"
     },
     ".scripts/build_custom_icons.py": {
       "sha256": "b16fc7fa5595ba67ff8db5b74622f4415d28ed517288c780ecfe005f14cb9edb",
@@ -251,9 +250,9 @@
       "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "ad04b07e88afeb6fc05b8f7948414cb87aff8d7ceabae9a4cf8124f833dde729",
-      "size": 4633,
-      "normalized_sha256": "ad04b07e88afeb6fc05b8f7948414cb87aff8d7ceabae9a4cf8124f833dde729"
+      "sha256": "57e1cd3397d61c911034da694d6508a74cceea203b445f6f77f6e75a8edec34f",
+      "size": 4953,
+      "normalized_sha256": "57e1cd3397d61c911034da694d6508a74cceea203b445f6f77f6e75a8edec34f"
     },
     ".zed/tasks.json": {
       "sha256": "feb651bf25b0f8d96125178edca7cfacd2c7c5fe8c0835d8f91ec3f06f00986b",
@@ -261,9 +260,9 @@
       "normalized_sha256": "068af2746b8cf6c1e8ccf6d2d9c1459bb9e28b94432e9478265ee2f804b6e008"
     },
     "AGENTS.md": {
-      "sha256": "723efd2ab3e99342875a62ef65e3133626d077d39585917e5fe7b6596d9bfa92",
-      "size": 27287,
-      "normalized_sha256": "cf879b7be999c9240d9f3bff22c4f34a817c2adb82b9fb0f043228779f8dccae"
+      "sha256": "7ad2277b05281d7c1a998ffe0f0137cc8e23ff01b284b4e751a685d3014683d7",
+      "size": 28346,
+      "normalized_sha256": "d6065afc7cc4789a4357040f6b8667f5d4572a8eac292e1f14626b0fec95e81a"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -304,9 +303,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "70e426c659ddcc1e090a5ea3c1815cd6b20ae0ff294503038f9930d3da073623",
-      "size": 114183,
-      "normalized_sha256": "70e426c659ddcc1e090a5ea3c1815cd6b20ae0ff294503038f9930d3da073623"
+      "sha256": "e7d408c0ef8e0a2b08cc05ff3e45fab7ad2cfadfbeef2c654602aaa4ad6f82d4",
+      "size": 115675,
+      "normalized_sha256": "e7d408c0ef8e0a2b08cc05ff3e45fab7ad2cfadfbeef2c654602aaa4ad6f82d4"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -664,6 +663,16 @@
       "sha256": "f660c741ed35559cfe2076fb580141acb55fbdd56f5f17332848491dacc1b63a",
       "size": 5956,
       "normalized_sha256": "0f0cdc22bd40f7978a5b863cb8b73ed69b845e2c209307b024b1f5156aecddba"
+    },
+    "docs/plans/44-zed-lsp-manager.md": {
+      "sha256": "9567c2e4c0ae5a3d45ecce6a6911d57a58f17e5f9e08173fe9421ac4f2ac9642",
+      "size": 8517,
+      "normalized_sha256": "a91e0a95490e597d365c70f98f16310a3858606cb751a44e178c159e2b0bbe22"
+    },
+    "docs/plans/45-agents-skills-submodule.md": {
+      "sha256": "893f9008392a1fb438f7c42768810fad3e9028bddb4b24cfbdb34632b07595aa",
+      "size": 15490,
+      "normalized_sha256": "893f9008392a1fb438f7c42768810fad3e9028bddb4b24cfbdb34632b07595aa"
     },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "role": "index",
@@ -1596,9 +1605,9 @@
       "normalized_sha256": "5472e9836d40e46e7c4ac68616a840c55bf02f5d4754bdbacf517f081c56b2bd"
     },
     "opencode.json": {
-      "sha256": "dd9464ceef4e1e4ba461244ec9f656531d0fca558a7cf5dc5708b247b6b91e3d",
-      "size": 182,
-      "normalized_sha256": "dd9464ceef4e1e4ba461244ec9f656531d0fca558a7cf5dc5708b247b6b91e3d"
+      "sha256": "52f94389beceb07d0076a22cf65fefaea20e3fe01be9965a8b023b66807cba9a",
+      "size": 273,
+      "normalized_sha256": "52f94389beceb07d0076a22cf65fefaea20e3fe01be9965a8b023b66807cba9a"
     },
     "plans_status.sql": {
       "sha256": "a2b27411f804d555e3e71cc9e6b895310710e7505818af1050c8886cdef46bd6",
