@@ -23,3 +23,8 @@
 	url = git@github.com:shihao-hub/td-native_projects.git
 	branch = main
 	ignore = all
+[submodule ".agents/skills"]
+	path = .agents/skills
+	url = git@github.com:shihao-hub/td-agents-skills.git
+	branch = main
+	ignore = all
