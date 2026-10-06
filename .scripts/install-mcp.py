@@ -84,6 +84,7 @@ DeepSeek Harness 采用 Cordis 微内核架构，通过 @deepseek-ai/dsh-mcp-cli
    $ uv run .scripts/install-aoci-mcp.py  # 内部已重构为本脚本的转发代理
 """
 import argparse
+import errno
 import json
 import os
 import re
@@ -121,12 +122,41 @@ def read_json(path: Path) -> Optional[dict]:
         return None
 
 
-def write_json_atomic(path: Path, data: dict) -> None:
-    """原子写入 JSON：临时文件 + os.replace，杜绝半写中断破坏配置。"""
+def write_text_atomic(path: Path, text: str) -> None:
+    """尽力原子写入文本：临时文件 + os.replace，杜绝半写中断破坏配置。
+
+    Windows 下目标文件可能被运行中的 Agent（如 opencode）持有句柄，
+    导致 os.replace 报拒绝访问；此时降级为原地覆写并清理临时文件。
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_name(path.name + ".tmp")
-    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    os.replace(tmp, path)
+    tmp.write_text(text, encoding="utf-8")
+    try:
+        os.replace(tmp, path)
+    except OSError as e:
+        if e.errno not in (errno.EACCES, errno.EPERM):
+            raise
+        # 目标被占用无法替换，降级原地覆写；失败时尽力恢复原内容
+        old = path.read_text(encoding="utf-8") if path.is_file() else None
+        try:
+            path.write_text(text, encoding="utf-8")
+        except OSError:
+            if old is not None:
+                try:
+                    path.write_text(old, encoding="utf-8")
+                except OSError:
+                    pass
+            raise
+        finally:
+            try:
+                tmp.unlink()
+            except OSError:
+                pass
+
+
+def write_json_atomic(path: Path, data: dict) -> None:
+    """原子写入 JSON：临时文件 + os.replace，杜绝半写中断破坏配置。"""
+    write_text_atomic(path, json.dumps(data, ensure_ascii=False, indent=2) + "\n")
 
 
 # ---------------------------------------------------------------------------
@@ -253,6 +283,34 @@ class JsonAgentHandler(AgentHandler):
             return servers[mcp_name]
         return None
 
+    def _match_server(self, existing: dict, spec: MCPSpec, extra: dict) -> bool:
+        """判断已有条目的 command/args/env 与附加字段是否与目标 spec 一致。"""
+        cmd = existing.get("command")
+        args = existing.get("args") or []
+        if isinstance(cmd, list):
+            cmd_args, cmd = cmd[1:], cmd[0]
+        else:
+            cmd_args = args
+
+        cmd_match = norm(cmd) == norm(spec.command)
+        args_match = [norm(a) for a in cmd_args] == [norm(a) for a in spec.args]
+        extra_match = all(existing.get(k) == v for k, v in extra.items())
+        env_match = existing.get("env", {}) == spec.env if spec.env else True
+        return cmd_match and args_match and extra_match and env_match
+
+    def _build_entry(self, spec: MCPSpec, extra: dict) -> dict:
+        """按该 Agent 的配置格式构建 MCP 条目。"""
+        entry = {
+            "type": spec.type,
+            "command": spec.command,
+            "args": spec.args,
+        }
+        if spec.env:
+            entry["env"] = spec.env
+        if extra:
+            entry.update(extra)
+        return entry
+
     def upsert_server(self, spec: MCPSpec, force: bool) -> str:
         data = read_json(self.config_path)
         created = data is None
@@ -267,36 +325,13 @@ class JsonAgentHandler(AgentHandler):
 
         # 一致性校验
         if spec.name in servers and isinstance(servers[spec.name], dict):
-            existing = servers[spec.name]
-            cmd = existing.get("command")
-            args = existing.get("args") or []
-            if isinstance(cmd, list):
-                cmd_args, cmd = cmd[1:], cmd[0]
-            else:
-                cmd_args = args
-
-            cmd_match = norm(cmd) == norm(spec.command)
-            args_match = [norm(a) for a in cmd_args] == [norm(a) for a in spec.args]
-            extra_match = all(existing.get(k) == v for k, v in extra.items())
-            env_match = existing.get("env", {}) == spec.env if spec.env else True
-
-            if cmd_match and args_match and extra_match and env_match:
+            if self._match_server(servers[spec.name], spec, extra):
                 return "ok"
             if not force:
                 return "skipped_mismatch"
 
         # 写入条目
-        entry = {
-            "type": spec.type,
-            "command": spec.command,
-            "args": spec.args,
-        }
-        if spec.env:
-            entry["env"] = spec.env
-        if extra:
-            entry.update(extra)
-
-        servers[spec.name] = entry
+        servers[spec.name] = self._build_entry(spec, extra)
         write_json_atomic(self.config_path, data)
         return "written_new" if created else "written"
 
@@ -310,6 +345,43 @@ class JsonAgentHandler(AgentHandler):
         del servers[mcp_name]
         write_json_atomic(self.config_path, data)
         return "removed"
+
+
+class OpencodeJsonHandler(JsonAgentHandler):
+    """opencode 专用处理器（条目格式与其他 Agent 不同）。
+
+    opencode 的 MCP 条目要求：
+    • type 必须为 "local"（而非 "stdio"）；
+    • command 为数组 [命令, 参数...]，无独立 args 字段；
+    • 必须显式声明 enabled 字段；
+    • 环境变量字段名为 environment（而非 env）。
+    参考: https://opencode.ai/docs/mcp-servers/
+    """
+
+    def _match_server(self, existing: dict, spec: MCPSpec, extra: dict) -> bool:
+        if existing.get("type") != "local":
+            return False
+        cmd = existing.get("command")
+        if not isinstance(cmd, list) or not cmd:
+            return False
+
+        cmd_match = norm(cmd[0]) == norm(spec.command)
+        args_match = [norm(a) for a in cmd[1:]] == [norm(a) for a in spec.args]
+        enabled_match = existing.get("enabled") is True
+        env_match = existing.get("environment", {}) == spec.env if spec.env else True
+        return cmd_match and args_match and enabled_match and env_match
+
+    def _build_entry(self, spec: MCPSpec, extra: dict) -> dict:
+        entry = {
+            "type": "local",
+            "command": [spec.command] + list(spec.args),
+            "enabled": True,
+        }
+        if spec.env:
+            entry["environment"] = spec.env
+        if extra:
+            entry.update(extra)
+        return entry
 
 
 class CodexTomlHandler(AgentHandler):
@@ -503,10 +575,7 @@ class DshAgentHandler(AgentHandler):
                 new_block += f"      {k}: '{v}'\n"
 
         clean_lines = "".join(lines).rstrip() + "\n\n" + new_block
-        self.config_path.parent.mkdir(parents=True, exist_ok=True)
-        tmp = self.config_path.with_name(self.config_path.name + ".tmp")
-        tmp.write_text(clean_lines, encoding="utf-8")
-        os.replace(tmp, self.config_path)
+        write_text_atomic(self.config_path, clean_lines)
         return "written"
 
     def remove_server(self, mcp_name: str) -> str:
@@ -520,9 +589,7 @@ class DshAgentHandler(AgentHandler):
             return "not_found"
         del lines[bounds[0]:bounds[1]]
         clean_lines = "".join(lines).rstrip() + "\n"
-        tmp = self.config_path.with_name(self.config_path.name + ".tmp")
-        tmp.write_text(clean_lines, encoding="utf-8")
-        os.replace(tmp, self.config_path)
+        write_text_atomic(self.config_path, clean_lines)
         return "removed"
 
 
@@ -531,7 +598,7 @@ class DshAgentHandler(AgentHandler):
 # ---------------------------------------------------------------------------
 TARGET_AGENTS: Dict[str, AgentHandler] = {
     "claude": JsonAgentHandler("claude", Path.home() / ".claude.json", "Claude Code 用户级全局配置", ("mcpServers",)),
-    "opencode": JsonAgentHandler("opencode", Path.home() / ".config" / "opencode" / "opencode.json", "opencode 用户级配置", ("mcp",)),
+    "opencode": OpencodeJsonHandler("opencode", Path.home() / ".config" / "opencode" / "opencode.json", "opencode 用户级配置", ("mcp",)),
     "codex": CodexTomlHandler("codex", Path.home() / ".codex" / "config.toml", "Codex CLI 用户级配置"),
     "pi": JsonAgentHandler("pi", Path.home() / ".pi" / "agent" / "mcp.json", "pi coding agent 用户级配置", ("mcpServers",)),
     "antigravity": JsonAgentHandler("antigravity", Path.home() / ".gemini" / "antigravity-acp" / "mcp.json", "Antigravity ACP 形态（Zed 接入）", ("mcpServers",)),
