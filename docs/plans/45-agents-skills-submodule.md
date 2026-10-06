@@ -22,13 +22,14 @@ iFlow / Kiro / Reasonix / CodeBuddy 以及本仓 `.cursor/skills`）。
 | --- | --- |
 | 真身位置 | `D:\Users\language_projects\.agents\skills`（父仓子模块，远端 `shihao-hub/td-agents-skills@main`） |
 | 使用位置 | `C:\Users\29580\.agents\skills` → **Junction** → 真身 |
-| 恢复情况 | 333 个既有链接中 **100 个恢复可用**；**233 个仍断**，涉及 **30 个不同目标名**（见下节） |
+| 恢复情况 | 333 个既有链接中 **109 个可用**；**224 个仍断**（28 个 `lark-*` 散装形态，见下节） |
 | 子模块指针 | `f1bbaf9`（`main`，含 `book-stevens-ipc` 恢复提交），登记 `branch = main` + `ignore = all` |
+| 技能内容 | 79 个技能目录 + `.archived`（含恢复回来的 `book-stevens-ipc`、`book-to-skill`） |
 
 ## 链接拓扑
 
 ```text
-D:\Users\language_projects\.agents\skills        <- 子模块真身（td-agents-skills@main，78 个顶层目录）
+D:\Users\language_projects\.agents\skills        <- 子模块真身（td-agents-skills@main，79 个技能目录 + .archived）
         ^
         |  Junction
 C:\Users\29580\.agents\skills                    <- 统一入口（历史文档/工具均引用此路径，保持不变）
@@ -65,54 +66,73 @@ C:\Users\29580\.agents\skills                    <- 统一入口（历史文档/
 | --- | --- | --- |
 | 子模块登记 | `git submodule status` | `.agents/skills f1bbaf9 (heads/main)` |
 | 联接类型 | `Get-Item $env:USERPROFILE\.agents\skills` | `LinkType=Junction`，`Target=D:\Users\language_projects\.agents\skills` |
-| 内容完整 | `(Get-ChildItem $env:USERPROFILE\.agents\skills -Directory).Count` | **78**（77 个技能目录 + `.archived`） |
-| 链路可读 | 抽查 `code-review` / `sh-web-archive` / `tdd` / `zread` / `book-stevens-ipc` 的 `SKILL.md` | 经 `.claude`、`.codex`、`.config\opencode`、`.cursor`、`.pi`、`.gemini` 全部可读 |
-| 链接体检 | `uv run sync_skills.py --check`（skills 仓库自带同步器，只读 dry-run） | 源 78 skills；**84 SKIP（均已指向真身）、0 RELINK/REPLACE**；仅 2 项建议 REMOVE（`book-to-skill`、`.git`，本次不执行） |
-| 全机复扫 | reparse point 全量复扫 | 333 个链接中 **100 健康 / 233 目标缺失**（30 个目标名） |
+| 内容完整 | `(Get-ChildItem $env:USERPROFILE\.agents\skills -Directory).Count` | **81**（79 个技能目录 + `.archived`；含恢复回来的 `book-stevens-ipc`、`book-to-skill`） |
+| 链路可读 | 抽查 `code-review` / `sh-web-archive` / `tdd` / `zread` / `book-stevens-ipc` / `book-to-skill` 的 `SKILL.md` | 经 `.claude`、`.codex`、`.config\opencode`、`.cursor`、`.pi`、`.gemini` 等全部可读 |
+| 链接体检 | `uv run sync_skills.py --check`（skills 仓库自带同步器，只读 dry-run） | 源 **80 skills**；**86 SKIP（均已指向真身）、0 RELINK/REPLACE**；仅 1 项建议 REMOVE（`.codex\skills\.git`，本次不执行） |
+| 全机复扫 | reparse point 全量复扫 | 333 个链接中 **109 健康 / 224 断层**（28 个目标名，全部是 `lark-*` 散装形态） |
 
 逐工具明细（total / 仍断）：
 
 | 工具 | total | 仍断 | 说明 |
 | --- | --- | --- | --- |
 | `.claude\skills` | 1 | 0 | 整目录 junction |
-| `.codex\skills` | 81 | 1 | 整目录为真实目录，逐技能 junction；另含 `.git`、`.archived`；`book-stevens-ipc` 已随 f1bbaf9 复活 |
+| `.codex\skills` | 81 | 0 | 整目录为真实目录，逐技能 junction；`book-stevens-ipc`、`book-to-bto-skill` 均已复活；另含 `.git`（语义特殊）、`.archived` |
 | `.cursor\skills` | 1 | 0 | 整目录 junction |
 | `.config\opencode\skills` | 1 | 0 | 整目录 junction |
 | `.gemini\config\skills` | 1 | 0 | 整目录 junction |
-| `.pi\agent\skills` | 29 | 29 | pi 原生读取 `~/.agents/skills`，此处仅历史逐技能残留 |
-| `.zcode` / `.trae` / `.kiro` / `.reasonix` / `.codebuddy` | 各 31 | 各 29 | |
-| `.qoder` / `.iflow` | 各 32 | 各 29 | |
+| `.pi\agent\skills` | 29 | 28 | 仅 28 个 `lark-*` 散装残留（pi 原生读 `~/.agents/skills`，本目录非必需） |
+| `.zcode` / `.trae` / `.kiro` / `.reasonix` / `.codebuddy` | 各 31 | 各 28 | 同 `.pi` |
+| `.qoder` / `.iflow` | 各 32 | 各 28 | 同 `.pi` |
 | 本仓 `.cursor\skills` | —— | —— | Junction（`.gitignore` 已排除），随链恢复 |
 
-## 仍缺失的 30 个目标名
+## 仍缺口项（29 项：28 个 `lark-*` + 1 个特殊项）
 
-> 口径说明：全机复扫按"链接目标路径是否存在"判定，得 **233 个断链 / 29 个缺失目标名**
-> （28 个 `lark-*` + `book-to-skill`）；下面的第 3 项 `.codex\skills\.git` 目标是 gitdir
-> **文件**（`Test-Path` 为真，故不计入扫描），但语义上已不可用，合计 30 项。
+> 口径：全机复扫按"链接目标路径是否存在"判定，得 224 个断层 / 28 个缺失目标名（都是 `lark-*`）；
+> 另有 `.codex\skills\.git` 一项，其目标是 gitdir **文件**（`Test-Path` 为真，故不计入扫描），
+> 但语义上已不可用，合计 29 项。
 
-1. **`book-to-skill`（真身健在，未入库；能否恢复取决于策略）**
-   当初**有意不入库**（`.git/info/exclude` 排除 `/book-to-skill/`，见 `book-to-skill-setup.md`），
-   因此远端没有它。但它**完好保存在旧副本**里：`D:\Users\study_projects\older\.agents\skills\book-to-skill`
-   —— 完整技能形态（含 `SKILL.md`），内嵌上游仓库 `master @ c108d25` 与 `.venv`（排除 `.venv`/`.git`
-   后 120 文件 / 1.82 MB）。恢复方式：从该副本复制（建议排除 `.venv`、`.git`；venv 可重建）。
-   对应断链 9 个（`.codex`、`.pi`、`.zcode`、`.trae`、`.qoder`、`.iflow`、`.kiro`、`.reasonix`、`.codebuddy`）。
-   配套文档 `book-to-skill-setup.md`（97 行，安装方式与取舍记录）可从 GitHub 不可达对象取回：
-   ```powershell
-   $t = "$env:TEMP\rec"; git init --bare $t
-   git -C $t fetch git@github.com:shihao-hub/td-agents-skills.git f8e96258721db2b0b3ede5381b3ca857652a44ae
-   git -C $t show f8e9625:book-to-skill-setup.md
-   ```
-2. **28 个 `lark-*` 根级散装目录**
+1. **28 个 `lark-*` 根级散装目录**
    上游以**路由形态** `sh-lark-skills/<domain>/` 完整收录（28 个子目录均在库内，能力未丢），
    因此根级散装 junction 仍断是**预期现象**，与上游现行设计一致。
    如需真恢复根级散装：`lark-cli update` 重新释放后跑 `python sync_lark_skills.py`（收归路由）；
    或 `python sync_lark_skills.py --restore`（会把路由目录移回根目录，导致 skills 仓工作区变脏，不推荐）。
-3. **`.codex\skills\.git`**
+2. **`.codex\skills\.git`**
    指向 `~/.agents/skills\.git`；子模块化后该处是 **gitdir 指针文件**（不是目录），junction
    语义上无法恢复。对 Codex 无实际用途，属无害残留。
 
-> 上述 233 个断链**刻意保留**，它们同时充当"缺失清单"证据；如要清理，
+> 上述 224 个断层**刻意保留**，它们同时充当"缺口清单"证据；如要清理，
 > `uv run sync_skills.py`（真实执行）会自动移除"源中不存在"的条目（保留 Codex 的 `.system`）。
+
+## `older\.agents` 搬迁清单（2026-10-07 完成）
+
+旧位置 `D:\Users\study_projects\older\.agents`（用户自行剪切的目的地）→ 新位置
+`D:\Users\language_projects\.agents`（父仓）+ `~/.agents`（使用位置）：
+
+| 内容 | 处置 | 状态 |
+| --- | --- | --- |
+| `skills\` 已跟踪内容（HEAD `f1bbaf9`） | 经 `git push` + 子模块 `merge --ff-only` 归位 | ✅ 已完成（含 `book-stevens-ipc`） |
+| `skills\book-to-skill\` 本体（120 文件 / 1.82 MB，内嵌上游仓库 `c108d25`） | 复制到 `D:\Users\language_projects\.agents\skills\book-to-skill`，**排除 `.venv`**，保留 `.git`；在新子模块 gitdir 的 `info/exclude` 恢复 `/book-to-skill/`（维持"不入库"原设计） | ✅ 已完成（9 个工具链接复活） |
+| `skills\book-to-skill\.venv`（约 356.7 MB） | **按用户要求不搬**；重建方式：`uv venv`/`python -m venv` + 装依赖（上游 `pyproject.toml` 在），或重新执行 `book-to-skill-setup.md` 的安装步骤 | ⏸ 留在旧位置（可删） |
+| `skills` 根 3 个散落未跟踪文件 `_child.md`、`test_xml.py`、`update_subdoc.py` | 复制到新真身根，保持未跟踪（内容分别为 AutoHotkey 指南、飞书文档 HTML 处理脚本 ×2） | ✅ 已复制，去留待定 |
+| `skills\**\__pycache__` | 字节码缓存，不搬 | ⏭ 跳过 |
+| `.skill-lock.json`（31 KB，**技能安装台账**：37 项，含来源 URL）+ `.skill-lock.json.bak-before-booktoskill-removal`（18 KB） | 复制回 `~/.agents\`（原位，供安装器读写）+ 在父仓 `.agents\` 存一份入库快照（防丢、可 diff） | ✅ 已完成 |
+| `.gitignore`（198 B，旧 `~/.agents` 的 OS/编辑器忽略清单） | 复制回 `~/.agents\`；**不入父仓**（避免父仓 `.agents/.gitignore` 反向影响父仓忽略规则） | ✅ 已完成 |
+
+### 台账核对发现
+
+- 台账 37 项中：28 个 `lark-*` 已在 `sh-lark-skills/` 路由形态内（能力未丢）；
+  **`huashu-md-to-pdf`（来源 `https://github.com/alchaincyf/huashu-skills.git`）全盘找不到，是真正的缺口**
+  （无任何工具链接它）——可一条命令重装，或确认不需要后从台账移除。
+- 反向：当前库有 79 个技能目录，其中 51 个（`sh-*` 自研、`book-*` 书籍库等）不在该台账内
+  —— 说明台账只覆盖"通过安装器装的第三方技能"，自研技能是直接写文件 + git 提交的。
+
+### 配套文档回收命令（`book-to-skill-setup.md`，尚未执行）
+
+```powershell
+$t = "$env:TEMP\rec"; git init --bare $t
+git -C $t fetch git@github.com:shihao-hub/td-agents-skills.git f8e96258721db2b0b3ede5381b3ca857652a44ae
+git -C $t show f8e9625:book-to-skill-setup.md   # 97 行：安装方式、取舍、换机重建步骤
+```
 
 ## `book-stevens-ipc` 恢复记录（2026-10-07，已完成）
 
@@ -165,13 +185,20 @@ New-Item -ItemType File -Force -Path .agents\skills\.gitkeep   # 还原占位
 
 ## 后续可选（未做）
 
-1. `book-to-skill` 的归属决策：真身在 `older\.agents\skills\book-to-skill`（未入库）；
-   要么复制回真身并继续"不入库"，要么纳入版本管理（推翻当初 `exclude` 设计）。
-2. `book-to-skill-setup.md`：可从 GitHub 不可达对象 `f8e9625` 取回后入子模块，作为换机重建手册。
-3. 清理 233 个已知断链（`uv run sync_skills.py`，或手工删 `.codex\skills\.git` 与各 lark 散装项）。
-4. `~/.agents/hooks`、`~/.agents/rules` 的资产化与链接。
-5. **旧副本区治理**：`D:\Users\study_projects\older`（本次剪切目的地）同时收着 `.agents` 与 5 个
-   `study-*` 项目，且同样只在本机；建议按"真身入仓 + 链接"策略逐项处理，避免下次搬移再次造成
-   大面积静默断链。`older\.agents\.skill-lock.json`（+ `.bak-before-booktoskill-removal`）的归属
-   也待确认（疑似某 skills 工具的锁/清单）。
-6. 把"本仓子模块 + 家目录 junction"固化为可复用流程/脚本（本次只做 skills 一例，避免过早抽象）。
+1. **`huashu-md-to-pdf`**（台账记录、磁盘已无）：按来源重装
+   ```powershell
+   # 来源：https://github.com/alchaincyf/huashu-skills.git（skillPath: huashu-md-to-pdf/SKILL.md）
+   ```
+   或确认不需要后从台账 `.skill-lock.json` 移除。
+2. `book-to-skill-setup.md`：可从 GitHub 不可达对象 `f8e9625` 取回后入子模块，作为换机重建手册
+   （命令见「配套文档回收命令」节）。
+3. `book-to-skill/.venv`（约 356.7 MB）按用户要求未搬迁，仍留在
+   `D:\Users\study_projects\older\.agents\skills\book-to-skill\.venv`；确认不需要后即可删除，
+   需要时按上游 `pyproject.toml` 重建。注意 User 级环境变量 `PYTHON_BIN` 若仍指向旧路径需更新。
+4. **3 个散落文件去留**：新真身根的 `_child.md`（AutoHotkey 指南）、`test_xml.py`、`update_subdoc.py`
+   （飞书文档 HTML 处理脚本），目前是未跟踪状态，会让子模块 `git status` 一直脏——建议归档或删除。
+5. 清理 224 个 `lark-*` 散装断层（`uv run sync_skills.py`，或手工删各工具的 28 个 lark junction）。
+6. `~/.agents/hooks`、`~/.agents/rules` 的资产化与链接（旧副本里也没有这两个目录）。
+7. **旧副本区治理**：`D:\Users\study_projects\older`（本次剪切目的地）还收着 5 个 `study-*` 项目，
+   且同样只在本机；建议按"真身入仓 + 链接"策略逐项处理，避免下次搬移再次造成大面积静默断链。
+8. 把"本仓子模块 + 家目录 junction"固化为可复用流程/脚本（本次只做 skills 一例，避免过早抽象）。
