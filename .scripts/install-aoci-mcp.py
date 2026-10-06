@@ -3,13 +3,16 @@
 # dependencies = []
 # ///
 # install-aoci-mcp.py：把本仓库的 AOCI MCP（aoci.exe --repo <本仓> mcp）统一配置到
-# claude code / opencode / codex / antigravity（ACP 与桌面 IDE 两个形态）的用户级配置文件。
+# claude code / opencode / codex / pi / antigravity（ACP 与桌面 IDE 两个形态）的用户级配置文件。
 # 幂等：已存在且一致的配置跳过；不一致默认仅报告（--force 才覆盖）；缺失则写入。
 # antigravity 两份配置（官方文档 docs/mcp）：
 #   antigravity      -> ~/.gemini/antigravity-acp/mcp.json        （ACP 形态：Zed 等编辑器接入 agy agent）
 #   antigravity-ide  -> ~/.gemini/config/mcp_config.json          （桌面 IDE / CLI / 2.0 全局）
+# pi（内置 MCP，读 ~/.pi/agent/mcp.json）：aoci 仅 9 个工具，固定 exposure=direct。
+#   pi 默认 exposure=codemode，模型看不到工具声明、只能写脚本调用；aoci 属会话入口工具，
+#   直接暴露与 claude/opencode/codex 的体验对齐。
 # 用法:
-#   uv run .scripts/install-aoci-mcp.py            # 检查并补齐全部五处
+#   uv run .scripts/install-aoci-mcp.py            # 检查并补齐全部六处
 #   uv run .scripts/install-aoci-mcp.py --agent antigravity-ide
 #   uv run .scripts/install-aoci-mcp.py --json     # 机器可读输出
 #   uv run .scripts/install-aoci-mcp.py --force    # 覆盖已有不一致配置
@@ -73,8 +76,11 @@ def write_json_atomic(path: Path, data) -> None:
     os.replace(tmp, path)
 
 
-def check_json_server(existing: dict, exe: Path) -> bool:
-    """校验 Claude/Antigravity/opencode 形态里已有的 aoci 条目是否与期望一致。"""
+def check_json_server(existing: dict, exe: Path, extra: dict = None) -> bool:
+    """校验 Claude/Antigravity/opencode/pi 形态里已有的 aoci 条目是否与期望一致。
+
+    extra 为附加固定字段（如 pi 的 exposure），要求逐项相等。
+    """
     cmd = existing.get("command")
     args = existing.get("args") or []
     if isinstance(cmd, list):  # opencode 形态：command 为数组
@@ -86,13 +92,19 @@ def check_json_server(existing: dict, exe: Path) -> bool:
         return False
     got = [norm(a) for a in cmd_args]
     want = [norm(a) if "\\" in a or "/" in a else a for a in want_args]
-    return got == want
+    if got != want:
+        return False
+    if extra and any(existing.get(k) != v for k, v in extra.items()):
+        return False
+    return True
 
 
-def upsert_json(path: Path, exe: Path, force: bool, server_lens: dict, key_path: tuple) -> str:
+def upsert_json(path: Path, exe: Path, force: bool, server_lens: dict, key_path: tuple,
+                extra: dict = None) -> str:
     """通用 JSON 合并：按 key_path 深入定位 server 映射表，写入/校验 aoci 条目。
 
     server_lens: 各层级缺省容器构造器（dict），如 {"mcpServers": dict} 或 {"mcp": dict}
+    extra: 目标 agent 额外固定字段（如 pi 的 exposure），写入与一致性校验一并生效
     返回状态：written / ok / skipped_mismatch
     """
     data = read_json(path)
@@ -118,11 +130,14 @@ def upsert_json(path: Path, exe: Path, force: bool, server_lens: dict, key_path:
     servers = node[table]
     want_cmd, want_args = expected_binding(exe, REPO_ROOT)
     if "aoci" in servers:
-        if check_json_server(servers["aoci"], exe):
+        if check_json_server(servers["aoci"], exe, extra):
             return "ok"
         if not force:
             return "skipped_mismatch"
-    servers["aoci"] = {"type": "stdio", "command": want_cmd, "args": want_args}
+    entry = {"type": "stdio", "command": want_cmd, "args": want_args}
+    if extra:
+        entry.update(extra)
+    servers["aoci"] = entry
     write_json_atomic(path, data)
     return "written" + ("_new" if created else "")
 
@@ -171,6 +186,10 @@ TARGETS = {
                  "opencode 用户级配置"),
     "codex": (Path.home() / ".codex" / "config.toml", upsert_codex,
               "Codex CLI 用户级配置"),
+    "pi": (Path.home() / ".pi" / "agent" / "mcp.json",
+           lambda p, exe, force: upsert_json(p, exe, force, {}, ("mcpServers",),
+                                             {"exposure": "direct"}),
+           "pi coding agent 用户级配置（aoci 9 个工具直接暴露）"),
     "antigravity": (Path.home() / ".gemini" / "antigravity-acp" / "mcp.json",
                     lambda p, exe, force: upsert_json(p, exe, force, {}, ("mcpServers",)),
                     "Antigravity ACP 形态（Zed 等编辑器接入）"),
@@ -182,7 +201,7 @@ TARGETS = {
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="把 AOCI MCP（aoci.exe --repo 本仓 mcp）配置到 claude/opencode/codex/antigravity。")
+        description="把 AOCI MCP（aoci.exe --repo 本仓 mcp）配置到 claude/opencode/codex/pi/antigravity。")
     parser.add_argument("--agent", choices=sorted(TARGETS), help="只处理指定 agent（默认全部）")
     parser.add_argument("--exe", default=None, help="显式指定 aoci.exe 路径（默认自动探测）")
     parser.add_argument("--force", action="store_true", help="覆盖已有不一致的配置")
@@ -217,7 +236,8 @@ def main() -> int:
             mark, failed = "[失败]", True
         print("{} {:<12} {} ({})".format(mark, r["agent"], r["path"], r["status"]))
     print("-" * 72)
-    print("提示：antigravity 需重启（或重新打开工作区）后 MCP 生效；其余 agent 下次会话自动生效。")
+    print("提示：antigravity 需重启（或重新打开工作区）后 MCP 生效；"
+          "pi 已运行的会话用 /reload 生效；其余 agent 下次会话自动生效。")
     return 1 if failed else 0
 
 
