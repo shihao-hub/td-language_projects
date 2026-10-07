@@ -13,3 +13,8 @@ Thumbs.db
 
 # agy 下载到仓根了，先排除掉
 ComfyUI/
+# Cursor 本地 skills 软链接（Junction -> ~/.agents/skills，不入库）
+.cursor/skills/
+
+# python_projects 的 git worktree 工作副本（feat/agy-content-bubbles，不入父仓）
+python_projects-wt-agy/
