@@ -64,8 +64,9 @@ typeai-gui.exe (Wails v3 窗口)
   - 验证：`uv run scripts/render_icon.py` 产出 1024px PNG 与多尺寸 ico；`uv run build.py --help`；dev 构建产物名带 `-dev` 后缀。
 - [x] Task 5: 端到端验收
   - 验证：以真实 GLM 端点跑 `typeai-gui.exe`：发问一轮（流式 + Markdown 渲染）、`/fork` 分支、`Alt+V` 图片、`/resume` 弹窗；关闭窗口后 `Get-Process` 确认 typeai 进程为 0；非 TTY 错误路径（找不到 typeai.exe）提示清晰。
-- [ ] Task 6: 提交与归档
+- [x] Task 6: 提交与归档
   - 验证：typeai-gui 在 go_projects 子仓内完成 `feat` 提交；本计划勾选状态单独成笔提交。
+  - 执行：子仓 `8480a66`（typeai-gui:feat），父仓计划创建 `dda3cd6`、本归档更新单独成笔。
 
 ## 执行记录
 
