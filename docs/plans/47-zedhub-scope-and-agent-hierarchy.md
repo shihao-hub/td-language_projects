@@ -19,10 +19,10 @@
 4. 保持轻量与零依赖设计，保证测试全绿。
 
 **任务分解**：
-- [ ] Task 1: Web UI 默认管理范围改为 Zed 管理（index.html, app.js）
-- [ ] Task 2: Agent 下拉层级化展示与真实会话计数修复（app.js）
-- [ ] Task 3: Agent 选择与管理范围智能联动处理（app.js）
-- [ ] Task 4: 单测补充与回归验证（test_ui_app.py）
+- [x] Task 1: Web UI 默认管理范围改为 Zed 管理（index.html, app.js）
+- [x] Task 2: Agent 下拉层级化展示与真实会话计数修复（app.js）
+- [x] Task 3: Agent 选择与管理范围智能联动处理（app.js）
+- [x] Task 4: 单测补充与回归验证（test_ui_app.py）
 
 ---
 **最后更新：** 2026-10-07
