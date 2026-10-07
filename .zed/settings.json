@@ -17,7 +17,14 @@
     ".thirdparty/**",
     ".mkdocs-site/**",
     ".aoci/**",
-    ".archived/**"
+    ".archived/**",
+    "**/.codex/skills/**",
+    "**/.claude/skills/**",
+    "**/.opencode/skills/**",
+    "**/.pi/skills/**",
+    "**/.dsh/skills/**",
+    "**/.cursor/skills/**",
+    "**/.idea/**"
   ],
   "auto_install_extensions": {
     "lua": true,
