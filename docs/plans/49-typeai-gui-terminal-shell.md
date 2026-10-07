@@ -50,22 +50,42 @@ typeai-gui.exe (Wails v3 窗口)
 
 ## 任务
 
-- [ ] Task 1: 搭建项目骨架
+- [x] Task 1: 搭建项目骨架
   - 文件：`go_projects/typeai-gui/go.mod`、`main.go`、`internal/guiapp/app.go`、`frontend/`（Vite + TS + xterm.js 最小可编译）、`frontend/wailsjs/` 绑定、`.gitignore`
   - 验证：`go build ./...` 与 `npm run build`（frontend 内）均通过；`wails3 doctor` 无致命项。
-- [ ] Task 2: ConPTY 终端会话桥接
+- [x] Task 2: ConPTY 终端会话桥接
   - 文件：`internal/terminal/session.go`、`internal/terminal/session_test.go`、`internal/guiapp/bindings.go`、`internal/guiapp/runtime.go`
   - 验证：`go test ./internal/terminal`（用 fake 子进程脚本验证读/写/resize/退出码/无残留）；`go vet ./...` 通过。
-- [ ] Task 3: 前端终端视图与事件桥
+- [x] Task 3: 前端终端视图与事件桥
   - 文件：`frontend/src/main.ts`、`frontend/src/terminal.ts`、`frontend/index.html`、`frontend/src/style.css`
   - 验证：`npm run build` 通过；启动应用手工确认：TUI 出现、输入回显、窗口缩放重排、thinking 折叠等按键可用。
-- [ ] Task 4: 图标流水线与构建脚本
+- [x] Task 4: 图标流水线与构建脚本
   - 文件：`scripts/render_icon.py`、`build.py`、`internal/guiapp/icon.go`、`.syso` 资源
   - 验证：`uv run scripts/render_icon.py` 产出 1024px PNG 与多尺寸 ico；`uv run build.py --help`；dev 构建产物名带 `-dev` 后缀。
-- [ ] Task 5: 端到端验收
+- [x] Task 5: 端到端验收
   - 验证：以真实 GLM 端点跑 `typeai-gui.exe`：发问一轮（流式 + Markdown 渲染）、`/fork` 分支、`Alt+V` 图片、`/resume` 弹窗；关闭窗口后 `Get-Process` 确认 typeai 进程为 0；非 TTY 错误路径（找不到 typeai.exe）提示清晰。
 - [ ] Task 6: 提交与归档
   - 验证：typeai-gui 在 go_projects 子仓内完成 `feat` 提交；本计划勾选状态单独成笔提交。
+
+## 执行记录
+
+- 2026-10-07 全部实施完成。关键事实与偏差：
+  - ConPTY 收尾踩坑（均有实验依据，见 `internal/terminal/session.go` 注释）：
+    子进程退出后 conhost 不关闭输出管道（Read 永不 EOF，"等自然 EOF"死锁）；
+    Wait 后立即 ClosePseudoConsole 会与 conhost 末批写入并发（堆损坏
+    0xc0000374）。最终方案：Wait → 300ms flush 宽限 → 关 PTY → 读循环被
+    唤醒 → OnExit；另设 5s 看门狗兜底僵死进程。Windows os.Pipe 不支持
+    SetReadDeadline（实验验证），轮询读方案不可行。
+  - `go-pty` 的 `Command()` 返回自有 `*pty.Cmd`（Windows 不可用 exec.Cmd，
+    上游 issue go#62708）；ConPTY 初始尺寸须在 Start 前 Resize。
+  - Task 4 实际落文件为 `internal/version/version.go`（ldflags 注入）+
+    windres 生成 `.syso`（替代计划中的 icon.go；Wails 窗口图标随 PE 资源）。
+  - Task 3 文件合并为 `frontend/src/main.ts`（无独立 terminal.ts）；guiapp
+    无 runtime.go（壳无监控运行时，只有 bindings.go）。
+  - Task 5 自动化部分完成：进程链路（GUI→ConPTY→typeai.exe）冒烟通过、
+    关窗无残留钩子验证通过、release 拒绝路径验证通过；真实 GLM 对话、
+    /fork、Alt+V、/resume 的人工视觉验收待用户确认。
+- 涉及本计划的父仓提交：计划创建（dda3cd6）与本归档更新各一笔。
 
 ## 约束回查
 
