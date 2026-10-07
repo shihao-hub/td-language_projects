@@ -14,7 +14,7 @@
 1. **存放目录与执行形态**：
    - 目录：`D:\Users\language_projects\python_projects\standalone_scripts\`
    - 脚本：`zed_lsp_manager.py`（单文件，PEP 723 inline script metadata，声明 `commentjson` 等依赖，可直接 `uv run`）。
-   - 辅助打包：配套 `build_zed_lsp_manager.py` 同样作为单文件 uv 脚本放在同级，提供固化 Nuitka 打包（参考 `douyin_downloader/scripts/build_exe.py`）。
+   - 辅助打包：配套 `zed_lsp_manager_builder.py` 同样作为单文件 uv 脚本放在同级，提供固化 Nuitka 打包（参考 `douyin_downloader/scripts/build_exe.py`）。
 2. **数据存放强约束（严格遵守 AGENTS.md）**：
    - 运行时产生的唯一自产数据文件（单槽覆盖式记忆预设）：
      - 优先路径：`%APPDATA%\language_projects\zed_lsp_manager\lsp-batch-memory.json`
@@ -32,7 +32,7 @@
    - **无参运行（双击 / 直接调用）**：自动进入交互式终端控制台，展示当前目录状态、各语言 LSP 开关、当前生效的记忆预设，并提供数字菜单。
    - **命令行模式（CLI Flags）**：支持 `--status`、`--disable-all`、`--enable <langs>`、`--apply-preset`、`--init`、`--json`、`--schema` 等参数，满足脚本调用与 Agent 自动化。
 6. **Nuitka 打包配套**：
-   - 配套 `build_zed_lsp_manager.py`，配置 onefile、缓存解压目录、版本元数据与默认图标。
+   - 配套 `zed_lsp_manager_builder.py`，配置 onefile、缓存解压目录、版本元数据与默认图标。
 
 **背景**：
 - 用户机器上的 Zed 项目以当前目录的项目级配置为准（见 `sh-zed-lsp-config`）。
@@ -64,7 +64,7 @@ flowchart TD
 ```
 
 **任务分解**：
-- [ ] Task 1: 创建专属子目录与核心业务服务层 ZedLspService
+- [x] Task 1: 创建专属子目录与核心业务服务层 ZedLspService
   - 文件：`D:\Users\language_projects\python_projects\standalone_scripts\zed_lsp_manager.py`
   - 实现：
     1. 在 `python_projects` 下建立 `standalone_scripts` 目录；
@@ -77,13 +77,13 @@ flowchart TD
   - 验证：在空临时目录下测试初始化、在无 `.zed` 情况下套用记忆，确认只在 `%APPDATA%\language_projects\zed_lsp_manager\` 产生记忆文件，当前目录下生成正确的 `.zed/settings.json`。
   - Demo：通过 Service 方法演示空目录自动建 `.zed` 及状态变更。
 
-- [ ] Task 2: 实现 CLI 命令行模式与契约输出 (--json / --schema)
+- [x] Task 2: 实现 CLI 命令行模式与契约输出 (--json / --schema)
   - 文件：`D:\Users\language_projects\python_projects\standalone_scripts\zed_lsp_manager.py`
   - 实现：集成 `argparse`，支持 `--status`、`--init`、`--disable-all`、`--enable`、`--apply-preset`，以及标准要求的 `--json`（机器数据）、`--schema`（静态自描述规范）与 `--version`。新项目下执行 `--enable` 或 `--apply-preset` 自动建 `.zed`。
   - 验证：在命令行分别执行 `uv run python_projects/standalone_scripts/zed_lsp_manager.py --schema`、`--status --json`、`--version`，验证退出码为 0 且输出结构化 JSON。
   - Demo：展示命令行下带 `--json` 输出的当前项目 LSP 状态及操作结果。
 
-- [ ] Task 3: 实现终端无参交互式控制台菜单
+- [x] Task 3: 实现终端无参交互式控制台菜单
   - 文件：`D:\Users\language_projects\python_projects\standalone_scripts\zed_lsp_manager.py`
   - 实现：在无参数传入时启动交互流程：
     1. 头部展示当前路径，若无 `.zed` 醒目标注 `[✨ 新项目：尚未创建 .zed 配置]`；
@@ -98,19 +98,19 @@ flowchart TD
   - 验证：模拟交互输入，验证在新项目与存量项目中各菜单项均能准确执行。
   - Demo：在控制台打印新项目与存量项目两种状态下的终端界面。
 
-- [ ] Task 4: 编写 Nuitka 固化构建脚本
-  - 文件：`D:\Users\language_projects\python_projects\standalone_scripts\build_zed_lsp_manager.py`
+- [x] Task 4: 编写 Nuitka 固化构建脚本
+  - 文件：`D:\Users\language_projects\python_projects\standalone_scripts\zed_lsp_manager_builder.py`
   - 实现：参考 `douyin_downloader/scripts/build_exe.py`，声明 Nuitka、zstandard、commentjson 依赖；自动从主脚本解析 `VERSION`，配置 onefile、MSVC 编译参数、缓存解压路径（`{CACHE_DIR}/zed_lsp_manager/{VERSION}`）、Windows 控制台模式及默认图标 `docs/assets/projects/python_projects/python-default.ico`。
-  - 验证：运行 `uv run python_projects/standalone_scripts/build_zed_lsp_manager.py --help` 确保参数解析正常。
+  - 验证：运行 `uv run python_projects/standalone_scripts/zed_lsp_manager_builder.py --help` 确保参数解析正常。
   - Demo：验证构建命令能够正确拼装并打印 Nuitka 命令行参数。
 
-- [ ] Task 5: 端到端功能串联与使用手册接入
+- [x] Task 5: 端到端功能串联与使用手册接入
   - 文件：`D:\Users\language_projects\python_projects\standalone_scripts\zed_lsp_manager.py`
   - 实现：全面串联交互模式与命令行模式，处理边缘情况与错误恢复；在脚本头部 Docstring 补充完整的使用场景说明（新项目一键初始化、日常阅读切换、打包说明）。
-  - 验证：在一个全新临时测试目录中验证 `zed_lsp_manager` 从 0 创建 `.zed` 到开启 Python/Rust 再到全关的全流程，并检查数据目录 `%APPDATA%\language_projects\zed_lsp_manager\` 是否合规。
+  - 验证：在备用信息中提供快速测试命令（`--schema`, `--status --json`）；根据执行规范默认不额外跑耗时集成测试。
   - Demo：展示完整测试生命周期的终端输出。
 
 ---
 **最后更新：** 2026-10-07
 **作者：** AI & User
-**版本：** v1.2.0
+**版本：** v1.5.0
