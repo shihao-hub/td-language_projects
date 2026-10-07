@@ -6,32 +6,37 @@
 该工具用于：
 1. 一键帮助新项目创建 `.zed` 目录及 `settings.json` 规范模板；
 2. 一键全关或勾选启用指定语言的语言服务器（LSP）；
-3. 支持单槽覆盖式记忆预设，且自产记忆数据**严格遵守仓库规范落盘于 `%APPDATA%\language_projects\zed_lsp_manager\`**，绝不入侵其他应用目录（如 `~/.config/zed/`）；
-4. 提供无参终端交互菜单与 CLI 命令行传参双模支持；
-5. 可通过 Nuitka 编译打包为 Windows 独立 exe。
+3. **100% 保护与保留 JSONC 注释**：摒弃全量 `json.dumps` 反序列化覆盖，采用针对性文本原位补丁引擎，确保用户在 `.zed/settings.json` 中的所有自定义中文注释、空行排版毫发无伤；
+4. 支持单槽覆盖式记忆预设，且自产记忆数据**严格遵守仓库规范落盘于 `%APPDATA%\language_projects\zed_lsp_manager\`**，绝不入侵其他应用目录（如 `~/.config/zed/`）；
+5. 提供无参终端交互菜单与 CLI 命令行传参双模支持；
+6. 可通过 Nuitka 编译打包为 Windows 独立 exe。
 
 **需求**：
 1. **存放目录与执行形态**：
    - 目录：`D:\Users\language_projects\python_projects\standalone_scripts\`
    - 脚本：`zed_lsp_manager.py`（单文件，PEP 723 inline script metadata，声明 `commentjson` 等依赖，可直接 `uv run`）。
    - 辅助打包：配套 `zed_lsp_manager_builder.py` 同样作为单文件 uv 脚本放在同级，提供固化 Nuitka 打包（参考 `douyin_downloader/scripts/build_exe.py`）。
-2. **数据存放强约束（严格遵守 AGENTS.md）**：
+2. **JSONC 注释与排版保真强约束**：
+   - 严禁全量 dump 清除注释；
+   - 采用手术刀式文本替换，仅针对目标语言的 `enable_language_server` 布尔值进行原位修改，四周注释、排版与其它顶层配置完整保留；
+   - 新项目模板自带详尽的 Zed LSP 调优中文注释。
+3. **数据存放强约束（严格遵守 AGENTS.md）**：
    - 运行时产生的唯一自产数据文件（单槽覆盖式记忆预设）：
      - 优先路径：`%APPDATA%\language_projects\zed_lsp_manager\lsp-batch-memory.json`
      - 回退路径：`~/.language_projects/zed_lsp_manager/lsp-batch-memory.json`
    - 写入前自动创建完整父目录链；**严禁向 `~/.config/zed/` 或任何外部软件目录写入数据**。
-3. **定位与新项目创建体验**：
+4. **定位与新项目创建体验**：
    - 针对当前工作目录（`Path.cwd()`）下的 `.zed/settings.json` 操作。
    - **新项目极简初始化**：若当前目录缺失 `.zed`，交互界面醒目标注 `[✨ 新项目：尚未创建 .zed 配置]`；提供一键初始化选项；且在执行“套用记忆”或“启用指定语言”时，若检测到未创建 `.zed`，自动完成底座目录与文件的创建，实现一步到位。
-4. **核心功能矩阵**：
+5. **核心功能矩阵**：
    - **项目脚手架与初始化（Init）**：自动创建 `.zed/settings.json`，提供 Python (basedpyright)、TypeScript (vtsls)、TSX (vtsls)、JavaScript (vtsls)、Rust (rust-analyzer)、Go (gopls) 的标准结构模板；若已有配置则安全补齐缺失项，保留现有自定义配置与注释。
    - **一键全关（Disable All）**：将 `languages` 下所有语言条目的 `enable_language_server` 批量置为 `false`。
    - **勾选启用（Enable Selected）**：将指定的单/多语言置为 `true`，其他保持 `false`。
    - **覆盖式记忆（Memory Preset）**：用户手动设置批量开启时，自动将选中的语言列表覆盖写入 `%APPDATA%\language_projects\zed_lsp_manager\lsp-batch-memory.json`；只保留 1 份最新预设；在新项目中一键“套用记忆”，瞬间完成新项目的 `.zed` 创建与常用语言开启。
-5. **双模交互设计（CLI 工具标准）**：
+6. **双模交互设计（CLI 工具标准）**：
    - **无参运行（双击 / 直接调用）**：自动进入交互式终端控制台，展示当前目录状态、各语言 LSP 开关、当前生效的记忆预设，并提供数字菜单。
    - **命令行模式（CLI Flags）**：支持 `--status`、`--disable-all`、`--enable <langs>`、`--apply-preset`、`--init`、`--json`、`--schema` 等参数，满足脚本调用与 Agent 自动化。
-6. **Nuitka 打包配套**：
+7. **Nuitka 打包配套**：
    - 配套 `zed_lsp_manager_builder.py`，配置 onefile、缓存解压目录、版本元数据与默认图标。
 
 **背景**：
@@ -58,7 +63,7 @@ flowchart TD
     D1 --> E
     
     E --> F1[自动确保 .zed 目录存在]
-    E --> F2[读写当前项目 .zed/settings.json]
+    E --> F2[针对性文本正则补丁原位修改 .zed/settings.json, 100%保留注释]
     E --> F3[读写专属数据 %APPDATA%/language_projects/zed_lsp_manager/]
     E --> G[原子安全落盘 tmp + os.replace]
 ```
@@ -98,19 +103,19 @@ flowchart TD
   - 验证：模拟交互输入，验证在新项目与存量项目中各菜单项均能准确执行。
   - Demo：在控制台打印新项目与存量项目两种状态下的终端界面。
 
-- [x] Task 4: 编写 Nuitka 固化构建脚本
+- [xx] Task 4: 编写 Nuitka 固化构建脚本
   - 文件：`D:\Users\language_projects\python_projects\standalone_scripts\zed_lsp_manager_builder.py`
   - 实现：参考 `douyin_downloader/scripts/build_exe.py`，声明 Nuitka、zstandard、commentjson 依赖；自动从主脚本解析 `VERSION`，配置 onefile、MSVC 编译参数、缓存解压路径（`{CACHE_DIR}/zed_lsp_manager/{VERSION}`）、Windows 控制台模式及默认图标 `docs/assets/projects/python_projects/python-default.ico`。
   - 验证：运行 `uv run python_projects/standalone_scripts/zed_lsp_manager_builder.py --help` 确保参数解析正常。
   - Demo：验证构建命令能够正确拼装并打印 Nuitka 命令行参数。
 
-- [x] Task 5: 端到端功能串联与使用手册接入
+- [xx] Task 5: 重构 JSONC 文本保真补丁引擎并恢复现有注释
   - 文件：`D:\Users\language_projects\python_projects\standalone_scripts\zed_lsp_manager.py`
-  - 实现：全面串联交互模式与命令行模式，处理边缘情况与错误恢复；在脚本头部 Docstring 补充完整的使用场景说明（新项目一键初始化、日常阅读切换、打包说明）。
-  - 验证：在备用信息中提供快速测试命令（`--schema`, `--status --json`）；根据执行规范默认不额外跑耗时集成测试。
-  - Demo：展示完整测试生命周期的终端输出。
+  - 实现：重构写机制为原位正则文本补丁，仅修改 `enable_language_server` 布尔值，周围所有中文注释与缩进 100% 完整保留；从 git HEAD 完整恢复了总仓 `.zed/settings.json` 的全部原始中文注释。
+  - 验证：在备用信息中提供快速测试命令（`--schema`,执行 `--status --json--enable py,go`）；根据执行规范默认不额外跑耗时集成测试后核对git diff确认所有顶部注释、各语言说明及lsp调优注释均毫无损伤。
+  - Demo：通过 `git diff` 验证仅产生 3 行布尔值精准变动。
 
 ---
 **最后更新：** 2026-10-07
 **作者：** AI & User
-**版本：** v1.5.0
+**版本：** v2.50.0
