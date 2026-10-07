@@ -13,13 +13,14 @@
 6. **agy 载荷深度剖析**：提取本地真实的 Antigravity `step_payload` 样本，解析其物理格式与反序列化切入点，交付供审阅的技术报告。
 
 **任务分解**：
-- [ ] Task 1: Claude Code 与 Codex 正文气泡提取与 FileSource 支持（file_sources.py, agent_paths.py）
-- [ ] Task 2: Pi (pi-acp) 会话文件定位、解析器与数据源接入（pi_source.py, base.py, sources/__init__.py）
-- [ ] Task 3: 后端接口适配与 Web UI 正文加载打通（api.py, app.js）
-- [ ] Task 4: 单测补充与全量回归验证（test_session_content.py）
-- [ ] Task 5: Antigravity (agy) 真实二进制载荷提取与逆向分析报告
+- [x] Task 1: Claude Code 与 Codex 正文气泡提取与 FileSource 支持（file_sources.py, agent_paths.py, message_extractor.py）
+- [x] Task 2: Pi (pi-acp) 会话文件定位、解析器与数据源接入（base.py, file_sources.py, agent_sessions.py）
+- [x] Task 3: 后端接口适配与 Web UI 正文加载打通（api.py, app.js）
+- [x] Task 4: 单测补充与全量回归验证（test_session_content.py, pytest 100% 通过）
+- [x] Task 5: Antigravity (agy) 真实二进制载荷提取与逆向分析报告
 
 ---
 **最后更新：** 2026-10-07
 **作者：** AI & User
 **版本：** v1.0
+
