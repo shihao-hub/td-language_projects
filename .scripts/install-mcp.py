@@ -500,29 +500,33 @@ class DshAgentHandler(AgentHandler):
         super().__init__(name, config_path or (Path.home() / ".dsh" / "profiles" / "desktop" / "cordis.patch.yml"), description)
 
     def _find_entry_bounds(self, lines: List[str], mcp_name: str) -> Optional[Tuple[int, int]]:
-        """定位 `- id: mcp-{mcp_name}` 的起始行和结束行（下个顶级 `-` 前）。"""
-        target_id_1 = f"id: mcp-{mcp_name}"
-        target_id_2 = f"id: 'mcp-{mcp_name}'"
-        target_id_3 = f'id: "mcp-{mcp_name}"'
+        """定位 mcp-{mcp_name} 条目的起始行和结束行。
+
+        支持两种位置：
+        1. insert 列表内（正确写法）：`    - id: mcp-xxx`（4 空格缩进）；
+        2. 顶层补丁项（历史遗留错误写法）：`- id: mcp-xxx`，仅用于识别并迁移。
+        结束边界为下一条同级条目 / 顶级 `- ` 条目 / 文件尾。
+        """
+        target_ids = (f"id: mcp-{mcp_name}",)
         start_idx = -1
         for idx, line in enumerate(lines):
             stripped = line.strip()
-            if (stripped.startswith("- id:") or stripped.startswith("id:")) and (
-                target_id_1 in stripped or target_id_2 in stripped or target_id_3 in stripped
-            ):
-                s = idx
-                while s > 0 and not lines[s].lstrip().startswith("-"):
-                    s -= 1
-                start_idx = s
+            if stripped.startswith("- id:") and any(t in stripped for t in target_ids):
+                start_idx = idx
                 break
-
         if start_idx == -1:
             return None
+
+        # 同级条目的缩进（"- id:" 前的空格数）
+        indent = len(lines[start_idx]) - len(lines[start_idx].lstrip())
 
         end_idx = len(lines)
         for idx in range(start_idx + 1, len(lines)):
             line = lines[idx]
-            if re.match(r"^-\s+[a-zA-Z0-9_]+:", line) or line.startswith("- id:") or line.startswith("- name:"):
+            stripped = line.strip()
+            # 同级或更高级的新条目边界
+            cur_indent = len(line) - len(line.lstrip())
+            if stripped.startswith("- ") and cur_indent <= indent:
                 end_idx = idx
                 break
         return (start_idx, end_idx)
@@ -545,9 +549,44 @@ class DshAgentHandler(AgentHandler):
                 args.append(stripped[2:].strip().strip("'\""))
         return {"command": cmd, "args": args}
 
+    def _find_insert_range(self, lines: List[str]) -> Optional[Tuple[int, int]]:
+        """定位顶级 `- insert:` 列表的行范围 [列表头行, 列表结束边界行)。"""
+        for idx, line in enumerate(lines):
+            if re.match(r"^-\s+insert:\s*$", line):
+                end = len(lines)
+                for j in range(idx + 1, len(lines)):
+                    if lines[j].startswith("- ") or (lines[j].strip() and not lines[j][0].isspace()):
+                        end = j
+                        break
+                return (idx, end)
+        return None
+
+    def _render_insert_block(self, spec: MCPSpec) -> str:
+        """渲染 insert 列表内的条目块（`- id:` 缩进 4 空格）。"""
+        args_yaml = "\n".join([f"          - '{a}'" if (":" in a or "\\" in a or " " in a) else f"          - {a}" for a in spec.args])
+        cmd_val = f"'{spec.command}'" if ("\\" in spec.command or " " in spec.command) else spec.command
+        block = (
+            f"    - id: mcp-{spec.name}\n"
+            f"      name: '@deepseek-ai/dsh-mcp-client'\n"
+            f"      config:\n"
+            f"        serverName: {spec.name}\n"
+            f"        transport: stdio\n"
+            f"        command: {cmd_val}\n"
+        )
+        if spec.args:
+            block += f"        args:\n{args_yaml}\n"
+        if spec.env:
+            block += "        env:\n"
+            for k, v in spec.env.items():
+                block += f"          {k}: '{v}'\n"
+        return block
+
     def upsert_server(self, spec: MCPSpec, force: bool) -> str:
-        text = self.config_path.read_text(encoding="utf-8") if self.config_path.is_file() else "[]\n"
-        lines = text.splitlines(keepends=True)
+        if not self.config_path.is_file():
+            base_text = "# Your patch layer for this dsh profile.\n\n- insert:\n"
+        else:
+            base_text = self.config_path.read_text(encoding="utf-8")
+        lines = base_text.splitlines(keepends=True)
         lines_no_ends = [l.rstrip("\r\n") for l in lines]
         bounds = self._find_entry_bounds(lines_no_ends, spec.name)
 
@@ -555,30 +594,27 @@ class DshAgentHandler(AgentHandler):
             old_block = "".join(lines[bounds[0]:bounds[1]])
             cmd_ok = norm(spec.command) in norm(old_block)
             args_ok = all(norm(a) in norm(old_block) for a in spec.args)
-            if cmd_ok and args_ok:
+            already_in_insert = lines[bounds[0]].startswith("    - id:")
+            if cmd_ok and args_ok and already_in_insert:
                 return "ok"
-            if not force:
+            if not force and not already_in_insert:
+                # 历史遗留的顶层写法不生效，直接视为需要迁移修复
+                pass
+            if (cmd_ok and args_ok) or force:
+                del lines[bounds[0]:bounds[1]]
+            elif not force:
                 return "skipped_mismatch"
-            del lines[bounds[0]:bounds[1]]
 
-        args_yaml = "\n".join([f"      - '{a}'" if (":" in a or "\\" in a or " " in a) else f"      - {a}" for a in spec.args])
-        cmd_val = f"'{spec.command}'" if ("\\" in spec.command or " " in spec.command) else spec.command
-        new_block = (
-            f"- id: mcp-{spec.name}\n"
-            f"  name: '@deepseek-ai/dsh-mcp-client'\n"
-            f"  config:\n"
-            f"    serverName: {spec.name}\n"
-            f"    transport: stdio\n"
-            f"    command: {cmd_val}\n"
-        )
-        if spec.args:
-            new_block += f"    args:\n{args_yaml}\n"
-        if spec.env:
-            new_block += "    env:\n"
-            for k, v in spec.env.items():
-                new_block += f"      {k}: '{v}'\n"
+        new_block = self._render_insert_block(spec)
 
-        clean_lines = "".join(lines).rstrip() + "\n\n" + new_block
+        # 追加到顶级 `- insert:` 列表末尾；不存在则新建
+        ins_range = self._find_insert_range([l.rstrip("\r\n") for l in lines])
+        if ins_range is None:
+            clean_lines = "".join(lines).rstrip() + "\n\n- insert:\n" + new_block
+        else:
+            pos = ins_range[1]
+            lines.insert(pos, new_block)
+            clean_lines = "".join(lines)
         write_text_atomic(self.config_path, clean_lines)
         return "written"
 
