@@ -24,7 +24,8 @@
     "**/.pi/skills/**",
     "**/.dsh/skills/**",
     "**/.cursor/skills/**",
-    "**/.idea/**"
+    "**/.idea/**",
+    "**/target/**"
   ],
   "auto_install_extensions": {
     "lua": true,
@@ -33,32 +34,39 @@
     "neocmake": true,
     "html": true,
     "ini": true,
-    "xmake": true
+    "xmake": true,
+    "java": true
   },
   "languages": {
-    // Go：gopls 提供跳转（go_projects 及 python_projects 内 Go 启动器均适用）
-    "Go": {
-      "enable_language_server": true,
-      "language_servers": ["gopls"]
-    },
     // Python：basedpyright 跳转 + ruff 格式化
     "Python": {
       "enable_language_server": true,
       "language_servers": ["basedpyright", "ruff"],
       "formatter": "language_server"
     },
-    // TS/TSX/JS：vtsls 跳转
-    "TypeScript": { "enable_language_server": true, "language_servers": ["vtsls"] },
-    "TSX": { "enable_language_server": true, "language_servers": ["vtsls"] },
-    "JavaScript": { "enable_language_server": true, "language_servers": ["vtsls"] },
-    // HTML/CSS：Zed 内置服务器，仅零星文件，不开
-    "HTML": { "enable_language_server": false },
-    "CSS": { "enable_language_server": false },
+    // Go：gopls 提供跳转（go_projects 及 python_projects 内 Go 启动器均适用）
+    "Go": {
+      "enable_language_server": true,
+      "language_servers": ["gopls"]
+    },
     // Rust：rust-analyzer 跳转
     "Rust": {
       "enable_language_server": false,
       "language_servers": ["rust-analyzer"]
     },
+    // Java：jdtls 提供智能跳转、补全与重构（指定 Java 21 环境）
+    "Java": {
+      "enable_language_server": true,
+      "language_servers": ["jdtls"],
+      "formatter": "language_server"
+    },
+    // TS/TSX/JS：vtsls 跳转
+    "TypeScript": { "enable_language_server": false, "language_servers": ["vtsls"] },
+    "TSX": { "enable_language_server": false, "language_servers": ["vtsls"] },
+    "JavaScript": { "enable_language_server": false, "language_servers": ["vtsls"] },
+    // HTML/CSS：Zed 内置服务器，仅零星文件，不开
+    "HTML": { "enable_language_server": false },
+    "CSS": { "enable_language_server": false },
     // C/C++：clangd 跳转（native_projects；优先用 PATH 里的 LLVM clangd，无则 Zed 自动下载）
     "C": { "enable_language_server": false, "language_servers": ["clangd"] },
     "C++": { "enable_language_server": false, "language_servers": ["clangd"] },
@@ -66,6 +74,33 @@
     "Lua": { "enable_language_server": false, "language_servers": ["lua-language-server"] }
   },
   "lsp": {
+    // jdtls：Eclipse JDT Language Server，配置 JDK 21 运行环境与运行时映射
+    "jdtls": {
+      "settings": {
+        "java_home": "D:/Users/java/jdk-21",
+        "lombok_support": true
+      },
+      "initialization_options": {
+        "settings": {
+          "java": {
+            "configuration": {
+              "runtimes": [
+                {
+                  "name": "JavaSE-21",
+                  "path": "D:/Users/java/jdk-21",
+                  "default": true
+                }
+              ]
+            },
+            "errors": {
+              "incompleteClasspath": {
+                "severity": "warning"
+              }
+            }
+          }
+        }
+      }
+    },
     // vtsls：限堆防膨胀（typescript_projects）；禁自动下载 @types（原 go_projects，
     // 其 JS 文件无 package.json/node_modules）
     "vtsls": {
