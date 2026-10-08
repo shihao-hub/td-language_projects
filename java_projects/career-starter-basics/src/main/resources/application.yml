@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: career-starter-foundation
+
+logging:
+  level:
+    root: INFO
+    com.shihao.career.starter: DEBUG
