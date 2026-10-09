@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-06T22:21:17Z",
+  "updated_at": "2026-10-09T04:04:19Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -25,9 +25,9 @@
       "normalized_sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476"
     },
     ".gitignore": {
-      "sha256": "a2ccebcfbe4e0f712b7946943c96924e46da12f1257ead22e0c2362062ac3193",
-      "size": 467,
-      "normalized_sha256": "a2ccebcfbe4e0f712b7946943c96924e46da12f1257ead22e0c2362062ac3193"
+      "sha256": "7286e66f64749c88c46a048a762949df593725bebf7c13c4594ddb251d2bfa31",
+      "size": 797,
+      "normalized_sha256": "7286e66f64749c88c46a048a762949df593725bebf7c13c4594ddb251d2bfa31"
     },
     ".gitmodules": {
       "sha256": "5ba6f77d51e270ebaf358eb61940d2416bb70f2e48cfd680c738cd806f12efad",
@@ -201,9 +201,9 @@
       "normalized_sha256": "c3d8e7b66de266b8b1788363e842683eac88bc670c7ae35de673d18a497492d6"
     },
     ".scripts/install-mcp.py": {
-      "sha256": "429e5a94e99f652067cb5e267f82de3522040d8a132856ce3668d3dc7c6cd12b",
-      "size": 34097,
-      "normalized_sha256": "f413cf1d17463471a5decc74e6ef4e38725e7b02727bc1cada6e68e67edbf357"
+      "sha256": "bea3444bbf0a694264251c087afdf0a248f56a589097d107b0b2ac3e261c2fa4",
+      "size": 42100,
+      "normalized_sha256": "4db98b4ba887dff1b95d199669b05fb2e4696bfa9a74fdc2d803933e2b50f5b3"
     },
     ".scripts/install_tool.py": {
       "role": "index",
@@ -250,19 +250,19 @@
       "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "d31723fe82d996c2692f766972a4f41e568ede8e4b7c10bdfb566b6c7c5b3c03",
-      "size": 4925,
-      "normalized_sha256": "d31723fe82d996c2692f766972a4f41e568ede8e4b7c10bdfb566b6c7c5b3c03"
+      "sha256": "4cdaf9b1afd23c924417e64bc9fcb8be029de79634b2fce070719cab8fdf61db",
+      "size": 5476,
+      "normalized_sha256": "6bd35c2e8e379caa961e3539c9d634c64368527e54d1b841299d637462783a8f"
     },
     ".zed/tasks.json": {
-      "sha256": "feb651bf25b0f8d96125178edca7cfacd2c7c5fe8c0835d8f91ec3f06f00986b",
-      "size": 1104,
-      "normalized_sha256": "068af2746b8cf6c1e8ccf6d2d9c1459bb9e28b94432e9478265ee2f804b6e008"
+      "sha256": "670dac2bd6fee03d01189217274b9b8b9803902087c6ae7db1d9a5ef83f69e7c",
+      "size": 2043,
+      "normalized_sha256": "35e4f57449499a57f57252e3c0bf918e937b9c9d982c708f5420436ca3f67913"
     },
     "AGENTS.md": {
-      "sha256": "7ad2277b05281d7c1a998ffe0f0137cc8e23ff01b284b4e751a685d3014683d7",
-      "size": 28346,
-      "normalized_sha256": "d6065afc7cc4789a4357040f6b8667f5d4572a8eac292e1f14626b0fec95e81a"
+      "sha256": "c1a7290a2cfad60a03a74c0650084bc2ffbd699232768808391f5f4ec75dab52",
+      "size": 29182,
+      "normalized_sha256": "8a31c010f10080dca48b996c34a33a8b30e6d8ac249daf9a88638d4ce68040f0"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -303,9 +303,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "718bd69992f4a852d2d7990a6c4aeb2c19d83be8e32406f8f2e716af43df9a19",
-      "size": 116394,
-      "normalized_sha256": "718bd69992f4a852d2d7990a6c4aeb2c19d83be8e32406f8f2e716af43df9a19"
+      "sha256": "157e8fb2c4331243b6b784b0a2087e7ed651c4518ac1a78154261186d5b999fb",
+      "size": 133781,
+      "normalized_sha256": "157e8fb2c4331243b6b784b0a2087e7ed651c4518ac1a78154261186d5b999fb"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -665,9 +665,9 @@
       "normalized_sha256": "0f0cdc22bd40f7978a5b863cb8b73ed69b845e2c209307b024b1f5156aecddba"
     },
     "docs/plans/44-zed-lsp-manager.md": {
-      "sha256": "9567c2e4c0ae5a3d45ecce6a6911d57a58f17e5f9e08173fe9421ac4f2ac9642",
-      "size": 8517,
-      "normalized_sha256": "a91e0a95490e597d365c70f98f16310a3858606cb751a44e178c159e2b0bbe22"
+      "sha256": "d74f97288336d0a05a326e00f763e4799d004e157b79d22e4eeff3b110c033e3",
+      "size": 10277,
+      "normalized_sha256": "a71fe37fd1eaadc0ba594c04ba3588450dcd77504e7e7e05416d56f48c495fce"
     },
     "docs/plans/45-agents-skills-submodule.md": {
       "sha256": "893f9008392a1fb438f7c42768810fad3e9028bddb4b24cfbdb34632b07595aa",
@@ -675,9 +675,54 @@
       "normalized_sha256": "893f9008392a1fb438f7c42768810fad3e9028bddb4b24cfbdb34632b07595aa"
     },
     "docs/plans/46-python-env-uv-unified.md": {
-      "sha256": "25c59b836b31cd097d5e3ad384d506eb872b011c15848fa8e4afd87b43b2a662",
-      "size": 7127,
-      "normalized_sha256": "25c59b836b31cd097d5e3ad384d506eb872b011c15848fa8e4afd87b43b2a662"
+      "sha256": "fb3112f1278a678a2be7d3a4cb6d73f58120998507c7da4bc0cebe82a044f539",
+      "size": 9616,
+      "normalized_sha256": "fb3112f1278a678a2be7d3a4cb6d73f58120998507c7da4bc0cebe82a044f539"
+    },
+    "docs/plans/47-zedhub-scope-and-agent-hierarchy.md": {
+      "sha256": "c899bd9ebc5e7dff34db0c2a4f1833632b4d06819b630446107ba21b4d03a4f7",
+      "size": 2111,
+      "normalized_sha256": "c899bd9ebc5e7dff34db0c2a4f1833632b4d06819b630446107ba21b4d03a4f7"
+    },
+    "docs/plans/48-zedhub-multi-agent-content-bubbles.md": {
+      "sha256": "74384bd33d4c8420618ebea9eaf8aea2c8b4fcaa45f87be2cd570886c8eb9e31",
+      "size": 2423,
+      "normalized_sha256": "74384bd33d4c8420618ebea9eaf8aea2c8b4fcaa45f87be2cd570886c8eb9e31"
+    },
+    "docs/plans/49-cursor-yolo-mode-no-approval.md": {
+      "sha256": "45337db640c4e4a9ac198922098911b9fe90435f7e757c25572ae43143735d23",
+      "size": 8155,
+      "normalized_sha256": "45337db640c4e4a9ac198922098911b9fe90435f7e757c25572ae43143735d23"
+    },
+    "docs/plans/49-typeai-gui-terminal-shell.md": {
+      "sha256": "91d18858e341d0ac9577577f9093f9d089a9572138e31f117536adf8bd2558f6",
+      "size": 7887,
+      "normalized_sha256": "91d18858e341d0ac9577577f9093f9d089a9572138e31f117536adf8bd2558f6"
+    },
+    "docs/plans/49-zedhub-project-dropdown-normalization-and-stats.md": {
+      "sha256": "4f7eea0b1169ed92bda61dcaa4d37d2f3af30559c349a5a513b3ecbed8737bb1",
+      "size": 2767,
+      "normalized_sha256": "4f7eea0b1169ed92bda61dcaa4d37d2f3af30559c349a5a513b3ecbed8737bb1"
+    },
+    "docs/plans/50-zedhub-antigravity-content-bubbles.md": {
+      "sha256": "bc03882002b3670d24ce1e66bfcd983ba5060189a612ba512430406d5e09b5bb",
+      "size": 2503,
+      "normalized_sha256": "bc03882002b3670d24ce1e66bfcd983ba5060189a612ba512430406d5e09b5bb"
+    },
+    "docs/plans/51-cursor-spending-limit-and-cache-research.md": {
+      "sha256": "60f202f3a1784846e68676e0996c25ea41d43df1f1a51d20ec79791d0980d071",
+      "size": 5236,
+      "normalized_sha256": "60f202f3a1784846e68676e0996c25ea41d43df1f1a51d20ec79791d0980d071"
+    },
+    "docs/plans/52-zedhub-external-agent-normalization-and-pi-source.md": {
+      "sha256": "b7d347a6e5de6c259451561be1b225034ed7583c161b2548a9c2188c8ce2616a",
+      "size": 4254,
+      "normalized_sha256": "b7d347a6e5de6c259451561be1b225034ed7583c161b2548a9c2188c8ce2616a"
+    },
+    "docs/plans/53-expose-user-skill-symlink.md": {
+      "sha256": "60b0c76fa5bdd30d4fe35477ff0e10e88986e45af7187975e507a69eeec10122",
+      "size": 3042,
+      "normalized_sha256": "60b0c76fa5bdd30d4fe35477ff0e10e88986e45af7187975e507a69eeec10122"
     },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "role": "index",
@@ -1112,6 +1157,16 @@
       "size": 42875,
       "normalized_sha256": "935791061a56b5cf45937b83428b616809bcd0adbf294236715d2d1ac139b03d"
     },
+    "docs/projects/go_projects/typeai-gui/specs/01-universal-terminal-shell/design.md": {
+      "sha256": "55588d64f93b42ce7ff499281b3facc817733183fa763a59d55ed45271144f16",
+      "size": 24637,
+      "normalized_sha256": "55588d64f93b42ce7ff499281b3facc817733183fa763a59d55ed45271144f16"
+    },
+    "docs/projects/go_projects/typeai-gui/specs/01-universal-terminal-shell/requirements.md": {
+      "sha256": "062229fbc743858a8b0803539c5c6a28121873ef7494624bee8aa848b0ee5049",
+      "size": 4471,
+      "normalized_sha256": "062229fbc743858a8b0803539c5c6a28121873ef7494624bee8aa848b0ee5049"
+    },
     "docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md": {
       "role": "index",
       "sha256": "22a21ffd6fac27c8867eac305c2302111413e124fb2871ab342c0aeae7201a64",
@@ -1493,6 +1548,11 @@
       "size": 17143,
       "normalized_sha256": "b2ab05e4cac91e250d3852a8dc1acd4a1dc16f407732629d3c8ca46a019f35e5"
     },
+    "docs/repo/jupyterlab-overview-and-architecture-research.md": {
+      "sha256": "11e0462bd7c9d2f054c42aa59896fee51777df9af436574bf319284178e21d57",
+      "size": 44579,
+      "normalized_sha256": "62898ca70d6577c452ddeb8b8a513c97537930c8e773acfd6daac1889bd090f5"
+    },
     "docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html": {
       "role": "index",
       "sha256": "358fd9c1e50fddc67ddc8d82e6e7309d8a76ec5792430b70d33eb1f8b431fd00",
@@ -1603,6 +1663,141 @@
       "size": 7160,
       "normalized_sha256": "e7c1cdc82bb9ecb65ab5d2359c8cbe76295b7f11b9dbe6d7024152b40d9fffcb"
     },
+    "java_projects/.gitignore": {
+      "sha256": "7605198e58894748427d38c5452e613b4c3b730d9f919aa200c77121ef39697d",
+      "size": 552,
+      "normalized_sha256": "a3fa0b3d41dc55bc14fb7f10464362ef7df47e9d1b427b53ba996719ce4431fe"
+    },
+    "java_projects/AGENTS.md": {
+      "sha256": "4a2315791ef32d9d08e474a46bf56889b60593dff697939a9877a6f1d9023114",
+      "size": 385,
+      "normalized_sha256": "d1ffc9bdd26cd63b304848736c78b1e191e156cf19d1b95bf6b5e192bbe6ca39"
+    },
+    "java_projects/CLAUDE.md": {
+      "sha256": "7ae2ae0c87f4f1d6c524bc97b817e61950c5a31a1a58340aa6e93b6727e57b62",
+      "size": 82,
+      "normalized_sha256": "8457a22a5c2b7ea86592e50f454a0e911c51a972801c2f079b1db885ec9ef951"
+    },
+    "java_projects/README.md": {
+      "sha256": "0b6eb30a8b25f64e242ddff489ef537276b5cd6d50dfb3fa46271555f40bc841",
+      "size": 2592,
+      "normalized_sha256": "ae386fd4323978c79fa76016aa48817e3afefd0173d5e126e58e48a43370ef53"
+    },
+    "java_projects/career-starter-basics/pom.xml": {
+      "sha256": "d44b48319fc7dea8523bb6087d17d691d53a0985a9b19f5bcbac64f977e37daa",
+      "size": 1748,
+      "normalized_sha256": "52dbff9214b88520bc8aed0d5bc78e3bf765bddaf0820629a9dfa28032ee4c84"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/StarterApplication.java": {
+      "sha256": "ee934165b8cf5567e3970264cd147b6a00e028842e8c3b0e2391bb74a1a3bd48",
+      "size": 1108,
+      "normalized_sha256": "be516b8b4670dfd3290516aff5c241cbf0ab0c8a8acc700a3436ee54d6a6e415"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/Java21FeaturesDemo.java": {
+      "sha256": "d201163a8662547327acde278b2283b555067a31dfa7e57b0fa4039b4bfc0ba8",
+      "size": 2278,
+      "normalized_sha256": "25b25c83591a91e587b7e4c6f3364183796df84add3d0cc424ceb5055e73f3b6"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/OrderStatus.java": {
+      "sha256": "5f28690acd682647cb42d8b6f4a47f790da3b33ade391b6d6fa7ebe42e510b5a",
+      "size": 1596,
+      "normalized_sha256": "e5a40c29a4d43e9cb5e37f843cea9fa4d0d84beb3928bc097fc071c63827dbc8"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/PaymentEventRecord.java": {
+      "sha256": "95221b973fe8f1ae99416e5e19eb3fe123ee35a899db915db39a253007896a5c",
+      "size": 1981,
+      "normalized_sha256": "5ccb44fa90f98e17a962defa30272fca8e1779780fb485e101efb2f3ffd3cfc3"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/ReconciliationStreamDemo.java": {
+      "sha256": "c0e594fb32739235b0d3cab5c662e44d42fbccce75e80914b5fb5b1bfb8df3a9",
+      "size": 2301,
+      "normalized_sha256": "e33f5987bb12c5d37fc275a470d641b2a361cb5541ce484c188ad30af55b4e3a"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module02_concurrent_basics/AgingPayTask.java": {
+      "sha256": "7ac8b7b683b0cce4fd4a08baa6dbca42a7af817325ae89b0d0a66a6b9a16ebe6",
+      "size": 1597,
+      "normalized_sha256": "366f691c7827d4ac1a8ab894987c77ad1c78091dfbf2d218943c5a7dac9f8c9f"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module02_concurrent_basics/DynamicAgingScheduler.java": {
+      "sha256": "03b2e511df14a4551a031d61fd75dcf08161134ee66a693c70c816f85df5b9b6",
+      "size": 3188,
+      "normalized_sha256": "089d30c88ba5aeccab32f4f4f2204ec8a9f00d6af179311c1880602f6c6b2679"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module02_concurrent_basics/VirtualThreadsDemo.java": {
+      "sha256": "f05c66f5f4a840145ac9a6d13141b475f6dbd14935fe0885b0237105e69c0e51",
+      "size": 3515,
+      "normalized_sha256": "5382d97a3fc557588c8f3a87472f08cdebee6fe874bfa2d24d96933d306990e0"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/BalanceRefundAction.java": {
+      "sha256": "3c948c4a511231c0e6e2da5dab90ecca817942194ed4b60ac05e240937bf5d4c",
+      "size": 470,
+      "normalized_sha256": "b611bbb7557222732bc010b9654390734e577fc6ed3a1dbb8bc7643aaaefd652"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/BankCardRefundAction.java": {
+      "sha256": "edd06ea2b321e9c8ab92da99b5505a3707869b2ef73bf723c1f6dfb82dee3913",
+      "size": 472,
+      "normalized_sha256": "b15328cbfe1fcd49482ee82c807537b4a73592ef95df46065cc25886cfe1da5d"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/RefundContext.java": {
+      "sha256": "c4773220633d0e50cb029d9bd71e4bae55ce65dc7292e6160db5d3c17f1f4eeb",
+      "size": 290,
+      "normalized_sha256": "d6b9ad5f52c491a76b5458e0a140da62cd230eaf11ab7e416a8549c4c58491d8"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/RefundStrategy.java": {
+      "sha256": "b4dabd6ea7cea50462e648c0410cf2b07a317727d342101a804605383d01954f",
+      "size": 1083,
+      "normalized_sha256": "8977424aa259fdb9a2ad3142267440afe217386622c5556a219b69d561e3c11e"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/SimpleRefundDispatcher.java": {
+      "sha256": "d55417d5ab4fe79642b93c9e1bc400139bbfc10a2262fb38bcb5c5c6559db2f1",
+      "size": 1306,
+      "normalized_sha256": "948c2218542397a1594c3518d22a8c0c1295637b97b69c1c3f7fc3af6a9ffcaa"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/DynamicStateMachineEngine.java": {
+      "sha256": "d9af3e8df3c95a43a0bdbffb0ed529cc9412a6ed5bbbb6ee299f3edb5d0cb80e",
+      "size": 4590,
+      "normalized_sha256": "fa2287aa074dabfa7fe1f5074597424147b40a490c531a6c45caf65cefe63662"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/action/AutoRefundAction.java": {
+      "sha256": "db33545b621d885b92fac6a81357cd1f95810a5928cfafb2efdc686929d7d98a",
+      "size": 472,
+      "normalized_sha256": "fdce93f7732e9080c031f6f35fcd841ca4f48f6e4b46b5000c7c35b259ee75e4"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/action/DispatchRiderAction.java": {
+      "sha256": "b4a1ebd399d6d5795b825e95f4b665e0b6976fc390a4ebada1d8ff3c99c8f2f9",
+      "size": 472,
+      "normalized_sha256": "7128edda7a1dade1ceb4471acf209708f47c22ee99aeb610b494f02227f48052"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/action/NotifyMerchantAction.java": {
+      "sha256": "b37d23aa6a8c020f8efe92627cc7f84f2bd173f00dfa951a2a08b91882314c77",
+      "size": 547,
+      "normalized_sha256": "a44492f49280f4b24b8dfd36c2ab7717f80adc4b8d4e78f891fe689a30236eac"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/action/OrderAction.java": {
+      "sha256": "0a620511b2d8ca05aa0339e98aec8a2b69c44a5ada29c94008e2d762e3e7dc04",
+      "size": 319,
+      "normalized_sha256": "077d76ebedc467bbe72055756fcb0114bf800e1023ad8fa04d1d83cb8436f6d8"
+    },
+    "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/controller/CareerDemoController.java": {
+      "sha256": "59ceff4ce9486a42fb13f452b529d20b001dc05d3b0b9787ad359c9b108e13bb",
+      "size": 5440,
+      "normalized_sha256": "90cf57b58e3cba8193b25005a66e09188de7be64e9aa232e4c963ca39f5dcea2"
+    },
+    "java_projects/career-starter-basics/src/main/resources/application.yml": {
+      "sha256": "1dbdd33293eb4e718863e9d4396bb7ae2d8bfd14ac418eb316feb7af1f0bb403",
+      "size": 153,
+      "normalized_sha256": "62457ae778e00b5285d526560db42fd1afe7ce6b930261e799a4f2fd36d98201"
+    },
+    "java_projects/career-starter-basics/src/test/java/com/shihao/career/starter/StarterAllModulesTest.java": {
+      "sha256": "a09b4fbd5e85f63e904bba94e1e3aaa7662a95049a9a324da135a63f39f1733b",
+      "size": 8161,
+      "normalized_sha256": "e6c2354c0a7edaad4b8fe4f41d3a6bc944acc49c30911ddc49b13911323b3c06"
+    },
+    "java_projects/pom.xml": {
+      "sha256": "3f1571a217d2730464c33c3e89ff18c1dbd3d2156a6a63ab3bf7c03e566d5ac6",
+      "size": 2817,
+      "normalized_sha256": "e80ccb8e9feb4f472bc5cb046afd2aa15f767f22a66702fef0a5a81ecb71551e"
+    },
     "mkdocs.yml": {
       "role": "index",
       "sha256": "5472e9836d40e46e7c4ac68616a840c55bf02f5d4754bdbacf517f081c56b2bd",
@@ -1619,6 +1814,11 @@
       "size": 728,
       "normalized_sha256": "a2b27411f804d555e3e71cc9e6b895310710e7505818af1050c8886cdef46bd6"
     },
+    "resume.html": {
+      "sha256": "acdef1a7f2e588a87c1b6697b348e06ef78d746a7210fe7465cc38927c0559da",
+      "size": 24966,
+      "normalized_sha256": "673b390476f295d71ecf601f6a0f070fd894b6d23d8653a023d45c60dec541d3"
+    },
     "test.txt": {
       "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
       "size": 5,
@@ -1633,6 +1833,16 @@
       "sha256": "cd82cac59eb8b9146e5721b97129c1bb8dfbe51b7cc82bcc1db8e99ad08c0758",
       "size": 3672,
       "normalized_sha256": "030c654faf3b92252eeff115989cb2e98cdded7359eeea0c6f0664a30d42f61c"
+    },
+    "项目.txt": {
+      "sha256": "d638a32961415fbda2aa1cda2748b78ffd2551890918e0d29ef5dcbdf2a55858",
+      "size": 17606,
+      "normalized_sha256": "3049c65f4d9143e0e9e60463697f3ef9ca808ab6db78da0fb9d799cd8be1264f"
+    },
+    "项目_utf8.txt": {
+      "sha256": "f96eb95591f41884ca95a64ee91971d785c2e43029d27a17ba0724d36053d1e6",
+      "size": 25512,
+      "normalized_sha256": "8ed4f22aacae6ae001a0ab381413d74ceaac2cc875b46cc6a3d61db83e204024"
     }
   },
   "managed_scope": {
