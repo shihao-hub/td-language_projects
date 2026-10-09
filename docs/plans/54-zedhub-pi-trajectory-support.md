@@ -15,13 +15,13 @@
 3. 补充单元测试，验证 Pi 轨迹解析器各事件解析与 `load_trajectory` 链路。
 
 **任务分解**：
-- [ ] Task 1: 实现 Pi 轨迹解析器 `parse_pi_file` 与分派接入
+- [x] Task 1: 实现 Pi 轨迹解析器 `parse_pi_file` 与分派接入
   - 文件：`src/zedhub/core/trajectory.py`
   - 实现：编写 `parse_pi_file` 函数逐行解析 Pi 会话 JSONL，并在 `load_trajectory` 中接入 `pi` 与 `pi-acp` 分派。
   - 验证：运行 `uv run pytest tests/test_trajectory.py`。
   - Demo：调用 `load_trajectory(source="pi", files=[...])` 返回包含 thinking、tool_call 等事件的完整轨迹。
 
-- [ ] Task 2: 补充单测并全量回归
+- [x] Task 2: 补充单测并全量回归
   - 文件：`tests/test_trajectory.py`
   - 实现：构造覆盖 session / model_change / user / thinking / toolCall / toolResult 的测试用例，断言事件结构与字段截断。
   - 验证：运行 `uv run pytest`。
@@ -30,4 +30,4 @@
 ---
 **最后更新：** 2026-10-10
 **作者：** AI & User
-**版本：** v1.0
+**版本：** v1.1 (已完成)
