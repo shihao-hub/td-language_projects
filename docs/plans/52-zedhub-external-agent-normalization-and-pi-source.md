@@ -43,13 +43,13 @@
    - 更新前端契约测试与后端范围检索测试，确保全部测试通过。
 
 **任务分解**：
-- [ ] Task 1: 外部 OpenCode 会话 agent 归一化与 mode 透传
+- [x] Task 1: 外部 OpenCode 会话 agent 归一化与 mode 透传
   - 文件：`src/zedhub/core/model.py`, `src/zedhub/core/search.py`
   - 实现：`SearchHit` 增加 `mode: str | None = None` 字段；`search.py` 构建 `external_session` 时，当 `s.source_id == "opencode"` 时固定 `agent_id = "opencode"`，并将原本的 `s.agent` 赋给 `mode`。
   - 验证：运行 `uv run pytest tests/test_search_scope.py`。
   - Demo：检索返回的未进 Zed 索引 OpenCode 会话 `agent_id` 统一为 `opencode`，且包含对应的 `mode`。
 
-- [ ] Task 2: 数据源真理源（SSOT）收敛与 Pi 自动补全
+- [x] Task 2: 数据源真理源（SSOT）收敛与 Pi 自动补全
   - 文件：`src/zedhub/core/sources/base.py`, `src/zedhub/core/sources/__init__.py`, `src/zedhub/api.py`, `src/zedhub/core/trajectory.py`
   - 实现：
     - 在 `sources` 层提供 `session_source_ids()`（从注册表中筛选声明了 `Capability.SESSIONS` 的所有源 id）；
@@ -59,7 +59,7 @@
   - 验证：运行 `uv run python -c "from zedhub.api import _search; ..."`。
   - Demo：外部发现列表中能够显示 `pi` 及其会话条目，且代码库再无分散的源死名单。
 
-- [ ] Task 3: 下线管理范围控件与 Agent 复合下拉重构（路线 B）
+- [x] Task 3: 下线管理范围控件与 Agent 复合下拉重构（路线 B）
   - 文件：`src/zedhub/webui/index.html`, `src/zedhub/webui/app.js`
   - 实现：
     - `index.html`：移除 `#scope-select` 及其父容器；
@@ -70,7 +70,7 @@
   - 验证：运行 `uv run pytest tests/test_ui_app.py`。
   - Demo：界面更精简，选外部发现的 opencode 时只会精准展示外部会话，选 Zed 管理的 opencode 时只会展示 Zed 管理会话，默认展示 Zed 管理全部会话。
 
-- [ ] Task 4: 单测补充与全量回归
+- [x] Task 4: 单测补充与全量回归
   - 文件：`tests/test_search_scope.py`, `tests/test_ui_app.py`
   - 实现：更新 `test_ui_app.py` 适配下线 scope-select 后的行为，补充复合选项解析测试与 mode 徽标测试。
   - 验证：运行 `uv run pytest`。
@@ -79,4 +79,4 @@
 ---
 **最后更新：** 2026-10-10
 **作者：** AI & User
-**版本：** v3.0
+**版本：** v3.1 (已完成)
