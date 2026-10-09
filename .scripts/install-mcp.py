@@ -6,16 +6,21 @@
 install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
 
 ================================================================================
-一、核心心智模型：预设开关驱动 + 全量收敛
+一、核心心智模型：双层开关驱动 + 全量收敛
 ================================================================================
 
-脚本顶部常量 PRESET_ENABLED 是每个预设 MCP 的唯一总开关：
-  • True  = 缺省执行时同步/修复到全部 Agent（已装且一致则跳过，缺则补装）；
-  • False = 缺省执行时从全部 Agent 卸载该 MCP（不存在则自然跳过）。
+脚本顶部有两层对称的常量总开关：
+  • PRESET_ENABLED —— 每个预设 MCP 装不装：
+      True  缺省执行时同步/修复到各启用 Agent（已装且一致则跳过，缺则补装）；
+      False 从各启用 Agent 卸载该 MCP（不存在则自然跳过）；
+  • AGENT_ENABLED —— 每家 Agent 参不参与（省内存利器）：
+      True  正常参与预设收敛；False 不再部署任何内置预设，
+      缺省收敛时还会清理该 Agent 的既有预设残留。
 
-不带任何参数运行 = 按开关对全部预设做一次【全量收敛】：
-安装所有已启用但某个 Agent 未配置的 MCP，并卸载所有已停用但残留的 MCP；
-显式点名 --mcp <name> 属于对开关的临时覆盖（强制安装），供按需场景使用。
+不带任何参数运行 = 按两层开关做一次【全量收敛】：
+向启用 Agent 安装已启用预设，并卸载停用预设 / 停用 Agent 上的残留；
+显式点名 --mcp <name>（强制安装预设）与 --agent <name>（强制处理该 Agent）
+属于对两层开关的临时覆盖，供按需场景使用。
 
 本工具支持【全 Agent 矩阵 × 多 MCP 服务】的双向解耦与灵活调度。
 底层采用原子写入（tmp + os.replace）杜绝配置损坏，并使用正则安全更新 TOML / YAML 段落保留注释。
@@ -78,9 +83,11 @@ DeepSeek Harness 采用 Cordis 微内核架构，通过 @deepseek-ai/dsh-mcp-cli
    antigravity      [✔ 已装]   [✔ 已装]             [· 未装]        ...
    -----------------------------------------------------------------------------
 
-② 全量收敛（缺省行为，完全按 PRESET_ENABLED 开关执行）：
-   # 安装所有已启用但某个 Agent 未配置的 MCP，卸载所有已停用但残留的 MCP
+② 全量收敛（缺省行为，完全按 PRESET_ENABLED × AGENT_ENABLED 两层开关执行）：
+   # 向启用 Agent 安装已启用预设；卸载停用预设与停用 Agent 上的残留
    $ uv run .scripts/install-mcp.py
+   # 停用某家 Agent（如不用 pi 了）：AGENT_ENABLED 中置 False，
+   # 缺省收敛会清空其内置预设；再置回 True 即按预设开关重新补装
 
 ③ 显式安装/恢复某预设到指定 Agent（覆盖开关，供按需临时使用）：
    $ uv run .scripts/install-mcp.py --mcp everything --agent dsh claude
@@ -711,17 +718,39 @@ TARGET_AGENTS: Dict[str, AgentHandler] = {
 
 
 # ---------------------------------------------------------------------------
+# Agent 级总开关（与 PRESET_ENABLED 并列的第二层控制）
+# ---------------------------------------------------------------------------
+# True  = 该 Agent 正常参与预设收敛（具体装哪些由 PRESET_ENABLED 决定）；
+# False = 该 Agent 不再部署任何内置预设，缺省收敛时会清理其既有预设残留；
+#         显式 --agent 点名可临时覆盖本开关（会打印提示）。
+AGENT_ENABLED: Dict[str, bool] = {
+    "claude": True,
+    "opencode": True,
+    "codex": True,
+    "pi": True,
+    "antigravity": True,
+    "antigravity-ide": True,
+    "dsh": True,
+}
+
+
+def agent_is_enabled(name: str) -> bool:
+    """Agent 开关查询（未列出的 Agent 默认按启用处理）。"""
+    return AGENT_ENABLED.get(name, True)
+
+
+# ---------------------------------------------------------------------------
 # CLI 主逻辑
 # ---------------------------------------------------------------------------
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="通用多 MCP 配置给多 Agent 的强化分发与管理工具（PRESET_ENABLED 开关驱动：缺省全量收敛，显式点名强制安装）"
+        description="通用多 MCP 配置给多 Agent 的强化分发与管理工具（PRESET_ENABLED / AGENT_ENABLED 双层开关驱动：缺省全量收敛，显式点名临时覆盖）"
     )
     parser.add_argument("--mcp", nargs="+", default=None,
                         help="显式点名要强制安装的预设 MCP（aoci / chrome-devtools / everything）；"
                              "all 或省略 = 按 PRESET_ENABLED 全量收敛（启用则安装、停用则卸载）")
     parser.add_argument("--agent", nargs="+", choices=sorted(TARGET_AGENTS.keys()),
-                        help="只处理指定的 Agent（默认全部: antigravity, antigravity-ide, claude, codex, dsh, opencode, pi）")
+                        help="只处理指定的 Agent（显式点名=临时覆盖 AGENT_ENABLED；缺省处理全部）")
     parser.add_argument("--status", "--list", dest="show_status", action="store_true",
                         help="打印所有 Agent 当前各 MCP 服务的配置状态矩阵")
     parser.add_argument("--remove", metavar="MCP_NAME",
@@ -739,8 +768,16 @@ def main() -> int:
 
     args = parser.parse_args()
 
-    # 1. 确定目标 Agents
-    agent_keys = args.agent if args.agent else sorted(TARGET_AGENTS.keys())
+    # 1. 确定目标 Agents（--agent 显式点名 = 临时覆盖 AGENT_ENABLED）
+    explicit_agents = args.agent is not None
+    if explicit_agents:
+        agent_keys = list(args.agent)
+        for a_key in agent_keys:
+            if not agent_is_enabled(a_key):
+                print(f"[提示] Agent [{a_key}] 开关为关闭（AGENT_ENABLED=False），本次因显式点名仍会处理"
+                      f"（缺省收敛时会清理其预设）。", file=sys.stderr)
+    else:
+        agent_keys = sorted(TARGET_AGENTS.keys())
 
     # 2. 构建待操作的 MCPSpec 清单与执行模式
     #    显式点名（--mcp 且不含 all） = 对开关的临时覆盖（强制安装）；
@@ -772,11 +809,12 @@ def main() -> int:
         matrix = []
         for a_key in agent_keys:
             handler = TARGET_AGENTS[a_key]
-            row = {"agent": a_key, "path": str(handler.config_path), "presets": {}}
+            agent_on = agent_is_enabled(a_key)
+            row = {"agent": a_key, "enabled": agent_on, "path": str(handler.config_path), "presets": {}}
             for m_name in preset_names:
                 installed = handler.get_server(m_name) is not None
                 row["presets"][m_name] = {
-                    "enabled": PRESET_ENABLED[m_name],
+                    "enabled": PRESET_ENABLED[m_name] and agent_on,  # 有效状态 = 预设开关 × Agent 开关
                     "installed": installed,
                 }
             matrix.append(row)
@@ -786,7 +824,7 @@ def main() -> int:
             return 0
 
         def drift_mark(enabled: bool, installed: bool) -> str:
-            """状态标记：漂移（开关与现状不一致）一眼可见。"""
+            """状态标记：漂移（有效开关与现状不一致）一眼可见。"""
             if enabled and installed:
                 return "[✔ 已装]"
             if enabled:
@@ -797,7 +835,8 @@ def main() -> int:
 
         headers = [f"{m}[{'开' if PRESET_ENABLED[m] else '关'}]" for m in preset_names]
         col_w = [max(len(h) + 2, 10) for h in headers]
-        title = f"{'Agent':<16} " + " ".join(h.ljust(w) for h, w in zip(headers, col_w)) + "Config Path"
+        agent_w = max(16, max(len(r["agent"]) + (5 if not r["enabled"] else 0) for r in matrix))
+        title = f"{'Agent':<{agent_w}} " + " ".join(h.ljust(w) for h, w in zip(headers, col_w)) + "Config Path"
         width = max(84, len(title) + 8)
         print("=" * width)
         print(title)
@@ -807,9 +846,11 @@ def main() -> int:
                 drift_mark(r["presets"][m]["enabled"], r["presets"][m]["installed"]).ljust(w)
                 for m, w in zip(preset_names, col_w)
             )
-            print(f"{r['agent']:<16} {cells}{r['path']}")
+            agent_label = r["agent"] if r["enabled"] else f"{r['agent']}[停用]"
+            print(f"{agent_label:<{agent_w}} {cells}{r['path']}")
         print("=" * width)
-        print("提示：预设开关在脚本顶部 PRESET_ENABLED 修改（True=收敛安装 / False=收敛卸载）。")
+        print("提示：预设开关 PRESET_ENABLED：True=收敛安装 / False=收敛卸载；")
+        print("      Agent 开关 AGENT_ENABLED：True=参与收敛 / False=不部署并清理残留（[停用] 行）。")
         return 0
 
     # -----------------------------------------------------------------------
@@ -848,37 +889,53 @@ def main() -> int:
                 print(f"[提示] 预设 [{spec.name}] 开关为关闭，本次因显式点名仍会安装（缺省收敛时会将其卸载）。",
                       file=sys.stderr)
 
-    tasks: List[Tuple[str, MCPSpec]] = []
-    for spec in specs:
-        if custom_mode or explicit_install:
-            tasks.append(("install", spec))
-        else:
-            tasks.append(("install" if PRESET_ENABLED.get(spec.name, False) else "remove", spec))
+    # 3. 计划化：逐 (预设, Agent) 决定 install / remove
+    #    - 停用 Agent 不接收任何内置预设，缺省收敛会清理其残留；
+    #    - 显式安装（自定义 / --mcp 点名）默认跳过停用 Agent，--agent 点名可强制覆盖。
+    jobs: List[Tuple[str, MCPSpec, str]] = []
+    if custom_mode or explicit_install:
+        skipped_agents = []
+        for a_key in agent_keys:
+            if not explicit_agents and not agent_is_enabled(a_key):
+                skipped_agents.append(a_key)
+                continue
+            for spec in specs:
+                jobs.append(("install", spec, a_key))
+        if skipped_agents:
+            print(f"[提示] Agent 开关为关闭，显式安装已跳过: {', '.join(skipped_agents)}"
+                  f"（如需强制请用 --agent 点名）。", file=sys.stderr)
+    else:
+        for spec in specs:
+            preset_on = PRESET_ENABLED.get(spec.name, False)
+            for a_key in agent_keys:
+                if not explicit_agents and not agent_is_enabled(a_key):
+                    jobs.append(("remove", spec, a_key))  # 停用 Agent：清理全部内置预设
+                else:
+                    jobs.append(("install" if preset_on else "remove", spec, a_key))
 
     results = []
     failed = False
-    for action, spec in tasks:
-        for a_key in agent_keys:
-            handler = TARGET_AGENTS[a_key]
-            eff = spec_for_agent(spec, a_key)
-            try:
-                if action == "install":
-                    status = handler.upsert_server(eff, args.force)
-                else:
-                    status = handler.remove_server(spec.name)
-            except Exception as e:
-                status = f"error: {e}"
-                failed = True
-            results.append({
-                "mcp": spec.name,
-                "agent": a_key,
-                "action": action,
-                "path": str(handler.config_path),
-                "desc": handler.description,
-                "status": status,
-                "command": eff.command,
-                "args": eff.args
-            })
+    for action, spec, a_key in jobs:
+        handler = TARGET_AGENTS[a_key]
+        eff = spec_for_agent(spec, a_key)
+        try:
+            if action == "install":
+                status = handler.upsert_server(eff, args.force)
+            else:
+                status = handler.remove_server(spec.name)
+        except Exception as e:
+            status = f"error: {e}"
+            failed = True
+        results.append({
+            "mcp": spec.name,
+            "agent": a_key,
+            "action": action,
+            "path": str(handler.config_path),
+            "desc": handler.description,
+            "status": status,
+            "command": eff.command,
+            "args": eff.args
+        })
 
     if args.json:
         print(json.dumps(results, ensure_ascii=False, indent=2))
@@ -890,6 +947,13 @@ def main() -> int:
     print(f"执行模式   : {mode_desc}")
     if not (custom_mode or explicit_install):
         print("预设开关   : " + "  ".join(f"{n}={'开' if e else '关'}" for n, e in PRESET_ENABLED.items()))
+        if explicit_agents:
+            print("Agent 范围 : 显式点名（临时覆盖 AGENT_ENABLED）")
+        else:
+            disabled = [a for a in agent_keys if not agent_is_enabled(a)]
+            print("Agent 开关 : " + ("全部开启" if not disabled else "停用 " + ", ".join(disabled) + "（其预设将被清理）"))
+    elif explicit_agents:
+        print("Agent 范围 : 显式点名（临时覆盖 AGENT_ENABLED）")
     for spec in specs:
         args_display = " ".join(spec.args) if spec.args else "(none)"
         print(f"• MCP [{spec.name}]: {spec.command} {args_display} ({spec.description})")
@@ -918,7 +982,7 @@ def main() -> int:
     print("2. pi 已运行的会话可输入 /reload 立即生效；")
     print("3. dsh (DeepSeek Harness) 重启桌面应用或命令行后生效；")
     print("4. 其余 Agent（Claude Code、Codex、opencode）在下次启动或新建会话时自动载入；")
-    print("5. 预设开关在脚本顶部 PRESET_ENABLED 修改（True=收敛安装 / False=收敛卸载）。")
+    print("5. 预设开关 PRESET_ENABLED（装不装）与 Agent 开关 AGENT_ENABLED（参不参与）在脚本顶部修改。")
     print("=" * 84)
 
     return 1 if failed else 0
