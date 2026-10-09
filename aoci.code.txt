@@ -16,9 +16,6 @@ aoci.repository.cognition.md[SC4S]: F:AOCI 仓库认知集成说明：AGENTS.md 
 plans_status.sql[FD3T]: F:plansql 的 Append-Only 状态流：记录 docs/plans/28 号计划置 completed 的两条 UPSERT 语句（plansql CLI 追加生成） | R:code:docs/plans/28-plansql-tracker.md,code:docs/projects/go_projects/plansql/设计说明.md | A:- | S:SQLite 投影由此文件重放生成，禁止直接改投影库
 THIRDPARTY.md[SG5M]: F:.thirdparty/ 归档清单：20 个条目（17 Git 仓库 + 3 非 Git 目录）的远端地址、分支/tag、基线 commit、本地定制与恢复命令 | R:code:.scripts/restore-thirdparty.py,code:docs/guides/GUIDE-第三方项目克隆.md | A:换机或目录重置后恢复 .thirdparty/ 的权威清单；新增第三方库须同步登记本文件与恢复脚本 | S:.thirdparty/ 被根 .gitignore 忽略不随仓库提交，多机需手动按清单 clone；PowerShell 全量脚本为备用手段
 opencode.json[FC4T]: F:opencode 项目级配置：为 build/plan agent 放开 external_directory，plan 另放开 bash，消除计划模式与外部目录的授权弹窗 | R:code:.claude/settings.json | A:与全局 ~/.config/opencode/opencode.json 合并、项目级优先；schema 见 https://opencode.ai/config.json | S:不覆盖 edit 权限，保留内置 deny 与 plan 文件写入特例；子模块内启动不生效
-resume.html[SZ3M]: F:个人简历页面（张世豪，Agent 开发工程师/资深后端）：自包含 HTML+CSS 单页，ATS 纯单列排版，含个人信息、工作经历与滴滴国际化外卖诊断 Agent 等项目业绩 | R:code:项目.txt,code:项目_utf8.txt | A:浏览器直接打开或打印 PDF；改内容直接编辑本文件 | S:ATS 单列排版为刻意设计（利于招聘系统关键词抓取），勿改双列
-项目.txt[SZ3S]: F:简历项目材料（GBK 编码）：滴滴国际化外卖交易组智能故障诊断 Agent 的项目背景/核心模块/技术栈/个人职责，对齐 OpenEuler witty-diagnosis-agent 开源架构 | R:code:项目_utf8.txt,code:resume.html | A:- | S:GBK 编码；等价的 UTF-8 版本是 项目_utf8.txt
-项目_utf8.txt[SZ3M]: F:简历项目材料 UTF-8 版（与 项目.txt 内容等价，仅编码与空行排版不同）：滴滴国际化外卖智能诊断 Agent 项目描述，供直接读取 | R:code:项目.txt,code:resume.html | A:- | S:与 项目.txt 内容等价，UTF-8 编码版本
 
 ===D:/Users/language_projects/.scripts/===
 gen_icon.py[XG4T]: F:PNG 源图转 16-256 七帧 Windows .ico，非方形等比居中到透明画布 | R:- | A:uv run .scripts/gen_icon.py <input.png> <output.ico> | S:-
@@ -33,7 +30,7 @@ gen_python_logo.py[XV4S]: F:生成 1024 透明底 Python 双蛇标志 PNG：内�
 link-submodule-agents.py[XC5M]: F:把父仓 AGENTS.md 以 NTFS 硬链接同步到各子模块/子仓库根目录，解决 Agent 遇子模块 .git 停止向上查找规则文件的问题；支持状态检查、清理与 gitignore 管理 | R:code:AGENTS.md | A:默认建链；--status 查 Inode 状态；--unlink 清理；--add-gitignore/--remove-gitignore 维护忽略规则；--force 覆盖独立文件 | S:硬链接与源同 Inode：编辑任一子仓副本 AGENTS.md 即实时修改父仓原文件
 install-aoci-mcp.py[XC3T]: F:install-mcp.py 的兼容老入口转发代理：固定 --mcp aoci，把旧参数 --exe 重映射为 --aoci-exe 后整体转发 | R:code:.scripts/install-mcp.py | A:uv run .scripts/install-aoci-mcp.py [--exe <path>] [其余参数原样转发] | S:自身不含业务逻辑，行为以 install-mcp.py 为准；旧参数名不同需重映射
 restore-thirdparty.py[XV5M]: F:检查并恢复 .thirdparty/ 外部参考仓库：内置 17 仓库清单 clone（--depth 50）、可选 tag 检出、--check 只读盘点、--name 过滤单项，另盘点 3 个非 Git 归档目录 | R:code:THIRDPARTY.md,code:docs/guides/GUIDE-第三方项目克隆.md | A:在父仓根执行 uv run .scripts/restore-thirdparty.py [--check] [--name <项目名>]；退出码 0=成功、1=参数或目录缺失 | S:PEP 723 零依赖；stdout/stderr 强制 UTF-8；分支 clone 失败回退裸 clone，仍失败仅告警不中断；.thirdparty 被 gitignore 不入库
-install-mcp.py[XC7L]: F:通用多 MCP 到 7 大 Agent 的配置管理工具：PRESET_ENABLED 开关驱动全量收敛（启用安装/停用卸载），内置 aoci/chrome-devtools/everything 预设，状态矩阵含漂移标记，支持显式点名强制安装与按名卸载 | R:code:.scripts/install-aoci-mcp.py,code:docs/plans/43-install-mcp-symmetric-lifecycle.md,code:docs/plans/42-dsh-agent-delegation-mcp.md | A:uv run .scripts/install-mcp.py [--mcp <名>...] [--agent ...] [--status] [--remove <名>] [--force] [--json]；缺省=按开关收敛，显式 --mcp=临时强制安装；改开关编辑 PRESET_ENABLED | S:opencode 须 local 类型+命令数组+enabled；claude/antigravity 系须 cmd /c npx，其余可直接 npx（dsh 走 cross-spawn）；everything 默认关闭防常驻内存；占用时降级覆写
+install-mcp.py[XC7L]: F:通用多 MCP 到 7 大 Agent 的配置管理工具：PRESET_ENABLED（装不装）与 AGENT_ENABLED（参不参与）双层开关驱动全量收敛，内置 aoci/chrome-devtools/everything 预设，状态矩阵含漂移标记与停用行，支持点名覆盖 | R:code:.scripts/install-aoci-mcp.py,code:docs/plans/43-install-mcp-symmetric-lifecycle.md,code:docs/plans/42-dsh-agent-delegation-mcp.md | A:uv run .scripts/install-mcp.py [--mcp <名>...] [--agent ...] [--status] [--remove <名>] [--force] [--json]；缺省=双层开关收敛，显式 --mcp/--agent=临时覆盖；开关改脚本顶部常量 | S:opencode 须 local 类型+命令数组+enabled；claude/antigravity 系须 cmd /c npx，其余可直接 npx；AGENT_ENABLED=False 会被收敛清理预设，显式 --agent 可临时覆盖
 
 ===D:/Users/language_projects/.zed/===
 extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本（lua/toml/sql/neocmake/html/ini/xmake），配合 auto_install_extensions 安装；PowerShell 扩展已随全仓 ps1 清零移除 | R:code:.zed/settings.json | A:- | S:-
@@ -461,4 +458,9 @@ application.yml[FC3T]: F:career-starter-basics 应用配置：端口 8080、应�
 
 ===D:/Users/language_projects/java_projects/career-starter-basics/src/test/java/com/shihao/career/starter/===
 StarterAllModulesTest.java[TB5S]: F:全模块 JUnit 5/@SpringBootTest 测试：Record 模式解构、有序集合、虚拟线程、密封状态 switch、Stream 对账、老化算法反超、策略模式与 Spring 状态机流转/非法流转异常 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/DynamicStateMachineEngine.java | A:mvn test 运行；状态机部分依赖完整 Spring 上下文 | S:-
+
+===D:/Users/language_projects/.drafts/resume/===
+resume.html[SZ3M]: F:个人简历页面（张世豪，Agent 开发工程师/资深后端）：自包含 HTML+CSS 单页，ATS 纯单列排版，含个人信息、工作经历与滴滴国际化外卖诊断 Agent 等项目业绩 | R:code:.drafts/resume/项目.txt,code:.drafts/resume/resume_muji.md | A:浏览器直接打开或打印 PDF；改内容直接编辑本文件 | S:ATS 单列排版为刻意设计（利于招聘系统关键词抓取）
+resume_muji.md[SZ3S]: F:木及风格 Markdown 简历（张世豪）：个人优势、滴滴国际化 IBG 工作经历、三大项目（智能诊断 Agent/智能客服质检/收银支付中台）与技能清单 | R:code:.drafts/resume/resume.html,code:.drafts/resume/项目.txt | A:Markdown 纯文本简历，与 resume.html 同源可互相参照 | S:-
+项目.txt[SZ3S]: F:简历项目材料（GBK 编码）：滴滴国际化外卖交易组智能故障诊断 Agent 的项目背景/核心模块/技术栈/个人职责，对齐 OpenEuler witty-diagnosis-agent 开源架构 | R:code:.drafts/resume/resume.html,code:.drafts/resume/resume_muji.md | A:- | S:GBK 编码；读取时需按 GBK 解码，防乱码
 

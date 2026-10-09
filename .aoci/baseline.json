@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-09T04:04:19Z",
+  "updated_at": "2026-10-09T05:16:22Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -17,6 +17,21 @@
       "sha256": "033b52de3a6a96b54965c8678f66772fe5de7e681542487cc024c36b55614c66",
       "size": 91,
       "normalized_sha256": "033b52de3a6a96b54965c8678f66772fe5de7e681542487cc024c36b55614c66"
+    },
+    ".drafts/resume/resume.html": {
+      "sha256": "acdef1a7f2e588a87c1b6697b348e06ef78d746a7210fe7465cc38927c0559da",
+      "size": 24966,
+      "normalized_sha256": "673b390476f295d71ecf601f6a0f070fd894b6d23d8653a023d45c60dec541d3"
+    },
+    ".drafts/resume/resume_muji.md": {
+      "sha256": "f2e3eea86b797ea5fef9c10b0c94e5deccce48f3a7d470dc910b1b1deb27c607",
+      "size": 12615,
+      "normalized_sha256": "a1b77f66d8422fd5c00e71b9c0ffc94949a65b04eeed70d578023e7a29807662"
+    },
+    ".drafts/resume/项目.txt": {
+      "sha256": "c8a23cb4e797c50faa485f98960657b208acfcd660574c1a39ef4433c11aac95",
+      "size": 17608,
+      "normalized_sha256": "1d1528d876e03fb579bfa64b7b4c54586d596192fc6d85886d6e38595373f393"
     },
     ".gitattributes": {
       "role": "index",
@@ -201,9 +216,9 @@
       "normalized_sha256": "c3d8e7b66de266b8b1788363e842683eac88bc670c7ae35de673d18a497492d6"
     },
     ".scripts/install-mcp.py": {
-      "sha256": "bea3444bbf0a694264251c087afdf0a248f56a589097d107b0b2ac3e261c2fa4",
-      "size": 42100,
-      "normalized_sha256": "4db98b4ba887dff1b95d199669b05fb2e4696bfa9a74fdc2d803933e2b50f5b3"
+      "sha256": "6912a44985e0083e2e26e9a1f1b601a69b60de010c0c90a5e36fe838ddf387cf",
+      "size": 45702,
+      "normalized_sha256": "b0e6d48c913679bd5cf70e3998695fe07fbdb18822ca21edc0c6b4b285a19b63"
     },
     ".scripts/install_tool.py": {
       "role": "index",
@@ -303,9 +318,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "157e8fb2c4331243b6b784b0a2087e7ed651c4518ac1a78154261186d5b999fb",
-      "size": 133781,
-      "normalized_sha256": "157e8fb2c4331243b6b784b0a2087e7ed651c4518ac1a78154261186d5b999fb"
+      "sha256": "f282a8d9afbccd9e37a7b4eee17c9bc787768ccd6c883192d5d0e0fb3016babb",
+      "size": 133935,
+      "normalized_sha256": "f282a8d9afbccd9e37a7b4eee17c9bc787768ccd6c883192d5d0e0fb3016babb"
     },
     "aoci.meta.txt": {
       "role": "index",
