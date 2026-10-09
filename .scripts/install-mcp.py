@@ -6,14 +6,24 @@
 install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
 
 ================================================================================
-三、新脚本通用架构与核心能力
+一、核心心智模型：预设开关驱动 + 全量收敛
 ================================================================================
+
+脚本顶部常量 PRESET_ENABLED 是每个预设 MCP 的唯一总开关：
+  • True  = 缺省执行时同步/修复到全部 Agent（已装且一致则跳过，缺则补装）；
+  • False = 缺省执行时从全部 Agent 卸载该 MCP（不存在则自然跳过）。
+
+不带任何参数运行 = 按开关对全部预设做一次【全量收敛】：
+安装所有已启用但某个 Agent 未配置的 MCP，并卸载所有已停用但残留的 MCP；
+显式点名 --mcp <name> 属于对开关的临时覆盖（强制安装），供按需场景使用。
 
 本工具支持【全 Agent 矩阵 × 多 MCP 服务】的双向解耦与灵活调度。
 底层采用原子写入（tmp + os.replace）杜绝配置损坏，并使用正则安全更新 TOML / YAML 段落保留注释。
 
-1. 支持的 7 大 Agent 目标与其配置映射：
---------------------------------------------------------------------------------
+================================================================================
+二、支持的 7 大 Agent 目标与其配置映射
+================================================================================
+
 • claude          -> ~/.claude.json                                (Claude Code 全局配置)
 • opencode        -> ~/.config/opencode/opencode.json              (opencode 用户级配置)
 • codex           -> ~/.codex/config.toml                          (Codex CLI 用户级 TOML)
@@ -38,53 +48,53 @@ install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
 【关于 DeepSeek Harness (dsh) 接入 MCP 客户端】
 DeepSeek Harness 采用 Cordis 微内核架构，通过 @deepseek-ai/dsh-mcp-client 插件加载外部 MCP 工具：
 • 目标: dsh (~/.dsh/profiles/desktop/cordis.patch.yml)
-• 机制: 声明式注入 mcp-<serverName> 补丁项，自动挂载 aoci 与 everything 供 DeepSeek 模型直接调度。
+• 机制: 声明式注入 mcp-<serverName> 补丁项；其 stdio 传输基于 @modelcontextprotocol
+        客户端 + cross-spawn 启动，Windows 下可直接写 npx（.cmd shim 由 cross-spawn 解析）。
 
-2. 内置开箱即用预设：
---------------------------------------------------------------------------------
-• aoci       : 智能探测本机 aoci.exe 安装路径并自动绑定当前仓库根目录（--repo <REPO_ROOT> mcp）
-• everything : 业界最佳实践 uvx everything-mcp，提供毫秒级全盘秒搜，并自带敏感路径黑名单与 Token 截断保护
-               （已改为按需安装：默认同步不包含；每个 Agent 会话各起一份常驻进程，较占内存）
-• 自定义 MCP : 支持通过 --custom-name / --custom-cmd / --custom-args 自由分发任意第三方 MCP 服务
+================================================================================
+三、内置预设（受 PRESET_ENABLED 开关控制）
+================================================================================
+
+• aoci            : 智能探测本机 aoci.exe 安装路径并自动绑定当前仓库根目录
+                    （--repo <REPO_ROOT> mcp），默认启用；
+• chrome-devtools : npx -y chrome-devtools-mcp@latest，浏览器自动化调试与检测，
+                    默认启用（Windows 下 claude / antigravity / antigravity-ide
+                    自动套 cmd /c npx 包装，规避 .cmd shim 无 shell 解析问题）；
+• everything      : 业界最佳实践 uvx everything-mcp，毫秒级全盘秒搜，自带敏感
+                    路径黑名单与 Token 截断保护，默认停用（每个 Agent 会话各起
+                    一份常驻进程，较占内存；需要时改开关为 True 或显式点名）；
+• 自定义 MCP      : 支持通过 --custom-name / --custom-cmd / --custom-args
+                    自由分发任意第三方 MCP 服务（自定义模式不参与收敛）。
 
 ================================================================================
 四、常用指令与实测效果
 ================================================================================
 
-① 查看当前所有 Agent 的 MCP 挂载状态矩阵：
+① 查看所有 Agent 的 MCP 挂载状态矩阵（含各预设开关与漂移标记）：
    $ uv run .scripts/install-mcp.py --status
    -----------------------------------------------------------------------------
-   Agent            AOCI MCP       Everything MCP     Config Path
+   Agent            aoci[开]   chrome-devtools[开]  everything[关]  Config Path
    -----------------------------------------------------------------------------
-   antigravity      [✔ 已安装]        [✔ 已安装]            ~/.gemini/antigravity-acp/mcp.json
-   antigravity-ide  [✔ 已安装]        [✔ 已安装]            ~/.gemini/config/mcp_config.json
-   claude           [✔ 已安装]        [✔ 已安装]            ~/.claude.json
-   codex            [✔ 已安装]        [✔ 已安装]            ~/.codex/config.toml
-   dsh              [✔ 已安装]        [✔ 已安装]            ~/.dsh/profiles/desktop/cordis.patch.yml
-   opencode         [✔ 已安装]        [✔ 已安装]            ~/.config/opencode/opencode.json
-   pi               [✔ 已安装]        [✔ 已安装]            ~/.pi/agent/mcp.json
+   antigravity      [✔ 已装]   [✔ 已装]             [· 未装]        ...
    -----------------------------------------------------------------------------
 
-② 同步特定或全部 MCP（默认幂等）：
-   # 默认仅同步 aoci 到所有 7 个 Agent（everything 已改为按需安装）
+② 全量收敛（缺省行为，完全按 PRESET_ENABLED 开关执行）：
+   # 安装所有已启用但某个 Agent 未配置的 MCP，卸载所有已停用但残留的 MCP
    $ uv run .scripts/install-mcp.py
 
-   # 显式安装/恢复 everything 到指定 agent（如 dsh 和 claude）
+③ 显式安装/恢复某预设到指定 Agent（覆盖开关，供按需临时使用）：
    $ uv run .scripts/install-mcp.py --mcp everything --agent dsh claude
 
-   # 同步全部内置预设（aoci + everything）
-   $ uv run .scripts/install-mcp.py --mcp all
-
-   # 强制覆盖已有但不一致的配置
+④ 强制覆盖已有但不一致的配置：
    $ uv run .scripts/install-mcp.py --force
 
-③ 卸载指定 MCP 服务：
+⑤ 卸载指定 MCP 服务：
    $ uv run .scripts/install-mcp.py --remove everything
 
-④ 机器可读 JSON 输出：
+⑥ 机器可读 JSON 输出：
    $ uv run .scripts/install-mcp.py --json
 
-⑤ 兼容老入口：
+⑦ 兼容老入口：
    $ uv run .scripts/install-aoci-mcp.py  # 内部已重构为本脚本的转发代理
 """
 import argparse
@@ -94,9 +104,9 @@ import os
 import re
 import shutil
 import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 # Windows 终端输出 UTF-8 编码防乱码
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
@@ -175,6 +185,21 @@ class MCPSpec:
     env: Dict[str, str] = field(default_factory=dict)
     type: str = "stdio"
     extra_by_agent: Dict[str, dict] = field(default_factory=dict)  # 特定 agent 附加字段，如 pi: {"exposure": "direct"}
+    command_by_agent: Dict[str, str] = field(default_factory=dict)  # 特定 agent 覆盖启动命令（如 Windows 需要 cmd /c 包装）
+    args_by_agent: Dict[str, List[str]] = field(default_factory=dict)  # 特定 agent 覆盖启动参数（需与 command 覆写配套）
+
+
+def spec_for_agent(spec: MCPSpec, agent: str) -> MCPSpec:
+    """返回套用 agent 专属 command/args 覆写后的规格（无覆写时原样返回）。"""
+    cmd = spec.command_by_agent.get(agent)
+    args = spec.args_by_agent.get(agent)
+    if cmd is None and args is None:
+        return spec
+    return replace(
+        spec,
+        command=cmd if cmd is not None else spec.command,
+        args=args if args is not None else spec.args,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -212,6 +237,27 @@ def resolve_aoci_spec(repo_root: Path = REPO_ROOT, explicit_exe: Optional[str] =
     )
 
 
+def resolve_chrome_devtools_spec() -> MCPSpec:
+    """Chrome DevTools MCP（浏览器自动化调试）。
+
+    Windows 兼容说明：npx 是 .cmd shim，部分 Agent（claude / antigravity 系）
+    的 stdio 传输不带 shell 解析，故对这些 Agent 自动套 `cmd /c npx` 包装；
+    opencode / pi / codex / dsh 的启动器可自行解析 .cmd（dsh 底层为 cross-spawn），
+    直接使用 npx 即可。
+    """
+    base_args = ["-y", "chrome-devtools-mcp@latest"]
+    wrap_agents = ("claude", "antigravity", "antigravity-ide")
+    return MCPSpec(
+        name="chrome-devtools",
+        description="Chrome DevTools MCP（浏览器自动化调试：导航、截图、console/network）",
+        command="npx",
+        args=list(base_args),
+        command_by_agent={a: "cmd" for a in wrap_agents},
+        args_by_agent={a: ["/c", "npx", *base_args] for a in wrap_agents},
+        extra_by_agent={"pi": {"exposure": "direct"}},
+    )
+
+
 def resolve_everything_spec() -> MCPSpec:
     cmd = "uvx"
     env = {}
@@ -225,10 +271,27 @@ def resolve_everything_spec() -> MCPSpec:
     )
 
 
-BUILTIN_PRESETS = {
-    "aoci": resolve_aoci_spec,
-    "everything": resolve_everything_spec,
+# ---------------------------------------------------------------------------
+# 预设 MCP 总开关（唯一控制入口）
+# ---------------------------------------------------------------------------
+# True  = 缺省执行（全量收敛）时同步/修复到全部 Agent；
+# False = 缺省执行时从全部 Agent 卸载该预设（显式 --mcp <name> 仍可临时强制安装）。
+PRESET_ENABLED: Dict[str, bool] = {
+    "aoci": True,
+    "chrome-devtools": True,
+    "everything": False,   # 每个 Agent 会话各起一份常驻进程，较占内存，默认关闭
 }
+
+
+def build_preset_spec(name: str, aoci_exe: Optional[str] = None) -> Optional[MCPSpec]:
+    """按预设名构建 MCPSpec；未知预设返回 None。"""
+    if name == "aoci":
+        return resolve_aoci_spec(REPO_ROOT, aoci_exe)
+    if name == "chrome-devtools":
+        return resolve_chrome_devtools_spec()
+    if name == "everything":
+        return resolve_everything_spec()
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -652,10 +715,11 @@ TARGET_AGENTS: Dict[str, AgentHandler] = {
 # ---------------------------------------------------------------------------
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="通用多 MCP 配置给多 Agent 的强化分发与管理工具（支持 aoci、everything、自定义 MCP，覆盖 7 大 Agent 目标）"
+        description="通用多 MCP 配置给多 Agent 的强化分发与管理工具（PRESET_ENABLED 开关驱动：缺省全量收敛，显式点名强制安装）"
     )
-    parser.add_argument("--mcp", nargs="+", default=["aoci"],
-                        help="指定要处理的 MCP 服务，例如: aoci, everything, all (默认仅 aoci；everything 需显式指定)")
+    parser.add_argument("--mcp", nargs="+", default=None,
+                        help="显式点名要强制安装的预设 MCP（aoci / chrome-devtools / everything）；"
+                             "all 或省略 = 按 PRESET_ENABLED 全量收敛（启用则安装、停用则卸载）")
     parser.add_argument("--agent", nargs="+", choices=sorted(TARGET_AGENTS.keys()),
                         help="只处理指定的 Agent（默认全部: antigravity, antigravity-ide, claude, codex, dsh, opencode, pi）")
     parser.add_argument("--status", "--list", dest="show_status", action="store_true",
@@ -678,9 +742,13 @@ def main() -> int:
     # 1. 确定目标 Agents
     agent_keys = args.agent if args.agent else sorted(TARGET_AGENTS.keys())
 
-    # 2. 构建待操作的 MCPSpec 清单
+    # 2. 构建待操作的 MCPSpec 清单与执行模式
+    #    显式点名（--mcp 且不含 all） = 对开关的临时覆盖（强制安装）；
+    #    缺省 / --mcp all            = 按 PRESET_ENABLED 全量收敛（启用安装 / 停用卸载）。
+    custom_mode = bool(args.custom_name and args.custom_cmd)
+    explicit_install = args.mcp is not None and not custom_mode and "all" not in args.mcp
     specs: List[MCPSpec] = []
-    if args.custom_name and args.custom_cmd:
+    if custom_mode:
         specs.append(MCPSpec(
             name=args.custom_name,
             description="自定义 MCP",
@@ -688,44 +756,60 @@ def main() -> int:
             args=args.custom_args
         ))
     else:
-        mcp_names = args.mcp
-        if "all" in mcp_names:
-            mcp_names = list(BUILTIN_PRESETS.keys())
-
+        mcp_names = args.mcp if explicit_install else list(PRESET_ENABLED.keys())
         for name in mcp_names:
-            if name == "aoci":
-                specs.append(resolve_aoci_spec(REPO_ROOT, args.aoci_exe))
-            elif name == "everything":
-                specs.append(resolve_everything_spec())
-            else:
+            spec = build_preset_spec(name, args.aoci_exe)
+            if spec is None:
                 print(f"[WARN] 未知 MCP 预设: {name}（跳过）", file=sys.stderr)
+            else:
+                specs.append(spec)
 
     # -----------------------------------------------------------------------
     # 操作分支 A: 查看状态矩阵 (--status / --list)
     # -----------------------------------------------------------------------
     if args.show_status:
-        inspect_mcps = ["aoci", "everything"]
+        preset_names = list(PRESET_ENABLED.keys())
         matrix = []
         for a_key in agent_keys:
             handler = TARGET_AGENTS[a_key]
-            row = {"agent": a_key, "path": str(handler.config_path)}
-            for m_name in inspect_mcps:
-                info = handler.get_server(m_name)
-                row[m_name] = "installed" if info else "missing"
+            row = {"agent": a_key, "path": str(handler.config_path), "presets": {}}
+            for m_name in preset_names:
+                installed = handler.get_server(m_name) is not None
+                row["presets"][m_name] = {
+                    "enabled": PRESET_ENABLED[m_name],
+                    "installed": installed,
+                }
             matrix.append(row)
 
         if args.json:
             print(json.dumps(matrix, ensure_ascii=False, indent=2))
             return 0
 
-        print("=" * 84)
-        print(f"{'Agent':<16} {'AOCI MCP':<14} {'Everything MCP':<18} {'Config Path'}")
-        print("-" * 84)
+        def drift_mark(enabled: bool, installed: bool) -> str:
+            """状态标记：漂移（开关与现状不一致）一眼可见。"""
+            if enabled and installed:
+                return "[✔ 已装]"
+            if enabled:
+                return "[- 未装]"
+            if installed:
+                return "[! 待卸载]"
+            return "[· 未装]"
+
+        headers = [f"{m}[{'开' if PRESET_ENABLED[m] else '关'}]" for m in preset_names]
+        col_w = [max(len(h) + 2, 10) for h in headers]
+        title = f"{'Agent':<16} " + " ".join(h.ljust(w) for h, w in zip(headers, col_w)) + "Config Path"
+        width = max(84, len(title) + 8)
+        print("=" * width)
+        print(title)
+        print("-" * width)
         for r in matrix:
-            aoci_mark = "[✔ 已安装]" if r["aoci"] == "installed" else "[- 未配置]"
-            ev_mark = "[✔ 已安装]" if r["everything"] == "installed" else "[- 未配置]"
-            print(f"{r['agent']:<16} {aoci_mark:<14} {ev_mark:<18} {r['path']}")
-        print("=" * 84)
+            cells = " ".join(
+                drift_mark(r["presets"][m]["enabled"], r["presets"][m]["installed"]).ljust(w)
+                for m, w in zip(preset_names, col_w)
+            )
+            print(f"{r['agent']:<16} {cells}{r['path']}")
+        print("=" * width)
+        print("提示：预设开关在脚本顶部 PRESET_ENABLED 修改（True=收敛安装 / False=收敛卸载）。")
         return 0
 
     # -----------------------------------------------------------------------
@@ -749,26 +833,51 @@ def main() -> int:
         return 0
 
     # -----------------------------------------------------------------------
-    # 操作分支 C: 安装 / 同步配置 (默认)
+    # 操作分支 C: 安装 / 全量收敛配置 (默认)
     # -----------------------------------------------------------------------
+    if custom_mode:
+        mode_desc = "显式安装（自定义 MCP）"
+    elif explicit_install:
+        mode_desc = "显式安装（临时覆盖 PRESET_ENABLED 开关）"
+    else:
+        mode_desc = "全量收敛（按 PRESET_ENABLED：安装已启用 / 卸载已停用）"
+
+    if explicit_install:
+        for spec in specs:
+            if not PRESET_ENABLED.get(spec.name, False):
+                print(f"[提示] 预设 [{spec.name}] 开关为关闭，本次因显式点名仍会安装（缺省收敛时会将其卸载）。",
+                      file=sys.stderr)
+
+    tasks: List[Tuple[str, MCPSpec]] = []
+    for spec in specs:
+        if custom_mode or explicit_install:
+            tasks.append(("install", spec))
+        else:
+            tasks.append(("install" if PRESET_ENABLED.get(spec.name, False) else "remove", spec))
+
     results = []
     failed = False
-    for spec in specs:
+    for action, spec in tasks:
         for a_key in agent_keys:
             handler = TARGET_AGENTS[a_key]
+            eff = spec_for_agent(spec, a_key)
             try:
-                status = handler.upsert_server(spec, args.force)
+                if action == "install":
+                    status = handler.upsert_server(eff, args.force)
+                else:
+                    status = handler.remove_server(spec.name)
             except Exception as e:
                 status = f"error: {e}"
                 failed = True
             results.append({
                 "mcp": spec.name,
                 "agent": a_key,
+                "action": action,
                 "path": str(handler.config_path),
                 "desc": handler.description,
                 "status": status,
-                "command": spec.command,
-                "args": spec.args
+                "command": eff.command,
+                "args": eff.args
             })
 
     if args.json:
@@ -776,31 +885,40 @@ def main() -> int:
         return 1 if failed else 0
 
     print("=" * 84)
-    print("多 MCP -> 多 Agent 通用配置强化工具（覆盖 7 大 Agent 目标）")
+    print("多 MCP -> 多 Agent 通用配置管理工具（覆盖 7 大 Agent 目标）")
     print(f"工作区仓库 : {REPO_ROOT}")
+    print(f"执行模式   : {mode_desc}")
+    if not (custom_mode or explicit_install):
+        print("预设开关   : " + "  ".join(f"{n}={'开' if e else '关'}" for n, e in PRESET_ENABLED.items()))
     for spec in specs:
         args_display = " ".join(spec.args) if spec.args else "(none)"
         print(f"• MCP [{spec.name}]: {spec.command} {args_display} ({spec.description})")
     print("-" * 84)
 
     for r in results:
-        mark = {
-            "ok": "[OK-存在]",
-            "written": "[写入成功]",
-            "written_new": "[新建配置]",
-            "skipped_mismatch": "[跳过-冲突]"
-        }.get(r["status"], "[异常]")
-        if r["status"].startswith("error"):
-            mark = "[失败]"
+        if r["action"] == "install":
+            mark = {
+                "ok": "[OK-存在]",
+                "written": "[写入成功]",
+                "written_new": "[新建配置]",
+                "skipped_mismatch": "[跳过-冲突]"
+            }.get(r["status"], "[异常]")
+            if r["status"].startswith("error"):
+                mark = "[失败]"
+        else:
+            mark = {"removed": "[已卸载]", "not_found": "[无需卸载]"}.get(r["status"], "[异常]")
+            if r["status"].startswith("error"):
+                mark = "[失败]"
 
-        print(f"{mark:<11} {r['mcp']:<10} -> {r['agent']:<15} {r['path']}")
+        print(f"{mark:<11} {r['mcp']:<16} -> {r['agent']:<15} {r['path']}")
 
     print("-" * 84)
     print("提示：")
     print("1. antigravity 需重启或重新打开工作区后生效；")
     print("2. pi 已运行的会话可输入 /reload 立即生效；")
     print("3. dsh (DeepSeek Harness) 重启桌面应用或命令行后生效；")
-    print("4. 其余 Agent（Claude Code、Codex、opencode）在下次启动或新建会话时自动载入。")
+    print("4. 其余 Agent（Claude Code、Codex、opencode）在下次启动或新建会话时自动载入；")
+    print("5. 预设开关在脚本顶部 PRESET_ENABLED 修改（True=收敛安装 / False=收敛卸载）。")
     print("=" * 84)
 
     return 1 if failed else 0
