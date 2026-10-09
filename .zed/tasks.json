@@ -32,5 +32,33 @@
     "command": "go install github.com/padiazg/go-crap@latest",
     "reveal": "always",
     "use_new_terminal": false
+  },
+  {
+    "label": "Java: Run Spring Boot (career-starter-basics)",
+    "command": "mvn spring-boot:run",
+    "cwd": "$ZED_WORKTREE_ROOT/java_projects/career-starter-basics",
+    "reveal": "always",
+    "use_new_terminal": false
+  },
+  {
+    "label": "Java: Debug Spring Boot (JDWP 5005)",
+    "command": "mvn spring-boot:run -Dspring-boot.run.jvmArguments=\"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005\"",
+    "cwd": "$ZED_WORKTREE_ROOT/java_projects/career-starter-basics",
+    "reveal": "always",
+    "use_new_terminal": false
+  },
+  {
+    "label": "Java: Run Tests (Current Subproject)",
+    "command": "mvn test",
+    "cwd": "$ZED_DIRNAME",
+    "reveal": "always",
+    "use_new_terminal": false
+  },
+  {
+    "label": "Java: Clean & Compile (Current Subproject)",
+    "command": "mvn clean compile",
+    "cwd": "$ZED_DIRNAME",
+    "reveal": "always",
+    "use_new_terminal": false
   }
 ]
