@@ -2,7 +2,7 @@
 
 ===D:/Users/language_projects/===
 .gitattributes[FR7T]: F:统一全仓文本 LF 检出，保证各平台 checkout 字节一致 | R:- | A:- | S:AOCI 按原始字节建基线，改行尾策略会令整树 Stale
-.gitignore[FC3T]: F:忽略系统杂项、.venv/、mkdocs 产物 .mkdocs-site/、.thirdparty/、仓根 ComfyUI/、.cursor/skills 与 glmquotawatch-gui specs 两个 Junction、python_projects-wt-agy worktree | R:code:mkdocs.yml | A:- | S:Junction/worktree 副本为本机产物不入库
+.gitignore[FC3T]: F:忽略系统杂项、.venv/、.local/、mkdocs 产物 .mkdocs-site/、.thirdparty/、仓根 ComfyUI/、.cursor/skills 与 glmquotawatch-gui specs 两个 Junction、python_projects-wt-agy worktree | R:code:mkdocs.yml | A:新增本机产物或 Junction 时在此登记防误入库 | S:Junction/worktree 副本为本机产物不入库
 .gitmodules[FG8T]: F:声明五个语言子模块与 .agents/skills（技能真身）的远端、跟踪分支与 ignore=all 策略 | R:code:.scripts/init-submodules.py,code:README.md,code:docs/plans/45-agents-skills-submodule.md | A:新增子模块时在此登记并补 branch 与 ignore=all；.agents/skills 变更见 45 号计划 | S:ignore=all 拦截普通 git add，提交子模块指针必须 git add --force
 AGENTS.md[SG9M]: F:父仓最高约定：强约束（中文回复、plans/specs 独立提交、自产数据文件、数据密集型任务脚本化、测试资源用后即清、文件操作安全、PowerShell 跨 Agent 安全规范、dev/release 构建隔离）、仓库结构与归档文档布局、脚本规范（PEP 723+uv）、子模块规则继承指针、AOCI 按需加载 | R:code:README.md,code:.gitmodules,code:MONOREPO.md,code:docs/guides/README.md,code:docs/projects/go_projects/CLI 工具开发标准.md,code:docs/projects/go_projects/go exe 默认图标.md,code:aoci.repository.cognition.md | A:AI 会话进仓先读；改仓库级约定先改此文件；数据密集型任务先脚本后结论；AOCI 工作流详见 aoci.repository.cognition.md | S:子模块改动在子仓提交；父仓更新指针须 git add --force；plans/specs 单文件独占 commit；docs/index.md 禁删；自产数据文件落 %APPDATA% 仓规目录，dev/prod 双构建再分子目录；构建统一单 build.py，仅 tag HEAD 且干净区产 release；chrome 资源用后即清；GUI dev 带 -dev、优先正式版且 dev 禁注自启；GUI 须专属图标；PowerShell 无状态跨轮次、优先文件工具、写无 BOM 仅 WriteAllText、5.1 禁 && 串联
 CLAUDE.md[SG3T]: F:单行 @AGENTS.md 引用，让 Claude Code 复用父仓库约定 | R:code:AGENTS.md | A:- | S:-
@@ -30,11 +30,11 @@ gen_python_logo.py[XV4S]: F:生成 1024 透明底 Python 双蛇标志 PNG：内�
 link-submodule-agents.py[XC5M]: F:把父仓 AGENTS.md 以 NTFS 硬链接同步到各子模块/子仓库根目录，解决 Agent 遇子模块 .git 停止向上查找规则文件的问题；支持状态检查、清理与 gitignore 管理 | R:code:AGENTS.md | A:默认建链；--status 查 Inode 状态；--unlink 清理；--add-gitignore/--remove-gitignore 维护忽略规则；--force 覆盖独立文件 | S:硬链接与源同 Inode：编辑任一子仓副本 AGENTS.md 即实时修改父仓原文件
 install-aoci-mcp.py[XC3T]: F:install-mcp.py 的兼容老入口转发代理：固定 --mcp aoci，把旧参数 --exe 重映射为 --aoci-exe 后整体转发 | R:code:.scripts/install-mcp.py | A:uv run .scripts/install-aoci-mcp.py [--exe <path>] [其余参数原样转发] | S:自身不含业务逻辑，行为以 install-mcp.py 为准；旧参数名不同需重映射
 restore-thirdparty.py[XV5M]: F:检查并恢复 .thirdparty/ 外部参考仓库：内置 17 仓库清单 clone（--depth 50）、可选 tag 检出、--check 只读盘点、--name 过滤单项，另盘点 3 个非 Git 归档目录 | R:code:THIRDPARTY.md,code:docs/guides/GUIDE-第三方项目克隆.md | A:在父仓根执行 uv run .scripts/restore-thirdparty.py [--check] [--name <项目名>]；退出码 0=成功、1=参数或目录缺失 | S:PEP 723 零依赖；stdout/stderr 强制 UTF-8；分支 clone 失败回退裸 clone，仍失败仅告警不中断；.thirdparty 被 gitignore 不入库
-install-mcp.py[XC7L]: F:通用多 MCP 到 7 大 Agent 的配置管理工具：PRESET_ENABLED（装不装）与 AGENT_ENABLED（参不参与）双层开关驱动全量收敛，内置 aoci/chrome-devtools/everything 预设，状态矩阵含漂移标记与停用行，支持点名覆盖 | R:code:.scripts/install-aoci-mcp.py,code:docs/plans/43-install-mcp-symmetric-lifecycle.md,code:docs/plans/42-dsh-agent-delegation-mcp.md | A:uv run .scripts/install-mcp.py [--mcp <名>...] [--agent ...] [--status] [--remove <名>] [--force] [--json]；缺省=双层开关收敛，显式 --mcp/--agent=临时覆盖；开关改脚本顶部常量 | S:opencode 须 local 类型+命令数组+enabled；claude/antigravity 系须 cmd /c npx，其余可直接 npx；AGENT_ENABLED=False 会被收敛清理预设，显式 --agent 可临时覆盖
+install-mcp.py[XC7L]: F:通用多 MCP 到 7 大 Agent 的配置管理工具：文件顶部「用户开关区」双层开关（PRESET_ENABLED 装不装 / AGENT_ENABLED 参不参与）驱动全量收敛，预设 aoci/chrome-devtools/everything，状态矩阵含停用行与漂移标记 | R:code:.scripts/install-aoci-mcp.py,code:docs/plans/43-install-mcp-symmetric-lifecycle.md,code:docs/plans/42-dsh-agent-delegation-mcp.md | A:uv run .scripts/install-mcp.py [--mcp <名>...] [--agent ...] [--status] [--remove <名>] [--force] [--json]；缺省=双层开关收敛，显式 --mcp/--agent=临时覆盖；改开关看文件顶部用户开关区 | S:opencode 须 local 类型+命令数组+enabled；claude/antigravity 系须 cmd /c npx，其余可直接 npx；chrome-devtools/everything 默认关闭；AGENT_ENABLED=False 会被收敛清理预设
 
 ===D:/Users/language_projects/.zed/===
 extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本（lua/toml/sql/neocmake/html/ini/xmake），配合 auto_install_extensions 安装；PowerShell 扩展已随全仓 ps1 清零移除 | R:code:.zed/settings.json | A:- | S:-
-settings.json[FC7S]: F:Zed 总仓配置：按语言 LSP 白名单（Python/Go/Java 开，TS/Rust/C/C++/Lua 等关）与省内存参数，file_scan_exclusions 排除构建产物与 6 个 Agent skills 镜像目录，auto_install_extensions 含 java/lua/xmake | R:code:.zed/extensions.toml,code:docs/plans/44-zed-lsp-manager.md | A:调整语言 LSP 开关、server 参数或扫描排除时编辑此文件；auto_install_extensions 须与 extensions.toml 同步 | S:全局 enable_language_server=false + 逐语言白名单是省内存设计；lua-language-server 须显式 Lua 5.1（嵌入 5.1.5/LuaJIT）；skills 镜像目录排除防与 .agents/skills 在 Git 面板重复
+settings.json[FC7S]: F:Zed 总仓配置：语言 LSP 白名单（Python/Go/Java 开，其余关）与逐 server 省内存参数（jdtls 128m/512m、basedpyright 关类型检查、clangd 关索引）、file_scan_exclusions 排除构建产物与 6 个 Agent skills 镜像目录 | R:code:.zed/extensions.toml,code:docs/plans/44-zed-lsp-manager.md,code:docs/plans/54-zed-jdtls-memory-optimization.md | A:调整 LSP 开关、server 参数或扫描排除时编辑此文件；auto_install_extensions 须与 extensions.toml 同步 | S:全局 enable_language_server=false 加白名单省内存；jdtls 默认 -Xms1G 故封顶 512m；lua-language-server 须显式 Lua 5.1；skills 镜像目录排除防 Git 面板与 .agents/skills 重复
 tasks.json[FC3T]: F:Zed 任务面板：4 条 CRAP 复杂度检查（Go go-crap / Python coverage+calc_crap.py / TS npx crap）与 go-crap 安装，另含 4 条 Java Maven 任务（Spring Boot 运行、JDWP 5005 调试、测试、clean compile） | R:code:.scripts/calc_crap.py | A:- | S:-
 
 ===D:/Users/language_projects/docs/guides/===
@@ -110,8 +110,9 @@ walkthrough-32-commit-all-repos-by-theme.md[SV4M]: F:Plan 32 执行记录：父�
 49-zedhub-project-dropdown-normalization-and-stats.md[SC6S]: F:Plan 49（已完成）：zedhub 项目下拉框路径归一化去重、optgroup 分组、按会话数降序排序、外部项目频次统计，消除裸项目名与重复项 | R:code:docs/plans/47-zedhub-scope-and-agent-hierarchy.md | A:改 zedhub 项目筛选/统计前先读；路径匹配须统一斜杠与大小写后再去重 | S:-
 50-zedhub-antigravity-content-bubbles.md[SC6S]: F:Plan 50（待实施）：zedhub Antigravity 正文气泡——方案 C 读 brain transcript.jsonl 优先、方案 A 纯标准库 Varint 解码 SQLite Proto 兜底，FileSource+UI 接入 | R:code:docs/plans/48-zedhub-multi-agent-content-bubbles.md | A:实施前先读 Plan 48 的逆向结论；方案 B（逆向官方 Descriptor）已排除 | S:agy transcript.jsonl 位于 ~/.gemini/antigravity/brain/<cid>/.system_generated/logs/；Proto 提取目标为 step_type=14(Field#19)/15(Field#20.Sub#1)
 51-cursor-spending-limit-and-cache-research.md[SC6S]: F:调研（已完成）：Cursor 额度限制与缓存计费——Spending 设限/关 on-demand、Cache Read 与 Miss 约 40 倍差价、多轮工具调用省钱对策 | R:code:docs/plans/49-cursor-yolo-mode-no-approval.md | A:排查 Cursor 费用暴涨或设置额度时先读；来源为 Cursor 官方计费文档 | S:Spend Limit 非即时硬截断（超出有小额临时抵免，上调限额可能被重新计费）；改 prompt 前缀/工具顺序/切模型会破坏缓存锚点致反复写缓存
-52-zedhub-external-agent-normalization-and-pi-source.md[SC6S]: F:Plan 52（待实施）：zedhub 外部 OpenCode 会话 agent_id 归一化+mode 透传、Agent 与 scope 强绑定联动、_search 外部数据源补 pi | R:code:docs/plans/47-zedhub-scope-and-agent-hierarchy.md | A:实施前先读；外部源列表改动须与 _sessions_list 口径一致 | S:_search 曾硬编码外部源漏 pi 致 Pi 会话不可见；optgroup 同名 value 需用 data-management 区分
+52-zedhub-external-agent-normalization-and-pi-source.md[SC6S]: F:Plan 52（已完成 v3.1）：zedhub 外部 OpenCode 会话 agent_id 归一化 + mode 透传、下线「管理范围」控件改 Agent 复合下拉（路线 B）、数据源 SSOT 收敛补全 pi | R:code:docs/plans/47-zedhub-scope-and-agent-hierarchy.md | A:已实施完成，改动外部源列表须与 _sessions_list 口径一致 | S:_search 曾硬编码外部源漏 pi 致 Pi 会话不可见；optgroup 同名 value 需用 data-management 区分
 53-expose-user-skill-symlink.md[SC6T]: F:Plan 53：expose_user_skill.py 把 sh-user-skills 子技能 README.md 改名软链为 SKILL.md 暴露到 skills 顶层，子目录链接不断链；Task1 已完成，Task2 验收待做 | R:- | A:运行 uv run .agents/skills/expose_user_skill.py <name> [--check] [--force]；目标目录真实、内容全链接 | S:脚本只做全量软链+改名一件事；symlink 失败回退 mklink /J；顶层链接目录不入库，用 .gitkeep 占位
+54-zed-jdtls-memory-optimization.md[SC4T]: F:Plan 54（已完成 v2）：Zed 中 Java LSP（jdtls）内存优化——问题陈述、512M 极简档决策、配置落点与验证 | R:code:.zed/settings.json | A:查阅或调整 jdtls 内存参数时先读 | S:Zed Java 扩展默认 min_memory 1G（-Xms1G），实测 JDTLS 常驻约 973MB，故显式覆盖为 128m/512m
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
@@ -251,6 +252,7 @@ media-storage-abuse-research.md[SZ3S]: F:「拿 YouTube 当免费网盘」调研
 subagent-pipeline-tools-research.md[SQ4M]: F:多 Agent 开发流水线工具调研：无开箱即用五步闭环工具，推荐 Claude Code 原生件（.claude/agents + hooks + headless -p）脚本层自建（约 1~2 天），LLM 只修不判 | R:- | A:- | S:-
 AutoHotkey 极速应用切换与 Toggle 自动化配置指南.md[SU3S]: F:AutoHotkey v2 应用极速切换指南：Alt+快捷键 Toggle 置顶/最小化、多窗口轮换、拒绝自动启动、开机静默自启与冲突避坑 | R:- | A:按文中三步配置：winget 安装 AutoHotkey v2 → 部署 app_switcher.ahk → 放入启动文件夹 | S:wt 须映射 WindowsTerminal.exe；PowerToys 同热键抢先拦截
 jupyterlab-overview-and-architecture-research.md[SG7L]: F:JupyterLab 架构深度调研：微内核+插件依赖注入、Lumino DockPanel/信号/命令总线、REST+WebSocket+ZeroMQ 五通道 Wire 协议、RTC/LSP/DAP 前沿能力与演进脉络，论断按【官方】【规范/代码】【推断/实践】分级 | R:- | A:通用技术知识沉淀（docs/repo）；了解 Jupyter/交互式计算内核或做 Notebook 类系统选型时查阅 | S:LSP 采用虚拟文档合并+坐标双向投影解决单元格碎片化；JEP 47/62/79/93 分别是调试/RTC/Notebook7 统一/调试态融合的协议基石
+Python 模块结构与常量放置规范调研.md[SG7M]: F:Python 模块结构与常量放置调研：逐条核实 PEP 8/257/591、官方文档、Google/Real Python 与工具规则（pylint/ruff/isort/Black）；结论为常量置顶属社区惯例而非官方规范，唯一硬约束是「先用先定义」，附本仓开关常量置顶建议与模块骨架 | R:code:.scripts/install-mcp.py | A:回答「常量是否/为何置顶」时先读；引用规则编号前复核来源；本仓 Python 脚本可循第 6 节骨架 | S:Hitchhiker's Guide 无模块内部顺序条款（常见误引）；pylint C0413 意为代码与 import 混排而非 import 未置顶；常量位置无任何主流工具强制
 
 ===D:/Users/language_projects/docs/repo/lark_group_bridge/===
 2026-09-20 自言自语存档.html[SG3L]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌逐张图注，支持页内编辑删除后覆盖原文件 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击打开；图片点击放大（Ctrl+滚轮缩放）；侧栏「编辑此页」可删条/删节/改字，保存后序列化覆盖原文件 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文
@@ -412,19 +414,19 @@ requirements.md[SC6T]: F:typeai-gui 泛化需求：多标签通用 CLI/TUI 桌�
 
 ===D:/Users/language_projects/java_projects/===
 .gitignore[FC3T]: F:java_projects 子仓忽略：编译产物 *.class、日志、包文件、Maven target 与 release 备份、Gradle build、IDE 工程文件、OS 元数据 | R:- | A:- | S:-
-AGENTS.md[SC6T]: F:java_projects 子仓约定：面向企业 Java/中间件/Agent 模式的教育性实现；Maven 多模块架构、Java 17/21 LTS、公共类与方法中文 docstring、JUnit 5 单测 | R:code:java_projects/README.md,code:java_projects/CLAUDE.md | A:- | S:-
-CLAUDE.md[SC3T]: F:java_projects 的 Claude 指引：单行说明，模块定义与路线见 README.md | R:code:java_projects/README.md,code:java_projects/AGENTS.md | A:- | S:-
-README.md[SC6T]: F:java_projects 学习路线：01-career-starter-basics 已就绪（Java 21 特性/老化调度/策略模式/Spring 状态机），02 中间件缓存、03 Flink 对账、04 Agent 诊断引擎规划中 | R:code:java_projects/AGENTS.md | A:续建 02-04 子项目前先读；模块文件与知识点映射见「当前子项目」节 | S:-
-pom.xml[FC5T]: F:java_projects 顶层父 POM：packaging pom，聚合 career-starter-basics，Java 21 + Spring Boot 3.2.4 + JUnit BOM 5.10.2，统一编译插件 UTF-8 与 -parameters | R:code:java_projects/career-starter-basics/pom.xml | A:- | S:-
+AGENTS.md[SC6T]: F:java_projects 的 Agent 规则继承指针：声明为父仓子仓并从 ../AGENTS.md 继承全部基础约定 | R:code:java_projects/README.md,code:java_projects/CLAUDE.md | A:新增语言子仓指针文件时按此模板 | S:正文误写为 submodule (go_projects)，实为 java_projects，属复制残留尚未修正；子仓专项约定已迁至 README.md
+CLAUDE.md[SC3T]: F:java_projects 的 Claude 规则导入指针：单行 @../AGENTS.md，触发 Claude Code 自动内联父仓规则 | R:code:java_projects/AGENTS.md | A:- | S:-
+README.md[SC6T]: F:java_projects 全景说明：Java 21 + Spring Boot 3 求职学习路线，父 POM 全量构建命令、三个子模块架构知识图谱、端口与接口表 | R:code:java_projects/AGENTS.md | A:改动子模块后同步更新构建命令、端口表与测试结果 | S:构建须用 cmd /c 显式注入 JAVA_HOME 与 mvn.cmd 以锁定 JDK 21；三个服务端口固定 8080/8081/8082
+pom.xml[FC5T]: F:java_projects 顶层父 POM：packaging pom，聚合 starter-basics、payment-saas、agent-diagnose 三模块，Java 21 + Spring Boot 3.2.4 + JUnit BOM 5.10.2 | R:code:java_projects/career-starter-basics/pom.xml,code:java_projects/career-payment-saas/pom.xml,code:java_projects/career-agent-diagnose/pom.xml | A:新增子模块须在 modules 登记；依赖版本统一走 dependencyManagement | S:pluginManagement 已锁 spring-boot-maven-plugin 3.2.4，子模块引用时不得重复写版本
 
 ===D:/Users/language_projects/java_projects/career-starter-basics/===
 pom.xml[FC4T]: F:career-starter-basics 模块 POM：parent 指向 java-projects-parent，打包 jar，依赖 spring-boot-starter-web 与 starter-test | R:code:java_projects/pom.xml | A:- | S:-
 
 ===D:/Users/language_projects/java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/===
-StarterApplication.java[EG5T]: F:Spring Boot 启动类：@SpringBootApplication 引导 01-career-starter-basics，启动后打印演示入口提示 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/controller/CareerDemoController.java | A:- | S:-
+StarterApplication.java[EG5T]: F:career-starter-basics 的 Spring Boot 启动类：@SpringBootApplication 引导 8080 服务，启动后打印演示入口提示 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/controller/CareerDemoController.java | A:- | S:-
 
 ===D:/Users/language_projects/java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/===
-Java21FeaturesDemo.java[ZZ4T]: F:知识点四教学演示：Java 21 Record 模式解构（JEP 440）与 Sequenced Collections（JEP 431）首尾访问/反转视图 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/PaymentEventRecord.java | A:- | S:-
+Java21FeaturesDemo.java[ZZ4T]: F:知识点四教学演示：Java 21 Record 模式解构（JEP 440）拆解 PaymentEventRecord，与 Sequenced Collections（JEP 431）getFirst/getLast/reversed 视图 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/PaymentEventRecord.java | A:- | S:reversed() 返回反转视图而非修改原集合；金额用 BigDecimal
 OrderStatus.java[DB5T]: F:知识点二：sealed 密封接口 OrderStatus，限定四种携带上下文的状态记录（待支付/成功/失败/已退款），配 switch 模式匹配穷尽检查 | R:- | A:- | S:-
 PaymentEventRecord.java[DD5T]: F:知识点一：不可变支付流水 Record（eventId/orderId/channel/amount/currency/occurredAt），紧凑构造校验订单号非空、金额大于零 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/ReconciliationStreamDemo.java,code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/Java21FeaturesDemo.java | A:- | S:-
 ReconciliationStreamDemo.java[DA5T]: F:知识点三：Stream API 对账操作演示——按币种过滤、按渠道 groupingBy 计数、reduce 汇总总金额、map+distinct 提取唯一订单号 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/PaymentEventRecord.java | A:- | S:-
@@ -459,8 +461,48 @@ application.yml[FC3T]: F:career-starter-basics 应用配置：端口 8080、应�
 ===D:/Users/language_projects/java_projects/career-starter-basics/src/test/java/com/shihao/career/starter/===
 StarterAllModulesTest.java[TB5S]: F:全模块 JUnit 5/@SpringBootTest 测试：Record 模式解构、有序集合、虚拟线程、密封状态 switch、Stream 对账、老化算法反超、策略模式与 Spring 状态机流转/非法流转异常 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/DynamicStateMachineEngine.java | A:mvn test 运行；状态机部分依赖完整 Spring 上下文 | S:-
 
-===D:/Users/language_projects/.drafts/resume/===
-resume.html[SZ3M]: F:个人简历页面（张世豪，Agent 开发工程师/资深后端）：自包含 HTML+CSS 单页，ATS 纯单列排版，含个人信息、工作经历与滴滴国际化外卖诊断 Agent 等项目业绩 | R:code:.drafts/resume/项目.txt,code:.drafts/resume/resume_muji.md | A:浏览器直接打开或打印 PDF；改内容直接编辑本文件 | S:ATS 单列排版为刻意设计（利于招聘系统关键词抓取）
-resume_muji.md[SZ3S]: F:木及风格 Markdown 简历（张世豪）：个人优势、滴滴国际化 IBG 工作经历、三大项目（智能诊断 Agent/智能客服质检/收银支付中台）与技能清单 | R:code:.drafts/resume/resume.html,code:.drafts/resume/项目.txt | A:Markdown 纯文本简历，与 resume.html 同源可互相参照 | S:-
-项目.txt[SZ3S]: F:简历项目材料（GBK 编码）：滴滴国际化外卖交易组智能故障诊断 Agent 的项目背景/核心模块/技术栈/个人职责，对齐 OpenEuler witty-diagnosis-agent 开源架构 | R:code:.drafts/resume/resume.html,code:.drafts/resume/resume_muji.md | A:- | S:GBK 编码；读取时需按 GBK 解码，防乱码
+===D:/Users/language_projects/.vscode/===
+tasks.json[FC3T]: F:VS Code/Cursor 任务面板：仅登记 zedhub 服务启动任务（uv run zedhub serve，cwd 为 python_projects/zedhub） | R:code:python_projects/zedhub/pyproject.toml | A:新增任务时在此文件编辑 | S:须在 zedhub 目录内执行
+
+===D:/Users/language_projects/java_projects/career-agent-diagnose/===
+pom.xml[FV4T]: F:career-agent-diagnose 模块 POM：继承父 POM java-projects-parent，jar 打包，依赖 spring-boot-starter-web 与 test，绑定 spring-boot-maven-plugin | R:code:java_projects/pom.xml | A:新增依赖须经父 POM dependencyManagement 统一版本 | S:description 文案复制自 starter-basics，与本模块 Agent 诊断主题不符
+
+===D:/Users/language_projects/java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/===
+AgentApplication.java[EG5T]: F:career-agent-diagnose 的 Spring Boot 启动入口：@SpringBootApplication 标注，启动 8082 端口的诊断演示服务 | R:code:java_projects/career-agent-diagnose/src/main/resources/application.yml | A:- | S:-
+
+===D:/Users/language_projects/java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/alert/===
+AlertStormSynthesizer.java[DO7T]: F:时序告警风暴压缩聚合器：按 ServiceName+ErrorCode 分组把海量细碎告警收敛为高阶 Incident，去重提取受影响 Pod 列表 | R:code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/controller/AgentDemoController.java | A:调整聚合维度或 Incident 结构时同步 AgentModulesTest 断言 | S:incidentId 由分组 key 的 hashCode 取模生成，不保证跨进程稳定
+
+===D:/Users/language_projects/java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/controller/===
+AgentDemoController.java[AU5T]: F:career-agent-diagnose 演示 REST 控制器（/api/agent）：内置样本演示告警收敛，/route-skill 按症状文本召回诊断 Skill | R:code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/alert/AlertStormSynthesizer.java,code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/skill/SkillTreeRouter.java | A:新增演示端点时同步 README 接口表 | S:诊断技能在构造函数内注册，无外部持久化
+
+===D:/Users/language_projects/java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/skill/===
+SkillTreeRouter.java[KA7T]: F:Agent 分层 Skill 树路由引擎：两阶段选路（粗排领域 INFRA/BUSINESS/NETWORK，精排子树触发词匹配）把候选 Skill 压缩到 Top-3 | R:code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/controller/AgentDemoController.java | A:新增领域须同步 routeDomain 关键字分支与领域常量 | S:routeDomain 用 contains 硬编码判定，未命中任何关键字时默认落 NETWORK；技能表为 ConcurrentHashMap+CopyOnWriteArrayList 内存态
+
+===D:/Users/language_projects/java_projects/career-agent-diagnose/src/main/resources/===
+application.yml[FC3T]: F:career-agent-diagnose 运行配置：server.port 8082 与 spring.application.name | R:code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/AgentApplication.java | A:改端口须同步 README 端口表 | S:-
+
+===D:/Users/language_projects/java_projects/career-agent-diagnose/src/test/java/com/shihao/career/agent/===
+AgentModulesTest.java[TO5T]: F:career-agent-diagnose 模块单测：断言告警聚合（4 条收敛为 2 事故、Pod 去重）与 Skill 树两阶段路由召回 | R:code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/alert/AlertStormSynthesizer.java,code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/skill/SkillTreeRouter.java | A:改动聚合维度或路由规则时同步更新断言 | S:类级 @SpringBootTest 会启动完整应用上下文，纯逻辑断言可降为普通单测以减少启动开销
+
+===D:/Users/language_projects/java_projects/career-payment-saas/===
+pom.xml[FV4T]: F:career-payment-saas 模块 POM：继承父 POM java-projects-parent，jar 打包，依赖 spring-boot-starter-web 与 test，绑定 spring-boot-maven-plugin | R:code:java_projects/pom.xml | A:新增依赖须经父 POM dependencyManagement 统一版本 | S:description 文案复制自 starter-basics，与本模块支付清结算主题不符
+
+===D:/Users/language_projects/java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/===
+PaymentApplication.java[EG5T]: F:career-payment-saas 的 Spring Boot 启动入口：@SpringBootApplication 标注，启动 8081 端口的支付演示服务 | R:code:java_projects/career-payment-saas/src/main/resources/application.yml | A:- | S:-
+
+===D:/Users/language_projects/java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/channel/===
+DynamicPaymentRouter.java[DR7T]: F:支付通道动态路由决策引擎：按成功率×70+延迟得分×30+基础权重算分，硬熔断成功率不高于 50% 的通道后选最优 | R:code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/controller/PaymentDemoController.java | A:调整评分公式或熔断阈值时同步 README 公式说明与单测 | S:全部通道被熔断或未配置时抛 IllegalStateException；通道指标仅存于 ConcurrentHashMap 内存态
+
+===D:/Users/language_projects/java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/controller/===
+PaymentDemoController.java[AU5T]: F:career-payment-saas 演示 REST 控制器（/api/payment）：/route-best 选健康通道，/settle-order 按订单金额输出复式记账试算平衡凭证 | R:code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/channel/DynamicPaymentRouter.java,code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/ledger/SettlementLedgerEngine.java | A:新增端点时同步 README 接口表 | S:通道指标与抽成率 15%、税率 5%、运费 20.00 均为构造函数内写死的演示常量
+
+===D:/Users/language_projects/java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/ledger/===
+SettlementLedgerEngine.java[DB8T]: F:金融清结算复式记账引擎：按订单总额与抽成、税率、运费生成借贷流水，保证有借必有贷、借贷必相等并返回试算平衡结果 | R:code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/controller/PaymentDemoController.java | A:调整会计科目或分账项时保持借贷恒等式并同步单测 | S:金额一律 BigDecimal；商户净额由总额逐项相减得出，若抽成加税加运费超过总额会得到负值且仍能通过平衡校验
+
+===D:/Users/language_projects/java_projects/career-payment-saas/src/main/resources/===
+application.yml[FC3T]: F:career-payment-saas 运行配置：server.port 8081 与 spring.application.name | R:code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/PaymentApplication.java | A:改端口须同步 README 端口表 | S:-
+
+===D:/Users/language_projects/java_projects/career-payment-saas/src/test/java/com/shihao/career/payment/===
+PaymentModulesTest.java[TB5T]: F:career-payment-saas 模块单测：断言加权路由选出最优通道、全熔断抛 IllegalStateException，以及复式记账借贷平衡 | R:code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/channel/DynamicPaymentRouter.java,code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/ledger/SettlementLedgerEngine.java | A:改动评分公式、熔断阈值或记账科目时同步更新断言 | S:金额断言须用 BigDecimal.compareTo（assertEquals 因 scale 差异会失败）；类级 @SpringBootTest 会启动完整上下文
 

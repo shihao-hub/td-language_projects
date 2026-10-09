@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-09T05:16:22Z",
+  "updated_at": "2026-10-09T19:20:35Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -23,10 +23,20 @@
       "size": 24966,
       "normalized_sha256": "673b390476f295d71ecf601f6a0f070fd894b6d23d8653a023d45c60dec541d3"
     },
+    ".drafts/resume/resume.md": {
+      "sha256": "45e71cb2f1a7c7046c859d6be08643ec530a77fc58356679f4a272b9d6c503e5",
+      "size": 27271,
+      "normalized_sha256": "e2653160163d737efc0a8680077753ac455b3b608b46619bb98cccc6d9e55e96"
+    },
     ".drafts/resume/resume_muji.md": {
       "sha256": "f2e3eea86b797ea5fef9c10b0c94e5deccce48f3a7d470dc910b1b1deb27c607",
       "size": 12615,
       "normalized_sha256": "a1b77f66d8422fd5c00e71b9c0ffc94949a65b04eeed70d578023e7a29807662"
+    },
+    ".drafts/resume/张世豪-Agent开发工程师-木及简历.md": {
+      "sha256": "45e71cb2f1a7c7046c859d6be08643ec530a77fc58356679f4a272b9d6c503e5",
+      "size": 27271,
+      "normalized_sha256": "e2653160163d737efc0a8680077753ac455b3b608b46619bb98cccc6d9e55e96"
     },
     ".drafts/resume/项目.txt": {
       "sha256": "c8a23cb4e797c50faa485f98960657b208acfcd660574c1a39ef4433c11aac95",
@@ -40,9 +50,9 @@
       "normalized_sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476"
     },
     ".gitignore": {
-      "sha256": "7286e66f64749c88c46a048a762949df593725bebf7c13c4594ddb251d2bfa31",
-      "size": 797,
-      "normalized_sha256": "7286e66f64749c88c46a048a762949df593725bebf7c13c4594ddb251d2bfa31"
+      "sha256": "c59de7aad28f2814ce0dbb15178bbfacdc664ac8de1cfd60e5237713dad5e02b",
+      "size": 821,
+      "normalized_sha256": "c59de7aad28f2814ce0dbb15178bbfacdc664ac8de1cfd60e5237713dad5e02b"
     },
     ".gitmodules": {
       "sha256": "5ba6f77d51e270ebaf358eb61940d2416bb70f2e48cfd680c738cd806f12efad",
@@ -216,9 +226,9 @@
       "normalized_sha256": "c3d8e7b66de266b8b1788363e842683eac88bc670c7ae35de673d18a497492d6"
     },
     ".scripts/install-mcp.py": {
-      "sha256": "6912a44985e0083e2e26e9a1f1b601a69b60de010c0c90a5e36fe838ddf387cf",
-      "size": 45702,
-      "normalized_sha256": "b0e6d48c913679bd5cf70e3998695fe07fbdb18822ca21edc0c6b4b285a19b63"
+      "sha256": "f047d6ee382821ad1bb76dfcd291d15cadff7d9f6b5a312a561b6f01a440ff6c",
+      "size": 46321,
+      "normalized_sha256": "9210916be1055fd6cf2ac484865b4a83dc9e309555aa2c74e1e5ee257cc6f450"
     },
     ".scripts/install_tool.py": {
       "role": "index",
@@ -258,6 +268,11 @@
       "size": 17484,
       "normalized_sha256": "485a421f1aca6891a4944d4cacd1903a1b61e49df01a3f4736fc2ddefb01979c"
     },
+    ".vscode/tasks.json": {
+      "sha256": "acc0a2cc55520a51ea478bc2522be8c6ee2188fdf15d33e0f2a20f7043c4f5b3",
+      "size": 465,
+      "normalized_sha256": "acc0a2cc55520a51ea478bc2522be8c6ee2188fdf15d33e0f2a20f7043c4f5b3"
+    },
     ".zed/extensions.toml": {
       "role": "index",
       "sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da",
@@ -265,9 +280,9 @@
       "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "4cdaf9b1afd23c924417e64bc9fcb8be029de79634b2fce070719cab8fdf61db",
-      "size": 5476,
-      "normalized_sha256": "6bd35c2e8e379caa961e3539c9d634c64368527e54d1b841299d637462783a8f"
+      "sha256": "d7e6da532f12b290a9044723826f6f4f94c90f75013a9704989e070e97995cfb",
+      "size": 5858,
+      "normalized_sha256": "d7e6da532f12b290a9044723826f6f4f94c90f75013a9704989e070e97995cfb"
     },
     ".zed/tasks.json": {
       "sha256": "670dac2bd6fee03d01189217274b9b8b9803902087c6ae7db1d9a5ef83f69e7c",
@@ -318,9 +333,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "f282a8d9afbccd9e37a7b4eee17c9bc787768ccd6c883192d5d0e0fb3016babb",
-      "size": 133935,
-      "normalized_sha256": "f282a8d9afbccd9e37a7b4eee17c9bc787768ccd6c883192d5d0e0fb3016babb"
+      "sha256": "41181bb62a56e3a4036773844a5281a97f043d9a55be2de82c68b7b591a478d5",
+      "size": 142318,
+      "normalized_sha256": "41181bb62a56e3a4036773844a5281a97f043d9a55be2de82c68b7b591a478d5"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -730,14 +745,19 @@
       "normalized_sha256": "60f202f3a1784846e68676e0996c25ea41d43df1f1a51d20ec79791d0980d071"
     },
     "docs/plans/52-zedhub-external-agent-normalization-and-pi-source.md": {
-      "sha256": "b7d347a6e5de6c259451561be1b225034ed7583c161b2548a9c2188c8ce2616a",
-      "size": 4254,
-      "normalized_sha256": "b7d347a6e5de6c259451561be1b225034ed7583c161b2548a9c2188c8ce2616a"
+      "sha256": "403607a5a95f8a7948b3312f230c67291780846d7246a71d2da67c8091675314",
+      "size": 6324,
+      "normalized_sha256": "403607a5a95f8a7948b3312f230c67291780846d7246a71d2da67c8091675314"
     },
     "docs/plans/53-expose-user-skill-symlink.md": {
       "sha256": "60b0c76fa5bdd30d4fe35477ff0e10e88986e45af7187975e507a69eeec10122",
       "size": 3042,
       "normalized_sha256": "60b0c76fa5bdd30d4fe35477ff0e10e88986e45af7187975e507a69eeec10122"
+    },
+    "docs/plans/54-zed-jdtls-memory-optimization.md": {
+      "sha256": "04829e7702cf6e0b658d09d049bf908b5ada4a9cdc274058612f56a519f712b3",
+      "size": 1621,
+      "normalized_sha256": "37fd020b7d6064f1427ccb90c7d7db0b6f6704b579f914f9140515b0ee8df095"
     },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "role": "index",
@@ -1513,6 +1533,11 @@
       "size": 7965,
       "normalized_sha256": "3caf5978c6c38132315eeea3a253a3fca7b76d5841aae7ff8f32fa6bdc6d8a54"
     },
+    "docs/repo/Python 模块结构与常量放置规范调研.md": {
+      "sha256": "5907b6f1d8e9135f0ab90447ee6676987e1ecdc99e8d946a3b041af232567029",
+      "size": 29684,
+      "normalized_sha256": "5907b6f1d8e9135f0ab90447ee6676987e1ecdc99e8d946a3b041af232567029"
+    },
     "docs/repo/Qwen3.8-27B 本地部署配置调研.md": {
       "role": "index",
       "sha256": "64b1eb716667848cd78dc5d6bba2a3b4ebb9cc481db82d3090eea891941be22a",
@@ -1684,19 +1709,89 @@
       "normalized_sha256": "a3fa0b3d41dc55bc14fb7f10464362ef7df47e9d1b427b53ba996719ce4431fe"
     },
     "java_projects/AGENTS.md": {
-      "sha256": "4a2315791ef32d9d08e474a46bf56889b60593dff697939a9877a6f1d9023114",
-      "size": 385,
-      "normalized_sha256": "d1ffc9bdd26cd63b304848736c78b1e191e156cf19d1b95bf6b5e192bbe6ca39"
+      "sha256": "b65dd2f95e8c1e867b10ca8447c9e50a26221e4e45024415eee6ce0e3b5357ad",
+      "size": 362,
+      "normalized_sha256": "b65dd2f95e8c1e867b10ca8447c9e50a26221e4e45024415eee6ce0e3b5357ad"
     },
     "java_projects/CLAUDE.md": {
-      "sha256": "7ae2ae0c87f4f1d6c524bc97b817e61950c5a31a1a58340aa6e93b6727e57b62",
-      "size": 82,
-      "normalized_sha256": "8457a22a5c2b7ea86592e50f454a0e911c51a972801c2f079b1db885ec9ef951"
+      "sha256": "7b50d15feae7b63b94d845b2fa6e19e3220527c5b0cac69303b7fc19bd7484a8",
+      "size": 14,
+      "normalized_sha256": "7b50d15feae7b63b94d845b2fa6e19e3220527c5b0cac69303b7fc19bd7484a8"
     },
     "java_projects/README.md": {
-      "sha256": "0b6eb30a8b25f64e242ddff489ef537276b5cd6d50dfb3fa46271555f40bc841",
-      "size": 2592,
-      "normalized_sha256": "ae386fd4323978c79fa76016aa48817e3afefd0173d5e126e58e48a43370ef53"
+      "sha256": "a5774e857a5b8225a2a007c7642b6103d3dea3fbb974421aaae206a0910d52dd",
+      "size": 6015,
+      "normalized_sha256": "49cd3c585b680745eee588906fabc2b237365900b3de2275b10a1a20a4506806"
+    },
+    "java_projects/career-agent-diagnose/pom.xml": {
+      "sha256": "b429ae07046dcd7337b3f6be6a98df948dbf2dd9afc1ee34eb3732e8307f7354",
+      "size": 1795,
+      "normalized_sha256": "042f965903922f0aa149197fd87faec88cf708cb63ab037cdddeb6343f8da188"
+    },
+    "java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/AgentApplication.java": {
+      "sha256": "0a91e5cffd8b564a9692e118c1cd8f5ec58c00b8a519273f7b3346b242a3b8df",
+      "size": 335,
+      "normalized_sha256": "159a1374a6383d3a02ef8c2ba2bdc2145dc9c0965cb14b3cf114529c38ec525c"
+    },
+    "java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/alert/AlertStormSynthesizer.java": {
+      "sha256": "7d3c7a8fae8c2c60fbf011ed95d09d21dde62e701a6eca0351b979565e16a4b0",
+      "size": 2193,
+      "normalized_sha256": "8645a09c0b577de007ae33034ca5965c1636ab18ee373200b169c300e0ddc46f"
+    },
+    "java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/controller/AgentDemoController.java": {
+      "sha256": "2676b1f88ab1983a79a3c06c3adc528c9746ad61808546ab389cc32577934519",
+      "size": 2308,
+      "normalized_sha256": "46837fe80f875c850c73c61614aeacf15a43591545bc3abd7e38c2e627856744"
+    },
+    "java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/skill/SkillTreeRouter.java": {
+      "sha256": "a9e0b5282e9c077a689a60aa441972e8e6490c1942e84e8f0ea586c481b4b7ac",
+      "size": 1972,
+      "normalized_sha256": "5167615995d54925d36f2e2e6cc6e465926ea5c2bb45d57be83a2e859c0dacb5"
+    },
+    "java_projects/career-agent-diagnose/src/main/resources/application.yml": {
+      "sha256": "404f6814ed2979a685a887d076f5696407d1e84d7d29a21785ba8a2dea223665",
+      "size": 83,
+      "normalized_sha256": "0b6c74408ed48565f475161fcf6407fc08b3be9643b334aa5566be792d5dd058"
+    },
+    "java_projects/career-agent-diagnose/src/test/java/com/shihao/career/agent/AgentModulesTest.java": {
+      "sha256": "bd49b88d48d8d4fa3802682aad64d762f74a486e09616757fad724ebe75dd425",
+      "size": 2845,
+      "normalized_sha256": "3e65764d8bed86126c233cad6bf0f68ffee06e34a44eb1db8f14a7bd60fc5b21"
+    },
+    "java_projects/career-payment-saas/pom.xml": {
+      "sha256": "5514660168411686878559f2ea30fdc2da4b9c7a8c26a3fd754036b597a5073c",
+      "size": 1791,
+      "normalized_sha256": "f109677570aaf346e5fac9280802161abc36022fda8e274d28cbeb5c3b9294fa"
+    },
+    "java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/PaymentApplication.java": {
+      "sha256": "cede4a2733569f4010e0a74761f9fd3fe2ff7b14d2a693d45826a1dda9624027",
+      "size": 341,
+      "normalized_sha256": "9b5859bfd47a973006036aee68f52023d5dcfadf87612e1d1a5b39540406d377"
+    },
+    "java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/channel/DynamicPaymentRouter.java": {
+      "sha256": "121ecf5f62e694906e03dc87714165fa77a22aa681ca83d5c650d73edfe39db7",
+      "size": 1777,
+      "normalized_sha256": "d8ffb0f25fba0f5f72843ec582f5b5856a0af55eb3c217db335b5d312610351d"
+    },
+    "java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/controller/PaymentDemoController.java": {
+      "sha256": "f08f198e91896e7f9c7cd71d13c0a554df5158a65ce96ec9072d43921cb49b63",
+      "size": 2109,
+      "normalized_sha256": "ad8f6e35640e59444aabc2da1221c1aa1dcb88af70565fa68621f630889cfd1f"
+    },
+    "java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/ledger/SettlementLedgerEngine.java": {
+      "sha256": "e6394a94248582688def20c0f267de4da5ea9ecc814fcbfc54a46546681314ba",
+      "size": 3558,
+      "normalized_sha256": "a4cb431fa9fe9a2512615b864fa223f8f418bf96e0ca744766be89eeb120414d"
+    },
+    "java_projects/career-payment-saas/src/main/resources/application.yml": {
+      "sha256": "2ae30d473a496d05b88900aaaf01554d8390e7305da1f0ebffa4e382e0f80efe",
+      "size": 81,
+      "normalized_sha256": "bbd7bfa3b6e0e1f54dec7cba9e0689c8255bf84913f3e0868b82ef7293afd4d2"
+    },
+    "java_projects/career-payment-saas/src/test/java/com/shihao/career/payment/PaymentModulesTest.java": {
+      "sha256": "b1fcfbc7093f1db41de73625aaa2aa852b298ac9cc46475711387a3958aaacf3",
+      "size": 2569,
+      "normalized_sha256": "fce914306b9ff4bb60677e790fb1dca52af2afdde007175f454d43ddb2ce9ef9"
     },
     "java_projects/career-starter-basics/pom.xml": {
       "sha256": "d44b48319fc7dea8523bb6087d17d691d53a0985a9b19f5bcbac64f977e37daa",
@@ -1704,14 +1799,14 @@
       "normalized_sha256": "52dbff9214b88520bc8aed0d5bc78e3bf765bddaf0820629a9dfa28032ee4c84"
     },
     "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/StarterApplication.java": {
-      "sha256": "ee934165b8cf5567e3970264cd147b6a00e028842e8c3b0e2391bb74a1a3bd48",
-      "size": 1108,
-      "normalized_sha256": "be516b8b4670dfd3290516aff5c241cbf0ab0c8a8acc700a3436ee54d6a6e415"
+      "sha256": "aa8e9ac8e92c4c9a69d6cda95b27be46c9ea9a5dd8a0fcf03b1058fbc0475df9",
+      "size": 1104,
+      "normalized_sha256": "aa8e9ac8e92c4c9a69d6cda95b27be46c9ea9a5dd8a0fcf03b1058fbc0475df9"
     },
     "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/Java21FeaturesDemo.java": {
-      "sha256": "d201163a8662547327acde278b2283b555067a31dfa7e57b0fa4039b4bfc0ba8",
-      "size": 2278,
-      "normalized_sha256": "25b25c83591a91e587b7e4c6f3364183796df84add3d0cc424ceb5055e73f3b6"
+      "sha256": "3d71cfd8f109f8089ada9b75df2dea167856a765b02799286b15e1639809ffed",
+      "size": 2268,
+      "normalized_sha256": "3d71cfd8f109f8089ada9b75df2dea167856a765b02799286b15e1639809ffed"
     },
     "java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/OrderStatus.java": {
       "sha256": "5f28690acd682647cb42d8b6f4a47f790da3b33ade391b6d6fa7ebe42e510b5a",
@@ -1809,9 +1904,9 @@
       "normalized_sha256": "e6c2354c0a7edaad4b8fe4f41d3a6bc944acc49c30911ddc49b13911323b3c06"
     },
     "java_projects/pom.xml": {
-      "sha256": "3f1571a217d2730464c33c3e89ff18c1dbd3d2156a6a63ab3bf7c03e566d5ac6",
-      "size": 2817,
-      "normalized_sha256": "e80ccb8e9feb4f472bc5cb046afd2aa15f767f22a66702fef0a5a81ecb71551e"
+      "sha256": "09c73254713106ac1931b0484ef1311b6a63cdaf1fe80da46d1eb6619c477d83",
+      "size": 2983,
+      "normalized_sha256": "71871b4cef7c66d085d93c27844792f201fa4fa4429e73c2eb664601ef18fa5c"
     },
     "mkdocs.yml": {
       "role": "index",
