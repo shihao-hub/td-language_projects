@@ -1,0 +1,19 @@
+{
+  // Cursor / VS Code 任务面板（与 Zed 的 .zed/tasks.json 无关，此处只放本项目常用命令）
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "zedhub: serve",
+      "type": "shell",
+      "command": "uv run zedhub serve",
+      "options": {
+        "cwd": "${workspaceFolder}/python_projects/zedhub"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
