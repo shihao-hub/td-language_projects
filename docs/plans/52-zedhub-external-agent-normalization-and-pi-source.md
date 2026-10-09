@@ -1,4 +1,4 @@
-# 实施计划 - zedhub 外部发现 Agent 归一化、下线管理范围控件（路线 B）与 Pi 数据源补全
+# 实施计划 - zedhub 外部发现 Agent 归一化、下线管理范围控件（路线 B）与数据源真理源收敛
 
 **问题陈述**：
 1. **外部 Agent 命名碎拆**：OpenCode 本地数据库将内部角色模式（`build`、`plan`、`explore`、`general`）记录在 `session.agent` 列，检索层在构建外部会话时直接透传，导致前端「外部发现」分组被炸碎成 5 个伪 Agent，与外部独立工具平级，造成分类繁杂；
@@ -6,7 +6,12 @@
    - 两组内同名 `value="opencode"`，选中外部发现的 opencode 时因范围是全部会话，后端混出大量 Zed 管理会话；
    - 互相联动脆弱易错；
    - 用户决定采纳**路线 B**：彻底砍掉冗余的「管理范围」下拉控件，由「Agent」下拉框直接承载范围与角色的联合选择。
-3. **外部数据源遗漏 Pi**：`src/zedhub/api.py` 的全局检索接口 `_search` 硬编码外部源列表为 `("opencode", "claude-code", "codex", "antigravity")`，漏掉了 `"pi"`，导致本地 87 条 Pi 会话在外部发现中完全不可见；
+3. **数据源硬编码碎片导致频繁遗漏（如漏掉 Pi）**：
+   - 为什么总是漏？根本原因是没有单一真理源（SSOT），各处手写元组死名单：
+     - `api.py:_search` 硬编码 `("opencode", "claude-code", "codex", "antigravity")` 漏了 `pi`；
+     - `trajectory.py` 硬编码 `("claude-code", "codex", "antigravity")` 漏了 `pi`；
+     - `api.py:_sessions_list` 手写包含 `pi` 的元组；
+   - 尽管底层已有 `SOURCES` 注册表与 `Capability` 机制，上层业务却在凭记忆手写临时 tuple，导致新接入源时顾此失彼。
 4. **归档边界明确**：归档功能仅服务 Zed 管理会话，外部文件源暂不扩展。
 
 **需求**：
@@ -30,8 +35,10 @@
      - `zed:<aid>` → `scope="zed", agent=aid`
      - `external:<aid>` → `scope="external", agent=aid`
    - URL 状态同步（`syncUrl` / `restoreFromUrl`）支持复合状态存取，且默认 `scope:zed` 时省略该参数保持 URL 洁净；
-3. **补全 Pi 外部数据源**：
-   - `api.py` 的 `_search` 数据源列表补上 `"pi"`，对齐 `_sessions_list` 口径；
+3. **数据源单一真理源（SSOT）收敛与 Pi 补全**：
+   - 彻底消灭散落在 `api.py`、`trajectory.py`、`file_sources.py` 的手写源元组；
+   - 在 `sources` 注册表层暴露统一的源查询函数（或按 `Capability.SESSIONS` 动态解析可查会话的源列表）；
+   - 使全局检索 `_search`、列表 `_sessions_list`、轨迹 `_trajectory` 统一由注册表驱动，彻底杜绝漏源 Bug；
 4. **测试套件保障**：
    - 更新前端契约测试与后端范围检索测试，确保全部测试通过。
 
@@ -42,11 +49,15 @@
   - 验证：运行 `uv run pytest tests/test_search_scope.py`。
   - Demo：检索返回的未进 Zed 索引 OpenCode 会话 `agent_id` 统一为 `opencode`，且包含对应的 `mode`。
 
-- [ ] Task 2: 全局检索补全 Pi 外部数据源
-  - 文件：`src/zedhub/api.py`
-  - 实现：在 `_search` 函数的数据源列表中加入 `"pi"`，使其与 `_sessions_list` 保持一致，能正常扫描和检索外部 Pi 会话。
+- [ ] Task 2: 数据源真理源（SSOT）收敛与 Pi 自动补全
+  - 文件：`src/zedhub/core/sources/base.py`, `src/zedhub/core/sources/__init__.py`, `src/zedhub/api.py`, `src/zedhub/core/trajectory.py`
+  - 实现：
+    - 在 `sources` 层提供 `session_source_ids()`（从注册表中筛选声明了 `Capability.SESSIONS` 的所有源 id）；
+    - `api.py` 的 `_search` 和 `_sessions_list` 一律改由该函数驱动，替换手写死元组；
+    - `trajectory.py` 同步对齐支持轨迹/内容的源常量；
+    - 自动无缝纳入 `pi`，消除未来新增源时任何遗漏隐患。
   - 验证：运行 `uv run python -c "from zedhub.api import _search; ..."`。
-  - Demo：外部发现列表中能够显示 `pi` 及其会话条目。
+  - Demo：外部发现列表中能够显示 `pi` 及其会话条目，且代码库再无分散的源死名单。
 
 - [ ] Task 3: 下线管理范围控件与 Agent 复合下拉重构（路线 B）
   - 文件：`src/zedhub/webui/index.html`, `src/zedhub/webui/app.js`
@@ -57,7 +68,7 @@
     - `syncUrl` / `restoreFromUrl`：维护 URL 兼容与干净；
     - `renderHit`：渲染 `hit.mode` 徽标。
   - 验证：运行 `uv run pytest tests/test_ui_app.py`。
-  - Demo：界面更精简，选外部发现的 opencode 时只会精准展示外部会话，选 Zed 管理的 opencode 时只会展示 Zed 管理会话，默认默认展示 Zed 管理全部会话。
+  - Demo：界面更精简，选外部发现的 opencode 时只会精准展示外部会话，选 Zed 管理的 opencode 时只会展示 Zed 管理会话，默认展示 Zed 管理全部会话。
 
 - [ ] Task 4: 单测补充与全量回归
   - 文件：`tests/test_search_scope.py`, `tests/test_ui_app.py`
@@ -66,6 +77,6 @@
   - Demo：ZedHub 全部测试通过。
 
 ---
-**最后更新：** 2026-10-09
+**最后更新：** 2026-10-10
 **作者：** AI & User
-**版本：** v2.0
+**版本：** v3.0
