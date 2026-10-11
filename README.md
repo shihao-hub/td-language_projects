@@ -76,7 +76,6 @@ uv run .scripts/install_tool.py all
 | `.scripts/install_tool.py` | 把子仓构建产物安装到 `D:\Users\language_projects_bin`（用户级工具目录，已入 PATH） | `uv run .scripts/install_tool.py <clictl\|jtree\|all>` |
 | `.scripts/init-submodules.py` | 克隆后初始化子模块并切换到跟踪分支 | `uv run .scripts/init-submodules.py` |
 | `.scripts/submodule-toggle.py` | 子模块临时注销/恢复（status 体检、deinit 本地注销、restore 恢复；有未提交或未推送改动时拒绝注销） | `uv run .scripts/submodule-toggle.py -Action <status\|deinit\|restore> -Name <子模块名>` |
-| `.scripts/check-agy-upstream.py` | antigravity-acp 上游监控（Registry 版本比对 + GitHub 社区仓库检索） | `uv run .scripts/check-agy-upstream.py [--only-registry\|--query <关键词>]` |
 | `.scripts/gen_icon.py` | PNG 源图转多尺寸 Windows .ico | `uv run .scripts/gen_icon.py <input.png> <output.ico>` |
 | `.scripts/lark_group_bridge.py` | 外部群消息桥（发送/读取/群列表/初始化） | `uv run .scripts/lark_group_bridge.py <send\|read\|groups\|init>` |
 

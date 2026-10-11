@@ -1,6 +1,6 @@
 # GLOBAL.md
 <!-- Global AI Agent Rules & Engineering Invariants -->
-<!-- Managed by language_projects repo. Synchronized across Codex, Claude Code, OpenCode, Pi, DSH, Antigravity, and Zed. -->
+<!-- Managed by language_projects repo. Synchronized across Codex, Claude Code, OpenCode, Pi, DSH, and Antigravity. -->
 
 ## 一、通用基线约束（跨项目与跨 Agent 通用规范）
 

@@ -13,20 +13,15 @@
        - 全局系统 prompt 加载：`GLOBAL.md`（通用交互、PowerShell 5.1/7 安全、文件防御等）
        - 仓库级别 context 加载：`AGENTS.md`（本仓 Monorepo、子模块、文档布局、Matt Pocock 规划等）
      杜绝两份通用规则叠加产生的 Double Context Tax（每次交互节约大量静态 Token）。
-  3. 涵盖 7 大 Agent 与 AGY 三大形态：
+  3. 涵盖 6 大 Agent 与 AGY 三大形态：
      - Codex (@openai/codex):             ~/.codex/AGENTS.md
      - Claude Code (@anthropic-ai):       ~/.claude/CLAUDE.md
      - OpenCode (opencode-ai):            ~/.config/opencode/AGENTS.md
      - Pi (@earendil-works):              ~/.pi/agent/AGENTS.md
      - DSH (DeepSeek Harness):            ~/.dsh/AGENTS.md
      - AGY (Antigravity)：覆盖三大形态（agy cli、agy acp、agy ide）：
-       - ~/.gemini/AGENTS.md              (Gemini 根级通用注入)
-       - ~/.gemini/config/AGENTS.md       (跨形态共享配置目录，覆盖 CLI/ACP/IDE)
-     - Zed (Zed Industries)：              个人指令（Personal Instructions，对所有项目常驻生效）
-       - Windows: %APPDATA%/Zed/AGENTS.md
-       - macOS / Linux: ~/.config/zed/AGENTS.md
-       注：该文件是 Zed 官方文档指定的个人指令入口，若此前放置过自定义 commit prompt
-       等其它内容，同步时会被 GLOBAL.md 覆盖（请先自行备份）。
+      - ~/.gemini/AGENTS.md              (Gemini 根级通用注入)
+        - ~/.gemini/config/AGENTS.md       (跨形态共享配置目录，覆盖 CLI/ACP/IDE)
 
 用法：
   uv run .scripts/sync-agent-rules.py           # 默认：将 GLOBAL.md 以软链接映射至各 Agent
@@ -55,17 +50,8 @@ def get_repo_root() -> Path:
     return Path(__file__).resolve().parent.parent
 
 
-def get_zed_config_dir() -> Path:
-    """Zed 全局配置目录：Windows 为 %APPDATA%/Zed，macOS/Linux 为 ~/.config/zed。"""
-    if sys.platform == "win32":
-        appdata = os.environ.get("APPDATA")
-        base = Path(appdata) if appdata else Path.home() / "AppData" / "Roaming"
-        return base / "Zed"
-    return Path.home() / ".config" / "zed"
-
-
 def get_agent_targets() -> dict[str, list[Path]]:
-    """返回 7 大 Agent 工具所识别的全局约束文件目标路径列表。"""
+    """返回 6 大 Agent 工具所识别的全局约束文件目标路径列表。"""
     home = Path.home()
     return {
         "Codex (@openai/codex)": [
@@ -86,9 +72,6 @@ def get_agent_targets() -> dict[str, list[Path]]:
         "Antigravity (覆盖 agy cli / agy acp / agy ide 三大形态)": [
             home / ".gemini" / "AGENTS.md",
             home / ".gemini" / "config" / "AGENTS.md",
-        ],
-        "Zed (Zed Industries, 个人指令 Personal Instructions)": [
-            get_zed_config_dir() / "AGENTS.md",
         ],
     }
 
@@ -233,7 +216,7 @@ def cmd_unlink() -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="将本地单一真理文件 GLOBAL.md 软链接或同步到 7 大 Agent 全局配置。"
+        description="将本地单一真理文件 GLOBAL.md 软链接或同步到 6 大 Agent 全局配置。"
     )
     parser.add_argument(
         "--file",
