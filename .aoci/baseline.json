@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-11T02:53:12Z",
+  "updated_at": "2026-10-11T03:06:28Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -50,9 +50,9 @@
       "normalized_sha256": "21fa16a2122e2b0360b47502c577428b645437e08e9e87ffba661f84853cb476"
     },
     ".gitignore": {
-      "sha256": "c59de7aad28f2814ce0dbb15178bbfacdc664ac8de1cfd60e5237713dad5e02b",
-      "size": 821,
-      "normalized_sha256": "c59de7aad28f2814ce0dbb15178bbfacdc664ac8de1cfd60e5237713dad5e02b"
+      "sha256": "7d439fb12d500e0f56669506902e86d766cd54da1fb4bbee50dc2bccfd47ce80",
+      "size": 609,
+      "normalized_sha256": "7d439fb12d500e0f56669506902e86d766cd54da1fb4bbee50dc2bccfd47ce80"
     },
     ".gitmodules": {
       "sha256": "5ba6f77d51e270ebaf358eb61940d2416bb70f2e48cfd680c738cd806f12efad",
@@ -76,7 +76,6 @@
       "normalized_sha256": "10a0aa42358a202a60b5cfc4594806cb38f1327213146d078d870f86701b896c"
     },
     ".scripts/check-agy-upstream.py": {
-      "role": "index",
       "sha256": "623a772f37e61c00108263dc85fcef6277f020623c42192235f3966e9f1f0927",
       "size": 6402,
       "normalized_sha256": "623a772f37e61c00108263dc85fcef6277f020623c42192235f3966e9f1f0927"
@@ -226,9 +225,9 @@
       "normalized_sha256": "c3d8e7b66de266b8b1788363e842683eac88bc670c7ae35de673d18a497492d6"
     },
     ".scripts/install-mcp.py": {
-      "sha256": "bae4d095ee3880698e271ad2ab6cd9d3f3cd97bb355e6226a487b1262c44a761",
-      "size": 45412,
-      "normalized_sha256": "bae4d095ee3880698e271ad2ab6cd9d3f3cd97bb355e6226a487b1262c44a761"
+      "sha256": "9210916be1055fd6cf2ac484865b4a83dc9e309555aa2c74e1e5ee257cc6f450",
+      "size": 45322,
+      "normalized_sha256": "9210916be1055fd6cf2ac484865b4a83dc9e309555aa2c74e1e5ee257cc6f450"
     },
     ".scripts/install_tool.py": {
       "role": "index",
@@ -322,9 +321,9 @@
       "normalized_sha256": "896759d898eb1a8a8abcecebba0b90bf8f8b549d167dee49fd9dcc2a2831a7fc"
     },
     "README.md": {
-      "sha256": "aed0dbe39fda6ca895263e6b88864744d9847c0e82291d0ba0232916f3989fab",
-      "size": 7363,
-      "normalized_sha256": "d1ec66ba6f2a0077db16f5f7f17fcef559bd77264cd9e6cf01034695f9839247"
+      "sha256": "b77e4eaf2350604715f28ef67e8a9f42ac071a2cbfb3dfe684c552097ab9d970",
+      "size": 7568,
+      "normalized_sha256": "770a037ef87895cd7171bb8a8a28eb6241fed43a2f28aba3df24136cd11967e8"
     },
     "SPEC-AGENT.md": {
       "role": "index",
@@ -342,9 +341,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "026885b2228671da3d7be78a2d11ded54b584314013cdb95423a09b281abe4e9",
-      "size": 143477,
-      "normalized_sha256": "026885b2228671da3d7be78a2d11ded54b584314013cdb95423a09b281abe4e9"
+      "sha256": "c3cb30499d6aa2a0339906a89bff7d6a3215d98c3c68f9c619a436b83c323466",
+      "size": 145893,
+      "normalized_sha256": "c3cb30499d6aa2a0339906a89bff7d6a3215d98c3c68f9c619a436b83c323466"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1027,6 +1026,21 @@
       "sha256": "75aaf6425f9fe0298aa3307d17aae34f7bae213a4523f641860f0044fed4cc9b",
       "size": 10604,
       "normalized_sha256": "75aaf6425f9fe0298aa3307d17aae34f7bae213a4523f641860f0044fed4cc9b"
+    },
+    "docs/projects/go_projects/glmquotawatch-gui/specs/04-notification-channels/design.md": {
+      "sha256": "194cd3cd988e07038b2a3cf09456151e03fe543dee4b50e71e4b2c06c391c3cb",
+      "size": 16000,
+      "normalized_sha256": "194cd3cd988e07038b2a3cf09456151e03fe543dee4b50e71e4b2c06c391c3cb"
+    },
+    "docs/projects/go_projects/glmquotawatch-gui/specs/04-notification-channels/requirements.md": {
+      "sha256": "31d2fa97f3ce63d5b892efa5eb3cdaa54bc5fc79720f9817b9f9d935a608ad44",
+      "size": 5988,
+      "normalized_sha256": "31d2fa97f3ce63d5b892efa5eb3cdaa54bc5fc79720f9817b9f9d935a608ad44"
+    },
+    "docs/projects/go_projects/glmquotawatch-gui/specs/04-notification-channels/tasks.md": {
+      "sha256": "57d783b924eff8932a0c7abf3d9a28cbbc32aeb8603c6713ab64cc95e2a9bab8",
+      "size": 7945,
+      "normalized_sha256": "57d783b924eff8932a0c7abf3d9a28cbbc32aeb8603c6713ab64cc95e2a9bab8"
     },
     "docs/projects/go_projects/glmquotawatch/plans/01-mcp-schema-portability.md": {
       "role": "index",
