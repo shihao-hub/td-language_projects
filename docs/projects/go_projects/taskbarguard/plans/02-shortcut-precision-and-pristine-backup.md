@@ -35,5 +35,13 @@
 - 实机演练：验证精准匹配、防重入备份、修改、一键回退全流程。
 
 ### 未决问题与阻塞确认清单
-- [ ] 是否在本次将 `wt`（Windows Terminal）与 `powershell`（PowerShell 7）物理拆分为两个独立的脚本目录（`scripts/wt/` 与 `scripts/powershell/`）？建议：拆分，彻底消除认知混乱。
-- [ ] 任务栏自动创建的 `Windows Terminal.lnk` 在 `revert` 时是否默认直接清理删除（恢复系统原生任务栏状态）？建议：是，清理守卫自动生成的文件。
+- [x] 是否将 `wt`（Windows Terminal）与 `powershell`（PowerShell 7）物理拆分：用户确认仅使用 wt，彻底独立出 `scripts/wt/` 专属应用模块，`main.go` 别名 `wt`/`terminal` 专属于 `wt`，只识别 `wt.exe`/`WindowsTerminal.exe`，不再与 powershell 产生任何关联。
+- [x] 任务栏自动创建的 `Windows Terminal.lnk` 在 `revert` 时是否默认直接清理删除：是，用户确认自动删除守卫新建的快捷方式，彻底恢复系统原生任务栏状态。
+
+## 三、实施成果与勾选清单
+- [x] **创建 Windows Terminal 专属模块**：`scripts/wt/` 独立承载专属图标与补丁脚本，彻底解除与 powershell 的混淆。
+- [x] **废除文件名模糊匹配**：改为单次 PowerShell 批量检索 TargetPath（仅匹配 `wt.exe`/`windowsterminal.exe`），彻底根除对 XTerminal、PowerShell 5.1 与死链快捷方式的误伤。
+- [x] **只读基线备份与防重入机制**：`state.json` 首次纳管时锁定 `pristine_icon` 与 `created_by_guard`，重复执行换肤时绝对禁止覆写初态备份。
+- [x] **一键撤销恢复命令**：Go CLI 调度层新增 `taskbarguard revert [APP]`，支持自动移除新建项并恢复原生图标。
+- [x] **自动化测试与构建通过**：新增并更新 12 个单元测试全部通过，`build.py --dev` 编译顺利。
+
