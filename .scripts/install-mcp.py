@@ -124,6 +124,41 @@ if sys.stderr.encoding and sys.stderr.encoding.lower() not in ("utf-8", "utf8"):
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
+# ===========================================================================
+# 用户开关区（打开文件即见；以下两层总开关是收敛行为的唯一修改入口）
+# ===========================================================================
+# 第一层：PRESET_ENABLED —— 每个预设 MCP 装不装：
+#   True  = 缺省执行时同步/修复到各启用 Agent（已装且一致则跳过，缺则补装）；
+#   False = 从各启用 Agent 卸载该 MCP（不存在则自然跳过）。
+PRESET_ENABLED: Dict[str, bool] = {
+    "aoci": True,
+    "chrome-devtools": False,  # 每 Agent 一份常驻 node（调工具还会起 Chrome），占内存，默认关闭
+    "everything": False,   # 每个 Agent 会话各起一份常驻进程，较占内存，默认关闭
+}
+
+# 第二层：AGENT_ENABLED —— 每家 Agent 参不参与（省内存利器）：
+#   True  = 该 Agent 正常参与预设收敛（具体装哪些由 PRESET_ENABLED 决定）；
+#   False = 该 Agent 不再部署任何内置预设，缺省收敛时会清理其既有预设残留；
+#           显式 --agent 点名可临时覆盖本开关（会打印提示）。
+AGENT_ENABLED: Dict[str, bool] = {
+    "claude": True,
+    "opencode": True,
+    "codex": True,
+    "pi": True,
+    "antigravity": True,
+    "antigravity-ide": True,
+    "dsh": True,
+}
+
+
+def agent_is_enabled(name: str) -> bool:
+    """Agent 开关查询（未列出的 Agent 默认按启用处理）。"""
+    return AGENT_ENABLED.get(name, True)
+
+
+# ---------------------------------------------------------------------------
+# 基础工具
+# ---------------------------------------------------------------------------
 def norm(p: Any) -> str:
     """路径与命令等价归一化（统一反斜杠与小写，用于跨平台/Windows一致性比对）。"""
     if p is None:
@@ -279,17 +314,8 @@ def resolve_everything_spec() -> MCPSpec:
 
 
 # ---------------------------------------------------------------------------
-# 预设 MCP 总开关（唯一控制入口）
+# 预设 MCP 总开关已上移至文件顶部「用户开关区」，此处仅保留预设构建入口
 # ---------------------------------------------------------------------------
-# True  = 缺省执行（全量收敛）时同步/修复到全部 Agent；
-# False = 缺省执行时从全部 Agent 卸载该预设（显式 --mcp <name> 仍可临时强制安装）。
-PRESET_ENABLED: Dict[str, bool] = {
-    "aoci": True,
-    "chrome-devtools": True,
-    "everything": False,   # 每个 Agent 会话各起一份常驻进程，较占内存，默认关闭
-}
-
-
 def build_preset_spec(name: str, aoci_exe: Optional[str] = None) -> Optional[MCPSpec]:
     """按预设名构建 MCPSpec；未知预设返回 None。"""
     if name == "aoci":
@@ -717,26 +743,7 @@ TARGET_AGENTS: Dict[str, AgentHandler] = {
 }
 
 
-# ---------------------------------------------------------------------------
-# Agent 级总开关（与 PRESET_ENABLED 并列的第二层控制）
-# ---------------------------------------------------------------------------
-# True  = 该 Agent 正常参与预设收敛（具体装哪些由 PRESET_ENABLED 决定）；
-# False = 该 Agent 不再部署任何内置预设，缺省收敛时会清理其既有预设残留；
-#         显式 --agent 点名可临时覆盖本开关（会打印提示）。
-AGENT_ENABLED: Dict[str, bool] = {
-    "claude": True,
-    "opencode": True,
-    "codex": True,
-    "pi": True,
-    "antigravity": True,
-    "antigravity-ide": True,
-    "dsh": True,
-}
-
-
-def agent_is_enabled(name: str) -> bool:
-    """Agent 开关查询（未列出的 Agent 默认按启用处理）。"""
-    return AGENT_ENABLED.get(name, True)
+# Agent 级总开关已上移至文件顶部「用户开关区」（AGENT_ENABLED / agent_is_enabled）
 
 
 # ---------------------------------------------------------------------------
