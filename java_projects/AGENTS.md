@@ -1,10 +1,7 @@
-# AGENTS.md for java_projects
+# Agent Context Pointer
 
-## Project Overview
-This repository contains educational and foundational implementations of enterprise Java, middleware, and Agent patterns.
+> **CRITICAL**: This repository is a submodule (`java_projects`) of the parent project.
+> All base conventions, Git commit rules, and environment guidelines are inherited from:
+> `file://../AGENTS.md`
 
-## Conventions
-- Standard Maven multi-module architecture.
-- Base Java target: Java 17 / 21 LTS.
-- Clear educational docstrings in Chinese for every public class and method.
-- Unit tests with JUnit 5.
+**ACTION REQUIRED**: Before executing any code changes or git commands, you MUST read and follow the root conventions in `../AGENTS.md`.
