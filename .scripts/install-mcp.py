@@ -145,7 +145,7 @@ AGENT_ENABLED: Dict[str, bool] = {
     "opencode": True,
     "codex": True,
     "pi": True,
-    "antigravity": False,  # 261011-不再使用 zed agent：antigravity-acp（Zed ACP 接入形态）随之停用
+    "antigravity": True,
     "antigravity-ide": True,
     "dsh": True,
 }
