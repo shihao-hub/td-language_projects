@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-09T19:20:35Z",
+  "updated_at": "2026-10-11T02:53:12Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -226,9 +226,9 @@
       "normalized_sha256": "c3d8e7b66de266b8b1788363e842683eac88bc670c7ae35de673d18a497492d6"
     },
     ".scripts/install-mcp.py": {
-      "sha256": "f047d6ee382821ad1bb76dfcd291d15cadff7d9f6b5a312a561b6f01a440ff6c",
-      "size": 46321,
-      "normalized_sha256": "9210916be1055fd6cf2ac484865b4a83dc9e309555aa2c74e1e5ee257cc6f450"
+      "sha256": "bae4d095ee3880698e271ad2ab6cd9d3f3cd97bb355e6226a487b1262c44a761",
+      "size": 45412,
+      "normalized_sha256": "bae4d095ee3880698e271ad2ab6cd9d3f3cd97bb355e6226a487b1262c44a761"
     },
     ".scripts/install_tool.py": {
       "role": "index",
@@ -268,6 +268,11 @@
       "size": 17484,
       "normalized_sha256": "485a421f1aca6891a4944d4cacd1903a1b61e49df01a3f4736fc2ddefb01979c"
     },
+    ".scripts/sync-agent-rules.py": {
+      "sha256": "4b408fd78a8954668484cfc567c2183ef44a3fa8018cdddec7b6e76ea501409b",
+      "size": 10817,
+      "normalized_sha256": "4b408fd78a8954668484cfc567c2183ef44a3fa8018cdddec7b6e76ea501409b"
+    },
     ".vscode/tasks.json": {
       "sha256": "acc0a2cc55520a51ea478bc2522be8c6ee2188fdf15d33e0f2a20f7043c4f5b3",
       "size": 465,
@@ -280,25 +285,30 @@
       "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "d7e6da532f12b290a9044723826f6f4f94c90f75013a9704989e070e97995cfb",
-      "size": 5858,
-      "normalized_sha256": "d7e6da532f12b290a9044723826f6f4f94c90f75013a9704989e070e97995cfb"
+      "sha256": "5bd1614a2560073e9a5bed4e45b64696b4e4e6344ede875c9e785321182ad51a",
+      "size": 5977,
+      "normalized_sha256": "5bd1614a2560073e9a5bed4e45b64696b4e4e6344ede875c9e785321182ad51a"
     },
     ".zed/tasks.json": {
-      "sha256": "670dac2bd6fee03d01189217274b9b8b9803902087c6ae7db1d9a5ef83f69e7c",
-      "size": 2043,
-      "normalized_sha256": "35e4f57449499a57f57252e3c0bf918e937b9c9d982c708f5420436ca3f67913"
+      "sha256": "2dd5ad51e0b4ff7e3449a65149c3bc610fed4440a85c8a998c1ae9a8602b0d73",
+      "size": 2302,
+      "normalized_sha256": "b0ebdd27e89528e555e5515d91fde916d6286e13a47c3f3bb1f50c9cb8c91a82"
     },
     "AGENTS.md": {
-      "sha256": "c1a7290a2cfad60a03a74c0650084bc2ffbd699232768808391f5f4ec75dab52",
-      "size": 29182,
-      "normalized_sha256": "8a31c010f10080dca48b996c34a33a8b30e6d8ac249daf9a88638d4ce68040f0"
+      "sha256": "43e0ab59afac2879dcd8b213de935119562ecbf874b081ddeda569ca21f5d186",
+      "size": 22985,
+      "normalized_sha256": "e4a0a9fba8ccc7b4ca39cb247986d2ca263b4d8d95f9eb1adf48b65f6b28051d"
     },
     "CLAUDE.md": {
       "role": "index",
       "sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55",
       "size": 10,
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
+    },
+    "GLOBAL.md": {
+      "sha256": "584b8c99e6735e862254f84599a326cd07c23dcd930e178271fdfab85d556d30",
+      "size": 10681,
+      "normalized_sha256": "4a07423ce7d507a1f7281e419f73ec6b5804b7ba238f1b4ad9a9a19c9c61cbd8"
     },
     "MONOREPO.md": {
       "sha256": "f31f030902bcad22be9fd2a26680096414a604356aea71db85ef06585f93aa24",
@@ -312,10 +322,9 @@
       "normalized_sha256": "896759d898eb1a8a8abcecebba0b90bf8f8b549d167dee49fd9dcc2a2831a7fc"
     },
     "README.md": {
-      "role": "index",
-      "sha256": "b77e4eaf2350604715f28ef67e8a9f42ac071a2cbfb3dfe684c552097ab9d970",
-      "size": 7568,
-      "normalized_sha256": "770a037ef87895cd7171bb8a8a28eb6241fed43a2f28aba3df24136cd11967e8"
+      "sha256": "aed0dbe39fda6ca895263e6b88864744d9847c0e82291d0ba0232916f3989fab",
+      "size": 7363,
+      "normalized_sha256": "d1ec66ba6f2a0077db16f5f7f17fcef559bd77264cd9e6cf01034695f9839247"
     },
     "SPEC-AGENT.md": {
       "role": "index",
@@ -333,9 +342,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "41181bb62a56e3a4036773844a5281a97f043d9a55be2de82c68b7b591a478d5",
-      "size": 142318,
-      "normalized_sha256": "41181bb62a56e3a4036773844a5281a97f043d9a55be2de82c68b7b591a478d5"
+      "sha256": "026885b2228671da3d7be78a2d11ded54b584314013cdb95423a09b281abe4e9",
+      "size": 143477,
+      "normalized_sha256": "026885b2228671da3d7be78a2d11ded54b584314013cdb95423a09b281abe4e9"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -758,6 +767,16 @@
       "sha256": "04829e7702cf6e0b658d09d049bf908b5ada4a9cdc274058612f56a519f712b3",
       "size": 1621,
       "normalized_sha256": "37fd020b7d6064f1427ccb90c7d7db0b6f6704b579f914f9140515b0ee8df095"
+    },
+    "docs/plans/54-zedhub-pi-trajectory-support.md": {
+      "sha256": "92c77d4d5cafab940976fccce64dfab5810966e73e6dd388498436040d45460d",
+      "size": 2254,
+      "normalized_sha256": "92c77d4d5cafab940976fccce64dfab5810966e73e6dd388498436040d45460d"
+    },
+    "docs/plans/55-vscode-lsp-soft-toggle.md": {
+      "sha256": "e4586995d6de0fcb7fa1fa8009140d034f2e29d502b188af5fad72eac0087f3e",
+      "size": 4017,
+      "normalized_sha256": "e4586995d6de0fcb7fa1fa8009140d034f2e29d502b188af5fad72eac0087f3e"
     },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "role": "index",
@@ -1306,6 +1325,11 @@
       "size": 588502,
       "normalized_sha256": "800136293ff00de4e7164c4a680be3f764b1c8606b3f6901f0b74c832bbfe13a"
     },
+    "docs/projects/python_projects/lele/plans/01-generate-practice-problems.md": {
+      "sha256": "c53c9e319479db26511a0d95ccd38f5c9a6e6e02dcfe1fe4bd8feeb851c90537",
+      "size": 3108,
+      "normalized_sha256": "a53dfd28c1ee5af793ab842b3313973a6dd24038f7bcbaa6ed83a62c4a0cc662"
+    },
     "docs/projects/python_projects/llm-finetune-lab/01 环境与显存预算.md": {
       "role": "index",
       "sha256": "8bd5df55b142d6d9ceb882dc0c348bcb7c4138098326cd411a9ff9ef9398c348",
@@ -1615,6 +1639,11 @@
       "size": 37601,
       "normalized_sha256": "de3d507c608477033c8df204b7e6c6cb2f6e5ff7e3bd1f730eb81792e5355992"
     },
+    "docs/repo/pi-and-dsh-acp-support-research.md": {
+      "sha256": "1cf15faae73ebd3c14e76b062fc72bf2aa709c73c4c539d6e0e5ab6780736225",
+      "size": 7045,
+      "normalized_sha256": "1cf15faae73ebd3c14e76b062fc72bf2aa709c73c4c539d6e0e5ab6780736225"
+    },
     "docs/repo/subagent-pipeline-tools-research.md": {
       "sha256": "6d3c33033a234f51e2bfd3816a14e29ae4cfb484dfdb710647445a14c238a451",
       "size": 36087,
@@ -1709,9 +1738,9 @@
       "normalized_sha256": "a3fa0b3d41dc55bc14fb7f10464362ef7df47e9d1b427b53ba996719ce4431fe"
     },
     "java_projects/AGENTS.md": {
-      "sha256": "b65dd2f95e8c1e867b10ca8447c9e50a26221e4e45024415eee6ce0e3b5357ad",
-      "size": 362,
-      "normalized_sha256": "b65dd2f95e8c1e867b10ca8447c9e50a26221e4e45024415eee6ce0e3b5357ad"
+      "sha256": "d6403c73b72c49c6adf036b0aabab8381a3e177230b8b7ceb482e0aac42f32a9",
+      "size": 364,
+      "normalized_sha256": "d6403c73b72c49c6adf036b0aabab8381a3e177230b8b7ceb482e0aac42f32a9"
     },
     "java_projects/CLAUDE.md": {
       "sha256": "7b50d15feae7b63b94d845b2fa6e19e3220527c5b0cac69303b7fc19bd7484a8",
