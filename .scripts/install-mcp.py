@@ -115,18 +115,19 @@ from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-# Windows 终端输出 UTF-8 编码防乱码
-if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-if sys.stderr.encoding and sys.stderr.encoding.lower() not in ("utf-8", "utf8"):
-    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
-
+# ===========================================================================
+# 模块常量区（顶部；无依赖，打开即见）
+# 顺序约定依据 docs/repo/Python 模块结构与常量放置规范调研.md（第 6 节骨架）
+# ===========================================================================
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
+# aoci.exe 候选路径（按顺序探测，首个存在者胜出）
+AOCI_EXE_CANDIDATES = [
+    Path(os.path.expandvars(r"%LOCALAPPDATA%\Programs\aoci\aoci.exe")),
+    Path.home() / "AppData" / "Local" / "Programs" / "aoci" / "aoci.exe",
+]
 
-# ===========================================================================
-# 用户开关区（打开文件即见；以下两层总开关是收敛行为的唯一修改入口）
-# ===========================================================================
+# 用户开关区（以下两层总开关是收敛行为的唯一修改入口）
 # 第一层：PRESET_ENABLED —— 每个预设 MCP 装不装：
 #   True  = 缺省执行时同步/修复到各启用 Agent（已装且一致则跳过，缺则补装）；
 #   False = 从各启用 Agent 卸载该 MCP（不存在则自然跳过）。
@@ -151,14 +152,22 @@ AGENT_ENABLED: Dict[str, bool] = {
 }
 
 
+# ---------------------------------------------------------------------------
+# 基础工具
+# ---------------------------------------------------------------------------
+def ensure_utf8_stdio() -> None:
+    """Windows 终端输出 UTF-8 编码防乱码（在 main() 最先调用，先于一切输出）。"""
+    if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if sys.stderr.encoding and sys.stderr.encoding.lower() not in ("utf-8", "utf8"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
+
 def agent_is_enabled(name: str) -> bool:
     """Agent 开关查询（未列出的 Agent 默认按启用处理）。"""
     return AGENT_ENABLED.get(name, True)
 
 
-# ---------------------------------------------------------------------------
-# 基础工具
-# ---------------------------------------------------------------------------
 def norm(p: Any) -> str:
     """路径与命令等价归一化（统一反斜杠与小写，用于跨平台/Windows一致性比对）。"""
     if p is None:
@@ -245,14 +254,8 @@ def spec_for_agent(spec: MCPSpec, agent: str) -> MCPSpec:
 
 
 # ---------------------------------------------------------------------------
-# 预设 MCP 探测与构建
+# 预设 MCP 解析与构建
 # ---------------------------------------------------------------------------
-AOCI_EXE_CANDIDATES = [
-    Path(os.path.expandvars(r"%LOCALAPPDATA%\Programs\aoci\aoci.exe")),
-    Path.home() / "AppData" / "Local" / "Programs" / "aoci" / "aoci.exe",
-]
-
-
 def resolve_aoci_spec(repo_root: Path = REPO_ROOT, explicit_exe: Optional[str] = None) -> MCPSpec:
     exe_path: Optional[Path] = None
     if explicit_exe:
@@ -750,6 +753,7 @@ TARGET_AGENTS: Dict[str, AgentHandler] = {
 # CLI 主逻辑
 # ---------------------------------------------------------------------------
 def main() -> int:
+    ensure_utf8_stdio()
     parser = argparse.ArgumentParser(
         description="通用多 MCP 配置给多 Agent 的强化分发与管理工具（PRESET_ENABLED / AGENT_ENABLED 双层开关驱动：缺省全量收敛，显式点名临时覆盖）"
     )
