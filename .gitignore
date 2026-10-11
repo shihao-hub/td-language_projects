@@ -21,6 +21,3 @@ ComfyUI/
 
 # python_projects 的 git worktree 工作副本（feat/agy-content-bubbles，不入父仓）
 python_projects-wt-agy/
-
-# glmquotawatch-gui 的 specs 软链接（Junction -> go_projects/glmquotawatch-gui/specs，不入父仓；规格随子仓版本化）
-docs/projects/go_projects/glmquotawatch-gui/specs/04-notification-channels/
