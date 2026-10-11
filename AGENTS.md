@@ -110,7 +110,7 @@
 - **`docs/` 根目录不放散装文件**，各归其位：
   - `docs/projects/<lang>/`：项目镜像文档；
   - `docs/guides/`：AI 工作指南（GUIDE 系列）；
-  - `docs/plans/`：父仓级开发计划；
+  - `docs/plans/`：**仅限父仓级/跨语言全局运维开发计划**（如全仓多子模块提交、跨项目工具链升级、MkDocs 根站点配置等全仓任务；单子项目计划**严禁**放此目录）；
   - `docs/repo/`：仓库自身文档与通用技术知识沉淀（git 子模块机制说明、与项目无关的技术介绍等）；
   - `docs/assets/projects/<lang>/`：跨项目二进制资源（如默认图标）；
   - `.archived/` 同理，跨项目内容收入 `.archived/projects/<lang>/` 分层。
@@ -124,6 +124,11 @@
 - **通用技术知识文档**（与任何项目无关的知识介绍/沉淀，如协议介绍、技术调研）：放 `docs/repo/`；`docs/projects/<lang>/` 只收项目相关文档与语言层方法论文档，禁止把此类文档放语言层根目录或任何项目目录。
 - 归档项目统一放 `.archived/projects/<lang>/<项目名>/`；语言通用文档放 `docs/projects/<lang>/`。
 - 子仓内不再维护各自的 `.archived/`、`docs/`、`.zed/` 与 `.zcode/`。
+
+- **AI 计划与规格落盘强制路由（防呆铁律，执行 sh-plan / sh-spec / kiro / specs 先决检查）**：
+  - **子项目计划/规格归属**：任何针对具体子模块或工程（如 `python_projects/zedhub`、`go_projects/agyquota`、`typescript_projects/taskmon` 等）的功能开发、重构或缺陷修复，其 `plans/` 与 `specs/` **一律且必须**落盘在父仓 `docs/projects/<lang>/<subproject>/plans/` 与 `docs/projects/<lang>/<subproject>/specs/` 下，序号从 `01` 独立起编，严禁污染父仓根级目录。
+  - **父仓级 `docs/plans/` 严格白名单**：仅用于全仓多语言批量构建、全局 Submodule 运维、根级站点冲突等纯父仓级任务。凡涉及具体代码工程改动的，一律不得将计划落盘在父仓根级 `docs/plans/`。
+  - **编号自包含隔离**：子项目的计划编号（`01-xxx.md`）自成闭环，取号时只扫描该子项目自己的 `plans/` 目录，禁止参考或递增父仓 `docs/plans/` 下的全局编号。
 
 ## 八、新增语言子模块及子子模块规范
 
