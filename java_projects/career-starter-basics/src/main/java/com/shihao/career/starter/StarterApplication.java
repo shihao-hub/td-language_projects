@@ -17,7 +17,7 @@ public class StarterApplication {
     public static void main(String[] args) {
         SpringApplication.run(StarterApplication.class, args);
         System.out.println("==================================================================");
-        System.out.println(">>> 01-career-starter-basics 启动成功！");
+        System.out.println(">>> career-starter-basics 启动成功！");
         System.out.println(">>> 访问 http://localhost:8080/api/demo/health 即可体验基础端点");
         System.out.println("==================================================================");
     }

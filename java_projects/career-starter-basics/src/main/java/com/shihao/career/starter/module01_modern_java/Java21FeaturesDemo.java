@@ -19,7 +19,7 @@ public class Java21FeaturesDemo {
     /**
      * Java 21 Record 模式解构与类型匹配：
      * 针对订单状态与支付流水，直接解构内部成员变量！
-     */
+    */
     public String resolveEventWithPatternMatching(PaymentEventRecord record) {
         // Java 21 Record Pattern：直接解构为 (eventId, orderId, channel, amount, currency, time)
         if (record instanceof PaymentEventRecord(var id, var orderId, var channel, var amount, var curr, var time)) {
@@ -39,7 +39,7 @@ public class Java21FeaturesDemo {
         // Java 21 直接提供 getFirst() 与 getLast()
         String earliest = auditLogs.getFirst();
         String latest = auditLogs.getLast();
-        
+
         // 还可以直接生成反转视图（O(1) 逆序操作，无需 Collections.reverse 修改原集合）
         List<String> reversed = auditLogs.reversed();
 
