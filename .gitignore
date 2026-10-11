@@ -5,6 +5,9 @@ Thumbs.db
 # Python 虚拟环境（根目录 scripts 约定禁止，兜底防误入库）
 .venv/
 
+# 隐藏目录
+.local/
+
 # docs 静态站点构建产物（mkdocs，随时用 uv run .scripts/build_docs.py build 重建）
 .mkdocs-site/
 
@@ -18,3 +21,6 @@ ComfyUI/
 
 # python_projects 的 git worktree 工作副本（feat/agy-content-bubbles，不入父仓）
 python_projects-wt-agy/
+
+# glmquotawatch-gui 的 specs 软链接（Junction -> go_projects/glmquotawatch-gui/specs，不入父仓；规格随子仓版本化）
+docs/projects/go_projects/glmquotawatch-gui/specs/04-notification-channels/
