@@ -1,12 +1,17 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-11T03:06:28Z",
+  "updated_at": "2026-10-11T07:07:33Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
       "size": 2263,
       "normalized_sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38"
+    },
+    ".claude/plans/everything-replicated-hearth.md": {
+      "sha256": "0be7d376cca7dd9e0baa8edfd788e4d9ed2dd0b71f18e0a823be92ae21879e04",
+      "size": 4323,
+      "normalized_sha256": "0be7d376cca7dd9e0baa8edfd788e4d9ed2dd0b71f18e0a823be92ae21879e04"
     },
     ".claude/plans/staged-inventing-salamander.md": {
       "sha256": "ea9a7a1b117732936f68f5910bd8b68c1ea2b1313e9516ae3b2d27b963890a20",
@@ -284,9 +289,9 @@
       "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "5bd1614a2560073e9a5bed4e45b64696b4e4e6344ede875c9e785321182ad51a",
-      "size": 5977,
-      "normalized_sha256": "5bd1614a2560073e9a5bed4e45b64696b4e4e6344ede875c9e785321182ad51a"
+      "sha256": "c3afaf070c51c0878f677ad2be2e6b9ffeee10041598fcd9a451cd0eb12b0e23",
+      "size": 6023,
+      "normalized_sha256": "c3afaf070c51c0878f677ad2be2e6b9ffeee10041598fcd9a451cd0eb12b0e23"
     },
     ".zed/tasks.json": {
       "sha256": "2dd5ad51e0b4ff7e3449a65149c3bc610fed4440a85c8a998c1ae9a8602b0d73",
@@ -294,9 +299,9 @@
       "normalized_sha256": "b0ebdd27e89528e555e5515d91fde916d6286e13a47c3f3bb1f50c9cb8c91a82"
     },
     "AGENTS.md": {
-      "sha256": "43e0ab59afac2879dcd8b213de935119562ecbf874b081ddeda569ca21f5d186",
-      "size": 22985,
-      "normalized_sha256": "e4a0a9fba8ccc7b4ca39cb247986d2ca263b4d8d95f9eb1adf48b65f6b28051d"
+      "sha256": "b064a9dd12dff6813af9b758a59bcef19cd131580396a62c120c9f4b3e5bf506",
+      "size": 24184,
+      "normalized_sha256": "ac21377a770dd4e3a459f18578d7735ab7914f1f9d4f91f168aa0eca3a659fcc"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -341,9 +346,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "c3cb30499d6aa2a0339906a89bff7d6a3215d98c3c68f9c619a436b83c323466",
-      "size": 145893,
-      "normalized_sha256": "c3cb30499d6aa2a0339906a89bff7d6a3215d98c3c68f9c619a436b83c323466"
+      "sha256": "6e3aa69e700cce1daea153653639b46b41d5facae555e12f937d3c1b22137af9",
+      "size": 146749,
+      "normalized_sha256": "6e3aa69e700cce1daea153653639b46b41d5facae555e12f937d3c1b22137af9"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1474,6 +1479,11 @@
       "sha256": "a2b6850fc8ec4d6ba5b3ea0fedb9e078071d5c255e442bad808d5bb70b9a02b2",
       "size": 5444,
       "normalized_sha256": "a2b6850fc8ec4d6ba5b3ea0fedb9e078071d5c255e442bad808d5bb70b9a02b2"
+    },
+    "docs/projects/python_projects/zedhub/plans/01-antigravity-transcript-priority.md": {
+      "sha256": "c0ddd12f3417d8ea19b542678cf91762993d4eda84ea956b1dcf41bc2ba76f0f",
+      "size": 7303,
+      "normalized_sha256": "54c0a787f9b30947c547609492198d6ca62a8e86c11bb71348c7bc8fd8146ac5"
     },
     "docs/projects/python_projects/zedhub/specs/01-zed-session-hub/design.md": {
       "sha256": "38831f6cdbc1356d1189e186d67d32f0017047070e288ce0b3026928b3aed328",
