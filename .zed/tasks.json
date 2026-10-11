@@ -1,5 +1,13 @@
 [
   {
+    "label": "Open External PowerShell Here",
+    "command": "Start-Process wt.exe -ArgumentList @('-d', \"$ZED_DIRNAME\")",
+    "cwd": "$ZED_DIRNAME",
+    "reveal": "never",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": true
+  },
+  {
     "label": "CRAP: Go (Current Subproject)",
     "command": "go-crap scan --threshold=30 ./...",
     "cwd": "$ZED_DIRNAME",
