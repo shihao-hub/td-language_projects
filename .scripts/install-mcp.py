@@ -110,6 +110,7 @@ import json
 import os
 import re
 import shutil
+import struct
 import sys
 from dataclasses import dataclass, field, replace
 from pathlib import Path
@@ -148,7 +149,7 @@ AGENT_ENABLED: Dict[str, bool] = {
     "pi": True,
     "antigravity": True,
     "antigravity-ide": True,
-    "dsh": True,
+    "dsh": False,
 }
 
 
@@ -256,6 +257,68 @@ def spec_for_agent(spec: MCPSpec, agent: str) -> MCPSpec:
 # ---------------------------------------------------------------------------
 # 预设 MCP 解析与构建
 # ---------------------------------------------------------------------------
+def ensure_aociw(exe_path: Path) -> Path:
+    """Windows 下确保同目录存在 GUI 子系统 (Subsystem 2) 的 aociw.exe，彻底规避 stdio 弹窗与控制台委托闪退。
+
+    具备自动版本感知与 Windows 运行中独占锁热替换能力：
+    1. 当 aoci.exe 更新（mtime 变新或文件大小变化）时自动重新同步；
+    2. 若 aociw.exe 正在被运行中的 Agent 持有锁，通过'重命名+原子就位'平滑热替换。
+    """
+    if os.name != "nt" or not exe_path.is_file():
+        return exe_path
+    if exe_path.name.lower() == "aociw.exe":
+        return exe_path
+
+    target = exe_path.with_name("aociw.exe")
+    # 清理历史可能残留的废弃热替换临时文件
+    for old in target.parent.glob("aociw_old_*.exe"):
+        try:
+            old.unlink()
+        except OSError:
+            pass
+
+    # 判定是否需要同步：不存在，或官方 aoci.exe 变新，或大小不一致
+    need_sync = False
+    if not target.is_file():
+        need_sync = True
+    else:
+        src_stat = exe_path.stat()
+        tgt_stat = target.stat()
+        if src_stat.st_mtime > tgt_stat.st_mtime or src_stat.st_size != tgt_stat.st_size:
+            need_sync = True
+
+    if not need_sync:
+        return target
+
+    # 生成临时补丁副本
+    tmp_target = target.with_name(f"aociw_new_{os.getpid()}.exe")
+    try:
+        shutil.copyfile(exe_path, tmp_target)
+        with open(tmp_target, "r+b") as f:
+            data = f.read(1024)
+            if len(data) >= 0x40 and data[:2] == b"MZ":
+                pe_offset = struct.unpack("<I", data[0x3c:0x40])[0]
+                f.seek(pe_offset + 0x5c)
+                f.write(struct.pack("<H", 2))
+
+        # 尝试直接原子替换；若遭遇 Windows 运行中文件锁，利用 rename 避开独占锁
+        try:
+            os.replace(tmp_target, target)
+        except OSError:
+            old_backup = target.with_name(f"aociw_old_{os.getpid()}.exe")
+            target.rename(old_backup)
+            tmp_target.rename(target)
+
+        return target
+    except Exception:
+        if tmp_target.is_file():
+            try:
+                tmp_target.unlink()
+            except OSError:
+                pass
+        return target if target.is_file() else exe_path
+
+
 def resolve_aoci_spec(repo_root: Path = REPO_ROOT, explicit_exe: Optional[str] = None) -> MCPSpec:
     exe_path: Optional[Path] = None
     if explicit_exe:
@@ -538,14 +601,12 @@ class CodexTomlHandler(AgentHandler):
         target_section = f"[mcp_servers.{spec.name}]"
 
         if sec_lines is not None:
-            cmd_ok = any(norm(line.split("=", 1)[1].strip().strip("'\"")) == norm(spec.command)
-                         for line in sec_lines if line.strip().startswith("command"))
-            args_str = " ".join([norm(a) for a in spec.args])
-            sec_joined = " ".join([norm(l) for l in sec_lines])
-            args_ok = all(norm(a) in sec_joined for a in spec.args)
-
-            if cmd_ok and args_ok:
-                return "ok"
+            existing = self.get_server(spec.name)
+            if existing:
+                cmd_ok = norm(existing.get("command")) == norm(spec.command)
+                args_ok = [norm(a) for a in existing.get("args", [])] == [norm(a) for a in spec.args]
+                if cmd_ok and args_ok:
+                    return "ok"
             if not force:
                 return "skipped_mismatch"
 
