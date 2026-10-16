@@ -18,16 +18,16 @@
 
 ## 任务分解
 
-- [ ] Task 1: 客户端扩展支持 --once 与临时 daemon 生命周期管理
+- [x] Task 1: 客户端扩展支持 --once 与临时 daemon 生命周期管理 ✅ 完成
   - 文件：`go_projects/agyquota/internal/client/client.go`
   - 实现：
     - `Config` 新增 `Once bool` 字段；`Client` 维护 `spawnedEphemeral bool`；
-    - 在 `EnsureDaemon` 中：若指定了 `Once` 且当前无法连上 daemon，则无论是否为开发构建，均允许调用 `spawnDaemon` 拉起临时实例，并传入短超时参数（如 `--idle-timeout 10s`），成功后标记 `spawnedEphemeral = true`；若已有 daemon 在运行（ping 成功），则 `spawnedEphemeral = false`（不杀已有常驻进程）；
+    - 在 `EnsureDaemon` 中：若指定了 `Once` 且当前无法连上 daemon，则无论是否为开发构建，均允许调用 `spawnDaemonWithIdle` 拉起临时实例，并传入短超时参数（`--idle-timeout 10s`），成功后标记 `spawnedEphemeral = true`；若已有 daemon 在运行（ping 成功），则 `spawnedEphemeral = false`（不杀已有常驻进程）；
     - 新增 `IsEphemeral() bool` 与 `CleanupIfEphemeral(ctx context.Context) error`：当 `spawnedEphemeral` 为 true 时，调用 `/v1/stop` 关停临时 daemon 并清理；
     - 未开启 `Once` 且为开发构建时，在错误建议（Suggestion）中增加 `--once` 引导提示。
   - 验证：单元/模块逻辑可编排。
 
-- [ ] Task 2: CLI 接入 --once 标志并编排执行与 defer 优雅回收
+- [x] Task 2: CLI 接入 --once 标志并编排执行与 defer 优雅回收 ✅ 完成
   - 文件：`go_projects/agyquota/internal/cli/root.go`、`go_projects/agyquota/internal/cli/quota.go`
   - 实现：
     - 在 `root.go` 中注册 `PersistentFlags().Bool("once", false, "单次查询模式：若未运行 daemon 则启动临时实例，查询完毕后自动退出，不留后台进程")`；
@@ -36,7 +36,7 @@
     - 更新命令帮助与用例说明。
   - 验证：`go vet ./...`；`go list -deps ./internal/cli` 断言不含 `internal/service`。
 
-- [ ] Task 3: 验证单次查询、生命周期回收与文档同步
+- [x] Task 3: 验证单次查询、生命周期回收与文档同步 ✅ 完成
   - 文件：`go_projects/agyquota/README.md`
   - 实现：
     - 同步更新 `README.md` 的命令速查表与 daemon 架构说明，记录 `--once` 参数；
@@ -45,3 +45,14 @@
       2. 检查系统进程：无残留 `agyquota` 进程；
       3. 有 daemon 时：先启动 `agyquota serve`，执行 `agyquota --zed --once`，验证配额正常返回且原有 daemon 未被终止。
   - 验证：手工端到端验收通过。
+
+## 实施说明
+
+### 执行记录（2026-10-16）
+
+- **Task 1**：在 `internal/client/client.go` 中支持 `Once` 模式与临时 daemon 调度，设置 10s 短空闲超时保底，增加 `IsEphemeral` 与 `CleanupIfEphemeral`，未指定 `--once` 且为开发构建时错误提示引导追加 `--once` 建议；
+- **Task 2**：在 `internal/cli/root.go` 与 `quota.go` 中接入 `--once` 标志，通过 `defer` 保证无论查询成功还是失败均能优雅发送 `/v1/stop` 回收临时 daemon，`go list -deps` 依赖方向断言 100% 保持；
+- **Task 3**：完成代码构建与部署，并在 Windows 宿主环境下完成了真实端到端测试：
+  - 场景 A（无常驻 daemon）：`agyquota --zed --once` 零感知启动临时 daemon，打印完整配额，退出后检测进程与地址文件为 0 残留；
+  - 场景 B（已有常驻 daemon）：在常驻 daemon 运行时执行 `agyquota --zed --once`，成功复用取数，且原有常驻 daemon 保持正常运行。
+
