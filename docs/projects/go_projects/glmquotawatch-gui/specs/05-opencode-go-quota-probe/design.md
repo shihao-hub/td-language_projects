@@ -176,11 +176,30 @@ OpenCode Go 官方用量接口规范已实测探明：
 - **Changes**:
   - `frontend/src/api.ts`：导出新增的 OpenCode 相关类型。
   - `frontend/src/store.ts`：维护 `activeProvider` 与 `openCodeStatus`，提供 `sampleOpenCodeNow()` 动作。
-  - `frontend/src/App.vue`：顶部导航栏添加精简轻奢的 Provider 切换胶囊按钮 `[智谱 GLM | OpenCode Go]`。
+  - `frontend/src/App.vue`：顶栏常驻 Provider 切换胶囊按钮 `[智谱 GLM | OpenCode Go]`（两视图位置与形态一致，不隐藏、不移位）。
   - `frontend/src/pages/Dashboard.vue`：根据 `activeProvider` 分流展示：
     - `glm`：保留现有 GLM 仪表盘；
-    - `opencode`：渲染 OpenCode 专属视图（未配置 Key 时显示引导卡片；已配置时渲染 3 个精制卡片：滑动窗口、周窗口、月窗口，含百分比、进度条、状态灯、倒计时与「立即采样」按钮）。
+    - `opencode`：渲染与 GLM 同骨架的专属仪表盘（顶部控制条：左标题、右「上次采样 + 立即采样」；下方滑动/周/月 3 个额度行：百分比、细进度条、状态灯、倒计时；未配置 Key 时显示居中引导卡），差异仅在皮肤（暗色 console）。
+  - `frontend/src/pages/History.vue`：Provider 为 opencode 时渲染空状态说明卡（结构与 GLM 未绑定引导卡一致；第一步无 OpenCode 历史），Provider 为 glm 时保持既有历史曲线零改动。
   - `frontend/src/pages/Settings.vue`：增加 OpenCode API 密钥维护卡片（支持保存、清除与脱敏展示）。
+  - `frontend/src/style.css`（+ 新建 `frontend/src/components/oc/` 目录）：落地《需求·视觉规范：OpenCode Console 风格》的暗色 console 令牌与组件。
+
+#### 7. `CREATED` 前端 OpenCode 控制台风格层（FR-4 视觉落地）
+- **Purpose**: 将 OpenCode 官方 console（`opencode.ai/console` Go 用量页）的暗色扁平 console 语言作为 OpenCode Provider 视图的**皮肤层**（色彩/排版/细条形态）落地，交互骨架与 GLM 视图对齐，且严格隔离于既有浅色主题。
+- **Complexity**: Medium
+- **Style 依据**: `requirements.md` 的《视觉规范：OpenCode Console 风格》；上游开源参考 `sst/opencode`（分支 `dev`）的 `packages/console/app/src/style/token/{color,font,space}.css`、`packages/console/app/src/style/component/button.css`、`packages/console/app/src/component/{go-plan-chart,limits-graph}.css`、`packages/ui/src/styles/tokens/colors.css`。
+- **Design Details**:
+  - **令牌作用域**：新增 `.oc-console` 根容器类，全部暗色自定义属性（`--oc-bg: #242424`、`--oc-surface: #2e2e2e`、`--oc-track: #3a3a3a`、`--oc-border: #ffffff14`、`--oc-text: #f2f2f2`、`--oc-text-2: #aeaeae`、`--oc-text-3: #808080`、`--oc-warn: #f2cf76`、`--oc-crit: #ffa478`、`--oc-danger: #f1484f`、`--oc-bar-radius: 2px`）定义在该作用域内，**不**进入全局 `@theme`，保证 GLM 视图与外壳浅色令牌零污染（对齐 AC-7）。
+  - **等宽数字类**：新增 `.oc-mono`（等宽字体栈）与复用既有 `.tnum`（`tabular-nums`），用于百分比、倒计时、`HH:MM:SS` 时间戳（对齐 AC-8）。
+  - **组件拆分**：
+    - `oc/ProviderSwitch.vue`：Provider 分段切换，常驻应用顶栏（沿用既有胶囊外形；两视图一致，过渡 ≤150ms）。
+    - `oc/QuotaRow.vue`：单窗口额度行——标签 + 重置弱文本 / 右对齐百分比 + 4–6px 状态点 / 通栏 6px 细条（轨道 `#3a3a3a`、圆角 ≤2px、按 60% / 85% / `rate-limited` 阈值取色）。
+    - `oc/SampleButton.vue`：控制条右侧「立即采样」按钮（刷新图标 + 加载旋转、按压反馈，`focus-visible` 用 `outline: 2px solid currentColor; outline-offset: 3px`）。
+    - `oc/EmptyState.vue`：居中引导卡（与 GLM 未绑定卡同结构：图标 + 标题 + 说明 +「前往设置」按钮），触发 `store.tab = 'settings'` 并聚焦 OpenCode Token 输入框。
+  - **动效**：填充过渡 400–700ms `cubic-bezier(0.22,1,0.36,1)`；悬停背景过渡 120–180ms；`prefers-reduced-motion: reduce` 下整体禁用。
+  - **响应式**：容器查询窄于 640px 时额度行堆叠为两段式（标签整行 + 条形/数值次行），字号降一档，禁止横向滚动。
+  - **反模式守卫**：不使用圆环/仪表盘组件、不使用阴影与大圆角卡片、除状态点与填充外不着色。
+- **Verify**: `npm run build` 通过；人工核对 OpenCode 视图截图与参考截图逐条对齐（底色、1px 描边、6px 细条、tabular-nums 稳定性、无圆环组件）。
 
 ## Module Collaboration and Data Flow
 
@@ -226,6 +245,11 @@ flowchart TD
 | AC-3 | `internal/opencode/client.go` + `internal/service/opencode.go` (401 AuthError / 403 EntitlementError 规范映射) |
 | AC-4 | `frontend/src/App.vue` + `Dashboard.vue` + `internal/guiapp/bindings.go` (Provider 切换与卡片展示) |
 | AC-5 | 既有 `internal/service/service.go`、`internal/cli/root.go` 及 GLM 组件完全保持原逻辑与不变式 |
+| AC-6 | `frontend/src/components/oc/*` + `frontend/src/style.css` 的 `.oc-console` 作用域令牌（底色/1px 描边/无阴影/6px 细条） |
+| AC-7 | `.oc-console` 令牌作用域隔离（不写入全局 `@theme`），GLM 视图与外壳保持浅色 |
+| AC-8 | `.oc-mono` + `.tnum` 数字排版与 `prefers-reduced-motion` 动效降级 |
+| AC-9 | `frontend/src/App.vue` + `pages/Dashboard.vue` + `oc/ProviderSwitch.vue`（顶栏常驻切换器、单一导航、控制条与按钮同位、空状态同结构） |
+| AC-10 | `frontend/src/pages/History.vue`（OpenCode Provider 下空状态说明，GLM 曲线零改动） |
 
 ## Design Review Notes
 
@@ -233,3 +257,9 @@ flowchart TD
   **回应**：根据《CLI 工具开发标准》与 Unix 原则，各供应商的数据结构、窗口周期与认证机制不尽相同。独立命令组 `opencode status` 与 `status` 边界清晰，避免 flag 膨胀和破坏已有调用方的脚本假设。
 - **Q2: 为什么第一步不开启后台轮询与 Toast 告警？**  
   **回应**：符合用户明确的“第一步可以先快速实现...让我很方便立刻查看现在的额度情况”原则。即时探测只需被动触发，零后台开销与锁竞争，风险极低且交付极快；告警记账可在第二步从容设计。
+- **Q3: 为什么 console 暗色风格只作用于 OpenCode 视图，而不整体换肤？**  
+  **回应**：用户已确认（仅 OpenCode Provider 内暗色，其余保持浅色）。既有浅色 Raycast/Linear 语言覆盖 GLM 仪表盘、历史走势与设置页，全量换肤会牵动 4 个页面与全部 GLM 组件，回归面远大于本次“快速交付”的范围；以 `.oc-console` 作用域隔离令牌，既拿到 console 的观感，又把回归风险收敛到新增视图内部（AC-7 即为此不变式）。**修订（交互对齐 v2，实测体验反馈）**：暗色仅保留为**皮肤层**——信息架构与交互骨架与 GLM 视图完全对齐（导航仅走顶栏、切换器常驻顶栏、控制条与按钮同位、空状态同结构），视图内不再复制 console 的独立页签导航与切换器位（AC-9 固化）。
+- **Q4: 上游 console 页面不开源，如何保证“参考源代码”不流于口号？**  
+  **回应**：区分“结构”与“数值”两条可核验来源——结构以用户提供的线上 console 截图为基准，数值取 OpenCode 开源仓库中实际在用的设计令牌与组件样式（`packages/console/app/src/style/token/*`、`component/go-plan-chart.css`、`limits-graph.css`、`packages/ui/src/styles/tokens/colors.css`）。所有取值均在《需求·视觉规范》表格中列出并附仓库路径，便于逐条比对，不对未公开源码做臆测。
+- **Q5: 为什么数字必须等宽 + `tabular-nums`？**  
+  **回应**：OpenCode console 明确使用等宽字体栈并设 `font-variant-numeric: tabular-nums`。本工具存在每秒倒计时刷新，比例字体下数字宽度变化会造成整行抖动；等宽数字是 console 质感与稳定读数的共同前提（AC-8 固化）。
