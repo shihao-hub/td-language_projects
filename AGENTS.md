@@ -1,7 +1,8 @@
 # AGENTS.md
 
-> **全局基线继承**：通用交互、Windows PowerShell 执行安全、文件操作防御、Token 经济等跨 Agent 通用规范已由全局配置 `GLOBAL.md` 统一注入。
-> 本文件仅声明 `language_projects` Monorepo 专属架构、子仓契约与工程协作纪律。
+<!-- 本文件须保持 <24000 字节：agy 规则文件硬上限，超出将被截尾 -->
+
+> **全局基线继承**：通用交互、Windows 终端执行安全、文件操作防御、Token 经济等跨 Agent 规范已由 `GLOBAL.md` 统一注入；本文件仅声明本 Monorepo 专属架构、子仓契约与工程协作纪律。
 
 ## 一、仓库架构与多子仓模型
 
@@ -9,20 +10,19 @@
 
 - 五个子目录（`go_projects`、`python_projects`、`rust_projects`、`typescript_projects`、`native_projects`）各自是独立 Git 仓库，父仓库只跟踪它们的 commit 指针（`.gitmodules` 中 `ignore = all`）。
 - 其中 `native_projects` 是**混合语言子仓**（C / C++ / Lua）：仓内同样是“一个子目录 = 一个项目”，具体语言由各项目自定；其余子仓仍按语言一一对应。
-- 各语言子仓内部为 monorepo：**一个子目录 = 一个项目**，每个子目录都是一个独立项目，彼此互不依赖归属关系，各自维护自己的依赖与配置；新增项目时直接建新的子目录，不要在子项目内单独 `git init`。
+- 各语言子仓内部为 monorepo：**一个子目录 = 一个项目**，彼此独立、各自维护依赖与配置；新增项目直接建新子目录，不要在子项目内单独 `git init`。
 - 已归档项目与通用文档集中放在**父仓库根目录**，统一收入 `projects/` 分层，按语言子仓名嵌套：
   - `.archived/projects/<lang>/`：归档停更的项目（如 `.archived/projects/go_projects/file-sync`、`.archived/projects/python_projects/lele`）；
   - `docs/projects/<lang>/`：各语言通用文档与项目文档，详见后文「归档与文档布局约定」。
-- 编辑器配置统一集中在父仓库根目录 `.zed/settings.json`（入库，随仓库分发），子仓内不再各自维护。
-- AI 会话产物（`.zcode/`）同样集中在父仓库根目录，子仓内不再各自维护。
-- 重要客体级资产「真身入本仓 + 链接到使用位置」：`.agents/skills` 是指向 `git@github.com:shihao-hub/td-agents-skills.git` 的子模块（skills 真身），并已用目录联接（junction）暴露为 `~/.agents/skills`（各级工具约定路径，经链接访问与经本仓访问等价）；**该子模块内的技能改动必须在子模块内提交推送**，父仓只更新指针；家目录被误删只会断链接、不再丢数据。
+- 编辑器配置（`.zed/settings.json`，入库随仓分发）与 AI 会话产物（`.zcode/`）统一集中在父仓库根目录，子仓内不再各自维护。
+- 重要客体级资产「真身入本仓 + 链接到使用位置」：`.agents/skills` 是指向 `git@github.com:shihao-hub/td-agents-skills.git` 的子模块（skills 真身），并已用目录联接（junction）暴露为 `~/.agents/skills`（经链接与经本仓访问等价）；家目录被误删只会断链接、不再丢数据。
 - 在本仓库下工作时，先确认目标所在位置（子仓内项目、根 `.archived/`、根 `docs/`），再进入对应目录执行构建、测试等操作。
-- 不要试图从父仓库提交子模块内部的改动：子模块内的变更必须在子模块自己的仓库里 commit + push。
+- 不要试图从父仓库提交子模块内部改动：变更必须在子模块仓库内 commit + push。
 - 父仓库层面可见的变更有：`.gitmodules`、子模块指针、README/AGENTS 等自有文件，以及根目录的 `.archived/` 与 `docs/`。
 
 ## 二、隔离性原则（重要）
 
-- 各项目（无论在子仓内还是 `.archived` 内）之间**基本上无任何关联**：没有共享代码、共享依赖或隐含约定，不要假设对一个项目的改动需要另一个项目“配合”。
+- 各项目（无论子仓内还是 `.archived` 内）**基本无关联**：无共享代码/依赖或隐含约定，不要假设一个项目的改动需要另一个项目“配合”。
 - 开发某个项目时，**只在该项目目录范围内工作**，不要想着顺带修改另一个项目的事情。
 - 即使认为其他项目似乎也需要相应改动，也不要自行跨项目修改；先向用户说明情况，由用户决定是否另行处理。
 
@@ -38,7 +38,7 @@
   - **触发时机（必须单独 commit）**：
     1. **新建计划**：实施计划/需求设计一旦落盘，**必须立即单独提交**，严禁与随后的开发代码混在一起；
     2. **任务结束归档**：整组任务执行完成、勾选完最终状态后，**必须立即单独提交该文件的状态更新**，不得拖延到后续无关对话；
-    3. **中间任务折叠**：在连续执行 Task 1 到 Task N 期间，计划文件内微小的勾选改动可折叠合并，在整批任务完成或停下等待用户确认时**一次性独立提交**（无须每一个 Task 单独 commit 一次计划）。
+    3. **中间任务折叠**：连续执行 Task 1..N 期间，勾选类微改可折叠合并，在整批完成或停下等待确认时**一次性独立提交**。
   - **隔离纪律（单文件独占）**：严禁代码、配置或其他业务文件混入；每个不同的 plan/spec 文件互不干扰，禁止跨 plan 批量合并提交。
   - **自治权限**：Agent 可直接完成此类 commit，无需再次征得用户同意；只有遇到 Git 身份、权限、钩子、冲突或其他安全边界导致无法提交时，才向用户询问。
   - **Commit Message 规范**：标题使用规范类别（如 `docs(plans): ...`），Body 必须使用 `- ` 无序列表说明变动详情。
@@ -61,8 +61,8 @@
   - *必须先完整阅读该标准再动手的场景*：① 新建任何 CLI/工具类项目（不限语言）；② 给已有项目新增 CLI / MCP 入口或 `schema` 导出；③ 需要豁免标准要求时；④ 重构/评审已有项目的 CLI 入口契约时。
 - **默认图标**：产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `docs\assets\projects\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[go exe 默认图标](docs/projects/go_projects/go exe 默认图标.md)》。
 - **dev 与 release 隔离约束**：
-  - **统一构建脚本**：构建统一由单一 `build.py` 完成（uv 单脚本结构，文件头带 PEP 723 内联元数据块，仅用标准库也保留），不搞 ps1/bat 或 dev/prod 双脚本；脚本开头必须有用户可读的使用说明文本，且每次变更脚本时同步更新该说明；
-  - **构建类型自动判定**：仅当 HEAD 严格命中 git tag 且工作区干净时才允许产 release（正式命名产物），其余一律按 dev 处理（产物带 `-dev` 后缀，工作区不干净时版本号再带 `-dirty`）；版本号与 commit 经 `-ldflags` 注入；
+  - **统一构建脚本**：构建统一由单一 `build.py` 完成（uv 单脚本，PEP 723 头即使无依赖也保留），不搞 ps1/bat 或 dev/prod 双脚本；脚本开头必须有用户可读使用说明，且每次变更同步更新；
+  - **构建类型自动判定**：仅当 HEAD 严格命中 git tag 且工作区干净时才允许产 release，其余一律按 dev 处理（产物带 `-dev` 后缀，工作区不干净时版本号再带 `-dirty`）；版本号与 commit 经 `-ldflags` 注入；
   - **开发版（dev 构建）**：产物文件名必须显式包含 `-dev` 后缀（如 `<project>-dev.exe` 或 `<project>-gui-dev-windows-amd64.exe`），版本号附带 `-dev`（如 `vX.Y.Z-dev`）；
   - **正式版（release 构建）**：产物必须是标准正式名（如 `<project>.exe` 或 `<project>-gui-windows-amd64.exe`），严禁包含任何 dev 标识；
   - **数据目录隔离**：dev 与 prod 运行时数据目录必须分开（`%APPDATA%\language_projects\<项目名>\dev` 与 `...\<项目名>\prod`），开发调试严禁读写生产数据；
@@ -71,7 +71,7 @@
   - **开机自启动与注册表保护**：凡涉及向系统注册表（如 `HKCU\...\Run`）写入开机自启动路径的 GUI 程序，开发版必须强校验禁止写入（菜单项置灰并拒绝执行），并向用户明确提示该功能在 dev 版不生效；此类功能直接用 release 版本测试，仅正式版允许注册。
 - **带 GUI / 独立品牌项目的图标规范**：
   - 普通 CLI 工具产 exe 默认使用地鼠图标；
-  - **带 GUI / 托盘桌面壳的项目属独立软件形态，禁止直接拿地鼠图标应付**：必须配套专属的现代多分辨率矢量图标流水线（如 `scripts/render_icon.py`），生成 1024x1024 高清图、16-256px 多尺寸标准 `icon.ico`、托盘与窗口资源，并通过 `rsrc` 生成 `.syso`；
+  - **带 GUI / 托盘桌面壳项目属独立软件形态，禁止直接拿地鼠图标应付**：必须配套专属多分辨率矢量图标流水线（如 `scripts/render_icon.py`），产出 1024 高清图、16-256px 标准 `icon.ico`、托盘与窗口资源，经 `rsrc` 生成 `.syso`；
   - **GUI 窗口图标必须显式注入**：GUI 程序必须在主窗口初始化时显式绑定应用/窗口图标（如 Fyne 调用 `app.SetIcon` / `win.SetIcon`，Wails 绑定 `app.Icon`），严禁遗留 Windows 系统默认的白框线框图标。
 
 ### python_projects
@@ -86,10 +86,10 @@
 - 子仓根目录**不创建** `pnpm-workspace.yaml` 和根 `package.json`，子项目之间不做 workspace 关联。
 
 ### native_projects
-- **混合语言子仓**：收录 C / C++ / Lua 项目（`native` 指原生代码生态；Lua 解释器为 C 实现，嵌入场景属原生生态圈内），仓内一个子目录 = 一个项目，语言由各项目自定。
+- **混合语言子仓**：收录 C / C++ / Lua 项目（`native` 指原生代码生态；Lua 解释器为 C 实现，嵌入场景属原生生态圈内）。
 - 构建主推 **CMake + CMakePresets.json + Ninja**，编译器默认 **MSVC**（VS Build Tools 2022），MSYS2 MinGW64 (gcc/g++) 备选；轻量项目可用 **xmake**。
 - 测试用 **GoogleTest**（企业最常用；轻量项目可用 doctest），统一由 **CTest** 驱动：CMake 开 `enable_testing()` + `add_test()`，preset 里配 test 步骤。
-- 质量工具随 **LLVM** 安装：**clang-format**（格式化）+ **clang-tidy**（静态分析/现代 C++ 检查）；LSP 用 **clangd**（Zed 白名单按项目开启），依赖 `CMAKE_EXPORT_COMPILE_COMMANDS=ON` 导出的 `compile_commands.json`。
+- 质量工具随 **LLVM** 安装：**clang-format** + **clang-tidy**（静态分析）；LSP 用 **clangd**（Zed 白名单按项目开启），依赖 `CMAKE_EXPORT_COMPILE_COMMANDS=ON` 导出的 `compile_commands.json`。
 - 包管理（vcpkg/conan）暂不引入，第一个需要第三方库（fmt/spdlog/gtest 等）的项目再上 vcpkg manifest；小依赖可先用 CMake FetchContent。
 - Lua：嵌入宿主用 CMake 链接；纯 Lua 脚本项目无需构建系统；Lua 模块生态用 LuaRocks（按需装）。
 - CI 用 **GitHub Actions**（windows-latest 自带 MSVC + CMake + Ninja）。
@@ -97,12 +97,12 @@
 
 ## 六、仓库运维脚本约定（.scripts）
 
-- 仓库运维脚本统一放 `.scripts/`（点前缀目录，与 `.archived`/`.zed` 同属仓库基础设施层，不占根目录可见位置）；项目自有脚本随各自子仓，不入该目录。
+- 仓库运维脚本统一放 `.scripts/`（点前缀目录，与 `.archived`/`.zed` 同属仓库基础设施层）；项目自有脚本随各自子仓，不入该目录。
 - 脚本语言**统一 Python**（PEP 723 + uv 单文件），**禁止新增 ps1/bat**：历史 ps1/bat 已全部迁移删除，双击入口一并放弃；typescript_projects 子仓内部脚本用 TS（Bun）。
-- 例外：`docs/assets/projects/` 目录存放跨项目二进制资源（当前仅 `docs/assets/projects/go_projects/go-default.ico` 默认图标），不属于脚本约束范围。
+- 例外：`docs/assets/projects/` 目录存放跨项目二进制资源（当前仅 go 默认图标），不属于脚本约束范围。
 - **一个脚本只做一件事**：单一职责，禁止膨胀为万能工具脚本。
 - Python 脚本**必须**带 PEP 723 内联元数据（`# /// script` 块）声明 `requires-python` 与 `dependencies`；无第三方依赖也要保留该块（形式统一），统一在仓库根用 `uv run .scripts/<脚本> <args>` 执行。
-- **禁止**在仓库根或 `.scripts/` 内创建 `pyproject.toml`、`uv.lock`、`.venv`、`requirements.txt`；依赖一律走 PEP 723 + uv 全局缓存，仓库内不产生任何 Python 工程文件。
+- **禁止**在仓库根或 `.scripts/` 内创建 `pyproject.toml`、`uv.lock`、`.venv`、`requirements.txt`；依赖一律走 PEP 723 + uv 全局缓存。
 
 ## 七、归档与文档布局约定（重要）
 
@@ -114,12 +114,12 @@
   - `docs/repo/`：仓库自身文档与通用技术知识沉淀（git 子模块机制说明、与项目无关的技术介绍等）；
   - `docs/assets/projects/<lang>/`：跨项目二进制资源（如默认图标）；
   - `.archived/` 同理，跨项目内容收入 `.archived/projects/<lang>/` 分层。
-- **例外且硬规则：`docs/index.md` 是文档站点入口页，禁止删除**（mkdocs 的 `docs_dir` 根目录必须有 `index.md` 才能生成首页，它不属于“散装文件”而是站点首页本身）；删了会导致构建产物无 `index.html`、站点根路径 404。
+- **例外且硬规则：`docs/index.md` 是站点入口页，禁止删除**（它是站点首页而非散装文件；mkdocs 的 `docs_dir` 根目录必须有它才能生成首页，删了产物无 `index.html`、根路径 404）。
 - 所有**项目相关**文档（spec、plan、设计说明、项目知识沉淀等）统一放父仓库 `docs/projects/<lang>/` 下，按子模块内相对路径**镜像层级命名**，并去掉中间冗余的 `docs/` 一层：
   - 例：`go_projects/a/b.md` → `docs/projects/go_projects/a/b.md`；
   - 例：`typescript_projects/taskmon/docs/x.md` → `docs/projects/typescript_projects/taskmon/x.md`。
 - 例外：子模块内全大写命名的文档（如 `README.md`、`SUBMODULES.md`）与子仓根级说明文件无需迁移，可原地保留。
-- **方法论文档与 AI agent 工作指南**（跨项目、供 AI agent 直接执行，不归属单个子项目，如 `docs/projects/go_projects/CLI 工具开发标准.md`）：放 `docs/projects/<lang>/` 语言层目录，不镜像子仓路径、不进项目子目录；跨语言标准维护单一文件，其他语言引用同一标准；指南中引用的项目参考实现与项目文档，仍按上述 `docs/projects/<lang>/<项目>/` 规则存放。
+- **方法论文档与 AI agent 工作指南**（跨项目、不归属单个子项目，如 `docs/projects/go_projects/CLI 工具开发标准.md`）：放 `docs/projects/<lang>/` 语言层目录，不镜像子仓路径；跨语言标准维护单一文件，其他语言引用同一标准；指南引用的项目实现/文档仍按 `docs/projects/<lang>/<项目>/` 存放。
 - **父仓级 AI 工作指南（GUIDE 系列）**：当用户要求“把流程沉淀下来 / 写个操作手册 / 沉淀成 GUIDE”，或一次任务中出现可复用的多阶段工作流（分阶段执行、有人工确认点、有踩坑记录）值得沉淀时，按《[GUIDE 编写规范](docs/guides/README.md)》产出 `docs/guides/GUIDE-<中文主题>.md`（专有名词保留英文，如 `GUIDE-AOCI安装配置.md`）；GUIDE 仿 skill 规范编写但**不注册为 skill**，禁止放入任何 skills 目录。
 - **通用技术知识文档**（与任何项目无关的知识介绍/沉淀，如协议介绍、技术调研）：放 `docs/repo/`；`docs/projects/<lang>/` 只收项目相关文档与语言层方法论文档，禁止把此类文档放语言层根目录或任何项目目录。
 - 归档项目统一放 `.archived/projects/<lang>/<项目名>/`；语言通用文档放 `docs/projects/<lang>/`。
@@ -139,7 +139,7 @@
 4. **必须在新建子模块根目录配置规则继承指针**（详见下文）。
 
 ### 2. 子模块与子子模块的 Agent 规则继承指针（强约束）
-为了防止 Git Submodule 边界隔离导致 Agent（如 Antigravity、Claude Code、Codex）在切入子仓或嵌套子仓时丢失父仓主规则，**所有一级子模块及更深层级的子子模块根目录下，必须配套添加规则继承指针文件**：
+为防止 Git Submodule 边界隔离导致 Agent 切入子仓/嵌套子仓时丢失父仓主规则，**所有一级子模块及更深层子子模块根目录必须配套添加规则继承指针文件**：
 
 1. **`CLAUDE.md`**：保持单行引用（利用 Claude Code 原生 `@import` 机制自动内联）：
    - 一级子模块（如 `go_projects/CLAUDE.md`）：
@@ -185,9 +185,9 @@
 - 提交指针变更：`git add --force <子模块名>`（`ignore = all` 会拦截普通 `git add`，必须 `--force`）→ `git commit` → `git push`
 
 ### 2. AOCI Repository Cognition
-AOCI 是仓库级认知索引工具（以 MCP server 形式接入）：通过 aoci.txt / aoci.code.txt / .aoci/ 等索引与数据，让 AI 会话跨任务复用对本仓库的结构化认知（架构、对象职责、关系、外部契约、关键约束）。
+AOCI 是仓库级认知索引工具（MCP server 接入）：通过 aoci.txt / aoci.code.txt / .aoci/ 等数据，让 AI 会话跨任务复用本仓库的结构化认知。
 
-完整集成说明与工作流原文存于根目录 `aoci.repository.cognition.md`，**按需读取，不随会话默认加载**（原文较长，为省上下文从本文件迁出）。满足以下触发条件之一时，**必须先读该文件**再按其中工作流调用 `aoci_*` 工具：
+完整集成说明与工作流原文存于根目录 `aoci.repository.cognition.md`，**按需读取，不随会话默认加载**（为省上下文迁出）。满足以下触发条件之一时，**必须先读该文件**再按其中工作流调用 `aoci_*` 工具：
 
 1. **建立/恢复认知**：新会话接手复杂或跨模块任务，需要仓库全景（先 `aoci_overview`）；本会话上下文经历过压缩后继续 AOCI 相关工作。
 2. **收尾维护（最易遗漏）**：本会话改动过任何 AOCI 纳管文件（父仓文档、.scripts/ 脚本、根级配置等）且已到最终稳定状态——调用**一次** `aoci_maintain` 对齐索引；不得边改边逐文件调用，也不得跳过。

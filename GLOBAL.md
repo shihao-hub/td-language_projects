@@ -11,13 +11,13 @@
 - **专有名词保留**：专业术语（API、HTTP、TypeScript、React 等）、框架名称、命令行指令、文件路径保留英文原文。
 - **任务完成交互**：代码修改完成后，向用户展示改动摘要，并给出可直接在 PowerShell 下执行的 git commit 命令建议（需包含必要的 `cd` 路径切换命令）。
 
-### 2. Windows PowerShell 执行安全规范（通用条件约束）
-当且仅当处于 Windows 宿主环境并调用 PowerShell 执行命令行时，所有 AI Agent（包括 Codex、Claude Code、OpenCode、Pi、DeepSeek Harness、Antigravity 等）**必须遵循以下跨 Agent 通用安全规范**：
+### 2. Windows 终端执行安全规范（通用条件约束）
+当且仅当处于 Windows 宿主环境并通过终端执行命令行时（PowerShell 5.1 / pwsh 7，或 Git Bash 等 POSIX shell），所有 AI Agent（包括 Codex、Claude Code、OpenCode、Pi、DeepSeek Harness、Antigravity 等）**必须遵循以下跨 Agent 通用安全规范**；分条自带适用范围标注，未标注者视为对 PowerShell 与 Git Bash 均适用：
 
 1. **进程无状态与工作目录感知**：
    - Windows 下 Agent 命令行执行通常为**无状态的独立子进程**（各命令框架每次执行均拉起独立进程）；
    - 避免假设前一次命令的 `cd` 状态会持久保留到后续轮次；跨目录操作应优先依赖 Agent 工具自带的 `workdir` / `cwd` 参数，或在单次调用内完成路径切换与命令执行。
-2. **版本感知与语句连接（pwsh 7 vs PowerShell 5.1）**：
+2. **版本感知与语句连接（仅 PowerShell 适用；pwsh 7 vs PowerShell 5.1）**：
    - **PowerShell 7+（`pwsh`）**：原生支持 `&&` 与 `||` 管道链，允许直接使用。
    - **Windows PowerShell 5.1（`powershell.exe`）**：
      - 不支持 `&&` / `||`（会抛出语句分隔符语法错误）；
@@ -26,27 +26,31 @@
        command1; if ($?) { command2 }
        ```
 3. **文件 I/O 抽象与编码安全**：
-   - **优先走 Agent 文件工具**：凡涉及源码或配置的查看与编辑，一律优先使用 Agent 宿主提供的专用文件读写工具（File System Tools），杜绝通过命令行终端回显或流重定向读写大文件。
-   - **终端读取防御**：若必须通过终端读取文件，禁止裸调 `Get-Content`（5.1 默认按系统 ANSI/GBK 解析导致中文字符首轮乱码），显式带编码：
-     ```powershell
-     Get-Content -Encoding UTF8 "<filepath>"
-     ```
-   - **终端写入防御（防 UTF-8 BOM 破坏热加载与解析）**：严禁裸写 `>` 或 5.1 的 `Set-Content -Encoding UTF8`；**严禁使用 PowerShell 默认单例 `[System.Text.Encoding]::UTF8`**（其默认构造函数带有 UTF-8 BOM `EF BB BF`，会直接导致 Zed、Vite、Turbopack 等严格 JSON/TOML/Rust 解析器抛错并静默阻断配置热加载，甚至导致软件启动异常）。确需终端落盘无 BOM 纯正 UTF-8 时，必须显式传递 `$false`：
-     ```powershell
-     [System.IO.File]::WriteAllText("<filepath>", $content, [System.Text.UTF8Encoding]::new($false))
-     ```
-     或优先使用 Node.js（`fs.writeFileSync(file, text, 'utf8')`）/ Python 脚本落盘。
-   - **控制台流编码保障**：调用外部 CLI（如 git/go/python）并需捕获中文输出时，显式统一当前会话编码流：
-     ```powershell
-     [Console]::OutputEncoding = [System.Text.Encoding]::UTF8; $OutputEncoding = [System.Text.Encoding]::UTF8
-     ```
-4. **命令原子化与跨平台兜底**：
-   - 终端仅执行确定性的单条原生命令，禁止混用 Linux 专有别名（如带 Linux 参数的 `curl`、`cat`、`grep`、`export`、`rm -rf`）。
+   - **优先走 Agent 文件工具（全终端适用）**：凡涉及源码或配置的查看与编辑，一律优先使用 Agent 宿主提供的专用文件读写工具（File System Tools），杜绝通过命令行终端回显或流重定向读写大文件。
+   - 以下编码防御细则**仅针对 PowerShell**（Git Bash 等 POSIX shell 不适用）：
+     - **终端读取防御**：若必须通过终端读取文件，禁止裸调 `Get-Content`（5.1 默认按系统 ANSI/GBK 解析导致中文字符首轮乱码），显式带编码：
+       ```powershell
+       Get-Content -Encoding UTF8 "<filepath>"
+       ```
+     - **终端写入防御（防 UTF-8 BOM 破坏热加载与解析）**：严禁裸写 `>` 或 5.1 的 `Set-Content -Encoding UTF8`；**Windows PowerShell 5.1 下严禁使用静态属性 `[System.Text.Encoding]::UTF8` 进行文件写入**（该实例带 UTF-8 BOM `EF BB BF`，会直接导致 Zed、Vite、Turbopack 等严格 JSON/TOML/Rust 解析器抛错并静默阻断配置热加载，甚至导致软件启动异常；pwsh 7（.NET Core 起）该属性默认已不再输出 BOM，但为跨版本一致，仍统一按下述方式落盘）。确需终端落盘无 BOM 纯正 UTF-8 时，必须显式传递 `$false`：
+       ```powershell
+       [System.IO.File]::WriteAllText("<filepath>", $content, [System.Text.UTF8Encoding]::new($false))
+       ```
+       或优先使用 Node.js（`fs.writeFileSync(file, text, 'utf8')`）/ Python 脚本落盘。
+     - **控制台流编码保障**：调用外部 CLI（如 git/go/python）并需捕获中文输出时，显式统一当前会话编码流（控制台流编码与 BOM 无关，不受上一条限制）：
+       ```powershell
+       [Console]::OutputEncoding = [System.Text.Encoding]::UTF8; $OutputEncoding = [System.Text.Encoding]::UTF8
+       ```
+4. **命令原子化与跨平台兜底（全终端适用）**：
+   - 终端仅执行确定性的单条原生命令；禁止将 Linux 专有写法盲目移植到非 POSIX 环境（如 PowerShell 下带 Linux 参数的 `curl`、`export`、`rm -rf`）。
    - 凡涉及复杂文本流提取（正则、awk/sed）或多步骤依赖任务，**严禁在终端拼接复杂脆弱的管道**：
      - **首选**：编写单文件 Python 脚本，以 `uv run` 驱动；
-     - **备选（Git Bash）**：若需直接利用 POSIX 工具链，动态定位 Git Bash 执行，严禁硬编码盘符：
+     - **备选（PowerShell 下调起 Git Bash）**：若需直接利用 POSIX 工具链，动态定位并校验 Git Bash 后再执行，严禁硬编码盘符：
        ```powershell
-       $bash = (Get-Command git -ErrorAction SilentlyContinue).Source -replace '\\cmd\\git\.exe$','\bin\bash.exe'; & $bash -c '<unix-command>'
+       $bash = (Get-Command bash -ErrorAction SilentlyContinue).Source
+       if (-not $bash) { $git = (Get-Command git -ErrorAction SilentlyContinue).Source; if ($git) { $root = Split-Path (Split-Path $git -Parent) -Parent; foreach ($rel in 'bin\bash.exe', 'usr\bin\bash.exe', '..\usr\bin\bash.exe') { $c = Join-Path $root $rel; if (Test-Path $c) { $bash = $c; break } } } }
+       if (-not ($bash -and (Test-Path $bash))) { throw '未找到 Git Bash，改用 uv run Python 单文件脚本' }
+       & $bash -c '<unix-command>'
        ```
 
 ### 3. 文件操作安全与命令防御（强约束）
@@ -61,9 +65,9 @@
     ```powershell
     Get-CimInstance Win32_Process -Filter "Name='chrome.exe'" | Where-Object { $_.CommandLine -like '*chrome-devtools-mcp\chrome-profile*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
     ```
-- **数据密集型任务必须“脚本化”（Token 经济强约束）**：凡跨目录搜索、批量文件遍历、会话历史/日志/数据库检索、结果筛选去重统计等任务，一律先写单文件脚本（`uv run` Python 或单条 `rg`）在代码层完成筛选、去重、统计、汇总，只把摘要结论带回对话；**严禁**使用多轮工具调用把原始内容（搜索结果、文件正文、目录清单）逐批灌入模型上下文。此类任务不使用 max / 高思考档模型。
+- **数据密集型任务必须“脚本化”（Token 经济强约束）**：凡跨目录搜索、批量文件遍历、会话历史/日志/数据库检索、结果筛选去重统计等任务，一律先在代码层完成筛选、去重、统计、汇总（首选 `uv run` Python 单文件脚本；若终端确装有 `rg` 等流式搜索命令，亦可用单条命令等价完成），只把摘要结论带回对话；**严禁**使用多轮工具调用把原始内容（搜索结果、文件正文、目录清单）逐批灌入模型上下文——**原因：上下文窗口是 AI 最稀缺资源，模型心算汇总易出错，代码层汇总确定、可复核、可重跑**。此类任务不使用 max / 高思考档模型。
 - **临时探索脚本治理（Scratchpad Hygiene / 防随地落盘与文件膨胀）**：
-  - **隔离落位（禁止根目录随地落盘）**：逆向分析、排查探针、解密提取等一次性/探索性脚本与转储文件，**严禁平铺散落在项目根目录或业务源码目录**；必须放入 Harness/Agent 专有 scratch 隔离区（如 Agent scratch 目录）或受 `.gitignore` 保护的临时目录（如 `.scratch/`、`temp/`）；
+  - **隔离落位（禁止根目录随地落盘）**：逆向分析、排查探针、解密提取等一次性/探索性脚本与转储文件，**严禁平铺散落在项目根目录或业务源码目录**；必须放入不参与版本管理的隔离区——首选系统临时目录（Windows `%TEMP%`、POSIX `/tmp`）；如放项目内，则仅限**已确认被忽略规则覆盖**的临时目录（如 `.scratch/`、`temp/`，使用前先核实其确被忽略，未覆盖则先补豁免或改用系统临时目录）；
   - **单文件就地复用（防步骤级文件泛滥）**：多步分析或探针验证时，一律在同一个脚本（如 `scratch/probe.py`）内就地修改覆盖迭代，**严禁每排查一个步骤/符号就新建一个文件**（杜绝 `find_1.py`、`inspect_2.py` 式文件垃圾堆）；
   - **闭环清理与沉淀边界**：排查验证结束后，一次性探索脚本与中间产物原则上必须随手清理，确保 `git status` 工作区干净；若脚本确属具备长期工程复用价值的工具，须重构规范后归入项目标准脚本目录（如 `scripts/`）并向用户明确说明。
 
@@ -71,13 +75,14 @@
 - **禁止 `SELECT *`**：任何 ORM 查询与手写 SQL 一律显式列出所需字段。
 - **任务标记规范**：代码或文档注释中的 `sh-ai-todo`，若已完成请标记为 `sh-ai-todo[o]`。
 - **PostgreSQL 规范**：数据库表尽量避免使用 JSONB；若业务必要使用，须在方案中说明理由，并在应用层或约束上限制字段最大容量。
+- **凭证与密钥防线**：密钥 / 令牌 / 密码严禁写入代码、日志、提交内容或终端回显；读取外部凭据文件时保持只读，禁止将自产缓存 / 锁 / 临时文件落盘到任何外部程序或凭据所在目录。
 - **Python (FastAPI + SQLAlchemy + Celery) 架构防线**：
   - **连接池保护**：严格避免数据库连接被长时间运行的后台任务或外部 I/O 阻塞持有，长任务应在执行前释放会话或采用短生命周期连接；
   - **ORM 变更审查**：SQLAlchemy 的 `BaseModel` 首次创建、增减字段或修改关联关系时，任务完成后需明确提示人工审阅，重点核查 N+1 查询风险与隐式级联操作（cascade）；
   - **异步任务分层**：Celery 应聚焦毫秒/秒级轻量异步任务；对于高吞吐、强流式或长耗时计算任务，应解耦至专用消息管道（如 Kafka）或独立 Worker 执行，避免阻塞 Celery 任务队列及持有数据库连接。
 
 ### 6. Python 模块结构规范（统一骨架）
-单文件 Python 模块的元素按固定顺序组织；常量 / 开关集中置顶（打开即见），类与函数随后。详细调研与来源依据见 `docs/repo/Python 模块结构与常量放置规范调研.md`：
+单文件 Python 模块的元素按固定顺序组织；常量 / 开关集中置顶（打开即见），类与函数随后：
 
 ```text
 PEP 723 内联元数据块（uv 单文件脚本）
