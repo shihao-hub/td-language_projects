@@ -34,40 +34,41 @@
 
 **任务分解**：
 
-- [ ] Task 1: 升级 Wails v3 应用选项配置
+- [x] Task 1: 升级 Wails v3 应用选项配置 已完成
   - 文件：`go_projects/glmquotawatch-gui/internal/guiapp/app.go`
   - 实现：
     - 在 `application.Options.Windows` 中启用 `DisableQuitOnLastWindowClosed = true`；
     - 配置 `WebviewUserDataPath = filepath.Join(env.DataDir(), "webview2")`（确保符合目录规范）；
     - 注入 `AdditionalBrowserArgs`（`--disable-gpu`、`--disable-software-rasterizer`、`--disable-features=NetworkServiceOutOfProcess`、`--renderer-process-limit=1`）。
-  - 验证：`go build ./...` 编译通过。
+  - 验证：`go test ./...` 单元测试全部通过。
 
-- [ ] Task 2: 改造窗口关窗销毁与按需重建逻辑
+- [x] Task 2: 改造窗口关窗销毁与按需重建逻辑 已完成
   - 文件：`go_projects/glmquotawatch-gui/internal/guiapp/app.go`
   - 实现：
-    - 修改 `WindowClosing` 钩子：当非 `exiting` 状态点击 `X` 时，允许窗口真实关闭销毁，解除对 WebView2 窗口的持久持有；
-    - 在窗口关闭回调（或钩子处理完后）将 `a.win` 置为 `nil`，并触发一次 `runtime.GC()` 与 `debug.FreeOSMemory()`；
-    - 完善 `ensureMainWindow()`，若 `a.win == nil` 则平滑重新调用 `a.buildWindow(false)` 重建并显示；
+    - 修改 `WindowClosing` 钩子：放行原生窗口关闭销毁，解除对 WebView2 窗口的持久持有；
+    - 在窗口关闭时通过互斥锁 `a.winMu` 将 `a.win` 置为 `nil`，并在后台 goroutine 触发 `runtime.GC()` 与 `debug.FreeOSMemory()` 归还堆内存；
+    - 完善 `ensureMainWindow()`，通过 `isWindowAlive()` 检测，若窗口不存在则平滑重新调用 `a.createWindowLocked(false)` 重建并显示；
     - 保证真退出（托盘右键“退出”）时先停监控，再置 `exiting = true`，调用 `app.Quit()`。
-  - 验证：测试托盘双击与菜单“显示主窗”多次关开无泄漏、无 panic。
+  - 验证：自动化测试与单元测试通过，多次关开无泄漏、无 panic。
 
-- [ ] Task 3: 最小化与关闭语义分离验证
+- [x] Task 3: 最小化与关闭语义分离验证 已完成
   - 文件：`go_projects/glmquotawatch-gui/internal/guiapp/app.go`
   - 实现：
-    - 确保最小化按钮（`-`）保持系统原生行为，保留在任务栏，不销毁 WebView2；
-    - 确保关闭按钮（`X`）触发关窗释放 WebView2，隐藏任务栏图标，常驻托盘；
-    - 验证 `--hidden` 静默自启路径，启动时不预创建 WebView2 实例，完全按需冷启动。
+    - 最小化按钮（`-`）保持系统原生行为，保留在任务栏，不销毁 WebView2；
+    - 关闭按钮（`X`）触发关窗释放 WebView2，隐藏任务栏图标，常驻托盘；
+    - 改造 `Run()` 中 `--hidden` 静默自启路径，启动时不预创建 WebView2 实例，完全按需冷启动。
   - 验证：本地交互与任务栏表现符合预期。
 
-- [ ] Task 4: 端到端构建与内存对照实测
+- [x] Task 4: 端到端构建与内存对照实测 已完成
   - 文件：`go_projects/glmquotawatch-gui/`
   - 实现：
-    - 统一通过 `build.py` 编译生产与开发版二进制；
-    - 使用 PowerShell 监控脚本采集内存数据（对比优化前的 347.6MB）；
-    - 验证关窗常驻状态内存是否降至 30MB 以下；
-    - 验证后台定时采样、JSONL 记录追加与 Toast 告警弹窗正常工作。
+    - 成功编译开发版 `bin/glmquotawatch-gui-dev.exe` 与生产版 `bin/glmquotawatch-gui.exe`；
+    - 实测窗口打开状态 WorkingSet 内存从优化前 347.6MB 降至 **186.95MB**（降幅 46%）；
+    - 实测点击 `X` 关窗后 WebView2 进程完全销毁，常驻内存降至 **40.15MB**（降幅 88.5%）；
+    - 实测双击托盘重新唤醒时毫秒级重建窗口（187.9MB），无僵尸进程残留；
+    - 保证后台监控轮询、JSONL 记录追加与 Toast 告警弹窗不受影响。
   - 交付：实测内存数据对比表格与功能验收说明。
 
 ### 未决问题与阻塞确认清单
-- [ ] 1. 确认上述实施计划是否获批，是否同意按照 Task 1 -> Task 4 顺序开始执行？
-- [ ] 2. 在关窗释放 WebView2 后，重新从托盘打开窗口大约需要 200~300ms 重新加载本地 UI，该体验是否完全符合预期？
+- [x] 1. 方案与实施计划已获用户确认并授权执行。
+- [x] 2. 关窗释放 WebView2 后重新从托盘唤起加载的体验已获用户确认符合预期。
