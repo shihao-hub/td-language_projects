@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-16T04:26:32Z",
+  "updated_at": "2026-10-16T19:19:53Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -346,9 +346,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "8cfbc218dc756206aa8b58563d83cd3974196319a27bbc606509c64def85a541",
-      "size": 152487,
-      "normalized_sha256": "8cfbc218dc756206aa8b58563d83cd3974196319a27bbc606509c64def85a541"
+      "sha256": "7522c827aefbf18b230c67b4b1baab1ca616e5ceed0e7adb53e82c814c010b71",
+      "size": 152725,
+      "normalized_sha256": "7522c827aefbf18b230c67b4b1baab1ca616e5ceed0e7adb53e82c814c010b71"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -856,6 +856,11 @@
       "size": 5266,
       "normalized_sha256": "3e044b1af28ce9b2b5168208d657ddeb0f843e8ceb7659c30423228e712e4ef0"
     },
+    "docs/projects/go_projects/agyquota/plans/06-once-flag-ephemeral-daemon.md": {
+      "sha256": "d013aec0f0c2c9864cf42e04be6c40b330e4eb407851b37660e12df0b5e2f0b0",
+      "size": 4986,
+      "normalized_sha256": "d013aec0f0c2c9864cf42e04be6c40b330e4eb407851b37660e12df0b5e2f0b0"
+    },
     "docs/projects/go_projects/agyquota/specs/01-window-focus-steal/bugfix.md": {
       "role": "index",
       "sha256": "21de2e779f658cd2869301b66c304f87baedc9e6ab1b9eb642019a0cf64c6f73",
@@ -1057,9 +1062,9 @@
       "normalized_sha256": "7f62b69fa08dc8cb8d3b96d7c5cdcbfea923f0e260b2d94ffbdbe98495ef64bb"
     },
     "docs/projects/go_projects/glmquotawatch-gui/specs/05-opencode-go-quota-probe/tasks.md": {
-      "sha256": "283cb26844260f0bafa42fe0ab4b65dd6f563a441785f5f68e48574e7189fd12",
-      "size": 7877,
-      "normalized_sha256": "283cb26844260f0bafa42fe0ab4b65dd6f563a441785f5f68e48574e7189fd12"
+      "sha256": "b9e6cf80cb8584041f2bb9c4c84aea898e04d2a011e422081ed5769641defbef",
+      "size": 8994,
+      "normalized_sha256": "b9e6cf80cb8584041f2bb9c4c84aea898e04d2a011e422081ed5769641defbef"
     },
     "docs/projects/go_projects/glmquotawatch/plans/01-mcp-schema-portability.md": {
       "role": "index",
