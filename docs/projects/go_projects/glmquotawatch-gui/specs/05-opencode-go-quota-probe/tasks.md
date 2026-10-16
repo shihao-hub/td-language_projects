@@ -1,6 +1,6 @@
 # Task List: OpenCode Go 额度探测快速实现
 
-- [ ] 1. OpenCode Go API 客户端与数据结构实现
+- [x] 1. OpenCode Go API 客户端与数据结构实现
   - Files: `go_projects/glmquotawatch-gui/internal/opencode/client.go`, `go_projects/glmquotawatch-gui/internal/opencode/client_test.go`
   - 实现细节：
     - 定义 `WindowUsage`、`Usage` 结构体。
@@ -11,7 +11,7 @@
   - Verify: 在 `go_projects/glmquotawatch-gui` 运行 `go test -v ./internal/opencode/...` 且测试全部通过。
   - Ref: AC-2, AC-3
 
-- [ ] 2. Store 配置持久化扩展支持 OpenCode Token
+- [x] 2. Store 配置持久化扩展支持 OpenCode Token
   - Files: `go_projects/glmquotawatch-gui/internal/store/store.go`, `go_projects/glmquotawatch-gui/internal/store/store_test.go`
   - 实现细节：
     - `Config` 结构体增加 `OpenCodeToken string json:"opencode_token,omitempty"` 字段。
@@ -20,7 +20,7 @@
   - Verify: 在 `go_projects/glmquotawatch-gui` 运行 `go test -v ./internal/store/...` 且测试全部通过。
   - Ref: AC-1
 
-- [ ] 3. Service 层增加 OpenCode 业务用例与状态组装
+- [x] 3. Service 层增加 OpenCode 业务用例与状态组装
   - Files: `go_projects/glmquotawatch-gui/internal/service/opencode.go`, `go_projects/glmquotawatch-gui/internal/service/opencode_test.go`
   - 实现细节：
     - 定义 `OpenCodeConfigView`、`OpenCodeWindowView`、`OpenCodeStatusView`。
@@ -30,7 +30,7 @@
   - Verify: 在 `go_projects/glmquotawatch-gui` 运行 `go test -v ./internal/service/...` 且测试全部通过。
   - Ref: AC-1, AC-2, AC-3
 
-- [ ] 4. CLI 新增 `opencode` 独立子命令组与 Schema 同步
+- [x] 4. CLI 新增 `opencode` 独立子命令组与 Schema 同步
   - Files: `go_projects/glmquotawatch-gui/internal/cli/opencode.go`, `go_projects/glmquotawatch-gui/internal/cli/root.go`, `go_projects/glmquotawatch-gui/internal/cli/schema.go`, `go_projects/glmquotawatch-gui/internal/cli/cli_test.go`
   - 实现细节：
     - 新增 `opencodeCmd()`，挂载 `token`（set/show/remove）与 `status` 命令。
@@ -40,7 +40,7 @@
   - Verify: 在 `go_projects/glmquotawatch-gui` 运行 `go test -v ./internal/cli/...` 且测试全部通过。
   - Ref: AC-1, AC-2, AC-3, AC-5
 
-- [ ] 5. Wails 后端 Bindings 扩展与状态快照集成
+- [x] 5. Wails 后端 Bindings 扩展与状态快照集成
   - Files: `go_projects/glmquotawatch-gui/internal/guiapp/bindings.go`, `go_projects/glmquotawatch-gui/internal/guiapp/runtime.go`
   - 实现细节：
     - `GUIState` 增加 `ActiveProvider`、`OpenCodeStatus`、`OpenCodeConfig` 字段。
@@ -49,7 +49,7 @@
   - Verify: 在 `go_projects/glmquotawatch-gui` 运行 `go test -v ./internal/guiapp/...` 且编译无错误。
   - Ref: AC-4
 
-- [ ] 6. 前端 Provider 切换、OpenCode 专属仪表盘与设置页开发
+- [x] 6. 前端 Provider 切换、OpenCode 专属仪表盘与设置页开发
   - Files: `go_projects/glmquotawatch-gui/frontend/src/api.ts`, `go_projects/glmquotawatch-gui/frontend/src/store.ts`, `go_projects/glmquotawatch-gui/frontend/src/App.vue`, `go_projects/glmquotawatch-gui/frontend/src/pages/Dashboard.vue`, `go_projects/glmquotawatch-gui/frontend/src/pages/History.vue`, `go_projects/glmquotawatch-gui/frontend/src/pages/Settings.vue`
   - 实现细节：
     - `api.ts` 导出新增的 OpenCode 类型定义。
@@ -62,7 +62,7 @@
   - Verify: 在 `go_projects/glmquotawatch-gui/frontend` 运行 `npm run build`，产出无报错并输出 `dist/`。
   - Ref: AC-4, AC-5, AC-7
 
-- [ ] 7. 前端 OpenCode Console 暗色风格层落地
+- [x] 7. 前端 OpenCode Console 暗色风格层落地
   - Files: `go_projects/glmquotawatch-gui/frontend/src/style.css`, `go_projects/glmquotawatch-gui/frontend/src/components/oc/QuotaRow.vue`, `.../oc/SampleButton.vue`, `.../oc/EmptyState.vue`, `.../oc/ProviderSwitch.vue`
   - 实现细节：
     - 按《需求·视觉规范：OpenCode Console 风格》在 `style.css` 中新增 `.oc-console` 作用域令牌（`--oc-bg: #242424`、`--oc-surface: #2e2e2e`、`--oc-track: #3a3a3a`、`--oc-border: #ffffff14`、`--oc-text: #f2f2f2`、`--oc-text-2: #aeaeae`、`--oc-text-3: #808080`、`--oc-warn: #f2cf76`、`--oc-crit: #ffa478`、`--oc-danger: #f1484f`），严禁写入全局 `@theme`。
@@ -75,7 +75,7 @@
   - Verify: 在 `go_projects/glmquotawatch-gui/frontend` 运行 `npm run build` 无报错；启动 dev exe 后截图比对参考 console 截图（底色、1px 描边、6px 细条、无阴影、无圆环），并确认切回 GLM 视图仍为既有浅色主题。
   - Ref: AC-6, AC-7, AC-8
 
-- [ ] 8. 端到端构建与双入口联调验证
+- [x] 8. 端到端构建与双入口联调验证
   - Files: `go_projects/glmquotawatch-gui` 整体工程
   - 实现细节：
     - 运行 `uv run scripts/build-dev.py` 构建开发版 exe。
@@ -84,3 +84,14 @@
     - 验证既有 GLM CLI `.\bin\glmquotawatch-gui-dev.exe status` 行为未退化。
   - Verify: 终端执行 `.\bin\glmquotawatch-gui-dev.exe opencode status` 返回 `{"ok":true,"data":...}` 且退出码为 0。
   - Ref: AC-1, AC-2, AC-3, AC-4, AC-5, AC-6, AC-7, AC-8
+
+- [x] 9. OpenCode Go 采样历史持久化与历史走势图展现
+  - Files: `internal/store/store.go`, `internal/service/opencode.go`, `internal/service/history.go`, `internal/service/daemon.go`, `internal/guiapp/runtime.go`, `internal/guiapp/bindings.go`, `frontend/src/pages/History.vue`
+  - 实现细节：
+    - `store.go` 实现 `AppendOpenCodeSample` 与 `ListOpenCodeSampleFiles`（按月归档 `opencode-samples-YYYY-MM.jsonl`）。
+    - `opencode.go` 采样成功后自动持久化采样数据。
+    - `daemon.go` 守护进程周期轮询 OpenCode Go 并通过 `OnOpenCodeSample` 广播最新状态。
+    - `history.go` 实现 `OpenCodeHistoryWindows()`（滑动/周/月）与 `ReadOpenCodeHistory()`。
+    - `bindings.go` 的 `ReadHistory` 与 `HistoryWindows` 针对 OpenCode 窗口与 Provider 进行无缝透明路由。
+    - `History.vue` 移除占位空状态，接入 OpenCode 窗口切换与 ECharts 历史走势（动态主题色与梯级虚线）。
+  - Verify: Go 单元测试与前端构建全部通过；`bin/glmquotawatch-gui-dev.exe opencode status` 成功落盘月度 jsonl 文件。
