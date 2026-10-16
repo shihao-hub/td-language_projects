@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-11T08:47:29Z",
+  "updated_at": "2026-10-16T04:26:32Z",
   "files": {
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -230,9 +230,9 @@
       "normalized_sha256": "c3d8e7b66de266b8b1788363e842683eac88bc670c7ae35de673d18a497492d6"
     },
     ".scripts/install-mcp.py": {
-      "sha256": "a2cc7aa351311ef066aa06cdd2e3e9844eee49f2ecc6b4467123c44faa7f8d60",
-      "size": 45662,
-      "normalized_sha256": "a2cc7aa351311ef066aa06cdd2e3e9844eee49f2ecc6b4467123c44faa7f8d60"
+      "sha256": "1247fe387ebcfd4fc70c02b308db3d9649b70fbbb84ac2345e119545c8fca03d",
+      "size": 48621,
+      "normalized_sha256": "1247fe387ebcfd4fc70c02b308db3d9649b70fbbb84ac2345e119545c8fca03d"
     },
     ".scripts/install_tool.py": {
       "role": "index",
@@ -299,9 +299,9 @@
       "normalized_sha256": "b0ebdd27e89528e555e5515d91fde916d6286e13a47c3f3bb1f50c9cb8c91a82"
     },
     "AGENTS.md": {
-      "sha256": "b064a9dd12dff6813af9b758a59bcef19cd131580396a62c120c9f4b3e5bf506",
-      "size": 24184,
-      "normalized_sha256": "ac21377a770dd4e3a459f18578d7735ab7914f1f9d4f91f168aa0eca3a659fcc"
+      "sha256": "27c9cf252c42e0c15f6156a62ccfd275778f9b2a9513147389cb000d669f0b20",
+      "size": 23149,
+      "normalized_sha256": "e62151668b96347459a634ae57896b364d7f6941691ca80bdbcf9be0c46e078a"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -310,9 +310,9 @@
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "GLOBAL.md": {
-      "sha256": "756c46edcc90ce0a3d0392440ba2d095922fddf16d3593c4a0eeb480b4040caf",
-      "size": 11777,
-      "normalized_sha256": "598d2f03183e5177aa39cd24e5fc53eb51ddebbb7631bc596c6e5bcd5cec7691"
+      "sha256": "3cebfadab20c36f0210ec0969a34399c3bc8d19431e0b0be719b801672a7ac6a",
+      "size": 14556,
+      "normalized_sha256": "08ac13ade4c4308c32f95e074c301453a4273b0a0db049aeec8147496c515024"
     },
     "MONOREPO.md": {
       "sha256": "f31f030902bcad22be9fd2a26680096414a604356aea71db85ef06585f93aa24",
@@ -346,9 +346,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "ae57af706e11e38306b772998d056ff413be84e9b67786d644b63e27c6de7cd8",
-      "size": 148139,
-      "normalized_sha256": "ae57af706e11e38306b772998d056ff413be84e9b67786d644b63e27c6de7cd8"
+      "sha256": "8cfbc218dc756206aa8b58563d83cd3974196319a27bbc606509c64def85a541",
+      "size": 152487,
+      "normalized_sha256": "8cfbc218dc756206aa8b58563d83cd3974196319a27bbc606509c64def85a541"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -443,10 +443,9 @@
       "normalized_sha256": "b064f6111b7537cf915415072374501319cc998f2bbd2cb159dbae6e1a1a93d3"
     },
     "docs/index.md": {
-      "role": "index",
-      "sha256": "b8177dd1468d94f3ecc2a8fd2c81118025d04c5f3643f29656974cdd4bd422a5",
-      "size": 1272,
-      "normalized_sha256": "b8177dd1468d94f3ecc2a8fd2c81118025d04c5f3643f29656974cdd4bd422a5"
+      "sha256": "9cc7fd34f8a996d9490ebc5c0aee8c034c89cddd18ccb29d312a206f1ce08e44",
+      "size": 1257,
+      "normalized_sha256": "9cc7fd34f8a996d9490ebc5c0aee8c034c89cddd18ccb29d312a206f1ce08e44"
     },
     "docs/memories/README.md": {
       "role": "index",
@@ -1047,6 +1046,21 @@
       "size": 7945,
       "normalized_sha256": "57d783b924eff8932a0c7abf3d9a28cbbc32aeb8603c6713ab64cc95e2a9bab8"
     },
+    "docs/projects/go_projects/glmquotawatch-gui/specs/05-opencode-go-quota-probe/design.md": {
+      "sha256": "fcc29dc5ba9298d624671f42f432d13e5b3a0956ee4dd246bf9d54608990a089",
+      "size": 16088,
+      "normalized_sha256": "fcc29dc5ba9298d624671f42f432d13e5b3a0956ee4dd246bf9d54608990a089"
+    },
+    "docs/projects/go_projects/glmquotawatch-gui/specs/05-opencode-go-quota-probe/requirements.md": {
+      "sha256": "7f62b69fa08dc8cb8d3b96d7c5cdcbfea923f0e260b2d94ffbdbe98495ef64bb",
+      "size": 15945,
+      "normalized_sha256": "7f62b69fa08dc8cb8d3b96d7c5cdcbfea923f0e260b2d94ffbdbe98495ef64bb"
+    },
+    "docs/projects/go_projects/glmquotawatch-gui/specs/05-opencode-go-quota-probe/tasks.md": {
+      "sha256": "283cb26844260f0bafa42fe0ab4b65dd6f563a441785f5f68e48574e7189fd12",
+      "size": 7877,
+      "normalized_sha256": "283cb26844260f0bafa42fe0ab4b65dd6f563a441785f5f68e48574e7189fd12"
+    },
     "docs/projects/go_projects/glmquotawatch/plans/01-mcp-schema-portability.md": {
       "role": "index",
       "sha256": "22e815a76da7190c1967b70693caf3a4f1ce742635913b631e5a93ba12d0c6bf",
@@ -1328,6 +1342,11 @@
       "size": 12636,
       "normalized_sha256": "31334060023f35142e83ed3ae47e766c1142aa0d124892f32188ff9d6914e8cc"
     },
+    "docs/projects/python_projects/docsearch/plans/01-local-document-semantic-search.md": {
+      "sha256": "12789089c86ddc174738b9a4459c19b5fbc99cdf06e8a5a99c652e0e7be46595",
+      "size": 8666,
+      "normalized_sha256": "12789089c86ddc174738b9a4459c19b5fbc99cdf06e8a5a99c652e0e7be46595"
+    },
     "docs/projects/python_projects/douyin_downloader/plans/01-zhihu-comments.md": {
       "sha256": "613d37e0ea0861b638d90c593afb7309f29d247e3303a515023cd341f3fd6e87",
       "size": 9567,
@@ -1579,6 +1598,11 @@
       "size": 3025,
       "normalized_sha256": "bb4dcd94d16ef039b83b592c32cbe8d138f11b9b4e4ac575b6c9d8723c0367b4"
     },
+    "docs/repo/Java 与 python-go-rust 子仓对比分析.md": {
+      "sha256": "02bcc4f55cce7c35d28b3be69481a33430e6ee0d1155c698911300370db7ac7f",
+      "size": 22594,
+      "normalized_sha256": "02bcc4f55cce7c35d28b3be69481a33430e6ee0d1155c698911300370db7ac7f"
+    },
     "docs/repo/K8S 核心声明式调和链路原理剖析与自研架构设计.md": {
       "role": "index",
       "sha256": "3f83f7ef5d8fa8537b6a4483fef6e792ae0aef0c7e0cdac530bafe985f0c9072",
@@ -1601,6 +1625,11 @@
       "sha256": "64b1eb716667848cd78dc5d6bba2a3b4ebb9cc481db82d3090eea891941be22a",
       "size": 18390,
       "normalized_sha256": "64b1eb716667848cd78dc5d6bba2a3b4ebb9cc481db82d3090eea891941be22a"
+    },
+    "docs/repo/README.md": {
+      "sha256": "7c4c91dda4f828a2399e23cec0c8185a7e85e5d4942cc53dd78c38494ac44bd0",
+      "size": 6841,
+      "normalized_sha256": "7c4c91dda4f828a2399e23cec0c8185a7e85e5d4942cc53dd78c38494ac44bd0"
     },
     "docs/repo/agent-session-handoff-research.md": {
       "role": "index",
@@ -1682,6 +1711,11 @@
       "sha256": "6d3c33033a234f51e2bfd3816a14e29ae4cfb484dfdb710647445a14c238a451",
       "size": 36087,
       "normalized_sha256": "6d3c33033a234f51e2bfd3816a14e29ae4cfb484dfdb710647445a14c238a451"
+    },
+    "docs/repo/windows-terminal-dsh-embedding-research.md": {
+      "sha256": "91f83d9ab343917f41b79d3cddace6e43479441d10e4fe17275029e906aeb967",
+      "size": 21513,
+      "normalized_sha256": "91f83d9ab343917f41b79d3cddace6e43479441d10e4fe17275029e906aeb967"
     },
     "docs/repo/zed-edit-prediction-providers-research.md": {
       "role": "index",
