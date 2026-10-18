@@ -21,12 +21,14 @@
     "**/.pi/**",
     "**/.dsh/**",
     "**/.cursor/**",
+    "**/.gemini/**",
     "**/.codex/skills/**", // 直接软链接 .agents/skills 的，无需看
     "**/.claude/skills/**",
     "**/.opencode/skills/**",
     "**/.pi/skills/**",
     "**/.dsh/skills/**",
     "**/.cursor/skills/**",
+    "**/.gemini/skills/**",
     // "**/.agents/skills/**", // 隐藏了，展开太长了，但是我害怕 zed 里的 agent 都会忽略这个目录
     "**/.idea/**", // .idea 也不需要看，根据我以前使用 idea 的经历，从未改过这个文件...
     ".thirdparty/**", // 第三方库，本来不改放在这个位置的
