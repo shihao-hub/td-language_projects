@@ -10,6 +10,7 @@
 
 - 五个子目录（`go_projects`、`python_projects`、`rust_projects`、`typescript_projects`、`native_projects`）各自是独立 Git 仓库，父仓库只跟踪它们的 commit 指针（`.gitmodules` 中 `ignore = all`）。
 - 其中 `native_projects` 是**混合语言子仓**（C / C++ / Lua）：仓内同样是“一个子目录 = 一个项目”，具体语言由各项目自定；其余子仓仍按语言一一对应。
+- **`native_projects` 当前为本地注销态**（属有意暂停，非缺陷）：远端 `td-native-projects` 正常（main 有内容），本地仅保留 gitlink（`git submodule status` 显示 `-` 前缀、未检出）；恢复执行 `git submodule update --init native_projects`，注销/恢复机制与踩坑见 `docs/repo/Git 子模块临时注销（native、rust）.md`。**不得把「声明了但本地无目录」当作架构缺陷重新上报。**
 - 各语言子仓内部为 monorepo：**一个子目录 = 一个项目**，彼此独立、各自维护依赖与配置；新增项目直接建新子目录，不要在子项目内单独 `git init`。
 - 已归档项目与通用文档集中放在**父仓库根目录**，统一收入 `projects/` 分层，按语言子仓名嵌套：
   - `.archived/projects/<lang>/`：归档停更的项目（如 `.archived/projects/go_projects/file-sync`、`.archived/projects/python_projects/lele`）；
