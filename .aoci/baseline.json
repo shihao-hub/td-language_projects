@@ -1,8 +1,13 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-18T08:20:47Z",
+  "updated_at": "2026-10-18T08:43:05Z",
   "files": {
+    ".agents/docs/aoci.protocol.md": {
+      "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
+      "size": 16187,
+      "normalized_sha256": "bd88fc0120e081c9080f65eca73022fc267375543d44c394f771ca5bdee40c85"
+    },
     ".agents/rules/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
       "size": 16187,
@@ -256,6 +261,11 @@
       "size": 10671,
       "normalized_sha256": "eb05bc4b591a8bc088cac2ac6af8d7ea998da2bfb239c8a62a040b63435507ba"
     },
+    ".scripts/link-subproject-agents.py": {
+      "sha256": "6a9d1db907ea0445ca7233f4e5ab209f65b686cdcadd49d0150c2087a1b19e6f",
+      "size": 7938,
+      "normalized_sha256": "e21a7474790493a589d2da5bd92e156e15d74cef2eeda6ec71d4aef2b61bd75c"
+    },
     ".scripts/patch_deepseek_harness_icon.py": {
       "sha256": "aac4c776f3536b6905ebb6b2e2fa7c61450314aeb742582ae1783f57d50bee3c",
       "size": 17641,
@@ -304,9 +314,9 @@
       "normalized_sha256": "b0ebdd27e89528e555e5515d91fde916d6286e13a47c3f3bb1f50c9cb8c91a82"
     },
     "AGENTS.md": {
-      "sha256": "165394f2fb98a8bf41d7616feae65b7d82196bf6640592b8c593d3056a37c2cd",
-      "size": 23220,
-      "normalized_sha256": "165394f2fb98a8bf41d7616feae65b7d82196bf6640592b8c593d3056a37c2cd"
+      "sha256": "5a570a844e4f565fe0e7c5f1f94067194ad848855ee1acede54e3b6a2c4ec7e4",
+      "size": 23218,
+      "normalized_sha256": "5a570a844e4f565fe0e7c5f1f94067194ad848855ee1acede54e3b6a2c4ec7e4"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -315,9 +325,9 @@
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "GLOBAL.md": {
-      "sha256": "d00c600af7f61ffb64cb9a85597525a6d8b8a748ace40fd879e5d1e1602538d5",
-      "size": 18287,
-      "normalized_sha256": "d00c600af7f61ffb64cb9a85597525a6d8b8a748ace40fd879e5d1e1602538d5"
+      "sha256": "13f90c958b495bfea997a5652a4b7dd2f862f537c23825c4b0a324a4d3b5c9dc",
+      "size": 18286,
+      "normalized_sha256": "13f90c958b495bfea997a5652a4b7dd2f862f537c23825c4b0a324a4d3b5c9dc"
     },
     "MONOREPO.md": {
       "sha256": "c4e18a76517a0d0598a505098a48b81398d09d01f15cd4eeb571f0168d108274",
@@ -351,9 +361,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "c3a958859afacb296e659d57d8a6326f20d3ad22a1f565f2e988e2946a0898ff",
-      "size": 137900,
-      "normalized_sha256": "c3a958859afacb296e659d57d8a6326f20d3ad22a1f565f2e988e2946a0898ff"
+      "sha256": "17eae68a173a401d252ac338a98344963c15c45bac5c231970e0180495c73ce9",
+      "size": 138534,
+      "normalized_sha256": "17eae68a173a401d252ac338a98344963c15c45bac5c231970e0180495c73ce9"
     },
     "aoci.meta.txt": {
       "role": "index",
