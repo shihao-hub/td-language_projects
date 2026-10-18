@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-18T06:50:28Z",
+  "updated_at": "2026-10-18T08:20:47Z",
   "files": {
     ".agents/rules/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -294,9 +294,9 @@
       "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "c3afaf070c51c0878f677ad2be2e6b9ffeee10041598fcd9a451cd0eb12b0e23",
-      "size": 6023,
-      "normalized_sha256": "c3afaf070c51c0878f677ad2be2e6b9ffeee10041598fcd9a451cd0eb12b0e23"
+      "sha256": "762be0b66f1856b6680458e7f31a1eaef4abdb0f30fcd0de48c1df17a49cffda",
+      "size": 6072,
+      "normalized_sha256": "762be0b66f1856b6680458e7f31a1eaef4abdb0f30fcd0de48c1df17a49cffda"
     },
     ".zed/tasks.json": {
       "sha256": "2dd5ad51e0b4ff7e3449a65149c3bc610fed4440a85c8a998c1ae9a8602b0d73",
@@ -315,9 +315,9 @@
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "GLOBAL.md": {
-      "sha256": "03b7ebb0ff0c92505f852f82f6ecfff1a796e584afe5df86ab05d39f9da2ba55",
-      "size": 17372,
-      "normalized_sha256": "03b7ebb0ff0c92505f852f82f6ecfff1a796e584afe5df86ab05d39f9da2ba55"
+      "sha256": "d00c600af7f61ffb64cb9a85597525a6d8b8a748ace40fd879e5d1e1602538d5",
+      "size": 18287,
+      "normalized_sha256": "d00c600af7f61ffb64cb9a85597525a6d8b8a748ace40fd879e5d1e1602538d5"
     },
     "MONOREPO.md": {
       "sha256": "c4e18a76517a0d0598a505098a48b81398d09d01f15cd4eeb571f0168d108274",
@@ -351,9 +351,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "a431be2cccce541136007d82175df6565844e2045aad439cc18826c4dab75cf3",
-      "size": 137659,
-      "normalized_sha256": "a431be2cccce541136007d82175df6565844e2045aad439cc18826c4dab75cf3"
+      "sha256": "c3a958859afacb296e659d57d8a6326f20d3ad22a1f565f2e988e2946a0898ff",
+      "size": 137900,
+      "normalized_sha256": "c3a958859afacb296e659d57d8a6326f20d3ad22a1f565f2e988e2946a0898ff"
     },
     "aoci.meta.txt": {
       "role": "index",
