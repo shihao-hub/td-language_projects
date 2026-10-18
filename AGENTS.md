@@ -185,15 +185,9 @@
 - 提交指针变更：`git add --force <子模块名>`（`ignore = all` 会拦截普通 `git add`，必须 `--force`）→ `git commit` → `git push`
 
 ### 2. AOCI Repository Cognition
-AOCI 是仓库级认知索引工具（MCP server 接入）：通过 aoci.txt / aoci.code.txt / .aoci/ 等数据，让 AI 会话跨任务复用本仓库的结构化认知。
-
-完整集成说明与工作流原文存于根目录 `aoci.repository.cognition.md`，**按需读取，不随会话默认加载**（为省上下文迁出）。满足以下触发条件之一时，**必须先读该文件**再按其中工作流调用 `aoci_*` 工具：
-
-1. **建立/恢复认知**：新会话接手复杂或跨模块任务，需要仓库全景（先 `aoci_overview`）；本会话上下文经历过压缩后继续 AOCI 相关工作。
-2. **收尾维护（最易遗漏）**：本会话改动过任何 AOCI 纳管文件（父仓文档、.scripts/ 脚本、根级配置等）且已到最终稳定状态——调用**一次** `aoci_maintain` 对齐索引；不得边改边逐文件调用，也不得跳过。
-3. **纯读/小改动豁免**：未改动任何纳管文件的只读任务与日常小改动，无需加载该文件，也无需维护调用。
-
-AOCI 托管资产（`aoci*.txt` 与 `.aoci/`）在收尾维护后产生的变更，提交时与业务代码分开成笔。
+本仓库已接入 AOCI 认知体系（MCP server：`aoci`）：
+- **协同契约与触发纪律**：建立/恢复认知、收尾维护必维、纯读豁免及元数据独立提交等通用规范，已统一由 `GLOBAL.md` 托管；
+- **协议与深层规范**：AOCI 通用协议及 F/R/A/S 规则手册已归集至 `~/.agents/rules/aoci.protocol.md`（按需查阅）。
 
 ## 十、仓库认知与上下文指针（Progressive Disclosure）
 
@@ -201,5 +195,5 @@ AOCI 托管资产（`aoci*.txt` 与 `.aoci/`）在收尾维护后产生的变更
 
 - **CLI / MCP 开发契约**：涉及新建/重构 CLI 或 MCP 工具时，按需读取 `docs/projects/go_projects/CLI 工具开发标准.md`；
 - **AI 沉淀工作流（GUIDE）**：当需把复杂流程沉淀为标准化作业指导时，按需读取 `docs/guides/README.md`；
-- **AOCI 仓库全景认知**：复杂跨子仓任务或长会话压缩后，按需读取 `aoci.repository.cognition.md`；
+- **AOCI 认知协议与规范**：需查阅 AOCI 架构协议或深层语法时，按需读取 `~/.agents/rules/aoci.protocol.md`；
 - **子模块独立性与演进记录**：涉及子模块深度背景时，按需查阅各子仓根目录 `README.md` 与 `SUBMODULES.md`。
