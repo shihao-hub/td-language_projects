@@ -8,7 +8,7 @@
 
 本仓库（`language_projects`）是按语言划分的项目总仓，采用 **Git Submodules** 架构：
 
-- 五个子目录（`go_projects`、`python_projects`、`rust_projects`、`typescript_projects`、`native_projects`）各自是独立 Git 仓库，父仓库只跟踪它们的 commit 指针（`.gitmodules` 中 `ignore = all`）。
+- 语言子仓（`go_projects`、`java_projects`、`python_projects`、`rust_projects`、`typescript_projects`、`native_projects`）各自是独立 Git 仓库，父仓库只跟踪它们的 commit 指针（`.gitmodules` 中 `ignore = all`）。
 - 其中 `native_projects` 是**混合语言子仓**（C / C++ / Lua）：仓内同样是“一个子目录 = 一个项目”，具体语言由各项目自定；其余子仓仍按语言一一对应。
 - **`native_projects` 当前为本地注销态**（属有意暂停，非缺陷）：远端 `td-native-projects` 正常（main 有内容），本地仅保留 gitlink（`git submodule status` 显示 `-` 前缀、未检出）；恢复执行 `git submodule update --init native_projects`，注销/恢复机制与踩坑见 `docs/repo/Git 子模块临时注销（native、rust）.md`。**不得把「声明了但本地无目录」当作架构缺陷重新上报。**
 - 各语言子仓内部为 monorepo：**一个子目录 = 一个项目**，彼此独立、各自维护依赖与配置；新增项目直接建新子目录，不要在子项目内单独 `git init`。
@@ -136,50 +136,29 @@
   - **父仓级 `docs/plans/` 严格白名单**：仅用于全仓多语言批量构建、全局 Submodule 运维、根级站点冲突等纯父仓级任务。凡涉及具体代码工程改动的，一律不得将计划落盘在父仓根级 `docs/plans/`。
   - **编号自包含隔离**：子项目的计划编号（`01-xxx.md`）自成闭环，取号时只扫描该子项目自己的 `plans/` 目录，禁止参考或递增父仓 `docs/plans/` 下的全局编号。
 
-## 八、新增语言子模块及子子模块规范
+## 八、新增语言子模块及子项目 Agent 规则软链规范
 
 ### 1. 新增语言子模块（一级子仓）
 1. 在 GitHub 创建 `td-<lang>_projects` 仓库并推送内容；
 2. 父仓库执行 `git submodule add git@github.com:shihao-hub/td-<lang>_projects.git <lang>_projects`；
 3. 在 `.gitmodules` 该条目补 `branch = <默认分支>` 与 `ignore = all`，然后 commit；
-4. **必须在新建子模块根目录配置规则继承指针**（详见下文）。
+4. 运行全仓软链脚本建立规则软链（见下文）。
 
-### 2. 子模块与子子模块的 Agent 规则继承指针（强约束）
-为防止 Git Submodule 边界隔离导致 Agent 切入子仓/嵌套子仓时丢失父仓主规则，**所有一级子模块及更深层子子模块根目录必须配套添加规则继承指针文件**：
-
-1. **`CLAUDE.md`**：保持单行引用（利用 Claude Code 原生 `@import` 机制自动内联）：
-   - 一级子模块（如 `go_projects/CLAUDE.md`）：
-     ```markdown
-     @../AGENTS.md
-     ```
-   - 二级子子模块（如 `go_projects/glmquotawatch-gui/CLAUDE.md`）：
-     ```markdown
-     @../../AGENTS.md
-     ```
-2. **`AGENTS.md`**：声明最高优先级的继承行动指令，指引所有 Agent 工具启动时优先读取顶层主规范：
-   - 一级子模块（如 `go_projects/AGENTS.md`）：
-     ```markdown
-     # Agent Context Pointer
-
-     > **CRITICAL**: This repository is a submodule (`<submodule_name>`) of the parent project.
-     > All base conventions, Git commit rules, and environment guidelines are inherited from:
-     > `file://../AGENTS.md`
-
-     **ACTION REQUIRED**: Before executing any code changes or git commands, you MUST read and follow the root conventions in `../AGENTS.md`.
-     ```
-   - 二级子子模块（如 `go_projects/glmquotawatch-gui/AGENTS.md`）：
-     ```markdown
-     # Agent Context Pointer
-
-     > **CRITICAL**: This repository is a nested submodule (`<path/submodule_name>`) of the parent project.
-     > All base conventions, Git commit rules, and environment guidelines are inherited from:
-     > `file://../../AGENTS.md`
-
-     **ACTION REQUIRED**: Before executing any code changes or git commands, you MUST read and follow the root conventions in `../../AGENTS.md`.
-     ```
-3. **提交与推送规范**：
-   - 指针文件必须在对应子模块/子子模块**自己的 Git 仓库中**先行 `git commit` 并 `git push`；
-   - 随后在父级仓库中更新对应的 submodule 指针并提交推送。
+### 2. 子模块与子项目的 Agent 规则软链规范（强约束与自动同步）
+为防止 Submodule 隔离导致 Agent 丢失父仓主规则，全仓实行**单一真理来源（SSOT）相对软链**：
+- **拓扑结构**：
+  - 一级子仓：`<lang>_projects/AGENTS.md` 与 `CLAUDE.md` 软链接至 `..\AGENTS.md` 与 `..\CLAUDE.md`；
+  - 二级子项目：`<lang>_projects/<project>/AGENTS.md` 与 `CLAUDE.md` 软链接至 `..\..\AGENTS.md` 与 `..\..\CLAUDE.md`；
+  - 根目录 `AGENTS.md` 与 `CLAUDE.md` 为唯一真身，各级目录均通过相对符号链接透明穿透读取，严禁维护多份割裂副本。
+- **一键自动化同步脚本**：
+  - 新建任何子仓或子项目后，直接运行运维脚本自动补齐/覆盖软链：
+    ```bash
+    uv run .scripts/link-subproject-agents.py          # 自动为全仓各级补齐软链
+    uv run .scripts/link-subproject-agents.py --check  # 体检各处软链是否完好
+    ```
+- **提交与推送规范**：
+  - 新建的符号链接必须在对应子仓**自己的 Git 仓库中**先行 `git commit` 并 `git push`（文件模式为 `120000`）；
+  - 随后在父级仓库中更新对应的 submodule 指针并提交推送。
 
 ## 九、常用命令与 AOCI 认知
 
@@ -193,7 +172,7 @@
 ### 2. AOCI Repository Cognition
 本仓库已接入 AOCI 认知体系（MCP server：`aoci`）：
 - **协同契约与触发纪律**：建立/恢复认知、收尾维护必维、纯读豁免及元数据独立提交等通用规范，已统一由 `GLOBAL.md` 托管；
-- **协议与深层规范**：AOCI 通用协议及 F/R/A/S 规则手册已归集至 `~/.agents/docs/aoci.protocol.md`（按需查阅）。
+- **协议与深层规范**：AOCI 通用协议及 F/R/A/S 规则手册已归集至 `~/.agents/references/aoci.protocol.md`（按需查阅）。
 
 ## 十、仓库认知与上下文指针（Progressive Disclosure）
 
@@ -201,5 +180,5 @@
 
 - **CLI / MCP 开发契约**：涉及新建/重构 CLI 或 MCP 工具时，按需读取 `docs/projects/go_projects/CLI 工具开发标准.md`；
 - **AI 沉淀工作流（GUIDE）**：当需把复杂流程沉淀为标准化作业指导时，按需读取 `docs/guides/README.md`；
-- **AOCI 认知协议与规范**：需查阅 AOCI 架构协议或深层语法时，按需读取 `~/.agents/docs/aoci.protocol.md`；
+- **AOCI 认知协议与规范**：需查阅 AOCI 架构协议或深层语法时，按需读取 `~/.agents/references/aoci.protocol.md`；
 - **子模块独立性与演进记录**：涉及子模块深度背景时，按需查阅各子仓根目录 `README.md` 与 `SUBMODULES.md`。
