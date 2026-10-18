@@ -1,7 +1,7 @@
 > **AOCI 仓库级认知协议与系统契约手册（Tool Protocol Specification）**
 >
 >- **文件定位**：本文件为 AOCI MCP 工具的官方运行时协议、F/R/A/S 语义结构、Chunk 分块与 Attestation 验证算法的深层规范手册；
->- **按需查阅**：作为 Source Material 归集于全局规则目录（`~/.agents/rules/`），不随日常会话默认全量注入；
+>- **按需查阅**：作为 Source Material 归集于 `~/.agents/references/`（跨项目顶层资产），不随日常会话默认全量注入；
 >- **协同纪律**：会话级协同契约与触发时机由 `GLOBAL.md`（章节：AOCI 仓库级认知协同规范）统一托管；动态契约优先调用 `aoci_rules` 工具获取。
 
 <!-- aoci:begin -->
