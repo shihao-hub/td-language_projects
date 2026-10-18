@@ -1,8 +1,13 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-16T19:19:53Z",
+  "updated_at": "2026-10-18T05:16:22Z",
   "files": {
+    ".agents/rules/aoci.protocol.md": {
+      "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
+      "size": 16187,
+      "normalized_sha256": "bd88fc0120e081c9080f65eca73022fc267375543d44c394f771ca5bdee40c85"
+    },
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
       "size": 2263,
@@ -299,9 +304,9 @@
       "normalized_sha256": "b0ebdd27e89528e555e5515d91fde916d6286e13a47c3f3bb1f50c9cb8c91a82"
     },
     "AGENTS.md": {
-      "sha256": "27c9cf252c42e0c15f6156a62ccfd275778f9b2a9513147389cb000d669f0b20",
-      "size": 23149,
-      "normalized_sha256": "e62151668b96347459a634ae57896b364d7f6941691ca80bdbcf9be0c46e078a"
+      "sha256": "94013fcc5924405b4eca2e162fde871044164c8f5ce33dfc824ff34ab7d9bc49",
+      "size": 22170,
+      "normalized_sha256": "0201642eb3990af27a389b2af868d19b5200fcdbe01e2da8b81cc858fd438538"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -310,9 +315,9 @@
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "GLOBAL.md": {
-      "sha256": "3cebfadab20c36f0210ec0969a34399c3bc8d19431e0b0be719b801672a7ac6a",
-      "size": 14556,
-      "normalized_sha256": "08ac13ade4c4308c32f95e074c301453a4273b0a0db049aeec8147496c515024"
+      "sha256": "03b7ebb0ff0c92505f852f82f6ecfff1a796e584afe5df86ab05d39f9da2ba55",
+      "size": 17372,
+      "normalized_sha256": "03b7ebb0ff0c92505f852f82f6ecfff1a796e584afe5df86ab05d39f9da2ba55"
     },
     "MONOREPO.md": {
       "sha256": "f31f030902bcad22be9fd2a26680096414a604356aea71db85ef06585f93aa24",
@@ -346,9 +351,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "7522c827aefbf18b230c67b4b1baab1ca616e5ceed0e7adb53e82c814c010b71",
-      "size": 152725,
-      "normalized_sha256": "7522c827aefbf18b230c67b4b1baab1ca616e5ceed0e7adb53e82c814c010b71"
+      "sha256": "cf3c498c3bf363a89f4508c2094ccdccaa8ac00af12d9a2884f92f42764b7a22",
+      "size": 154932,
+      "normalized_sha256": "cf3c498c3bf363a89f4508c2094ccdccaa8ac00af12d9a2884f92f42764b7a22"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -984,6 +989,11 @@
       "sha256": "de9cc4e611a1b4c2b372ae874a3370f3a8267556460cb5f192b460f63f572eaa",
       "size": 3599,
       "normalized_sha256": "de9cc4e611a1b4c2b372ae874a3370f3a8267556460cb5f192b460f63f572eaa"
+    },
+    "docs/projects/go_projects/glmquotawatch-gui/plans/07-memory-optimization-webview2-lifecycle.md": {
+      "sha256": "a40ea026831c834146e220270337250a8d630004b1ef83734940287a4946e518",
+      "size": 5746,
+      "normalized_sha256": "a40ea026831c834146e220270337250a8d630004b1ef83734940287a4946e518"
     },
     "docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/design.md": {
       "role": "index",
@@ -1663,6 +1673,11 @@
       "size": 24032,
       "normalized_sha256": "27ef7db6b56c45ffbffb1a63f923e8b9a97bbb7cfb52a9498ba2404346e6f860"
     },
+    "docs/repo/antigravity-manager-cli-only-research.md": {
+      "sha256": "3829dfbb0f087a167616e9c3869bcf3e7ab6d61af84ed5c5062ef24896fd1cd8",
+      "size": 21088,
+      "normalized_sha256": "3829dfbb0f087a167616e9c3869bcf3e7ab6d61af84ed5c5062ef24896fd1cd8"
+    },
     "docs/repo/docs 阅读体验调研：SQLite 存档 vs Markdown 源 + 静态站点.md": {
       "role": "index",
       "sha256": "3718859fb96681754192c0f16c35c5ee6477e64a278c4d1c178cabfc8a005c6c",
@@ -1684,6 +1699,11 @@
       "sha256": "11e0462bd7c9d2f054c42aa59896fee51777df9af436574bf319284178e21d57",
       "size": 44579,
       "normalized_sha256": "62898ca70d6577c452ddeb8b8a513c97537930c8e773acfd6daac1889bd090f5"
+    },
+    "docs/repo/language_projects 架构调研报告.md": {
+      "sha256": "4a24a8b698285b24091ae6374c624ef80147d9519663eef18c18b8acff76e81c",
+      "size": 20088,
+      "normalized_sha256": "4a24a8b698285b24091ae6374c624ef80147d9519663eef18c18b8acff76e81c"
     },
     "docs/repo/lark_group_bridge/2026-09-20 自言自语存档.html": {
       "role": "index",
