@@ -3,10 +3,10 @@
 ===D:/Users/language_projects/===
 .gitattributes[FR7T]: F:统一全仓文本 LF 检出，保证各平台 checkout 字节一致 | R:- | A:- | S:AOCI 按原始字节建基线，改行尾策略会令整树 Stale
 .gitignore[FC3T]: F:忽略系统杂项、.venv/、.local/、mkdocs 产物 .mkdocs-site/、.thirdparty/、仓根 ComfyUI/、.cursor/skills Junction 与 python_projects-wt-agy worktree | R:code:mkdocs.yml | A:新增本机产物或 Junction 时在此登记防误入库 | S:Junction/worktree 副本为本机产物不入库
-.gitmodules[FG8T]: F:声明五个语言子模块与 .agents/skills（技能真身）的远端、跟踪分支与 ignore=all 策略 | R:code:.scripts/init-submodules.py,code:README.md,code:docs/plans/45-agents-skills-submodule.md | A:新增子模块时在此登记并补 branch 与 ignore=all；.agents/skills 变更见 45 号计划 | S:ignore=all 拦截普通 git add，提交子模块指针必须 git add --force
-AGENTS.md[SG9S]: F:父仓最高约定：多子仓架构与隔离性、Git 提交规范（plans/specs 独立提交、范围隔离）、自产数据文件目录、各语言子仓约定（CLI 标准/图标/构建隔离）、运维脚本规范（PEP 723+uv）、归档文档布局与计划落盘路由、子模块规则继承指针、AOCI 契约托管与协议指针 | R:code:README.md,code:.gitmodules,code:MONOREPO.md,code:GLOBAL.md,code:.agents/rules/aoci.protocol.md,code:docs/guides/README.md,code:docs/projects/go_projects/CLI 工具开发标准.md,code:docs/projects/go_projects/go exe 默认图标.md | A:AI 会话进仓先读；改仓库级约定先改此文件；数据密集型任务先脚本后结论；AOCI 通用契约已上收 GLOBAL.md 与 ~/.agents/rules/aoci.protocol.md，本文件不再重复维护 | S:子模块改动在子仓提交；父仓更新指针须 git add --force；plans/specs 单文件独占 commit；docs/index.md 禁删；自产数据文件落 %APPDATA% 仓规目录，dev/prod 双构建再分子目录；构建统一单 build.py，仅 tag HEAD 且干净区产 release；chrome 资源用后即清；GUI dev 带 -dev、优先正式版且 dev 禁注自启；GUI 须专属图标；PowerShell 无状态跨轮次、优先文件工具、写无 BOM 仅 WriteAllText、5.1 禁 && 串联
+.gitmodules[FG8T]: F:声明 7 个子模块（6 个语言子仓 + .agents/skills 技能真身）的远端地址、跟踪分支与 ignore=all 策略 | R:code:.scripts/init-submodules.py,code:README.md,code:docs/plans/45-agents-skills-submodule.md | A:新增子模块时在此登记并补 branch 与 ignore=all；.agents/skills 变更见 45 号计划 | S:ignore=all 拦截普通 git add，提交子模块指针必须 git add --force；native_projects 为有意注销态（有 gitlink、未检出），恢复用 git submodule update --init；java_projects 由父仓直管 41 文件拆分而来，历史在新仓
+AGENTS.md[SG9M]: F:父仓最高约定：多子仓架构与隔离性、Git 提交规范（plans/specs 独立提交、范围隔离）、自产数据文件目录、各语言子仓约定（CLI 标准/图标/构建隔离/Java 服务端）、native 注销态、运维脚本规范（PEP 723+uv）、归档文档布局与计划落盘路由、子模块规则继承指针、AOCI 契约托管与协议指针 | R:code:README.md,code:.gitmodules,code:MONOREPO.md,code:GLOBAL.md,code:.agents/rules/aoci.protocol.md,code:docs/guides/README.md,code:docs/projects/go_projects/CLI 工具开发标准.md,code:docs/projects/go_projects/go exe 默认图标.md | A:AI 会话进仓先读；改仓库级约定先改此文件；数据密集型任务先脚本后结论；AOCI 通用契约已上收 GLOBAL.md 与 ~/.agents/rules/aoci.protocol.md，本文件不再重复维护；新增语言子仓须按第八节补独立仓、.gitmodules 项与规则继承指针 | S:子模块改动在子仓提交；父仓更新指针须 git add --force；plans/specs 单文件独占 commit；docs/index.md 禁删；自产数据文件落 %APPDATA% 仓规目录，dev/prod 双构建再分子目录；构建统一单 build.py，仅 tag HEAD 且干净区产 release；chrome 资源用后即清；GUI dev 带 -dev、优先正式版且 dev 禁注自启；GUI 须专属图标；PowerShell 无状态跨轮次、优先文件工具、写无 BOM 仅 WriteAllText、5.1 禁 && 串联
 CLAUDE.md[SG3T]: F:单行 @AGENTS.md 引用，让 Claude Code 复用父仓库约定 | R:code:AGENTS.md | A:- | S:-
-MONOREPO.md[SG6S]: F:个人项目价值盘点表：五语言子仓活跃项目与 .archived 三语言归档项目（含 zedhub、agyquota），列摘要/状态/源码阅读/价值/下一步；native_projects 区为未初始化规划 | R:code:docs/guides/GUIDE-INVENTORY.md | A:主观列只由表主人填，AI 仅起草摘要待过目 | S:六列表每行恰 7 个管道符，归档行保留全列；native_projects 子模块未初始化（父仓索引无 gitlink、本地无目录），该区条目仅为规划；agyquota 行仍在归档区未随 09-restore 更新
+MONOREPO.md[SG6S]: F:个人项目价值盘点表：六语言子仓活跃项目（含 java_projects 三模块）与 .archived 三语言归档项目（含 zedhub、agyquota），列摘要/状态/源码阅读/价值/下一步；native_projects 区为本地注销态规划 | R:code:docs/guides/GUIDE-项目盘点维护.md | A:主观列只由表主人填，AI 仅起草摘要待过目 | S:六列表每行恰 7 个管道符，归档行保留全列；native_projects 为有意注销态（有 gitlink、未检出），不得当作架构缺陷上报；agyquota 行仍在归档区未随 09-restore 更新
 NOTES.md[SZ2T]: F:零散备忘，当前记录归档 projstat README 的古法编程思路线索 | R:- | A:- | S:-
 README.md[SG8S]: F:父仓库总览：子模块结构、克隆更新命令、脚本清单（统一 Python，uv run 执行）、文档站点用法、数据存放规范、子仓约定与归档/盘点入口 | R:code:.gitmodules,code:AGENTS.md,code:MONOREPO.md,code:docs/guides/GUIDE-项目归档.md,code:docs/guides/GUIDE-项目盘点维护.md,code:.scripts/build_docs.py,code:docs/index.md,code:.scripts/submodule-toggle.py | A:新会话和新机器从本文件入门，命令可直接执行 | S:项目运行时数据只允许 %APPDATA%\language_projects\<项目名>\，无 APPDATA 回退 ~/.language_projects/
 mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkdocs-site/、file:// 直开、zh 语言 + search/awesome-pages、mermaid 与 pymdownx 扩展 | R:code:.scripts/build_docs.py,code:docs/index.md,code:docs/assets/javascripts/mermaid.min.js | A:use_directory_urls 必须保持 false；主题/插件改动后用 build --strict 验证 | S:链接校验 not_found=ignore 是为放行指向仓库源码的文档外链接；中文搜索依赖 jieba 可导入，缺则静默退化为整段匹配
@@ -422,99 +422,8 @@ v3 架构调研.md[SB5M]: F:taskbarguard v3 架构调研：现状盘点（业务
 design.md[SC6M]: F:typeai-gui 泛化设计：env 构建隔离、store profile 持久化/校验/探测、terminal 启动参数扩展、guiapp 会话表重写、前端 tabs/profiles、AC 映射与 8 条自审处置 | R:code:docs/projects/go_projects/typeai-gui/specs/01-universal-terminal-shell/requirements.md | A:改 typeai-gui 架构前先读；OpenTab/RestartTab 启动失败走 TabInfo.StartError；会话启动/关闭一律锁外执行 | S:事件带 id+gen，前端丢弃过期事件防重启串扰；损坏 profiles.json 先备份再按空列表继续；多实例并发 last-write-wins 本期不加锁
 requirements.md[SC6T]: F:typeai-gui 泛化需求：多标签通用 CLI/TUI 桌面终端（profile 管理+exe 探测+配置持久化 FR-1~8、AC-1~7、Out of Scope 与更名开放问题） | R:code:docs/projects/go_projects/typeai-gui/specs/01-universal-terminal-shell/design.md,code:docs/plans/49-typeai-gui-terminal-shell.md | A:实施泛化前先读；profiles.json 落 %APPDATA%\language_projects\typeai-gui\{dev|prod}；缺失 profile 禁止新建标签页 | S:本期不更名（目录/module/产物名保持 typeai-gui）；与 clictl 零耦合；ConPTY 桥接层原样复用
 
-===D:/Users/language_projects/java_projects/===
-.gitignore[FC3T]: F:java_projects 子仓忽略：编译产物 *.class、日志、包文件、Maven target 与 release 备份、Gradle build、IDE 工程文件、OS 元数据 | R:- | A:- | S:-
-AGENTS.md[SC6T]: F:java_projects 的 Agent 规则继承指针：声明为父仓子仓并从 ../AGENTS.md 继承全部基础约定 | R:code:java_projects/README.md,code:java_projects/CLAUDE.md | A:新增语言子仓指针文件时按此模板 | S:子仓专项约定已迁至 README.md
-CLAUDE.md[SC3T]: F:java_projects 的 Claude 规则导入指针：单行 @../AGENTS.md，触发 Claude Code 自动内联父仓规则 | R:code:java_projects/AGENTS.md | A:- | S:-
-README.md[SC6T]: F:java_projects 全景说明：Java 21 + Spring Boot 3 求职学习路线，父 POM 全量构建命令、三个子模块架构知识图谱、端口与接口表 | R:code:java_projects/AGENTS.md | A:改动子模块后同步更新构建命令、端口表与测试结果 | S:构建须用 cmd /c 显式注入 JAVA_HOME 与 mvn.cmd 以锁定 JDK 21；三个服务端口固定 8080/8081/8082
-pom.xml[FC5T]: F:java_projects 顶层父 POM：packaging pom，聚合 starter-basics、payment-saas、agent-diagnose 三模块，Java 21 + Spring Boot 3.2.4 + JUnit BOM 5.10.2 | R:code:java_projects/career-starter-basics/pom.xml,code:java_projects/career-payment-saas/pom.xml,code:java_projects/career-agent-diagnose/pom.xml | A:新增子模块须在 modules 登记；依赖版本统一走 dependencyManagement | S:pluginManagement 已锁 spring-boot-maven-plugin 3.2.4，子模块引用时不得重复写版本
-
-===D:/Users/language_projects/java_projects/career-starter-basics/===
-pom.xml[FC4T]: F:career-starter-basics 模块 POM：parent 指向 java-projects-parent，打包 jar，依赖 spring-boot-starter-web 与 starter-test | R:code:java_projects/pom.xml | A:- | S:-
-
-===D:/Users/language_projects/java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/===
-StarterApplication.java[EG5T]: F:career-starter-basics 的 Spring Boot 启动类：@SpringBootApplication 引导 8080 服务，启动后打印演示入口提示 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/controller/CareerDemoController.java | A:- | S:-
-
-===D:/Users/language_projects/java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/===
-Java21FeaturesDemo.java[ZZ4T]: F:知识点四教学演示：Java 21 Record 模式解构（JEP 440）拆解 PaymentEventRecord，与 Sequenced Collections（JEP 431）getFirst/getLast/reversed 视图 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/PaymentEventRecord.java | A:- | S:reversed() 返回反转视图而非修改原集合；金额用 BigDecimal
-OrderStatus.java[DB5T]: F:知识点二：sealed 密封接口 OrderStatus，限定四种携带上下文的状态记录（待支付/成功/失败/已退款），配 switch 模式匹配穷尽检查 | R:- | A:- | S:-
-PaymentEventRecord.java[DD5T]: F:知识点一：不可变支付流水 Record（eventId/orderId/channel/amount/currency/occurredAt），紧凑构造校验订单号非空、金额大于零 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/ReconciliationStreamDemo.java,code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/Java21FeaturesDemo.java | A:- | S:-
-ReconciliationStreamDemo.java[DA5T]: F:知识点三：Stream API 对账操作演示——按币种过滤、按渠道 groupingBy 计数、reduce 汇总总金额、map+distinct 提取唯一订单号 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module01_modern_java/PaymentEventRecord.java | A:- | S:-
-
-===D:/Users/language_projects/java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module02_concurrent_basics/===
-AgingPayTask.java[DW4T]: F:并发任务载体：任务 ID/名称/初始优先级（P0=100、P2=10）与入队时间戳，供老化调度器计算动态优先级 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module02_concurrent_basics/DynamicAgingScheduler.java | A:- | S:-
-DynamicAgingScheduler.java[KW5T]: F:知识点四：优先队列+老化算法——有效优先级=初始分+(等待时长/增益步长)*权重，大顶堆比较器让等待久者反超，消除低优任务饥饿 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module02_concurrent_basics/AgingPayTask.java | A:- | S:-
-VirtualThreadsDemo.java[ZP4T]: F:知识点五：虚拟线程演示（JEP 444）——Thread.ofVirtual 单线程与 newVirtualThreadPerTaskExecutor 批量提交，任务即线程模型 | R:- | A:- | S:-
-
-===D:/Users/language_projects/java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/===
-BalanceRefundAction.java[DB3T]: F:余额渠道退款策略实现：渠道码 BALANCE，返回退至钱包账户的结果文案 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/RefundStrategy.java | A:- | S:-
-BankCardRefundAction.java[DB3T]: F:银行卡渠道退款策略实现：渠道码 BANK_CARD，返回原路退款提交与到账周期文案 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/RefundStrategy.java | A:- | S:-
-RefundContext.java[DD3T]: F:退款业务上下文 Record：orderId/refundNo/refundAmount/userAccount | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/RefundStrategy.java | A:- | S:-
-RefundStrategy.java[DB4T]: F:策略模式契约：退款渠道编码 getChannelCode 与 executeRefund(RefundContext)，供各渠道实现与注册分发 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/SimpleRefundDispatcher.java | A:- | S:-
-SimpleRefundDispatcher.java[DB4T]: F:策略注册分发器：构造时按渠道码建 Map 注册表，dispatch 以 O(1) 查找取代 if-else，未知渠道抛 UnsupportedOperationException | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module03_design_patterns/RefundStrategy.java | A:- | S:-
-
-===D:/Users/language_projects/java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/===
-DynamicStateMachineEngine.java[DW6S]: F:知识点六：Spring 配置化状态机——内存规则表 (状态,事件)→(目标状态,动作 Bean 名)，fireEvent 查表后经 applicationContext.getBean 动态执行 OrderAction | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/action/OrderAction.java,code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/controller/CareerDemoController.java | A:新增流转只需加动作 Bean 与配置行，引擎零修改；非法流转抛 IllegalStateException | S:规则键为「状态##事件」大写拼接；动作按名字解析，Bean 名与配置表字符串必须一致
-
-===D:/Users/language_projects/java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/action/===
-AutoRefundAction.java[DB3T]: F:动作组件 AUTO_REFUND：商家超时未接单时返回全额退款冲正文案 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/DynamicStateMachineEngine.java | A:- | S:-
-DispatchRiderAction.java[DB3T]: F:动作组件 DISPATCH_RIDER：出餐完成后返回骑手派单调度文案 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/DynamicStateMachineEngine.java | A:- | S:-
-NotifyMerchantAction.java[DB3T]: F:动作组件 NOTIFY_MERCHANT：返回商家接收订单推送并进入备餐流程的文案 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/DynamicStateMachineEngine.java | A:- | S:-
-OrderAction.java[DB4T]: F:状态机后置动作契约：execute(orderId) 返回执行日志，由四个动作组件实现 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/DynamicStateMachineEngine.java | A:- | S:动作 Bean 的 @Component 名必须与状态机配置表 actionBeanName 完全一致，否则 getBean 失败
-
-===D:/Users/language_projects/java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/controller/===
-CareerDemoController.java[EU5S]: F:演示 REST 控制器 /api/demo：health 概览、state-machine/trigger 状态机流转、aging-queue/simulate 老化调度演示、stream-reconciliation 对账统计 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/DynamicStateMachineEngine.java,code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module02_concurrent_basics/DynamicAgingScheduler.java | A:- | S:-
-
-===D:/Users/language_projects/java_projects/career-starter-basics/src/main/resources/===
-application.yml[FC3T]: F:career-starter-basics 应用配置：端口 8080、应用名 career-starter-foundation、根 INFO 与 com.shihao.career.starter DEBUG | R:code:java_projects/career-starter-basics/pom.xml | A:- | S:-
-
-===D:/Users/language_projects/java_projects/career-starter-basics/src/test/java/com/shihao/career/starter/===
-StarterAllModulesTest.java[TB5S]: F:全模块 JUnit 5/@SpringBootTest 测试：Record 模式解构、有序集合、虚拟线程、密封状态 switch、Stream 对账、老化算法反超、策略模式与 Spring 状态机流转/非法流转异常 | R:code:java_projects/career-starter-basics/src/main/java/com/shihao/career/starter/module04_spring_basics/DynamicStateMachineEngine.java | A:mvn test 运行；状态机部分依赖完整 Spring 上下文 | S:-
-
 ===D:/Users/language_projects/.vscode/===
 tasks.json[FC3T]: F:VS Code/Cursor 任务面板：仅登记 zedhub 服务启动任务（uv run zedhub serve，cwd 为 python_projects/zedhub） | R:code:python_projects/zedhub/pyproject.toml | A:新增任务时在此文件编辑 | S:须在 zedhub 目录内执行
-
-===D:/Users/language_projects/java_projects/career-agent-diagnose/===
-pom.xml[FV4T]: F:career-agent-diagnose 模块 POM：继承父 POM java-projects-parent，jar 打包，依赖 spring-boot-starter-web 与 test，绑定 spring-boot-maven-plugin | R:code:java_projects/pom.xml | A:新增依赖须经父 POM dependencyManagement 统一版本 | S:description 文案复制自 starter-basics，与本模块 Agent 诊断主题不符
-
-===D:/Users/language_projects/java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/===
-AgentApplication.java[EG5T]: F:career-agent-diagnose 的 Spring Boot 启动入口：@SpringBootApplication 标注，启动 8082 端口的诊断演示服务 | R:code:java_projects/career-agent-diagnose/src/main/resources/application.yml | A:- | S:-
-
-===D:/Users/language_projects/java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/alert/===
-AlertStormSynthesizer.java[DO7T]: F:时序告警风暴压缩聚合器：按 ServiceName+ErrorCode 分组把海量细碎告警收敛为高阶 Incident，去重提取受影响 Pod 列表 | R:code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/controller/AgentDemoController.java | A:调整聚合维度或 Incident 结构时同步 AgentModulesTest 断言 | S:incidentId 由分组 key 的 hashCode 取模生成，不保证跨进程稳定
-
-===D:/Users/language_projects/java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/controller/===
-AgentDemoController.java[AU5T]: F:career-agent-diagnose 演示 REST 控制器（/api/agent）：内置样本演示告警收敛，/route-skill 按症状文本召回诊断 Skill | R:code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/alert/AlertStormSynthesizer.java,code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/skill/SkillTreeRouter.java | A:新增演示端点时同步 README 接口表 | S:诊断技能在构造函数内注册，无外部持久化
-
-===D:/Users/language_projects/java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/skill/===
-SkillTreeRouter.java[KA7T]: F:Agent 分层 Skill 树路由引擎：两阶段选路（粗排领域 INFRA/BUSINESS/NETWORK，精排子树触发词匹配）把候选 Skill 压缩到 Top-3 | R:code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/controller/AgentDemoController.java | A:新增领域须同步 routeDomain 关键字分支与领域常量 | S:routeDomain 用 contains 硬编码判定，未命中任何关键字时默认落 NETWORK；技能表为 ConcurrentHashMap+CopyOnWriteArrayList 内存态
-
-===D:/Users/language_projects/java_projects/career-agent-diagnose/src/main/resources/===
-application.yml[FC3T]: F:career-agent-diagnose 运行配置：server.port 8082 与 spring.application.name | R:code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/AgentApplication.java | A:改端口须同步 README 端口表 | S:-
-
-===D:/Users/language_projects/java_projects/career-agent-diagnose/src/test/java/com/shihao/career/agent/===
-AgentModulesTest.java[TO5T]: F:career-agent-diagnose 模块单测：断言告警聚合（4 条收敛为 2 事故、Pod 去重）与 Skill 树两阶段路由召回 | R:code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/alert/AlertStormSynthesizer.java,code:java_projects/career-agent-diagnose/src/main/java/com/shihao/career/agent/skill/SkillTreeRouter.java | A:改动聚合维度或路由规则时同步更新断言 | S:类级 @SpringBootTest 会启动完整应用上下文，纯逻辑断言可降为普通单测以减少启动开销
-
-===D:/Users/language_projects/java_projects/career-payment-saas/===
-pom.xml[FV4T]: F:career-payment-saas 模块 POM：继承父 POM java-projects-parent，jar 打包，依赖 spring-boot-starter-web 与 test，绑定 spring-boot-maven-plugin | R:code:java_projects/pom.xml | A:新增依赖须经父 POM dependencyManagement 统一版本 | S:description 文案复制自 starter-basics，与本模块支付清结算主题不符
-
-===D:/Users/language_projects/java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/===
-PaymentApplication.java[EG5T]: F:career-payment-saas 的 Spring Boot 启动入口：@SpringBootApplication 标注，启动 8081 端口的支付演示服务 | R:code:java_projects/career-payment-saas/src/main/resources/application.yml | A:- | S:-
-
-===D:/Users/language_projects/java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/channel/===
-DynamicPaymentRouter.java[DR7T]: F:支付通道动态路由决策引擎：按成功率×70+延迟得分×30+基础权重算分，硬熔断成功率不高于 50% 的通道后选最优 | R:code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/controller/PaymentDemoController.java | A:调整评分公式或熔断阈值时同步 README 公式说明与单测 | S:全部通道被熔断或未配置时抛 IllegalStateException；通道指标仅存于 ConcurrentHashMap 内存态
-
-===D:/Users/language_projects/java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/controller/===
-PaymentDemoController.java[AU5T]: F:career-payment-saas 演示 REST 控制器（/api/payment）：/route-best 选健康通道，/settle-order 按订单金额输出复式记账试算平衡凭证 | R:code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/channel/DynamicPaymentRouter.java,code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/ledger/SettlementLedgerEngine.java | A:新增端点时同步 README 接口表 | S:通道指标与抽成率 15%、税率 5%、运费 20.00 均为构造函数内写死的演示常量
-
-===D:/Users/language_projects/java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/ledger/===
-SettlementLedgerEngine.java[DB8T]: F:金融清结算复式记账引擎：按订单总额与抽成、税率、运费生成借贷流水，保证有借必有贷、借贷必相等并返回试算平衡结果 | R:code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/controller/PaymentDemoController.java | A:调整会计科目或分账项时保持借贷恒等式并同步单测 | S:金额一律 BigDecimal；商户净额由总额逐项相减得出，若抽成加税加运费超过总额会得到负值且仍能通过平衡校验
-
-===D:/Users/language_projects/java_projects/career-payment-saas/src/main/resources/===
-application.yml[FC3T]: F:career-payment-saas 运行配置：server.port 8081 与 spring.application.name | R:code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/PaymentApplication.java | A:改端口须同步 README 端口表 | S:-
-
-===D:/Users/language_projects/java_projects/career-payment-saas/src/test/java/com/shihao/career/payment/===
-PaymentModulesTest.java[TB5T]: F:career-payment-saas 模块单测：断言加权路由选出最优通道、全熔断抛 IllegalStateException，以及复式记账借贷平衡 | R:code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/channel/DynamicPaymentRouter.java,code:java_projects/career-payment-saas/src/main/java/com/shihao/career/payment/ledger/SettlementLedgerEngine.java | A:改动评分公式、熔断阈值或记账科目时同步更新断言 | S:金额断言须用 BigDecimal.compareTo（assertEquals 因 scale 差异会失败）；类级 @SpringBootTest 会启动完整上下文
 
 ===D:/Users/language_projects/docs/projects/python_projects/lele/plans/===
 01-generate-practice-problems.md[SG3T]: F:Plan（已完成）：化学诊断第 6/12 讲举一反三变式题生成——python-docx 按既有格式产出第6讲 10 题、第12讲 14 题两份 docx | R:- | A:- | S:-
