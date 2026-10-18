@@ -193,7 +193,7 @@
 ### 2. AOCI Repository Cognition
 本仓库已接入 AOCI 认知体系（MCP server：`aoci`）：
 - **协同契约与触发纪律**：建立/恢复认知、收尾维护必维、纯读豁免及元数据独立提交等通用规范，已统一由 `GLOBAL.md` 托管；
-- **协议与深层规范**：AOCI 通用协议及 F/R/A/S 规则手册已归集至 `~/.agents/rules/aoci.protocol.md`（按需查阅）。
+- **协议与深层规范**：AOCI 通用协议及 F/R/A/S 规则手册已归集至 `~/.agents/docs/aoci.protocol.md`（按需查阅）。
 
 ## 十、仓库认知与上下文指针（Progressive Disclosure）
 
@@ -201,5 +201,5 @@
 
 - **CLI / MCP 开发契约**：涉及新建/重构 CLI 或 MCP 工具时，按需读取 `docs/projects/go_projects/CLI 工具开发标准.md`；
 - **AI 沉淀工作流（GUIDE）**：当需把复杂流程沉淀为标准化作业指导时，按需读取 `docs/guides/README.md`；
-- **AOCI 认知协议与规范**：需查阅 AOCI 架构协议或深层语法时，按需读取 `~/.agents/rules/aoci.protocol.md`；
+- **AOCI 认知协议与规范**：需查阅 AOCI 架构协议或深层语法时，按需读取 `~/.agents/docs/aoci.protocol.md`；
 - **子模块独立性与演进记录**：涉及子模块深度背景时，按需查阅各子仓根目录 `README.md` 与 `SUBMODULES.md`。
