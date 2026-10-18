@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-18T08:50:54Z",
+  "updated_at": "2026-10-18T09:19:14Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -9,9 +9,59 @@
       "normalized_sha256": "bd88fc0120e081c9080f65eca73022fc267375543d44c394f771ca5bdee40c85"
     },
     ".agents/references/aoci.protocol.md": {
-      "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
-      "size": 16187,
-      "normalized_sha256": "bd88fc0120e081c9080f65eca73022fc267375543d44c394f771ca5bdee40c85"
+      "sha256": "87a8949a0f3ffe0be87a6b13e23adbed7b7ee5f2e0b462b309b633cdc6de805c",
+      "size": 16196,
+      "normalized_sha256": "b6e389716bd0d94222fb77e6c005b705e07314b0722d6471e7e6932377358c52"
+    },
+    ".agents/references/docs-and-plans-layout.md": {
+      "sha256": "d2facd6efdf3f90281826b6639d6a5329d90903a79ec01d4f83a9457a24cecfb",
+      "size": 4361,
+      "normalized_sha256": "d2facd6efdf3f90281826b6639d6a5329d90903a79ec01d4f83a9457a24cecfb"
+    },
+    ".agents/references/lang-conventions.md": {
+      "sha256": "71bbb1962d031f481eb5138e2ecc386e05dc88bd88a9a0363fb2a295c07618b0",
+      "size": 6812,
+      "normalized_sha256": "71bbb1962d031f481eb5138e2ecc386e05dc88bd88a9a0363fb2a295c07618b0"
+    },
+    ".agents/references/language_projects/docs-and-plans-layout.md": {
+      "sha256": "d2facd6efdf3f90281826b6639d6a5329d90903a79ec01d4f83a9457a24cecfb",
+      "size": 4361,
+      "normalized_sha256": "d2facd6efdf3f90281826b6639d6a5329d90903a79ec01d4f83a9457a24cecfb"
+    },
+    ".agents/references/language_projects/lang-conventions.md": {
+      "sha256": "71bbb1962d031f481eb5138e2ecc386e05dc88bd88a9a0363fb2a295c07618b0",
+      "size": 6812,
+      "normalized_sha256": "71bbb1962d031f481eb5138e2ecc386e05dc88bd88a9a0363fb2a295c07618b0"
+    },
+    ".agents/references/language_projects/repo-commands.md": {
+      "sha256": "5fceed1392e5878357d4880e81692f86c74a228d640fad1f0f83991f6168fc34",
+      "size": 812,
+      "normalized_sha256": "5fceed1392e5878357d4880e81692f86c74a228d640fad1f0f83991f6168fc34"
+    },
+    ".agents/references/language_projects/scripts-convention.md": {
+      "sha256": "32fc6cea36fe7c5ce58817b4663daba7febc07303665d69d88ab31395961cb4f",
+      "size": 1266,
+      "normalized_sha256": "32fc6cea36fe7c5ce58817b4663daba7febc07303665d69d88ab31395961cb4f"
+    },
+    ".agents/references/language_projects/submodule-pointer-spec.md": {
+      "sha256": "2fd2b27b3b105457445a343f565f9d2d882c0f0a305929340628366bb24410a4",
+      "size": 1883,
+      "normalized_sha256": "2fd2b27b3b105457445a343f565f9d2d882c0f0a305929340628366bb24410a4"
+    },
+    ".agents/references/repo-commands.md": {
+      "sha256": "5fceed1392e5878357d4880e81692f86c74a228d640fad1f0f83991f6168fc34",
+      "size": 812,
+      "normalized_sha256": "5fceed1392e5878357d4880e81692f86c74a228d640fad1f0f83991f6168fc34"
+    },
+    ".agents/references/scripts-convention.md": {
+      "sha256": "32fc6cea36fe7c5ce58817b4663daba7febc07303665d69d88ab31395961cb4f",
+      "size": 1266,
+      "normalized_sha256": "32fc6cea36fe7c5ce58817b4663daba7febc07303665d69d88ab31395961cb4f"
+    },
+    ".agents/references/submodule-pointer-spec.md": {
+      "sha256": "2fd2b27b3b105457445a343f565f9d2d882c0f0a305929340628366bb24410a4",
+      "size": 1883,
+      "normalized_sha256": "2fd2b27b3b105457445a343f565f9d2d882c0f0a305929340628366bb24410a4"
     },
     ".agents/rules/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -319,9 +369,9 @@
       "normalized_sha256": "b0ebdd27e89528e555e5515d91fde916d6286e13a47c3f3bb1f50c9cb8c91a82"
     },
     "AGENTS.md": {
-      "sha256": "752993929dc176f5656a9974ae923ed378330322699fa75f1a1cfa1626117e9b",
-      "size": 23230,
-      "normalized_sha256": "752993929dc176f5656a9974ae923ed378330322699fa75f1a1cfa1626117e9b"
+      "sha256": "86a1087e8f1ef180beb6aee6e08141a1aee592b059b1860cddfc496fca63eaa2",
+      "size": 10268,
+      "normalized_sha256": "86a1087e8f1ef180beb6aee6e08141a1aee592b059b1860cddfc496fca63eaa2"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -330,9 +380,9 @@
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "GLOBAL.md": {
-      "sha256": "1521c53c99b1017cbf866e70d0ab3c5cb214977e9a87b7e99b814aa97ec6a72e",
-      "size": 18292,
-      "normalized_sha256": "1521c53c99b1017cbf866e70d0ab3c5cb214977e9a87b7e99b814aa97ec6a72e"
+      "sha256": "9ce02ea265be487495781c9df3c09dae9173e58bb415fd8f421f329a1aa2dd20",
+      "size": 18518,
+      "normalized_sha256": "9ce02ea265be487495781c9df3c09dae9173e58bb415fd8f421f329a1aa2dd20"
     },
     "MONOREPO.md": {
       "sha256": "c4e18a76517a0d0598a505098a48b81398d09d01f15cd4eeb571f0168d108274",
@@ -366,9 +416,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "252fe83c8730557dfa2871b7aa52250cc302bcc97c4f6315a269df6d0de8e3ab",
-      "size": 138552,
-      "normalized_sha256": "252fe83c8730557dfa2871b7aa52250cc302bcc97c4f6315a269df6d0de8e3ab"
+      "sha256": "ea457f7e21221b61f5a3767a296e40325943a20c1fe7616833d52d4d10f42955",
+      "size": 141983,
+      "normalized_sha256": "ea457f7e21221b61f5a3767a296e40325943a20c1fe7616833d52d4d10f42955"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1834,6 +1884,11 @@
       "sha256": "351cfb66254a902b00d8c5290f8c7c0f1828c770f21e5312d098a8753bcdfc49",
       "size": 5164,
       "normalized_sha256": "351cfb66254a902b00d8c5290f8c7c0f1828c770f21e5312d098a8753bcdfc49"
+    },
+    "docs/specs/04-win-startup-manager/prd.md": {
+      "sha256": "9865dd9ed138d72ab79fd6a10f9d3b4cbfb884875c70b6fb0da6a206e7dc5a85",
+      "size": 14731,
+      "normalized_sha256": "9865dd9ed138d72ab79fd6a10f9d3b4cbfb884875c70b6fb0da6a206e7dc5a85"
     },
     "guide.md": {
       "sha256": "028d04a75225cd7e5eb8f18448c8f340a35c60b7704f683d4b38d084400b1847",
