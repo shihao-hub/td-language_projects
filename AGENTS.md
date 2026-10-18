@@ -96,6 +96,11 @@
 - CI 用 **GitHub Actions**（windows-latest 自带 MSVC + CMake + Ninja）。
 - 本机已装工具链：CMake 4.2、VS Build Tools 2022（含 VC 工具集）、MSYS2 MinGW64、xmake、Lua 5.1、LuaJIT、LLVM 22（clang/clangd/clang-format/clang-tidy）、Ninja 1.13。
 
+### java_projects
+- **定位**：Java 21 + Spring Boot 3 的**企业级 JVM 服务端**方向（子仓 `td-java_projects`，父 POM 多模块）；CLI / GUI / 系统底层不归 Java（Go / Rust 已优于 Java，论证见 `docs/repo/Java 与 python-go-rust 子仓对比分析.md`）。
+- **构建**：用 `cmd /c` 显式注入 `JAVA_HOME` 并调用 `mvn.cmd`，以锁定 JDK 21；三个服务端口固定 8080 / 8081 / 8082（模块与接口表见子仓 `README.md`）。
+- **规则继承指针**：子仓根 `AGENTS.md` / `CLAUDE.md` 分别指向 `../AGENTS.md` 与单行 `@../AGENTS.md`。
+
 ## 六、仓库运维脚本约定（.scripts）
 
 - 仓库运维脚本统一放 `.scripts/`（点前缀目录，与 `.archived`/`.zed` 同属仓库基础设施层）；项目自有脚本随各自子仓，不入该目录。

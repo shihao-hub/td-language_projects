@@ -52,11 +52,21 @@
 
 ## native_projects
 
-> 子模块未初始化：`.gitmodules` 已声明，但父仓索引无 gitlink、本地无目录；下表条目为规划记录。
+> 子模块为**本地注销态**（有意暂停，非缺陷）：`.gitmodules` 已声明、索引 gitlink 已恢复（`-c9c1ee8`，未检出），恢复执行 `git submodule update --init native_projects`；下表条目为规划记录。
 
 | 项目 | 摘要 | 状态 | 源码阅读情况 | 价值 | 下一步 |
 |-|-|-|-|-|-|
 | trilang | C/C++/Lua 三语言协作 demo：C 算法库（fib/gcd）+ C++ 宿主嵌入 Lua 5.1.5 双向调用 | 可用 |  |  |  |
+
+## java_projects
+
+> 子模块：远端 `td-java_projects`（Java 21 + Spring Boot 3，父 POM 多模块；三个服务端口固定 8080/8081/8082，构建与接口见子仓 `README.md`）。
+
+| 项目 | 摘要 | 状态 | 源码阅读情况 | 价值 | 下一步 |
+|-|-|-|-|-|-|
+| career-starter-basics | Spring Boot 3 入门骨架模块 |  |  |  |  |
+| career-payment-saas | 支付 SaaS 业务模块 |  |  |  |  |
+| career-agent-diagnose | 智能体诊断模块 |  |  |  |  |
 
 ## 归档项目（.archived）
 
