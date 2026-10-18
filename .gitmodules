@@ -28,3 +28,8 @@
 	url = git@github.com:shihao-hub/td-agents-skills.git
 	branch = main
 	ignore = all
+[submodule "java_projects"]
+	path = java_projects
+	url = git@github.com:shihao-hub/td-java_projects.git
+	branch = main
+	ignore = all
