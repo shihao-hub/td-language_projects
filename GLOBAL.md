@@ -25,18 +25,24 @@
        ```powershell
        command1; if ($?) { command2 }
        ```
-3. **文件 I/O 抽象与编码安全**：
+3. **文件 I/O 抽象与编码安全（防 BOM 绝对红线）**：
    - **优先走 Agent 文件工具（全终端适用）**：凡涉及源码或配置的查看与编辑，一律优先使用 Agent 宿主提供的专用文件读写工具（File System Tools），杜绝通过命令行终端回显或流重定向读写大文件。
    - 以下编码防御细则**仅针对 PowerShell**（Git Bash 等 POSIX shell 不适用）：
      - **终端读取防御**：若必须通过终端读取文件，禁止裸调 `Get-Content`（5.1 默认按系统 ANSI/GBK 解析导致中文字符首轮乱码），显式带编码：
        ```powershell
        Get-Content -Encoding UTF8 "<filepath>"
        ```
-     - **终端写入防御（防 UTF-8 BOM 破坏热加载与解析）**：严禁裸写 `>` 或 5.1 的 `Set-Content -Encoding UTF8`；**Windows PowerShell 5.1 下严禁使用静态属性 `[System.Text.Encoding]::UTF8` 进行文件写入**（该实例带 UTF-8 BOM `EF BB BF`，会直接导致 Zed、Vite、Turbopack 等严格 JSON/TOML/Rust 解析器抛错并静默阻断配置热加载，甚至导致软件启动异常；pwsh 7（.NET Core 起）该属性默认已不再输出 BOM，但为跨版本一致，仍统一按下述方式落盘）。确需终端落盘无 BOM 纯正 UTF-8 时，必须显式传递 `$false`：
-       ```powershell
-       [System.IO.File]::WriteAllText("<filepath>", $content, [System.Text.UTF8Encoding]::new($false))
-       ```
-       或优先使用 Node.js（`fs.writeFileSync(file, text, 'utf8')`）/ Python 脚本落盘。
+     - **终端写入防御（零容忍 BOM 污染）**：
+       - **全面封杀原生重定向与落盘 cmdlet**：严禁在 PowerShell 终端使用任何 `>`、`>>`、`Out-File`、`Set-Content`、`Add-Content` 落盘代码或配置（5.1 下默认强制带 BOM，无论参数为何一律禁止）；
+       - **终端落盘唯一合规路径**：首选单文件 Python 脚本（`uv run`，默认纯正无 BOM UTF-8）；确需 PowerShell 单行写入时，**严禁裸用 `[System.Text.Encoding]::UTF8`**，必须显式传递 `$false`：
+         ```powershell
+         [System.IO.File]::WriteAllText("<filepath>", $content, [System.Text.UTF8Encoding]::new($false))
+         ```
+     - **严格配置写后必检（Post-Write Invariant）**：
+       凡创建或修改 Zed、VSCode、Vite、Cargo、Rust 等 JSON/JSONC/TOML/YAML 严格格式配置文件，**落盘后必须显式自检**：
+       1. 检查文件头 3 字节，确保绝不含 `EF BB BF`（BOM）；
+       2. 执行语法解析器校验，确保无尾逗号（trailing comma）等语法硬伤；
+       未通过自检严禁直接宣布完成交付。
      - **控制台流编码保障**：调用外部 CLI（如 git/go/python）并需捕获中文输出时，显式统一当前会话编码流（控制台流编码与 BOM 无关，不受上一条限制）：
        ```powershell
        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8; $OutputEncoding = [System.Text.Encoding]::UTF8
