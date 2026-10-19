@@ -13,7 +13,7 @@ mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkd
 plans_status.sql[FD3T]: F:plansql 的 Append-Only 状态流：记录 docs/plans/28 号计划置 completed 的两条 UPSERT 语句（plansql CLI 追加生成） | R:code:docs/plans/28-plansql-tracker.md,code:docs/projects/go_projects/plansql/设计说明.md | A:- | S:SQLite 投影由此文件重放生成，禁止直接改投影库
 THIRDPARTY.md[SG5M]: F:.thirdparty/ 归档清单：20 个条目（17 Git 仓库 + 3 非 Git 目录）的远端地址、分支/tag、基线 commit、本地定制与恢复命令 | R:code:.scripts/restore-thirdparty.py,code:docs/guides/GUIDE-第三方项目克隆.md | A:换机或目录重置后恢复 .thirdparty/ 的权威清单；新增第三方库须同步登记本文件与恢复脚本 | S:.thirdparty/ 被根 .gitignore 忽略不随仓库提交，多机需手动按清单 clone；PowerShell 全量脚本为备用手段
 opencode.json[FC4T]: F:opencode 项目级配置：为 build/plan agent 放开 external_directory，plan 另放开 bash，消除计划模式与外部目录的授权弹窗 | R:code:.claude/settings.json | A:与全局 ~/.config/opencode/opencode.json 合并、项目级优先；schema 见 https://opencode.ai/config.json | S:不覆盖 edit 权限，保留内置 deny 与 plan 文件写入特例；子模块内启动不生效
-GLOBAL.md[SG8S]: F:跨 Agent 通用基线约束：中文交互、Windows 终端执行安全、文件操作防御、Token 经济脚本化与检索范围纪律、编码质量防线（含 Python 模块结构统一骨架）、AOCI 认知协同、只读子任务委托路由（含长任务通道选择）、Matt Pocock 工程工作流，经软链接注入 6 大 Agent 全局入口 | R:code:.scripts/sync-agent-rules.py,code:AGENTS.md | A:改通用规则只改此文件，各 Agent 软链接自动生效；内容须跨仓通用自包含，禁嵌仓库相对路径；仓库专属约定写 AGENTS.md；AOCI 通用契约由本文件第 7 节托管；长任务通道选择在第 8 节；大仓/子模块树检索须限定范围，禁仓根裸递归全扫 | S:各 Agent 全局入口是指向本文件的软链接，改副本无效；委托能力以会话工具列表为准，缺失即整节跳过且禁自建替代通道；≥3 分钟任务禁走同步 MCP（客户端掐断后服务端继续跑并留孤儿进程），改走后端作业；本版 DSH 收不到 progress 通知且拒绝 taskSupport=required；收尾必调一次 maintain，元数据与业务代码分开提交
+GLOBAL.md[SG8S]: F:跨 Agent 通用基线约束：中文交互、Windows 终端安全（防 BOM 红线与写后必检）、文件防御、Token 经济与检索范围、代码质量防线（Python 统一骨架）、AOCI 协同、子任务委托路由、Matt Pocock 工作流，经软链接注入 6 大 Agent 全局入口 | R:code:.scripts/sync-agent-rules.py,code:AGENTS.md | A:改通用规则只改此文件，各 Agent 软链接自动生效；内容须跨仓通用自包含，禁嵌仓库相对路径；仓库专属约定写 AGENTS.md；AOCI 通用契约由本文件第 7 节托管；长任务通道选择在第 8 节；大仓/子模块树检索须限定范围，禁仓根裸递归全扫 | S:各 Agent 全局入口系软链接，改副本无效；终端禁调 PS 原生重定向与落盘 cmdlet，配置写后必验无 BOM 与语法；委托能力以会话工具为准，缺失跳过禁自建通道；≥3 分钟禁同步 MCP（防孤儿进程）改后端作业；本版 DSH 拒绝 taskSupport=required；收尾必调一次 maintain，元数据与代码分开提交
 
 ===D:/Users/language_projects/.scripts/===
 gen_icon.py[XG4T]: F:PNG 源图转 16-256 七帧 Windows .ico，非方形等比居中到透明画布 | R:- | A:uv run .scripts/gen_icon.py <input.png> <output.ico> | S:-
@@ -454,6 +454,7 @@ aoci.protocol.md[SC4S]: F:AOCI 通用协议与 F/R/A/S 规则手册（由根级 
 
 ===D:/Users/language_projects/docs/specs/04-win-startup-manager/===
 prd.md[SC6M]: F:WinStartupManager PRD（Phase 1 实施就绪）：Windows 注册表自启项可视化管理（HKCU/HKLM Run/RunOnce/WOW6432Node），对齐 StartupApproved 位翻转无损启停；Wails v3+Go+Vue3，WebView2 按需创建+GC 回收 | R:- | A:Phase 1 聚焦注册表纳管；实施以 FR-1~FR-8 与 AC-1~AC-4 为准；Services 明确排除，启动文件夹与计划任务一期仅只读看板 | S:StartupApproved 二进制位翻转=任务管理器同款无损启停契约；严禁裸调 PowerShell 进程；关窗须 runtime.GC+FreeOSMemory 释放 WebView2 内存
+tasks.md[SW4T]: F:WinStartupManager 自启管理工具实施任务清单：脚手架构建、注册表引擎与位翻转、只读文件夹/任务引擎、Wails v3 生命周期与内存治理、Vue 3 前端及整合验证 | R:code:docs/specs/04-win-startup-manager/requirements.md,code:docs/specs/04-win-startup-manager/design.md | A:查看开发拆解与验收验证指令 | S:-
 
 ===D:/Users/language_projects/.agents/references/language_projects/===
 docs-and-plans-layout.md[SG6T]: F:归档与文档布局铁律（自根 AGENTS.md §七 迁出·按需引用）：文档只放父仓、docs/ 分区归位、docs/index.md 禁删、plans/specs 落盘强制路由（子项目编号自包含） | R:code:AGENTS.md,code:docs/index.md,code:docs/guides/README.md | A:创建任何文档/计划/规格前必读；子项目计划一律落 docs/projects/<lang>/<subproject>/plans|specs/ | S:docs/index.md 删除会导致站点无首页（根路径 404）；子项目计划严禁进父仓 docs/plans/（该目录仅限父仓级任务白名单）
