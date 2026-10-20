@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-19T15:18:03Z",
+  "updated_at": "2026-10-20T08:14:35Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -380,9 +380,9 @@
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "GLOBAL.md": {
-      "sha256": "0696ceb4ca465af49ba757b19e25b1e71a953878b6d910f19d3b398b5c5f7e42",
-      "size": 18812,
-      "normalized_sha256": "0696ceb4ca465af49ba757b19e25b1e71a953878b6d910f19d3b398b5c5f7e42"
+      "sha256": "f46fc998b7613714892c03db2634cb1e3ba3ab987f66305da6c546f111090ca6",
+      "size": 19399,
+      "normalized_sha256": "f46fc998b7613714892c03db2634cb1e3ba3ab987f66305da6c546f111090ca6"
     },
     "MONOREPO.md": {
       "sha256": "c4e18a76517a0d0598a505098a48b81398d09d01f15cd4eeb571f0168d108274",
@@ -416,9 +416,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "d796dc4c946b55c8e88cf1b90e8c675b92deef56dd2968210ef2549da7c85cbe",
-      "size": 142264,
-      "normalized_sha256": "d796dc4c946b55c8e88cf1b90e8c675b92deef56dd2968210ef2549da7c85cbe"
+      "sha256": "ea21421fe6373d100a6a2350c86bf3f54fc57d050cca595f9b7347f6a3197de7",
+      "size": 145502,
+      "normalized_sha256": "ea21421fe6373d100a6a2350c86bf3f54fc57d050cca595f9b7347f6a3197de7"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1894,6 +1894,36 @@
       "sha256": "22bb7f78cb3e345007fedd8f1a427150dbd480c1457f92e2d8cff30da7a10a7c",
       "size": 4073,
       "normalized_sha256": "22bb7f78cb3e345007fedd8f1a427150dbd480c1457f92e2d8cff30da7a10a7c"
+    },
+    "docs/specs/05-anatomy-manager/design.md": {
+      "sha256": "f461e18f78153982b498392225043425dca27d391bd463e140905abfc5c94cb7",
+      "size": 4128,
+      "normalized_sha256": "c7f0d36bccd133098d8aa749389ca2317d21260c7d612633675d4651cef3017d"
+    },
+    "docs/specs/05-anatomy-manager/requirements.md": {
+      "sha256": "0803a846c54549a61350ada0d9293591d7d94ee23809501e3db213b003e0b6c1",
+      "size": 3406,
+      "normalized_sha256": "800b16f52de257984b6d9548787597daca7a11c5b90d942127c8f0f6cc9ea2b7"
+    },
+    "docs/specs/05-anatomy-manager/tasks.md": {
+      "sha256": "49d03b3709e3f7466b0a1558ae6a1bf1af2841c41ed82bff691877546a704378",
+      "size": 1221,
+      "normalized_sha256": "dbbab063d817f3ab70e7610f5fc4f63ced35f5baff4673ebf02485f7e6098a4e"
+    },
+    "docs/specs/06-kb-temporal-governance/design.md": {
+      "sha256": "195d64e45c295cdccff8df750c56bab767cc5076a7efae7f64fddbf1650d4b15",
+      "size": 3989,
+      "normalized_sha256": "195d64e45c295cdccff8df750c56bab767cc5076a7efae7f64fddbf1650d4b15"
+    },
+    "docs/specs/06-kb-temporal-governance/requirements.md": {
+      "sha256": "e46af3c73a81b541799b48235322bf126d76129824072df2aa71a035765c432a",
+      "size": 3151,
+      "normalized_sha256": "e46af3c73a81b541799b48235322bf126d76129824072df2aa71a035765c432a"
+    },
+    "docs/specs/06-kb-temporal-governance/tasks.md": {
+      "sha256": "312df6651e721ae27250aaf8bc8b4e31da020172cafdc4f7bd3904856a28837b",
+      "size": 2112,
+      "normalized_sha256": "cc96a503b1616151bc24048d9d7f3ef3767b6939f2ed290f3d8829423ae81bce"
     },
     "guide.md": {
       "sha256": "028d04a75225cd7e5eb8f18448c8f340a35c60b7704f683d4b38d084400b1847",
