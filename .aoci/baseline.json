@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-20T08:14:35Z",
+  "updated_at": "2026-10-20T17:07:53Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -396,9 +396,9 @@
       "normalized_sha256": "896759d898eb1a8a8abcecebba0b90bf8f8b549d167dee49fd9dcc2a2831a7fc"
     },
     "README.md": {
-      "sha256": "b77e4eaf2350604715f28ef67e8a9f42ac071a2cbfb3dfe684c552097ab9d970",
-      "size": 7568,
-      "normalized_sha256": "770a037ef87895cd7171bb8a8a28eb6241fed43a2f28aba3df24136cd11967e8"
+      "sha256": "f15ff431fad3f925e88238b5d1dc1f3147b74d5338a3b0236f15f4a7c8dbde55",
+      "size": 7311,
+      "normalized_sha256": "b80ae29b7c85e0ee0951370af1b1a54cea0504538ed2ff93e7370f46481d756f"
     },
     "SPEC-AGENT.md": {
       "role": "index",
@@ -416,9 +416,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "ea21421fe6373d100a6a2350c86bf3f54fc57d050cca595f9b7347f6a3197de7",
-      "size": 145502,
-      "normalized_sha256": "ea21421fe6373d100a6a2350c86bf3f54fc57d050cca595f9b7347f6a3197de7"
+      "sha256": "07cd377365fd8c4a7b76d5aebf174366ef1693e55b576e05037d7a4e220d2560",
+      "size": 144551,
+      "normalized_sha256": "07cd377365fd8c4a7b76d5aebf174366ef1693e55b576e05037d7a4e220d2560"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -507,10 +507,9 @@
       "normalized_sha256": "a9668d9ca014998ef494d6a20fc38ddc5adaf9e5b7400ffa1e092bec55500e11"
     },
     "docs/guides/README.md": {
-      "role": "index",
-      "sha256": "b064f6111b7537cf915415072374501319cc998f2bbd2cb159dbae6e1a1a93d3",
-      "size": 5822,
-      "normalized_sha256": "b064f6111b7537cf915415072374501319cc998f2bbd2cb159dbae6e1a1a93d3"
+      "sha256": "db19c9c548b85692b0731fcfee2d34f45e15b284d986ff32f2094a3ba5722d2a",
+      "size": 5717,
+      "normalized_sha256": "db19c9c548b85692b0731fcfee2d34f45e15b284d986ff32f2094a3ba5722d2a"
     },
     "docs/index.md": {
       "sha256": "9cc7fd34f8a996d9490ebc5c0aee8c034c89cddd18ccb29d312a206f1ce08e44",
