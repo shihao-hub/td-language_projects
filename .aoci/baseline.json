@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-21T16:54:55Z",
+  "updated_at": "2026-10-21T17:07:30Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -421,9 +421,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "f1fda1b47536410a87b28236ba9480fe1dfec0151a52c55b4e5c22bbadbfb4f7",
-      "size": 148598,
-      "normalized_sha256": "f1fda1b47536410a87b28236ba9480fe1dfec0151a52c55b4e5c22bbadbfb4f7"
+      "sha256": "94282f9f6847f1054eaddc451b54e01f6b7fcb1ed3aa014b426afce2a6b5e7be",
+      "size": 149320,
+      "normalized_sha256": "94282f9f6847f1054eaddc451b54e01f6b7fcb1ed3aa014b426afce2a6b5e7be"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1002,9 +1002,9 @@
       "normalized_sha256": "2fd6ce928343abe880541f9613319768d083c976aeaa9cf9768c980cfdc82c52"
     },
     "docs/projects/go_projects/clictl/clictl 使用指南.md": {
-      "sha256": "b9761c5b6699c944849fbbf2647b8c54ddd4c7d64c1caa86cd6f97f71954517d",
-      "size": 13118,
-      "normalized_sha256": "b9761c5b6699c944849fbbf2647b8c54ddd4c7d64c1caa86cd6f97f71954517d"
+      "sha256": "9582bbd5013ce77da7f3d0ec7326e44e32a7ad7eececc5e939f309d0d8200653",
+      "size": 13295,
+      "normalized_sha256": "9582bbd5013ce77da7f3d0ec7326e44e32a7ad7eececc5e939f309d0d8200653"
     },
     "docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
       "role": "index",
@@ -1027,6 +1027,11 @@
       "sha256": "1f475213b19c94716b2775b47392f9c7e9664676751d59294aca8fed482988cd",
       "size": 3252,
       "normalized_sha256": "1f475213b19c94716b2775b47392f9c7e9664676751d59294aca8fed482988cd"
+    },
+    "docs/projects/go_projects/clictl/plans/03-console-stdio-fix.md": {
+      "sha256": "569a02b1ded0e0d8fc52c06ba6cfedae79e125a3aab6ea850aa6647f98d771c5",
+      "size": 2744,
+      "normalized_sha256": "569a02b1ded0e0d8fc52c06ba6cfedae79e125a3aab6ea850aa6647f98d771c5"
     },
     "docs/projects/go_projects/exestarter/接口文档.md": {
       "role": "index",
