@@ -1,63 +1,97 @@
 # clictl 使用指南
 
 > 项目位置：`go_projects/clictl`（子仓内）。本文为父仓镜像文档，与项目内 `README.md` 保持同步。
+> 双通道改造设计：见同目录 `plans/01-wails-dual-channel.md`。
 > CLI + JSON 输出的通用实现模式（供其他 CLI 项目参考）：见同目录 `Go CLI JSON 输出模式参考.md`。
 > 表结构变更 SQL 存档：见同目录 `migrations/`。
 
 ## 定位
 
-Windows 单文件 CLI 工具注册器/启动器：注册任意 exe，`clictl run <名>` 前台透传启动，`clictl start <名>` 后台分离启动，启动过程被接管并记录。所有管理命令**永远输出 JSON**，存储用 SQLite（`%AppData%\clictl\clictl.db`）。
+Windows 工具注册器/启动台，双通道产物：
+
+- `clictl-gui[-dev].exe`：Wails v3 托盘 + 内嵌 WebUI，注册/搜索/启动/停止/定位/meta/启动记录全部可在窗口完成
+- `clictl-cli[-dev].exe`：console 子系统的完整 CLI（`run`/`start`/`stop`/`add`/`list`/`serve`/`where`/`mcp` 等），终端、脚本与 Agent 一律用它
+
+所有管理命令**永远输出 JSON**，GUI 与 `serve` 共用同一套 HTTP Handler；存储用 SQLite（`%APPDATA%\language_projects\clictl\{dev,prod}\clictl.db`）。
 
 ## 快速上手
 
 ```powershell
-# 构建（产出单文件 clictl.exe，版本号注入）
+# 构建（dev 双产物：clictl-gui-dev.exe + clictl-cli-dev.exe）
 cd go_projects/clictl
-uv run scripts/build.py  # 产出单文件 clictl.exe；--version 1.0.0 可指定版本（默认 dev）
+uv run scripts/build.py            # 默认 dev 通道
+uv run scripts/build.py --release  # 正式名（需 clictl/v* tag + 工作区干净）
+
+# 桌面启动台：双击 clictl-gui-dev.exe；--hidden 为静默托盘
+.\clictl-gui-dev.exe
+
+# 终端一律用 cli 产物（PATH 里建议把 clictl-cli.exe 命名为 clictl）
+.\clictl-cli-dev.exe list --pretty
 
 # 注册（name 默认=文件名去 .exe 小写化）
-clictl add "D:\Program Files\Go\bin\go.exe" --desc "Go toolchain" --meta '{\"source\":\"go\",\"tags\":[\"dev\"]}'
+clictl-cli add "D:\Program Files\Go\bin\go.exe" --desc "Go toolchain" --meta '{\"source\":\"go\",\"tags\":[\"dev\"]}'
 
 # 查看全部（launch_count 降序），--pretty 缩进输出
-clictl list --pretty
+clictl-cli list --pretty
 
 # 透传启动：与直接执行 go version 完全一致，退出码直通
-clictl run go version
+clictl-cli run go version
 
 # 后台启动托盘/服务类工具：立即返回 pid，不阻塞终端
-clictl start zread-tray
+clictl-cli start zread-tray
 
 # 看哪些后台工具活着 / 详情含 running 状态
-clictl list --running --pretty
-clictl info zread-tray --pretty
+clictl-cli list --running --pretty
+clictl-cli info zread-tray --pretty
 
 # 全量终止该工具的后台活实例（taskkill 树杀）
-clictl stop zread-tray
+clictl-cli stop zread-tray
 
 # 复制已注册 exe 到指定目录（目录须已存在；目标已存在需 --force 覆盖）
 clictl cp go "D:\tools"
 clictl cp go "D:\tools" --force
 
 # 详情：最近 10 条启动 + 累计耗时
-clictl info go
+clictl-cli info go
 
 # 更新/清空 meta
-clictl set go --meta '{\"tags\":[\"cli\"]}'
-clictl set go --meta '{}'
+clictl-cli set go --meta '{\"tags\":[\"cli\"]}'
+clictl-cli set go --meta '{}'
 
 # 删除注册（级联删其 launches）
-clictl rm go
+clictl-cli rm go
 
 # 未注册名智能建议（前缀 > 子串 > 编辑距离，取前 3）
-clictl run goxx      # 错误 JSON 附 "suggestions":["go"]
+clictl-cli run goxx      # 错误 JSON 附 "suggestions":["go"]
 
 # PS 5.1 下管道给下游工具时中文变 ? ：--ascii 转义非 ASCII（下游 JSON 解析自动还原）
-clictl --ascii help | jtree
+clictl-cli --ascii help | jtree
 
-# PowerShell Tab 补全：一次性安装，新开窗口后 clictl run go<Tab> 即补全
-clictl completion powershell --install
-clictl completion powershell --uninstall   # 卸载
+# PowerShell Tab 补全：一次性安装，新开窗口后 clictl-cli run go<Tab> 即补全
+clictl-cli completion powershell --install
+clictl-cli completion powershell --uninstall   # 卸载
 ```
+
+## 双通道与桌面启动台（v2.0.0）
+
+| 产物 | 子系统 | 行为 |
+|---|---|---|
+| `clictl-gui[-dev].exe` | Windows GUI | 只开窗口/托盘；除 `--hidden`/`--tray` 外忽略一切参数（`clictl-gui list` 不会执行 CLI） |
+| `clictl-cli[-dev].exe` | Console | 全部子命令只在这里；prompt/管道/重定向合规 |
+
+- 托盘菜单：打开启动台 / 在默认浏览器中打开 / 开机自启（dev 置灰）/ 彻底退出；关窗只销毁窗口，进程留托盘
+- 窗口几何（尺寸/位置/最大化）落在 `<通道目录>\window.json`，重开精确恢复
+- WebUI：左侧工具卡片（搜索 + 全部/运行中/有效/失效过滤），右侧详情（路径、大小、累计耗时、meta、最近 10 条启动）；支持启动（可带参数）/停止/定位/编辑 meta/删除/注册（内置目录浏览选 exe）
+- WebUI 不提供 `run` 前台透传：浏览器无法接管 TTY，需要看输出请用 `clictl-cli run`
+- 无 GUI 时也可只跑 WebUI：`clictl-cli serve [--port 0] [--open]`，根路径即完整工作台
+- 通道自省：`clictl-cli where`（JSON）确认当前通道、库路径、工具数与两通道 GUI 运行状态
+
+## 数据目录与迁移
+
+- dev 产物 → `%APPDATA%\language_projects\clictl\dev\clictl.db`
+- release 产物 → `%APPDATA%\language_projects\clictl\prod\clictl.db`
+- 旧库 `%APPDATA%\language_projects\clictl\clictl.db` 在**每个通道首次启动时各复制一份**（含 `-wal`/`-shm`，旧文件保留）；此后两通道独立演进
+- 日志：`<通道目录>\clictl.log`（GUI 无控制台排障）；WebView2 缓存：`<通道目录>\webview2\`
 
 ## run vs start
 
@@ -129,11 +163,11 @@ clictl completion powershell --uninstall   # 卸载
 
 **PowerShell Tab 补全**（PS 5.1+，clictl 需在 PATH 中）：
 
-- `clictl completion powershell --install` 把补全安装块写入 `$PROFILE`（conda-init 风格标记区块，幂等；安装行带 `Get-Command clictl` 守卫，clictl 不在 PATH 的会话自动跳过，不污染 shell 启动）；安装块自带两行 UTF-8 编码固化（修 PS 5.1 原生 exe 间管道中文变 `?`，详见「管道编码与 --ascii」小节）；旧版 3 行块重跑 `--install` 自动升级为 5 行标准块（返回 `upgraded:true`）；`--uninstall` 按标记整块移除（removed=5）
+- `clictl-cli completion powershell --install` 把补全安装块写入 `$PROFILE`（conda-init 风格标记区块，幂等；安装行带 `Get-Command clictl` 守卫，clictl 不在 PATH 的会话自动跳过，不污染 shell 启动）；安装块自带两行 UTF-8 编码固化（修 PS 5.1 原生 exe 间管道中文变 `?`，详见「管道编码与 --ascii」小节）；旧版 3 行块重跑 `--install` 自动升级为 5 行标准块（返回 `upgraded:true`）；`--uninstall` 按标记整块移除（removed=5）
 - 补全行为：第 1 位置补全子命令名（`clictl ru<Tab>`）；`run/start/stop/rm/info/set/cp` 后第 1 位置补全工具名（候选来自注册列表，前缀过滤）；`run`/`start` 第 2 参数起为子进程透传段，不产生候选
 - 只绑定 `clictl` 命令名，不影响其他工具的补全；内部 try/catch 静默失败
 - `completion powershell` / `completion names` 输出 **raw 文本而非 JSON 包络**（消费者是 shell 补全脚本，输出即协议，同 `run` stdout 例外先例）；`--install`/`--uninstall` 为动作型命令仍输出 JSON
 
 ## 二期规划
 
-`scan` 批量收编、`.cmd/.bat/.ps1` shim、`clictl rpc` JSON-RPC 模式（stdin NDJSON，GUI/AI 客户端接入）、标签体系、全局统计。详见项目内 `PLAN.md`。
+`scan` 批量收编、`.cmd/.bat/.ps1` shim、标签体系、全局统计、WebUI 内的前台 run（终端弹窗形态）。详见项目内 `PLAN.md`。
