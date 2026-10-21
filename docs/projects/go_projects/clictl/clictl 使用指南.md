@@ -109,6 +109,7 @@ clictl-cli completion powershell --uninstall   # 卸载
 - CLI：`clictl-cli start --console <name> [args...]`；`--console` 只在前置段生效，工具名之后的同名参数原样透传
 - WebUI：详情标题旁显示「命令行 / 窗口程序」类型徽标（读 PE 子系统），命令行工具主按钮为「终端启动」，另提供「后台启动」；窗口程序主按钮仍为「启动」（后台分离，不产生空控制台）
 - API：`POST /api/tools/{name}/start` 的 `mode` 支持 `console` / `detached`，省略时按 PE 子系统自动选择；返回结果含 `mode`
+- 窗口内是**真实控制台设备**（`isTTY=true`）：由原生 `CreateProcess` 初始化标准句柄，TUI 程序（如 taskmon）可正常渲染、刷新与按键交互
 - 已知语义：CLI 的 `start --console` 自身立即退出，子进程自然退出时无法回写闭环（与后台 `start` 一致）；GUI/serve 常驻时 `Wait` 会回写 duration/exit_code
 
 ## JSON 包络
