@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-20T17:07:53Z",
+  "updated_at": "2026-10-21T15:57:27Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -352,6 +352,11 @@
       "size": 465,
       "normalized_sha256": "acc0a2cc55520a51ea478bc2522be8c6ee2188fdf15d33e0f2a20f7043c4f5b3"
     },
+    ".workbuddy/memory/2026-10-21.md": {
+      "sha256": "5efd139688fbf1688362300c1b22529ed203cc0b80c71b09532a7af2919388d3",
+      "size": 1773,
+      "normalized_sha256": "5efd139688fbf1688362300c1b22529ed203cc0b80c71b09532a7af2919388d3"
+    },
     ".zed/extensions.toml": {
       "role": "index",
       "sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da",
@@ -416,9 +421,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "07cd377365fd8c4a7b76d5aebf174366ef1693e55b576e05037d7a4e220d2560",
-      "size": 144551,
-      "normalized_sha256": "07cd377365fd8c4a7b76d5aebf174366ef1693e55b576e05037d7a4e220d2560"
+      "sha256": "b1be6e1a375fc280e6382475facb6f0bec6fa51dfbafe757b761618b9cea2a41",
+      "size": 147109,
+      "normalized_sha256": "b1be6e1a375fc280e6382475facb6f0bec6fa51dfbafe757b761618b9cea2a41"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -997,9 +1002,9 @@
       "normalized_sha256": "2fd6ce928343abe880541f9613319768d083c976aeaa9cf9768c980cfdc82c52"
     },
     "docs/projects/go_projects/clictl/clictl 使用指南.md": {
-      "sha256": "4ead047305c0bba1a00c5007bf2f888d3374d7a40dbb108273a88d7af1285657",
-      "size": 9886,
-      "normalized_sha256": "4ead047305c0bba1a00c5007bf2f888d3374d7a40dbb108273a88d7af1285657"
+      "sha256": "65d26708651d20715d0728b873b8460595b04a0fdb37687fb758ba0e1d3a4a76",
+      "size": 12159,
+      "normalized_sha256": "65d26708651d20715d0728b873b8460595b04a0fdb37687fb758ba0e1d3a4a76"
     },
     "docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
       "role": "index",
@@ -1012,6 +1017,11 @@
       "sha256": "58efd0896da1e6b6531d3901803c41843f8a8f26773775167244ea97ea91df21",
       "size": 710,
       "normalized_sha256": "58efd0896da1e6b6531d3901803c41843f8a8f26773775167244ea97ea91df21"
+    },
+    "docs/projects/go_projects/clictl/plans/01-wails-dual-channel.md": {
+      "sha256": "23a550fdb3df4e872b88164ec5546cb416472bb98a232367f6b4022be12bd4bc",
+      "size": 6989,
+      "normalized_sha256": "23a550fdb3df4e872b88164ec5546cb416472bb98a232367f6b4022be12bd4bc"
     },
     "docs/projects/go_projects/exestarter/接口文档.md": {
       "role": "index",
@@ -1327,6 +1337,11 @@
       "sha256": "bdd1e9b55dfe9b53662cac02c8cb7d085f797b9f1921853c1cfb007285ce787d",
       "size": 4141,
       "normalized_sha256": "bdd1e9b55dfe9b53662cac02c8cb7d085f797b9f1921853c1cfb007285ce787d"
+    },
+    "docs/projects/go_projects/taskbarguard/plans/03-wails-gui-dual-channel.md": {
+      "sha256": "4f7100da737746b2b8e47feb10cd45cf7a9a7fa5ba5eb987f82e33b03109bf7c",
+      "size": 3724,
+      "normalized_sha256": "4f7100da737746b2b8e47feb10cd45cf7a9a7fa5ba5eb987f82e33b03109bf7c"
     },
     "docs/projects/go_projects/taskbarguard/v3 架构调研.md": {
       "sha256": "935791061a56b5cf45937b83428b616809bcd0adbf294236715d2d1ac139b03d",
@@ -1758,6 +1773,11 @@
       "sha256": "77d2ca171d7fe36b10fc8f077b8c94db547b1594d0d17418c7ca967e555badf3",
       "size": 17143,
       "normalized_sha256": "b2ab05e4cac91e250d3852a8dc1acd4a1dc16f407732629d3c8ca46a019f35e5"
+    },
+    "docs/repo/git-ignored-local-dir-versioning-research.md": {
+      "sha256": "26e64b4d494cf5861cb6aaa620aa2e74321142c764a027b7ca4c3ccd162d6dd5",
+      "size": 50762,
+      "normalized_sha256": "26e64b4d494cf5861cb6aaa620aa2e74321142c764a027b7ca4c3ccd162d6dd5"
     },
     "docs/repo/jupyterlab-overview-and-architecture-research.md": {
       "sha256": "11e0462bd7c9d2f054c42aa59896fee51777df9af436574bf319284178e21d57",
