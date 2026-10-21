@@ -60,14 +60,14 @@ winres/{gui,cli}.json   PE VERSIONINFO + manifest + 图标模板
 
 ## 任务分解
 
-- [ ] Task 1：`internal/buildinfo`、`internal/appdata`（含旧数据迁移）。
-- [ ] Task 2：`internal/service.Chat` 并发保护与只读快照。
-- [ ] Task 3：`internal/api`（REST + SSE）与 `internal/web` 静态资源。
-- [ ] Task 4：`internal/app` Wails 壳（托盘、单实例、窗口几何、自启、日志、图标）。
-- [ ] Task 5：GUI/CLI 双入口与 `serve`；数据目录统一走 `appdata`。
-- [ ] Task 6：构建流水线（build.py、render_icon.py、winres、manifest、info.json、gitignore）。
-- [ ] Task 7：README 更新，`go_projects/typeai-gui` 归档到 `.archived/projects/go_projects/typeai-gui`。
-- [ ] Task 8：验收（go vet / go test / 构建 / CLI / GUI 启动 / HTTP 冒烟）。
+- [x] Task 1：`internal/buildinfo`、`internal/appdata`（含旧数据迁移）。
+- [x] Task 2：`internal/service.Chat` 并发保护与只读快照。
+- [x] Task 3：`internal/api`（REST + SSE）与 `internal/web` 静态资源。
+- [x] Task 4：`internal/app` Wails 壳（托盘、单实例、窗口几何、自启、日志、图标）。
+- [x] Task 5：GUI/CLI 双入口与 `serve`；数据目录统一走 `appdata`。
+- [x] Task 6：构建流水线（build.py、render_icon.py、winres、manifest、info.json、gitignore）。
+- [x] Task 7：README 更新，`go_projects/typeai-gui` 归档到 `.archived/projects/go_projects/typeai-gui`。
+- [x] Task 8：验收（go vet / go test / 构建 / CLI / GUI 启动 / HTTP 冒烟）。
 
 ## 验收
 
@@ -77,6 +77,17 @@ winres/{gui,cli}.json   PE VERSIONINFO + manifest + 图标模板
 - GUI：双击无黑框；托盘就绪；窗口几何记忆；dev 与 release 可并存。
 - PE 子系统：GUI=2、CLI=3；两者 FileDescription 不同。
 - 数据目录 dev/prod 隔离；旧配置与会话已迁移。
+
+## 实测记录（2026-10-22）
+
+- `go vet ./...`、`go test ./...` 全绿。
+- `uv run scripts/build.py` 产出 `typeai-gui-dev.exe`（12.35 MB）与 `typeai-cli-dev.exe`（15.98 MB）。
+- PE Subsystem：GUI=2、CLI=3；两者 FileDescription 不同，版本注入成功。
+- `serve` 根路径返回 WebUI；`/api/state`、`/api/sessions`、`/api/version` 正常。
+- GUI `--hidden` 启动成功，内嵌 HTTP 可访问，日志落 `<数据目录>/typeai.log`。
+- 旧配置与会话迁移到 `dev` 通道成功，旧文件保留。
+- mock LLM 验证 SSE 流式、session 落盘、fork 分支历史解析（`main` 2 条 / `fork-01` 4 条）。
+- Edge headless 验证 WebUI 脚本执行：分支 Tab、空态、会话列表均渲染。
 
 ## 未决问题与阻塞确认清单
 
