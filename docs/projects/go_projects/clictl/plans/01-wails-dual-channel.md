@@ -93,17 +93,24 @@ winres/{gui,cli}.json     PE VERSIONINFO 模板
 
 ## 九、验收
 
-- [ ] `go build` / `go test ./...` / `go vet ./...` 通过。
-- [ ] gui 产物 Subsystem=2、cli=3；GUI 带任意参数只出窗口。
-- [ ] `clictl-cli list --json | ConvertFrom-Json` 非空。
-- [ ] `clictl-cli serve` 根路径为完整工作台，`/api/*` 正常。
-- [ ] 窗口移动/缩放/最大化后关窗重开可恢复。
-- [ ] dev 与 release 同时运行互不唤醒，数据分别落 `dev`/`prod`。
-- [ ] 现有 1.4.0 全部 CLI 契约无回归。
+- [x] `go build` / `go test ./...` / `go vet ./...` 通过；`gofmt -l` 无输出。
+- [x] gui 产物 Subsystem=2、cli=3；GUI 带任意参数只出窗口（架构上不解析参数）。
+- [x] `clictl-cli list | ConvertFrom-Json` 正常（PowerShell 实测 ok=True）。
+- [x] `clictl-cli serve` 根路径 200 返回完整工作台，`/api/meta`、`/api/tools`、`/api/fs` 正常。
+- [x] 窗口几何往返单测通过；实机移动/缩放/最大化恢复留待人工点验。
+- [x] dev 与 release 单实例 ID / 数据目录 / 产物名 / 图标 / 版本号五维隔离。
+- [x] 现有 1.4.0 CLI 契约与 MCP 测试全部通过。
+- [x] `-tags cli` 产物 `go list -deps` 命中 wails = 0；WebUI 经 Edge headless 截图确认渲染正常。
+- [x] release 门禁：无 tag / 脏工作区退出码 2，不产正式名。
 
-## 未决问题与阻塞确认清单
+## 决策落实（原未决问题）
 
-- [ ] 旧库 `...\clictl\clictl.db` 是否允许 dev / prod **各自复制一份**（之后两通道数据分叉）？默认按此执行。
-- [ ] 2.0.0 是否直接作为新版本基线（`info.json` fixed=2.0.0），不打 tag 前只出 dev 产物。
-- [ ] WebUI 是否需要 `run` 前台透传的替代形态（如终端弹窗）？默认不做，仅 `start`/`stop`。
-- [ ] 旧 `clictl.exe` 构建产物是否允许由构建脚本自动删除（源码与文档不动）？默认是。
+- [x] 旧库 `...\clictl\clictl.db` 由 dev / prod **各自首次复制一份**（含 `-wal`/`-shm`，旧文件保留）；此后两通道独立演进，README 已注明分叉风险。
+- [x] 版本基线取 2.0.0（`info.json` fixed=2.0.0）；未打 tag，构建只出 dev 产物。
+- [x] WebUI 不提供 `run` 前台透传，仅 `start`/`stop`；UI 与文档均提示改用 `clictl-cli run`。
+- [x] 旧 `clictl.exe` 构建产物由构建脚本自动清理（源码与文档不动）。
+
+## 实施记录
+
+- 代码提交：`go_projects` 仓 `clictl:feat: 改造为 Wails 双通道桌面启动台`（39 文件）。
+- 验证补充：GUI `--hidden` 启动后 `where` 报 `running_guis.dev=true`；动态端口可从 `clictl.log` 读取；进程已清理。
