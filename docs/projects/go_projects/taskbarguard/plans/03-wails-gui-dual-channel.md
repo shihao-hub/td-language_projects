@@ -36,20 +36,28 @@ internal/app/              Wails 壳、窗口几何、数据目录、日志、�
 
 ## 任务
 
-- [ ] 1. 依赖与骨架：`go get wails v3`、`cmd/`、`internal/{core,api,web,app}`
-- [ ] 2. core service 迁移：discover/run/revert/apply/config/task，Runner 注入
-- [ ] 3. 迁移并扩展现有测试到 `internal/core`（全部使用 mock Runner）
-- [ ] 4. HTTP 层：meta/apps/config/apply/revert/task + WebUI 静态托管
-- [ ] 5. WebUI：应用卡片、款式切换、应用/恢复、日志区、计划任务
-- [ ] 6. GUI 壳：托盘、单实例、窗口几何记忆、失败降级 serve
-- [ ] 7. CLI 壳：现有命令全保留 + `serve`
-- [ ] 8. 资产与构建：图标、winres、manifest、info.json、build.py 双通道
-- [ ] 9. 文档：README 更新（双产物、APPDATA、serve）
-- [ ] 10. 静态校验：`gofmt` + `go build`（不运行测试、不执行产物、不跑 uv）
+- [x] 1. 依赖与骨架：`go get wails v3`、`cmd/`、`internal/{core,api,web,app}`
+- [x] 2. core service 迁移：discover/run/revert/apply/config/task，Runner 注入
+- [x] 3. 迁移并扩展现有测试到 `internal/core`（全部使用 mock Runner）
+- [x] 4. HTTP 层：meta/apps/config/apply/revert/task + WebUI 静态托管
+- [x] 5. WebUI：应用卡片、款式切换、应用/恢复、日志区、计划任务
+- [x] 6. GUI 壳：托盘、单实例、窗口几何记忆、失败降级 serve
+- [x] 7. CLI 壳：现有命令全保留 + `serve`
+- [x] 8. 资产与构建：图标、winres、manifest、info.json、build.py 双通道
+- [x] 9. 文档：README 更新（双产物、APPDATA、serve）
+- [x] 10. 静态校验：`gofmt` + `go build`（不运行测试、不执行产物、不跑 uv）
 
 ## 未决问题
 
 无（用户已确认全部按建议执行）。
+
+## 实施结果（2026-10-21）
+
+- 产物：`taskbarguard-gui-dev.exe`（12.22 MB，Subsystem=2）+ `taskbarguard-cli-dev.exe`（6.36 MB，Subsystem=3）。
+- CLI 依赖树确认不含 Wails（console 产物无桌面壳代码）。
+- PE VERSIONINFO：GUI/CLI 的 FileDescription 各自正确，版本 `1.0.0-dev-dirty`。
+- 校验方式：`gofmt -l` 无输出、`go vet ./...` 通过、`go build`（dev/release 两种 tag 组合）通过、`node --check app.js` 通过、`uv run scripts/build.py` 全链路通过。
+- 未执行：`go test`、任何 exe、任何 `uv run` 业务补丁脚本（遵守安全边界，测试全部使用 mock Runner）。
 
 ## 安全边界
 
