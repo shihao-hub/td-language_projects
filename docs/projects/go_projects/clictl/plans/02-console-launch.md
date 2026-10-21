@@ -25,13 +25,20 @@
 - console 工具额外显示「后台启动」次按钮；带参数启动沿用主模式。
 - 启动成功 toast 标注模式（终端窗口 / 后台）。
 
-## 三、验证
+## 三、验证（已全部完成）
 
-- `go test ./...` / `go vet ./...` / `gofmt`。
-- `IsConsoleExe` 单测：`cmd.exe`(3)=true、`explorer.exe`(2)=false、不存在路径=false。
-- 实测：`start --console ping -- -n 20 127.0.0.1` 弹控制台窗口；`list --running` 可见；`stop` 后闭环。
-- WebUI 实测 taskmon：点「终端启动」出现控制台窗口，记录闭环。
-- GUI exe 走后台启动不产生空控制台窗口。
+- [x] `go test ./...` / `go vet ./...` / `gofmt -l` 全部通过。
+- [x] `IsConsoleExe` 单测：`cmd.exe`=true、`notepad.exe`=false、不存在路径=false、非 PE 文件=false。
+- [x] `start --console ping -n 20` 启动后 `list --running` 可见 pid，`stop` 树杀并闭环（duration=2143ms, exit_code=1）。
+- [x] GUI 常驻下经 HTTP 启动 `ping -n 4`：窗口关闭后 `Wait` 自动闭环（duration=3096ms, exit_code=0）。
+- [x] 窗口程序（notepad）省略 mode 时自动走 `detached`，不产生控制台窗口。
+- [x] WebUI headless 截图确认：`命令行` 徽标、主按钮「终端启动」、次按钮「后台启动」。
+- [x] GUI 实机：用户点「终端启动」taskmon 后弹出控制台窗口，记录正常。
+
+## 实施记录
+
+- 代码提交：`clictl:feat: 新增命令行工具终端启动模式`（14 文件）。
+- 语义说明：CLI `start --console` 立即退出，子进程自然退出时不闭环（与后台 start 一致）；GUI/serve 常驻时由 `cmd.Wait()` 回写。
 
 ## 未决问题（已按推荐关闭）
 
