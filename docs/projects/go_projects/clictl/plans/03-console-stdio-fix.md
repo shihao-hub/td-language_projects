@@ -19,12 +19,18 @@
 - 启动后用 `WaitForSingleObject` + `GetExitCodeProcess` 在 goroutine 内闭环记账；立即关闭 thread 句柄，Wait 后关闭 process 句柄。
 - pid 仍为真实 exe，`list --running`、`stop` 树杀、路径探活语义不变；`Start`（DETACHED）保持原样。
 
-## 验证
+## 验证（已完成）
 
-- `start --console taskmon`：控制台窗口显示 TUI 并持续运行；`list --running` 可见 pid；关窗后记录闭环。
-- 对照：`node -e "console.log(process.stdout.isTTY)"` 在新窗口应为 `true`（用保持窗口的命令观察）。
-- 回归：GUI 工具仍走 detached 无空控制台；detached 启动、stop、MCP 不变。
-- `go test ./...` / `go vet ./...` / `gofmt`。
+- [x] `start --console taskmon`：窗口出现并显示完整 TUI（415 进程、分组视图），标题 `taskmon`，持续运行；`list --running` 可见 pid；`stop` 树杀闭环。
+- [x] TTY 断言：新窗口内 PowerShell `[Console]::IsInputRedirected` / `IsOutputRedirected` / `IsErrorRedirected` 全部为 `false`（即均为控制台设备，非 NUL/管道）。
+- [x] 窗口类名为 `ConsoleWindowClass`（原生 conhost，符合既定选择）。
+- [x] 回归：`go test ./...` / `go vet ./...` / `gofmt -l` 通过；detached 与 GUI 工具行为不变。
+- [x] 测试资源已清理（taskmon 进程、临时库与截图脚本）。
+
+## 实施记录
+
+- 代码提交：`clictl:fix: 终端启动改用原生 CreateProcess 修正 isTTY`（4 文件）。
+- 关键实现：`spawnConsoleProcess`（appName/CommandLine、Flags=0、InheritHandles=false、CurrentDirectory=exe 目录、立即关 thread 句柄），goroutine `WaitForSingleObject` + `GetExitCodeProcess` 闭环。
 
 ## 未决问题（已按推荐关闭）
 
