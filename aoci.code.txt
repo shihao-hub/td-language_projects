@@ -125,7 +125,7 @@ go exe 默认图标.md[SV7T]: F:go_projects 产 exe 项目默认配地鼠图标�
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/===
 Go CLI JSON 输出模式参考.md[SO7M]: F:提炼 clictl 的 CLI 骨架 + JSON 输出通用模式：包络出口函数、stdout/stderr 分工、退出码与错误码映射 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:其他 Go CLI 项目直接参考套用，与 clictl 业务无关 | S:管理命令错误 JSON 走 stdout、run 透传前置错误走 stderr，stdout 只属于子进程
 MCP 接口文档.md[SN7M]: F:clictl 的 MCP server 契约：10 个工具、Schema、错误语义与接入方式；第 4 节含 CLI↔MCP 能力对齐总述 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md | A:与 internal/mcp 同源维护，改实现必须同步更新本文档 | S:业务失败返回 isError 而非协议级 error；run 在 MCP 侧为非交互收集，不提供 stdin/PTY 透传；clictl mcp 是 server 启动入口不是工具
-clictl 使用指南.md[SG7S]: F:clictl 使用指南：双通道产物（GUI 托盘启动台 / CLI 全命令）、注册/run/start/stop/cp/meta、JSON 包络与退出码、PS 管道编码 | R:code:docs/projects/go_projects/clictl/plans/01-wails-dual-channel.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md,code:docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql | A:父仓镜像文档，与子仓 README 同步；v2.0.0 起 GUI 与 serve 共用同一 HTTP Handler；数据按 dev/prod 分库，旧库各复制一份；构建命令 uv run scripts/build.py；WebUI 不提供 run 前台透传 | S:PS5.1 原生 exe 间管道中文变 ? 是 OutputEncoding 解码后以 ASCII 重编码所致，--ascii 转义可免疫；stop 的 exit_code=1 是强杀约定值；run 前置错误走 stderr 以保证 stdout 只属于子进程
+clictl 使用指南.md[SG7S]: F:clictl 使用指南：双通道产物、注册/run/start/stop/cp/meta、JSON 包络与退出码、终端启动与 PS 管道编码 | R:code:docs/projects/go_projects/clictl/plans/01-wails-dual-channel.md,code:docs/projects/go_projects/clictl/plans/02-console-launch.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:父仓镜像文档，与子仓 README 同步；v2.0.0 起 GUI 与 serve 共用同一 HTTP Handler；数据按 dev/prod 分库，旧库各复制一份；WebUI 不提供 run；start --console 与 WebUI 终端启动按 PE 子系统自动选主按钮 | S:PS5.1 原生 exe 间管道中文变 ? 源于 OutputEncoding 解码后 ASCII 重编码，--ascii 可免疫；stop 的 exit_code=1 是强杀约定；run 前置错误走 stderr；console 模式 CLI 下不闭环
 
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/migrations/===
 000_init_v1.0.0.sql[FP6T]: F:clictl 初始表结构存档（tools/launches，WAL+外键） | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:- | S:文档存档不参与运行，建表由 store.go schema 常量执行
@@ -317,6 +317,7 @@ tasks.md[SW5T]: F:agyquota daemon 化任务清单：13 项（契约包/appdata/b
 05-dev-prod-isolation-and-build-scripts.md[SU5T]: F:glmquotawatch-gui 开发/生产隔离计划（已完成）：数据目录 dev/prod 子目录、单例 UniqueID 与窗口标题 [DEV]、双构建脚本 | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/04-raycast-linear-style-de-ai.md | A:开发版严禁开机自启（拦截保护）；build-prod.ps1/build-dev.ps1 产出不同命名 exe | S:数据目录隔离为 glmquotawatch-gui\dev 与 \prod；单例 ID 生产无后缀、开发加 .dev
 06-release-v0.1.0-tag.md[SV4T]: F:glmquotawatch-gui v0.1.0 发布计划：补 .gitignore 忽略 bin/ 与 *.exe~ 后在独立仓库 main 打 annotated tag v0.1.0 并推送；不动二级与父仓指针 | R:- | A:- | S:tag 只打在 glmquotawatch-gui 独立仓库（td-go_projects-glmquotawatch-gui）
 07-memory-optimization-webview2-lifecycle.md[SG5T]: F:glmquotawatch-gui 关窗销毁 WebView2 与托盘按需重建计划（已完成）：Wails v3 WindowsOptions 配置、窗口生命周期钩子重构、Chromium 子进程剪枝与内存实测对照 | R:code:AGENTS.md | A:已执行完毕作决策存档；改 Wails v3 窗口生命周期、WebView2 参数或常驻内存前先读本文的钩子改造与实测数据 | S:窗口态 347.6→186.95MB、关窗常驻 40.15MB；关窗须置 a.win=nil 并 runtime.GC/FreeOSMemory；WebviewUserDataPath 落 %APPDATA%\language_projects\<项目>\<dev|prod>\webview2；最小化不得销毁 WebView2
+08-bindings-resync-and-provider-memory.md[SU4T]: F:glmquotawatch Wails bindings 失配修复计划：模块改名后旧绑定 ID 全面失败导致界面假死，重建 bindings 并固化构建顺序，补齐超时/错误出口与 Provider 选择持久化 | R:code:docs/projects/go_projects/glmquotawatch/使用指南.md | A:- | S:构建须先 generate bindings；旧 ID 源自旧模块路径 FNV32a，漏重建致界面假死
 
 ===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/===
 design.md[SG6M]: F:glmquotawatch-gui 设计：Wails v3 + Vue3 前端 + Go 业务核心（api/store/quota/service 自归档移植）+ 托盘常驻；CLI 恒 JSON 壳 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/requirements.md | A:实现按本文；含零上下文评审（1 HIGH/8 MEDIUM 全修复）与 beta 升级必回归 4 项 | S:第二实例须在 application.New() 内退出、先于任何 store 写入；ResetDir 双防线校验；CLI stdout 恒纯 JSON（含 help/version）
@@ -389,7 +390,7 @@ requirements.md[SU7S]: F:glmquotawatch-gui Fyne 重写需求：GUI 层从 Wails 
 tasks.md[SW6T]: F:glmquotawatch-gui Fyne 重写任务清单：依赖准备、字体子集、通知与单实例、自启注册表直写、guiapp 整包置换至恢复整仓构建 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/design.md | A:- | S:任务 2-8 属 guiapp 整包置换，组内中间态该包不可编译，按序推进至任务 9 恢复
 
 ===D:/Users/language_projects/docs/projects/go_projects/plansql/===
-设计说明.md[SV4T]: F:plansql 设计说明：Append-Only 纯文本 SQL 为真理层、内存 SQLite 投影（modernc 零 CGO）、daemon 挂 HTTP+JSON API 与内嵌看板、CLI/MCP/Web 三薄客户端 | R:code:docs/plans/28-plansql-tracker.md,code:plans_status.sql | A:- | S:-
+设计说明.md[SV4T]: F:plansql 设计说明：Append-Only SQL 为真理层、内存 SQLite 投影、daemon 挂 HTTP+JSON 与内嵌看板，CLI/MCP/Web 三薄客户端，并含 Wails v3 GUI 双通道（gui/cli）与 dev/prod 隔离 | R:code:docs/plans/28-plansql-tracker.md,code:plans_status.sql | A:- | S:GUI 内嵌服务不写 plansql.addr，避免 CLI 误连共享 daemon；GUI 与 CLI serve 共用同一 Handler
 
 ===D:/Users/language_projects/docs/projects/python_projects/douyin_downloader/specs/01-zhihu-article-extract/===
 design.md[SW4S]: F:知乎文章提取设计：douyin_dl 新增知乎链路——CDP 校验 z_c0 登录门、页面导航等待正文容器、JS 返回 innerHTML、bs4 清洗、html2text 转 Markdown、原图下载本地化；与抖音/B 站四分类并行 | R:code:docs/projects/python_projects/douyin_downloader/specs/01-zhihu-article-extract/requirements.md | A:- | S:匿名直连 zhihu.com 实测 403，纯 HTTP 抓取不可行；z_c0 为 HttpOnly 只能 CDP 读
@@ -478,4 +479,5 @@ tasks.md[SG5T]: F:kbman 实施任务清单，按依赖拆解迁移、解析、�
 
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/plans/===
 01-wails-dual-channel.md[SG7S]: F:clictl 双通道改造计划与实施记录：单产物拆为 gui/cli，共用 HTTP+WebUI，dev/prod 五维隔离，已验收归档 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:基线 sh-go-wails-desktop SOP v1.6.0 与 anatomymanager 模板；版本 2.0.0（产物改名属破坏性）；拆包铁律 api/appinfo 不 import app；run 不设 HTTP 入口；原四项未决已落实为默认（旧库双通道各复制、2.0.0 基线、无 WebUI run、脚本清理旧产物）；验收含 Subsystem 2/3、cli 零 wails 依赖、serve 根路径 200、GUI where 探测与 release 门禁 | S:GUI 与 CLI 同包只能链接一份 rsrc syso，故每个产物构建前必须重建资源段；monorepo 其他项目未提交改动会使 release 门禁持续判脏
+02-console-launch.md[SG3T]: F:clictl 终端启动实施记录：PE 子系统识别 console、CREATE_NEW_CONSOLE 开窗、CLI/WebUI 共用 runner，已验证归档 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:原生 conhost；不做 cmd /k 保持窗口；按子系统自动切主按钮；实测含 stop 闭环与 GUI 常驻自动闭环 | S:CLI start --console 立即退出故不闭环；GUI/serve 常驻才 Wait 回写
 
