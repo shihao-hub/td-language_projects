@@ -481,3 +481,6 @@ tasks.md[SG5T]: F:kbman 实施任务清单，按依赖拆解迁移、解析、�
 01-wails-dual-channel.md[SG7S]: F:clictl 双通道改造计划与实施记录：单产物拆为 gui/cli，共用 HTTP+WebUI，dev/prod 五维隔离，已验收归档 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:基线 sh-go-wails-desktop SOP v1.6.0 与 anatomymanager 模板；版本 2.0.0（产物改名属破坏性）；拆包铁律 api/appinfo 不 import app；run 不设 HTTP 入口；原四项未决已落实为默认（旧库双通道各复制、2.0.0 基线、无 WebUI run、脚本清理旧产物）；验收含 Subsystem 2/3、cli 零 wails 依赖、serve 根路径 200、GUI where 探测与 release 门禁 | S:GUI 与 CLI 同包只能链接一份 rsrc syso，故每个产物构建前必须重建资源段；monorepo 其他项目未提交改动会使 release 门禁持续判脏
 02-console-launch.md[SG3T]: F:clictl 终端启动实施记录：PE 子系统识别 console、CREATE_NEW_CONSOLE 开窗、CLI/WebUI 共用 runner，已验证归档 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:原生 conhost；不做 cmd /k 保持窗口；按子系统自动切主按钮；实测含 stop 闭环与 GUI 常驻自动闭环 | S:CLI start --console 立即退出故不闭环；GUI/serve 常驻才 Wait 回写
 
+===D:/Users/language_projects/docs/projects/go_projects/typeai/plans/===
+01-wails-dual-channel.md[SG7T]: F:typeai 从纯 TUI 改造为 Wails 双通道（typeai-gui.exe 桌面 + typeai-cli.exe 保留 TUI/serve）的实施计划，含 HTTP/SSE 契约表、WebUI 首批功能与 dev/release 五维隔离 | R:code:go_projects/typeai/scripts/build.py,code:docs/plans/20-typeai-cli.md | A:执行或复核该改造时按架构节与契约表施工，数据落 %APPDATA%\language_projects\typeai\{dev,prod} | S:-
+

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-21T16:45:58Z",
+  "updated_at": "2026-10-21T16:54:55Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -421,9 +421,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "c1a26c4437985be4736e0b61d9d8303106d4b3559f1d1f86902abbee51ed388f",
-      "size": 148092,
-      "normalized_sha256": "c1a26c4437985be4736e0b61d9d8303106d4b3559f1d1f86902abbee51ed388f"
+      "sha256": "f1fda1b47536410a87b28236ba9480fe1dfec0151a52c55b4e5c22bbadbfb4f7",
+      "size": 148598,
+      "normalized_sha256": "f1fda1b47536410a87b28236ba9480fe1dfec0151a52c55b4e5c22bbadbfb4f7"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1367,6 +1367,11 @@
       "sha256": "062229fbc743858a8b0803539c5c6a28121873ef7494624bee8aa848b0ee5049",
       "size": 4471,
       "normalized_sha256": "062229fbc743858a8b0803539c5c6a28121873ef7494624bee8aa848b0ee5049"
+    },
+    "docs/projects/go_projects/typeai/plans/01-wails-dual-channel.md": {
+      "sha256": "8cf529fe8fca31aa51b8fd61283ecb40f7dbdf09d0b2a5cf2f7f182a3e883af2",
+      "size": 4662,
+      "normalized_sha256": "8cf529fe8fca31aa51b8fd61283ecb40f7dbdf09d0b2a5cf2f7f182a3e883af2"
     },
     "docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md": {
       "role": "index",
