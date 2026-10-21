@@ -95,14 +95,21 @@ clictl-cli completion powershell --uninstall   # 卸载
 
 ## run vs start
 
-> **要在终端看它输出、等它干完的用 `run`；点火就走的用 `start`。**
+> **要在当前终端看它输出、等它干完的用 `run`；点火就走的用 `start`；命令行工具要在独立窗口里跑的用 `start --console`。**
 
-| | `run` | `start` |
-|---|---|---|
-| 语义 | 前台透传，阻塞到子进程退出 | 后台分离（DETACHED），立即返回 |
-| IO | stdin/stdout/stderr 直通 | 全部断开（console 程序无输出能力） |
-| 退出码 | 透传子进程码 | 0 成功 / 127 未注册或失效 |
-| 记账 | started_at + duration + exit_code 闭环 | 只落 started_at + pid；`stop` 杀完闭环（exit_code=1 强杀约定值） |
+| | `run` | `start` | `start --console` |
+|---|---|---|---|
+| 语义 | 前台透传，阻塞到子进程退出 | 后台分离（DETACHED），立即返回 | 开独立控制台窗口，立即返回 |
+| IO | 当前终端 stdin/stdout/stderr 直通 | 全部断开 | 子进程独占新窗口的控制台 |
+| 退出码 | 透传子进程码 | 0 成功 / 127 未注册或失效 | 0 成功 / 127 未注册或失效 |
+| 记账 | 闭环 | 只落 started_at + pid；`stop` 闭环 | 同 start；GUI/serve 常驻时窗口关闭即闭环 |
+
+## 命令行工具终端启动（console 模式）
+
+- CLI：`clictl-cli start --console <name> [args...]`；`--console` 只在前置段生效，工具名之后的同名参数原样透传
+- WebUI：详情标题旁显示「命令行 / 窗口程序」类型徽标（读 PE 子系统），命令行工具主按钮为「终端启动」，另提供「后台启动」；窗口程序主按钮仍为「启动」（后台分离，不产生空控制台）
+- API：`POST /api/tools/{name}/start` 的 `mode` 支持 `console` / `detached`，省略时按 PE 子系统自动选择；返回结果含 `mode`
+- 已知语义：CLI 的 `start --console` 自身立即退出，子进程自然退出时无法回写闭环（与后台 `start` 一致）；GUI/serve 常驻时 `Wait` 会回写 duration/exit_code
 
 ## JSON 包络
 
