@@ -125,7 +125,7 @@ go exe 默认图标.md[SV7T]: F:go_projects 产 exe 项目默认配地鼠图标�
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/===
 Go CLI JSON 输出模式参考.md[SO7M]: F:提炼 clictl 的 CLI 骨架 + JSON 输出通用模式：包络出口函数、stdout/stderr 分工、退出码与错误码映射 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:其他 Go CLI 项目直接参考套用，与 clictl 业务无关 | S:管理命令错误 JSON 走 stdout、run 透传前置错误走 stderr，stdout 只属于子进程
 MCP 接口文档.md[SN7M]: F:clictl 的 MCP server 契约：10 个工具、Schema、错误语义与接入方式；第 4 节含 CLI↔MCP 能力对齐总述 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md | A:与 internal/mcp 同源维护，改实现必须同步更新本文档 | S:业务失败返回 isError 而非协议级 error；run 在 MCP 侧为非交互收集，不提供 stdin/PTY 透传；clictl mcp 是 server 启动入口不是工具
-clictl 使用指南.md[SG7S]: F:clictl 使用指南：双通道产物、注册/run/start/stop/cp/meta、JSON 包络与退出码、终端启动与 PS 管道编码 | R:code:docs/projects/go_projects/clictl/plans/01-wails-dual-channel.md,code:docs/projects/go_projects/clictl/plans/02-console-launch.md,code:docs/projects/go_projects/clictl/plans/03-console-stdio-fix.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:父仓镜像文档，与子仓 README 同步；v2.0.0 起 GUI 与 serve 共用同一 Handler；数据 dev/prod 分库；WebUI 无 run；start --console 按 PE 子系统选主按钮；窗口内控制台句柄由原生 CreateProcess 初始化（isTTY=true） | S:PS5.1 原生 exe 间管道中文变 ? 源于 OutputEncoding 解码后 ASCII 重编码，--ascii 可免疫；stop 的 exit_code=1 是强杀约定；run 前置错误走 stderr；console 模式 CLI 下不闭环
+clictl 使用指南.md[SG7S]: F:clictl 使用指南：双通道产物、注册/run/start/stop/cp/meta、JSON 包络与退出码、终端启动与 PS 管道编码 | R:code:docs/projects/go_projects/clictl/plans/01-wails-dual-channel.md,code:docs/projects/go_projects/clictl/plans/02-console-launch.md,code:docs/projects/go_projects/clictl/plans/03-console-stdio-fix.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:父仓镜像文档，与子仓 README 同步；双通道产物统一落 bin/；v2.0.0 起 GUI 与 serve 共用同一 Handler；数据 dev/prod 分库；WebUI 无 run；start --console 按 PE 子系统选主按钮；窗口内控制台句柄由原生 CreateProcess 初始化（isTTY=true） | S:PS5.1 原生 exe 间管道中文变 ? 源于 OutputEncoding 解码后 ASCII 重编码，--ascii 可免疫；stop 的 exit_code=1 是强杀约定；run 前置错误走 stderr；console 模式 CLI 下不闭环
 
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/migrations/===
 000_init_v1.0.0.sql[FP6T]: F:clictl 初始表结构存档（tools/launches，WAL+外键） | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:- | S:文档存档不参与运行，建表由 store.go schema 常量执行
@@ -419,10 +419,6 @@ v3 架构调研.md[SB5M]: F:taskbarguard v3 架构调研：现状盘点（业务
 ===D:/Users/language_projects/docs/projects/python_projects/douyin_downloader/plans/===
 01-zhihu-comments.md[SN4S]: F:douyin_downloader 知乎评论抓取计划（待批准）：正文后同页抓前 3 页一级评论+直接回复，落盘 comments.md/json，失败不致命，版本升 v2.7.0 | R:code:docs/plans/30-douyin-dl-bilibili-support.md | A:实施知乎评论功能前先读；浏览器 DOM 路线，不逆向 x-zse-96 签名 | S:按钮文案匹配防 css-xxx 随机化；评论失败不影响正文；同页翻页间隔防 40362 风控
 
-===D:/Users/language_projects/docs/projects/go_projects/typeai-gui/specs/01-universal-terminal-shell/===
-design.md[SC6M]: F:typeai-gui 泛化设计：env 构建隔离、store profile 持久化/校验/探测、terminal 启动参数扩展、guiapp 会话表重写、前端 tabs/profiles、AC 映射与 8 条自审处置 | R:code:docs/projects/go_projects/typeai-gui/specs/01-universal-terminal-shell/requirements.md | A:改 typeai-gui 架构前先读；OpenTab/RestartTab 启动失败走 TabInfo.StartError；会话启动/关闭一律锁外执行 | S:事件带 id+gen，前端丢弃过期事件防重启串扰；损坏 profiles.json 先备份再按空列表继续；多实例并发 last-write-wins 本期不加锁
-requirements.md[SC6T]: F:typeai-gui 泛化需求：多标签通用 CLI/TUI 桌面终端（profile 管理+exe 探测+配置持久化 FR-1~8、AC-1~7、Out of Scope 与更名开放问题） | R:code:docs/projects/go_projects/typeai-gui/specs/01-universal-terminal-shell/design.md,code:docs/plans/49-typeai-gui-terminal-shell.md | A:实施泛化前先读；profiles.json 落 %APPDATA%\language_projects\typeai-gui\{dev|prod}；缺失 profile 禁止新建标签页 | S:本期不更名（目录/module/产物名保持 typeai-gui）；与 clictl 零耦合；ConPTY 桥接层原样复用
-
 ===D:/Users/language_projects/.vscode/===
 tasks.json[FC3T]: F:VS Code/Cursor 任务面板：仅登记 zedhub 服务启动任务（uv run zedhub serve，cwd 为 python_projects/zedhub） | R:code:python_projects/zedhub/pyproject.toml | A:新增任务时在此文件编辑 | S:须在 zedhub 目录内执行
 
@@ -483,5 +479,5 @@ tasks.md[SG5T]: F:kbman 实施任务清单，按依赖拆解迁移、解析、�
 03-console-stdio-fix.md[SG7T]: F:clictl 终端启动 stdio 修复记录：os/exec 强制 DevNull 致 isTTY=false，改用原生 CreateProcess 初始化控制台句柄，已实测归档 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/plans/02-console-launch.md | A:根因链含 Go 源码位置；CreateProcess 参数 Flags=0、InheritHandles=false、EscapeArg 拼命令行、CurrentDirectory=exe 目录；WaitForSingleObject 闭环；实测 taskmon TUI 与三类 Redirected=false | S:必须用 CreateProcess 且不设 STARTF_USESTDHANDLES，否则 isTTY=false 使依赖终端的 TUI 秒退
 
 ===D:/Users/language_projects/docs/projects/go_projects/typeai/plans/===
-01-wails-dual-channel.md[SG7T]: F:typeai 从纯 TUI 改造为 Wails 双通道（typeai-gui.exe 桌面 + typeai-cli.exe 保留 TUI/serve）的实施计划，含 HTTP/SSE 契约表、WebUI 首批功能与 dev/release 五维隔离 | R:code:go_projects/typeai/scripts/build.py,code:docs/plans/20-typeai-cli.md | A:执行或复核该改造时按架构节与契约表施工，数据落 %APPDATA%\language_projects\typeai\{dev,prod} | S:-
+01-wails-dual-channel.md[SG7T]: F:typeai 从纯 TUI 改造为 Wails 双通道桌面应用的实施计划与实测记录，含 HTTP/SSE 契约表、WebUI 功能、任务分解、验收与 dev/release 隔离 | R:code:go_projects/typeai/scripts/build.py,code:docs/plans/20-typeai-cli.md | A:改造已完成并验收；产物统一输出 bin/typeai-gui[-dev].exe 与 bin/typeai-cli[-dev].exe；数据落 %APPDATA%\language_projects\typeai\{dev,prod}；独立外壳 typeai-gui 已归档 | S:-
 

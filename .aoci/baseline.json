@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-21T17:07:30Z",
+  "updated_at": "2026-10-22T00:26:43Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -421,9 +421,10 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "94282f9f6847f1054eaddc451b54e01f6b7fcb1ed3aa014b426afce2a6b5e7be",
-      "size": 149320,
-      "normalized_sha256": "94282f9f6847f1054eaddc451b54e01f6b7fcb1ed3aa014b426afce2a6b5e7be"
+      "role": "index",
+      "sha256": "a5a1632f284543f7a6dae180ef52d600a602ef9fdfd666cd2f81b05c2f6a3638",
+      "size": 148114,
+      "normalized_sha256": "a5a1632f284543f7a6dae180ef52d600a602ef9fdfd666cd2f81b05c2f6a3638"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1002,9 +1003,9 @@
       "normalized_sha256": "2fd6ce928343abe880541f9613319768d083c976aeaa9cf9768c980cfdc82c52"
     },
     "docs/projects/go_projects/clictl/clictl 使用指南.md": {
-      "sha256": "9582bbd5013ce77da7f3d0ec7326e44e32a7ad7eececc5e939f309d0d8200653",
-      "size": 13295,
-      "normalized_sha256": "9582bbd5013ce77da7f3d0ec7326e44e32a7ad7eececc5e939f309d0d8200653"
+      "sha256": "890ca6f05b2f1ecb418e5de7c602f3d2d0d346e5992a6cb23d7a9c587a6c81bc",
+      "size": 13311,
+      "normalized_sha256": "890ca6f05b2f1ecb418e5de7c602f3d2d0d346e5992a6cb23d7a9c587a6c81bc"
     },
     "docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
       "role": "index",
@@ -1374,9 +1375,9 @@
       "normalized_sha256": "062229fbc743858a8b0803539c5c6a28121873ef7494624bee8aa848b0ee5049"
     },
     "docs/projects/go_projects/typeai/plans/01-wails-dual-channel.md": {
-      "sha256": "8cf529fe8fca31aa51b8fd61283ecb40f7dbdf09d0b2a5cf2f7f182a3e883af2",
-      "size": 4662,
-      "normalized_sha256": "8cf529fe8fca31aa51b8fd61283ecb40f7dbdf09d0b2a5cf2f7f182a3e883af2"
+      "sha256": "7fb6a8f9aadd620cb19df8e36d6f6b42427b1c13c8bf2bfb9a305bcc29610634",
+      "size": 5400,
+      "normalized_sha256": "7fb6a8f9aadd620cb19df8e36d6f6b42427b1c13c8bf2bfb9a305bcc29610634"
     },
     "docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md": {
       "role": "index",
