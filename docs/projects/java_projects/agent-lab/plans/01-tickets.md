@@ -23,12 +23,12 @@ T01 ──> T02 ──> T03 ──┬──> T04 ──┐
 **Blocked by**：None
 
 **验收条件**：
-- [ ] `agent-lab` 作为子模块加入父 POM，`mvn -pl agent-lab test` 全绿
-- [ ] 配置从 `%APPDATA%\language_projects\agent-lab\dev\config.json` 或环境变量读取，缺失时给出可操作报错
-- [ ] Ollama 与 opencode go 双通道均可完成一次对话（opencode go 带 `x-opencode-session` 头）
-- [ ] `query_metric` 工具能读取 S1 场景指标文件并返回结构化结果
-- [ ] CLI 打印 Thought / Action / Observation / 结论四段
-- [ ] `FakeLlmClient` 驱动的单测覆盖"解析工具调用 → 执行 → 回填"路径
+- [x] `agent-lab` 作为子模块加入父 POM，`mvn -pl agent-lab test` 全绿
+- [x] 配置从 `%APPDATA%\language_projects\agent-lab\dev\config.json` 或环境变量读取，缺失时给出可操作报错
+- [x] Ollama 与 opencode go 双通道均可完成一次对话（opencode go 带 `x-opencode-session` 头）
+- [x] `query_metric` 工具能读取 S1 场景指标文件并返回结构化结果
+- [x] CLI 打印 Thought / Action / Observation / 结论四段
+- [x] `FakeLlmClient` 驱动的单测覆盖"解析工具调用 → 执行 → 回填"路径
 
 ---
 
