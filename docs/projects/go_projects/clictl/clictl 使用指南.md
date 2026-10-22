@@ -17,16 +17,16 @@ Windows 工具注册器/启动台，双通道产物：
 ## 快速上手
 
 ```powershell
-# 构建（dev 双产物：clictl-gui-dev.exe + clictl-cli-dev.exe）
+# 构建（dev 双产物：bin/clictl-gui-dev.exe + bin/clictl-cli-dev.exe）
 cd go_projects/clictl
 uv run scripts/build.py            # 默认 dev 通道
 uv run scripts/build.py --release  # 正式名（需 clictl/v* tag + 工作区干净）
 
 # 桌面启动台：双击 clictl-gui-dev.exe；--hidden 为静默托盘
-.\clictl-gui-dev.exe
+.\bin\clictl-gui-dev.exe
 
 # 终端一律用 cli 产物（PATH 里建议把 clictl-cli.exe 命名为 clictl）
-.\clictl-cli-dev.exe list --pretty
+.\bin\clictl-cli-dev.exe list --pretty
 
 # 注册（name 默认=文件名去 .exe 小写化）
 clictl-cli add "D:\Program Files\Go\bin\go.exe" --desc "Go toolchain" --meta '{\"source\":\"go\",\"tags\":[\"dev\"]}'
