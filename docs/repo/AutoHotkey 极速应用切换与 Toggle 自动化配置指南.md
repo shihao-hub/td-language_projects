@@ -47,6 +47,112 @@ AutoHotkey 是 Windows 上最轻量级的键盘鼠标钩子与自动化工具（
 #SingleInstance Force
 
 ; ========================================================
+; 核心架构设置：全局修饰键掩码安全声明（彻底根治 Sticky 粘滞升格）
+; --------------------------------------------------------
+; AHK 默认掩码键为 vk11sc01D (Left Control)！
+; 极速按 Alt+Tab 时，AHK 自动注入的 Left Ctrl 会与用户的 Alt+Tab 发生物理碰撞，
+; 导致 Windows 将其判定为 Ctrl+Alt+Tab，瞬间升格为原生“粘滞任务切换器”，表现为松手不关！
+; 显式重定向为微软保留的未分配键码 vkE8，彻底杜绝 Ctrl 污染。
+; ========================================================
+A_MenuMaskKey := "vkE8"
+
+; ========================================================
+; 全局启动守卫初始化 (Auto-Execute)
+; ========================================================
+; Antigravity 启动自动最大化外挂 (250ms 极轻开销轮询)
+SetTimer(AutoMaximizeAntigravity, 250)
+
+; conhost 控制台黑框后台无感最小化守卫 (100ms 快速响应，零打扰零抢焦点)
+SetTimer(AutoMinimizeConhost, 100)
+
+; ========================================================
+; 启动守卫：Antigravity 自动最大化核心函数
+; 1. 软件未运行 -> 自动清空已处理列表
+; 2. 软件运行且新窗口露面 -> 立即最大化该窗口，并记录 Hwnd
+; 3. 用户手动还原窗口 -> 绝不重复强行拉大
+; ========================================================
+AutoMaximizeAntigravity() {
+    static seenHwnds := Map()
+    target := "ahk_exe Antigravity.exe"
+    
+    if !WinExist(target) {
+        if (seenHwnds.Count > 0) {
+            seenHwnds.Clear()
+        }
+        return
+    }
+
+    try {
+        for hwnd in WinGetList(target) {
+            if !seenHwnds.Has(hwnd) {
+                style := WinGetStyle("ahk_id " hwnd)
+                ; WS_VISIBLE (0x10000000)
+                if (style & 0x10000000) {
+                    title := WinGetTitle("ahk_id " hwnd)
+                    ; 匹配主界面窗口（标题含 Antigravity 且可见）
+                    if (title != "" && InStr(title, "Antigravity")) {
+                        WinMaximize("ahk_id " hwnd)
+                        seenHwnds[hwnd] := true
+                    }
+                }
+            }
+        }
+    }
+}
+
+; ========================================================
+; 启动守卫：conhost 控制台黑框后台无感最小化核心函数
+; 1. 监测到新生成的 ConsoleWindowClass 窗口露面 (如 agy.exe, node 等拉起的黑框)
+; 2. 露面瞬间自动执行 WinMinimize 最小化到任务栏，绝不遮挡当前界面
+; 3. 记录已处理句柄指纹，用户后续自己从任务栏点开查看时不重复强行压制
+; 4. 若抢走了输入焦点，瞬间将焦点归还给原前台窗口
+; ========================================================
+AutoMinimizeConhost() {
+    static handledHwnds := Map()
+    static lastUserWindow := 0
+    target := "ahk_class ConsoleWindowClass"
+
+    ; 实时捕获用户正常操作的前台窗口 (排除自身是控制台的情况)
+    try {
+        if (activeHwnd := WinActive("A")) {
+            if (WinGetClass("ahk_id " activeHwnd) != "ConsoleWindowClass") {
+                lastUserWindow := activeHwnd
+            }
+        }
+    }
+
+    if !WinExist(target) {
+        if (handledHwnds.Count > 0) {
+            handledHwnds.Clear()
+        }
+        return
+    }
+
+    try {
+        for hwnd in WinGetList(target) {
+            ; 只要遍历过，立刻登记指纹，杜绝重复检查
+            if !handledHwnds.Has(hwnd) {
+                handledHwnds[hwnd] := true
+                
+                ; WinGetMinMax: 0 = 正常, 1 = 最大化, -1 = 最小化
+                minState := WinGetMinMax("ahk_id " hwnd)
+                if (minState != -1) {
+                    wasActive := (WinActive("A") = hwnd)
+                    
+                    ; 瞬间最小化到任务栏 (绝不挡住主屏幕)
+                    WinMinimize("ahk_id " hwnd)
+
+                    ; 若瞬时抢走了焦点，立即归还给用户原工作窗口，打字 100% 连贯
+                    if (wasActive && lastUserWindow && WinExist("ahk_id " lastUserWindow)) {
+                        WinActivate("ahk_id " lastUserWindow)
+                    }
+                }
+            }
+        }
+    }
+}
+
+; ========================================================
 ; 窗口切换与最小化 Toggle 核心函数
 ; 1. 软件未运行 -> 彻底无反应（绝不自动启动）
 ; 2. 软件在后台 -> 激活并置顶到最前
@@ -94,43 +200,52 @@ ToggleApp(exeName) {
 }
 
 ; ========================================================
-; 全局启动守卫初始化 (Auto-Execute)
+; 文件资源管理器专用 Toggle 函数 (Explorer)
+; 1. 窗口未运行 -> 启动打开资源管理器 (Run "explorer.exe")
+; 2. 窗口在后台 -> 激活并置顶到最前
+; 3. 窗口已在最前 -> 再次按下则最小化收起 (抽屉式 Toggle)
+; 4. 多窗口处理 -> 依次轮换各个文件夹窗口，最后一个最小化收起
+; 注意：不能使用 ahk_exe explorer.exe（会误匹配桌面与任务栏）
+; 必须使用 ahk_class CabinetWClass 精准匹配文件夹窗口
 ; ========================================================
-; Antigravity 启动自动最大化外挂 (250ms 极轻开销轮询，零侵入)
-SetTimer(AutoMaximizeAntigravity, 250)
-
-; ========================================================
-; 启动守卫：Antigravity 自动最大化核心函数
-; 1. 软件未运行 -> 自动清空已处理列表
-; 2. 软件运行且新窗口露面 -> 立即最大化该窗口，并记录 Hwnd
-; 3. 用户手动还原窗口 -> 绝不重复强行拉大
-; ========================================================
-AutoMaximizeAntigravity() {
-    static seenHwnds := Map()
-    target := "ahk_exe Antigravity.exe"
+ToggleExplorer() {
+    target := 'ahk_class CabinetWClass ahk_exe explorer.exe'
     
+    ; 1. 未打开任何资源管理器窗口：直接启动打开
     if !WinExist(target) {
-        if (seenHwnds.Count > 0) {
-            seenHwnds.Clear()
-        }
+        Run('explorer.exe')
         return
     }
 
-    try {
-        for hwnd in WinGetList(target) {
-            if !seenHwnds.Has(hwnd) {
-                style := WinGetStyle("ahk_id " hwnd)
-                ; WS_VISIBLE (0x10000000)
-                if (style & 0x10000000) {
-                    title := WinGetTitle("ahk_id " hwnd)
-                    ; 匹配主界面窗口（标题含 Antigravity 且可见）
-                    if (title != "" && InStr(title, "Antigravity")) {
-                        WinMaximize("ahk_id " hwnd)
-                        seenHwnds[hwnd] := true
-                    }
+    ; 2. 如果当前激活窗口正是资源管理器
+    if WinActive(target) {
+        winList := WinGetList(target)
+        ; 单窗口：直接最小化收起
+        if (winList.Length <= 1) {
+            WinMinimize('A')
+            return
+        }
+        
+        ; 多窗口：依次轮换各个窗口，轮换完最后一个后最小化收起
+        currentId := WinGetID('A')
+        nextId := 0
+        loop winList.Length {
+            if (winList[A_Index] = currentId) {
+                if (A_Index < winList.Length) {
+                    nextId := winList[A_Index + 1]
                 }
+                break
             }
         }
+        
+        if (nextId) {
+            WinActivate('ahk_id ' . nextId)
+        } else {
+            WinMinimize('ahk_id ' . currentId)
+        }
+    } else {
+        ; 3. 资源管理器在后台：立即置顶激活
+        WinActivate(target)
     }
 }
 
@@ -147,20 +262,66 @@ AutoMaximizeAntigravity() {
 ; Alt + 3 -> Sublime Text
 !3::ToggleApp('sublime_text.exe')
 
-; Alt + C -> Cursor
-!c::ToggleApp('Cursor.exe')
+; Alt + A -> Antigravity
+!a::ToggleApp('Antigravity.exe')
+
+; ; Alt + C -> Cursor
+; !c::ToggleApp('Cursor.exe')
 
 ; Alt + D -> DeepSeek Harness
 !d::ToggleApp('DeepSeek Harness.exe')
 
+; ; Alt + E -> IntelliJ IDEA
+; !e::ToggleApp('idea64.exe')
+
 ; Alt + F -> 飞书
 !f::ToggleApp('Feishu.exe')
 
-; Alt + V -> VS Code
-!v::ToggleApp('Code.exe')
+; Alt + R -> Google Chrome
+!r::ToggleApp('chrome.exe')
+
+; ; Alt + V -> VS Code
+; !v::ToggleApp('Code.exe')
 
 ; Alt + W -> Windows Terminal
 !w::ToggleApp('WindowsTerminal.exe')
+
+; Alt + X -> 资源管理器 (未开启则启动，已开启则盲切/Toggle)
+!x::ToggleExplorer()
+
+; ========================================================
+; 全局应急解卡键安全网 (Emergency Reset)
+; 遇到任何外部全屏游戏、XAML 死锁或第三方钩子导致修饰键卡死时，
+; 按 Ctrl + Alt + F12 一键强行复位所有系统修饰键物理逻辑状态
+; ========================================================
+^!F12:: {
+    Send("{Ctrl Up}{Alt Up}{Shift Up}{Win Up}")
+    ToolTip("已强制复位所有修饰键状态 (Modifiers Cleared)")
+    SetTimer(() => ToolTip(), -1500)
+}
+
+; ========================================================
+; Chrome 专区：消除三点菜单抢焦点 & 豆包输入法右 Alt 语音透传
+; --------------------------------------------------------
+; 1. 豆包输入法仅使用【右侧 Alt (RAlt)】，必须维持 ~RAlt 透传；
+; 2. 严禁在 ~LAlt Down 时盲发 SendInput！改用 ~LAlt Up + A_PriorKey 守卫；
+; 3. 只有当用户确实【单按并松开 LAlt】且中途未触发任何组合键时才发 vkE8；
+; 4. 当用户按 Alt+Tab 时，A_PriorKey 必定为 "Tab"，LAlt Up 分支直接短路，
+;    输入流 100% 保持纯净物理信号，彻底消灭 Alt+Tab 界面卡滞死锁！
+; ========================================================
+#HotIf WinActive("ahk_exe chrome.exe")
+; 豆包输入法语音录入透传与三点菜单消除
+~RAlt::Send "{Blind}{vkE8}"
+
+; 左 Alt 防菜单安全守卫 (单按释放才掩码，Alt+Tab 零干扰)
+~LAlt Up:: {
+    if (A_PriorKey = "LAlt") {
+        Send("{Blind}{vkE8}")
+    }
+}
+#HotIf
+
+
 ```
 
 #### 快捷键映射表（已同步自系统配置）：
