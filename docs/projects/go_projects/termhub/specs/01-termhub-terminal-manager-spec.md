@@ -51,7 +51,7 @@ termhub 是一款 Wails 桌面应用，作为 **Windows 终端宿主**替代"常
 
 - **技术栈**：Go + Wails v3（本仓全部 Wails 项目统一 v3，spec 原文误写 v2 已更正）+ ConPTY（`UserExistsError/conpty`）；前端原生 TypeScript（esbuild 打包）+ xterm.js；不引 React/Vue。
 - **进程树终止**：每个会话的 shell 及其子进程绑入 Windows **Job Object**，关闭时 `TerminateJobObject` 一次全灭（不留孤儿进程）。
-- **历史机制**：拉起 shell 时指定/注入该会话独立的历史文件路径；全局历史 = 隔离文件合并视图；启动时注入全局历史；写回合并由工具负责去重。
+- **历史机制**（2026-10-24 实现）：PSReadLine 保持默认全局历史文件，↑↓/Ctrl-R 天然共享；每会话用 `PSConsoleHostReadLine` 钩子即时写独立命令文件，退出时合并进管理器的全局视图。
 - **数据布局**（本仓强约束）：`%APPDATA%\language_projects\termhub\{dev|prod}\` 下含会话历史文件、启动项配置 JSON、会话元数据（JSON 或轻量 SQLite）。
 - **UI 品味**（2026-10-24 更新，取代早先浅色方案）：暗色终端风（深灰底 + 绿主色 + 圆角卡片 + 状态彩点）；左侧垂直会话列表（可滚动，避免横向 tab 溢出）；新建终端必须先经目录选择器确认初始目录。
 - **桌面壳生命周期**（对齐 `sh-go-wails-desktop`）：关闭主窗口 = 销毁窗口、进程驻留托盘（`DisableQuitOnLastWindowClosed=true`）；托盘重建窗口后通过 `ListSessions` 自动重连运行中会话；dev/prod 单实例 ID 隔离；窗口几何落 `<dataDir>/window.json`。本项目为 Wails-only 形态，不提供 CLI 子命令或浏览器入口，README 已显式标注。
