@@ -29,8 +29,8 @@ T08 build.py 构建流水线 + 图标 + dev/prod 隔离    ← blocked by None�
 **前置依赖**: None
 
 **验收条件**:
-- [ ] 1. SessionManager.StartSession 用 fake PTY 时：输入写入会到达 PTY，PTY 输出经事件回调送达（单测断言）。
-- [ ] 2. 界面：点按钮出现终端 tab，运行 `dir`、`$PSVersionTable`、交互式 `python` 均正常（人工验收真 ConPTY）。
+- [x] 1. SessionManager.StartSession 用 fake PTY 时：输入写入会到达 PTY，PTY 输出经事件回调送达（单测断言）。
+- [x] 2. 界面：点按钮出现终端 tab，运行 `dir`、`$PSVersionTable`、交互式 `python` 均正常（人工验收真 ConPTY）。
 - [ ] 3. 会话 framebuffer 内能正确回现中文回显（UTF-8 无乱码）。
 
 ---
