@@ -132,6 +132,6 @@ T08 build.py 构建流水线 + 图标 + dev/prod 隔离    ← blocked by None�
 **前置依赖**: None（可与 T01 并行）
 
 **验收条件**:
-- [ ] 1. 非 tag/非干净工作区 → 产 `<project>-dev.exe` 带 `-dev`/`-dirty` 版本号；tag+干净 → 正式名（脚本测试）。
-- [ ] 2. exe 图标为专属图标，非默认白框；任务栏/窗口图标正确（人工）。
-- [ ] 3. dev 构建数据写 `%APPDATA%\language_projects\termhub\dev`，与 prod 隔离（人工/单测）。
+- [x] 1. 非 tag/非干净工作区 → 产 `<project>-dev.exe` 带 `-dev`/`-dirty` 版本号；tag+干净 → 正式名（脚本测试）。
+- [x] 2. exe 图标为专属图标，非默认白框；任务栏/窗口图标正确（人工）。
+- [x] 3. dev 构建数据写 `%APPDATA%\language_projects\termhub\dev`，与 prod 隔离（人工/单测）。
