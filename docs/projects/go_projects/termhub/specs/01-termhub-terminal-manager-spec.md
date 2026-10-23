@@ -51,6 +51,6 @@ termhub 是一款 Wails 桌面应用，作为 **Windows 终端宿主**替代"常
 - **进程树终止**：每个会话的 shell 及其子进程绑入 Windows **Job Object**，关闭时 `TerminateJobObject` 一次全灭（不留孤儿进程）。
 - **历史机制**：拉起 shell 时指定/注入该会话独立的历史文件路径；全局历史 = 隔离文件合并视图；启动时注入全局历史；写回合并由工具负责去重。
 - **数据布局**（本仓强约束）：`%APPDATA%\language_projects\termhub\{dev|prod}\` 下含会话历史文件、启动项配置 JSON、会话元数据（JSON 或轻量 SQLite）。
-- **UI 品味**：浅色亮堂 + 绿主色 + 圆角卡片 + 状态彩点，CC Switch 参照；禁暗色终端风。
+- **UI 品味**（2026-10-24 更新，取代早先浅色方案）：暗色终端风（深灰底 + 绿主色 + 圆角卡片 + 状态彩点）；左侧垂直会话列表（可滚动，避免横向 tab 溢出）；新建终端必须先经目录选择器确认初始目录。
 - **构建**：统一 `build.py`（uv 单脚本/PEP 723），dev/release 自动判定与 `-ldflags` 注入版本；dev/prod 数据目录与单例 ID 隔离；GUI 项目专属图标流水线。
 - **文档**：项目文档统一落父仓 `docs/projects/go_projects/termhub/`（spec 已在此）。
