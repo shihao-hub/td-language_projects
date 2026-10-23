@@ -14,9 +14,10 @@ T05 关闭即回收（确认弹窗 + Job Object 整树终止）   ← blocked by
 T06 会话元数据持久化与"已退出"回顾               ← blocked by T03, T05
 T07 AI 诊断一键丢 agent + 追问闭环               ← blocked by T03, T04
 T08 build.py 构建流水线 + 图标 + dev/prod 隔离    ← blocked by None（可并行，独立切片）
+T09 托盘常驻与关窗重建 + 窗口几何 + 单实例         ← blocked by T01, T08（对齐 sh-go-wails-desktop）
 ```
 
-可并行 Frontier：T01、T08；T01 完成后 T03/T05 即解锁。
+可并行 Frontier：T01、T08；T01 完成后 T03/T05/T09 即解锁。
 
 ---
 
@@ -135,3 +136,20 @@ T08 build.py 构建流水线 + 图标 + dev/prod 隔离    ← blocked by None�
 - [x] 1. 非 tag/非干净工作区 → 产 `<project>-dev.exe` 带 `-dev`/`-dirty` 版本号；tag+干净 → 正式名（脚本测试）。
 - [x] 2. exe 图标为专属图标，非默认白框；任务栏/窗口图标正确（人工）。
 - [x] 3. dev 构建数据写 `%APPDATA%\language_projects\termhub\dev`，与 prod 隔离（人工/单测）。
+
+---
+
+## Ticket 09: 托盘常驻与关窗重建
+
+**核心交付**: 关闭主窗口销毁 WebView、进程与终端会话驻留托盘；托盘左键/双击/菜单重建窗口并自动重连全部运行中会话；窗口尺寸/位置/最大化记忆；dev/prod 单实例隔离。
+
+**测试接缝**: SessionManager 快照（`ListSessions` 带 `work_dir`、`Shutdown` 关闭全部 PTY）+ `internal/app/window_state.go` 纯函数（几何往返/脏数据/屏外兜底）。
+
+**前置依赖**: Ticket 01、Ticket 08
+
+**验收条件**:
+- [x] 1. 关窗后进程存活、WebView2 子进程退出，`/api/v1/sessions` 仍返回运行中会话（人工 + 快照断言）。
+- [x] 2. 托盘图标注册成功；窗口重建与全部 tab 自动重连经单实例唤起实测（托盘点击/菜单共用同一 show 路径）。
+- [x] 3. 托盘「退出 termhub」关闭全部 PTY，任务管理器无残留 shell（单测 + 人工）。
+- [x] 4. 尺寸/位置/最大化记忆往返正确；外接屏拔除后窗口回中（单测 + 人工）。
+- [x] 5. dev 与 prod 可同时运行且各自单实例，重复启动只唤起已有窗口（人工）。
