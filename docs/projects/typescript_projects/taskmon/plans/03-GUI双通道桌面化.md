@@ -17,16 +17,16 @@ taskmon 目前是 TS + Bun 的单文件控制台 TUI（`release/taskmon-v*.exe`�
 | go-wails 契约 | taskmon（TS）实现 |
 |---|---|
 | `-gui` / `-cli` 双产物 | Electron 45 打包 GUI；Bun `--compile` 产出 CLI 单文件 |
-| 托盘、单实例、关窗销毁、双击重建 | Electron `Tray` / `requestSingleInstanceLock` / 窗口 `destroy` / 托盘点击重建 |
+| 托盘、单实例、关窗销毁 | 轻量 C# 托盘 sidecar（约 30 MB）+ 按需 Electron 窗口；关窗后 GUI 全进程退出 |
 | GUI 与 `serve` 共用 Handler | `node:http` 实现 `internal/server`，Electron 与 CLI `serve` 都调用 `createServer()` |
 | 窗口几何记忆 | `window.json`（`<dataDir>/window.json`），resize/move 防抖 + 关闭前同步保存 |
 | 无控制台排障 | GUI 产物本身无控制台；日志沿用 pino 落盘（`<dataDir>/logs/taskmon.log`） |
 | dev/release 五维隔离 | 产物名、版本注入、数据目录 `dev`/`prod`、单实例 ID、图标 |
-| 自启门禁 | 仅 release 允许 `app.setLoginItemSettings`；dev 菜单项置灰 |
+| 自启门禁 | 仅 release 编译的托盘允许写 Run 键；dev 托盘菜单置灰 |
 
-**Electron 体积代价**：GUI 目录约 200 MB（Electron runtime），换取托盘/窗口生命周期完全可控。
-Edge `--app` 方案（知识库 088）体积小但无法感知窗口关闭、托盘需额外原生 sidecar，不满足
-「与 go-wails 对齐」，仅作为 Electron 不可用时的降级预案。
+**内存取舍**：Electron 托盘常驻会连带 GPU/utility 约 315 MB；按用户「点开才看」的习惯改为
+「30 MB 轻量托盘 + 按需 440 MB 窗口」，关窗即整体退出，兼顾托盘可达与零后台占用。
+托盘用 Windows 自带 `csc` 编译（C# WinForms），业务与界面仍全部是 TS/Electron。
 
 ## 目录改造
 
@@ -39,8 +39,10 @@ src/
   shared/    paths.ts channel.ts version.ts logger.ts
   web/       assets.ts（导出 index.html / app.js / app.css 字符串，Bun 与 Electron 共用）
 electron/
-  main.ts    BrowserWindow + Tray + 单实例 + 窗口几何 + 自启门禁
+  main.ts    BrowserWindow + 单实例 + 窗口几何（关窗即退出）
   tsconfig.json
+tray/
+  TaskmonTray.cs     轻量托盘（打开面板 / 开机自启 / 退出），csc 编译
 scripts/
   build-exe.ts       扩展 --gui / --all，CLI 仍为 Bun compile
   build-gui.ts       electron-builder 封装
@@ -63,6 +65,7 @@ scripts/
 - Electron dev（`--hidden`）：动态端口 13041，日志落 `dev/logs`；二次启动 `lock=false`（单实例生效）。
 - 打包版 `release/gui/win-unpacked/taskmon.exe`：prod 通道，动态端口 6784，日志 JSON，窗口标题 taskmon；发 WM_CLOSE 后进程存活、窗口消失、`window.json` 写入几何。
 - `pnpm exe`：CLI 单文件 82.5 MB，`--version` / `--once` 正常。
+- 托盘 + 按需窗口实测：开窗 GUI 437.6 MB + 托盘 29.8 MB；关窗后 `taskmon.exe` 进程数为 0，托盘仍 29.8 MB。
 
 ## 验收清单
 
