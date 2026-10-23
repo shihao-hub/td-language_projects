@@ -94,6 +94,47 @@ ToggleApp(exeName) {
 }
 
 ; ========================================================
+; 全局启动守卫初始化 (Auto-Execute)
+; ========================================================
+; Antigravity 启动自动最大化外挂 (250ms 极轻开销轮询，零侵入)
+SetTimer(AutoMaximizeAntigravity, 250)
+
+; ========================================================
+; 启动守卫：Antigravity 自动最大化核心函数
+; 1. 软件未运行 -> 自动清空已处理列表
+; 2. 软件运行且新窗口露面 -> 立即最大化该窗口，并记录 Hwnd
+; 3. 用户手动还原窗口 -> 绝不重复强行拉大
+; ========================================================
+AutoMaximizeAntigravity() {
+    static seenHwnds := Map()
+    target := "ahk_exe Antigravity.exe"
+    
+    if !WinExist(target) {
+        if (seenHwnds.Count > 0) {
+            seenHwnds.Clear()
+        }
+        return
+    }
+
+    try {
+        for hwnd in WinGetList(target) {
+            if !seenHwnds.Has(hwnd) {
+                style := WinGetStyle("ahk_id " hwnd)
+                ; WS_VISIBLE (0x10000000)
+                if (style & 0x10000000) {
+                    title := WinGetTitle("ahk_id " hwnd)
+                    ; 匹配主界面窗口（标题含 Antigravity 且可见）
+                    if (title != "" && InStr(title, "Antigravity")) {
+                        WinMaximize("ahk_id " hwnd)
+                        seenHwnds[hwnd] := true
+                    }
+                }
+            }
+        }
+    }
+}
+
+; ========================================================
 ; 从 PowerToys 读取并迁移的全部快捷键
 ; ========================================================
 
@@ -124,14 +165,17 @@ ToggleApp(exeName) {
 
 #### 快捷键映射表（已同步自系统配置）：
 
-- Alt + 1 -> Zed
-- Alt + 2 -> Sublime Merge
-- Alt + 3 -> Sublime Text
-- Alt + C -> Cursor
-- Alt + D -> DeepSeek Harness
-- Alt + F -> 飞书
-- Alt + V -> VS Code
-- Alt + W -> Windows Terminal
+- **Alt + 1** -> Zed
+- **Alt + 2** -> Sublime Merge
+- **Alt + 3** -> Sublime Text
+- **Alt + A** -> Antigravity (已配置)
+- **Alt + D** -> DeepSeek Harness
+- **Alt + F** -> 飞书
+- **Alt + R** -> Google Chrome
+- **Alt + W** -> Windows Terminal
+- **Alt + X** -> 资源管理器 (未开启直接启动，已开启抽屉式 Toggle)
+- **【启动守卫】** -> Antigravity 新窗口启动露面瞬间自动最大化（指纹记录防重复拉大）
+- **【工程全景】** -> 详细架构与更多自动化能力参见全机知识库 [`095_win_ahk_flow_Win非侵入式AHK启动外挂与极客桌面自动化全景.md`](file:///C:/Users/29580/.gemini/config/skills/kb-engineering-notes/095_win_ahk_flow_Win非侵入式AHK启动外挂与极客桌面自动化全景.md)
 
 > *提示：若需新增其他工具，只需在任务管理器“详细信息”页查看该软件的进程名（如 xxx.exe），仿照上方格式增加一行即可。*
 
