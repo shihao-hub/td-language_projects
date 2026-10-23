@@ -45,7 +45,9 @@ termhub 是一款 Wails 桌面应用，作为 **Windows 终端宿主**替代"常
 
 ## 5. 架构决策与环境依赖 (Architectural Invariants)
 
-- **技术栈**：Go + Wails v2 + ConPTY（Go 侧常用库如 `creack/pty` 或 `iamacoyote/go-conpty`）；前端 Vite + 原生 TypeScript + xterm.js；不引 React/Vue。
+> 2026-10-23 用户确认：spec 原文 "Wails v2" 为笔误，统一按 Wails v3 实现（与仓内 10 个项目一致）。
+
+- **技术栈**：Go + Wails v3（本仓全部 Wails 项目统一 v3，spec 原文误写 v2 已更正）+ ConPTY（`UserExistsError/conpty`）；前端原生 TypeScript（esbuild 打包）+ xterm.js；不引 React/Vue。
 - **进程树终止**：每个会话的 shell 及其子进程绑入 Windows **Job Object**，关闭时 `TerminateJobObject` 一次全灭（不留孤儿进程）。
 - **历史机制**：拉起 shell 时指定/注入该会话独立的历史文件路径；全局历史 = 隔离文件合并视图；启动时注入全局历史；写回合并由工具负责去重。
 - **数据布局**（本仓强约束）：`%APPDATA%\language_projects\termhub\{dev|prod}\` 下含会话历史文件、启动项配置 JSON、会话元数据（JSON 或轻量 SQLite）。
