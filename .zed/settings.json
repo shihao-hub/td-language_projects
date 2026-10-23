@@ -96,6 +96,7 @@
     "jdtls": {
       "settings": {
         "lombok_support": true,
+        "check_updates": "never",
         "min_memory": "128m",
         "max_memory": "512m",
       },
