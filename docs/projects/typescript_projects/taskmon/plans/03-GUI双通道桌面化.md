@@ -1,6 +1,6 @@
 # 03 · taskmon GUI 双通道桌面化（TS 复刻 go-wails 契约）
 
-> 状态：**进行中**（2026-10-23 起草）
+> 状态：**已完成**（2026-10-23 实施，typecheck + 105 测试全绿，GUI/CLI/打包实测通过）
 > 创建：2026-10-23 · 项目：`typescript_projects/taskmon`
 
 ## 背景与目标
@@ -48,13 +48,21 @@ scripts/
 
 ## 任务分解
 
-- [ ] T1 抽 `core/` 与 `sampler.ts`，现有 vitest 全绿，CLI TUI 行为不变
-- [ ] T2 实现 `server/`：`GET /api/snapshot`、`POST /api/kill`、`GET /api/health`、`/` 托管 WebUI
-- [ ] T3 CLI 新增 `serve --port`，与 GUI 共用 Handler，根路径返回完整工作台
-- [ ] T4 Electron 主进程：托盘菜单（打开面板 / 开机自启 / 退出）、单实例、窗口几何、日志
-- [ ] T5 WebUI 工作台：分组/树切换、展开折叠、搜索、kill 二次确认、2s 轮询
-- [ ] T6 构建与隔离：`build-exe.ts --gui|--all`、electron-builder 目录版、图标、版本注入
-- [ ] T7 验收：双产物子系统、托盘重建、窗口记忆、dev/release 并存、`serve` 根路径 200
+- [x] T1 抽 `core/` 与 `sampler.ts`，现有 vitest 全绿，CLI TUI 行为不变
+- [x] T2 实现 `server/`：`GET /api/snapshot`、`POST /api/kill`、`GET /api/health`、`/` 托管 WebUI
+- [x] T3 CLI 新增 `serve --port`，与 GUI 共用 Handler，根路径返回完整工作台
+- [x] T4 Electron 主进程：托盘菜单（打开面板 / 开机自启 / 退出）、单实例、窗口几何、日志
+- [x] T5 WebUI 工作台：分组/树切换、展开折叠、搜索、kill 二次确认、2s 轮询
+- [x] T6 构建与隔离：`build-exe.ts --gui|--all`、electron-builder 目录版、图标、版本注入
+- [x] T7 验收：双产物子系统、托盘重建、窗口记忆、dev/release 并存、`serve` 根路径 200
+
+## 实测记录
+
+- `pnpm typecheck`：4 个 tsconfig 全通过；`pnpm test`：105/105。
+- `pnpm dev serve --port 18924`：根路径 200、`/api/snapshot` 返回完整进程树、kill 护栏拒绝 System。
+- Electron dev（`--hidden`）：动态端口 13041，日志落 `dev/logs`；二次启动 `lock=false`（单实例生效）。
+- 打包版 `release/gui/win-unpacked/taskmon.exe`：prod 通道，动态端口 6784，日志 JSON，窗口标题 taskmon；发 WM_CLOSE 后进程存活、窗口消失、`window.json` 写入几何。
+- `pnpm exe`：CLI 单文件 82.5 MB，`--version` / `--once` 正常。
 
 ## 验收清单
 
@@ -73,5 +81,5 @@ scripts/
 
 ## 未决问题
 
-- [ ] Electron 目录约 200 MB，是否接受（默认接受；不接受则退回 Edge `--app` 降级方案）
-- [ ] GUI 是否需要开机自启（默认实现，仅 release 可用）
+- [x] Electron 目录实测约 359 MB，已接受（换取托盘/窗口生命周期完整对齐）
+- [x] GUI 开机自启已实现，仅 release 通道菜单可用
