@@ -9,17 +9,20 @@
 ```
 CLI 薄壳 ─┐
 rpc 薄壳 ─┤
-MCP 桥  ──┼──→ HTTP+JSON API（127.0.0.1:8766，唯一契约）──→ daemon（zedhub serve）
+MCP 桥  ──┼──→ HTTP+JSON API（prod 127.0.0.1:8766；dev 动态，见地址文件）──→ daemon（zedhub serve）
 Web 检索页┤        + SSE 进度流
 第三方 curl┘        + /ui 静态资源（同一个 daemon、同一个端口）
-                   WebSocket 学习通道（127.0.0.1:8765，冻结）
+                   WebSocket 学习通道（仅 prod：127.0.0.1:8765，冻结）
 ```
 
 - Service 层只存在于 daemon；壳内只有参数解析、HTTP client 与渲染。
 - 纯本地命令：`--help`、`--version`、`schema`、补全脚本（不触发 daemon）。
+- 通道隔离：dev 与 prod 的数据目录、地址文件、实例锁、日志、端口完全分开
+  （判定见 `zedhub --version`；可用 `ZEDHUB_CHANNEL=dev|prod` 覆盖）。
 - 地址发现：`--host host:port` → `ZEDHUB_HOST` → 地址文件
-  （`%APPDATA%\language_projects\zedhub\runtime\daemon.json`）→ 默认
-  `127.0.0.1:8766`。
+  （`%APPDATA%\language_projects\zedhub\<channel>\runtime\daemon.json`）→
+  通道默认（prod `127.0.0.1:8766`；dev 端口动态，无地址文件即视为未运行）。
+- 启动互斥：`runtime/daemon.lock` OS 文件锁，进程退出自动释放。
 - 自动拉起仅生产构建（干净 tag 版本）；开发构建报错提示先 `zedhub serve`。
 - buildID 握手：请求头 `X-Zedhub-Build`；开发态为源码指纹（`dev-<hash>`），
   生产态 `v{version}`；不等返回 `409 handshake_mismatch`。
@@ -120,7 +123,10 @@ event: error\ndata: {"code": "...", "message": "..."}
 - daemon 连接失败 → `-32000` + 「先运行 zedhub serve」提示；
 - 新增业务能力不进入本方法表。
 
-## WebSocket（127.0.0.1:8765，冻结声明）
+## WebSocket（仅 prod：127.0.0.1:8765，冻结声明）
+
+> dev 通道默认关闭该通道（`--ws-port 0`）以避开端口冲突，需要时显式
+> `--ws-port 8765`。
 
 > **该通道是一次性学习实现：本轮实现后冻结，不再新增任何方法或能力；
 > 生产与自动化用途一律使用 HTTP API。**
