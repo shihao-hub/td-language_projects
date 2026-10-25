@@ -31,7 +31,7 @@ flowchart TD
 ```
 
 **任务分解**：
-- [ ] Task 1: 扩展 `patch_deepseek_harness_icon.py` 的快捷方式探测与安全修改能力
+- [x] Task 1: 扩展 `patch_deepseek_harness_icon.py` 的快捷方式探测与安全修改能力
   - 文件：`go_projects/taskbarguard/scripts/deepseek_harness/patch_deepseek_harness_icon.py`
   - 实现：
     1. 实现 `detect_chrome_pwa_shortcuts()`：精准定位开始菜单「Chrome 应用」和任务栏固定目录中的 Harness 快捷方式（核验 `chrome_proxy.exe` 与 `app-id` / 名称）；
@@ -44,7 +44,7 @@ flowchart TD
     3. 运行 `--restore` 检查是否精准复原。
   - Demo：执行补丁后，任务栏与开始菜单中的 Chrome 版 DeepSeek Harness 图标瞬间变为与桌面版对齐的高质感图标。
 
-- [ ] Task 2: 验证 taskbarguard Go 层调度与内嵌资源同步
+- [x] Task 2: 验证 taskbarguard Go 层调度与内嵌资源同步
   - 文件：`go_projects/taskbarguard/internal/core/` 及 `scripts/`
   - 实现：
     1. 运行 `go test ./...` 确保既有单测不受影响；
