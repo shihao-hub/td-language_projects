@@ -7,6 +7,7 @@
 ## 总览（v2 daemon 架构）
 
 ```
+zedhub-gui（桌面壳：pywebview 窗口 + 托盘，内嵌 daemon）
 CLI 薄壳 ─┐
 rpc 薄壳 ─┤
 MCP 桥  ──┼──→ HTTP+JSON API（prod 127.0.0.1:8766；dev 动态，见地址文件）──→ daemon（zedhub serve）
@@ -15,7 +16,8 @@ Web 检索页┤        + SSE 进度流
                    WebSocket 学习通道（仅 prod：127.0.0.1:8765，冻结）
 ```
 
-- Service 层只存在于 daemon；壳内只有参数解析、HTTP client 与渲染。
+- Service 层只存在于 daemon；壳内只有参数解析、HTTP client 与渲染；桌面壳
+  （`zedhub-gui`）只承载窗口 / 托盘 / 窗口几何，不 import `core`。
 - 纯本地命令：`--help`、`--version`、`schema`、补全脚本（不触发 daemon）。
 - 通道隔离：dev 与 prod 的数据目录、地址文件、实例锁、日志、端口完全分开
   （判定见 `zedhub --version`；可用 `ZEDHUB_CHANNEL=dev|prod` 覆盖）。
