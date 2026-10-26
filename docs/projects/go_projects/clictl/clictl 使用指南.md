@@ -31,7 +31,7 @@ uv run scripts/build.py --release  # 正式名（需 clictl/v* tag + 工作区�
 # 注册（name 默认=文件名去 .exe 小写化）
 clictl-cli add "D:\Program Files\Go\bin\go.exe" --desc "Go toolchain" --meta '{\"source\":\"go\",\"tags\":[\"dev\"]}'
 
-# 查看全部（launch_count 降序），--pretty 缩进输出
+# 查看全部（名称升序），--pretty 缩进输出
 clictl-cli list --pretty
 
 # 透传启动：与直接执行 go version 完全一致，退出码直通
@@ -81,7 +81,8 @@ clictl-cli completion powershell --uninstall   # 卸载
 
 - 托盘菜单：打开启动台 / 在默认浏览器中打开 / 开机自启（dev 置灰）/ 彻底退出；关窗只销毁窗口，进程留托盘
 - 窗口几何（尺寸/位置/最大化）落在 `<通道目录>\window.json`，重开精确恢复
-- WebUI：左侧工具卡片（搜索 + 全部/运行中/有效/失效过滤），右侧详情（路径、大小、累计耗时、meta、最近 10 条启动）；支持启动（可带参数）/停止/定位/编辑 meta/删除/注册（内置目录浏览选 exe）
+- WebUI：左侧工具卡片（搜索 + 全部/运行中/有效/失效过滤 + 平铺/树状视图 + 排序），右侧详情（路径、分组徽标、大小、累计耗时、meta、最近 10 条启动）；支持启动（可带参数）/停止/定位/设置分组/编辑 meta/删除/注册（内置目录浏览选 exe）
+- 分组与视图：默认平铺、名称升序；点击详情标题旁的分组徽标即可选择已有分组或新建（写入 `meta.group`），注册时也可直接指定；树状视图按组折叠；视图/排序/折叠状态落在 `<通道目录>\ui_preferences.json`，重启保持
 - WebUI 不提供 `run` 前台透传：浏览器无法接管 TTY，需要看输出请用 `clictl-cli run`
 - 无 GUI 时也可只跑 WebUI：`clictl-cli serve [--port 0] [--open]`，根路径即完整工作台
 - 通道自省：`clictl-cli where`（JSON）确认当前通道、库路径、工具数与两通道 GUI 运行状态
@@ -153,7 +154,7 @@ clictl-cli completion powershell --uninstall   # 卸载
 
 ## meta 白名单
 
-`--meta` 仅允许 `source`（string ≤64B）与 `tags`（[]string ≤8 项、每项 ≤32B、去重小写存储），白名单外 key 直接拒绝；序列化后 ≤ 4KB 硬限。
+`--meta` 仅允许 `source`（string ≤64B）、`tags`（[]string ≤8 项、每项 ≤32B、去重小写存储）与 `group`（string ≤32B、首尾空白裁剪），白名单外 key 直接拒绝；序列化后 ≤ 4KB 硬限。
 
 ## 启动记账
 

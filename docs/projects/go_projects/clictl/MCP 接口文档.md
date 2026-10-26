@@ -89,7 +89,7 @@ MCP 工具   ─┘
 | path | string | 是 | .exe 后缀且文件存在（服务层校验） |
 | name | string | 否 | 缺省为文件名去 .exe 小写化 |
 | desc | string | 否 | |
-| meta | object | 否 | 白名单 source（≤64 字节）/ tags（≤8 项、单项 ≤32 字节）；字节数限制在 Go 侧校验，Schema 只声明结构 |
+| meta | object | 否 | 白名单 source（≤64 字节）/ tags（≤8 项、单项 ≤32 字节）/ group（≤32 字节）；字节数限制在 Go 侧校验，Schema 只声明结构 |
 
 输出：新建的 Tool。错误：`not_exe` / `file_not_found` / `conflict` / `bad_args` / meta 系列。
 
