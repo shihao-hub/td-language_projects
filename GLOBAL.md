@@ -131,6 +131,14 @@ imports（stdlib → 第三方 → 本地，组间空行）
 - **通道选择（硬约束）**：预期 < 3 分钟走同步工具 `mcp__agy__research`；预计 ≥ 3 分钟的宽面调研 / 全仓审计**禁止**走同步工具调用（客户端工具超时会在自设上限处掐断，而服务端会继续跑并留下孤儿进程），必须改走后端作业——宿主后台作业（`pwsh` 带 `run_in_background`），或桥接器的作业句柄工具（本会话若已提供 `research_submit` / `research_status` / `research_result` / `research_cancel` 则优先用它）；统一封装入口：`node D:\Users\dsh-local-plugins\agy-bridge\bin\agy-run.mjs`。
 - **已知走不通、不要重复设计**：MCP `notifications/progress` 心跳（本版 DSH 不传 `onprogress`，SDK 因此不挂 `progressToken`，进度通知根本到不了模型）；MCP Tasks（工具声明 `execution.taskSupport: "required"` 会被 DSH 拒绝注册）。
 
+### 9. 人工凭证与登录边界（强约束）
+
+- **默认停止**：遇到登录、扫码、短信/邮箱验证码、二次验证、支付确认、OAuth 授权、企业 SSO，立即停止自动化并把控制权交还用户；不得尝试绕过、猜测或复用登录态。
+- **禁止清单**：不读取/复制浏览器 Cookie、localStorage、IndexedDB 中的登录态；不借用用户日常浏览器 profile；不读取系统凭据库；不代填密码或验证码；不把账号、密码、token 写入脚本、命令行参数、日志或对话回显。
+- **交接话术**：明确告知“需要你在 <窗口/地址> 完成登录，登录后回复我继续”，并说明当前浏览器 profile 与用户日常浏览器是否隔离。
+- **登录后恢复**：用户确认后，先复核当前账号/身份/租户，再继续保存、导出、提交等机械操作；涉及资金、权限变更、对外发送的动作，执行前二次确认。
+- **唯一例外**：用户明确提供测试账号并授权当次使用；凭据只在内存中使用，不落盘、不回显，会话结束即失效。
+
 ## 二、通用 Agent 工程工作流与思维模型（Matt Pocock 实践体系）
 
 本章规范沉淀自 Matt Pocock（AI Hero、`mattpocock/skills`）的 AI 协同编码工程学，适用于任何 Agent 在任何项目中的日常交互。
