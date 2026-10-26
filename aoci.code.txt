@@ -492,9 +492,6 @@ tasks.md[SG5T]: F:kbman 实施任务清单，按依赖拆解迁移、解析、�
 06-session-rename-persist.md[SU7M]: F:Plan 57：TypeAI 会话重命名与标题持久化——Session/SessionSummary 增 title、POST /api/sessions/rename、WebUI 双击与 TUI /title | R:code:docs/projects/go_projects/typeai/plans/walkthrough-06-session-rename-persist.md,code:docs/projects/go_projects/typeai/plans/03-session-rename.md | A:只改 JSON 内部 title 与 updated_at，绝不改物理文件名；清空标题回退首条提问 | S:标题长度上限 100 字符；流式生成中修改当前会话返回 409 busy
 walkthrough-06-session-rename-persist.md[SU5T]: F:Walkthrough 57：会话重命名落地摘要——数据/服务/API/WebUI/TUI 五层改动与全量测试、双通道构建结论 | R:code:docs/projects/go_projects/typeai/plans/06-session-rename-persist.md | A:查证实现范围与验证结论；session/service/api/tui 定向单测加 go test ./... 全通过 | S:-
 
-===D:/Users/language_projects/.drafts/===
-research_claude_code_acp_auth.md[SS7S]: F:调研报告：Claude Code 与 claude-agent-acp 的 ACP 认证状态机，解释 Zed 卡在 Authenticating 的根因与四类免登录或代理绕过方案 | R:- | A:排查 claude-acp 认证挂起先读；方案 A/B 注入 ANTHROPIC_API_KEY 触发 apiKeySource，方案 C 用内置 claude.exe auth login 补 subscriptionType | S:仅配 ANTHROPIC_AUTH_TOKEN 无效，必须配 ANTHROPIC_API_KEY 才能过 ACP 门禁；oauth_token 缺 subscriptionType 会被判未登录
-
 ===D:/Users/language_projects/.workbuddy/memory/===
 2026-10-24.md[SG4T]: F:WorkBuddy 会话记忆：typeai UI 重设计两轮方案要点（三层表面 token、琥珀气泡、相对时间、8 色标签 hash 配色）与落地映射 | R:code:.workbuddy/outputs/typeai-ui-redesign.html,code:.workbuddy/outputs/typeai-ui-redesign-v2.html | A:续做 typeai 视觉改造时读；v2 映射 renderSessionCard 的 groupTag 过滤、formatRelative 与 tagColor 注入 --tag-c | S:原型仅作设计参照，落地改 internal/web/static，勿直接拷 HTML
 
