@@ -12,7 +12,7 @@ mkdocs.yml[FV5T]: F:Material for MkDocs 站点配置：docs 为源、产物 .mkd
 plans_status.sql[FD3T]: F:plansql 的 Append-Only 状态流：记录 docs/plans/28 号计划置 completed 的两条 UPSERT 语句（plansql CLI 追加生成） | R:code:docs/plans/28-plansql-tracker.md,code:docs/projects/go_projects/plansql/设计说明.md | A:- | S:SQLite 投影由此文件重放生成，禁止直接改投影库
 THIRDPARTY.md[SG5M]: F:.thirdparty/ 归档清单：20 个条目（17 Git 仓库 + 3 非 Git 目录）的远端地址、分支/tag、基线 commit、本地定制与恢复命令 | R:code:.scripts/restore-thirdparty.py,code:docs/guides/GUIDE-第三方项目克隆.md | A:换机或目录重置后恢复 .thirdparty/ 的权威清单；新增第三方库须同步登记本文件与恢复脚本 | S:.thirdparty/ 被根 .gitignore 忽略不随仓库提交，多机需手动按清单 clone；PowerShell 全量脚本为备用手段
 opencode.json[FC4T]: F:opencode 项目级配置：为 build/plan agent 放开 external_directory，plan 另放开 bash，消除计划模式与外部目录的授权弹窗 | R:code:.claude/settings.json | A:与全局 ~/.config/opencode/opencode.json 合并、项目级优先；schema 见 https://opencode.ai/config.json | S:不覆盖 edit 权限，保留内置 deny 与 plan 文件写入特例；子模块内启动不生效
-GLOBAL.md[SG8S]: F:跨 Agent 通用基线约束：中文交互与 DeepSeek 模型思维链中文、Windows 终端安全（防 BOM 红线与写后必检）、文件防御、Token 经济与检索范围、代码质量防线（Python 统一骨架）、AOCI 协同、子任务委托路由、Matt Pocock 工作流，经软链接注入 6 大 Agent 全局入口 | R:code:.scripts/sync-agent-rules.py,code:AGENTS.md | A:改通用规则只改此文件，各 Agent 软链接自动生效；内容须跨仓通用自包含，禁嵌仓库相对路径；仓库专属约定写 AGENTS.md；AOCI 通用契约由本文件第 7 节托管；长任务通道选择在第 8 节；大仓/子模块树检索须限定范围，禁仓根裸递归全扫 | S:入口系软链接，改副本无效；禁 PS 重定向落盘，写后验无 BOM；≥3 分钟任务改后端作业，DSH 拒 taskSupport=required；收尾调一次 maintain，元数据与提交分离；思维链中文仅 DeepSeek，以中文为主体叙述、允许术语与短语嵌入；DSH 改 personaPrefix 无效（dsh-persona 遮蔽），唯一生效点为本文件注入
+GLOBAL.md[SG8S]: F:跨 Agent 通用基线约束：中文交互与 DeepSeek 思维链中文、Windows 终端安全（防 BOM 与写后必检）、文件防御、Token 经济、代码质量防线、AOCI 协同、子任务委托路由、Matt Pocock 工作流，以及第 9 节人工凭证与登录边界 | R:code:.scripts/sync-agent-rules.py,code:AGENTS.md | A:改通用规则只改此文件，各 Agent 软链接自动生效；仓库专属约定写 AGENTS.md；登录、验证码、OAuth、SSO 场景默认停止并交还用户 | S:禁止读取浏览器登录态与凭据库、禁止代填密码；入口系软链接改副本无效；禁 PS 重定向落盘且写后验无 BOM；收尾调一次 maintain 且元数据独立提交
 
 ===D:/Users/language_projects/.scripts/===
 gen_icon.py[XG4T]: F:PNG 源图转 16-256 七帧 Windows .ico，非方形等比居中到透明画布 | R:- | A:uv run .scripts/gen_icon.py <input.png> <output.ico> | S:-
@@ -33,7 +33,7 @@ link-subproject-agents.py[XC5M]: F:将各级语言子仓与二级子项目的 AG
 
 ===D:/Users/language_projects/.zed/===
 extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本（lua/toml/sql/neocmake/html/ini/xmake），配合 auto_install_extensions 安装；PowerShell 扩展已随全仓 ps1 清零移除 | R:code:.zed/settings.json | A:- | S:-
-settings.json[FC7S]: F:Zed 总仓配置：按语言 LSP 白名单与逐 server 省内存参数（jdtls 128m/512m、basedpyright 关类型检查、vtsls 限 2048m、clangd 关后台索引），file_scan_exclusions 排除构建产物与各 agent skills 目录 | R:code:.zed/extensions.toml,code:docs/plans/44-zed-lsp-manager.md,code:docs/plans/54-zed-jdtls-memory-optimization.md | A:调整 LSP 开关、server 参数或扫描排除时编辑此文件；auto_install_extensions 须与 extensions.toml 同步 | S:jdtls 默认 -Xms1G 故封顶 512m；lua-language-server 须显式 Lua 5.1；.venv 排除与注释矛盾未决，调整前读文件头记录
+settings.json[FC7S]: F:Zed 总仓配置：按语言 LSP 白名单与逐 server 省内存参数（jdtls 128m/512m、basedpyright 关类型检查、vtsls 限 2048m、clangd 关后台索引），Python/Go 的 language server 当前刻意关闭 | R:code:.zed/extensions.toml,code:docs/plans/44-zed-lsp-manager.md,code:docs/plans/54-zed-jdtls-memory-optimization.md | A:调整 LSP 开关、server 参数或扫描排除时编辑此文件；auto_install_extensions 须与 extensions.toml 同步 | S:Python/Go 的 enable_language_server=false 为有意选择，勿当配置错误回滚；jdtls 默认 -Xms1G 故封顶 512m；lua-language-server 须显式 Lua 5.1
 tasks.json[FC3T]: F:Zed 任务面板：PowerShell 外部终端、5 条 CRAP 复杂度检查（Go/Python/TS/go-crap 安装）与 4 条 Java Maven 任务（运行/JDWP 5005 调试/测试/编译） | R:code:.scripts/calc_crap.py | A:- | S:-
 
 ===D:/Users/language_projects/docs/guides/===
@@ -113,6 +113,9 @@ walkthrough-32-commit-all-repos-by-theme.md[SV4M]: F:Plan 32 执行记录：父�
 54-zed-jdtls-memory-optimization.md[SC4T]: F:Plan 54（已完成 v2）：Zed 中 Java LSP（jdtls）内存优化——问题陈述、512M 极简档决策、配置落点与验证 | R:code:.zed/settings.json | A:查阅或调整 jdtls 内存参数时先读 | S:Zed Java 扩展默认 min_memory 1G（-Xms1G），实测 JDTLS 常驻约 973MB，故显式覆盖为 128m/512m
 54-zedhub-pi-trajectory-support.md[SG4T]: F:Plan 54（已完成）：zedhub 轨迹页支持 Pi 会话——parse_pi_file 解析 JSONL 的 thinking/toolCall/toolResult 并接入 load_trajectory pi 分派，补单测回归 | R:code:python_projects/zedhub/src/zedhub/core/trajectory.py | A:- | S:-
 55-vscode-lsp-soft-toggle.md[SG4T]: F:Plan 55（待执行）：VSCode 按项目软关闭多语言 LSP——全局保持全开，五类语言模板下沉各项目 .vscode/settings.json，仅当前语言 LSP 运行 | R:- | A:交由其他 AI 执行；模板集中放 docs/projects/repo/，不进子模块 | S:-
+56-webui-session-switch-and-model-consistency.md[SG7S]: F:Plan 56：修复 TypeAI WebUI 点击历史会话后条目消失、恢复后模型仍显示旧值，定义 AllSessionSummaries 全量列表与 Resume 模型对齐 | R:code:docs/plans/walkthrough-56-webui-session-switch-and-model-consistency.md,code:docs/projects/go_projects/typeai/plans/01-wails-dual-channel.md | A:TUI SessionSummaries 过滤当前会话，WebUI 用 AllSessionSummaries 全量并高亮 .active；点击当前会话只聚焦输入框 | S:恢复会话必须 c.session.Model = c.client.Model，否则界面模型与底层请求不一致
+58-typeai-sidebar-deai-refactor.md[SG6T]: F:Plan 58：TypeAI 侧边栏去 AI 味重构——移除置顶左弯线伪影、清退 Emoji、精简胶囊徽章、定制深色细滚动条 | R:code:docs/projects/go_projects/typeai/plans/04-sidebar-deai-refactor.md | A:置顶用分组归类加琥珀图钉表达；悬浮编辑按钮默认幽灵态 | S:原生粗白滚动条须 Webkit 自定义 5px 半透明滑块；单侧 border 在圆角处会露出弯线
+walkthrough-56-webui-session-switch-and-model-consistency.md[SG5T]: F:Walkthrough 56：WebUI 会话切换与模型一致性修复的三层改动、单测与双通道构建验证记录 | R:code:docs/plans/56-webui-session-switch-and-model-consistency.md | A:查证修复范围与测试结论；go test -count=1 ./... 全通过，双通道 exe 构建成功 | S:-
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
@@ -124,8 +127,8 @@ go exe 默认图标.md[SV7T]: F:go_projects 产 exe 项目默认配地鼠图标�
 
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/===
 Go CLI JSON 输出模式参考.md[SO7M]: F:提炼 clictl 的 CLI 骨架 + JSON 输出通用模式：包络出口函数、stdout/stderr 分工、退出码与错误码映射 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:其他 Go CLI 项目直接参考套用，与 clictl 业务无关 | S:管理命令错误 JSON 走 stdout、run 透传前置错误走 stderr，stdout 只属于子进程
-MCP 接口文档.md[SN7M]: F:clictl 的 MCP server 契约：10 个工具、Schema、错误语义与接入方式；第 4 节含 CLI↔MCP 能力对齐总述 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md | A:与 internal/mcp 同源维护，改实现必须同步更新本文档 | S:业务失败返回 isError 而非协议级 error；run 在 MCP 侧为非交互收集，不提供 stdin/PTY 透传；clictl mcp 是 server 启动入口不是工具
-clictl 使用指南.md[SG7S]: F:clictl 使用指南：双通道产物、注册/run/start/stop/cp/meta、JSON 包络与退出码、终端启动与 PS 管道编码 | R:code:docs/projects/go_projects/clictl/plans/01-wails-dual-channel.md,code:docs/projects/go_projects/clictl/plans/02-console-launch.md,code:docs/projects/go_projects/clictl/plans/03-console-stdio-fix.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:父仓镜像文档，与子仓 README 同步；双通道产物统一落 bin/；v2.0.0 起 GUI 与 serve 共用同一 Handler；数据 dev/prod 分库；WebUI 无 run；start --console 按 PE 子系统选主按钮；窗口内控制台句柄由原生 CreateProcess 初始化（isTTY=true） | S:PS5.1 原生 exe 间管道中文变 ? 源于 OutputEncoding 解码后 ASCII 重编码，--ascii 可免疫；stop 的 exit_code=1 是强杀约定；run 前置错误走 stderr；console 模式 CLI 下不闭环
+MCP 接口文档.md[SN7M]: F:clictl 的 MCP server 契约：10 个工具、Schema、错误语义与接入方式；第 4 节含 CLI 与 MCP 能力对齐总述；add_tool 的 meta 白名单新增 group | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md | A:与 internal/mcp 同源维护，改实现必须同步更新本文档；meta 字节数限 Go 侧校验，Schema 只声明结构 | S:业务失败返回 isError 而非协议级 error；run 在 MCP 侧为非交互收集，不提供 stdin/PTY 透传；clictl mcp 是 server 启动入口不是工具
+clictl 使用指南.md[SG7S]: F:clictl 使用指南：双通道产物、注册/run/start/stop/cp/meta、分组视图与排序、JSON 包络与退出码 | R:code:docs/projects/go_projects/clictl/plans/04-groups-view-sort.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:父仓镜像文档，与子仓 README 同步；默认平铺、名称升序；视图/排序/折叠落通道目录 ui_preferences.json | S:PS5.1 原生 exe 管道中文变 ? 源于编码重编码，--ascii 可免疫；stop 的 exit_code=1 是强杀约定；meta.group ≤32 字节
 
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/migrations/===
 000_init_v1.0.0.sql[FP6T]: F:clictl 初始表结构存档（tools/launches，WAL+外键） | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:- | S:文档存档不参与运行，建表由 store.go schema 常量执行
@@ -209,7 +212,7 @@ SQLAlchemy Session 生命周期.md[SD7T]: F:SQLAlchemy Session 生命周期：�
 计费补偿与对账.md[SD5T]: F:计费补偿与对账：NUMERIC+Decimal、幂等扣费三步一事务、补偿配对与不可变账本对账 | R:code:docs/projects/python_projects/tech_learning_room/README.md | A:- | S:金额恒正+方向字段分离；补偿自身幂等靠 refund 唯一约束兜底
 
 ===D:/Users/language_projects/docs/projects/python_projects/zedhub/===
-zedhub 对接协议.md[SN7S]: F:zedhub 对接协议（v2 daemon）：五通道薄壳（CLI/rpc/MCP/Web 检索页/curl）统一走 127.0.0.1:8766 HTTP+JSON+SSE+/ui，WebSocket 学习通道 8765 冻结；地址发现、buildID 握手与自动拉起规则 | R:- | A:对接方按协议规范+方法表接入；机器可读版 zedhub schema | S:三端 payload 同源；只读快照、无鉴权；自动拉起仅生产构建，开发态报错提示先 serve
+zedhub 对接协议.md[SN7S]: F:zedhub 对接协议（v2 daemon）：五通道薄壳统一走 127.0.0.1:8766 HTTP+JSON+SSE+/ui，WebSocket 8765 冻结；地址发现、buildID 握手与自动拉起规则；数据源含 deepseek-harness 只读源 | R:code:docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/requirements.md | A:对接方按协议规范加方法表接入；机器可读版 zedhub schema；DSH 只支持 sessions/content，link/export 返回 source_not_supported | S:三端 payload 同源；只读快照、无鉴权；自动拉起仅生产构建，开发态报错提示先 serve
 
 ===D:/Users/language_projects/docs/projects/rust_projects/minieverything/===
 minieverything 开发笔记.md[SD6T]: F:minieverything 开发笔记：NTFS 目录遍历 + USN Journal 增量的架构、数据结构与踩坑实录 | R:- | A:- | S:目录 ref 映射是 USN 路径解析关键；目录改名需整子树前缀重写且按路径段边界
@@ -217,6 +220,7 @@ minieverything 开发笔记.md[SD6T]: F:minieverything 开发笔记：NTFS 目�
 ===D:/Users/language_projects/docs/projects/typescript_projects/taskmon/plans/===
 01-进程树检测.md[SW5T]: F:taskmon 进程树检测计划（已完成）：双节奏采集、树视图与孤儿标记的设计决策 | R:- | A:- | S:CIM 采集 overlap-skip 不阻塞主刷新；PID 复用用创建时间先后判定
 02-AI分析对话.md[SW4M]: F:taskmon AI 分析对话计划（待批准）：pi RPC 模式做底座、快照注入与 TUI 对话面板 | R:- | A:审批门等待中，实施前需用户批准 | S:pi 缺失时降级提示主功能零影响；会话丢弃式（--no-session）
+03-GUI双通道桌面化.md[SG6T]: F:taskmon GUI 双通道桌面化计划（已完成）：TS 复刻 go-wails 契约——CLI 保 TUI、GUI 走轻量托盘加按需 Electron 窗口，共用 node:http Handler | R:code:typescript_projects/taskmon/src/server/server.ts | A:关窗即整体退出，托盘约 30MB 常驻；dev 禁止写 Run 键 | S:Electron 目录约 359MB 已接受；窗口几何落 dataDir/window.json
 
 ===D:/Users/language_projects/docs/projects/typescript_projects/taskmon/===
 taskmon AI 问答功能开发计划（人脑思考版）.md[SZ2T]: F:AI 问答功能的早期随想草稿（接口规约思考片段） | R:code:docs/projects/typescript_projects/taskmon/plans/02-AI分析对话.md | A:- | S:-
@@ -250,7 +254,7 @@ douyin-ai-philosophy-video-creation-research.md[SZ3M]: F:抖音人文哲学/硬�
 mcp-2026-07-28-delta.md[SN5L]: F:MCP 2026-07-28 相对 2025-11-25 变更清单（规范原文提取）：有状态握手改每请求自描述无状态、MRTR 取代服务器发起请求、resultType 必填、subscriptions/listen 取代 HTTP GET 流、Roots/Sampling/Logging 弃用、tasks 移出核心 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:- | S:-
 media-storage-abuse-research.md[SZ3S]: F:「拿 YouTube 当免费网盘」调研：理论可行但体验极差（3~8 倍体积膨胀、转码等待、API 额度低），ISG/youbit/fvid 等代表项目与账号封禁风险 | R:- | A:- | S:-
 subagent-pipeline-tools-research.md[SQ4M]: F:多 Agent 开发流水线工具调研：无开箱即用五步闭环工具，推荐 Claude Code 原生件（.claude/agents + hooks + headless -p）脚本层自建（约 1~2 天），LLM 只修不判 | R:- | A:- | S:-
-AutoHotkey 极速应用切换与 Toggle 自动化配置指南.md[SU3S]: F:AutoHotkey v2 应用极速切换指南：Alt+快捷键 Toggle 置顶/最小化、多窗口轮换、拒绝自动启动、开机静默自启与冲突避坑 | R:- | A:按文中三步配置：winget 安装 AutoHotkey v2 → 部署 app_switcher.ahk → 放入启动文件夹 | S:wt 须映射 WindowsTerminal.exe；PowerToys 同热键抢先拦截
+AutoHotkey 极速应用切换与 Toggle 自动化配置指南.md[SU3S]: F:AutoHotkey v2 应用极速切换指南：Alt+快捷键 Toggle 置顶/最小化、多窗口轮换、拒绝自动启动、Explorer 专用 CabinetWClass Toggle、开机静默自启与冲突避坑 | R:- | A:按文中三步配置：winget 安装 AutoHotkey v2 → 部署 app_switcher.ahk → 放入启动文件夹；Alt+X 资源管理器、Alt+D DeepSeek Harness | S:Explorer→CabinetWClass；wt→WindowsTerminal.exe
 jupyterlab-overview-and-architecture-research.md[SG7L]: F:JupyterLab 架构深度调研：微内核+插件依赖注入、Lumino DockPanel/信号/命令总线、REST+WebSocket+ZeroMQ 五通道 Wire 协议、RTC/LSP/DAP 前沿能力与演进脉络，论断按【官方】【规范/代码】【推断/实践】分级 | R:- | A:通用技术知识沉淀（docs/repo）；了解 Jupyter/交互式计算内核或做 Notebook 类系统选型时查阅 | S:LSP 采用虚拟文档合并+坐标双向投影解决单元格碎片化；JEP 47/62/79/93 分别是调试/RTC/Notebook7 统一/调试态融合的协议基石
 Python 模块结构与常量放置规范调研.md[SG7M]: F:Python 模块结构与常量放置调研：逐条核实 PEP 8/257/591、官方文档、Google/Real Python 与工具规则（pylint/ruff/isort/Black）；结论为常量置顶属社区惯例而非官方规范，唯一硬约束是「先用先定义」，附本仓开关常量置顶建议与模块骨架 | R:code:.scripts/install-mcp.py | A:回答「常量是否/为何置顶」时先读；引用规则编号前复核来源；本仓 Python 脚本可循第 6 节骨架 | S:Hitchhiker's Guide 无模块内部顺序条款（常见误引）；pylint C0413 意为代码与 import 混排而非 import 未置顶；常量位置无任何主流工具强制
 pi-and-dsh-acp-support-research.md[SG4S]: F:调研：Pi 与 DSH 对 Zed ACP 支持现状——pi-acp 系社区适配器非官方、DSH 已实现 acp-app 但未上架 Registry，含 41 款全量清单与替代用法 | R:- | A:- | S:Registry 清单为 2026-10-11 快照，时效性强，引用前需复核
@@ -260,6 +264,7 @@ Java 与 python-go-rust 子仓对比分析.md[SG3M]: F:基于 go/python/rust 三
 antigravity-manager-cli-only-research.md[SG3M]: F:Antigravity-Manager「取消 IDE active 只保留 CLI」源码级调研：switch_account(id,target_ide="agy") 免杀免重启通道、各 surface 写入机制、CLI 凭据覆盖风险与操作路径，附 shyim/agm 对照 | R:- | A:需让 agy CLI 换账号或评估切换副作用时先读；结论按【已验证】/【推断】区分；引用为固定 commit permalink，上游演进后行号失效 | S:切 IDE 目标不碰 CLI 凭据；经典版 ≥2.0.0 与 CLI 共用同一钥匙环槽位会连带覆盖
 language_projects 架构调研报告.md[SG4M]: F:language_projects 仓库架构调研报告（agy 只读调研 + DSH 命令级复核）：子模块三方一致性、边界契约言行对照、五语言子仓全景、.scripts/skills/AOCI 基础设施、风险分级与建议、调研方法学 | R:code:AGENTS.md,code:MONOREPO.md,code:.gitmodules | A:接手全仓架构类问题先读；结论可信度看 agy 结论↔复核结论对照表与实测表格，勿直接引用未经复核的计数 | S:ignore = all 使 git status 对子模块漂移失明，判定须看 git submodule status 的 +/- 前缀
 git-ignored-local-dir-versioning-research.md[SC4L]: F:Documents Git ignore semantics and validated options for versioning the gitignored .local/ directory | R:code:.workbuddy/memory/2026-10-21.md | A:Evaluates moving the data to a private repo, an in-place nested repo, a junction, and gitignore negation | S:Only .local/* plus a negated subdirectory can re-include nested files; a directory-level exclusion cannot be rescued by !
+antigravity-app-window-state-persistence-research.md[SU6S]: F:调研报告：Antigravity 桌面端窗口尺寸不记忆的源码根因（硬编码 1400x900、无 resize/move 监听）与 asar 热修补丁方案 | R:code:.scripts/patch-antigravity-window.py | A:补丁用同步 window-state.json 加 show:!isMaximized 消除闪烁；--patch/--restore/--status 三命令 | S:快捷方式最大化与 --start-maximized 会被 Electron options 覆盖；重打包须保留 chrome-devtools-mcp 的 unpack
 
 ===D:/Users/language_projects/docs/repo/lark_group_bridge/===
 2026-09-20 自言自语存档.html[SG3L]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌逐张图注，支持页内编辑删除后覆盖原文件 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击打开；图片点击放大（Ctrl+滚轮缩放）；侧栏「编辑此页」可删条/删节/改字，保存后序列化覆盖原文件 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文
@@ -437,6 +442,7 @@ tasks.md[SW6T]: F:glmquotawatch-gui 通知渠道任务清单（13 项）：store
 01-powershell-terminal-icon-support.md[SC6T]: F:Plan（已完成）：TaskbarGuard 新增 PowerShell/Windows Terminal 图标守卫——5 款 Squircle 图标库、Edge 无头渲染+Pillow ICO、补丁脚本、Go CLI 别名与配置、零风险外壳刷新三连击 | R:code:docs/projects/go_projects/taskbarguard/plans/02-shortcut-precision-and-pristine-backup.md | A:续做/回查终端图标守卫方案时先读；图标风格对齐黑曜石 Squircle，禁杀 explorer | S:外壳刷新采用 os.utime+ie4uinit -show+SHChangeNotify 三连击，绝不终止 explorer.exe
 02-shortcut-precision-and-pristine-backup.md[SC6T]: F:Plan（已完成）：TaskbarGuard 快捷方式精准过滤与只读基线备份——废文件名模糊匹配改 TargetPath 严格校验、死链跳过、pristine 初态锁定、一键 revert | R:code:docs/projects/go_projects/taskbarguard/plans/01-powershell-terminal-icon-support.md | A:改补丁匹配或备份逻辑前先读；状态与备份落 %APPDATA%\language_projects\taskbarguard\state.json | S:pristine_icon 一经锁定绝不覆写（防重入污染）；wt 与 powershell 物理拆分（scripts/wt/ 独立模块）
 03-wails-gui-dual-channel.md[SG7T]: F:TaskbarGuard 双通道改造计划：core service 内核 + gui/cli 两产物，共用 HTTP Handler，config 迁 APPDATA dev/prod，计划任务指向 cli | R:- | A:产物为 gui-dev 12.22MB Subsystem2 与 cli-dev 6.36MB Subsystem3；config.json 首次从 exe 同级复制到 %APPDATA%\\language_projects\\taskbarguard\\<dev|prod>；静态校验 gofmt/go vet/go build，未执行 go test、产物 exe 与 uv 业务脚本 | S:install-task 注册的是同目录 taskbarguard-cli.exe apply 而不是 GUI 产物；service 内部互斥防止 GUI 与 CLI 同时驱动 uv 改写图标；改造期安全边界禁止运行测试与业务脚本
+04-chrome-pwa-harness-shortcut-alignment.md[SG6T]: F:taskbarguard Chrome PWA 快捷方式图标对齐计划（已完成）：开始菜单与任务栏 .lnk 的 IconLocation 守卫与 state.json 初态还原 | R:code:go_projects/taskbarguard/scripts/deepseek_harness/patch_deepseek_harness_icon.py | A:仅当 TargetPath 指向 chrome_proxy.exe 且含 Harness 特征才改写；外壳三连刷新 | S:初态记录绝不二次覆盖；无 Desktop EXE 时不得阻断快捷方式处理
 
 ===D:/Users/language_projects/docs/projects/python_projects/docsearch/plans/===
 01-local-document-semantic-search.md[SG5S]: F:docsearch 开发计划：本地文档与技能库语义检索系统——Service 核心（Markdown 切块、FastEmbed 向量、LanceDB 增量、Watchdog 防抖）+ Typer CLI（--json/--schema）+ FastAPI HTTP 与内嵌 WebUI，5 任务全部完成 | R:code:docs/projects/go_projects/CLI 工具开发标准.md,code:AGENTS.md | A:计划已执行完成，转历史决策存档；对标 CLI 标准的分层与 --json/--schema 为一等公民 | S:向量库与运行时缓存须落 %APPDATA%\language_projects\docsearch\；默认嵌入模型 BAAI/bge-small-zh-v1.5；watcher 500ms~1s 防抖
@@ -470,14 +476,49 @@ design.md[SG6T]: F:kbman 设计文档，定义分层结构、元数据实体、�
 requirements.md[SG6T]: F:kbman 需求定义，列出迁移升级、检索前拦截、执行期自愈回写与审计四类能力及验收标准 | R:code:docs/specs/06-kb-temporal-governance/design.md,code:docs/specs/06-kb-temporal-governance/tasks.md | A:FR-1 至 FR-4 覆盖 migrate/check/report/audit；AC-1 要求 80 篇无损升级，AC-2 要求 deprecated 拦截，AC-3 要求原子回写 | S:文中 update/append 命令已演进为 report/touch，验收以 tasks.md 的最终实现为准
 tasks.md[SG5T]: F:kbman 实施任务清单，按依赖拆解迁移、解析、防御检查、自愈回写与全量落地 | R:code:docs/specs/06-kb-temporal-governance/design.md,code:go_projects/kbman/README.md | A:Task 1-6 覆盖建档到 80 篇全量升级；Task 7 记录首轮全量重排回滚、改最小侵入渲染并补齐 CLI 契约的复盘 | S:Task 7 是最小侵入与 --json/--schema 契约的实际验收依据
 
-===D:/Users/language_projects/.workbuddy/memory/===
-2026-10-21.md[SZ3T]: F:Records the 2026-10-21 research session on version-controlling a gitignored .local/ directory | R:code:docs/repo/git-ignored-local-dir-versioning-research.md | A:- | S:-
-
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/plans/===
 01-wails-dual-channel.md[SG7S]: F:clictl 双通道改造计划与实施记录：单产物拆为 gui/cli，共用 HTTP+WebUI，dev/prod 五维隔离，已验收归档 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:基线 sh-go-wails-desktop SOP v1.6.0 与 anatomymanager 模板；版本 2.0.0（产物改名属破坏性）；拆包铁律 api/appinfo 不 import app；run 不设 HTTP 入口；原四项未决已落实为默认（旧库双通道各复制、2.0.0 基线、无 WebUI run、脚本清理旧产物）；验收含 Subsystem 2/3、cli 零 wails 依赖、serve 根路径 200、GUI where 探测与 release 门禁 | S:GUI 与 CLI 同包只能链接一份 rsrc syso，故每个产物构建前必须重建资源段；monorepo 其他项目未提交改动会使 release 门禁持续判脏
 02-console-launch.md[SG3T]: F:clictl 终端启动实施记录：PE 子系统识别 console、CREATE_NEW_CONSOLE 开窗、CLI/WebUI 共用 runner，已验证归档 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:原生 conhost；不做 cmd /k 保持窗口；按子系统自动切主按钮；实测含 stop 闭环与 GUI 常驻自动闭环 | S:CLI start --console 立即退出故不闭环；GUI/serve 常驻才 Wait 回写
 03-console-stdio-fix.md[SG7T]: F:clictl 终端启动 stdio 修复记录：os/exec 强制 DevNull 致 isTTY=false，改用原生 CreateProcess 初始化控制台句柄，已实测归档 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/plans/02-console-launch.md | A:根因链含 Go 源码位置；CreateProcess 参数 Flags=0、InheritHandles=false、EscapeArg 拼命令行、CurrentDirectory=exe 目录；WaitForSingleObject 闭环；实测 taskmon TUI 与三类 Redirected=false | S:必须用 CreateProcess 且不设 STARTF_USESTDHANDLES，否则 isTTY=false 使依赖终端的 TUI 秒退
+04-groups-view-sort.md[SG7T]: F:clictl 分组、树状/平铺视图与稳定排序实施计划（已完成）：meta.group 白名单、/api/preferences、四档排序 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/plans/05-window-activate.md | A:默认 flat 加名称升序；组顺序字母序、「未分组」置底；偏好落 ui_preferences.json | S:meta 为整体替换，保存分组须先合并现有 source/tags；5 秒轮询不回填正在编辑的分组框
+05-window-activate.md[SG7S]: F:clictl 窗口显露实施计划：Win32 进程树窗口枚举加 Z-Order 顶层激活，托盘驻留走单实例唤醒，并补齐 zedhub | R:code:docs/projects/go_projects/clictl/plans/04-groups-view-sort.md,code:python_projects/zedhub/src/zedhub/gui/app.py | A:SwitchToThisWindow 加 SW_RESTORE 绕过前台锁；API 为 POST /api/tools/{name}/activate，状态 activated 或 woken_up | S:仅 SetForegroundWindow 会只闪任务栏橙光；须校验 IsWindowVisible 并过滤 0x0 隐藏窗口
 
 ===D:/Users/language_projects/docs/projects/go_projects/typeai/plans/===
 01-wails-dual-channel.md[SG7T]: F:typeai 从纯 TUI 改造为 Wails 双通道桌面应用的实施计划与实测记录，含 HTTP/SSE 契约表、WebUI 功能、任务分解、验收与 dev/release 隔离 | R:code:go_projects/typeai/scripts/build.py,code:docs/plans/20-typeai-cli.md | A:改造已完成并验收；产物统一输出 bin/typeai-gui[-dev].exe 与 bin/typeai-cli[-dev].exe；数据落 %APPDATA%\language_projects\typeai\{dev,prod}；独立外壳 typeai-gui 已归档 | S:-
+02-resume-session-picker.md[SG6T]: F:typeai /resume 会话选择弹窗计划（已完成）：session.ListSessions 本地摘要加 TUI 选择态，并展示分支列表 | R:code:docs/projects/go_projects/typeai/plans/03-session-rename.md | A:摘要纯本地规则生成，不联网不调模型；当前进程会话不列出；Enter 恢复、Esc 取消 | S:损坏 session 文件跳过不阻断；仅无参数 /resume 才弹窗
+03-session-rename.md[SG6T]: F:typeai 会话重命名计划（已完成）：Session 与 SessionSummary 增 Title，POST /api/sessions/rename，WebUI 双击与 TUI /title | R:code:docs/projects/go_projects/typeai/plans/04-sidebar-deai-refactor.md | A:文件名保持 YYYYMMDD-HHMMSS-id.json 不变，只改内部 JSON；清空标题回退首条提问 | S:旧 schema 必须后向兼容，Title 缺省视为无自定义标题
+04-sidebar-deai-refactor.md[SG6T]: F:typeai 侧边栏去 AI 味重构实施计划（已实施，父仓 58）：去弯线、清退 Emoji、精简徽章、深色滚动条 | R:code:docs/plans/58-typeai-sidebar-deai-refactor.md | A:置顶以分组加琥珀图钉表达；悬浮按钮仅 hover 或激活时浮现 | S:-
+05-ui-redesign-v2.md[SU6T]: F:Plan 59：TypeAI 界面细化 v2——8 色 hash 稳定标签色板、徽标去冗余、相对时间阶梯、Ctrl+K 侧栏搜索与空状态引导 | R:code:.workbuddy/outputs/typeai-ui-redesign-v2.html,code:docs/projects/go_projects/typeai/plans/04-sidebar-deai-refactor.md | A:待办固定 --tag-0、归档 --faint，其余 hash 映射 --tag-1..7；renderSessionCard 按组过滤同名标签 | S:搜索态匹配标题/标签/首句；活动卡片左缘 3px 琥珀指示条
+06-session-rename-persist.md[SU7M]: F:Plan 57：TypeAI 会话重命名与标题持久化——Session/SessionSummary 增 title、POST /api/sessions/rename、WebUI 双击与 TUI /title | R:code:docs/projects/go_projects/typeai/plans/walkthrough-06-session-rename-persist.md,code:docs/projects/go_projects/typeai/plans/03-session-rename.md | A:只改 JSON 内部 title 与 updated_at，绝不改物理文件名；清空标题回退首条提问 | S:标题长度上限 100 字符；流式生成中修改当前会话返回 409 busy
+walkthrough-06-session-rename-persist.md[SU5T]: F:Walkthrough 57：会话重命名落地摘要——数据/服务/API/WebUI/TUI 五层改动与全量测试、双通道构建结论 | R:code:docs/projects/go_projects/typeai/plans/06-session-rename-persist.md | A:查证实现范围与验证结论；session/service/api/tui 定向单测加 go test ./... 全通过 | S:-
+
+===D:/Users/language_projects/.drafts/===
+research_claude_code_acp_auth.md[SS7S]: F:调研报告：Claude Code 与 claude-agent-acp 的 ACP 认证状态机，解释 Zed 卡在 Authenticating 的根因与四类免登录或代理绕过方案 | R:- | A:排查 claude-acp 认证挂起先读；方案 A/B 注入 ANTHROPIC_API_KEY 触发 apiKeySource，方案 C 用内置 claude.exe auth login 补 subscriptionType | S:仅配 ANTHROPIC_AUTH_TOKEN 无效，必须配 ANTHROPIC_API_KEY 才能过 ACP 门禁；oauth_token 缺 subscriptionType 会被判未登录
+
+===D:/Users/language_projects/.workbuddy/memory/===
+2026-10-24.md[SG4T]: F:WorkBuddy 会话记忆：typeai UI 重设计两轮方案要点（三层表面 token、琥珀气泡、相对时间、8 色标签 hash 配色）与落地映射 | R:code:.workbuddy/outputs/typeai-ui-redesign.html,code:.workbuddy/outputs/typeai-ui-redesign-v2.html | A:续做 typeai 视觉改造时读；v2 映射 renderSessionCard 的 groupTag 过滤、formatRelative 与 tagColor 注入 --tag-c | S:原型仅作设计参照，落地改 internal/web/static，勿直接拷 HTML
+
+===D:/Users/language_projects/.workbuddy/outputs/===
+typeai-ui-redesign-v2.html[SU4L]: F:typeai UI 细化 v2 原型：保留 --bg/--panel token 做增量升级，新增 8 色标签 hash 色板、相对时间与空状态引导 | R:code:.workbuddy/memory/2026-10-24.md,code:docs/projects/go_projects/typeai/plans/05-ui-redesign-v2.md | A:落地时对照配色与滚动条细节；tagColor = PALETTE[hash % 8]，组头/徽标/pill/标签池同色 | S:新增 --panel-3 与提亮后的 --faint 是主要差异，直接映射回现有变量名
+typeai-ui-redesign.html[SU4L]: F:typeai UI 重设计高保真原型（静态单页）：暖木深色三层表面、琥珀强调、消息角色区分与 Ctrl+K 搜索的视觉稿 | R:code:.workbuddy/memory/2026-10-24.md | A:作为 v1 设计基线对照，仅浏览器预览；token 为 surface-0..3 与 text-1..3 | S:非生产代码，样式需迁回 internal/web/static 才生效
+
+===D:/Users/language_projects/docs/projects/go_projects/mail2feishu/plans/===
+01-mail2feishu.md[SG6T]: F:mail2feishu 实施计划：QQ IMAP IDLE 监听、纯白名单零信任过滤、飞书 Webhook 交互卡片与防抖频控 | R:- | A:未命中白名单的邮件静默丢弃；IMAP 闪断指数退避重连；15s 窗口内同讨论串聚合成一条 | S:默认全阻断，只有命中白名单才推送，避免手机通知噪音
+
+===D:/Users/language_projects/docs/projects/go_projects/termhub/plans/===
+01-termhub-vertical-slices.md[SG7S]: F:termhub 垂直切片看板：T01–T10 依赖 DAG 与每票测试接缝、验收条件，单切片单会话推进 | R:code:docs/projects/go_projects/termhub/specs/01-termhub-terminal-manager-spec.md | A:T01 与 T08 可并行；T10 修订 T06 的「已退出」语义，改为终端记忆模型 | S:每票只以 SessionManager 为接缝断言，禁对内部细节写测试
+
+===D:/Users/language_projects/docs/projects/go_projects/termhub/specs/===
+01-termhub-terminal-manager-spec.md[SG8T]: F:termhub 设计规格：Wails v3 加 ConPTY 加 xterm.js 的 Windows 终端宿主，含 11 条验收、测试接缝与不做什么 | R:code:docs/projects/go_projects/termhub/plans/01-termhub-vertical-slices.md | A:唯一公共入口为 SessionManager；Job Object 整树终止；数据落 %APPDATA%\language_projects\termhub\{dev,prod} | S:spec 原文 Wails v2 为笔误，统一 v3；第一版只做 PowerShell，架构预留 shell 抽象
+
+===D:/Users/language_projects/docs/projects/java_projects/agent-lab/plans/===
+01-tickets.md[SG7S]: F:agent-lab 垂直切片看板：T01–T08 依赖 DAG 与每票接缝、验收条件，单切片单会话推进 | R:code:docs/projects/java_projects/agent-lab/specs/01-agent-lab-spec.md | A:主接缝为 AgentRuntime.run 加 FakeLlmClient；T05 可与 T02/T03 并行 | S:禁止依赖真实 LLM 输出的断言；端口 8083 避免与既有服务冲突
+
+===D:/Users/language_projects/docs/projects/java_projects/agent-lab/specs/===
+01-agent-lab-spec.md[SG8S]: F:agent-lab 设计规格：纯 Java 21 加 Spring Boot 3 的故障诊断 Agent，含 5 场景标准答案、测试接缝、架构不变量与不做清单 | R:code:docs/projects/java_projects/agent-lab/plans/01-tickets.md | A:内核纯 JDK 可脱离 Spring 跑 main；双通道 Ollama 与 opencode go 仅换配置 | S:凭据不硬编码，从 %APPDATA%\language_projects\agent-lab\{dev,prod}\config.json 或环境变量读取；报告须含证据链与置信度
+
+===D:/Users/language_projects/docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/===
+design.md[SE7S]: F:DSH 只读源设计：zstd JSONL 解析层、DeepseekHarnessSource 适配器、元数据短路扫描与 FTS5 复用，不新增索引库 | R:code:docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/requirements.md,code:python_projects/zedhub/src/zedhub/core/sources/deepseek_source.py | A:标题事件命中即停止；updated_at 用文件 mtime；不加入 FILE_SOURCES 以免轨迹半支持 | S:不得向 ~/.dsh 写入任何文件或缓存；默认 scope=zed 不可见，需 scope=all
+requirements.md[SE6S]: F:DSH 源需求：FR-1..FR-8 与 AC-1..AC-8，覆盖源注册、发现、过滤、正文、检索、FTS5、Web 与契约文档 | R:code:docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/design.md | A:capabilities 仅 sessions/content/discovery，不含 export/link；全程只读 | S:251 会话元数据扫描约 0.13s，不得为列表全量解压；损坏文件按单会话跳过
+tasks.md[SE6T]: F:DSH 源任务清单：8 个任务从依赖提升、路径解析、解析层、适配器、注册到 Web、文档与测试 | R:code:docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/design.md | A:按序执行，任务 8 提供 tmp_path 构造 zstd 会话的用例 | S:测试用显式 home 隔离，避免 DSH_DATA 覆盖 tmp_path
 

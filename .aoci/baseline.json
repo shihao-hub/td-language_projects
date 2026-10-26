@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-22T00:26:43Z",
+  "updated_at": "2026-10-26T18:39:45Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -87,6 +87,11 @@
       "sha256": "033b52de3a6a96b54965c8678f66772fe5de7e681542487cc024c36b55614c66",
       "size": 91,
       "normalized_sha256": "033b52de3a6a96b54965c8678f66772fe5de7e681542487cc024c36b55614c66"
+    },
+    ".drafts/research_claude_code_acp_auth.md": {
+      "sha256": "fe2e44ed89535be235a2a953e482ddc01c8eeb4b82c351ed10a0ad9edaaf50c0",
+      "size": 6021,
+      "normalized_sha256": "fe2e44ed89535be235a2a953e482ddc01c8eeb4b82c351ed10a0ad9edaaf50c0"
     },
     ".drafts/resume/resume.html": {
       "sha256": "acdef1a7f2e588a87c1b6697b348e06ef78d746a7210fe7465cc38927c0559da",
@@ -357,6 +362,21 @@
       "size": 1773,
       "normalized_sha256": "5efd139688fbf1688362300c1b22529ed203cc0b80c71b09532a7af2919388d3"
     },
+    ".workbuddy/memory/2026-10-24.md": {
+      "sha256": "3247d1fe1347ce32bdfc11c1e3c5928ea0f06b8113494499d5ad44c5698fb5ef",
+      "size": 1086,
+      "normalized_sha256": "3247d1fe1347ce32bdfc11c1e3c5928ea0f06b8113494499d5ad44c5698fb5ef"
+    },
+    ".workbuddy/outputs/typeai-ui-redesign-v2.html": {
+      "sha256": "4c0c7edf83c2104ab36262926bb00f6f5e4d3e487a317ed8c6e5b813ab10052a",
+      "size": 36801,
+      "normalized_sha256": "4c0c7edf83c2104ab36262926bb00f6f5e4d3e487a317ed8c6e5b813ab10052a"
+    },
+    ".workbuddy/outputs/typeai-ui-redesign.html": {
+      "sha256": "d4d01dd7f0a21b8a638e2f01487e82919687d7014a05ffa5529d8ede1926ae84",
+      "size": 36100,
+      "normalized_sha256": "d4d01dd7f0a21b8a638e2f01487e82919687d7014a05ffa5529d8ede1926ae84"
+    },
     ".zed/extensions.toml": {
       "role": "index",
       "sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da",
@@ -364,9 +384,9 @@
       "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "762be0b66f1856b6680458e7f31a1eaef4abdb0f30fcd0de48c1df17a49cffda",
-      "size": 6072,
-      "normalized_sha256": "762be0b66f1856b6680458e7f31a1eaef4abdb0f30fcd0de48c1df17a49cffda"
+      "sha256": "81d82fe292f9a3f486be587d0e36808ed9653febe4f0c53271aca6e866863d70",
+      "size": 6108,
+      "normalized_sha256": "81d82fe292f9a3f486be587d0e36808ed9653febe4f0c53271aca6e866863d70"
     },
     ".zed/tasks.json": {
       "sha256": "2dd5ad51e0b4ff7e3449a65149c3bc610fed4440a85c8a998c1ae9a8602b0d73",
@@ -385,9 +405,9 @@
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "GLOBAL.md": {
-      "sha256": "f46fc998b7613714892c03db2634cb1e3ba3ab987f66305da6c546f111090ca6",
-      "size": 19399,
-      "normalized_sha256": "f46fc998b7613714892c03db2634cb1e3ba3ab987f66305da6c546f111090ca6"
+      "sha256": "83b5eda4255a0d7d35a83166ec87a3c1bca7c68d5ca4217a2e86ce59aa797927",
+      "size": 20511,
+      "normalized_sha256": "83b5eda4255a0d7d35a83166ec87a3c1bca7c68d5ca4217a2e86ce59aa797927"
     },
     "MONOREPO.md": {
       "sha256": "c4e18a76517a0d0598a505098a48b81398d09d01f15cd4eeb571f0168d108274",
@@ -421,10 +441,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "role": "index",
-      "sha256": "a5a1632f284543f7a6dae180ef52d600a602ef9fdfd666cd2f81b05c2f6a3638",
-      "size": 148114,
-      "normalized_sha256": "a5a1632f284543f7a6dae180ef52d600a602ef9fdfd666cd2f81b05c2f6a3638"
+      "sha256": "6f760308545b77b19bfde4008df722acb5a711d2a6252d83fc1a1e4530dd10af",
+      "size": 159832,
+      "normalized_sha256": "6f760308545b77b19bfde4008df722acb5a711d2a6252d83fc1a1e4530dd10af"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -856,6 +875,16 @@
       "size": 4017,
       "normalized_sha256": "e4586995d6de0fcb7fa1fa8009140d034f2e29d502b188af5fad72eac0087f3e"
     },
+    "docs/plans/56-webui-session-switch-and-model-consistency.md": {
+      "sha256": "d818bbc17e2a0f92b4793476807b46f38f0860379c87e41101a620b30135c59e",
+      "size": 8425,
+      "normalized_sha256": "8a3df86c4c89ee22ee938234f727c4069b0540697710a6ca834f079232c7fb33"
+    },
+    "docs/plans/58-typeai-sidebar-deai-refactor.md": {
+      "sha256": "f647549d2e0765bfc2c5d1b96f23a5ff9cd832a41e6a2949bb3fde13ad497e8f",
+      "size": 5165,
+      "normalized_sha256": "9c00203148482187c7969419fe13fe75660eae57c9491fa097a22600f1bbef30"
+    },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "role": "index",
       "sha256": "ff41ba5b47c36d21b5860b68d1153b4d4f7cabc8e985fef7bf22e492d2ed84d0",
@@ -877,6 +906,11 @@
       "sha256": "5bb27bc72cee031f7e232842fbd52e9d0406b6509a43d5591834f77df5e9f1f8",
       "size": 10890,
       "normalized_sha256": "5bb27bc72cee031f7e232842fbd52e9d0406b6509a43d5591834f77df5e9f1f8"
+    },
+    "docs/plans/walkthrough-56-webui-session-switch-and-model-consistency.md": {
+      "sha256": "fdb234a60f71c83986eda105e32997d690231f758031f95bb36a48c60266da29",
+      "size": 2350,
+      "normalized_sha256": "fa276c5232b1e23ae013393c3d0526ab7576e1510e1576297632ced4369172cc"
     },
     "docs/projects/go_projects/CLI 与 MCP 双壳架构工作指南.md": {
       "role": "index",
@@ -997,15 +1031,14 @@
       "normalized_sha256": "fc620888a70bafe99ddb7b0abbc0019d7c96d0118ae3f6f59e3989bb36b5b3e8"
     },
     "docs/projects/go_projects/clictl/MCP 接口文档.md": {
-      "role": "index",
-      "sha256": "2fd6ce928343abe880541f9613319768d083c976aeaa9cf9768c980cfdc82c52",
-      "size": 11774,
-      "normalized_sha256": "2fd6ce928343abe880541f9613319768d083c976aeaa9cf9768c980cfdc82c52"
+      "sha256": "ab32e7c266102f266aadaed04ed50d2571119156552de17db1372e2fe75b7e62",
+      "size": 11799,
+      "normalized_sha256": "ab32e7c266102f266aadaed04ed50d2571119156552de17db1372e2fe75b7e62"
     },
     "docs/projects/go_projects/clictl/clictl 使用指南.md": {
-      "sha256": "890ca6f05b2f1ecb418e5de7c602f3d2d0d346e5992a6cb23d7a9c587a6c81bc",
-      "size": 13311,
-      "normalized_sha256": "890ca6f05b2f1ecb418e5de7c602f3d2d0d346e5992a6cb23d7a9c587a6c81bc"
+      "sha256": "99050b881f55eb4683e244313154c40d7c053a69d61ee2d2d25e812b785cc9e5",
+      "size": 13702,
+      "normalized_sha256": "99050b881f55eb4683e244313154c40d7c053a69d61ee2d2d25e812b785cc9e5"
     },
     "docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
       "role": "index",
@@ -1033,6 +1066,16 @@
       "sha256": "569a02b1ded0e0d8fc52c06ba6cfedae79e125a3aab6ea850aa6647f98d771c5",
       "size": 2744,
       "normalized_sha256": "569a02b1ded0e0d8fc52c06ba6cfedae79e125a3aab6ea850aa6647f98d771c5"
+    },
+    "docs/projects/go_projects/clictl/plans/04-groups-view-sort.md": {
+      "sha256": "f6383b2122f9b838f7a9454bd87d0cfa16d8edbff60540cb41417476e02f7c72",
+      "size": 4090,
+      "normalized_sha256": "f6383b2122f9b838f7a9454bd87d0cfa16d8edbff60540cb41417476e02f7c72"
+    },
+    "docs/projects/go_projects/clictl/plans/05-window-activate.md": {
+      "sha256": "732a555bdfa7dda7d92747549eb779bdc148fdb1c8314ae39bcbd6a62134e8f5",
+      "size": 8660,
+      "normalized_sha256": "b215af3f93fa1cdac71732d4e2f487ba30bfe173b87658add7ebc0e58c66efa1"
     },
     "docs/projects/go_projects/exestarter/接口文档.md": {
       "role": "index",
@@ -1292,6 +1335,11 @@
       "size": 8725,
       "normalized_sha256": "303e7694ac90a61d0754c59b36ce8cb27540b3e75c82918d9503b3e2117105d2"
     },
+    "docs/projects/go_projects/mail2feishu/plans/01-mail2feishu.md": {
+      "sha256": "7e1cb4467554fafd934e689e529a3a9e4fb88d270fdd102ac068192a49afa25d",
+      "size": 6413,
+      "normalized_sha256": "394c83f1a02d313b6f7beb41e02f38e91faad6124d2bd2b8e1f976834bbfa42d"
+    },
     "docs/projects/go_projects/plans/01-exe-icon-rebuild.md": {
       "role": "index",
       "sha256": "7ad36d974e8527e824c025ac7c31f46be976526c067c6367b451a544539cbfe2",
@@ -1359,10 +1407,25 @@
       "size": 3724,
       "normalized_sha256": "4f7100da737746b2b8e47feb10cd45cf7a9a7fa5ba5eb987f82e33b03109bf7c"
     },
+    "docs/projects/go_projects/taskbarguard/plans/04-chrome-pwa-harness-shortcut-alignment.md": {
+      "sha256": "bc0d852ee109aec8adab942a49cbd311c83368d3bcd1c78b6b611d775b05a7cf",
+      "size": 5032,
+      "normalized_sha256": "edded3a27c4d3a46f346386f384507e8b003be60fe8953ff54c6267432d71416"
+    },
     "docs/projects/go_projects/taskbarguard/v3 架构调研.md": {
       "sha256": "935791061a56b5cf45937b83428b616809bcd0adbf294236715d2d1ac139b03d",
       "size": 42875,
       "normalized_sha256": "935791061a56b5cf45937b83428b616809bcd0adbf294236715d2d1ac139b03d"
+    },
+    "docs/projects/go_projects/termhub/plans/01-termhub-vertical-slices.md": {
+      "sha256": "4b6efc2d2e6a3ddc119ab45c237599317672e7a5de69856dfc8d735112061b2c",
+      "size": 10486,
+      "normalized_sha256": "3ae73faece3d0987b8e9daf6838396aa77b4208f331fa2f0aa080e8c5a802b93"
+    },
+    "docs/projects/go_projects/termhub/specs/01-termhub-terminal-manager-spec.md": {
+      "sha256": "7b1001649479f452846041a3018c7d42ef73e2b4dfe6f689d20c3a9f8860a6f7",
+      "size": 6698,
+      "normalized_sha256": "7b1001649479f452846041a3018c7d42ef73e2b4dfe6f689d20c3a9f8860a6f7"
     },
     "docs/projects/go_projects/typeai-gui/specs/01-universal-terminal-shell/design.md": {
       "sha256": "55588d64f93b42ce7ff499281b3facc817733183fa763a59d55ed45271144f16",
@@ -1378,6 +1441,36 @@
       "sha256": "7fb6a8f9aadd620cb19df8e36d6f6b42427b1c13c8bf2bfb9a305bcc29610634",
       "size": 5400,
       "normalized_sha256": "7fb6a8f9aadd620cb19df8e36d6f6b42427b1c13c8bf2bfb9a305bcc29610634"
+    },
+    "docs/projects/go_projects/typeai/plans/02-resume-session-picker.md": {
+      "sha256": "abe72884fd88a750d320393bdb75246086929d9deb401804bafabf868438e89e",
+      "size": 4752,
+      "normalized_sha256": "7553051a05db2b63d90a5f6961d3377c9fb914d2ca0dd21c6ad8b4f44a70aa17"
+    },
+    "docs/projects/go_projects/typeai/plans/03-session-rename.md": {
+      "sha256": "cf12382f58b70218117955bc18d86277749b60e331d0f21cbc572dc466e2ad3e",
+      "size": 2476,
+      "normalized_sha256": "5932ef4a73cc6fee2e5aa4b0b95802a264b3202d4a2647a8cb666509b29a529b"
+    },
+    "docs/projects/go_projects/typeai/plans/04-sidebar-deai-refactor.md": {
+      "sha256": "a1cb4d967ff923e54432fd7590a7d0d92e34295445b496aa58db6f0bf91ba647",
+      "size": 5061,
+      "normalized_sha256": "a7689292d1858f42da7dd38922d728ba8cbca6d51e2275d2cb49cccc54ae30e3"
+    },
+    "docs/projects/go_projects/typeai/plans/05-ui-redesign-v2.md": {
+      "sha256": "d83e66823012cfdf894f20ea0524a2b97a69080468a7ecb8bd1bf63bf23dc9a2",
+      "size": 4546,
+      "normalized_sha256": "d83e66823012cfdf894f20ea0524a2b97a69080468a7ecb8bd1bf63bf23dc9a2"
+    },
+    "docs/projects/go_projects/typeai/plans/06-session-rename-persist.md": {
+      "sha256": "44c237fa271af7b68cbcb4d7e886db7db6925c397aaa58334bee81d4e23eb5d0",
+      "size": 10595,
+      "normalized_sha256": "44c237fa271af7b68cbcb4d7e886db7db6925c397aaa58334bee81d4e23eb5d0"
+    },
+    "docs/projects/go_projects/typeai/plans/walkthrough-06-session-rename-persist.md": {
+      "sha256": "7fecff24e3175571d4b0b0f18070260b80423b0c4d4ac940e196bb65612ef94f",
+      "size": 3030,
+      "normalized_sha256": "7fecff24e3175571d4b0b0f18070260b80423b0c4d4ac940e196bb65612ef94f"
     },
     "docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md": {
       "role": "index",
@@ -1438,6 +1531,16 @@
       "sha256": "dc8679fcef4bf19148933fbeb790496dea80708f3c70e93a0693b6aa112c4dcb",
       "size": 405,
       "normalized_sha256": "6897437bc767618806215944b98e8964100df0f7f69176853a2d170db95f4d6d"
+    },
+    "docs/projects/java_projects/agent-lab/plans/01-tickets.md": {
+      "sha256": "df14f85f98731f2b983812e544c9b8c42e187cc0158936c9a661f325707d69b3",
+      "size": 6074,
+      "normalized_sha256": "df14f85f98731f2b983812e544c9b8c42e187cc0158936c9a661f325707d69b3"
+    },
+    "docs/projects/java_projects/agent-lab/specs/01-agent-lab-spec.md": {
+      "sha256": "9fe0bd4ec05b1a6d6f784e080591578888f46714c5fc27e436a0ba78859798e9",
+      "size": 7556,
+      "normalized_sha256": "9fe0bd4ec05b1a6d6f784e080591578888f46714c5fc27e436a0ba78859798e9"
     },
     "docs/projects/python_projects/django-lab/ORM 对照手册.md": {
       "role": "index",
@@ -1644,10 +1747,25 @@
       "size": 38880,
       "normalized_sha256": "f03294a7919846bd341bdd71deb50d47dc89d4ada4cca5a2084e2f6de2c1634b"
     },
+    "docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/design.md": {
+      "sha256": "3e0c217bb9f62641a405e8993403a1d17eb5aa9669542ab6981eace95b1258f8",
+      "size": 10490,
+      "normalized_sha256": "3e0c217bb9f62641a405e8993403a1d17eb5aa9669542ab6981eace95b1258f8"
+    },
+    "docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/requirements.md": {
+      "sha256": "fa858403c24f9b9d229317cedd3049498cd307b21dba4a20becd8dcf906c45a1",
+      "size": 7516,
+      "normalized_sha256": "fa858403c24f9b9d229317cedd3049498cd307b21dba4a20becd8dcf906c45a1"
+    },
+    "docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/tasks.md": {
+      "sha256": "6b499504a921036995301bc9281c70f7478e83ce795766420ed7413aad8239a2",
+      "size": 5193,
+      "normalized_sha256": "6b499504a921036995301bc9281c70f7478e83ce795766420ed7413aad8239a2"
+    },
     "docs/projects/python_projects/zedhub/zedhub 对接协议.md": {
-      "sha256": "cf51ac41df1b2673b0aabaeabf52c24c0daab0a5c7aa3813e66c356d8b3d2a2d",
-      "size": 7922,
-      "normalized_sha256": "cf51ac41df1b2673b0aabaeabf52c24c0daab0a5c7aa3813e66c356d8b3d2a2d"
+      "sha256": "748e7dde3f7b4f18d88057a1fc1cf8c0b0fa71059b22d675b4925c971d33fc1d",
+      "size": 8590,
+      "normalized_sha256": "748e7dde3f7b4f18d88057a1fc1cf8c0b0fa71059b22d675b4925c971d33fc1d"
     },
     "docs/projects/rust_projects/minieverything/minieverything 开发笔记.md": {
       "role": "index",
@@ -1671,6 +1789,11 @@
       "sha256": "5f989367459cac7a31c9331e70f0b96b242898286891e0994e93cecfc050fa4f",
       "size": 13725,
       "normalized_sha256": "5f989367459cac7a31c9331e70f0b96b242898286891e0994e93cecfc050fa4f"
+    },
+    "docs/projects/typescript_projects/taskmon/plans/03-GUI双通道桌面化.md": {
+      "sha256": "8b05b9ed66e18252b8fe2febd4c4f630bd15b6d78517cdc8fdc856c4962f36cd",
+      "size": 5308,
+      "normalized_sha256": "8b05b9ed66e18252b8fe2febd4c4f630bd15b6d78517cdc8fdc856c4962f36cd"
     },
     "docs/projects/typescript_projects/taskmon/taskmon AI 问答功能开发计划（人脑思考版）.md": {
       "role": "index",
@@ -1697,9 +1820,9 @@
       "normalized_sha256": "9e55599fe10f1346016f993a6dc0814da51d3fc3e0db118b0250c6cc412ee8ef"
     },
     "docs/repo/AutoHotkey 极速应用切换与 Toggle 自动化配置指南.md": {
-      "sha256": "c9668e320ebbcd7fc099aed8de75da2eeae1b1bcb7dd13ae4022a94978cbc6a7",
-      "size": 7164,
-      "normalized_sha256": "e2f029bd0d3622b97116e96f32f6396b7ffbb7c805d9a622dc954bf377e7aaad"
+      "sha256": "1ff0334c008e9d558fe9cbc9b4766b33b4bf740488bc13252e915410126283b9",
+      "size": 15805,
+      "normalized_sha256": "fd260ad0f3b57f03228205a6f79ede7aaf6fd75cfdfa20755f69e29f2d856a85"
     },
     "docs/repo/Git 子模块临时注销（native、rust）.md": {
       "role": "index",
@@ -1772,6 +1895,11 @@
       "sha256": "27ef7db6b56c45ffbffb1a63f923e8b9a97bbb7cfb52a9498ba2404346e6f860",
       "size": 24032,
       "normalized_sha256": "27ef7db6b56c45ffbffb1a63f923e8b9a97bbb7cfb52a9498ba2404346e6f860"
+    },
+    "docs/repo/antigravity-app-window-state-persistence-research.md": {
+      "sha256": "5eecf25df0908a12ef27abc48d7d7490244cd0e58fbb203c61a78daaf0d0dce4",
+      "size": 10003,
+      "normalized_sha256": "5eecf25df0908a12ef27abc48d7d7490244cd0e58fbb203c61a78daaf0d0dce4"
     },
     "docs/repo/antigravity-manager-cli-only-research.md": {
       "sha256": "3829dfbb0f087a167616e9c3869bcf3e7ab6d61af84ed5c5062ef24896fd1cd8",
