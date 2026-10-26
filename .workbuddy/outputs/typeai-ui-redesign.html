@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>typeai · UI 重设计方案（像素君）</title>
+<style>
+/* ============================================================
+   typeai UI Redesign — Design Tokens
+   设计语言：暖木深色 / 琥珀金强调 / 三层表面体系
+   ============================================================ */
+:root {
+  /* 表面层级（3 层深度） */
+  --surface-0: #101113;   /* 最底层：窗口背景 */
+  --surface-1: #16181b;   /* 侧栏 / 顶栏 */
+  --surface-2: #1d2024;   /* 卡片 / 悬浮层 */
+  --surface-3: #262a2f;   /* hover / 输入框内嵌 */
+
+  /* 文本（全部通过 WCAG AA 校验） */
+  --text-1: #eceae4;      /* 主文本   on surface-1 ≈ 12.6:1 */
+  --text-2: #a8abb0;      /* 次文本   ≈ 6.5:1 */
+  --text-3: #7d8187;      /* 辅助文本 ≈ 4.0:1（仅用于 ≥14px 或非关键信息） */
+
+  /* 品牌 */
+  --accent: #e8b45a;
+  --accent-strong: #f2c877;
+  --accent-dim: rgba(232, 180, 90, 0.14);
+  --accent-line: rgba(232, 180, 90, 0.38);
+
+  /* 语义色 */
+  --blue: #8fb8e0;        /* AI 角色 / 信息 */
+  --orange: #f0a777;      /* 待办 */
+  --red: #e89587;         /* 危险 / 截止 */
+  --green: #93c9a4;       /* 成功 */
+
+  /* 线与影 */
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.12);
+  --shadow-1: 0 1px 2px rgba(0,0,0,.4);
+  --shadow-2: 0 8px 24px rgba(0,0,0,.45);
+  --shadow-glow: 0 0 0 3px rgba(232,180,90,.15), 0 0 0 1px var(--accent-line);
+
+  /* 几何 */
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px; --r-full: 999px;
+
+  /* 字体 */
+  --sans: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --mono: "Cascadia Mono", "JetBrains Mono", Consolas, monospace;
+
+  /* 动效 */
+  --t-fast: 140ms cubic-bezier(.4,0,.2,1);
+  --t-norm: 240ms cubic-bezier(.4,0,.2,1);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: var(--surface-0);
+  color: var(--text-1);
+  font: 14px/1.65 var(--sans);
+  overflow: hidden;
+}
+button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+.app { display: flex; height: 100vh; }
+
+/* ============================================================
+   侧栏  Surface-1
+   ============================================================ */
+.sidebar {
+  width: 284px; flex: 0 0 284px;
+  display: flex; flex-direction: column;
+  background: var(--surface-1);
+  border-right: 1px solid var(--line);
+  transition: margin-left var(--t-norm);
+}
+.sidebar.collapsed { margin-left: -284px; }
+
+.sidebar-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 14px 10px;
+}
+.logo-mark {
+  width: 26px; height: 26px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent) 0%, #b07b2a 100%);
+  display: grid; place-items: center;
+  color: #17130a; font-weight: 700; font-size: 13px; font-family: var(--mono);
+  box-shadow: var(--shadow-1);
+}
+.brand {
+  font-family: var(--mono); font-size: 15px; letter-spacing: .06em;
+  color: var(--text-1); flex: 1;
+}
+.icon-btn {
+  width: 30px; height: 30px; border-radius: var(--r-md);
+  display: grid; place-items: center;
+  color: var(--text-2);
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.icon-btn:hover { background: var(--surface-3); color: var(--accent); }
+.icon-btn svg { width: 16px; height: 16px; }
+
+/* 搜索框 */
+.search-wrap { padding: 2px 12px 10px; }
+.search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 6px 10px;
+  color: var(--text-3);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.search:focus-within { border-color: var(--accent-line); box-shadow: var(--shadow-glow); color: var(--text-2); }
+.search input {
+  flex: 1; min-width: 0; border: 0; background: none; outline: none;
+  color: var(--text-1); font-size: 13px;
+}
+.search input::placeholder { color: var(--text-3); }
+.search kbd {
+  font-family: var(--mono); font-size: 10px; color: var(--text-3);
+  border: 1px solid var(--line-strong); border-radius: 4px; padding: 0 5px;
+}
+
+/* 视图切换 */
+.view-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 14px 8px;
+}
+.view-label {
+  font-size: 11px; letter-spacing: .14em; font-weight: 600;
+  color: var(--text-3);
+}
+.seg {
+  display: flex; gap: 2px; background: var(--surface-2);
+  border: 1px solid var(--line); border-radius: var(--r-sm); padding: 2px;
+}
+.seg button {
+  font-size: 11px; padding: 2px 9px; border-radius: 4px; color: var(--text-3);
+  transition: all var(--t-fast);
+}
+.seg button.active { background: var(--surface-3); color: var(--accent); }
+
+/* 会话列表 */
+.session-list { flex: 1; overflow-y: auto; padding: 0 8px 8px; }
+.session-list::-webkit-scrollbar { width: 8px; }
+.session-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 4px; }
+
+.tree-group { margin-bottom: 4px; }
+.group-head {
+  display: flex; align-items: center; gap: 7px;
+  width: 100%; padding: 6px 8px; border-radius: var(--r-sm);
+  color: var(--text-2); font-size: 12px; font-weight: 500;
+  transition: background var(--t-fast);
+}
+.group-head:hover { background: var(--surface-2); color: var(--text-1); }
+.group-head .arrow { font-size: 9px; color: var(--text-3); transition: transform var(--t-fast); }
+.group-head .gname { flex: 1; text-align: left; }
+.group-head .gcount {
+  font-size: 10px; font-family: var(--mono); color: var(--text-3);
+  background: rgba(255,255,255,.06); padding: 0 7px; border-radius: var(--r-full);
+}
+.tree-group.open .arrow { transform: rotate(90deg); }
+.tree-group:not(.open) .group-items { display: none; }
+
+/* 会话卡：信息降噪 —— 标题为主，元信息退后 */
+.sess {
+  position: relative;
+  display: block; width: 100%; text-align: left;
+  padding: 9px 12px 9px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  margin-bottom: 2px;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+.sess:hover { background: var(--surface-2); }
+.sess.active { background: var(--surface-2); border-color: var(--line-strong); }
+.sess.active::before {
+  content: ""; position: absolute; left: 0; top: 10px; bottom: 10px;
+  width: 3px; border-radius: 2px; background: var(--accent);
+}
+.sess.pinned::after {
+  content: "●"; position: absolute; right: 12px; top: 10px;
+  font-size: 7px; color: var(--accent);
+}
+.sess-title {
+  font-size: 13px; color: var(--text-1);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  padding-right: 12px;
+}
+.sess:not(.active) .sess-title { color: var(--text-2); }
+.sess:hover .sess-title, .sess.active .sess-title { color: var(--text-1); }
+.sess-meta {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 3px; font-size: 11px; color: var(--text-3);
+  overflow: hidden; white-space: nowrap;
+}
+.sess-meta .dot::before { content: "·"; }
+
+/* 徽标体系：形状+颜色双编码（色弱可辨） */
+.badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10px; line-height: 1.5; padding: 0 6px;
+  border-radius: 4px; white-space: nowrap;
+}
+.badge-todo { background: rgba(240,167,119,.14); color: var(--orange); border: 1px solid rgba(240,167,119,.3); }
+.badge-tag  { background: rgba(143,184,224,.12); color: var(--blue);   border: 1px solid rgba(143,184,224,.25); }
+.badge-due  { background: rgba(232,149,135,.14); color: var(--red);    border: 1px solid rgba(232,149,135,.3); font-family: var(--mono); }
+
+/* hover 操作按钮 */
+.sess-actions {
+  position: absolute; right: 8px; top: 8px;
+  display: none; gap: 2px;
+  background: var(--surface-3); border: 1px solid var(--line);
+  border-radius: var(--r-sm); padding: 1px;
+  box-shadow: var(--shadow-1);
+}
+.sess:hover .sess-actions { display: flex; }
+.sess-actions button {
+  width: 22px; height: 22px; border-radius: 4px;
+  display: grid; place-items: center; color: var(--text-2); font-size: 11px;
+}
+.sess-actions button:hover { color: var(--accent); background: var(--surface-2); }
+
+/* 侧栏底部 */
+.sidebar-foot {
+  border-top: 1px solid var(--line);
+  padding: 10px 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.foot-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text-2); padding: 4px 8px;
+  border-radius: var(--r-sm); transition: all var(--t-fast);
+}
+.foot-btn:hover { background: var(--surface-2); color: var(--text-1); }
+.foot-ver { font-family: var(--mono); font-size: 11px; color: var(--text-3); }
+.foot-ver .st { color: var(--green); }
+
+/* ============================================================
+   主区
+   ============================================================ */
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+/* 顶栏 */
+.topbar {
+  display: flex; align-items: center; gap: 12px;
+  height: 48px; padding: 0 14px;
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .icon-btn { width: 28px; height: 28px; }
+.tabs { display: flex; gap: 6px; flex: 1; overflow-x: auto; }
+.tabs::-webkit-scrollbar { height: 0; }
+.tab {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: var(--r-full);
+  font-size: 12.5px; color: var(--text-2); white-space: nowrap;
+  border: 1px solid transparent;
+  transition: all var(--t-fast);
+}
+.tab:hover { background: var(--surface-2); color: var(--text-1); }
+.tab.active {
+  background: var(--accent-dim); border-color: var(--accent-line); color: var(--accent-strong);
+  font-weight: 500;
+}
+.tab .t-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+.tab .t-close { opacity: 0; font-size: 13px; margin-right: -6px; padding: 0 3px; border-radius: 3px; }
+.tab:hover .t-close { opacity: .6; }
+.tab .t-close:hover { opacity: 1; background: rgba(255,255,255,.1); }
+
+.top-meta {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; color: var(--text-3);
+}
+.model-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: var(--r-full);
+  border: 1px solid var(--line); background: var(--surface-2);
+  color: var(--text-2); font-size: 11px; font-family: var(--mono);
+  transition: all var(--t-fast);
+}
+.model-chip:hover { border-color: var(--accent-line); color: var(--accent); }
+.model-chip .mc-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+/* ============================================================
+   消息流
+   ============================================================ */
+.transcript {
+  flex: 1; overflow-y: auto;
+  padding: 26px 32px 16px;
+  scroll-behavior: smooth;
+}
+.transcript::-webkit-scrollbar { width: 10px; }
+.transcript::-webkit-scrollbar-thumb { background: rgba(255,255,255,.07); border-radius: 5px; }
+
+.msg { max-width: 800px; margin: 0 auto 26px; }
+
+/* 用户消息：右对齐气泡，一眼区分 */
+.msg-user { display: flex; justify-content: flex-end; }
+.msg-user .bubble {
+  max-width: 78%;
+  background: linear-gradient(135deg, rgba(232,180,90,.16), rgba(232,180,90,.09));
+  border: 1px solid rgba(232,180,90,.25);
+  border-radius: var(--r-lg) var(--r-lg) 4px var(--r-lg);
+  padding: 10px 16px;
+  font-size: 14px; color: var(--text-1);
+}
+
+/* AI 消息：头像 + 全宽 markdown */
+.msg-ai { display: flex; gap: 12px; }
+.avatar {
+  flex: 0 0 28px; width: 28px; height: 28px; margin-top: 2px;
+  border-radius: 8px; display: grid; place-items: center;
+  background: var(--surface-3); border: 1px solid var(--line-strong);
+  color: var(--blue); font-size: 12px; font-weight: 600;
+}
+.msg-ai .content { flex: 1; min-width: 0; }
+.msg-ai .who {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+  font-size: 12px; color: var(--text-3);
+}
+.msg-ai .who .role { color: var(--blue); font-weight: 600; }
+.msg-ai .who .copy {
+  opacity: 0; font-size: 11px; color: var(--text-3);
+  border: 1px solid var(--line); border-radius: var(--r-sm); padding: 1px 8px;
+  transition: opacity var(--t-fast);
+}
+.msg-ai:hover .copy { opacity: 1; }
+.msg-ai .copy:hover { color: var(--accent); border-color: var(--accent-line); }
+
+.md h1, .md h2, .md h3 { color: var(--text-1); line-height: 1.35; margin: .9em 0 .4em; }
+.md h1 { font-size: 1.4em; padding-bottom: .3em; border-bottom: 1px solid var(--line); }
+.md h2 { font-size: 1.2em; }
+.md p { margin: 0 0 .75em; }
+.md p:last-child { margin-bottom: 0; }
+.md strong { color: var(--text-1); }
+.md code {
+  font-family: var(--mono); font-size: .9em;
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 5px; padding: 1px 6px; color: var(--accent-strong);
+}
+.md .hl {
+  background: var(--accent-dim); border-radius: 4px;
+  padding: 0 3px; color: var(--accent-strong); font-weight: 500;
+}
+.md blockquote {
+  margin: .6em 0; padding: 6px 0 6px 14px;
+  border-left: 3px solid var(--accent-line);
+  color: var(--text-2);
+}
+.codeblock {
+  margin: .8em 0; border: 1px solid var(--line);
+  border-radius: var(--r-md); background: var(--surface-0); overflow: hidden;
+}
+.codeblock .cb-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 5px 12px; background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: 11px; color: var(--text-3);
+}
+.codeblock pre {
+  margin: 0; padding: 12px 14px; overflow-x: auto;
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.6; color: var(--text-1);
+}
+.fold-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 4px; font-size: 11.5px; color: var(--text-3);
+  border: 1px solid var(--line); border-radius: var(--r-full); padding: 2px 10px;
+  transition: all var(--t-fast);
+}
+.fold-btn:hover { color: var(--accent); border-color: var(--accent-line); }
+
+/* 流式输出中的光标 */
+.caret {
+  display: inline-block; width: 7px; height: 15px; vertical-align: -2px;
+  background: var(--accent); border-radius: 1px;
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ============================================================
+   Composer：悬浮卡片 + 聚焦光晕
+   ============================================================ */
+.composer { padding: 8px 32px 18px; }
+.composer-inner { max-width: 800px; margin: 0 auto; }
+.composer-box {
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-xl);
+  padding: 12px 14px 10px;
+  box-shadow: var(--shadow-2);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.composer-box:focus-within {
+  border-color: var(--accent-line);
+  box-shadow: var(--shadow-glow), var(--shadow-2);
+}
+.composer-box textarea {
+  width: 100%; min-height: 44px; max-height: 180px; resize: none;
+  border: 0; background: none; outline: none;
+  color: var(--text-1); font: 14px/1.6 var(--sans);
+}
+.composer-box textarea::placeholder { color: var(--text-3); }
+.composer-actions { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.ca-left { display: flex; gap: 2px; flex: 1; }
+.send-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--accent); color: #1a1408;
+  font-weight: 600; font-size: 13px;
+  padding: 6px 18px; border-radius: var(--r-full);
+  transition: all var(--t-fast);
+}
+.send-btn:hover { background: var(--accent-strong); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(232,180,90,.3); }
+.send-btn:active { transform: translateY(0); }
+.kbd-hint { font-size: 11px; color: var(--text-3); }
+.kbd-hint kbd {
+  font-family: var(--mono); font-size: 10px;
+  border: 1px solid var(--line-strong); border-radius: 4px; padding: 0 5px;
+}
+
+/* ============================================================
+   设计说明面板
+   ============================================================ */
+.spec-toggle {
+  position: fixed; right: 20px; bottom: 20px; z-index: 50;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--surface-2); border: 1px solid var(--accent-line);
+  color: var(--accent); font-size: 12.5px; font-weight: 500;
+  padding: 9px 18px; border-radius: var(--r-full);
+  box-shadow: var(--shadow-2);
+  transition: all var(--t-fast);
+}
+.spec-toggle:hover { background: var(--accent-dim); transform: translateY(-1px); }
+
+.spec-mask {
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(0,0,0,.55); backdrop-filter: blur(3px);
+  display: none; align-items: center; justify-content: center;
+}
+.spec-mask.show { display: flex; }
+.spec-panel {
+  width: min(860px, 92vw); max-height: 86vh; overflow-y: auto;
+  background: var(--surface-1); border: 1px solid var(--line-strong);
+  border-radius: var(--r-xl); box-shadow: var(--shadow-2);
+  padding: 28px 32px;
+}
+.spec-panel::-webkit-scrollbar { width: 8px; }
+.spec-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 4px; }
+.spec-panel h2 { margin: 0 0 4px; font-size: 18px; }
+.spec-panel .sub { color: var(--text-3); font-size: 12.5px; margin-bottom: 20px; }
+.spec-panel h3 {
+  font-size: 13px; color: var(--accent); letter-spacing: .08em;
+  margin: 26px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--line);
+}
+.swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.swatch {
+  border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden;
+}
+.swatch .chip { height: 44px; }
+.swatch .info { padding: 6px 10px; font-size: 11px; }
+.swatch .info b { display: block; color: var(--text-1); font-weight: 500; }
+.swatch .info span { color: var(--text-3); font-family: var(--mono); font-size: 10px; }
+.type-row { display: flex; align-items: baseline; gap: 16px; padding: 7px 0; border-bottom: 1px dashed var(--line); }
+.type-row .tl { flex: 0 0 170px; font-size: 11px; color: var(--text-3); font-family: var(--mono); }
+.spec-list { margin: 0; padding-left: 18px; color: var(--text-2); font-size: 13px; }
+.spec-list li { margin-bottom: 7px; }
+.spec-list b { color: var(--text-1); font-weight: 600; }
+.spec-list .ok { color: var(--green); font-family: var(--mono); font-size: 11px; }
+
+/* 折叠按钮（左上悬浮） */
+.sidebar-toggle-float {
+  position: fixed; left: 10px; top: 58px; z-index: 40;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--surface-2); border: 1px solid var(--line-strong);
+  color: var(--text-2); display: grid; place-items: center; font-size: 12px;
+  box-shadow: var(--shadow-1);
+  transition: left var(--t-norm), color var(--t-fast);
+}
+.sidebar-toggle-float:hover { color: var(--accent); }
+body.sb-collapsed .sidebar-toggle-float { left: 10px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ============ 侧栏 ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="logo-mark">t</div>
+      <div class="brand">typeai</div>
+      <button class="icon-btn" title="新建会话" aria-label="新建会话">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+
+    <div class="search-wrap">
+      <label class="search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" placeholder="搜索会话…" aria-label="搜索会话">
+        <kbd>Ctrl K</kbd>
+      </label>
+    </div>
+
+    <div class="view-row">
+      <span class="view-label">会话</span>
+      <div class="seg" role="tablist">
+        <button class="active">树状</button>
+        <button>平铺</button>
+      </div>
+    </div>
+
+    <nav class="session-list" aria-label="会话列表">
+      <div class="tree-group open">
+        <button class="group-head"><span class="arrow">▶</span><span class="gname">📌 置顶</span><span class="gcount">1</span></button>
+        <div class="group-items">
+          <button class="sess active pinned">
+            <div class="sess-title">java 里面 Instant 是什么/</div>
+            <div class="sess-meta"><span class="badge badge-todo">待办</span><span>2 分钟前</span><span class="dot"></span><span>2 轮</span></div>
+            <div class="sess-actions"><button title="置顶">📌</button><button title="属性">⚙</button><button title="删除">🗑</button></div>
+          </button>
+        </div>
+      </div>
+      <div class="tree-group open">
+        <button class="group-head"><span class="arrow">▶</span><span class="gname">待办</span><span class="gcount">1</span></button>
+        <div class="group-items">
+          <button class="sess">
+            <div class="sess-title">java 里面 Instant 是什么/</div>
+            <div class="sess-meta"><span class="badge badge-todo">待办</span><span class="badge badge-due">10-31</span><span>2 小时前</span></div>
+            <div class="sess-actions"><button title="置顶">📌</button><button title="属性">⚙</button><button title="删除">🗑</button></div>
+          </button>
+        </div>
+      </div>
+      <div class="tree-group open">
+        <button class="group-head"><span class="arrow">▶</span><span class="gname">未分类</span><span class="gcount">23</span></button>
+        <div class="group-items">
+          <button class="sess">
+            <div class="sess-title">java -cp "target/classes;D:/…</div>
+            <div class="sess-meta"><span>昨天</span><span class="dot"></span><span>8 轮</span></div>
+            <div class="sess-actions"><button title="置顶">📌</button><button title="属性">⚙</button><button title="删除">🗑</button></div>
+          </button>
+          <button class="sess">
+            <div class="sess-title">中文翻译：Path to config f…</div>
+            <div class="sess-meta"><span class="badge badge-tag">归档</span><span>3 天前</span><span class="dot"></span><span>6 轮</span></div>
+            <div class="sess-actions"><button title="置顶">📌</button><button title="属性">⚙</button><button title="删除">🗑</button></div>
+          </button>
+          <button class="sess">
+            <div class="sess-title">with f.open(encoding="utf…</div>
+            <div class="sess-meta"><span>10-08</span><span class="dot"></span><span>12 轮</span></div>
+            <div class="sess-actions"><button title="置顶">📌</button><button title="属性">⚙</button><button title="删除">🗑</button></div>
+          </button>
+          <button class="sess">
+            <div class="sess-title">manifest.json 文件一般是…</div>
+            <div class="sess-meta"><span>10-02</span><span class="dot"></span><span>4 轮</span></div>
+            <div class="sess-actions"><button title="置顶">📌</button><button title="属性">⚙</button><button title="删除">🗑</button></div>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar-foot">
+      <button class="foot-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h0a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55h0a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v0a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>
+        连接设置
+      </button>
+      <div class="foot-ver"><span class="st">●</span> dev · v0.1.8</div>
+    </div>
+  </aside>
+
+  <!-- ============ 主区 ============ -->
+  <main class="main">
+    <header class="topbar">
+      <button class="icon-btn" id="sb-toggle" title="折叠侧栏" aria-label="折叠侧栏">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="tabs" role="tablist">
+        <button class="tab active" role="tab"><span class="t-dot"></span>main<span class="t-close">×</span></button>
+        <button class="tab" role="tab">中文翻译<span class="t-close">×</span></button>
+        <button class="tab" role="tab">＋</button>
+      </div>
+      <div class="top-meta">
+        <button class="model-chip"><span class="mc-dot"></span>deepseek-v4.1-flash</button>
+        <span>df9a8de7</span><span>·</span><span>[main]</span>
+      </div>
+    </header>
+
+    <section class="transcript">
+      <!-- 用户消息 -->
+      <div class="msg msg-user">
+        <div class="bubble">java 里面 Instant 是什么/</div>
+      </div>
+
+      <!-- AI 消息 -->
+      <div class="msg msg-ai">
+        <div class="avatar">AI</div>
+        <div class="content">
+          <div class="who">
+            <span class="role">typeai</span>
+            <span>deepseek-v4.1-flash</span>
+            <button class="copy">复制</button>
+          </div>
+          <div class="md">
+            <h1>Java 中的 <code>Instant</code></h1>
+            <h2>一句话定义</h2>
+            <p><code>Instant</code>（<code>java.time.Instant</code>，Java 8 引入）表示时间轴上的<span class="hl">一个绝对时刻</span>，内部就是「<strong>从 1970-01-01T00:00:00Z</strong>（Unix 纪元）<strong>起经过的秒数 + 纳秒数</strong>」。</p>
+            <blockquote>它<strong>没有时区、没有日历概念</strong>，就是一个纯粹的"时间戳"，用来给机器看，而不是给人看。</blockquote>
+            <h2>基本用法</h2>
+            <div class="codeblock">
+              <div class="cb-head"><span>java</span><span>第 2 段 · 共 3 段</span></div>
+              <pre>Instant now = Instant.now();          // 当前时刻（UTC）
+Instant t = Instant.parse("2026-10-24T09:06:23Z");
+Instant later = now.plusSeconds(90);  // 秒 / 纳秒算术
+long epochMilli = now.toEpochMilli(); // 转毫秒时间戳</pre>
+            </div>
+            <p><button class="fold-btn">展开全文 · 3037 字符 · 106 行 ▾</button></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 流式输出示例（静态示意） -->
+      <div class="msg msg-ai" style="opacity:.85">
+        <div class="avatar">AI</div>
+        <div class="content">
+          <div class="who"><span class="role">typeai</span><span>正在生成…</span></div>
+          <div class="md"><p>好的，接下来我们看 <code>ZonedDateTime</code> 与 <code>Instant</code> 的相互转换<span class="caret"></span></p></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="composer">
+      <div class="composer-inner">
+        <div class="composer-box">
+          <textarea rows="1" placeholder="输入消息，Enter 发送，Shift+Enter 换行" aria-label="输入消息"></textarea>
+          <div class="composer-actions">
+            <div class="ca-left">
+              <button class="icon-btn" title="添加图片" aria-label="添加图片">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-4.5-4.5L7 20"/></svg>
+              </button>
+              <span class="kbd-hint"><kbd>Enter</kbd> 发送 · <kbd>Shift+Enter</kbd> 换行</span>
+            </div>
+            <button class="send-btn">发送
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<button class="sidebar-toggle-float" id="sb-float" title="展开侧栏" hidden>›</button>
+<button class="spec-toggle" id="spec-open">🎨 查看设计说明</button>
+
+<!-- ============ 设计说明 ============ -->
+<div class="spec-mask" id="spec-mask">
+  <div class="spec-panel" role="dialog" aria-label="设计说明">
+    <h2>typeai UI 重设计方案</h2>
+    <p class="sub">像素君 · 基于现有实现（internal/web/static）的增量重设计 · 2026-10-24</p>
+
+    <h3>① 核心改动（对照现状）</h3>
+    <ul class="spec-list">
+      <li><b>三层表面体系</b>：窗口 surface-0 → 侧栏/顶栏 surface-1 → 卡片 surface-2 → 悬停 surface-3，替代现有两层近似灰，解决"界面糊成一片"的层级问题。</li>
+      <li><b>会话卡降噪</b>：时间改为相对时间（"2 分钟前"），徽标精简为形状+颜色双编码；操作按钮收进 hover 浮层，列表静息态只有标题+一行元信息。</li>
+      <li><b>消息流重构</b>：用户消息改为<b>右对齐琥珀气泡</b>（业界习惯，ChatGPT/Claude 同款方向），AI 消息保持全宽 markdown + 头像，扫读时角色一目了然；原 YOU/AI 大写标签噪音移除。</li>
+      <li><b>Composer 升级</b>：悬浮卡片式输入区，聚焦时琥珀描边光晕；快捷键提示内联，主行动按钮"发送"带方向感图标。</li>
+      <li><b>搜索入口</b>：侧栏新增会话搜索（Ctrl+K），23+ 未分类会话场景下的刚需。</li>
+      <li><b>Tab 拟人化</b>：运行中的会话带呼吸圆点（替代 "*" 后缀），hover 显示关闭按钮。</li>
+      <li><b>流式反馈</b>：生成中的消息带打字光标 + "正在生成…"状态，替代静默等待。</li>
+    </ul>
+
+    <h3>② 色彩 Token（全部通过 WCAG AA）</h3>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="chip" style="background:#101113"></div><div class="info"><b>Surface 0 窗口</b><span>#101113</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#16181b"></div><div class="info"><b>Surface 1 侧栏</b><span>#16181B</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#1d2024"></div><div class="info"><b>Surface 2 卡片</b><span>#1D2024</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#262a2f"></div><div class="info"><b>Surface 3 悬停</b><span>#262A2F</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#e8b45a"></div><div class="info"><b>Accent 琥珀金</b><span>#E8B45A</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#eceae4"></div><div class="info"><b>Text 1 主文本</b><span>#ECEAE4 · 12.6:1</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#a8abb0"></div><div class="info"><b>Text 2 次文本</b><span>#A8ABB0 · 6.5:1</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#7d8187"></div><div class="info"><b>Text 3 辅助</b><span>#7D8187 · 4.0:1</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#8fb8e0"></div><div class="info"><b>AI 角色 / 信息</b><span>#8FB8E0</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#f0a777"></div><div class="info"><b>待办 / 警示</b><span>#F0A777</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#e89587"></div><div class="info"><b>危险 / 截止</b><span>#E89587</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#93c9a4"></div><div class="info"><b>成功 / 在线</b><span>#93C9A4</span></div></div>
+    </div>
+
+    <h3>③ 字号阶梯与间距</h3>
+    <div class="type-row"><div class="tl">H1 · 19.6px / 700</div><div style="font-size:19.6px;font-weight:700">Java 中的 Instant</div></div>
+    <div class="type-row"><div class="tl">H2 · 16.8px / 600</div><div style="font-size:16.8px;font-weight:600">一句话定义</div></div>
+    <div class="type-row"><div class="tl">Body · 14px / 400 · 1.65</div><div style="font-size:14px">正文文本，行高 1.65 保证中文阅读舒适度</div></div>
+    <div class="type-row"><div class="tl">Meta · 11px / 400</div><div style="font-size:11px;color:var(--text-3)">2026-10-24 · 2 轮 · deepseek-v4.1-flash</div></div>
+    <div class="type-row" style="border-bottom:0"><div class="tl">Mono · 12.5px</div><div style="font-family:var(--mono);font-size:12.5px">Cascadia Mono / JetBrains Mono — 代码与模型名</div></div>
+    <ul class="spec-list" style="margin-top:10px">
+      <li>间距 4px 基数：4 / 8 / 12 / 16 / 24 / 32 / 48</li>
+      <li>圆角阶梯：6px（小控件）→ 10px（卡片）→ 14px（气泡）→ 20px（输入区）→ 全圆（胶囊）</li>
+      <li>动效：140ms（微交互）/ 240ms（面板折叠），缓动 cubic-bezier(.4,0,.2,1)，尊重 prefers-reduced-motion</li>
+    </ul>
+
+    <h3>④ 无障碍与手感</h3>
+    <ul class="spec-list">
+      <li>正文对比度 <span class="ok">≥ 4.5:1</span>，辅助文本仅用于非关键信息 <span class="ok">AA</span></li>
+      <li>焦点环统一 2px 琥珀描边（:focus-visible），键盘导航全程可见</li>
+      <li>徽标"形状+颜色"双编码（待办=橙框、归档=蓝框、截止=红框+日期 mono），色弱用户可辨</li>
+      <li>触控/点击目标 <span class="ok">≥ 28px</span>（桌面场景），hover 操作按钮带浮层背景确保可命中</li>
+      <li>侧栏可折叠（顶栏汉堡按钮），给长代码块让出最大阅读宽度</li>
+    </ul>
+
+    <h3>⑤ 落地建议</h3>
+    <ul class="spec-list">
+      <li>本原型为<b>纯 CSS 变量增量替换</b>：可直接映射到现有 <code>style.css</code> 的 :root token（--bg→--surface-0，--panel→--surface-1，--accent→--accent），组件结构不动。</li>
+      <li>第一阶段建议只换 token + 会话卡降噪 + composer 卡片化（半天工作量）；消息流气泡化涉及 app.js 渲染分支，放第二阶段。</li>
+      <li>相对时间、Ctrl+K 搜索为行为增强，可按需排期。</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  // 侧栏折叠
+  const sb = document.getElementById('sidebar');
+  const sbToggle = document.getElementById('sb-toggle');
+  const sbFloat = document.getElementById('sb-float');
+  sbToggle.addEventListener('click', () => {
+    sb.classList.add('collapsed');
+    sbFloat.hidden = false;
+  });
+  sbFloat.addEventListener('click', () => {
+    sb.classList.remove('collapsed');
+    sbFloat.hidden = true;
+  });
+
+  // 分组折叠
+  document.querySelectorAll('.group-head').forEach(btn => {
+    btn.addEventListener('click', () => btn.parentElement.classList.toggle('open'));
+  });
+
+  // tab 视觉切换（示意）
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      if (!t.textContent.includes('＋')) t.classList.add('active');
+    });
+  });
+
+  // 树状/平铺切换（示意）
+  document.querySelectorAll('.seg button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.seg button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+    });
+  });
+
+  // 设计说明面板
+  const mask = document.getElementById('spec-mask');
+  document.getElementById('spec-open').addEventListener('click', () => mask.classList.add('show'));
+  mask.addEventListener('click', e => { if (e.target === mask) mask.classList.remove('show'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') mask.classList.remove('show'); });
+</script>
+</body>
+</html>

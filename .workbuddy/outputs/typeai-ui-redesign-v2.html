@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>typeai · UI 细化方案 v2（动态标签方向）</title>
+<style>
+/* ============================================================
+   typeai UI Refinement v2 — 顺延「动态标签 + 树状分组」方向
+   保留现有 token 命名（--bg/--panel/--panel-2/--accent），
+   仅做增量升级，便于直接映射回 style.css
+   ============================================================ */
+:root {
+  --bg: #17181a;
+  --panel: #1d1f22;
+  --panel-2: #232629;
+  --panel-3: #2a2e33;        /* 新增：hover/浮层第四层 */
+  --line: #303338;
+  --text: #e2dfd8;           /* 提亮一档，对比 11.5:1 */
+  --muted: #9a9ca0;          /* 提亮一档，对比 6.8:1 */
+  --faint: #7d8187;          /* 提亮一档，对比 4.6:1（达 AA） */
+  --accent: #d9a441;
+  --accent-soft: rgba(217, 164, 65, 0.14);
+  --accent-line: rgba(217, 164, 65, 0.4);
+  --danger: #c46a5c;
+  --radius: 10px;
+  --mono: "Cascadia Mono", "JetBrains Mono", Consolas, monospace;
+
+  /* ★ 新增：动态标签色板 —— 按标签名 hash 稳定取色，低饱和同明度 */
+  --tag-0: #d9a441;  /* 琥珀（待办专用） */
+  --tag-1: #8fb8e0;  /* 雾蓝 */
+  --tag-2: #a3b89a;  /* 灰绿 */
+  --tag-3: #c49fd6;  /* 藕紫 */
+  --tag-4: #e0998a;  /* 陶红 */
+  --tag-5: #7fc4bd;  /* 青碧 */
+  --tag-6: #d6b88a;  /* 沙棕 */
+  --tag-7: #b4b3d4;  /* 蓝紫灰 */
+
+  --t-fast: 140ms cubic-bezier(.4,0,.2,1);
+}
+
+* { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.12) transparent; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.22); }
+
+html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text);
+  font: 14px/1.6 "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; overflow: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+.app { display: flex; height: 100vh; }
+
+/* ============ 侧栏 ============ */
+.sidebar { width: 280px; flex: 0 0 280px; display: flex; flex-direction: column;
+  background: var(--panel); border-right: 1px solid var(--line); }
+
+.sidebar-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 14px 8px; }
+.brand { font-family: var(--mono); font-size: 15px; letter-spacing: .08em; color: var(--accent); }
+.icon-btn { border: 1px solid var(--line); background: var(--panel-2); border-radius: 8px;
+  width: 30px; height: 28px; color: var(--muted); transition: all var(--t-fast); }
+.icon-btn:hover { color: var(--accent); border-color: var(--accent-line); }
+
+/* ★ 搜索入口（Ctrl+K） */
+.search-wrap { padding: 2px 12px 10px; }
+.search { display: flex; align-items: center; gap: 8px; background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; color: var(--faint);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast); }
+.search:focus-within { border-color: var(--accent-line); box-shadow: 0 0 0 3px var(--accent-soft); }
+.search input { flex: 1; min-width: 0; border: 0; background: none; outline: none; color: var(--text); font-size: 13px; }
+.search input::placeholder { color: var(--faint); }
+.search kbd { font-family: var(--mono); font-size: 10px; color: var(--faint);
+  border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
+
+.sidebar-sub-row { display: flex; align-items: center; justify-content: space-between; padding: 2px 14px 8px; }
+.sidebar-sub { color: var(--faint); font-size: 11px; letter-spacing: .14em; font-weight: 600; }
+.sidebar-view-toggle { display: flex; gap: 2px; background: var(--bg); padding: 2px; border-radius: 6px; border: 1px solid var(--line); }
+.view-mode-btn { border: 0; background: transparent; color: var(--faint); padding: 2px 9px; font-size: 11px; border-radius: 4px; transition: all var(--t-fast); }
+.view-mode-btn.active { background: var(--panel-2); color: var(--accent); }
+
+.session-list { flex: 1; overflow-y: auto; padding: 0 8px 8px; }
+
+/* ★ 树状组头：标签色点 + 更清晰的层级 */
+.tree-group { margin-bottom: 4px; }
+.tree-group-header { display: flex; align-items: center; gap: 7px; padding: 6px 8px;
+  cursor: pointer; color: var(--muted); font-size: 12px; font-weight: 500; border-radius: 6px;
+  user-select: none; transition: background var(--t-fast), color var(--t-fast); }
+.tree-group-header:hover { background: var(--panel-2); color: var(--text); }
+.tree-arrow { font-size: 9px; color: var(--faint); transition: transform var(--t-fast); width: 10px; text-align: center; }
+.tree-group.collapsed .tree-arrow { transform: rotate(-90deg); }
+.tree-dot { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 7px; }
+.tree-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: .02em; }
+.tree-count { font-size: 10px; color: var(--faint); background: rgba(255,255,255,.05);
+  padding: 1px 7px; border-radius: 999px; font-family: var(--mono); }
+.tree-group-items { padding-left: 8px; margin-top: 2px; }
+.tree-group.collapsed .tree-group-items { display: none; }
+
+/* ★ 会话卡：去冗余徽标 + 相对时间 */
+.session-item { position: relative; width: 100%; border: 1px solid transparent; background: transparent;
+  border-radius: 8px; padding: 7px 9px; text-align: left; display: block; margin-bottom: 3px;
+  user-select: none; transition: background var(--t-fast), border-color var(--t-fast); }
+.session-item:hover { background: var(--panel-2); }
+.session-item.active { background: var(--panel-2); border-color: var(--accent-line); }
+.session-item.active::before { content: ""; position: absolute; left: -1px; top: 9px; bottom: 9px;
+  width: 3px; border-radius: 2px; background: var(--accent); }
+
+.session-header { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.session-title { flex: 1; min-width: 0; color: var(--text); font-size: 13px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.session-item:not(.active):not(:hover) .session-title { color: var(--muted); }
+
+.session-actions { display: flex; gap: 2px; opacity: 0; transition: opacity var(--t-fast); }
+.session-item:hover .session-actions, .session-item.pinned .session-actions { opacity: 1; }
+.session-action-btn { background: transparent; border: 0; color: var(--faint); font-size: 12px;
+  padding: 1px 4px; border-radius: 4px; line-height: 1; transition: color var(--t-fast), background var(--t-fast); }
+.session-action-btn:hover { color: var(--accent); background: var(--bg); }
+.session-action-btn.pin-btn.active { color: var(--accent); }
+.session-item:not(:hover) .session-action-btn:not(.active) { visibility: hidden; }
+
+/* ★ 徽标：只显示组头未表达的标签；动态色由 --tag-c 注入 */
+.session-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px;
+  padding: 1px 6px; border-radius: 4px; line-height: 1.4; white-space: nowrap;
+  color: var(--tag-c, var(--muted));
+  background: color-mix(in srgb, var(--tag-c, #9a9ca0) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tag-c, #9a9ca0) 30%, transparent); }
+.badge .b-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--tag-c, var(--muted)); }
+.badge-due { background: rgba(196,106,92,.12); color: #dda096;
+  border: 1px solid rgba(196,106,92,.25); font-family: var(--mono); }
+
+.session-meta { color: var(--faint); font-size: 11px; margin-top: 3px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.empty-note { color: var(--faint); font-size: 12px; padding: 10px 8px; }
+
+.sidebar-foot { border-top: 1px solid var(--line); padding: 10px 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.channel { color: var(--faint); font-size: 11px; font-family: var(--mono); }
+.text-btn { border: 0; background: none; color: var(--muted); padding: 2px 0; }
+.text-btn:hover { color: var(--accent); }
+
+/* ============ 主区 ============ */
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.topbar { display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+  border-bottom: 1px solid var(--line); background: var(--panel); }
+.tabs { display: flex; gap: 4px; overflow-x: auto; flex: 1; }
+.tab { border: 1px solid transparent; background: transparent; border-radius: 999px;
+  padding: 3px 12px; color: var(--muted); font-family: var(--mono); font-size: 12px; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 6px; transition: all var(--t-fast); }
+.tab:hover { background: var(--panel-2); }
+.tab.active { background: var(--accent-soft); border-color: var(--accent-line); color: var(--accent); }
+.tab .t-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.top-meta { color: var(--faint); font-size: 11px; font-family: var(--mono); white-space: nowrap;
+  display: flex; align-items: center; gap: 8px; }
+.model-chip { border: 1px solid var(--line); background: var(--bg); color: var(--muted);
+  border-radius: 999px; padding: 2px 10px; font-size: 11px; font-family: var(--mono);
+  display: inline-flex; align-items: center; gap: 5px; transition: all var(--t-fast); }
+.model-chip:hover { border-color: var(--accent-line); color: var(--accent); }
+.model-chip .mc-dot { width: 6px; height: 6px; border-radius: 50%; background: #93c9a4; }
+
+/* ★ 空状态升级：引导而非一句话 */
+.empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; color: var(--faint); padding: 20px; }
+.empty-logo { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--accent-soft), transparent);
+  border: 1px solid var(--accent-line); color: var(--accent); font-family: var(--mono);
+  font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.empty-title { color: var(--muted); font-size: 14px; }
+.empty-kbd { display: flex; gap: 14px; margin-top: 10px; font-size: 11.5px; }
+.empty-kbd span { display: inline-flex; align-items: center; gap: 5px; }
+.empty-kbd kbd { font-family: var(--mono); font-size: 10px; color: var(--muted);
+  border: 1px solid var(--line); background: var(--panel-2); border-radius: 4px; padding: 1px 6px; }
+
+.transcript { flex: 1; overflow-y: auto; padding: 22px 28px 12px; scroll-behavior: smooth; }
+
+/* ============ Composer ============ */
+.composer { padding: 10px 28px 18px; }
+.composer-box { max-width: 860px; margin: 0 auto; border: 1px solid var(--line);
+  border-radius: 12px; background: var(--panel); padding: 10px 12px 8px;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast); }
+.composer-box:focus-within { border-color: var(--accent-line); box-shadow: 0 0 0 3px var(--accent-soft); }
+#input { width: 100%; resize: none; border: 0; outline: 0; background: transparent;
+  color: var(--text); font: inherit; max-height: 220px; min-height: 24px; padding: 2px 0; }
+#input::placeholder { color: var(--faint); }
+.composer-actions { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.hint { color: var(--faint); font-size: 11px; flex: 1; }
+.hint kbd { font-family: var(--mono); font-size: 10px; border: 1px solid var(--line);
+  border-radius: 4px; padding: 0 4px; }
+.send-btn { border: 1px solid var(--accent); background: var(--accent); color: #1a1408;
+  font-weight: 600; border-radius: 8px; padding: 5px 16px; transition: all var(--t-fast);
+  display: inline-flex; align-items: center; gap: 5px; }
+.send-btn:hover { filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(217,164,65,.25); }
+.send-btn:disabled { opacity: .45; cursor: default; transform: none; box-shadow: none; }
+.send-btn.danger { border-color: rgba(196,106,92,.5); background: rgba(196,106,92,.12); color: #e2a79d; font-weight: 400; }
+
+/* ============ 会话属性弹窗（标签 pill + 标签池） ============ */
+dialog { border: 1px solid var(--line); background: var(--panel); color: var(--text);
+  border-radius: 14px; padding: 0; width: min(480px, 92vw); }
+dialog::backdrop { background: rgba(0,0,0,.55); backdrop-filter: blur(2px); }
+.settings-form { padding: 20px 22px 18px; display: grid; gap: 12px; }
+.settings-form h2 { margin: 0 0 4px; font-size: 15px; font-weight: 600; }
+.settings-form h2 .h-id { color: var(--faint); font-family: var(--mono); font-size: 12px; font-weight: 400; }
+.settings-form label { display: grid; gap: 5px; color: var(--muted); font-size: 12px; }
+.settings-form input[type="text"], .settings-form input[type="password"],
+.settings-form input[type="date"], .settings-form input:not([type]) {
+  background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+  color: var(--text); padding: 7px 9px; font: inherit; }
+.settings-form input:focus { outline: 1px solid var(--accent-line); }
+.cfg-note { color: var(--faint); font-size: 11px; margin: 0; min-height: 14px; }
+.settings-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; }
+.checkbox-row { display: flex !important; flex-direction: row !important; align-items: center;
+  gap: 8px; cursor: pointer; color: var(--text) !important; font-size: 13px !important; }
+.checkbox-row input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+.form-field { display: grid; gap: 6px; }
+.field-label { color: var(--muted); font-size: 12px; }
+.tag-pills-box { display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+  padding: 6px 8px; min-height: 40px; cursor: text;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast); }
+.tag-pills-box:focus-within { border-color: var(--accent-line); box-shadow: 0 0 0 3px var(--accent-soft); }
+.tag-pills-list { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+.tag-pill { display: inline-flex; align-items: center; gap: 4px;
+  color: var(--tag-c, var(--text));
+  background: color-mix(in srgb, var(--tag-c, #9a9ca0) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tag-c, #9a9ca0) 30%, transparent);
+  padding: 2px 8px 2px 9px; border-radius: 999px; font-size: 12px; line-height: 1.3; }
+.tag-pill .b-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--tag-c, var(--muted)); }
+.tag-pill-remove { background: transparent; border: 0; color: inherit; font-size: 13px;
+  line-height: 1; padding: 0 0 0 2px; opacity: .6; transition: opacity var(--t-fast); }
+.tag-pill-remove:hover { opacity: 1; }
+.tag-pill-input { flex: 1; min-width: 140px; border: 0 !important; outline: 0 !important;
+  background: transparent !important; color: var(--text) !important; font-size: 12.5px !important; padding: 2px 0 !important; }
+.tag-pill-input::placeholder { color: var(--faint); font-size: 12px; }
+
+.tag-pool-section { margin-top: 4px; padding: 8px 10px; background: rgba(0,0,0,.2);
+  border: 1px solid var(--line); border-radius: 8px; }
+.tag-pool-header { display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 6px; font-size: 11px; }
+.tag-pool-title { color: var(--muted); font-weight: 500; }
+.tag-pool-tip { color: var(--faint); }
+.tag-pool-chips { display: flex; flex-wrap: wrap; gap: 5px; max-height: 96px; overflow-y: auto; }
+.pool-chip { display: inline-flex; align-items: center; gap: 5px;
+  color: var(--tag-c, var(--muted));
+  background: color-mix(in srgb, var(--tag-c, #9a9ca0) 8%, var(--panel-2));
+  border: 1px solid var(--line);
+  padding: 2px 9px; border-radius: 999px; font-size: 11.5px; user-select: none;
+  transition: all var(--t-fast); }
+.pool-chip .b-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--tag-c, var(--faint)); opacity: .8; }
+.pool-chip:hover { border-color: color-mix(in srgb, var(--tag-c, #fff) 45%, var(--line)); transform: translateY(-1px); }
+.pool-chip.active { background: color-mix(in srgb, var(--tag-c, #d9a441) 18%, transparent);
+  border-color: color-mix(in srgb, var(--tag-c, #d9a441) 45%, transparent); font-weight: 500; }
+
+.date-row { display: flex; gap: 8px; align-items: center; }
+.date-row input[type="date"] { flex: 1; }
+.mini-btn { background: var(--panel-2); border: 1px solid var(--line); color: var(--muted);
+  padding: 6px 12px; border-radius: 8px; font-size: 12px; }
+.mini-btn:hover { color: var(--accent); border-color: var(--accent-line); }
+
+/* ============ 设计说明 ============ */
+.spec-toggle { position: fixed; right: 20px; bottom: 20px; z-index: 50;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--panel-2); border: 1px solid var(--accent-line);
+  color: var(--accent); font-size: 12.5px; font-weight: 500;
+  padding: 9px 18px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,.45);
+  transition: all var(--t-fast); }
+.spec-toggle:hover { background: var(--accent-soft); transform: translateY(-1px); }
+.spec-mask { position: fixed; inset: 0; z-index: 90; background: rgba(0,0,0,.55);
+  backdrop-filter: blur(3px); display: none; align-items: center; justify-content: center; }
+.spec-mask.show { display: flex; }
+.spec-panel { width: min(880px, 92vw); max-height: 86vh; overflow-y: auto;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5); padding: 28px 32px; }
+.spec-panel h2 { margin: 0 0 4px; font-size: 18px; }
+.spec-panel .sub { color: var(--faint); font-size: 12.5px; margin-bottom: 18px; }
+.spec-panel h3 { font-size: 13px; color: var(--accent); letter-spacing: .08em;
+  margin: 24px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.spec-list { margin: 0; padding-left: 18px; color: var(--muted); font-size: 13px; }
+.spec-list li { margin-bottom: 8px; }
+.spec-list b { color: var(--text); font-weight: 600; }
+.spec-list code { font-family: var(--mono); font-size: .9em; background: var(--bg);
+  border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; color: #e5c07b; }
+.tagcolor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.tagcolor { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line);
+  border-radius: 8px; padding: 8px 12px; font-size: 12px; color: var(--muted); }
+.tagcolor .sw { width: 14px; height: 14px; border-radius: 4px; flex: 0 0 14px; }
+.tagcolor code { font-family: var(--mono); font-size: 10px; color: var(--faint); margin-left: auto; }
+.demo-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+@media (max-width: 820px) { .sidebar { width: 220px; flex-basis: 220px; } }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ============ 侧栏 ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <div class="brand">typeai</div>
+      <button class="icon-btn" id="new-session" title="新建会话">＋</button>
+    </div>
+
+    <div class="search-wrap">
+      <label class="search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" placeholder="搜索会话、标签…" aria-label="搜索会话">
+        <kbd>Ctrl K</kbd>
+      </label>
+    </div>
+
+    <div class="sidebar-sub-row">
+      <span class="sidebar-sub">会话</span>
+      <div class="sidebar-view-toggle">
+        <button class="view-mode-btn active">树状</button>
+        <button class="view-mode-btn">平铺</button>
+      </div>
+    </div>
+
+    <nav class="session-list" aria-label="会话列表">
+      <!-- 待办组：组头带标签色点 -->
+      <div class="tree-group">
+        <div class="tree-group-header" role="button" tabindex="0">
+          <span class="tree-arrow">▾</span>
+          <span class="tree-dot" style="background:var(--tag-0)"></span>
+          <span class="tree-title">待办</span>
+          <span class="tree-count">1</span>
+        </div>
+        <div class="tree-group-items">
+          <button class="session-item active pinned">
+            <div class="session-header">
+              <span class="session-title">java 里面 Instant 是什么/</span>
+              <span class="session-actions">
+                <button class="session-action-btn pin-btn active" title="取消置顶">⚲</button>
+                <button class="session-action-btn edit-btn" title="属性">✎</button>
+              </span>
+            </div>
+            <!-- ★ 卡内徽标只显示组头未表达的标签：组=待办，卡内不再重复 -->
+            <div class="session-badges">
+              <span class="badge" style="--tag-c:var(--tag-1)"><span class="b-dot"></span>java</span>
+            </div>
+            <div class="session-meta">18:26 · 2 条 · deepseek-v4.1-flash</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 归档组 -->
+      <div class="tree-group collapsed">
+        <div class="tree-group-header" role="button" tabindex="0">
+          <span class="tree-arrow">▾</span>
+          <span class="tree-dot" style="background:var(--faint)"></span>
+          <span class="tree-title">归档</span>
+          <span class="tree-count">1</span>
+        </div>
+        <div class="tree-group-items">
+          <button class="session-item">
+            <div class="session-header">
+              <span class="session-title">java 里面 Instant 是什么/</span>
+            </div>
+            <div class="session-badges">
+              <span class="badge" style="--tag-c:var(--tag-1)"><span class="b-dot"></span>java</span>
+            </div>
+            <div class="session-meta">18:26 · 2 条 · deepseek-v4.1-flash</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 动态标签组（字母序） -->
+      <div class="tree-group">
+        <div class="tree-group-header" role="button" tabindex="0">
+          <span class="tree-arrow">▾</span>
+          <span class="tree-dot" style="background:var(--tag-5)"></span>
+          <span class="tree-title">python</span>
+          <span class="tree-count">2</span>
+        </div>
+        <div class="tree-group-items">
+          <button class="session-item">
+            <div class="session-header">
+              <span class="session-title">with f.open(encoding=…</span>
+            </div>
+            <div class="session-badges">
+              <span class="badge" style="--tag-c:var(--tag-5)"><span class="b-dot"></span>python</span>
+            </div>
+            <div class="session-meta">10-08 · 12 条 · glm-5.3-flash</div>
+          </button>
+          <button class="session-item">
+            <div class="session-header">
+              <span class="session-title">给我一个 python uv run 命…</span>
+            </div>
+            <div class="session-badges">
+              <span class="badge" style="--tag-c:var(--tag-5)"><span class="b-dot"></span>python</span>
+            </div>
+            <div class="session-meta">10-01 · 16 条 · glm-5.3-flash</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 未分类 -->
+      <div class="tree-group">
+        <div class="tree-group-header" role="button" tabindex="0">
+          <span class="tree-arrow">▾</span>
+          <span class="tree-dot" style="background:var(--faint);opacity:.5"></span>
+          <span class="tree-title">未分类</span>
+          <span class="tree-count">23</span>
+        </div>
+        <div class="tree-group-items">
+          <button class="session-item">
+            <div class="session-header">
+              <span class="session-title">中文翻译：Path to con…</span>
+            </div>
+            <div class="session-meta">昨天 · 6 条 · deepseek-v4.1-flash</div>
+          </button>
+          <button class="session-item">
+            <div class="session-header">
+              <span class="session-title">java -cp "target/classes…</span>
+              <span class="session-badges" style="margin:0">
+                <span class="badge badge-due">10-31</span>
+              </span>
+            </div>
+            <div class="session-meta">昨天 · 8 条 · deepseek-v4.1-flash</div>
+          </button>
+          <button class="session-item">
+            <div class="session-header">
+              <span class="session-title">您好</span>
+            </div>
+            <div class="session-meta">10-22 · 2 条 · deepseek-v4.1-flash</div>
+          </button>
+          <button class="session-item">
+            <div class="session-header">
+              <span class="session-title">你是谁?</span>
+            </div>
+            <div class="session-meta">10-08 · 2 条 · glm-5.3-flash</div>
+          </button>
+          <button class="session-item">
+            <div class="session-header">
+              <span class="session-title">mkdir -p scratch-plugi…</span>
+            </div>
+            <div class="session-meta">10-02 · 2 条 · glm-5.3-flash</div>
+          </button>
+          <button class="session-item">
+            <div class="session-header">
+              <span class="session-title">什么是架构设计?</span>
+            </div>
+            <div class="session-meta">09-27 · 4 条 · glm-5.3-flash</div>
+          </button>
+          <button class="session-item">
+            <div class="session-header">
+              <span class="session-title">manifest.json 文件一般…</span>
+            </div>
+            <div class="session-meta">09-27 · 5 条 · glm-5.3-flash</div>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar-foot">
+      <button class="text-btn" id="open-settings">连接设置</button>
+      <div class="channel">dev · v0.1.8-dev</div>
+    </div>
+  </aside>
+
+  <!-- ============ 主区 ============ -->
+  <main class="main">
+    <header class="topbar">
+      <div class="tabs" id="tabs">
+        <button class="tab active"><span class="t-dot"></span>main</button>
+        <button class="tab">＋</button>
+      </div>
+      <div class="top-meta">
+        <button class="model-chip"><span class="mc-dot"></span>deepseek-v4.1-flash</button>
+        <span>81fecff0</span><span>·</span><span>[main]</span>
+      </div>
+    </header>
+
+    <!-- ★ 空状态：从一句话升级为引导区 -->
+    <div class="empty-state">
+      <div class="empty-logo">t</div>
+      <div class="empty-title">开始新对话，或从左侧恢复历史会话</div>
+      <div class="empty-kbd">
+        <span><kbd>Ctrl K</kbd> 搜索会话</span>
+        <span><kbd>Ctrl N</kbd> 新建会话</span>
+        <span><kbd>Enter</kbd> 发送</span>
+      </div>
+    </div>
+
+    <footer class="composer">
+      <div class="composer-box">
+        <textarea id="input" rows="1" placeholder="输入消息，Enter 发送，Shift+Enter 换行"></textarea>
+        <div class="composer-actions">
+          <button class="icon-btn" id="pick-image" title="添加图片">▧</button>
+          <span class="hint"><kbd>Enter</kbd> 发送 · <kbd>Shift+Enter</kbd> 换行</span>
+          <button class="send-btn" id="send">发送 ↵</button>
+        </div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<!-- ============ 会话属性弹窗（你的新功能，细化版） ============ -->
+<dialog id="session-modal" open>
+  <form method="dialog" class="settings-form" onsubmit="return false">
+    <h2>编辑会话属性 <span class="h-id">· df9a8de7</span></h2>
+    <label>
+      会话标题
+      <input type="text" value="java 里面 Instant 是什么/" maxlength="100">
+    </label>
+    <label class="checkbox-row">
+      <input type="checkbox" checked>
+      <span>置顶此会话</span>
+    </label>
+    <div class="form-field">
+      <span class="field-label">标签分类</span>
+      <div class="tag-pills-box">
+        <div class="tag-pills-list">
+          <!-- ★ pill 带标签色点，与树状组头/侧栏徽标同源同色 -->
+          <span class="tag-pill" style="--tag-c:var(--tag-0)"><span class="b-dot"></span>待办<button class="tag-pill-remove" title="移除「待办」">×</button></span>
+          <span class="tag-pill" style="--tag-c:var(--tag-1)"><span class="b-dot"></span>java<button class="tag-pill-remove" title="移除「java」">×</button></span>
+        </div>
+        <input type="text" class="tag-pill-input" placeholder="+ 添加新标签 (Enter 创建)..." autocomplete="off">
+      </div>
+      <div class="tag-pool-section">
+        <div class="tag-pool-header">
+          <span class="tag-pool-title">全库标签池</span>
+          <span class="tag-pool-tip">点击快速添加 / 取消</span>
+        </div>
+        <div class="tag-pool-chips">
+          <button type="button" class="pool-chip active" style="--tag-c:var(--tag-0)"><span class="b-dot"></span>✓ 待办</button>
+          <button type="button" class="pool-chip" style="--tag-c:var(--tag-1)"><span class="b-dot"></span>+ java</button>
+          <button type="button" class="pool-chip" style="--tag-c:var(--tag-2)"><span class="b-dot"></span>+ 工作</button>
+          <button type="button" class="pool-chip" style="--tag-c:var(--tag-3)"><span class="b-dot"></span>+ 面试</button>
+          <button type="button" class="pool-chip" style="--tag-c:var(--tag-4)"><span class="b-dot"></span>+ rust</button>
+          <button type="button" class="pool-chip active" style="--tag-c:var(--tag-5)"><span class="b-dot"></span>✓ python</button>
+          <button type="button" class="pool-chip" style="--tag-c:var(--tag-6)"><span class="b-dot"></span>+ 翻译</button>
+        </div>
+      </div>
+    </div>
+    <label>
+      截止时间 (Due Date)
+      <div class="date-row">
+        <input type="date" value="2026-10-31">
+        <button type="button" class="mini-btn">清除</button>
+      </div>
+    </label>
+    <div class="settings-actions">
+      <button type="button" class="text-btn" onclick="document.getElementById('session-modal').close()">取消</button>
+      <button type="submit" class="send-btn">保存</button>
+    </div>
+  </form>
+</dialog>
+
+<button class="spec-toggle" id="spec-open">🎨 设计说明 v2</button>
+
+<div class="spec-mask" id="spec-mask">
+  <div class="spec-panel" role="dialog" aria-label="设计说明">
+    <h2>typeai UI 细化方案 v2 · 动态标签方向</h2>
+    <p class="sub">像素君 · 顺延「动态标签池 + 树状分组 + 偏好持久化」最新实现 · 2026-10-24</p>
+
+    <h3>① 对照你最新布局的四个细化点</h3>
+    <ul class="spec-list">
+      <li><b>消除徽标冗余（最重要）</b>：会话在「待办」组里还挂「待办」徽标、「归档」组里挂「已归档」——组头已表达的信息在卡内重复。<b>规则：卡内徽标只渲染组头未表达的标签</b>（即 otherTagMap 里的动态标签），渲染逻辑只需在 renderSessionCard 里传入当前组 id 过滤一次。</li>
+      <li><b>时间戳降噪</b>：<code>2026/10/24 18:26:45</code> 秒级时间戳改为相对时间阶梯——今天显 <code>18:26</code>、昨天显「昨天」、本周显「周三」、更早显 <code>10-08</code>。列表扫读效率显著提升，hover 时 title 属性保留完整时间。</li>
+      <li><b>动态标签配色</b>：当前动态标签徽标全部灰白，与「未分类」无法区分。引入 <b>8 色低饱和稳定色板</b>，按标签名 hash 取色（同一标签在组头色点 / 卡内徽标 / pill / 标签池四处永远同色）。见下方色板。</li>
+      <li><b>搜索入口</b>：未分类 23 条且会持续增长，侧栏顶部加搜索框（Ctrl+K），命中范围：标题 + 标签。这是标签体系成立后的自然补全。</li>
+    </ul>
+
+    <h3>② 动态标签稳定色板（hash 循环取色）</h3>
+    <div class="tagcolor-grid">
+      <div class="tagcolor"><span class="sw" style="background:var(--tag-0)"></span>tag-0 琥珀 · 待办专用<code>#D9A441</code></div>
+      <div class="tagcolor"><span class="sw" style="background:var(--tag-1)"></span>tag-1 雾蓝<code>#8FB8E0</code></div>
+      <div class="tagcolor"><span class="sw" style="background:var(--tag-2)"></span>tag-2 灰绿<code>#A3B89A</code></div>
+      <div class="tagcolor"><span class="sw" style="background:var(--tag-3)"></span>tag-3 藕紫<code>#C49FD6</code></div>
+      <div class="tagcolor"><span class="sw" style="background:var(--tag-4)"></span>tag-4 陶红<code>#E0998A</code></div>
+      <div class="tagcolor"><span class="sw" style="background:var(--tag-5)"></span>tag-5 青碧<code>#7FC4BD</code></div>
+      <div class="tagcolor"><span class="sw" style="background:var(--tag-6)"></span>tag-6 沙棕<code>#D6B88A</code></div>
+      <div class="tagcolor"><span class="sw" style="background:var(--tag-7)"></span>tag-7 蓝紫灰<code>#B4B3D4</code></div>
+    </div>
+    <div class="demo-badges">
+      <span class="badge" style="--tag-c:var(--tag-1)"><span class="b-dot"></span>java</span>
+      <span class="badge" style="--tag-c:var(--tag-5)"><span class="b-dot"></span>python</span>
+      <span class="badge" style="--tag-c:var(--tag-2)"><span class="b-dot"></span>工作</span>
+      <span class="badge" style="--tag-c:var(--tag-3)"><span class="b-dot"></span>面试</span>
+      <span class="badge" style="--tag-c:var(--tag-6)"><span class="b-dot"></span>翻译</span>
+    </div>
+    <ul class="spec-list" style="margin-top:10px">
+      <li>实现：<code>tagColor(tag) = PALETTE[hash(tag) % 8]</code>，「待办」「归档」硬编码占用 tag-0 / 灰；其余标签进 hash 循环。</li>
+      <li>颜色只做 tint（12%~18% 背景 + 30% 边框 + 纯色文字/圆点），全部基于 color-mix，明度一致，不抢内容。</li>
+      <li>同一标签四端同色：树状组头圆点 → 卡内徽标 → 会话属性 pill → 全库标签池 chip，形成「标签=颜色」的心智映射。</li>
+    </ul>
+
+    <h3>③ 其余增量</h3>
+    <ul class="spec-list">
+      <li><b>空状态升级</b>：一句话 → 品牌占位 + 快捷键提示（Ctrl K 搜索 / Ctrl N 新建），首次使用即可发现搜索。</li>
+      <li><b>Composer 聚焦光晕</b>：现有 focus-within 描边升级为 <code>box-shadow: 0 0 0 3px accent-soft</code> 光晕；发送按钮改琥珀实底，主行动更醒目。</li>
+      <li><b>对比度修正</b>：--text/--muted/--faint 各提亮一档，--faint 从 4.6:1 以下拉到 AA 达标（4.6:1）。</li>
+      <li><b>运行态 Tab</b>：<code>.running</code> 的 "*" 后缀升级为呼吸圆点。</li>
+      <li><b>活动会话指示</b>：active 卡左缘 3px 琥珀条，与置顶 ⚲ 图标双编码不冲突。</li>
+    </ul>
+
+    <h3>④ 落地路径（映射到现有代码）</h3>
+    <ul class="spec-list">
+      <li>纯样式项（token 提亮、光晕、空状态、发送按钮）→ 只改 <code>style.css</code>，半小时级。</li>
+      <li>徽标去冗余 → <code>app.js renderSessionCard(item, currentSessionID)</code> 加一个 <code>groupTag</code> 参数过滤，10 行内。</li>
+      <li>相对时间 → <code>formatRelative(ts)</code> 工具函数替换 meta 渲染，注意保留 title 完整时间戳。</li>
+      <li>标签色 → 新增 <code>tagColor()</code> + CSS 变量注入（<code>style="--tag-c:..."</code>），四处渲染点各一行。</li>
+      <li>Ctrl+K 搜索 → 需要新的过滤态，建议独立小任务排期。</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  // 树状组折叠
+  document.querySelectorAll('.tree-group-header').forEach(h => {
+    h.addEventListener('click', () => h.parentElement.classList.toggle('collapsed'));
+  });
+  // 平铺/树状切换示意
+  document.querySelectorAll('.view-mode-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.view-mode-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+    });
+  });
+  // 设计说明
+  const mask = document.getElementById('spec-mask');
+  document.getElementById('spec-open').addEventListener('click', () => mask.classList.add('show'));
+  mask.addEventListener('click', e => { if (e.target === mask) mask.classList.remove('show'); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { mask.classList.remove('show'); document.getElementById('session-modal').close(); }
+  });
+  // 会话卡 ✎ 重新打开弹窗
+  document.querySelectorAll('.edit-btn').forEach(b => {
+    b.addEventListener('click', e => { e.stopPropagation(); document.getElementById('session-modal').showModal(); });
+  });
+</script>
+</body>
+</html>
