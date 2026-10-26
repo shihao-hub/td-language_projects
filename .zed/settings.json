@@ -55,13 +55,13 @@
     },
     // Python：basedpyright 跳转 + ruff 格式化
     "Python": {
-      "enable_language_server": true,
+      "enable_language_server": false,
       "language_servers": ["basedpyright", "ruff"],
       "formatter": "language_server",
     },
     // Go：gopls 提供跳转（go_projects 及 python_projects 内 Go 启动器均适用）
     "Go": {
-      "enable_language_server": true,
+      "enable_language_server": false,
       "language_servers": ["gopls"],
     },
     // Rust：rust-analyzer 跳转
