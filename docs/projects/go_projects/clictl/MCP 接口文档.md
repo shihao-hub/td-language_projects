@@ -58,7 +58,9 @@ MCP 工具   ─┘
 
 通用错误码（isError 文本中的 code）与 CLI 一致：`bad_args` / `not_found` / `conflict` /
 `file_not_found` / `not_exe` / `meta_unknown_key` / `meta_invalid` / `meta_too_large` /
-`db_error` / `internal`；run 类另有 `invalid`（文件失效）。
+`db_error` / `internal`；run 类另有 `invalid`（目标失效）；双目标另有 `program_not_found` /
+`workdir_not_found` / `no_exe_target` / `no_source_target` / `not_running` /
+`console_unavailable` / `console_failed`。
 
 ### 3.1 clictl.list
 
@@ -73,25 +75,37 @@ MCP 工具   ─┘
 |---|---|---|
 | id / name / path / description / status / added_at / size_bytes / launch_count | 同 CLI | |
 | meta | object | 可选；展开为对象（非 CLI 的原始 JSON 透传） |
+| default_target | string | `exe` / `source` |
+| kind | string | `exe` / `source` / `both` |
+| exe | object | 可选；`{path,status,size_bytes,console}` |
+| source | object | 可选；`{program,workdir,args,type,status,command}` |
 | last_launch | string | 可选 |
 | running_pids | int[] | 可选，仅 running 模式 |
+| instances | object[] | 可选，仅 running 模式；`{pid,target,mode,started_at}` |
 | last_start | string | 可选，仅 running 模式 |
 
 ### 3.2 clictl.info
 
-输入 `name`。输出 `tool`（同上行形状）/ `recent_launches`（最近 10 条，`duration_ms` 等
-可空字段用 JSON null）/ `finished_count` / `total_duration_ms` / `running{alive,pids}`。
+输入 `name`。输出 `tool`（同上行形状）/ `recent_launches`（最近 10 条，`target`/`mode`
+及 `duration_ms` 等可空字段用 JSON null）/ `finished_count` / `total_duration_ms` /
+`running{alive,pids,instances}` / `console`（默认目标是否为控制台程序）。
 
 ### 3.3 clictl.add
 
 | 输入 | 类型 | 必填 | 说明 |
 |---|---|---|---|
-| path | string | 是 | .exe 后缀且文件存在（服务层校验） |
-| name | string | 否 | 缺省为文件名去 .exe 小写化 |
+| path | string | 否 | exe 文件路径；与 program 至少填一项 |
+| program | string | 否 | 源码命令程序（如 `uv` 或 `uv.exe` 绝对路径）；与 path 至少填一项 |
+| workdir | string | 否 | 源码命令工作目录；填 program 时必填 |
+| args | string[] | 否 | 源码命令固定前缀参数，如 `["run","zedhub-gui"]` |
+| type | string | 否 | 源码命令类型：`gui`（默认隐藏控制台）/ `console`（默认可见控制台） |
+| default_target | string | 否 | 默认启动目标 `exe` / `source`；缺省 exe |
+| name | string | 否 | 缺省为文件名或最后一个固定参数 |
 | desc | string | 否 | |
 | meta | object | 否 | 白名单 source（≤64 字节）/ tags（≤8 项、单项 ≤32 字节）/ group（≤32 字节）；字节数限制在 Go 侧校验，Schema 只声明结构 |
 
-输出：新建的 Tool。错误：`not_exe` / `file_not_found` / `conflict` / `bad_args` / meta 系列。
+输出：新建/更新后的 Tool（含 `kind` / `default_target` / `exe` / `source`）。错误：`not_exe` / `file_not_found` /
+`program_not_found` / `workdir_not_found` / `conflict` / `bad_args` / meta 系列。
 
 ### 3.4 clictl.set
 
@@ -103,8 +117,10 @@ MCP 工具   ─┘
 
 ### 3.6 clictl.start
 
-输入 `name` + `args`（可选数组，不经 shell）。输出 `{name,path,pid,started_at,already_running}`。
-后台分离（DETACHED）语义与 CLI `start` 一致：点火即走，退出码无从谈起。
+输入 `name` + `target`（可选 `exe`/`source`，缺省卡片默认目标）+ `args`（可选数组，不经 shell）+
+`mode`（可选 `console`/`hidden`/`detached`，缺省按目标自动选择）。输出
+`{name,path,target,pid,started_at,already_running,mode}`。语义与 CLI `start` 一致：点火即走，
+退出码无从谈起；`hidden` 控制台可随后由 WebUI/CLI `console` 显示或隐藏。
 
 ### 3.7 clictl.stop
 
@@ -114,14 +130,16 @@ isError=true 但结果完整**。无活实例幂等成功。
 ### 3.8 clictl.cp
 
 输入 `name` + `dest_dir`（必须已存在）+ `force`（可选）。输出 `{name,src,dest,size_bytes}`。
-错误：`dest_not_found` / `dest_exists` / `same_path` / `copy_failed`。
+仅支持 exe 目标；仅源码卡片报 `no_exe_target`。错误：`dest_not_found` / `dest_exists` /
+`same_path` / `copy_failed`。
 
 ### 3.9 clictl.run（非交互执行）
 
 | 输入 | 类型 | 必填 | 说明 |
 |---|---|---|---|
 | name | string | 是 | |
-| args | string[] | 否 | 数组直传，不经 shell |
+| target | string | 否 | `exe` / `source`；缺省卡片默认目标 |
+| args | string[] | 否 | 数组直传，不经 shell；追加在源码固定参数之后 |
 | timeout_ms | int | 否 | 缺省 60000；≤0 按 60000 |
 
 输出：
