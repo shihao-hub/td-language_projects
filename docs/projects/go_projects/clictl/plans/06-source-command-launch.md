@@ -116,23 +116,23 @@ clictl-cli console <name> --show|--hide [--pid N]
 
 ## 六、实施步骤
 
-- [ ] 1. 计划落盘并独立提交。
-- [ ] 2. store v3 schema、迁移、Add/Edit、状态、launches target/mode、迁移与唯一性测试。
-- [ ] 3. runner `LaunchSpec`、hidden console、console ctl、uv 进程树实测与集成测试。
-- [ ] 4. service/API 双目标、编辑、console 接口、running instances。
-- [ ] 5. CLI `add-cmd` / `edit` / 目标参数 / `console` / help/补全。
-- [ ] 6. MCP 双目标与 mode。
-- [ ] 7. WebUI 双目标注册/编辑、源码启动、控制台显隐、实例列表。
-- [ ] 8. 文档、CHANGELOG 2.2.0、迁移 SQL、构建验收。
+- [x] 1. 计划落盘并独立提交。
+- [x] 2. store v3 schema、迁移、Add/Edit、状态、launches target/mode、迁移与唯一性测试。
+- [x] 3. runner `LaunchSpec`、hidden console、console ctl、进程树集成测试（ping 等价验证；uv 未启动真实实例）。
+- [x] 4. service/API 双目标、编辑、console 接口、running instances。
+- [x] 5. CLI `add-cmd` / `edit` / 目标参数 / `console` / help/补全。
+- [x] 6. MCP 双目标与 mode。
+- [x] 7. WebUI 双目标注册/编辑、源码启动、控制台显隐、实例列表。
+- [x] 8. 文档、CHANGELOG 2.2.0、迁移 SQL、构建验收。
 
 ## 七、验证
 
-- [ ] `add-cmd` 创建仅源码卡片 → `start` 无窗口 → `console --show` 出现 → `--hide` 消失 → PID 不变 → `stop` 树杀。
-- [ ] 现有 exe 卡片附加源码后，默认仍 exe，源码作为次按钮；`start --source` 覆盖默认。
-- [ ] 仅 exe、仅源码、exe+源码 三种卡片的列表/详情/过滤/搜索正常。
-- [ ] `run` stdout 纪律、退出码、Ctrl+C 记账不回归。
-- [ ] `go test ./...`、`go vet ./...`、`gofmt -l`、`uv run scripts/build.py` 通过。
-- [ ] PowerShell `list | ConvertFrom-Json` 正常；删除工具后 launches 级联删除。
+- [x] `add-cmd` 创建仅源码卡片 → `start` 无窗口 → `console --show` 出现 → `--hide` 消失 → PID 不变 → `stop` 树杀。
+- [x] 现有 exe 卡片附加源码后，默认仍 exe，源码作为次按钮；`start --source` 覆盖默认。
+- [x] 仅 exe、仅源码、exe+源码 三种卡片的列表/详情/过滤/搜索正常（API + Edge headless WebUI 截图）。
+- [x] `run` stdout 纪律、退出码、Ctrl+C 记账不回归（`run` 源码 ping 实测 exit 0；原有路径未改）。
+- [x] `go test ./...`、`go vet ./...`、`gofmt -l`、`uv run scripts/build.py` 通过。
+- [x] PowerShell `list | ConvertFrom-Json` 正常；删除工具后 launches 级联删除。
 
 ## 八、风险与边界
 
@@ -150,3 +150,12 @@ clictl-cli console <name> --show|--hide [--pid N]
 - [x] 是否保留日志：不保留。
 - [x] 多实例：默认操作最新存活实例，UI 可按 PID 指定。
 - [x] 编辑范围：exe、源码、默认目标、描述、meta 全量编辑。
+
+## 十、实施记录
+
+- 代码：`clictl` 子仓（commit 待提交）。
+- 数据：tools v3（旧 path → exe_path，source_* 四列，default_target，partial unique indexes）；launches target/mode；父仓 `migrations/002_v2.2.0_command_tools.sql` 存档。
+- 后端：store 双目标 Add/Attach/Update、任一目标有效状态；runner LaunchSpec + hidden console + `__console-ctl`；service/API 双目标、编辑、console、instances；CLI add-cmd/edit/run/start 目标/console；MCP add/info/start/run 双目标。
+- 前端：双目标注册/编辑弹窗、默认目标、目标区块、源码启动/终端启动、运行实例与逐 PID 控制台显隐、最近启动目标/模式。
+- 验证：`go test ./...` / `go vet ./...` / `gofmt -l` / `uv run scripts/build.py` 通过；CLI e2e 用 ping 验证 hidden → show → hide → stop（PID 不变）；API + Edge headless 1280×850 截图确认三卡片、双目标区块、全部操作按钮可见。
+- 已知边界：uv 启动真实 zedhub 实例未在本机自动化中启动（避免创建 daemon/GUI 副作用），隐藏控制台机制与 ping 完全同路径；用户实机 `add-cmd ... --program uv -- run zedhub-gui` 后即可验收。
