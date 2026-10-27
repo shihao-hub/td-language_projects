@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-26T18:49:32Z",
+  "updated_at": "2026-10-27T15:54:55Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -441,10 +441,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "role": "index",
-      "sha256": "b44a064f7431b48e4901c15dfa1dd145f8b2fdbdb0fa6587ef06e88a51b012bd",
-      "size": 159278,
-      "normalized_sha256": "b44a064f7431b48e4901c15dfa1dd145f8b2fdbdb0fa6587ef06e88a51b012bd"
+      "sha256": "12866fe879ad4befc17df464d7dfdf8655f9df2dcf6364362e99f2a94bf07b0f",
+      "size": 160481,
+      "normalized_sha256": "12866fe879ad4befc17df464d7dfdf8655f9df2dcf6364362e99f2a94bf07b0f"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1032,14 +1031,14 @@
       "normalized_sha256": "fc620888a70bafe99ddb7b0abbc0019d7c96d0118ae3f6f59e3989bb36b5b3e8"
     },
     "docs/projects/go_projects/clictl/MCP 接口文档.md": {
-      "sha256": "ab32e7c266102f266aadaed04ed50d2571119156552de17db1372e2fe75b7e62",
-      "size": 11799,
-      "normalized_sha256": "ab32e7c266102f266aadaed04ed50d2571119156552de17db1372e2fe75b7e62"
+      "sha256": "1393660117667a8ddb8d53e9f67e2762e54a1e616dc4231cc184f443aeac566c",
+      "size": 13327,
+      "normalized_sha256": "1393660117667a8ddb8d53e9f67e2762e54a1e616dc4231cc184f443aeac566c"
     },
     "docs/projects/go_projects/clictl/clictl 使用指南.md": {
-      "sha256": "99050b881f55eb4683e244313154c40d7c053a69d61ee2d2d25e812b785cc9e5",
-      "size": 13702,
-      "normalized_sha256": "99050b881f55eb4683e244313154c40d7c053a69d61ee2d2d25e812b785cc9e5"
+      "sha256": "32e44ece27061740dbc99b34b66d13139d93de7e949f869ba20c2f88b2c3a530",
+      "size": 17329,
+      "normalized_sha256": "32e44ece27061740dbc99b34b66d13139d93de7e949f869ba20c2f88b2c3a530"
     },
     "docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
       "role": "index",
@@ -1052,6 +1051,11 @@
       "sha256": "58efd0896da1e6b6531d3901803c41843f8a8f26773775167244ea97ea91df21",
       "size": 710,
       "normalized_sha256": "58efd0896da1e6b6531d3901803c41843f8a8f26773775167244ea97ea91df21"
+    },
+    "docs/projects/go_projects/clictl/migrations/002_v2.2.0_command_tools.sql": {
+      "sha256": "191450e9ffac9f0666fa33b04a3f40d2e7a22342f7ceaa7cee21408424c04847",
+      "size": 2626,
+      "normalized_sha256": "191450e9ffac9f0666fa33b04a3f40d2e7a22342f7ceaa7cee21408424c04847"
     },
     "docs/projects/go_projects/clictl/plans/01-wails-dual-channel.md": {
       "sha256": "23a550fdb3df4e872b88164ec5546cb416472bb98a232367f6b4022be12bd4bc",
@@ -1077,6 +1081,11 @@
       "sha256": "732a555bdfa7dda7d92747549eb779bdc148fdb1c8314ae39bcbd6a62134e8f5",
       "size": 8660,
       "normalized_sha256": "b215af3f93fa1cdac71732d4e2f487ba30bfe173b87658add7ebc0e58c66efa1"
+    },
+    "docs/projects/go_projects/clictl/plans/06-source-command-launch.md": {
+      "sha256": "f55dcd3211262200ee7f6a49f3b049fe57a82eeeeadab55ff292d6e72048d41e",
+      "size": 11241,
+      "normalized_sha256": "f55dcd3211262200ee7f6a49f3b049fe57a82eeeeadab55ff292d6e72048d41e"
     },
     "docs/projects/go_projects/exestarter/接口文档.md": {
       "role": "index",
