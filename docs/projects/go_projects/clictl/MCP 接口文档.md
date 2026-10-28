@@ -74,6 +74,7 @@ MCP 工具   ─┘
 | 字段 | 类型 | 说明 |
 |---|---|---|
 | id / name / path / description / status / added_at / size_bytes / launch_count | 同 CLI | |
+| alias | string | 可选；显示用别名（仅 WebUI 展示与搜索，不影响调用名） |
 | meta | object | 可选；展开为对象（非 CLI 的原始 JSON 透传） |
 | default_target | string | `exe` / `source` |
 | kind | string | `exe` / `source` / `both` |
@@ -101,6 +102,7 @@ MCP 工具   ─┘
 | type | string | 否 | 源码命令类型：`gui`（默认隐藏控制台）/ `console`（默认可见控制台） |
 | default_target | string | 否 | 默认启动目标 `exe` / `source`；缺省 exe |
 | name | string | 否 | 缺省为文件名或最后一个固定参数 |
+| alias | string | 否 | 显示用别名；TrimSpace 后 ≤64 字节，空 = 不设置 |
 | desc | string | 否 | |
 | meta | object | 否 | 白名单 source（≤64 字节）/ tags（≤8 项、单项 ≤32 字节）/ group（≤32 字节）；字节数限制在 Go 侧校验，Schema 只声明结构 |
 

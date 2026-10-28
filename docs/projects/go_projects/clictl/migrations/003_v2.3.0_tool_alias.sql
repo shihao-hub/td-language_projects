@@ -1,0 +1,17 @@
+-- clictl 表结构存档 003：v2.3.0 工具别名（alias，仅展示与搜索，不参与定位）
+-- 数据库：%APPDATA%\language_projects\clictl\{dev,prod}\clictl.db（WAL + foreign_keys=ON）
+-- 说明：本文件为文档存档，运行时迁移由 internal/store/store.go 的
+--       schemaTables + migrateToolsV3 + migrateToolsAlias + migrateLaunches 执行；clictl 不读取本文件。
+--
+-- 运行时顺序（在 002 的迁移之后追加执行）：
+--   1. PRAGMA table_info(tools) 检查 alias 列
+--   2. 缺列时：ALTER TABLE tools ADD COLUMN alias TEXT NOT NULL DEFAULT ''
+--
+-- tools v3 在 002 基础上新增一列（完整定义见 store.go toolsV3Columns）：
+--   alias           TEXT NOT NULL DEFAULT ''
+--
+-- 语义：
+--   - 别名为可选显示名：TrimSpace 后 ≤64 字节，拒绝 NUL；空串 = 无别名（应用层校验）
+--   - 仅用于 WebUI 卡片/详情展示与顶部搜索，不参与 run/start/info 等命令的工具定位
+--   - 不强制唯一，不参与排序（排序仍按 name）；name 保持大小写不敏感的唯一调用名
+--   - 旧库迁移后存量行 alias 为空串，无需回填

@@ -128,13 +128,20 @@ clictl-cli completion powershell --uninstall   # 卸载
   - `clictl-cli add-cmd --name N --program uv --dir D --type gui --arg run --arg zedhub-gui`
   - 同名卡片没有源码目标时附加；没有同名卡片时创建仅源码卡片；已有源码目标时用 `edit` 修改
   - `add <path> --name N` 同名卡片没有 exe 时附加 exe
-- 全量编辑：`clictl-cli edit <name> [--desc D] [--default exe|source] [--exe PATH] [--no-exe] [--source-program P] [--source-dir D] [--source-type gui|console] [--source-arg A ...] [--no-source] [--meta JSON]`
+- 全量编辑：`clictl-cli edit <name> [--alias A] [--desc D] [--default exe|source] [--exe PATH] [--no-exe] [--source-program P] [--source-dir D] [--source-type gui|console] [--source-arg A ...] [--no-source] [--meta JSON]`
 - 启动目标：`run/start` 支持 `--exe|--source`；缺省走 `default_target`；`start` 缺省模式按目标类型自动选择
 - 隐藏控制台：源码 gui / exe console 可用 `start`（源码 gui 默认 hidden）或 `start --hidden`；随后 `console <name> --show|--hide [--pid N]` 不重启进程显示/隐藏
 - 控制台实现：启动时 `CREATE_NEW_CONSOLE + STARTF_USESHOWWINDOW/SW_HIDE` 创建隐藏控制台；显隐用短命 `__console-ctl` 子进程 `AttachConsole(pid)` + `ShowWindow`
 - 多实例：同一卡片可多次 start；控制台显隐缺省操作最新存活实例，`--pid` 可指定；`stop` 仍全量树杀
 - 边界：隐藏控制台是“有控制台但不可见”，不是“无控制台”；真正的无控制台模式为 `--detached`，无法事后显示；不做日志文件，进程退出后控制台缓冲不保留
 - UI：详情页双目标区块分别提供「启动 exe」「源码启动/终端启动」「打开目录」；运行实例列表按 PID 显示目标/模式与显示/隐藏按钮；「编辑」弹窗可同时改 exe、源码、默认目标、描述、meta
+
+## 工具别名（v2.3.0）
+
+- 卡片可配置可选别名（`alias`）：仅用于 WebUI 展示与顶部搜索，**不参与定位**——`run/start/info` 等命令始终用调用名 `name`
+- 显示形态：列表卡片与详情标题均以原名为主文本，别名以强调色徽章并列显示
+- 配置入口：WebUI 注册/编辑弹窗「别名」输入框；CLI `add --alias A` / `edit --alias A`（`edit` 未给 `--alias` 保持现值，传空串清除）；REST `POST`/`PUT /api/tools` 的 `alias` 字段；MCP `clictl.add` 的 `alias` 参数
+- 约束：TrimSpace 后 ≤64 字节，不强制唯一，不参与排序；数据落 tools 表 `alias` 列（存量库自动补列）
 
 ## 命令行工具终端启动（console 模式）
 
