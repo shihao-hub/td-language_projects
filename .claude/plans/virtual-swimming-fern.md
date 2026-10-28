@@ -86,4 +86,11 @@
 - [x] 已按推荐默认确定：去重大小写敏感（保留存量 "Dev" 语义）。
 - [x] 已按推荐默认确定：`--group` flag 随本次交付 add/add-cmd/edit，`set` 不加。
 - [x] 已按推荐默认确定：卡片徽标全分组平铺、树排序不变、不维护孤儿分组名录。
-- [ ] 父仓 docs 现存未提交改动（alias 相关）如何处理？默认建议：先独立提交后再叠加本次文档更新，如需另行处理请在批准时说明。
+- [x] 父仓 docs 现存未提交改动（alias 相关）如何处理？已按推荐处理：先独立提交 alias（clictl `2ceb352`、父仓 `1362b65`），多分组代码与文档再分别单独提交。
+
+### 实施结果
+
+- 后端：`store/meta.go` 归一化 group 为有序数组；CLI `add`/`add-cmd`/`edit` 新增可重复 `--group`；MCP schema 文案同步。
+- GUI：`groupListOf`/`toolInGroup` 单点归一，树/标签页多桶、卡片与详情平铺分组、分组对话框改多选并支持新增；注册/编辑弹窗的分组输入改为「追加」语义，留空保持现有分组，避免编辑时静默清空多分组。
+- 测试：新增 store/meta 表驱动用例、API 与 MCP 多分组往返、store 往返；`go build ./...`、`go test -count=1 ./internal/...`、`node --check app.js` 全通过。
+
