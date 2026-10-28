@@ -127,13 +127,14 @@ go exe 默认图标.md[SV7T]: F:go_projects 产 exe 项目默认配地鼠图标�
 
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/===
 Go CLI JSON 输出模式参考.md[SO7M]: F:提炼 clictl 的 CLI 骨架 + JSON 输出通用模式：包络出口函数、stdout/stderr 分工、退出码与错误码映射 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:其他 Go CLI 项目直接参考套用，与 clictl 业务无关 | S:管理命令错误 JSON 走 stdout、run 透传前置错误走 stderr，stdout 只属于子进程
-MCP 接口文档.md[SN7M]: F:clictl 的 MCP server 契约：10 个工具、JSON Schema、错误语义与接入方式；涵盖双目标 add/start、console 按需显隐与和 CLI/WebUI 共用的 /api 契约 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md | A:与 internal/mcp 及 CLI 同源维护，改实现必须同步更新本文档；Schema 只声明结构，字节数等限制由 Go 侧校验 | S:MCP 业务失败返回 isError 结果而非协议级 error；run 为非交互收集，不提供 stdin/PTY 透传；clictl mcp 是 server 入口不是工具
-clictl 使用指南.md[SG7M]: F:clictl 使用指南：双通道产物、注册/run/start/stop/cp/meta、平铺与分组视图（标签页/树形折叠）及 JSON 包络与退出码 | R:code:docs/projects/go_projects/clictl/plans/04-groups-view-sort.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:父仓镜像文档，与子仓 README 同步；默认平铺、名称升序；视图/排序/当前分组/折叠状态落通道目录 ui_preferences.json | S:PS5.1 原生 exe 管道中文变 ? 源于编码重编码，--ascii 可免疫；stop 的 exit_code=1 是强杀约定；meta.group ≤32 字节
+MCP 接口文档.md[SN7M]: F:clictl 的 MCP server 契约：10 个工具、JSON Schema、错误语义与接入方式；涵盖双目标 add/start（add 支持 alias 显示别名）、meta.group 多分组数组、console 按需显隐与和 CLI/WebUI 共用的 /api 契约 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md | A:与 internal/mcp 及 CLI 同源维护，改实现必须同步更新本文档；Schema 只声明结构，字节数等限制由 Go 侧校验 | S:MCP 业务失败回 isError 而非协议错误；clictl mcp 是 server 入口；run 无 stdin/PTY；alias 仅展示搜索不参与定位；meta.group 传字符串或数组（≤8 项、≤32 字节），存为数组
+clictl 使用指南.md[SG7M]: F:clictl 使用指南：双通道产物、注册（含 alias 别名）/run/start/stop/cp/meta、平铺与分组视图（标签页/树形折叠）、工具别名与多分组（meta.group 数组，一工具可属多组）配置与展示及 JSON 包络与退出码 | R:code:docs/projects/go_projects/clictl/plans/04-groups-view-sort.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:父仓镜像文档，与子仓 README 同步；默认平铺、名称升序；视图/排序/当前分组/折叠状态落通道目录 ui_preferences.json | S:PS5.1 原生 exe 管道中文变 ? 用 --ascii 免疫；stop 的 exit_code=1 是强杀约定；meta.group ≤8 项、≤32 字节、去重排序，多分组工具在各组重复计数；别名仅展示搜索，≤64 字节
 
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/migrations/===
 000_init_v1.0.0.sql[FP6T]: F:clictl 初始表结构存档（tools/launches，WAL+外键） | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:- | S:文档存档不参与运行，建表由 store.go schema 常量执行
 001_v1.2.0_add_launches_pid.sql[FP5T]: F:launches 表加 pid 列的存档迁移（start 探活用） | R:code:docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql | A:- | S:存量库由 Open() 检测 PRAGMA 后自动 ALTER，文件本身不被读取
 002_v2.2.0_command_tools.sql[PD6T]: F:v2.2.0 双目标表结构存档：tools v3 的 exe/source 列与 default_target、launches target/mode、partial unique indexes 及迁移步骤 | R:code:docs/projects/go_projects/clictl/plans/06-source-command-launch.md | A:纯文档存档，运行时迁移由子仓 internal/store/store.go 的 schemaTables/migrateToolsV3/migrateLaunches 执行，clictl 不读取本文件 | S:PRAGMA foreign_keys 必须在事务外切换；重命名 tools_new 后须同步 sqlite_sequence，否则自增 id 失序
+003_v2.3.0_tool_alias.sql[PD6T]: F:clictl v2.3.0 工具别名列存档：tools 补 alias TEXT NOT NULL DEFAULT ''，别名仅展示与搜索、不参与定位 | R:code:docs/projects/go_projects/clictl/migrations/002_v2.2.0_command_tools.sql | A:纯文档存档不参与运行，运行时迁移由子仓 internal/store/store.go 的 migrateToolsAlias 执行 | S:别名 TrimSpace 后 ≤64 字节、拒绝 NUL，空串=无别名；旧库自动 ALTER 补列，存量行为空无需回填
 
 ===D:/Users/language_projects/docs/projects/go_projects/exestarter/===
 接口文档.md[SG7M]: F:exestarter 联调契约：JSON 包络、退出码表、Entry 数据模型、SysTag 枚举与逐命令详解 | R:- | A:消费方（tooldeck bridge/脚本/LLM）按本文档对接 | S:无文件锁，写类命令不得并发调用，GUI bridge 需串行队列
@@ -371,6 +372,7 @@ settings.json[FC2T]: F:Claude Code 项目共享配置：plansDirectory 指向 .c
 build-uv-run-build-py-prancy-mountain.md[SV3T]: F:历史计划文档：把 4 处构建脚本文档示例统一为默认无参 uv run build.py 形式（clictl、sourcecount 两项目 README 与父仓镜像使用指南），带参用法转注释 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/sourcecount/使用指南.md | A:- | S:-
 staged-inventing-salamander.md[SD4T]: F:zedhub 功能计划：sessions link 增加 claude-code/codex/antigravity 三源会话补登与跨目录挂载（新建 thread_id 沿用 session_id，原目录入口保留），含三源扫描器设计、查重语义与真实验证方案 | R:code:docs/projects/python_projects/zedhub/specs/01-zed-session-hub/tasks.md | A:- | S:opencode 源保持全局 session_id 查重；三源按 (agent_id,session_id,目录) 三元组查重
 everything-replicated-hearth.md[SZ3T]: F:Everything 常驻实例排查收尾计划：idle_exit.ps1 手动实例保护加 2 小时时效上限 + kb-engineering-notes 46 号进程取证笔记沉淀 | R:- | A:任务完结归档：修复与笔记已落地推送，本计划仅存档排查结论；后续调整保护时长直接改 idle_exit.ps1 的 protectHours | S:-
+virtual-swimming-fern.md[SG7T]: F:clictl 工具多分组实施计划：meta.group 归一化为有序数组、CLI --group 便捷 flag、WebUI 多桶渲染与测试切分 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/plans/04-groups-view-sort.md | A:已实施完成；保留 key group、写入统一归一化为数组，不做 DB 迁移，旧单字符串由前端归一函数与校验层兼容并惰性写回 | S:去重大小写敏感、≤8 项、单项 ≤32 字节，空数组剔除 key；set 不提供 --group（整体替换语义易误清空）；与 alias 未提交改动须分笔提交
 
 ===D:/Users/language_projects/.scripts/group_avatars/===
 .gitignore[FC2T]: F:忽略群头像生成过程的测试与临时文件（test_* 模式），保留「临时区」群成品 temp_zone_avatar.jpg 与 *_temp_*.png 入库 | R:code:.scripts/group_avatars/README.md | A:- | S:-
@@ -520,4 +522,7 @@ typeai-ui-redesign.html[SU4L]: F:typeai UI 重设计高保真原型（静态单�
 design.md[SE7S]: F:DSH 只读源设计：zstd JSONL 解析层、DeepseekHarnessSource 适配器、元数据短路扫描与 FTS5 复用，不新增索引库 | R:code:docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/requirements.md,code:python_projects/zedhub/src/zedhub/core/sources/deepseek_source.py | A:标题事件命中即停止；updated_at 用文件 mtime；不加入 FILE_SOURCES 以免轨迹半支持 | S:不得向 ~/.dsh 写入任何文件或缓存；默认 scope=zed 不可见，需 scope=all
 requirements.md[SE6S]: F:DSH 源需求：FR-1..FR-8 与 AC-1..AC-8，覆盖源注册、发现、过滤、正文、检索、FTS5、Web 与契约文档 | R:code:docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/design.md | A:capabilities 仅 sessions/content/discovery，不含 export/link；全程只读 | S:251 会话元数据扫描约 0.13s，不得为列表全量解压；损坏文件按单会话跳过
 tasks.md[SE6T]: F:DSH 源任务清单：8 个任务从依赖提升、路径解析、解析层、适配器、注册到 Web、文档与测试 | R:code:docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/design.md | A:按序执行，任务 8 提供 tmp_path 构造 zstd 会话的用例 | S:测试用显式 home 隔离，避免 DSH_DATA 覆盖 tmp_path
+
+===D:/Users/language_projects/docs/projects/go_projects/deepseeksearch/===
+research-deepseek-tools-pricing.md[SG7T]: F:DeepSeek Search/Fetch API 计费规则调研报告：按次计费 $0.75/1000 次、count 与 need_content 不影响费用、Fetch 与 Search 独立计费，并归因前序 Agent 503 崩溃现场 | R:- | A:调研日期 2026-10-29，为客户端计费优化疑问查证官方一手信源；正式收费自 2026-11-01 起生效 | S:仅 HTTP 200 且非空成功请求扣费，4xx/5xx 与未命中不计费，超限 429 不计费；先搜索 N 条再逐条 Fetch 会产生 1+N 次计费
 

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-27T15:54:55Z",
+  "updated_at": "2026-10-28T18:57:32Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -82,6 +82,11 @@
       "sha256": "ea9a7a1b117732936f68f5910bd8b68c1ea2b1313e9516ae3b2d27b963890a20",
       "size": 5015,
       "normalized_sha256": "ea9a7a1b117732936f68f5910bd8b68c1ea2b1313e9516ae3b2d27b963890a20"
+    },
+    ".claude/plans/virtual-swimming-fern.md": {
+      "sha256": "5c649726ada2fd9268dfdfad7ce3a543f87ff79debaad435ea6b1efe3d4762fd",
+      "size": 8165,
+      "normalized_sha256": "5c649726ada2fd9268dfdfad7ce3a543f87ff79debaad435ea6b1efe3d4762fd"
     },
     ".claude/settings.json": {
       "sha256": "033b52de3a6a96b54965c8678f66772fe5de7e681542487cc024c36b55614c66",
@@ -441,9 +446,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "12866fe879ad4befc17df464d7dfdf8655f9df2dcf6364362e99f2a94bf07b0f",
-      "size": 160481,
-      "normalized_sha256": "12866fe879ad4befc17df464d7dfdf8655f9df2dcf6364362e99f2a94bf07b0f"
+      "sha256": "6c03fa3721c28e1f31f6e2dbddb5aeb70cb63ca17eea7e43034d833af3af5eef",
+      "size": 162531,
+      "normalized_sha256": "6c03fa3721c28e1f31f6e2dbddb5aeb70cb63ca17eea7e43034d833af3af5eef"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1031,14 +1036,14 @@
       "normalized_sha256": "fc620888a70bafe99ddb7b0abbc0019d7c96d0118ae3f6f59e3989bb36b5b3e8"
     },
     "docs/projects/go_projects/clictl/MCP 接口文档.md": {
-      "sha256": "1393660117667a8ddb8d53e9f67e2762e54a1e616dc4231cc184f443aeac566c",
-      "size": 13327,
-      "normalized_sha256": "1393660117667a8ddb8d53e9f67e2762e54a1e616dc4231cc184f443aeac566c"
+      "sha256": "b94d02757fc69e3437366d4042fe9bb9ee711c2540aa994e72654973ff56e071",
+      "size": 13578,
+      "normalized_sha256": "b94d02757fc69e3437366d4042fe9bb9ee711c2540aa994e72654973ff56e071"
     },
     "docs/projects/go_projects/clictl/clictl 使用指南.md": {
-      "sha256": "32e44ece27061740dbc99b34b66d13139d93de7e949f869ba20c2f88b2c3a530",
-      "size": 17329,
-      "normalized_sha256": "32e44ece27061740dbc99b34b66d13139d93de7e949f869ba20c2f88b2c3a530"
+      "sha256": "be235aab4e5a98c48962906d178aa85a7ec332287ad9a2d1a98429799f2f7aba",
+      "size": 18835,
+      "normalized_sha256": "be235aab4e5a98c48962906d178aa85a7ec332287ad9a2d1a98429799f2f7aba"
     },
     "docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
       "role": "index",
@@ -1056,6 +1061,11 @@
       "sha256": "191450e9ffac9f0666fa33b04a3f40d2e7a22342f7ceaa7cee21408424c04847",
       "size": 2626,
       "normalized_sha256": "191450e9ffac9f0666fa33b04a3f40d2e7a22342f7ceaa7cee21408424c04847"
+    },
+    "docs/projects/go_projects/clictl/migrations/003_v2.3.0_tool_alias.sql": {
+      "sha256": "5ff7001a63dd0fce347b4374cb810e1c16db0419d2d901d7d57528c1a4cdb5ba",
+      "size": 1155,
+      "normalized_sha256": "5ff7001a63dd0fce347b4374cb810e1c16db0419d2d901d7d57528c1a4cdb5ba"
     },
     "docs/projects/go_projects/clictl/plans/01-wails-dual-channel.md": {
       "sha256": "23a550fdb3df4e872b88164ec5546cb416472bb98a232367f6b4022be12bd4bc",
@@ -1086,6 +1096,11 @@
       "sha256": "f55dcd3211262200ee7f6a49f3b049fe57a82eeeeadab55ff292d6e72048d41e",
       "size": 11241,
       "normalized_sha256": "f55dcd3211262200ee7f6a49f3b049fe57a82eeeeadab55ff292d6e72048d41e"
+    },
+    "docs/projects/go_projects/deepseeksearch/research-deepseek-tools-pricing.md": {
+      "sha256": "a7f1e2d5e9040ca6b39c9f0b14b3a94591f31efac8be8fc5c4e79d805578425c",
+      "size": 5840,
+      "normalized_sha256": "a7f1e2d5e9040ca6b39c9f0b14b3a94591f31efac8be8fc5c4e79d805578425c"
     },
     "docs/projects/go_projects/exestarter/接口文档.md": {
       "role": "index",
