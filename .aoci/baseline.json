@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-28T18:57:32Z",
+  "updated_at": "2026-10-28T18:59:14Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -84,9 +84,9 @@
       "normalized_sha256": "ea9a7a1b117732936f68f5910bd8b68c1ea2b1313e9516ae3b2d27b963890a20"
     },
     ".claude/plans/virtual-swimming-fern.md": {
-      "sha256": "5c649726ada2fd9268dfdfad7ce3a543f87ff79debaad435ea6b1efe3d4762fd",
-      "size": 8165,
-      "normalized_sha256": "5c649726ada2fd9268dfdfad7ce3a543f87ff79debaad435ea6b1efe3d4762fd"
+      "sha256": "28c677e58553466bb1fcc72ccefff2595ba5d381948ec539902b4f1cfdb01946",
+      "size": 8812,
+      "normalized_sha256": "28c677e58553466bb1fcc72ccefff2595ba5d381948ec539902b4f1cfdb01946"
     },
     ".claude/settings.json": {
       "sha256": "033b52de3a6a96b54965c8678f66772fe5de7e681542487cc024c36b55614c66",
@@ -446,9 +446,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "6c03fa3721c28e1f31f6e2dbddb5aeb70cb63ca17eea7e43034d833af3af5eef",
-      "size": 162531,
-      "normalized_sha256": "6c03fa3721c28e1f31f6e2dbddb5aeb70cb63ca17eea7e43034d833af3af5eef"
+      "sha256": "ba85c7f0273563846425e390028b20a10a3c1fd6902caeb19c1381bc399550f2",
+      "size": 162524,
+      "normalized_sha256": "ba85c7f0273563846425e390028b20a10a3c1fd6902caeb19c1381bc399550f2"
     },
     "aoci.meta.txt": {
       "role": "index",
