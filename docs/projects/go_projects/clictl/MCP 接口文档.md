@@ -104,7 +104,7 @@ MCP 工具   ─┘
 | name | string | 否 | 缺省为文件名或最后一个固定参数 |
 | alias | string | 否 | 显示用别名；TrimSpace 后 ≤64 字节，空 = 不设置 |
 | desc | string | 否 | |
-| meta | object | 否 | 白名单 source（≤64 字节）/ tags（≤8 项、单项 ≤32 字节）/ group（≤32 字节）；字节数限制在 Go 侧校验，Schema 只声明结构 |
+| meta | object | 否 | 白名单 source（≤64 字节）/ tags（≤8 项、单项 ≤32 字节）/ group（字符串或字符串数组，≤8 项、单项 ≤32 字节，存为数组）；字节数限制在 Go 侧校验，Schema 只声明结构 |
 
 输出：新建/更新后的 Tool（含 `kind` / `default_target` / `exe` / `source`）。错误：`not_exe` / `file_not_found` /
 `program_not_found` / `workdir_not_found` / `conflict` / `bad_args` / meta 系列。

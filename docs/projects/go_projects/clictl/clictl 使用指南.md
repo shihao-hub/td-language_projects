@@ -96,7 +96,7 @@ clictl-cli completion powershell --uninstall   # 卸载
 - 托盘菜单：打开启动台 / 在默认浏览器中打开 / 开机自启（dev 置灰）/ 彻底退出；关窗只销毁窗口，进程留托盘
 - 窗口几何（尺寸/位置/最大化）落在 `<通道目录>\window.json`，重开精确恢复
 - WebUI：左侧工具卡片（搜索 + 全部/运行中/有效/失效过滤 + 平铺/分组视图（分组内可在标签页与树形折叠间切换） + 排序），右侧详情（exe/源码双目标、运行实例、路径、分组徽标、大小、累计耗时、meta、最近 10 条启动）；支持目标化启动（可带参数）/停止/控制台显示隐藏/定位/设置分组/编辑/编辑 meta/删除/注册（内置目录浏览选 exe/程序/工作目录）
-- 分组与视图：默认平铺、名称升序；点击详情标题旁的分组徽标即可选择已有分组或新建（写入 `meta.group`），注册时也可直接指定；分组视图顶部以标签页切换分组，也可一键切到树形折叠；视图/排序/当前分组/折叠状态落在 `<通道目录>\ui_preferences.json`，重启保持
+- 分组与视图：默认平铺、名称升序；点击详情标题旁的分组徽标即可打开多选面板——点击已有分组切换归属，输入新名后点「添加」，全部取消即未分组（写入 `meta.group` 数组，≤8 项）；同一工具归属于多个分组时会同时出现在各分组下，计数重复计入；注册时也可直接指定；分组视图顶部以标签页切换分组，也可一键切到树形折叠；视图/排序/当前分组/折叠状态落在 `<通道目录>\ui_preferences.json`，重启保持
 - WebUI 不提供 `run` 前台透传：浏览器无法接管 TTY，需要看输出请用 `clictl-cli run`
 - 无 GUI 时也可只跑 WebUI：`clictl-cli serve [--port 0] [--open]`，根路径即完整工作台
 - 通道自省：`clictl-cli where`（JSON）确认当前通道、库路径、工具数与两通道 GUI 运行状态
@@ -128,7 +128,7 @@ clictl-cli completion powershell --uninstall   # 卸载
   - `clictl-cli add-cmd --name N --program uv --dir D --type gui --arg run --arg zedhub-gui`
   - 同名卡片没有源码目标时附加；没有同名卡片时创建仅源码卡片；已有源码目标时用 `edit` 修改
   - `add <path> --name N` 同名卡片没有 exe 时附加 exe
-- 全量编辑：`clictl-cli edit <name> [--alias A] [--desc D] [--default exe|source] [--exe PATH] [--no-exe] [--source-program P] [--source-dir D] [--source-type gui|console] [--source-arg A ...] [--no-source] [--meta JSON]`
+- 全量编辑：`clictl-cli edit <name> [--alias A] [--desc D] [--default exe|source] [--exe PATH] [--no-exe] [--source-program P] [--source-dir D] [--source-type gui|console] [--source-arg A ...] [--no-source] [--meta JSON] [--group G ...]`（`--group` 可重复传，显式给出时覆盖 meta 中的 group，空串表示清除）
 - 启动目标：`run/start` 支持 `--exe|--source`；缺省走 `default_target`；`start` 缺省模式按目标类型自动选择
 - 隐藏控制台：源码 gui / exe console 可用 `start`（源码 gui 默认 hidden）或 `start --hidden`；随后 `console <name> --show|--hide [--pid N]` 不重启进程显示/隐藏
 - 控制台实现：启动时 `CREATE_NEW_CONSOLE + STARTF_USESHOWWINDOW/SW_HIDE` 创建隐藏控制台；显隐用短命 `__console-ctl` 子进程 `AttachConsole(pid)` + `ShowWindow`
@@ -193,7 +193,9 @@ clictl-cli completion powershell --uninstall   # 卸载
 
 ## meta 白名单
 
-`--meta` 仅允许 `source`（string ≤64B）、`tags`（[]string ≤8 项、每项 ≤32B、去重小写存储）与 `group`（string ≤32B、首尾空白裁剪），白名单外 key 直接拒绝；序列化后 ≤ 4KB 硬限。
+`--meta` 仅允许 `source`（string ≤64B）、`tags`（[]string ≤8 项、每项 ≤32B、去重小写存储）与 `group`（string 或 []string，≤8 项、每项 ≤32B、首尾空白裁剪、精确去重后排序），白名单外 key 直接拒绝；序列化后 ≤ 4KB 硬限。
+
+`group` 写入时统一归一化为数组（旧单字符串 `{"group":"dev"}` 由各端按单元素数组兼容，用户下次编辑分组时惰性写回数组）；trim 后为空或空数组即剔除整个 key（未分组不落库）。多分组请传数组：`clictl-cli set <name> --meta '{"group":["dev","ops"]}'`；`add`/`add-cmd`/`edit` 还可用可重复的 `--group G` 便捷指定（`set` 为整体替换语义，不提供该 flag）。
 
 ## 启动记账
 
