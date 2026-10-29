@@ -111,3 +111,11 @@ func openChromeAppWindow(url string) {
 
 - [ ] 验证点 3/4/5（重复 --app 行为、首启气泡、任务栏图标）需 pilot 实测回填，不阻塞开工
 - [ ] 共享 profile 放 `%LOCALAPPDATA%\language_projects\chrome-apps\dev|prod` 属对 §四约定的共享型例外，需用户认可（默认按此执行）
+
+## 实施结果（2026-10-29，已收尾）
+
+- 代码：`chrome.go` 新增，`gui.go`/`main.go`/`README`/`build.py` 接线，`chrome_test.go` 覆盖定位与分发；子仓提交 `f9bccce`
+- 验证 1–8 全通过；验证点 3 = 复用既有窗口（无需去重锁）、4 = 首启无气泡、5 = 任务栏为 Chrome 图标
+- 内存：chrome 3 窗口 ≈700MB WS / 355MB 私有，Wails 3 实例 ≈1230MB WS / 510MB 私有
+- 正式计划与实测明细：`docs/projects/go_projects/clictl/plans/07-chrome-app-mode.md`
+- 跨项目模式文档：`docs/projects/go_projects/Chrome 应用模式启动渠道.md`
