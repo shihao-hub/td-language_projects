@@ -95,8 +95,33 @@ func openChromeAppWindow(url string)
 
 ## 七、实施结果
 
-- [ ] `internal/app/chrome.go` 新增（定位 / profile / 拉起 / 回退）
-- [ ] `internal/app/gui.go` 加 `chromeMode`、`LaunchGUI` 第 4 参、`openMainChannel`、托盘三处与二实例分发
-- [ ] `cmd/clictl/main.go` 解析 `--chrome` 并透传
-- [ ] README 补充 `--chrome` 契约与共享 profile 例外理由
-- [ ] 验证点 3/4/5 实测结论回填
+- [x] `internal/app/chrome.go` 新增（定位 / profile / 拉起 / 回退）
+- [x] `internal/app/gui.go` 加 `chromeMode`、`LaunchGUI` 第 4 参、`openMainChannel`、托盘三处与二实例分发
+- [x] `cmd/clictl/main.go` 解析 `--chrome` 并透传
+- [x] README / 使用指南 / 跨项目模式文档补充契约与共享 profile 例外理由
+- [x] 验证点 3/4/5 实测结论回填（见 §八）
+
+## 八、实测结论（dev 构建，2026-10-29）
+
+验证 1–8 全部通过（`bin/clictl-gui-dev.exe`）：
+
+- 启动：只有 Chrome `--app` 窗口（无地址栏/标签栏），Go 壳无 Wails 窗口；关/杀 chrome 窗口后 Go 进程存活，二实例 `--chrome` 重开窗口。
+- **验证点 3（重复 `--app`）**：第二实例与手工重复拉起均未新增窗口，Chrome 复用既有窗口 → **无需去重锁**。
+- **验证点 4（首启气泡）**：删除全新共享 profile 后首启直接渲染工作台，无向导、无恢复气泡。
+- **验证点 5（任务栏图标）**：任务栏为 Chrome 图标（WebUI 无 favicon/manifest）；升级路径仍是 PWA 化。
+- 组合语义：无参二实例开 Wails 窗口、`--chrome --hidden` 静默（二实例带 `--hidden` 同样静默，静默优先）。
+- 兜底：`CLICTL_CHROME_PATH=C:\nonexistent\x.exe` → 日志记「CLICTL_CHROME_PATH 指向的文件不存在」并回退默认浏览器。
+- 隔离：实际 `--user-data-dir` 为 `<LocalAppData>\language_projects\chrome-apps\dev`。
+
+内存实测（WorkingSet 口径，含共享内存，故总量偏高；私有内存更能反映增量）：
+
+| 场景 | 组成 | WS | 私有 |
+|---|---|---|---|
+| 闲置（`--hidden`） | 仅 Go 壳 | 21.8MB | — |
+| Chrome 单开 | Go 25.7 + chrome 树 573.5 | 599.2MB | ≈ 282MB |
+| Chrome 3 窗口 | Go 25.7 + chrome 树 670.4 | 700.2MB | ≈ 355MB |
+| Wails 单实例（基线） | Go 44.4 + WebView2 树 369.6 | 414.1MB | ≈ 169MB |
+| Wails 3 实例（基线） | 3 × 约 414 | ≈ 1230MB | ≈ 510MB |
+
+结论：单开时 chrome 模式略贵；多开时第 N 个窗口增量约 36MB 私有内存，是同构 Wails 实例（约 180MB）的 1/5，3 界面合计省约 43%。
+
