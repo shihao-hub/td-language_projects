@@ -90,7 +90,7 @@ clictl-cli completion powershell --uninstall   # 卸载
 
 | 产物 | 子系统 | 行为 |
 |---|---|---|
-| `clictl-gui[-dev].exe` | Windows GUI | 只开窗口/托盘；除 `--hidden`/`--tray` 外忽略一切参数（`clictl-gui list` 不会执行 CLI） |
+| `clictl-gui[-dev].exe` | Windows GUI | 只开窗口/托盘；仅识别 `--hidden`/`--tray`/`--chrome`，其余参数忽略（`clictl-gui list` 不会执行 CLI） |
 | `clictl-cli[-dev].exe` | Console | 全部子命令只在这里；prompt/管道/重定向合规 |
 
 - 托盘菜单：打开启动台 / 在默认浏览器中打开 / 开机自启（dev 置灰）/ 彻底退出；关窗只销毁窗口，进程留托盘
@@ -100,6 +100,23 @@ clictl-cli completion powershell --uninstall   # 卸载
 - WebUI 不提供 `run` 前台透传：浏览器无法接管 TTY，需要看输出请用 `clictl-cli run`
 - 无 GUI 时也可只跑 WebUI：`clictl-cli serve [--port 0] [--open]`，根路径即完整工作台
 - 通道自省：`clictl-cli where`（JSON）确认当前通道、库路径、工具数与两通道 GUI 运行状态
+
+### Chrome 应用模式（`--chrome`）
+
+```powershell
+.\bin\clictl-gui-dev.exe --chrome    # 主界面走 Chrome --app 窗口，托盘常驻
+.\bin\clictl-gui-dev.exe             # 无参 = 默认 Wails 窗口（行为不变）
+.\bin\clictl-gui-dev.exe --chrome --hidden   # 纯托盘，不建任何窗口
+```
+
+- 用途：Wails/WebView2 每个实例独占一棵进程树（闲置约 400MB），同构 GUI 多开时内存爆炸；Chrome `--app` 窗口共享同一浏览器进程，第 N 个窗口只多一个渲染进程（实测约 +36MB 私有内存）。
+- 窗口无地址栏/标签栏，标题栏保留最小化/最大化/关闭；任务栏图标为 Chrome 图标（无 favicon，PWA 化留待后续）。
+- 关窗口 ≠ 退出进程：Go 壳与托盘常驻，托盘左键/双击/菜单「打开启动台」重新拉起窗口；进程退出走托盘「彻底退出」。
+- 单实例：第二实例一律 exit 0 由第一实例执行；第二实例带 `--chrome` 打开 chrome 窗口，无参打开 Wails 窗口（两模式可混用）；带 `--hidden`/`--tray` 时静默不弹窗。
+- Chrome 定位：`CLICTL_CHROME_PATH`（显式指定，路径不存在直接报错）→ 注册表 `App Paths` → `Program Files`/`Program Files (x86)`/`LocalAppData` 常见路径；失败或拉起失败都会写日志并回退默认浏览器打开同一 URL。
+- 共享 profile：`%LOCALAPPDATA%\language_projects\chrome-apps\<dev|prod>`（回退 `~/.language_projects/chrome-apps/<通道>`）——**路径不含项目名**，所有同构项目必须逐字一致才能共享浏览器进程；dev/prod 分层隔离。
+- 取舍：单开时 chrome 模式反而略高于 Wails（完整浏览器多进程），省的是多开；Go 进程重启换动态端口后旧窗口成死页需手动关（进程存活期内端口稳定）。
+- 排障：日志 `<通道目录>\clictl.log` 含「Chrome 应用模式窗口已拉起」或失败原因；`chrome://version` 可核对实际 `--user-data-dir`。
 
 ## 数据目录与迁移
 
