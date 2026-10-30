@@ -93,3 +93,14 @@ flowchart TD
 2. 在该会话中发送“继续”。
 3. 检查 Zed 侧边栏：会话标题保持原样，绝不被修改为“继续”。
 4. 在 Zed 中新建一个空白会话，发送具体开发任务（如“实现一个 LRU 缓存”），验证正常生成准确标题。
+
+---
+
+## 6. 执行与验收结果 (Execution Status)
+
+- [x] 新增 `internal/store/store.go`，实现 `%APPDATA%\language_projects\acp-title-proxy\titled_sessions.json` 持久化存储。
+- [x] 新增 `internal/store/zeddb.go`，实现 Zed 本地 SQLite 历史会话只读探针。
+- [x] 改造 `internal/agy/titler.go`，接入内存 + 持久化 + Zed DB 三重拦截防线。
+- [x] 新增并运行单元测试 `internal/store` 与 `internal/agy`，模拟进程重启并发送“继续”，确认原标题 100% 保持不变。
+- [x] 全量测试套件通过（`go test ./...`）。
+- [x] 成功编译最新二进制 `bin/acp-title-proxy.exe` 并平滑重启后台 pre-warm daemon。
