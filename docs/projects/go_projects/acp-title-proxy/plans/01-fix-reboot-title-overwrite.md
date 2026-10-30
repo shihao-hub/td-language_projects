@@ -104,3 +104,18 @@ flowchart TD
 - [x] 新增并运行单元测试 `internal/store` 与 `internal/agy`，模拟进程重启并发送“继续”，确认原标题 100% 保持不变。
 - [x] 全量测试套件通过（`go test ./...`）。
 - [x] 成功编译最新二进制 `bin/acp-title-proxy.exe` 并平滑重启后台 pre-warm daemon。
+
+---
+
+## 7. 后续修订：占位标题判据（2026-10-31）
+
+原方案把 `sidebar_threads.title` 非空直接判为“已有标题”。实测发现：AGY 这类自身不产标题的 agent，Zed 会在用户发出首条消息的瞬间把消息原文写入 `title` 作为占位副本，于是标题生成在首条消息上自我否定、永不执行（`%APPDATA%\language_projects\acp-title-proxy\titled_sessions.json` 中记录的全部是首条消息原文，即为证据）。
+
+现行判据调整为四层：
+
+1. 本地持久化存储命中 → 跳过；
+2. `title_override` 非空 → 用户显式命名，跳过；
+3. `title` 非空且**不是当前 prompt 的占位副本**（归一化后与 prompt 互为子串）→ 历史会话已有真实标题，跳过；
+4. 否则视为未命名，触发生成。
+
+第 3 条保留了本计划“重启后在旧会话发『继续』不得覆写标题”的核心防护，同时修复首条消息自我否定问题。新增回归测试：`TestTitlerGeneratesDespitePlaceholderTitle`、`TestTitlerSkipsExistingGeneratedTitleAfterRestart`、`TestIsPlaceholderTitle`。
