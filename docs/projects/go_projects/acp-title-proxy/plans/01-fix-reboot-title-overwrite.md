@@ -19,17 +19,17 @@
 ## 2. 用户审核与关键决策 (User Review Required)
 
 > [!IMPORTANT]
-> **多层防御策略**：
+> **极简不变式防御策略**：
 > 1. **数据持久化位置**：遵循 Monorepo 规范 §四，持久化数据文件存放于 `%APPDATA%\language_projects\acp-title-proxy\titled_sessions.json`。
 > 2. **历史会话双重检查**：在收到任何 `session/prompt` 时，如果本地缓存未命中，自动以只读模式探测 Zed 的 `db.sqlite`。如果该 session 已经存在有效标题，自动载入持久化缓存并直接跳过，绝对禁止再次向 Zed 发送 `session_info_update`。
-> 3. **无意义延续词跳过**：去除标点后等于纯延续词（如“继续”、“下一步”、“好的”、“continue”等）时，直接暂缓生成，直到出现有实质任务内容的提问。
+> 3. **核心不变式：单会话单次命名**：会话生命周期内严格仅允许起名一次，只要已有标题，后续对话一律无条件过滤（Early Return），无需维护脆弱复杂的特定词黑名单。
 
 ---
 
 ## 3. 未决问题与阻塞确认清单 (Open Questions)
 
 ### 未决问题与阻塞确认清单
-- [ ] 针对纯延续词（如用户在全新的白纸会话中第一句真的只输入了“继续”），当前设计策略为**“暂不触发自动起名，等待后续有具体内容的提问再生成”**，是否符合您的预期？
+- [x] ~~针对纯延续词过滤~~ -> 已对齐用户极简原则：依赖“持久化 + Zed DB 查重”核心不变式，已有标题的历史会话后续任何输入一律自然跳过，无需特例词表修补。
 
 ---
 
@@ -41,9 +41,7 @@ flowchart TD
     CacheCheck -- 是 --> Done[直接跳过, 保持原标题]
     CacheCheck -- 否 --> ZedDBCheck{Zed DB 中已有标题?}
     ZedDBCheck -- 是 --> RecordCache[回填缓存并持久化] --> Done
-    ZedDBCheck -- 否 --> ContentCheck{是否为纯延续词(如'继续')?}
-    ContentCheck -- 是 --> SkipWord[暂不生成, 等待实质提问]
-    ContentCheck -- 否 --> LLMCall[调用 LLM 生成 4~12 字简明标题]
+    ZedDBCheck -- 否 --> LLMCall[调用 LLM 生成 4~12 字简明标题]
     LLMCall --> Inject[向 Zed 注入 session_info_update]
     Inject --> Persist[写入本地持久化存储 & 内存缓存]
 ```
@@ -68,14 +66,12 @@ flowchart TD
 ### 4.3 强化 AGY 标题器 (`internal/agy/titler.go`)
 
 #### [MODIFY] `internal/agy/titler.go`
-1. 引入 `store.Store` 实例。
-2. 实现 `OnSessionNew(sessionID string)`：记录 `newSessions[sessionID] = true`。
-3. 改造 `OnPrompt(sessionID, prompt)`：
-   - 检查 store 是否已记录该 session；
-   - 检查 Zed DB 是否已存在该 session 的标题，若是则补入 store 并退出；
-   - 检查 prompt 是否属于低信息量延续词（`isContinuationPrompt(prompt)`），若是则退出；
+1. 引入持久化存储与 Zed DB 探针支持。
+2. 改造 `OnPrompt(sessionID, prompt)`：
+   - 检查持久化 store 是否已记录该 session，若是则直接跳过；
+   - 检查 Zed DB 是否已存在该 session 的标题，若是则回填 store 并直接跳过；
+   - 仅当二者均未命中时，才触发首条标题生成；
    - 生成成功后调用 `store.MarkTitled(sessionID, title)` 持久化。
-4. 增强 System Prompt：明确指示若输入缺乏主题不得复读无意义短语。
 
 ### 4.4 编译与部署
 
