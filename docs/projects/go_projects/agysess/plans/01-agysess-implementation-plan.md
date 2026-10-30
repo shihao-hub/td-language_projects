@@ -1,7 +1,8 @@
 # 实施计划：agysess —— 轻量级 agy CLI 会话管理与 Windows Terminal 联动工具
 
-> 文档状态：待审阅与确认  
+> 文档状态：已完成并交付  
 > 创建时间：2026-10-31  
+> 交付时间：2026-10-31  
 > 归属规范：[`docs/projects/go_projects/CLI 工具开发标准.md`](../../../docs/projects/go_projects/CLI%20工具开发标准.md)  
 > 项目路径：`go_projects/agysess`  
 > 数据路径：`%APPDATA%\language_projects\agysess\`  
@@ -144,7 +145,7 @@ type Session struct {
     ProjectID        string     `json:"project_id"`
     AgentName        string     `json:"agent_name"`
     
-    // 自有扩展元数据（来自 MetaStore）
+    // 自有扩展元数据（保存在 %APPDATA%/language_projects/agysess/sessions_meta.json）
     IsArchived       bool       `json:"is_archived"`
     ArchivedAt       *time.Time `json:"archived_at,omitempty"`
     CustomNotes      string     `json:"custom_notes,omitempty"`
@@ -215,29 +216,29 @@ type Session struct {
 
 ## 五、实施步骤与任务切片（To-Tickets）
 
-- [ ] **Task 1: 初始化项目结构与公共契约模型**
+- [x] **Task 1: 初始化项目结构与公共契约模型**
   - 在 `go_projects/agysess/` 初始化 `go.mod`；
   - 创建 `internal/model`：定义 `Session`, `FilterOptions`, `CreateSessionOptions`, `SessionStats`；
   - 编写静态 JSON Schema 定义，支持 `--schema` 零 I/O 导出。
 
-- [ ] **Task 2: 实现基础设施与存储层**
+- [x] **Task 2: 实现基础设施与存储层**
   - 实现 `internal/store/agystore.go`：只读打开 `~/.gemini/antigravity-cli/conversation_summaries.db`，严格显式指定列名，杜绝 `SELECT *`；
   - 实现 `internal/store/metastore.go`：管理 `%APPDATA%\language_projects\agysess\sessions_meta.json`，支持归档、备注等自有数据持久化。
 
-- [ ] **Task 3: 实现 Windows Terminal 与进程管理层**
+- [x] **Task 3: 实现 Windows Terminal 与进程管理层**
   - 实现 `internal/terminal/manager.go`：
     - 自动嗅探 `wt.exe` 与 `agy.exe` 路径；
     - 实现 `OpenConversation` 与 `NewConversation` 命令行组装与启动；
     - 实现 Windows 活跃 `agy.exe` 进程探测（提取 `--conversation <id>` 映射）；
     - 实现 `KillSessionProcess` 树级终止逻辑。
 
-- [ ] **Task 4: 实现公共 Service 核心层**
+- [x] **Task 4: 实现公共 Service 核心层**
   - 实现 `internal/service/session_service.go`：
     - 编排会话数据合并（Agy SQLite + MetaStore + Terminal 运行态）；
     - 提供 `ListSessions`, `GetSession`, `ArchiveSession`, `UnarchiveSession`, `UpdateNotes`, `OpenSession`, `CreateSession`, `KillSession` 等纯业务接口；
     - 编写单元测试验证业务不变量。
 
-- [ ] **Task 5: 实现 CLI 适配器外壳**
+- [x] **Task 5: 实现 CLI 适配器外壳**
   - 基于 Cobra 组装命令树：
     - `agysess list`（人读表格、`--json` 标准包络、`--schema`、投影参数支持）；
     - `agysess show <id>`；
@@ -249,19 +250,19 @@ type Session struct {
     - `agysess schema`；
   - 落实退出码 0/1/2 契约与标准流分流。
 
-- [ ] **Task 6: 实现 Fyne 原生 GUI 适配器外壳**
+- [x] **Task 6: 实现 Fyne 原生 GUI 适配器外壳**
   - 引入 `fyne.io/fyne/v2` 依赖；
   - 注入 Windows 原生字体回退适配（解决中文方块）；
   - 实现主界面（顶部工具栏、会话卡片列表、底部状态栏）；
   - 实现交互联动：一键 WT 打开、运行中绿色徽章与一键关窗、新建会话弹窗、归档切换与实时过滤。
 
-- [ ] **Task 7: 组装入口与双模引导**
+- [x] **Task 7: 组装入口与双模引导**
   - 编写 `cmd/agysess/main.go`：
     - 默认命令行模式；
     - `agysess gui` 或双击无参检测自适应唤起 GUI；
   - 调优编译参数（`-ldflags="-s -w -H=windowsgui"` 可选打包双模或独立 GUI 运行）。
 
-- [ ] **Task 8: 规范验收与文档归档**
+- [x] **Task 8: 规范验收与文档归档**
   - 依据《CLI 工具开发标准》§9 进行全项验收（CLI 人读、`--json`、`--schema` 零 I/O、WT 联动、运行中探活与关窗、Fyne 内存占用测量）；
   - 验证运行内存是否严格控制在 20MB~40MB（对比 Antigravity 桌面端 1.5GB）；
   - 编写项目镜像文档 `docs/projects/go_projects/agysess/README.md`。
