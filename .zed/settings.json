@@ -49,7 +49,7 @@
   "languages": {
     // Java：jdtls 提供智能跳转、补全与重构（指定 Java 21 环境）
     "Java": {
-      "enable_language_server": true,
+      "enable_language_server": false,
       "language_servers": ["jdtls"],
       "formatter": "language_server",
     },
