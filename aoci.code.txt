@@ -33,7 +33,7 @@ link-subproject-agents.py[XC5M]: F:将各级语言子仓与二级子项目的 AG
 
 ===D:/Users/language_projects/.zed/===
 extensions.toml[FC5T]: F:声明 Zed 非内置语言扩展及固定版本（lua/toml/sql/neocmake/html/ini/xmake），配合 auto_install_extensions 安装；PowerShell 扩展已随全仓 ps1 清零移除 | R:code:.zed/settings.json | A:- | S:-
-settings.json[FC7S]: F:Zed 总仓配置：按语言 LSP 白名单与逐 server 省内存参数（jdtls 128m/512m、basedpyright 关类型检查、vtsls 限 2048m、clangd 关后台索引），Python/Go 的 language server 当前刻意关闭 | R:code:.zed/extensions.toml,code:docs/plans/44-zed-lsp-manager.md,code:docs/plans/54-zed-jdtls-memory-optimization.md | A:调整 LSP 开关、server 参数或扫描排除时编辑此文件；auto_install_extensions 须与 extensions.toml 同步 | S:Python/Go 的 enable_language_server=false 为有意选择，勿当配置错误回滚；jdtls 默认 -Xms1G 故封顶 512m；lua-language-server 须显式 Lua 5.1
+settings.json[FC7S]: F:Zed 总仓配置：按语言 LSP 白名单与逐 server 省内存参数（jdtls 128m/512m、basedpyright 关类型检查、vtsls 限 2048m、clangd 关后台索引），Java/Python/Go 的 language server 当前刻意关闭 | R:code:.zed/extensions.toml,code:docs/plans/44-zed-lsp-manager.md,code:docs/plans/54-zed-jdtls-memory-optimization.md | A:调整 LSP 开关、server 参数或扫描排除时编辑此文件；auto_install_extensions 须与 extensions.toml 同步 | S:Java jdtls 自 261101 起临时关闭（enable_language_server=false），重开只改该行；Python/Go 关闭为有意选择；jdtls 默认 -Xms1G 故封顶 512m；lua-language-server 须显式 Lua 5.1
 tasks.json[FC3T]: F:Zed 任务面板：PowerShell 外部终端、5 条 CRAP 复杂度检查（Go/Python/TS/go-crap 安装）与 4 条 Java Maven 任务（运行/JDWP 5005 调试/测试/编译） | R:code:.scripts/calc_crap.py | A:- | S:-
 
 ===D:/Users/language_projects/docs/guides/===
@@ -124,11 +124,12 @@ MCP 契约为先.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧文�
 统一核心与多通道投影指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施 | S:-
 CLI 工具开发标准 v2.md[SG9S]: F:daemon 架构探索标准（非现行）：Service 只进 daemon、HTTP+JSON 唯一契约、CLI/GUI/MCP 薄壳、单二进制双角色、buildID 握手、git tag 发布流 | R:code:docs/projects/go_projects/CLI 工具开发标准.md,code:docs/projects/go_projects/agyquota/specs/02-daemon-architecture/design.md | A:走 daemon 架构的新工具参考；契约细节按 v1，冲突回 v1 裁决 | S:探索迭代中允许修订偏离；自动拉起仅限生产构建（describe 为干净 tag），开发构建一律报错；空闲 30 分钟自动退出并清理地址文件，替代 ollama 式常驻；stdio 只留给 MCP 桥
 go exe 默认图标.md[SV7T]: F:go_projects 产 exe 项目默认配地鼠图标的四步流程与豁免条件（语言层方法论文档，不带 GUIDE 前缀） | R:code:.scripts/gen_icon.py | A:用户未指定图标时直接执行无需询问 | S:复制 icon.ico 是值拷贝不产生项目间依赖；syso 文件名限定 GOOS/GOARCH
+Chrome 应用模式启动渠道.md[SU6T]: F:跨项目方法论：用 Chrome --app 共享浏览器进程替代 WebView2 壳，含契约表、实测内存对比与 clictl 参考实现 | R:code:docs/projects/go_projects/clictl/plans/07-chrome-app-mode.md,code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:新增同构 GUI 的 chrome 渠道时照抄契约与 profile 路径常量 | S:省的是多开不是单开；profile 目录必须所有项目逐字共用，加项目名会裂成多个浏览器进程致方案失效
 
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/===
 Go CLI JSON 输出模式参考.md[SO7M]: F:提炼 clictl 的 CLI 骨架 + JSON 输出通用模式：包络出口函数、stdout/stderr 分工、退出码与错误码映射 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:其他 Go CLI 项目直接参考套用，与 clictl 业务无关 | S:管理命令错误 JSON 走 stdout、run 透传前置错误走 stderr，stdout 只属于子进程
 MCP 接口文档.md[SN7M]: F:clictl 的 MCP server 契约：10 个工具、JSON Schema、错误语义与接入方式；涵盖双目标 add/start（add 支持 alias 显示别名）、meta.group 多分组数组、console 按需显隐与和 CLI/WebUI 共用的 /api 契约 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md | A:与 internal/mcp 及 CLI 同源维护，改实现必须同步更新本文档；Schema 只声明结构，字节数等限制由 Go 侧校验 | S:MCP 业务失败回 isError 而非协议错误；clictl mcp 是 server 入口；run 无 stdin/PTY；alias 仅展示搜索不参与定位；meta.group 传字符串或数组（≤8 项、≤32 字节），存为数组
-clictl 使用指南.md[SG7M]: F:clictl 使用指南：双通道产物、注册（含 alias 别名）/run/start/stop/cp/meta、平铺与分组视图（标签页/树形折叠）、工具别名与多分组（meta.group 数组，一工具可属多组）配置与展示及 JSON 包络与退出码 | R:code:docs/projects/go_projects/clictl/plans/04-groups-view-sort.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md | A:父仓镜像文档，与子仓 README 同步；默认平铺、名称升序；视图/排序/当前分组/折叠状态落通道目录 ui_preferences.json | S:PS5.1 原生 exe 管道中文变 ? 用 --ascii 免疫；stop 的 exit_code=1 是强杀约定；meta.group ≤8 项、≤32 字节、去重排序，多分组工具在各组重复计数；别名仅展示搜索，≤64 字节
+clictl 使用指南.md[SG7M]: F:clictl 使用指南：双通道产物、注册（含 alias 别名）/run/start/stop/cp/meta、平铺与分组视图（标签页/树形折叠）、工具别名与多分组（meta.group 数组）、--chrome Chrome 应用模式与共享 profile | R:code:docs/projects/go_projects/clictl/plans/04-groups-view-sort.md,code:docs/projects/go_projects/clictl/MCP 接口文档.md,code:docs/projects/go_projects/clictl/plans/07-chrome-app-mode.md | A:父仓镜像文档，与子仓 README 同步；默认平铺、名称升序；视图/排序/折叠状态落通道目录 ui_preferences.json | S:chrome 模式单开内存略高于 Wails、省的是多开；profile 路径不含项目名；CLICTL_CHROME_PATH 不存在直接报错；stop 的 exit_code=1 是强杀约定
 
 ===D:/Users/language_projects/docs/projects/go_projects/clictl/migrations/===
 000_init_v1.0.0.sql[FP6T]: F:clictl 初始表结构存档（tools/launches，WAL+外键） | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:- | S:文档存档不参与运行，建表由 store.go schema 常量执行
@@ -267,6 +268,7 @@ antigravity-manager-cli-only-research.md[SG3M]: F:Antigravity-Manager「取消 I
 language_projects 架构调研报告.md[SG4M]: F:language_projects 仓库架构调研报告（agy 只读调研 + DSH 命令级复核）：子模块三方一致性、边界契约言行对照、五语言子仓全景、.scripts/skills/AOCI 基础设施、风险分级与建议、调研方法学 | R:code:AGENTS.md,code:MONOREPO.md,code:.gitmodules | A:接手全仓架构类问题先读；结论可信度看 agy 结论↔复核结论对照表与实测表格，勿直接引用未经复核的计数 | S:ignore = all 使 git status 对子模块漂移失明，判定须看 git submodule status 的 +/- 前缀
 git-ignored-local-dir-versioning-research.md[SC4L]: F:Documents Git ignore semantics and validated options for versioning the gitignored .local/ directory | R:code:.workbuddy/memory/2026-10-21.md | A:Evaluates moving the data to a private repo, an in-place nested repo, a junction, and gitignore negation | S:Only .local/* plus a negated subdirectory can re-include nested files; a directory-level exclusion cannot be rescued by !
 antigravity-app-window-state-persistence-research.md[SU6S]: F:调研报告：Antigravity 桌面端窗口尺寸不记忆的源码根因（硬编码 1400x900、无 resize/move 监听）与 asar 热修补丁方案 | R:code:.scripts/patch-antigravity-window.py | A:补丁用同步 window-state.json 加 show:!isMaximized 消除闪烁；--patch/--restore/--status 三命令 | S:快捷方式最大化与 --start-maximized 会被 Electron options 覆盖；重打包须保留 chrome-devtools-mcp 的 unpack
+lightweight-gif-tools-research.md[SZ3S]: F:轻量开源 GIF 录制工具调研：ScreenToGif/winshotx/LICEcap/vhs/gifski/ShareX 的体积、内存、二开门槛与协议对比 | R:- | A:选型或自研 GIF 流水线时按决策矩阵取候选 | S:gifski 为 AGPL，自研分发须隔离
 
 ===D:/Users/language_projects/docs/repo/lark_group_bridge/===
 2026-09-20 自言自语存档.html[SG3L]: F:2026-09-20 自言自语私聊离线存档：45 条原文转录 + 七节编后记，20 图内嵌逐张图注，支持页内编辑删除后覆盖原文件 | R:code:docs/repo/lark_group_bridge/参考-鱼皮-7个神级技巧去AI味.md | A:双击打开；图片点击放大（Ctrl+滚轮缩放）；侧栏「编辑此页」可删条/删节/改字，保存后序列化覆盖原文件 | S:原消息已从飞书删除，本文件与 merge_forward 是仅存备份；图注系事后补写，非原文
@@ -373,6 +375,7 @@ build-uv-run-build-py-prancy-mountain.md[SV3T]: F:历史计划文档：把 4 处
 staged-inventing-salamander.md[SD4T]: F:zedhub 功能计划：sessions link 增加 claude-code/codex/antigravity 三源会话补登与跨目录挂载（新建 thread_id 沿用 session_id，原目录入口保留），含三源扫描器设计、查重语义与真实验证方案 | R:code:docs/projects/python_projects/zedhub/specs/01-zed-session-hub/tasks.md | A:- | S:opencode 源保持全局 session_id 查重；三源按 (agent_id,session_id,目录) 三元组查重
 everything-replicated-hearth.md[SZ3T]: F:Everything 常驻实例排查收尾计划：idle_exit.ps1 手动实例保护加 2 小时时效上限 + kb-engineering-notes 46 号进程取证笔记沉淀 | R:- | A:任务完结归档：修复与笔记已落地推送，本计划仅存档排查结论；后续调整保护时长直接改 idle_exit.ps1 的 protectHours | S:-
 virtual-swimming-fern.md[SG7T]: F:clictl 工具多分组实施计划与结果：meta.group 归一化为有序数组、CLI --group flag、WebUI 多桶渲染、多选分组对话框与测试切分 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/plans/04-groups-view-sort.md | A:已实施并归档；保留 key group、写入统一归一化为数组、不做 DB 迁移；注册/编辑弹窗分组输入改为追加语义，留空保持现有分组 | S:去重大小写敏感、≤8 项、单项 ≤32 字节，空数组剔除 key；set 不提供 --group；alias 与多分组已分笔提交
+go-projects-gui-exe-groovy-tome.md[SU5S]: F:clictl 试点 Chrome 应用模式的实施计划：定位 chrome、共享 profile、托盘分发、--chrome 参数与单实例分发 | R:code:docs/projects/go_projects/clictl/plans/07-chrome-app-mode.md,code:docs/projects/go_projects/Chrome 应用模式启动渠道.md | A:试点收尾后按第三节改动清单推广到其余 Wails GUI | S:仅 clictl 试点，禁止顺手改其他项目；profile 路径不得含项目名
 
 ===D:/Users/language_projects/.scripts/group_avatars/===
 .gitignore[FC2T]: F:忽略群头像生成过程的测试与临时文件（test_* 模式），保留「临时区」群成品 temp_zone_avatar.jpg 与 *_temp_*.png 入库 | R:code:.scripts/group_avatars/README.md | A:- | S:-
@@ -486,6 +489,7 @@ tasks.md[SG5T]: F:kbman 实施任务清单，按依赖拆解迁移、解析、�
 04-groups-view-sort.md[SG7T]: F:clictl 分组、树状/平铺视图与稳定排序实施计划（已完成）：meta.group 白名单、/api/preferences、四档排序 | R:code:docs/projects/go_projects/clictl/clictl 使用指南.md,code:docs/projects/go_projects/clictl/plans/05-window-activate.md | A:默认 flat 加名称升序；组顺序字母序、「未分组」置底；偏好落 ui_preferences.json | S:meta 为整体替换，保存分组须先合并现有 source/tags；5 秒轮询不回填正在编辑的分组框
 05-window-activate.md[SG7S]: F:clictl 窗口显露实施计划：Win32 进程树窗口枚举加 Z-Order 顶层激活，托盘驻留走单实例唤醒，并补齐 zedhub | R:code:docs/projects/go_projects/clictl/plans/04-groups-view-sort.md,code:python_projects/zedhub/src/zedhub/gui/app.py | A:SwitchToThisWindow 加 SW_RESTORE 绕过前台锁；API 为 POST /api/tools/{name}/activate，状态 activated 或 woken_up | S:仅 SetForegroundWindow 会只闪任务栏橙光；须校验 IsWindowVisible 并过滤 0x0 隐藏窗口
 06-source-command-launch.md[SB7S]: F:源码命令目标与按需控制台的实施计划：数据模型、启动与 AttachConsole 显隐、后端及 CLI/API/WebUI 契约、验证与风险 | R:code:docs/projects/go_projects/clictl/migrations/002_v2.2.0_command_tools.sql,code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:已落地的历史计划，改动双目标或控制台行为前先读本文确认设计意图；双目标默认 exe，仅源码卡片自然为 source | S:隐藏控制台必须 CREATE_NEW_CONSOLE + STARTF_USESHOWWINDOW/SW_HIDE，直接无控制台启动会丢失真实 TTY
+07-chrome-app-mode.md[SU6S]: F:clictl --chrome 渠道计划：新增 chrome.go、LaunchGUI 加参、托盘 openMainChannel、二实例按参数分发、共享 profile 与兜底 | R:code:docs/projects/go_projects/Chrome 应用模式启动渠道.md,code:docs/projects/go_projects/clictl/clictl 使用指南.md | A:推广到其他项目时按第二节改动清单逐项适配 | S:仅 clictl 试点；chrome 模式下 a.win 恒为 nil；profile 路径禁止加项目名
 
 ===D:/Users/language_projects/docs/projects/go_projects/typeai/plans/===
 01-wails-dual-channel.md[SG7T]: F:typeai 从纯 TUI 改造为 Wails 双通道桌面应用的实施计划与实测记录，含 HTTP/SSE 契约表、WebUI 功能、任务分解、验收与 dev/release 隔离 | R:code:go_projects/typeai/scripts/build.py,code:docs/plans/20-typeai-cli.md | A:改造已完成并验收；产物统一输出 bin/typeai-gui[-dev].exe 与 bin/typeai-cli[-dev].exe；数据落 %APPDATA%\language_projects\typeai\{dev,prod}；独立外壳 typeai-gui 已归档 | S:-
@@ -525,4 +529,17 @@ tasks.md[SE6T]: F:DSH 源任务清单：8 个任务从依赖提升、路径解�
 
 ===D:/Users/language_projects/docs/projects/go_projects/deepseeksearch/===
 research-deepseek-tools-pricing.md[SG7T]: F:DeepSeek Search/Fetch API 计费规则调研报告：按次计费 $0.75/1000 次、count 与 need_content 不影响费用、Fetch 与 Search 独立计费，并归因前序 Agent 503 崩溃现场 | R:- | A:调研日期 2026-10-29，为客户端计费优化疑问查证官方一手信源；正式收费自 2026-11-01 起生效 | S:仅 HTTP 200 且非空成功请求扣费，4xx/5xx 与未命中不计费，超限 429 不计费；先搜索 N 条再逐条 Fetch 会产生 1+N 次计费
+
+===D:/Users/language_projects/docs/projects/go_projects/acp-title-proxy/plans/===
+01-fix-reboot-title-overwrite.md[SE6S]: F:修复 AGY ACP 自动标题重启后被延续词覆写的计划：持久化已命名会话、只读探测 Zed db.sqlite、单会话仅命名一次 | R:code:docs/projects/go_projects/acp-title-proxy/plans/02-worker-reclaim-transparent-reconnect.md | A:改 Titler 时保持已有标题即早退的不变式，勿加延续词黑名单特例 | S:数据落 %APPDATA%\language_projects\acp-title-proxy\titled_sessions.json；探测 Zed 库须只读且禁用 SELECT *
+02-worker-reclaim-transparent-reconnect.md[SR7S]: F:acp-title-proxy worker 回收与透明重连设计：daemon 重启 worker 回收 harness，serve 断线重连并复用 instance_id，Zed 不出现 Retry | R:code:docs/projects/go_projects/acp-title-proxy/plans/01-fix-reboot-title-overwrite.md | A:改 serve/daemon/config 时按第四节握手协议与队列上限执行 | S:在途 prompt 允许丢失；重连窗口 30s、队列上限 200 行/8MB，超限断开交 Zed；不得改 ACP 对外协议
+
+===D:/Users/language_projects/docs/projects/go_projects/agysess/===
+README.md[SZ6T]: F:agysess 项目说明：Fyne 原生 GUI + CLI 双壳，会话列表与归档重命名备注、WT 联动打开与探活关窗，纯 Go 常驻数十 MB | R:code:docs/projects/go_projects/agysess/plans/01-agysess-implementation-plan.md | A:改命令或能力时同步本 README 与实施计划；CLI/GUI 均经 internal/service | S:只读 conversation_summaries.db（mode=ro、显式字段）；自有数据仅写 %APPDATA%\language_projects\agysess\
+
+===D:/Users/language_projects/docs/projects/go_projects/agysess/plans/===
+01-agysess-implementation-plan.md[SZ6M]: F:agysess 实施计划（已交付）：需求痛点、能力矩阵、Service/CLI/GUI 分层、WT 联动与进程回收、schema 零 I/O 契约 | R:code:docs/projects/go_projects/agysess/README.md | A:二次开发或补用例时以第二节能力矩阵为契约基线 | S:查询禁用 SELECT *；schema 必须零 I/O；不得写入 ~/.gemini 原生库
+
+===D:/Users/language_projects/docs/projects/go_projects/rebootremind/plans/===
+01-rebootremind-plan.md[SO6S]: F:rebootremind 计划：开机满 3 天且内存达 85%（或满 7 天）才弹 TaskDialog 重启提醒，含 Snooze 4h/24h、立即重启与 Top5 进程 | R:- | A:实现或调阈值时同步第二节流程图与防打扰分支 | S:开机时长是硬前置，防刚开机高负载误报；弹窗用 TaskDialogIndirect 而非易漏的 Toast；重启走 shutdown /r
 

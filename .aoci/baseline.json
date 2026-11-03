@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-10-28T18:59:14Z",
+  "updated_at": "2026-11-03T14:29:28Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -77,6 +77,11 @@
       "sha256": "0be7d376cca7dd9e0baa8edfd788e4d9ed2dd0b71f18e0a823be92ae21879e04",
       "size": 4323,
       "normalized_sha256": "0be7d376cca7dd9e0baa8edfd788e4d9ed2dd0b71f18e0a823be92ae21879e04"
+    },
+    ".claude/plans/go-projects-gui-exe-groovy-tome.md": {
+      "sha256": "9f2bf2ff32c2d263d6128bc80c76ee8d53033625cdd531f7a95cbb8d4b0ee3d6",
+      "size": 9577,
+      "normalized_sha256": "9f2bf2ff32c2d263d6128bc80c76ee8d53033625cdd531f7a95cbb8d4b0ee3d6"
     },
     ".claude/plans/staged-inventing-salamander.md": {
       "sha256": "ea9a7a1b117732936f68f5910bd8b68c1ea2b1313e9516ae3b2d27b963890a20",
@@ -389,9 +394,9 @@
       "normalized_sha256": "82d4c6a32f2ee4bce0973d39b1f21c7fedd51b9c934a3713111961d6c76388da"
     },
     ".zed/settings.json": {
-      "sha256": "81d82fe292f9a3f486be587d0e36808ed9653febe4f0c53271aca6e866863d70",
-      "size": 6108,
-      "normalized_sha256": "81d82fe292f9a3f486be587d0e36808ed9653febe4f0c53271aca6e866863d70"
+      "sha256": "dcb3b2e47e2b865572888d68e484478df12ff22cbcb18511ad590e125c2bd0e5",
+      "size": 6109,
+      "normalized_sha256": "dcb3b2e47e2b865572888d68e484478df12ff22cbcb18511ad590e125c2bd0e5"
     },
     ".zed/tasks.json": {
       "sha256": "2dd5ad51e0b4ff7e3449a65149c3bc610fed4440a85c8a998c1ae9a8602b0d73",
@@ -446,9 +451,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "ba85c7f0273563846425e390028b20a10a3c1fd6902caeb19c1381bc399550f2",
-      "size": 162524,
-      "normalized_sha256": "ba85c7f0273563846425e390028b20a10a3c1fd6902caeb19c1381bc399550f2"
+      "sha256": "97ce748e0024de17d520e9ce02a67cc64cd7cb0942892823cbe93127facb9c8e",
+      "size": 166872,
+      "normalized_sha256": "97ce748e0024de17d520e9ce02a67cc64cd7cb0942892823cbe93127facb9c8e"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -934,11 +939,26 @@
       "size": 62108,
       "normalized_sha256": "640df0c3ef03a3bc14405f4492772b540f53dc754a0cec2f5bc168c1de33d73e"
     },
+    "docs/projects/go_projects/Chrome 应用模式启动渠道.md": {
+      "sha256": "2921447e8d8b0034abd09a12e48ab0e76e03e48ee2dea80534c957f33b0ca974",
+      "size": 6012,
+      "normalized_sha256": "2921447e8d8b0034abd09a12e48ab0e76e03e48ee2dea80534c957f33b0ca974"
+    },
     "docs/projects/go_projects/MCP 契约为先.md": {
       "role": "index",
       "sha256": "8ce94bdf14e5fafbd8b7e097bb3aa600bf587d6797a655a800e1baff9dfbcdc5",
       "size": 385,
       "normalized_sha256": "25f08140e9fea34bf1a2ba6e4ac2fdd2a5f7240dc1f5751f5b036da08b52210a"
+    },
+    "docs/projects/go_projects/acp-title-proxy/plans/01-fix-reboot-title-overwrite.md": {
+      "sha256": "71ee18d0d9f3e8a5a14314c483f98a4eab4d7765fee8ec2eef706fd4f475aa8f",
+      "size": 7391,
+      "normalized_sha256": "71ee18d0d9f3e8a5a14314c483f98a4eab4d7765fee8ec2eef706fd4f475aa8f"
+    },
+    "docs/projects/go_projects/acp-title-proxy/plans/02-worker-reclaim-transparent-reconnect.md": {
+      "sha256": "9b0ea8fa87b8d63a9fd99e4ff4b16c453461a80e805134f6e36267efb5a1f446",
+      "size": 6873,
+      "normalized_sha256": "9b0ea8fa87b8d63a9fd99e4ff4b16c453461a80e805134f6e36267efb5a1f446"
     },
     "docs/projects/go_projects/agyquota/plans/01-agyquota-quota-cli.md": {
       "role": "index",
@@ -1029,6 +1049,16 @@
       "size": 7512,
       "normalized_sha256": "2d78bef529e575111a9540411a3b20d3ad010c60d3c8cde886b1a01c6470099a"
     },
+    "docs/projects/go_projects/agysess/README.md": {
+      "sha256": "e9d6fca15c75b5e5d87eee47f87b2cf3adf73cf3dddd561455ef26d94e014219",
+      "size": 4326,
+      "normalized_sha256": "816c8cd33939baed78ce9c2b94c38cc937dc5e3823900593faea2c6108343653"
+    },
+    "docs/projects/go_projects/agysess/plans/01-agysess-implementation-plan.md": {
+      "sha256": "1021796d315d01318d6d38ff42ff166ccae258a4b2e81b9083267265da2f8b85",
+      "size": 17720,
+      "normalized_sha256": "229778c2517f98cd9569a5f6bc36c212a1449f088d4c0c3e1d1bbe0bdba56996"
+    },
     "docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md": {
       "role": "index",
       "sha256": "fc620888a70bafe99ddb7b0abbc0019d7c96d0118ae3f6f59e3989bb36b5b3e8",
@@ -1041,9 +1071,9 @@
       "normalized_sha256": "b94d02757fc69e3437366d4042fe9bb9ee711c2540aa994e72654973ff56e071"
     },
     "docs/projects/go_projects/clictl/clictl 使用指南.md": {
-      "sha256": "be235aab4e5a98c48962906d178aa85a7ec332287ad9a2d1a98429799f2f7aba",
-      "size": 18835,
-      "normalized_sha256": "be235aab4e5a98c48962906d178aa85a7ec332287ad9a2d1a98429799f2f7aba"
+      "sha256": "b4d69e5c1a1e6699acf079e26114b5b29227ab7fcfb7545c599e826946d88584",
+      "size": 20832,
+      "normalized_sha256": "b4d69e5c1a1e6699acf079e26114b5b29227ab7fcfb7545c599e826946d88584"
     },
     "docs/projects/go_projects/clictl/migrations/000_init_v1.0.0.sql": {
       "role": "index",
@@ -1096,6 +1126,11 @@
       "sha256": "f55dcd3211262200ee7f6a49f3b049fe57a82eeeeadab55ff292d6e72048d41e",
       "size": 11241,
       "normalized_sha256": "f55dcd3211262200ee7f6a49f3b049fe57a82eeeeadab55ff292d6e72048d41e"
+    },
+    "docs/projects/go_projects/clictl/plans/07-chrome-app-mode.md": {
+      "sha256": "c26d363f33caf73f34e8feb2c4a1e9a39527f05df8ffbad9ea4c6045c3e52b8e",
+      "size": 9465,
+      "normalized_sha256": "c26d363f33caf73f34e8feb2c4a1e9a39527f05df8ffbad9ea4c6045c3e52b8e"
     },
     "docs/projects/go_projects/deepseeksearch/research-deepseek-tools-pricing.md": {
       "sha256": "a7f1e2d5e9040ca6b39c9f0b14b3a94591f31efac8be8fc5c4e79d805578425c",
@@ -1393,6 +1428,11 @@
       "sha256": "22b9d973d30ecd82449af54c3b13784b2df80cf9decf79d47232187d6e304e82",
       "size": 6500,
       "normalized_sha256": "7efbc131cbee6f1ac1da95701bb8ce4d67458b87415fabf44cd8956482ce5e6c"
+    },
+    "docs/projects/go_projects/rebootremind/plans/01-rebootremind-plan.md": {
+      "sha256": "6452efb58000e07e138f5c0c0caf0fd6d92580f7648f14626d58b82ea4eae15f",
+      "size": 8827,
+      "normalized_sha256": "6452efb58000e07e138f5c0c0caf0fd6d92580f7648f14626d58b82ea4eae15f"
     },
     "docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md": {
       "role": "index",
@@ -1968,6 +2008,11 @@
       "sha256": "358fd9c1e50fddc67ddc8d82e6e7309d8a76ec5792430b70d33eb1f8b431fd00",
       "size": 2788583,
       "normalized_sha256": "358fd9c1e50fddc67ddc8d82e6e7309d8a76ec5792430b70d33eb1f8b431fd00"
+    },
+    "docs/repo/lightweight-gif-tools-research.md": {
+      "sha256": "653557d976b700822dfb76a3fbfa9043a34f88fbc9ae9cb59fa09a876a364752",
+      "size": 10200,
+      "normalized_sha256": "653557d976b700822dfb76a3fbfa9043a34f88fbc9ae9cb59fa09a876a364752"
     },
     "docs/repo/mcp-2026-07-28-delta.md": {
       "sha256": "17818e4c00ad38b24c17d2a7f7ca3c1e842fee3c95153418c97409ea1c615869",
