@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-11-03T14:29:28Z",
+  "updated_at": "2026-11-03T15:39:38Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -92,6 +92,11 @@
       "sha256": "28c677e58553466bb1fcc72ccefff2595ba5d381948ec539902b4f1cfdb01946",
       "size": 8812,
       "normalized_sha256": "28c677e58553466bb1fcc72ccefff2595ba5d381948ec539902b4f1cfdb01946"
+    },
+    ".claude/plans/webview-go-joyful-kay.md": {
+      "sha256": "633b8d0d804d3618b5b0cad6db446cf2e5b5dd9cac983212fd276d42ab1b0348",
+      "size": 8805,
+      "normalized_sha256": "633b8d0d804d3618b5b0cad6db446cf2e5b5dd9cac983212fd276d42ab1b0348"
     },
     ".claude/settings.json": {
       "sha256": "033b52de3a6a96b54965c8678f66772fe5de7e681542487cc024c36b55614c66",
@@ -451,9 +456,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "97ce748e0024de17d520e9ce02a67cc64cd7cb0942892823cbe93127facb9c8e",
-      "size": 166872,
-      "normalized_sha256": "97ce748e0024de17d520e9ce02a67cc64cd7cb0942892823cbe93127facb9c8e"
+      "sha256": "c192db0c22ea97fad032446b6d93d600133d17d11cdd5cf6ee60a90ec24f7332",
+      "size": 167647,
+      "normalized_sha256": "c192db0c22ea97fad032446b6d93d600133d17d11cdd5cf6ee60a90ec24f7332"
     },
     "aoci.meta.txt": {
       "role": "index",
