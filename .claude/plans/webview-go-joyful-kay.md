@@ -103,3 +103,12 @@ func (a *App) showMainWindow() {
 - [x] 关闭行为目标形态 → 用户拍板：家族范式（× 销毁窗口 + 托盘常驻 + 懒重建）
 - [x] clictl 是否需改 → 否（无代码耦合，本身已合规）
 - [x] README 失实描述 → 随改造一并修正（A7）
+
+## 实施结果（2026-11-03 归档）
+
+- A1-A7 全部落地：app.go（钩子闭包局部捕获 / 放行销毁清悬垂 / ensureMu 串行唤起三件套 / --hidden 预建条件化）、tray.go 退出异步化、README 常驻架构段修正。
+- 脚本化运行时矩阵 15 项全 PASS：--hidden 零 WebView2 子进程；WM_CLOSE 后 7 个子进程归零且主进程与托盘驻留；懒重建按 window.json 快照恢复最大化与几何；托盘口令路径连点日志创建计数不变；移动/最大化 700ms 防抖落盘与关窗同步落盘逐项吻合。
+- go test ./... 全绿；`uv run build.py --dev` 产物 `build/winstartupmanager-dev.exe`（v0.1.0-dev-dirty，commit 7d5ee40 构建态）。
+- 踩坑记录：验证初段发现 11-01 遗留的旧代码 dev 实例以 Cancel+Hide 形态驻留两天、挂 6 个 WebView2 子进程（即 bug 活标本），且持有 dev 单例互斥使新构建被截停；终杀该实例并轮转 dev 日志后重测。重测数据（window.json/log）已备份还原、探针脚本用后即删。
+- 待用户日常实测：矩阵第 4 项（×→唤起 ≥10 循环观察 webview2 目录无膨胀）与第 6 项（托盘「退出」后互斥体释放、可立即再启）。
+- 子模块 commit：`6771bd0 winstartupmanager:fix: 关窗对齐家族范式，放行销毁窗口释放 WebView2`（README 随同）。
