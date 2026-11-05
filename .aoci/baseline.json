@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-11-05T17:38:17Z",
+  "updated_at": "2026-11-05T18:23:13Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -456,9 +456,10 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "90cbdc472fd4a0b5a712645208c9ca31555bbcde950dadf37a8a1ecde1b3d95d",
-      "size": 167631,
-      "normalized_sha256": "90cbdc472fd4a0b5a712645208c9ca31555bbcde950dadf37a8a1ecde1b3d95d"
+      "role": "index",
+      "sha256": "e1af3a7c16716ef434dd72350a61b313788c15e67a43af004ea8e99e0bf9afcf",
+      "size": 142628,
+      "normalized_sha256": "e1af3a7c16716ef434dd72350a61b313788c15e67a43af004ea8e99e0bf9afcf"
     },
     "aoci.meta.txt": {
       "role": "index",

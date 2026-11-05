@@ -140,12 +140,6 @@ clictl 使用指南.md[SG7M]: F:clictl 使用指南：双通道产物、注册�
 ===D:/Users/language_projects/docs/projects/go_projects/exestarter/===
 接口文档.md[SG7M]: F:exestarter 联调契约：JSON 包络、退出码表、Entry 数据模型、SysTag 枚举与逐命令详解 | R:- | A:消费方（tooldeck bridge/脚本/LLM）按本文档对接 | S:无文件锁，写类命令不得并发调用，GUI bridge 需串行队列
 
-===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch/plans/===
-01-mcp-schema-portability.md[SW5S]: F:glmquotawatch 修复 jsonschema-go 切片 type-union 的计划：init 兼容开关 + Thresholds nil 兜底 + 测试 | R:code:docs/projects/go_projects/glmquotawatch/使用指南.md | A:计划已全部勾选完成，作决策存档 | S:JSONSCHEMAGODEBUG 开关为精确字符串匹配；schema 去 null 必须配视图 nil 兜底
-
-===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch/===
-使用指南.md[SG7S]: F:glmquotawatch 使用指南：GLM 用量监控 CLI 的构建、命令、告警状态机与三端 MCP 接入 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:AI 客户端经 gqw.* 工具直接查询与配置 | S:用量回落到 min(thresholds)-hysteresis 才重新武装，状态持久化防重启轰炸
-
 ===D:/Users/language_projects/docs/projects/go_projects/liteconf/brunos/===
 .gitignore[FC2T]: F:bruno 集合的本地忽略（.env、node_modules、OS 文件） | R:- | A:- | S:-
 01-put-config.yml[FQ4T]: F:bruno 用例：PUT 写入配置并断言版本号，提取 version 供 watch 链路 | R:code:docs/projects/go_projects/liteconf/brunos/04-watch.yml | A:整条链起点，先跑本请求再跑 04-watch | S:body 顶层必须是 object，服务端原子写盘版本号 +1
@@ -276,17 +270,6 @@ lightweight-gif-tools-research.md[SZ3S]: F:轻量开源 GIF 录制工具调研�
 ===D:/Users/language_projects/docs/memories/===
 README.md[SG2T]: F:记忆功能文档区的占位想法：仅一行「参考 claude code 的记忆功能」，尚无实质内容 | R:- | A:- | S:仅一行想法占位，扩充实际内容后本 Entry 转 stale，须重读重写
 
-===D:/Users/language_projects/docs/projects/go_projects/agyquota/plans/===
-01-agyquota-quota-cli.md[SG5T]: F:agyquota 开发计划：不打开 IDE 查询 Antigravity 模型配额的 Go CLI，5 任务分解（骨架/配额核心/CLI 输出/MCP+schema/图标文档收尾） | R:code:docs/projects/go_projects/agyquota/设计说明.md,code:AGENTS.md,code:docs/projects/go_projects/CLI 工具开发标准.md | A:已按 C 方案交付；交付后追加：stderr 进度提示（退避重试倒计时）与完整 README 注意事项 | S:凭据文件 scopes 字段可能是字符串或数组须宽松解码；fetchAvailableModels 对非 IDE 客户端 429 是 Google 服务端策略而非本工具缺陷，复活仅需改 internal/agapi
-02-agy-direct-quota-degraded-fix.md[SW5T]: F:agyquota --agy 直连防冷副本与降级占位抖动的修复计划（未勾选）：冷节点探测 + 150ms 重试 + .agy_quota_cache.json 快照校准 | R:code:docs/projects/go_projects/agyquota/plans/03-restore-agy-cli-command.md,code:docs/projects/go_projects/agyquota/specs/01-window-focus-steal/bugfix.md | A:方案最终被 03 号计划取代（--agy 回归纯 CLI），作历史决策记录，勿按本计划实施 | S:zed 与 agy 独立渠道，缓存/凭据/账号严禁共享；占位包特征=全 100%+无 description+默认 resetTime
-03-restore-agy-cli-command.md[SW5T]: F:agyquota 恢复纯 agy CLI 执行模式计划（已完成）：删除凭据直连分支，--agy 全部走 agy -p /usage --output-format json | R:code:docs/projects/go_projects/agyquota/plans/02-agy-direct-quota-degraded-fix.md,code:docs/projects/go_projects/agyquota/plans/04-native-console-inheritance.md | A:直连冗余（GetAgyQuotaToken/FetchQuotaDirect）已清理，0.2.3 已部署；弹窗问题转 04/05 号续解 | S:直连名实不符且绕开官方 agy 机制，故废弃；zed 与 agy 严格解耦
-04-native-console-inheritance.md[SW5T]: F:agyquota 方案 A 计划（已完成）：移除私有桌面与 ConPTY，改管道重定向+继承父控制台+Job Object 收尾 | R:code:docs/projects/go_projects/agyquota/plans/05-pe-subsystem-silent-runner.md | A:已重构 proc_windows.go 并部署验证；焦点问题最终由 05 号 PE 补丁计划根除 | S:ConPTY 使子进程与父终端脱钩，被 Win11 DefTerm 当独立会话接管弹 Tab；继承父控制台则不触发
-05-pe-subsystem-silent-runner.md[SW5T]: F:agyquota PE Subsystem 补丁计划（已完成）：agy.exe 缓存副本子系统 3→2，根除 Win11 DefTerm 弹 Tab 与焦点抢占 | R:code:docs/projects/go_projects/agyquota/specs/01-window-focus-steal/bugfix.md | A:补丁产物 %APPDATA%\language_projects\agyquota\bin\agy_silent.exe 按源时间/大小增量重建，失败回退原生路径 | S:仅改 OptionalHeader.Subsystem 两字节且保持 ModTime；CUI 程序启动瞬间即被内核注册到 DefTerm，任何启动标志都拦不住
-06-once-flag-ephemeral-daemon.md[SW5T]: F:agyquota CLI --once 单次查询与临时 daemon 自动回收交付计划 | R:- | A:实现薄客户端自动拉起临时子进程、查完优雅关停与开发态豁免 | S:保持薄客户端架构，严禁 CLI 壳层直接 import service
-
-===D:/Users/language_projects/docs/projects/go_projects/agyquota/===
-设计说明.md[SG6S]: F:agyquota 设计说明：配额接口地图（REST/gRPC、proto、OAuth）、429 封锁调查与复活路径，含 v2 daemon 工程结构与 MCP schema 兼容说明 | R:code:docs/projects/go_projects/CLI 工具开发标准 v2.md,code:docs/projects/go_projects/agyquota/specs/02-daemon-architecture/design.md | A:若封锁解除或拿到 IDE 请求形状，代码改动只落在 internal/agapi 一处 | S:LS 的 gRPC/REST 通道均证书锁定，本机 MITM 无法抓包；FetchAvailableModels 需 entitlement{userTier}；jsonschema-go v0.4.3 起 tag enum= 会 panic，枚举须显式构造
-
 ===D:/Users/language_projects/docs/projects/python_projects/hucci-registration-use-case-layered/===
 2026-09-21 分层架构话题.html[SG4M]: F:hucci 注册用例分层架构讨论的聊天记录存档页（单文件 HTML，纸面排版 + lightbox + 页内编辑器） | R:- | A:sh-lark-chat-archive 风格的归档产物，只读参考；文件名含日期与主题，目录归属 hucci-registration-use-case-layered 项目镜像 | S:页面自带页内编辑器可删改消息，编辑结果直接写回该 HTML 文件本身
 
@@ -308,51 +291,15 @@ tasks.md[SW6L]: F:zedhub 重建任务清单（Task 1-14）：骨架、Zed 核心
 ===D:/Users/language_projects/docs/===
 index.md[SG2T]: F:docs 站点入口页：站点定位 + 指向 README 站点用法 + 六大分区导览表（guides/plans/projects/specs/repo/memories） | R:code:mkdocs.yml,code:.scripts/build_docs.py,code:docs/repo/README.md,code:README.md | A:分区导航变化时同步更新导览表 | S:删除本文件站点无首页、根路径 404，AGENTS.md 列为禁删硬规则
 
-===D:/Users/language_projects/docs/projects/go_projects/agyquota/specs/01-window-focus-steal/===
-bugfix.md[SG6T]: F:agyquota 前台焦点被抢 bugfix 报告：复现链、根因三层分析与 AC-1~4 验收标准 | R:code:docs/projects/go_projects/agyquota/specs/01-window-focus-steal/design.md,code:docs/projects/go_projects/agyquota/specs/01-window-focus-steal/tasks.md | A:根因与验收决策存档；AC-1 直连方案后被 03 号计划废弃，最终以 05 号 PE 补丁为准 | S:根因=静默标志护不到 agy 后代 + agy 无条件 AllocConsole + taskkill 收尾再起 console 进程
-design.md[SG6S]: F:agyquota 焦点抢占修复设计：Job Object 前台隔离（先挂起后入 job）、DETACHED 升级与最终零进程直连三轮方案演进 | R:code:docs/projects/go_projects/agyquota/specs/01-window-focus-steal/bugfix.md,code:docs/projects/go_projects/agyquota/plans/05-pe-subsystem-silent-runner.md | A:设计存档；理解 agy 焦点问题必读实施期修正记录（UI 限制 class 误用、defterm 无视隔离） | S:UI 限制位须经 JobObjectBasicUIRestrictions 下发，误用 LimitFlags 报参数错误；Job/DETACHED/ConPTY/私有桌面均拦不住 defterm
-tasks.md[SW5T]: F:agyquota 焦点修复任务清单（Task 1-6 全部完成）：Job 隔离原语、非 Windows 对齐、client 接入、版本 bump、依赖整理、零进程直连追加 | R:code:docs/projects/go_projects/agyquota/specs/01-window-focus-steal/design.md | A:已全部完成；Task 6 为零进程直连最终方案 | S:AC-1 前台表现只能用户交互式实测（AI 后台会话无焦点竞争无法复现）
-
-===D:/Users/language_projects/docs/projects/go_projects/agyquota/specs/02-daemon-architecture/===
-design.md[SG7M]: F:agyquota daemon 化改造设计：internal/api 契约单点、daemon HTTP+SSE、client 发现/拉起/握手、service 单飞、MCP 桥与发布流 | R:code:docs/projects/go_projects/CLI 工具开发标准 v2.md,code:docs/projects/go_projects/agyquota/specs/02-daemon-architecture/requirements.md | A:实现 daemon 化时按本文；含四轮评审记录（HIGH/MEDIUM 全部关闭） | S:壳不得 import service（go list -deps 断言）；握手仅 /v1/quota/* 校验、ping/stop 豁免；发布 tag 定死 agyquota/vX.Y.Z 避免多项目冲突
-requirements.md[SG6S]: F:agyquota daemon 化需求：单二进制双角色、HTTP+JSON 唯一契约、地址发现与生产自动拉起、buildID 握手、薄客户端、发布流，AC-1~13 | R:code:docs/projects/go_projects/CLI 工具开发标准 v2.md | A:需求基线；实现与验收以本文 AC 为准，Out of Scope 不得越界 | S:改造前提是外部可感知行为全部不变（输出/错误码/退出码/数据目录）；显式地址连不上绝不本地拉起；生产判定=buildID 的 describe 段为干净 tag
-tasks.md[SW5T]: F:agyquota daemon 化任务清单：13 项（契约包/appdata/buildinfo/service 改造/daemon/client/CLI 切换/MCP 桥/构建脚本/测试/验收） | R:code:docs/projects/go_projects/agyquota/specs/02-daemon-architecture/design.md | A:Task 1-9 已完成；10-12（单测/集成/手工验收）待执行 | S:执行阶段默认跳过 [test] 任务与 Verify 命令，Verify 仅作备用信息
-
-===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch-gui/plans/===
-01-de-ai-flavor-ui.md[SU5S]: F:glmquotawatch-gui 去 AI 味终端磷光风重构计划（已实施）：CRT 令牌、扫描线背景、方括号导航、终端口吻文案 | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/02-landscape-window.md,code:docs/projects/go_projects/glmquotawatch-gui/plans/03-light-ccswitch-theme.md | A:历史存档；终端风随后被 03 号计划完全废弃（用户否决） | S:自主配色写死并禁用 Tailwind 默认色板；字体 @fontsource/jetbrains-mono；Dashboard 加载指示保留旋转 SVG 为已知偏差
-02-landscape-window.md[SU5T]: F:glmquotawatch-gui 主窗横向化计划（已实施）：480×760 → 920×560 + MinWidth/MinHeight，前端布局自适应铺开 | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/01-de-ai-flavor-ui.md | A:窗口几何唯一出处 internal/guiapp/app.go buildWindow；Dashboard 卡片 auto-fit 网格、History 图表加高 | S:窗口几何改一处即全一致（ensureMainWindow 重建复用 buildWindow）；启动底色同步主题色消除闪屏
-03-light-ccswitch-theme.md[SU5S]: F:glmquotawatch-gui 浅色产品化改版计划（已实施）：贴近 CC Switch 的浅色+绿主色+圆角卡片，废弃终端暗色风 | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/01-de-ai-flavor-ui.md,code:docs/projects/go_projects/glmquotawatch-gui/plans/02-landscape-window.md | A:UI 现状基准；令牌名保留只换色值；构建走 wails3 build | S:暗色风被用户否决（仍有 AI 味、低对比）；01/02 轮改动未单独提交，本轮合并包含横向化与自适应布局
-04-raycast-linear-style-de-ai.md[SU5T]: F:glmquotawatch-gui Raycast/Linear 质感浅色重构计划：双层阴影、内高光、非对称信息流、精致数字排版 | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/03-light-ccswitch-theme.md,code:docs/projects/go_projects/glmquotawatch-gui/plans/05-dev-prod-isolation-and-build-scripts.md | A:Task 1/5 已完成，Task 2-4（App/卡片/图表设置）待办 | S:纯自研 Tailwind + 内联 SVG 不引外部图标库；禁止蓝紫渐变与对称三卡片、纯平边框
-05-dev-prod-isolation-and-build-scripts.md[SU5T]: F:glmquotawatch-gui 开发/生产隔离计划（已完成）：数据目录 dev/prod 子目录、单例 UniqueID 与窗口标题 [DEV]、双构建脚本 | R:code:docs/projects/go_projects/glmquotawatch-gui/plans/04-raycast-linear-style-de-ai.md | A:开发版严禁开机自启（拦截保护）；build-prod.ps1/build-dev.ps1 产出不同命名 exe | S:数据目录隔离为 glmquotawatch-gui\dev 与 \prod；单例 ID 生产无后缀、开发加 .dev
-06-release-v0.1.0-tag.md[SV4T]: F:glmquotawatch-gui v0.1.0 发布计划：补 .gitignore 忽略 bin/ 与 *.exe~ 后在独立仓库 main 打 annotated tag v0.1.0 并推送；不动二级与父仓指针 | R:- | A:- | S:tag 只打在 glmquotawatch-gui 独立仓库（td-go_projects-glmquotawatch-gui）
-07-memory-optimization-webview2-lifecycle.md[SG5T]: F:glmquotawatch-gui 关窗销毁 WebView2 与托盘按需重建计划（已完成）：Wails v3 WindowsOptions 配置、窗口生命周期钩子重构、Chromium 子进程剪枝与内存实测对照 | R:code:AGENTS.md | A:已执行完毕作决策存档；改 Wails v3 窗口生命周期、WebView2 参数或常驻内存前先读本文的钩子改造与实测数据 | S:窗口态 347.6→186.95MB、关窗常驻 40.15MB；关窗须置 a.win=nil 并 runtime.GC/FreeOSMemory；WebviewUserDataPath 落 %APPDATA%\language_projects\<项目>\<dev|prod>\webview2；最小化不得销毁 WebView2
-08-bindings-resync-and-provider-memory.md[SU4T]: F:glmquotawatch Wails bindings 失配修复计划：模块改名后旧绑定 ID 全面失败导致界面假死，重建 bindings 并固化构建顺序，补齐超时/错误出口与 Provider 选择持久化 | R:code:docs/projects/go_projects/glmquotawatch/使用指南.md | A:- | S:构建须先 generate bindings；旧 ID 源自旧模块路径 FNV32a，漏重建致界面假死
-
-===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/===
-design.md[SG6M]: F:glmquotawatch-gui 设计：Wails v3 + Vue3 前端 + Go 业务核心（api/store/quota/service 自归档移植）+ 托盘常驻；CLI 恒 JSON 壳 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/requirements.md | A:实现按本文；含零上下文评审（1 HIGH/8 MEDIUM 全修复）与 beta 升级必回归 4 项 | S:第二实例须在 application.New() 内退出、先于任何 store 写入；ResetDir 双防线校验；CLI stdout 恒纯 JSON（含 help/version）
-requirements.md[SG6T]: F:glmquotawatch-gui 需求：Wails v3 桌面复活归档 glmquotawatch——GUI 主导航（仪表盘/历史/设置/演示）+ CLI 恒 JSON 薄壳，FR-1~12 与 AC-1~12 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/design.md | A:用户已确认 Wails v3 beta.25、托盘常驻、无 MCP（例外理由在设计文档） | S:告警记账重启不重复轰炸；演示模式独立数据目录不污染真实数据；回落跌破 min(thresholds)−hysteresis 才重置
-tasks.md[SW5T]: F:glmquotawatch-gui 任务清单：10 项主任务（脚手架/移植/CLI/guiapp/前端/构建）+1 项 [test] 可选测试 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/01-glmquotawatch-gui/design.md | A:Task 1-10 已完成并 wails3 build 出包；Task 11 按默认跳过 | S:CLI 信封/零 I/O schema/demo 全链路已机验；托盘/单实例/静音/自启为真机人工走查项
-
-===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch-gui/specs/02-demo-toast-no-alert/===
-bugfix.md[SG6T]: F:glmquotawatch-gui demo Toast 不出现 bugfix 报告：根因 NotificationOptions.ID 必填缺失 + 告警先记账后发送致失败被吞 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/02-demo-toast-no-alert/design.md | A:AC-1~5 验收边界；CLI status 语义不变 | S:Wails 返回成功不等于系统横幅展示（OS 抑制不可判定，范围外）；state.json 必须在 Toast 成功后才记账
-design.md[SG6S]: F:glmquotawatch-gui Toast 修复设计：SampleOnce 拆提交/未提交路径、Outcome.Newly、Toast 成功门闩、pending 重试与 notify-error 事件 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/02-demo-toast-no-alert/bugfix.md | A:实现按本文；GUI 手动采样改 SampleUncommitted 不抢占记账 | S:确认前视图必须用 prev 构建；通知失败不写 state.json，下轮重试；SaveState 失败发 state_save_failed
-tasks.md[SW5T]: F:Toast 修复任务清单（Task 1-5 全部完成）：Newly 档位、sample(commit) 拆分、Toast 门闩与 pending、Wails ID 修复、文档与端到端验证 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/02-demo-toast-no-alert/design.md | A:go build/vet/test/race 与 npm build 通过；真实 demo 复测事件日志 delivered 并记账 [50]/[50,60] | S:NotificationOptions.ID 必填，用 glmquotawatch-gui-<UnixNano> 每轮新值
-
 ===D:/Users/language_projects/docs/projects/go_projects/typeai/specs/01-interactive-rendering/===
 design.md[SG6S]: F:typeai TUI 设计：Bubble Tea/Bubbles/Lip Gloss/Glamour 栈、stream bridge goroutine、80ms 节流单飞渲染、折叠思维块 | R:code:docs/projects/go_projects/typeai/specs/01-interactive-rendering/requirements.md | A:实现按本文；Glamour v1.0.0 需锁定 Lip Gloss 兼容版本 | S:Markdown 渲染不得放 SSE callback 同步执行；渲染失败降级原文；退出先 cancel 再等结果消息
 requirements.md[SG6T]: F:typeai TUI 化需求：无参数入口升级 Bubble Tea TUI——思考折叠、流式 Markdown、滚动/resize/错误状态，FR-1~9 与 AC-1~8 | R:code:docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md | A:不改 session 持久化与管理命令；不做 MCP | S:reasoning 只在内存 UI 不落盘；用户输入纯文本、仅 assistant 渲染 Markdown；失败轮不写 session 不进入后续上下文
 tasks.md[SW5T]: F:typeai TUI 任务清单（Task 1-6 完成，Task 7 [test] 待办）：骨架/流式桥/渲染缓存/resize/契约文档/构建 | R:code:docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md | A:已用 fake SSE 验证思考折叠、Markdown、失败不落盘与终端恢复 | S:按执行默认未跑单元/race；Task 7 补 renderer 与 stream state 单测
 
-===D:/Users/language_projects/docs/projects/go_projects/agyquota/specs/03-agy-usage-eof-retry/===
-bugfix.md[SG6T]: F:agyquota --agy 瞬态 EOF 失败 bugfix 报告：单次执行无重试致可恢复故障直接失败，AC-1~6 约定有界重试边界 | R:code:docs/projects/go_projects/agyquota/plans/03-restore-agy-cli-command.md,code:docs/projects/go_projects/agyquota/设计说明.md | A:Task 1-2 已完成；Task 3 真实命令验收按默认执行规则暂未运行；实现核心是区分瞬态与非瞬态错误 | S:有界重试仅限 retrieveUserQuotaSummary 瞬态网络错误（如 EOF）；认证失败、命令缺失、参数错误等非瞬态错误禁止重试；--zed 数据源行为不变；重试诊断不污染 JSON 输出
-
 ===D:/Users/language_projects/docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/===
 design.md[SG6S]: F:typeai 图片重构设计：blobs 归档、按需 loadImage、轮次窗口降级三模块与 TUI staged 透传修复，含零上下文自审（2 MEDIUM 已修复） | R:code:docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/requirements.md,code:docs/projects/go_projects/typeai/specs/01-interactive-rendering/design.md | A:实现按本文；AC 与设计组件映射表在文末 | S:clipboard 仅做平台捕获，归档收口 service 层；blobs 内 hex 文件名被识别为剪贴板图命名 clipboard.png；历史含图消息统一剥离标记；TUI staged 须先存局部变量再置 nil
 requirements.md[SG6T]: F:typeai 图片重构需求：SHA-256 内容寻址 blob 归档、按需加载、最近 3 轮真实图片窗口与更早轮次降级占位符，FR-1~5 与 AC-1~4 | R:code:docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/design.md | A:需求基线；实现与验收以 AC 为准；Out of Scope（轮数配置、blob GC、文本裁剪）不得越界 | S:session.json 始终保留原始文本与完整 images 元数据，请求级图片降级不影响持久化；blobs 按 sha256 内容寻址去重；图片上限 10MiB 且仅 png/jpeg/webp/gif
 tasks.md[SW5T]: F:typeai 图片重构任务清单：3 项（归档+缓存移除+轮次降级、TUI 绑定+staged 透传+README、测试适配），全部未勾选待执行 | R:code:docs/projects/go_projects/typeai/specs/02-image-blob-and-context-decay/design.md | A:待执行；任务 3 [test] 默认跳过 | S:-
-
-===D:/Users/language_projects/docs/projects/go_projects/agyquota/specs/04-silent-copy-hardening/===
-bugfix.md[SG6T]: F:agyquota Windows 静默 agy 副本回退与校验强化 bugfix：agy_silent.exe 失败回退原始 CUI 程序可能重新触发弹窗，需硬拦截、真实路径日志、多维缓存校验与 daemon 重启复用 | R:code:go_projects/agyquota/internal/agapi/pe_windows.go,code:go_projects/agyquota/internal/agapi/proc_windows.go,code:go_projects/agyquota/internal/agapi/client.go | A:待按 AC-1~5 实施；与 EOF 重试问题独立处理 | S:静默副本生成/校验失败时禁止回退原始 agy.exe；Subsystem=2 与源 SHA-256 绑定是防止缓存漂移和窗口回归的关键不变量
 
 ===D:/Users/language_projects/docs/projects/go_projects/typeai/specs/03-conversation-fork/===
 design.md[SG7M]: F:typeai 多对话分支设计：session schema v3、父历史 Fork 解析、TUI Tab/命令切换、branch/turn 流式隔离与按 ID 恢复 | R:code:docs/projects/go_projects/typeai/specs/03-conversation-fork/requirements.md | A:设计文档待用户批准，Task 1-8 尚未执行；实现需以 requirements.md AC-1~11 为边界 | S:子分支通过不可变 parent_id 与半开区间 fork_message_index 继承历史；异步流和渲染结果必须同时校验 branch ID、turn ID 与 generation
@@ -396,11 +343,6 @@ spectrum_notes_amber.html[FU2M]: F:随笔记四色光谱徽章渲染中间产物
 spectrum_temp_purple.html[FU2M]: F:临时区四色光谱徽章渲染中间产物：透明底 HTML 内嵌 1024 SVG，幻彩电紫主色（Buffer 试剂瓶、Transit->Buffer->Fly 终端），供 Chrome 截图 | R:code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:由生成脚本重渲染覆盖，勿手工编辑
 spectrum_todo_green.html[FU2M]: F:待办项四色光谱徽章渲染中间产物：透明底 HTML 内嵌 1024 SVG，极光青绿主色（Focus 试剂瓶、Task->Priority->Done 终端），供 Chrome 截图 | R:code:.scripts/group_avatars/generate_jyy_style_avatars.py | A:- | S:由生成脚本重渲染覆盖，勿手工编辑
 
-===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/===
-design.md[SU7L]: F:glmquotawatch-gui Fyne 重写设计：guiapp 换 Fyne v2.8.1 纯 Go 单进程（无 WebView2），托盘/Toast 直调/单实例命名事件/自启 HKCU 直写/自绘折线图落位，含已核实的 Fyne API 对照表 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/requirements.md | A:- | S:后台 goroutine 更新 UI 必须经 fyne.Do；关窗用 SetCloseIntercept 拦截后 Hide 不退出
-requirements.md[SU7S]: F:glmquotawatch-gui Fyne 重写需求：GUI 层从 Wails v3+Vue3 原地重写为纯 Go Fyne，业务核心五包复用不动，功能语义与 AC-1~12 平移，新增单进程无 WebView2 依赖 FR-13 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/design.md | A:- | S:Fyne 无托盘 tooltip API，状态语义改由托盘菜单首项禁用状态行动态文本承载
-tasks.md[SW6T]: F:glmquotawatch-gui Fyne 重写任务清单：依赖准备、字体子集、通知与单实例、自启注册表直写、guiapp 整包置换至恢复整仓构建 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/03-fyne-rewrite/design.md | A:- | S:任务 2-8 属 guiapp 整包置换，组内中间态该包不可编译，按序推进至任务 9 恢复
-
 ===D:/Users/language_projects/docs/projects/go_projects/plansql/===
 设计说明.md[SV4T]: F:plansql 设计说明：Append-Only SQL 为真理层、内存 SQLite 投影、daemon 挂 HTTP+JSON 与内嵌看板，CLI/MCP/Web 三薄客户端，并含 Wails v3 GUI 双通道（gui/cli）与 dev/prod 隔离 | R:code:docs/plans/28-plansql-tracker.md,code:plans_status.sql | A:- | S:GUI 内嵌服务不写 plansql.addr，避免 CLI 误连共享 daemon；GUI 与 CLI serve 共用同一 Handler
 
@@ -437,11 +379,6 @@ tasks.json[FC3T]: F:VS Code/Cursor 任务面板：仅登记 zedhub 服务启动�
 ===D:/Users/language_projects/docs/projects/python_projects/lele/plans/===
 01-generate-practice-problems.md[SG3T]: F:Plan（已完成）：化学诊断第 6/12 讲举一反三变式题生成——python-docx 按既有格式产出第6讲 10 题、第12讲 14 题两份 docx | R:- | A:- | S:-
 
-===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch-gui/specs/04-notification-channels/===
-design.md[SG6M]: F:glmquotawatch-gui 通知渠道设计：Toast 单出口重构为渠道插件化+Dispatcher 并发投递+逐渠道独立记账三层；新增 internal/notify 包（7 文件）并联动 store/service/cli/gui；含零上下文自审修复清单 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/04-notification-channels/requirements.md | A:实现通知渠道改造前先读；模块依赖方向以 design 内不变量为准 | S:state 只由 daemon 串行写，渠道禁碰 store；记账后置于投递成功（全败不吞告警）；脱敏只在 ChannelView 出口；smtp 465 须自建 tls.Dial；飞书签名/OneBot 字段名待真机核对
-requirements.md[SG6T]: F:glmquotawatch-gui 通知渠道需求：出口通用化为 0..N 渠道（toast/smtp/http 三种 + 9 条 preset，含 QQ 邮箱与飞书签名）；独立记账、可观测、测试发送、脱敏、静音覆盖；CLI notify 契约；FR-1~11 / AC-1~6 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/04-notification-channels/design.md | A:需求基线（含用户已确认的 v1 边界）；范围外项见 Out of Scope 章节 | S:旧 state.json 的 notified 语义等同默认 toast 渠道已通知，迁移不得导致重复告警；无 notify 配置时行为与现状逐条一致；短信不存在长期免费渠道（仅云厂商赠量）
-tasks.md[SW6T]: F:glmquotawatch-gui 通知渠道任务清单（13 项）：store 扩展、notify 包骨架、toast 渠道化、smtp/http、preset 表、service/daemon、CLI 与 schema、GUI 配置页、测试适配、README、端到端冒烟 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/04-notification-channels/design.md | A:待实施，按序推进任务 1-13；验证命令见各任务 Verify 行 | S:当前 13 项全未勾选；任务 11 为 [test] 标记，执行阶段默认跳过
-
 ===D:/Users/language_projects/docs/projects/python_projects/zedhub/plans/===
 01-antigravity-transcript-priority.md[SZ4T]: F:zedhub Antigravity 会话解析重构计划：transcript.jsonl 为唯一正文与轨迹源，四大变体目录(acp/桌面/cli/ide)统一扫描，彻底删除手写 Protobuf 解包 | R:- | A:四个 Task 已全部完成勾选；复盘 Antigravity 解析架构或调整 transcript 解析时查阅 | S:数据源仅认 brain/<sid>/.system_generated/logs/transcript.jsonl，Protobuf 解包已彻底删除不得复活
 
@@ -453,11 +390,6 @@ tasks.md[SW6T]: F:glmquotawatch-gui 通知渠道任务清单（13 项）：store
 
 ===D:/Users/language_projects/docs/projects/python_projects/docsearch/plans/===
 01-local-document-semantic-search.md[SG5S]: F:docsearch 开发计划：本地文档与技能库语义检索系统——Service 核心（Markdown 切块、FastEmbed 向量、LanceDB 增量、Watchdog 防抖）+ Typer CLI（--json/--schema）+ FastAPI HTTP 与内嵌 WebUI，5 任务全部完成 | R:code:docs/projects/go_projects/CLI 工具开发标准.md,code:AGENTS.md | A:计划已执行完成，转历史决策存档；对标 CLI 标准的分层与 --json/--schema 为一等公民 | S:向量库与运行时缓存须落 %APPDATA%\language_projects\docsearch\；默认嵌入模型 BAAI/bge-small-zh-v1.5；watcher 500ms~1s 防抖
-
-===D:/Users/language_projects/docs/projects/go_projects/glmquotawatch-gui/specs/05-opencode-go-quota-probe/===
-design.md[SG6L]: F:OpenCode Go 额度探测设计：internal/opencode 客户端、store token、service 视图、CLI opencode 子命令、Wails 绑定，前端 console 暗色皮肤层（.oc-console + oc/* 组件、History 空状态、骨架同 GLM，AC-6~10） | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/05-opencode-go-quota-probe/requirements.md | A:按本文任务 1-8 实施；Wails v3 方法名与线上 console 页面代码未随开源仓库发布 | S:线上 console 页代码未开源，结构看截图、值取开源令牌，禁臆造未公开源码；暗色仅皮肤层、限 .oc-console 作用域，骨架与 GLM 对齐、不复刻页签导航（AC-9）；令牌不写全局 @theme
-requirements.md[SG6M]: F:OpenCode Go 探测需求：三窗口 percent/status/resets_at 快速查看，FR-1~6 与视觉规范章节（色彩令牌映射、等宽 tabular-nums、反模式禁令），AC-1~10 含暗色隔离与交互对齐验收 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/05-opencode-go-quota-probe/design.md | A:风格已确认仅 OpenCode 视图内暗色、其余浅色；数字与标题等宽、正文无衬线；历史页 OpenCode 语境显示空状态（FR-6） | S:仅 OpenCode 视图暗色（.oc-console 作用域），GLM 与外壳保持浅色；底 #242424、描边 1px #ffffff14、条 6px 圆角 ≤2px，禁阴影与用量圆环；数字等宽 + tabular-nums 防刷新抖动，reduced-motion 停动画
-tasks.md[SW6S]: F:OpenCode Go 任务清单 9 项：客户端/store/service/CLI/Bindings/暗色 console 风格层/联调/历史持久化与折线图 | R:code:docs/projects/go_projects/glmquotawatch-gui/specs/05-opencode-go-quota-probe/design.md | A:任务 9 为历史采样持久化与走势图展现；全部 9 项已完成勾选 | S:OpenCode 历史数据按月归档 opencode-samples-*.jsonl 与 GLM 隔离；前端折线走势图支持 Provider 动态切换与主题色适配
 
 ===D:/Users/language_projects/.agents/references/===
 aoci.protocol.md[SC4S]: F:AOCI 通用协议与 F/R/A/S 规则手册（由根级 aoci.repository.cognition.md 归集转正）：认知建立/恢复/维护入口、上下文压缩重载规则、任务收尾与写边界、专用工作流安全停止 | R:code:AGENTS.md,code:GLOBAL.md | A:建立/恢复认知与收尾维护前按需读取；不得预加载、猜测或重建专用工作流，只按当前 Guide 或工具返回的指令执行 | S:不得放回 `.agents/rules/`（agy 自动全量加载）；现归集于 `.agents/references/` 顶层
@@ -511,12 +443,6 @@ typeai-ui-redesign.html[SU4L]: F:typeai UI 重设计高保真原型（静态单�
 ===D:/Users/language_projects/docs/projects/go_projects/mail2feishu/plans/===
 01-mail2feishu.md[SG6T]: F:mail2feishu 实施计划：QQ IMAP IDLE 监听、纯白名单零信任过滤、飞书 Webhook 交互卡片与防抖频控 | R:- | A:未命中白名单的邮件静默丢弃；IMAP 闪断指数退避重连；15s 窗口内同讨论串聚合成一条 | S:默认全阻断，只有命中白名单才推送，避免手机通知噪音
 
-===D:/Users/language_projects/docs/projects/go_projects/termhub/plans/===
-01-termhub-vertical-slices.md[SG7S]: F:termhub 垂直切片看板：T01–T10 依赖 DAG 与每票测试接缝、验收条件，单切片单会话推进 | R:code:docs/projects/go_projects/termhub/specs/01-termhub-terminal-manager-spec.md | A:T01 与 T08 可并行；T10 修订 T06 的「已退出」语义，改为终端记忆模型 | S:每票只以 SessionManager 为接缝断言，禁对内部细节写测试
-
-===D:/Users/language_projects/docs/projects/go_projects/termhub/specs/===
-01-termhub-terminal-manager-spec.md[SG8T]: F:termhub 设计规格：Wails v3 加 ConPTY 加 xterm.js 的 Windows 终端宿主，含 11 条验收、测试接缝与不做什么 | R:code:docs/projects/go_projects/termhub/plans/01-termhub-vertical-slices.md | A:唯一公共入口为 SessionManager；Job Object 整树终止；数据落 %APPDATA%\language_projects\termhub\{dev,prod} | S:spec 原文 Wails v2 为笔误，统一 v3；第一版只做 PowerShell，架构预留 shell 抽象
-
 ===D:/Users/language_projects/docs/projects/java_projects/agent-lab/plans/===
 01-tickets.md[SG7S]: F:agent-lab 垂直切片看板：T01–T08 依赖 DAG 与每票接缝、验收条件，单切片单会话推进 | R:code:docs/projects/java_projects/agent-lab/specs/01-agent-lab-spec.md | A:主接缝为 AgentRuntime.run 加 FakeLlmClient；T05 可与 T02/T03 并行 | S:禁止依赖真实 LLM 输出的断言；端口 8083 避免与既有服务冲突
 
@@ -530,16 +456,6 @@ tasks.md[SE6T]: F:DSH 源任务清单：8 个任务从依赖提升、路径解�
 
 ===D:/Users/language_projects/docs/projects/go_projects/deepseeksearch/===
 research-deepseek-tools-pricing.md[SG7T]: F:DeepSeek Search/Fetch API 计费规则调研报告：按次计费 $0.75/1000 次、count 与 need_content 不影响费用、Fetch 与 Search 独立计费，并归因前序 Agent 503 崩溃现场 | R:- | A:调研日期 2026-10-29，为客户端计费优化疑问查证官方一手信源；正式收费自 2026-11-01 起生效 | S:仅 HTTP 200 且非空成功请求扣费，4xx/5xx 与未命中不计费，超限 429 不计费；先搜索 N 条再逐条 Fetch 会产生 1+N 次计费
-
-===D:/Users/language_projects/docs/projects/go_projects/acp-title-proxy/plans/===
-01-fix-reboot-title-overwrite.md[SE6S]: F:修复 AGY ACP 自动标题重启后被延续词覆写的计划：持久化已命名会话、只读探测 Zed db.sqlite、单会话仅命名一次 | R:code:docs/projects/go_projects/acp-title-proxy/plans/02-worker-reclaim-transparent-reconnect.md | A:改 Titler 时保持已有标题即早退的不变式，勿加延续词黑名单特例 | S:数据落 %APPDATA%\language_projects\acp-title-proxy\titled_sessions.json；探测 Zed 库须只读且禁用 SELECT *
-02-worker-reclaim-transparent-reconnect.md[SR7S]: F:acp-title-proxy worker 回收与透明重连设计：daemon 重启 worker 回收 harness，serve 断线重连并复用 instance_id，Zed 不出现 Retry | R:code:docs/projects/go_projects/acp-title-proxy/plans/01-fix-reboot-title-overwrite.md | A:改 serve/daemon/config 时按第四节握手协议与队列上限执行 | S:在途 prompt 允许丢失；重连窗口 30s、队列上限 200 行/8MB，超限断开交 Zed；不得改 ACP 对外协议
-
-===D:/Users/language_projects/docs/projects/go_projects/agysess/===
-README.md[SZ6T]: F:agysess 项目说明：Fyne 原生 GUI + CLI 双壳，会话列表与归档重命名备注、WT 联动打开与探活关窗，纯 Go 常驻数十 MB | R:code:docs/projects/go_projects/agysess/plans/01-agysess-implementation-plan.md | A:改命令或能力时同步本 README 与实施计划；CLI/GUI 均经 internal/service | S:只读 conversation_summaries.db（mode=ro、显式字段）；自有数据仅写 %APPDATA%\language_projects\agysess\
-
-===D:/Users/language_projects/docs/projects/go_projects/agysess/plans/===
-01-agysess-implementation-plan.md[SZ6M]: F:agysess 实施计划（已交付）：需求痛点、能力矩阵、Service/CLI/GUI 分层、WT 联动与进程回收、schema 零 I/O 契约 | R:code:docs/projects/go_projects/agysess/README.md | A:二次开发或补用例时以第二节能力矩阵为契约基线 | S:查询禁用 SELECT *；schema 必须零 I/O；不得写入 ~/.gemini 原生库
 
 ===D:/Users/language_projects/docs/projects/go_projects/rebootremind/plans/===
 01-rebootremind-plan.md[SO6S]: F:rebootremind 计划：开机满 3 天且内存达 85%（或满 7 天）才弹 TaskDialog 重启提醒，含 Snooze 4h/24h、立即重启与 Top5 进程 | R:- | A:实现或调阈值时同步第二节流程图与防打扰分支 | S:开机时长是硬前置，防刚开机高负载误报；弹窗用 TaskDialogIndirect 而非易漏的 Toast；重启走 shutdown /r
