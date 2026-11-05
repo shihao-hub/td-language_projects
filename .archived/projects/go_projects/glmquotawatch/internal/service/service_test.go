@@ -226,9 +226,49 @@ func TestSampleOnceUpstreamCodes(t *testing.T) {
 	}
 }
 
+func TestSampleUncommittedDoesNotAdvanceState(t *testing.T) {
+	pct := int64(92)
+	svc := newTestSvc(t, &pct)
+	if _, err := svc.SetToken(validToken); err != nil {
+		t.Fatal(err)
+	}
+
+	view, err := svc.SampleUncommitted(context.Background())
+	if err != nil {
+		t.Fatalf("SampleUncommitted: %v", err)
+	}
+	if len(view.Windows) != 1 || view.Windows[0].Percentage != 92 {
+		t.Fatalf("观察视图不符: %+v", view)
+	}
+	if got := view.Windows[0].Notified; len(got) != 0 {
+		t.Fatalf("未提交视图不应显示已通知: %v", got)
+	}
+	state, err := svc.st.LoadState()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if state.Version != 0 || len(state.Notified) != 0 {
+		t.Fatalf("未提交采样不应写 state.json: %+v", state)
+	}
+
+	_, outs, err := svc.SampleOnce(context.Background())
+	if err != nil {
+		t.Fatalf("SampleOnce: %v", err)
+	}
+	if len(outs) != 1 || !outs[0].Notify {
+		t.Fatalf("提交式采样应评估新档: %+v", outs)
+	}
+	state, err = svc.st.LoadState()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := state.Notified["TOKENS_LIMIT:3:5"]; !reflect.DeepEqual(got, []int{50, 60, 80, 90}) {
+		t.Fatalf("提交式采样应记账: %v", got)
+	}
+}
+
 // TestViewThresholdsNeverNull 手改 config.json 把 thresholds 写成 null 时，
-// 视图仍须序列化为 []：outputSchema（已不含 null 分支）会被 go-sdk 用来
-// 校验 structuredContent，null 会导致校验失败。
+// 视图仍须序列化为 []：CLI/GUI JSON 出口不含 null 数组，机器消费侧友好。
 func TestViewThresholdsNeverNull(t *testing.T) {
 	dir := t.TempDir()
 	if err := os.WriteFile(filepath.Join(dir, "config.json"), []byte(`{"thresholds": null}`), 0o600); err != nil {
@@ -251,5 +291,47 @@ func TestViewThresholdsNeverNull(t *testing.T) {
 	}
 	if !strings.Contains(string(b), `"thresholds":[]`) || strings.Contains(string(b), `"thresholds":null`) {
 		t.Fatalf("thresholds 应序列化为 [] 而非 null: %s", b)
+	}
+}
+
+// TestActiveProviderPersisted 顶栏 Provider 选择须落盘并在重建 Service 后复现：
+// 重启记忆依赖 config.json 的 active_provider 字段，脏值一律回落 glm。
+func TestActiveProviderPersisted(t *testing.T) {
+	dir := t.TempDir()
+	st, err := store.Open(dir)
+	if err != nil {
+		t.Fatalf("store.Open: %v", err)
+	}
+	svc := New(st)
+
+	if got := svc.GetActiveProvider(); got != ProviderGLM {
+		t.Fatalf("缺省应为 glm: %s", got)
+	}
+	if err := svc.SetActiveProvider(ProviderOpenCode); err != nil {
+		t.Fatalf("SetActiveProvider: %v", err)
+	}
+
+	// 重新打开（模拟重启）
+	st2, err := store.Open(dir)
+	if err != nil {
+		t.Fatalf("store.Open: %v", err)
+	}
+	if got := New(st2).GetActiveProvider(); got != ProviderOpenCode {
+		t.Fatalf("重启后应恢复 opencode: %s", got)
+	}
+
+	if err := svc.SetActiveProvider("foo"); svcErrCode(t, err) != "bad_args" {
+		t.Fatalf("未知 Provider 应 bad_args: %v", err)
+	}
+	if got := svc.GetActiveProvider(); got != ProviderOpenCode {
+		t.Fatalf("非法写入不应改变已存值: %s", got)
+	}
+
+	// 手工写脏值（模拟旧版本/人为编辑）时回落 glm
+	if err := os.WriteFile(filepath.Join(dir, "config.json"), []byte(`{"active_provider":"bogus"}`), 0o600); err != nil {
+		t.Fatalf("写配置失败: %v", err)
+	}
+	if got := svc.GetActiveProvider(); got != ProviderGLM {
+		t.Fatalf("脏值应回落 glm: %s", got)
 	}
 }

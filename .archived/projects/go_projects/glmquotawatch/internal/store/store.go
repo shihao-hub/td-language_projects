@@ -1,7 +1,9 @@
 // Package store 负责 glmquotawatch 的本地持久化：config.json（配置）、
-// state.json（告警武装状态）、samples-*.jsonl（采样历史）与 daemon.lock（单实例锁）。
+// state.json（已告警档位记录）、samples-*.jsonl（采样历史）。
 // 数据目录为 %APPDATA%\language_projects\glmquotawatch\，取不到 AppData 时
 // 回退 ~/.language_projects/glmquotawatch/；写入采用 临时文件+重命名 保证原子性。
+// 单实例由 Wails SingleInstance 保证（GUI），CLI 子命令为一次性进程，
+// 故不再需要归档版的 daemon.lock 跨进程锁。
 package store
 
 import (
@@ -9,20 +11,26 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strconv"
+	"sort"
 	"strings"
 	"sync"
 	"time"
+
+	"glmquotawatch/internal/env"
 )
 
 // Config 工具配置（config.json）。业务校验（时长/阈值范围等）在 service 层，
 // 本包只负责存取。
 type Config struct {
-	Token      string `json:"token"`
-	Interval   string `json:"interval"`   // time.Duration 字符串，如 "5m"
-	Thresholds []int  `json:"thresholds"` // 告警阈值（升序去重，1..99）
-	Hysteresis int    `json:"hysteresis"` // 滞回百分点：低于 min-thresholds-hysteresis 才重新武装
-	Silent     bool   `json:"silent"`     // true 时通知静音
+	Token         string `json:"token"`
+	OpenCodeToken string `json:"opencode_token,omitempty"` // OpenCode Go API key（独立于 GLM token）
+	Interval      string `json:"interval"`                 // time.Duration 字符串，如 "5m"
+	Thresholds    []int  `json:"thresholds"`               // 告警阈值（升序去重，1..99）
+	Hysteresis    int    `json:"hysteresis"`               // 滞回百分点：低于 min-thresholds-hysteresis 才重置告警记录
+	Silent        bool   `json:"silent"`                   // true 时通知静音（仍发送，无声）
+	// ActiveProvider GUI 顶栏 Provider 选择（glm / opencode），重启后据此恢复
+	// 上次停留的视图；空值表示沿用 glm（旧配置文件天然兼容）。
+	ActiveProvider string `json:"active_provider,omitempty"`
 }
 
 // DefaultConfig 返回默认配置。
@@ -35,8 +43,8 @@ func DefaultConfig() Config {
 	}
 }
 
-// State 告警武装状态（state.json）。Notified 按窗口稳定键记录已通知档位；
-// Thresholds 是产生该状态时的阈值指纹（配置变更即整体失效、重新武装）。
+// State 已告警档位记录（state.json）。Notified 按窗口稳定键记录已通知档位；
+// Thresholds 是产生该记录时的阈值指纹（配置变更即整体失效、重新触发）。
 type State struct {
 	Version    int              `json:"version"`
 	Thresholds []int            `json:"thresholds"`
@@ -62,17 +70,18 @@ func Open(dir string) (*Store, error) {
 func (s *Store) Dir() string { return s.dir }
 
 // DefaultDir 返回默认数据目录：
-// %APPDATA%\language_projects\glmquotawatch，取不到 AppData 时回退
-// ~/.language_projects/glmquotawatch。
+// %APPDATA%\language_projects\glmquotawatch\<dev|prod>，取不到 AppData 时回退
+// ~/.language_projects/glmquotawatch/<dev|prod>。
 func DefaultDir() (string, error) {
+	subDir := env.DataSubDir()
 	if appData := os.Getenv("AppData"); appData != "" {
-		return filepath.Join(appData, "language_projects", "glmquotawatch"), nil
+		return filepath.Join(appData, "language_projects", "glmquotawatch", subDir), nil
 	}
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return "", fmt.Errorf("定位数据目录失败: %w", err)
 	}
-	return filepath.Join(home, ".language_projects", "glmquotawatch"), nil
+	return filepath.Join(home, ".language_projects", "glmquotawatch", subDir), nil
 }
 
 func (s *Store) configPath() string { return filepath.Join(s.dir, "config.json") }
@@ -164,28 +173,107 @@ func (s *Store) AppendSample(now time.Time, data json.RawMessage) (string, error
 	return path, nil
 }
 
-// LockError 单实例锁被占用。
-type LockError struct{ PID int }
-
-func (e *LockError) Error() string {
-	return fmt.Sprintf("另一个监控实例正在运行（PID %d）；若确认没有，可删除数据目录下的 daemon.lock", e.PID)
-}
-
-// Lock 获取单实例锁：向 daemon.lock 写入当前进程 PID。
-// 已有锁且其中 PID 仍存活时返回 *LockError；否则覆盖。返回的释放函数删除锁文件。
-func (s *Store) Lock() (release func(), err error) {
+// AppendOpenCodeSample 把一次 OpenCode Go 采样的上游 data 原文追加到当月历史文件
+// opencode-samples-YYYY-MM.jsonl（本地时区分月），返回文件路径。
+func (s *Store) AppendOpenCodeSample(now time.Time, data json.RawMessage) (string, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	path := filepath.Join(s.dir, "daemon.lock")
-	if raw, rerr := os.ReadFile(path); rerr == nil {
-		if pid, perr := strconv.Atoi(strings.TrimSpace(string(raw))); perr == nil && pidAlive(pid) {
-			return nil, &LockError{PID: pid}
+	path := filepath.Join(s.dir, "opencode-samples-"+now.Format("2006-01")+".jsonl")
+	line := struct {
+		Ts   string          `json:"ts"`
+		Data json.RawMessage `json:"data"`
+	}{Ts: now.Format(time.RFC3339), Data: data}
+	b, err := json.Marshal(line)
+	if err != nil {
+		return "", err
+	}
+	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
+	if err != nil {
+		return "", err
+	}
+	defer f.Close()
+	if _, err := f.Write(append(b, '\n')); err != nil {
+		return "", err
+	}
+	return path, nil
+}
+
+// ListSampleFiles 返回覆盖 since 时点起的采样历史文件路径（按月文件名升序）。
+// 按文件名月份判断归属：当月文件的月末 >= since 即纳入（粗粒度，行级过滤由
+// 调用方完成）。目录不存在返回空列表。
+func (s *Store) ListSampleFiles(since time.Time) ([]string, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	entries, err := os.ReadDir(s.dir)
+	if os.IsNotExist(err) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	var out []string
+	for _, e := range entries {
+		name := e.Name()
+		if e.IsDir() || !strings.HasPrefix(name, "samples-") || !strings.HasSuffix(name, ".jsonl") {
+			continue
+		}
+		month, perr := time.ParseInLocation("2006-01", strings.TrimSuffix(strings.TrimPrefix(name, "samples-"), ".jsonl"), time.Local)
+		if perr != nil {
+			continue // 命名异常的历史文件跳过
+		}
+		// 文件覆盖 [月初, 次月初)，与 since 区间有交集即纳入
+		if month.AddDate(0, 1, 0).After(since) {
+			out = append(out, filepath.Join(s.dir, name))
 		}
 	}
-	if err := os.WriteFile(path, []byte(strconv.Itoa(os.Getpid())), 0o644); err != nil {
-		return nil, fmt.Errorf("写入 daemon.lock 失败: %w", err)
+	sort.Strings(out)
+	return out, nil
+}
+
+// ListOpenCodeSampleFiles 返回覆盖 since 时点起的 OpenCode 采样历史文件路径（按月文件名升序）。
+func (s *Store) ListOpenCodeSampleFiles(since time.Time) ([]string, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	entries, err := os.ReadDir(s.dir)
+	if os.IsNotExist(err) {
+		return nil, nil
 	}
-	return func() { _ = os.Remove(path) }, nil
+	if err != nil {
+		return nil, err
+	}
+	var out []string
+	for _, e := range entries {
+		name := e.Name()
+		if e.IsDir() || !strings.HasPrefix(name, "opencode-samples-") || !strings.HasSuffix(name, ".jsonl") {
+			continue
+		}
+		month, perr := time.ParseInLocation("2006-01", strings.TrimSuffix(strings.TrimPrefix(name, "opencode-samples-"), ".jsonl"), time.Local)
+		if perr != nil {
+			continue
+		}
+		if month.AddDate(0, 1, 0).After(since) {
+			out = append(out, filepath.Join(s.dir, name))
+		}
+	}
+	sort.Strings(out)
+	return out, nil
+}
+
+// ResetDir 清空并重建 target 目录内全部文件（演示模式进入时清场用）。
+// 二级防线：仅接受 basename 为 "demo" 的目录（runtime 层还有全等一级校验），
+// 拒绝空串、卷根等危险目标。
+func (s *Store) ResetDir(target string) error {
+	clean := filepath.Clean(target)
+	if clean == "" || clean == "." || filepath.Base(clean) != "demo" {
+		return fmt.Errorf("ResetDir 仅允许清理 demo 子目录，收到 %q", target)
+	}
+	if err := os.RemoveAll(clean); err != nil {
+		return fmt.Errorf("清理演示目录失败: %w", err)
+	}
+	if err := os.MkdirAll(clean, 0o755); err != nil {
+		return fmt.Errorf("重建演示目录失败: %w", err)
+	}
+	return nil
 }
 
 func writeFileAtomic(path string, data []byte) error {

@@ -1,0 +1,152 @@
+﻿@import "tailwindcss";
+
+/* Raycast / Linear 质感浅色桌面设计令牌 */
+@theme {
+  --color-bg: #f4f6f5;
+  --color-panel: #ffffff;
+  --color-panel-hover: #fafbfa;
+  --color-well: #eaeef0;
+  --color-edge: #e1e6e3;
+  --color-edge-strong: #d0d7d3;
+  --color-brand: #0d9468;
+  --color-brand-deep: #087451;
+  --color-brand-light: #e6f5ef;
+  --color-warn: #c25e00;
+  --color-warn-light: #fef3e6;
+  --color-crit: #be123c;
+  --color-crit-light: #fef1f2;
+  --color-ink: #111827;
+  --color-dim: #4b5563;
+  --color-faint: #8b97a2;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  letter-spacing: -0.011em;
+}
+
+::selection {
+  background: rgba(13, 148, 104, 0.18);
+  color: #087451;
+}
+
+/* 数字等宽与微排版 */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Linear/Raycast 质感桌面微阴影与内高光 */
+.shadow-subtle {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 3px 8px rgba(15, 23, 42, 0.03);
+}
+
+.shadow-card {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 6px 16px -2px rgba(15, 23, 42, 0.04);
+}
+
+.inset-highlight {
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.85);
+}
+
+.btn-press {
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-press:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+/* 呼吸动画 */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(0.92); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2.4s ease-in-out infinite;
+}
+
+/* ============================================================
+   OpenCode Console 暗色风格层（作用域 .oc-console）
+   令牌仅在本作用域内生效，严禁写入全局 @theme（保证 GLM 视图与外壳
+   浅色 Raycast 令牌零污染，AC-7）。取值依据 OpenCode 开源仓库 console
+   设计令牌（requirements《视觉规范：OpenCode Console 风格》色彩映射表）。
+   ============================================================ */
+.oc-console {
+  --oc-bg: #242424;
+  --oc-surface: #2e2e2e;
+  --oc-track: #3a3a3a;
+  --oc-border: #ffffff14;
+  --oc-text: #f2f2f2;
+  --oc-text-2: #aeaeae;
+  --oc-text-3: #808080;
+  --oc-warn: #f2cf76;
+  --oc-crit: #ffa478;
+  --oc-danger: #f1484f;
+  --oc-bar-radius: 2px;
+
+  background: var(--oc-bg);
+  color: var(--oc-text);
+}
+
+/* 等宽字体栈：数字、标签、计数与标题（对齐 console --font-mono）；
+   中文正文仍走系统无衬线，避免长中文等宽观感发硬 */
+.oc-mono {
+  font-family: "Berkeley Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+}
+
+/* 顶部柔光：linear-gradient(180deg, rgba(255,255,255,.16), transparent) 铺于视图顶部 */
+.oc-glow {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 140px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent);
+  pointer-events: none;
+}
+
+/* 额度条填充过渡：400–700ms cubic-bezier(0.22,1,0.36,1) */
+.oc-fill {
+  transition:
+    width 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* prefers-reduced-motion：禁用条形与数值过渡动画（AC-8） */
+@media (prefers-reduced-motion: reduce) {
+  .oc-console .oc-fill {
+    transition: none;
+  }
+}
+
+/* 优雅细滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d6ded9;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #bec9c3;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

@@ -1,4 +1,4 @@
-// Package api 实现智谱 GLM（bigmodel）编码套餐用量查询客户端。
+// Package api 实现智谱 GLM（bigmodel）编码套餐用量查询客户端与演示模拟上游。
 // 接口已实测：GET /api/monitor/usage/quota/limit，Authorization 头携带
 // API token（带不带 Bearer 前缀均可，本包统一带 Bearer）。
 package api
@@ -18,7 +18,7 @@ const DefaultBaseURL = "https://open.bigmodel.cn"
 
 // EnvBaseURL 允许用环境变量覆盖上游地址（测试注入 httptest；将来可指到
 // z.ai 国际版）。空值时用 DefaultBaseURL。
-const EnvBaseURL = "GLM_QUOTA_WATCH_API_BASE"
+const EnvBaseURL = "GLMQUOTAWATCH_GUI_API_BASE"
 
 // Client 用量查询客户端。
 type Client struct {
@@ -90,7 +90,7 @@ func (l Limit) Key() string {
 	return fmt.Sprintf("%s:%d:%d", l.Type, l.Unit, l.Number)
 }
 
-// TokensLimits 返回 token 类窗口（一期只对这类做阈值告警）。
+// TokensLimits 返回 token 类窗口（只对这类做阈值告警）。
 func (u *Usage) TokensLimits() []Limit {
 	var out []Limit
 	for _, l := range u.Limits {

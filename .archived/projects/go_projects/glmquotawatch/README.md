@@ -1,48 +1,74 @@
-# glmquotawatch
+﻿# glmquotawatch
 
-定时采样智谱 GLM（bigmodel）编码套餐用量，跨越阈值（默认 50/60/80/90%）时弹 Windows Toast 通知的 CLI 工具。MCP/CLI 双壳：既有面向人的命令行，也有供 AI 客户端接入的 stdio MCP server。
+智谱 GLM（bigmodel）编码套餐用量监控的**桌面 GUI 工具**（Wails v3 + 托盘常驻）：定时采样各额度窗口用量，跨越阈值档位（默认 50/60/80/90%）时弹原生 Windows Toast 告警；主窗仪表盘 + 历史趋势曲线；内置 60 倍速演示模式。归档项目 `glmquotawatch`（CLI 版）的 GUI 复活版。
+
+- **GUI**（面向人）：无参数启动；关窗最小化到托盘，监控持续
+- **CLI**（面向机器/AI）：恒输出 JSON 信封，无人读模式；`schema` 导出 CLI 自身契约（`interface: "cli"`）
+- **不含 MCP server**（用户决策；偏离《CLI 工具开发标准》默认双入口，理由：GUI 面向人 + CLI 恒 JSON 已覆盖机器消费，替代入口即本 CLI）
 
 ## 构建
 
+前置：Go 1.25+、Node.js 20+、wails3 CLI（`go install github.com/wailsapp/wails/v3/cmd/wails3@v3.0.0-beta.25`）。
+
 ```powershell
 cd go_projects\glmquotawatch
-go build -ldflags "-X glmquotawatch/internal/cli.Version=v0.1.0" -o glmquotawatch.exe .
+npm install                           # 首次，在 frontend/ 内
+
+# 生产构建（产出 bin\glmquotawatch-gui.exe + bin\glmquotawatch-cli.exe，数据目录 \prod，启用开机自启）：
+# 仅 HEAD 精确命中项目 tag 且工作区干净时允许
+uv run scripts/build.py --release
+
+# 开发构建（产出 bin\glmquotawatch-gui-dev.exe + bin\glmquotawatch-cli-dev.exe，数据目录 \dev，独立单例互斥，禁用开机自启）：
+uv run scripts/build.py
+
+wails3 dev                            # 开发调试模式（前端热更新）
 ```
 
-exe 默认带站标地鼠图标：项目根下的 `icon.ico` 与 `rsrc_windows_amd64.syso` 由 `go build` 自动链接，无需额外参数；更换图标时用 rsrc 重出 syso（见父仓 `docs/projects/go_projects/go exe 默认图标.md`）。
+- exe 图标：`build/windows/icon.ico`（自定义青色用量环 + 珊瑚告警段），托盘图标与 exe 图标共用同一文件，经 `wails3 generate syso` 注入；wails 构建后自动清理根目录临时 `*.syso`，**不要提交静态 syso**。
+- 纯 `go build .`：仅在 `frontend/dist` 已存在时可用（先跑过一次前端构建）。
+- 版本号：`build/config.yml` 的 `info.version` 与 `build/windows/Taskfile.yml` 的 `-X …cli.Version` 保持同步。
 
-## 快速上手
+## GUI
+
+| 入口 | 说明 |
+|---|---|
+| 无参数启动 | 主窗 + 托盘；关窗到托盘，退出仅经托盘菜单 |
+| 托盘双击 | 左键双击托盘图标：直接显示并聚焦主窗口 |
+| `--demo` / 托盘「进入演示模式」 | 60 倍速模拟：5 分钟走完 5 小时窗口 0→100%，依次触发各档 Toast；写独立演示目录，不污染真实数据；可随时退出恢复 |
+| `--hidden` | 静默启动（开机自启注册形态）：不弹主窗，仅托盘 |
+| 托盘菜单 | 显示主窗 / 打开 exe 目录 / 立即采样 / 静音 / 开机自启（HKCU Run 键，登录后 `--hidden` 启动）/ 演示模式 / 退出 |
+| 重复启动 | 单实例：激活既有主窗后新进程退出 |
+
+设置页配置 token（≥ 20 字符）、interval（30s–24h）、thresholds（1-99）、hysteresis（0-30）、silent；历史页看 24h/7d 百分比曲线（含阈值虚线）。
+
+阈值 Toast 采用“发送成功后记账”：daemon 首次跨档发送 Windows Toast，`state.json` 只在通知调用成功后记录档位；发送失败时显示 `notify_failed`，未确认档位下一轮重试。GUI 的「立即采样」只刷新观察视图，不会代替 daemon 确认告警。CLI `status` 仍保持立即采样、推进状态、不发送通知的机器语义。
+
+## CLI（恒 JSON）
 
 ```powershell
-.\glmquotawatch.exe token set <你的GLM_API_TOKEN>   # bigmodel 开放平台密钥
-.\glmquotawatch.exe status                          # 立即采样一次
-.\glmquotawatch.exe start                           # 启动常驻监控（Ctrl+C 停止）
+.\bin\glmquotawatch-cli.exe token set <你的GLM_API_TOKEN>   # 配置后 GUI/CLI 共用
+.\bin\glmquotawatch-cli.exe status                          # 立即采样一次
+.\bin\glmquotawatch-cli.exe schema                          # CLI 契约目录（零 I/O）
 ```
 
-## 命令
+- 全部命令 stdout 恒输出 `{"ok":true,"data":…}` / `{"ok":false,"error":{"code","message"}}`（`--help`/`--version` 亦信封化）；退出码 0 成功 / 1 业务失败 / 2 参数错误。
+- 子命令：`token set/show/remove`、`status`、`config show/set`、`schema`、`version`。
+- `--json` flag 已移除（恒 JSON）——传入会按未知 flag 报 `bad_args` 退出码 2。
 
-| 命令 | 说明 |
-|---|---|
-| `token set <token>` / `show` / `remove` | 配置 / 脱敏查看 / 清除 token |
-| `status [--json]` | 立即采样一次（落历史并推进告警状态，不发通知） |
-| `config show` / `config set <key> <value>` | 查看 / 修改配置（`interval`、`thresholds`、`hysteresis`、`silent`） |
-| `start` | 常驻监控：定时采样 + 跨阈值弹 Toast；单实例锁；interval 热加载 |
-| `mcp` | 以 stdio MCP server 运行（工具：`gqw.status`、`gqw.token.set/show/remove`、`gqw.config.show/set`，与 CLI 叶命令一一对应） |
-| `schema` | 导出与 `tools/list` 同源的 MCP 工具定义 |
+## 数据目录
 
-## 数据文件
+`%APPDATA%\language_projects\glmquotawatch\<prod|dev>\`：根据运行版本自动路由隔离。含 `config.json`（token 明文本机保存）、`state.json`（已告警档位记录）、`samples-YYYY-MM.jsonl`（采样历史）；`demo\` 子目录为演示数据（每次进入演示清空重建）。环境变量 `GLMQUOTAWATCH_GUI_API_BASE` 可覆盖上游地址（默认 `https://open.bigmodel.cn`）。
 
-全部位于 `%APPDATA%\language_projects\glmquotawatch\`：`config.json`（配置，token 明文保存于本机）、`state.json`（告警武装状态，重启不重复轰炸）、`samples-YYYY-MM.jsonl`（采样历史，供二期突发检测）、`daemon.lock`（单实例锁）。
+## Wails beta 升级必回归项
 
-## 通知不弹排查
-
-1. 先确认日志有 `通知已发送`——有这行说明程序侧成功，是系统侧丢弃；
-2. Windows 设置 → 系统 → 通知：总开关 + 「Windows PowerShell」的通知权限（通知以 PowerShell 的 AUMID 身份发出）；
-3. 勿扰 / 专注助手是否开启；
-4. 日志都没有：`powershell` 是否在 PATH。
+1. 关窗→托盘→再显示链路（`RegisterHook(WindowClosing)+Cancel`）
+2. 单实例：第二实例退出时机与 `--demo` 转发
+3. 通知静音实机效果（`NotificationSound{Silent:true}`）
+4. `--hidden` 静默启动不闪窗
 
 ## 已知限制
 
-- token 在本机 config.json 中明文保存（与仓内 quickask 同做法）；
-- daemon.lock 按 PID 存活判断，极端 PID 复用会误判（删除 lock 文件即可恢复）；
-- 突发消耗检测、run-once + 计划任务模式、周额度套餐适配、TIME_LIMIT（MCP 月度）告警留二期。
+- 通知以应用自身 AUMID 发出；若系统通知设置关闭则静默丢弃（排查路径同 Windows 通知设置）。
+- Wails `SendNotification` 返回成功只代表应用调用链成功，不保证 Windows 当前一定会展示横幅；专注助手等系统级抑制无法由该返回值判定。
+- dev 期（`go run` / 临时构建产物）拒绝注册开机自启（错误 `dev_executable`），请用 `wails3 build` 产物验证。
+- TIME_LIMIT（MCP 月度额度）告警、突发消耗检测、z.ai 国际版端点留二期。

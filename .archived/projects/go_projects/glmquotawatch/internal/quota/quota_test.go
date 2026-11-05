@@ -56,6 +56,9 @@ func TestFirstSampleCrossJumpRecordsAll(t *testing.T) {
 	if outs[0].Message != want {
 		t.Fatalf("文案不符:\n got %s\nwant %s", outs[0].Message, want)
 	}
+	if got := outs[0].Newly; !reflect.DeepEqual(got, []int{50, 60, 80, 90}) {
+		t.Fatalf("应保留全部待确认新档: %v", got)
+	}
 	if got := notifiedOf(next, testKey); !reflect.DeepEqual(got, []int{50, 60, 80, 90}) {
 		t.Fatalf("应记账全量 F: %v", got)
 	}
@@ -89,7 +92,7 @@ func TestHysteresisHolds(t *testing.T) {
 	// 55 → 85：仍未清空，不得再通知
 	_, outs = evalCfg(testCfg(), next, tokenLimit(85))
 	if outs[0].Notify {
-		t.Fatalf("未重新武装不应通知")
+		t.Fatalf("未重置告警记录不应通知")
 	}
 }
 
@@ -103,10 +106,10 @@ func TestHysteresisClearsRearms(t *testing.T) {
 	if len(notifiedOf(next, testKey)) != 0 {
 		t.Fatalf("清空后不应有记账")
 	}
-	// 44 → 51：重新武装后再次触发 50
+	// 44 → 51：重置告警记录后再次触发 50
 	_, outs = evalCfg(testCfg(), next, tokenLimit(51))
 	if !outs[0].Notify || outs[0].Highest != 50 {
-		t.Fatalf("重新武装后应再通知 50: %+v", outs[0])
+		t.Fatalf("重置告警记录后应再通知 50: %+v", outs[0])
 	}
 }
 
@@ -115,7 +118,7 @@ func TestFingerprintReset(t *testing.T) {
 	cfg := store.Config{Thresholds: []int{50, 90}, Hysteresis: 5}
 	_, outs := evalCfg(cfg, prev, tokenLimit(91))
 	if !outs[0].Notify || outs[0].Highest != 90 {
-		t.Fatalf("阈值指纹变更应整体重新武装: %+v", outs[0])
+		t.Fatalf("阈值指纹变更应整体重置告警记录: %+v", outs[0])
 	}
 }
 

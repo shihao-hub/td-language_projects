@@ -1,6 +1,6 @@
 // Package service 承载 glmquotawatch 的业务用例：参数校验 + store/api/quota
 // 编排，输入输出均为纯 Go 类型。不做任何标准流输出与 os.Exit——
-// CLI 包络层与 MCP 适配层共用本包，是唯一业务真相源。
+// GUI 绑定层与 CLI 壳共用本包，是唯一业务真相源。
 package service
 
 import (
@@ -16,11 +16,12 @@ import (
 	"time"
 
 	"glmquotawatch/internal/api"
+	"glmquotawatch/internal/opencode"
 	"glmquotawatch/internal/quota"
 	"glmquotawatch/internal/store"
 )
 
-// Error 业务错误：Code 供 CLI JSON 包络与 MCP IsError 文本共用（格式
+// Error 业务错误：Code 供 CLI JSON 包络与 GUI 错误展示共用（格式
 // "code: message"），退出码由 CLI 壳决定，不进入公共错误。
 type Error struct {
 	Code    string
@@ -33,9 +34,9 @@ func errf(code, format string, a ...any) *Error {
 	return &Error{Code: code, Message: fmt.Sprintf(format, a...)}
 }
 
-// Notifier 通知抽象：daemon 经它发送告警，测试注入 fake。
+// Notifier 通知抽象：daemon 经它发送告警，GUI 注入 Wails 通知适配器，测试注入 fake。
 type Notifier interface {
-	Notify(title, msg string) error
+	Notify(title, msg string, silent bool) error
 }
 
 // ConfigView 配置视图（token 恒脱敏，任何出口都不回明文）。
@@ -67,10 +68,30 @@ type StatusView struct {
 	Windows   []WindowView `json:"windows"`
 }
 
+// sampleResult 保存一次采样的评估结果；状态是否已提交由调用路径决定。
+type sampleResult struct {
+	usage    *api.Usage
+	now      time.Time
+	prev     store.State
+	next     store.State
+	outcomes []quota.Outcome
+}
+
+func (r sampleResult) view(committed bool) StatusView {
+	state := r.prev
+	if committed {
+		state = r.next
+	}
+	return buildStatusView(r.usage, r.now, state)
+}
+
 // Service 业务用例集合。
 type Service struct {
-	st      *store.Store
-	baseURL string
+	st              *store.Store
+	baseURL         string
+	openCodeBaseURL string             // OpenCode Go 上游（空值时用 opencode.DefaultBaseURL）
+	fetcherFactory  func() api.Fetcher // nil 时默认按 config token 现读构造 Client
+	fixedInterval   time.Duration      // 非零时 daemon 直用该间隔（演示模式），跳过热加载与 clamp
 }
 
 // Option Service 构造选项。
@@ -79,6 +100,23 @@ type Option func(*Service)
 // WithBaseURL 覆盖上游 API 地址（测试注入 httptest、将来接国际版）。
 func WithBaseURL(u string) Option {
 	return func(s *Service) { s.baseURL = u }
+}
+
+// WithOpenCodeBaseURL 覆盖 OpenCode Go 上游地址（测试注入 httptest、本地 Mock）。
+func WithOpenCodeBaseURL(u string) Option {
+	return func(s *Service) { s.openCodeBaseURL = u }
+}
+
+// WithFetcherFactory 整体替换数据源（演示模式注入 DemoFetcher、测试注入 fake）。
+// 工厂在每轮采样时调用，token 语义由工厂自行决定。
+func WithFetcherFactory(f func() api.Fetcher) Option {
+	return func(s *Service) { s.fetcherFactory = f }
+}
+
+// WithFixedInterval 固定 daemon 采样间隔（演示模式 5s）：
+// 非零时启动与热加载均直用该值，跳过 config 中的 interval 与 clamp。
+func WithFixedInterval(d time.Duration) Option {
+	return func(s *Service) { s.fixedInterval = d }
 }
 
 // New 构造 Service；baseURL 为空时用 api.DefaultBaseURL。
@@ -90,18 +128,30 @@ func New(st *store.Store, opts ...Option) *Service {
 	return s
 }
 
-// Open 组装入口（CLI/MCP）用：默认数据目录；上游地址可被环境变量
-// GLM_QUOTA_WATCH_API_BASE 覆盖。
-func Open() (*Service, error) {
-	dir, err := store.DefaultDir()
-	if err != nil {
-		return nil, err
-	}
+// Open 组装入口用：显式数据目录；上游地址可被环境变量
+// GLMQUOTAWATCH_GUI_API_BASE / OPENCODE_GO_API_BASE 分别覆盖。
+func Open(dir string, opts ...Option) (*Service, error) {
 	st, err := store.Open(dir)
 	if err != nil {
 		return nil, err
 	}
-	return New(st, WithBaseURL(os.Getenv(api.EnvBaseURL))), nil
+	return New(st, append([]Option{
+		WithBaseURL(os.Getenv(api.EnvBaseURL)),
+		WithOpenCodeBaseURL(os.Getenv(opencode.EnvBaseURL)),
+	}, opts...)...), nil
+}
+
+// fetcher 返回本轮采样使用的数据源：优先注入的工厂，默认按 config token
+// 现读构造真实 Client（token 每轮从 config 取，支持热更换）。
+func (s *Service) fetcher() (api.Fetcher, error) {
+	if s.fetcherFactory != nil {
+		return s.fetcherFactory(), nil
+	}
+	cfg, err := s.st.LoadConfig()
+	if err != nil {
+		return nil, errf("internal", "读取配置失败: %v", err)
+	}
+	return api.NewClient(s.baseURL, cfg.Token), nil
 }
 
 // ---- 配置类用例 ----
@@ -147,6 +197,47 @@ func (s *Service) GetConfig() (ConfigView, error) {
 
 // configSetKeys config set 支持的键（供错误提示与校验）。
 var configSetKeys = []string{"interval", "thresholds", "hysteresis", "silent"}
+
+// Provider 常量：GUI 顶栏切换器与持久化共用同一组取值。
+const (
+	ProviderGLM      = "glm"
+	ProviderOpenCode = "opencode"
+)
+
+// GetActiveProvider 返回持久化的 Provider 选择；缺省/脏数据一律回落 glm。
+func (s *Service) GetActiveProvider() string {
+	cfg, err := s.st.LoadConfig()
+	if err != nil {
+		return ProviderGLM
+	}
+	if cfg.ActiveProvider == ProviderOpenCode {
+		return ProviderOpenCode
+	}
+	return ProviderGLM
+}
+
+// SetActiveProvider 持久化 Provider 选择（顶栏切换与重启记忆的唯一真相）；
+// 未识别取值报 bad_args。
+func (s *Service) SetActiveProvider(provider string) error {
+	if provider != ProviderGLM && provider != ProviderOpenCode {
+		return errf("bad_args", "未知 Provider %q，仅支持 glm / opencode", provider)
+	}
+	cfg, err := s.st.LoadConfig()
+	if err != nil {
+		return errf("internal", "读取配置失败: %v", err)
+	}
+	if cfg.ActiveProvider == provider {
+		return nil
+	}
+	cfg.ActiveProvider = provider
+	if err := s.st.SaveConfig(cfg); err != nil {
+		return errf("internal", "保存配置失败: %v", err)
+	}
+	return nil
+}
+
+// DataDir 返回数据目录（GUI 快照在配置不可读时仍需下发目录以便定位问题）。
+func (s *Service) DataDir() string { return s.st.Dir() }
 
 // SetConfig 修改单个配置键，校验规则：
 // interval 正时长 clamp [30s, 24h]；thresholds 逗号分隔 1..99 排序去重；
@@ -206,7 +297,7 @@ func (s *Service) view(cfg store.Config) ConfigView {
 		Token:      MaskToken(cfg.Token),
 		HasToken:   cfg.Token != "",
 		Interval:   cfg.Interval,
-		Thresholds: append([]int{}, cfg.Thresholds...), // 兜底非 nil：thresholds 为 null 时视图仍序列化为 []，与不含 null 的 outputSchema 一致
+		Thresholds: append([]int{}, cfg.Thresholds...), // 兜底非 nil：thresholds 为 null 时视图仍序列化为 []
 		Hysteresis: cfg.Hysteresis,
 		Silent:     cfg.Silent,
 		Dir:        s.st.Dir(),
@@ -249,19 +340,40 @@ func dedupSorted(ts []int) []int {
 
 // SampleOnce 立即采样一次：请求上游 → 原文落历史 → 评估阈值推进告警状态。
 // 不发送任何通知（通知是 daemon 的职责）。返回状态视图与逐窗口评估结果
-// （CLI/MCP 只用视图，daemon 用评估结果）。
+// （CLI 只用视图，GUI daemon 用评估结果）。
 func (s *Service) SampleOnce(ctx context.Context) (StatusView, []quota.Outcome, error) {
+	result, err := s.sample(ctx, true)
+	if err != nil {
+		return StatusView{}, nil, err
+	}
+	return result.view(true), result.outcomes, nil
+}
+
+// SampleUncommitted 刷新观察视图但不确认阈值；daemon 在通知成功后自行提交状态。
+func (s *Service) SampleUncommitted(ctx context.Context) (StatusView, error) {
+	result, err := s.sample(ctx, false)
+	if err != nil {
+		return StatusView{}, err
+	}
+	return result.view(false), nil
+}
+
+func (s *Service) sample(ctx context.Context, commit bool) (sampleResult, error) {
 	cfg, err := s.st.LoadConfig()
 	if err != nil {
-		return StatusView{}, nil, errf("internal", "读取配置失败: %v", err)
+		return sampleResult{}, errf("internal", "读取配置失败: %v", err)
 	}
 	if cfg.Token == "" {
-		return StatusView{}, nil, errf("no_token", "尚未配置 token，请先执行 token set")
+		return sampleResult{}, errf("no_token", "尚未配置 token，请先在设置页录入")
 	}
 
-	usage, raw, err := api.NewClient(s.baseURL, cfg.Token).FetchUsage(ctx)
+	f, err := s.fetcher()
 	if err != nil {
-		return StatusView{}, nil, mapUpstream(err)
+		return sampleResult{}, err
+	}
+	usage, raw, err := f.FetchUsage(ctx)
+	if err != nil {
+		return sampleResult{}, mapUpstream(err)
 	}
 
 	now := time.Now()
@@ -275,10 +387,12 @@ func (s *Service) SampleOnce(ctx context.Context) (StatusView, []quota.Outcome, 
 		prev = store.State{}
 	}
 	next, outs := quota.Evaluate(cfg, prev, usage.TokensLimits(), now)
-	if err := s.st.SaveState(next); err != nil {
-		slog.Warn("state.json 写入失败（下一轮重试，不影响通知）", "err", err)
+	if commit {
+		if err := s.st.SaveState(next); err != nil {
+			slog.Warn("state.json 写入失败（下一轮重试，不影响通知）", "err", err)
+		}
 	}
-	return buildStatusView(usage, now, next), outs, nil
+	return sampleResult{usage: usage, now: now, prev: prev, next: next, outcomes: outs}, nil
 }
 
 func buildStatusView(u *api.Usage, now time.Time, st store.State) StatusView {

@@ -1,28 +1,26 @@
-// Package cli 是 glmquotawatch 的 CLI 薄壳（cobra）：
-// 每个命令只做「解析 → service → 输出 → 退出码」，业务规则全部在 service 层。
+﻿// Package cli 是 glmquotawatch 的机器友好薄壳（cobra）：
+// 所有命令恒输出 JSON 信封（面向脚本/AI，不提供人读模式）；
+// 每个命令只做「解析 → service → 信封输出 → 退出码」，
+// 业务规则全部在 service 层。GUI 是面向人的入口。
 package cli
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
-	"log/slog"
 	"os"
-	"os/signal"
 	"sync"
-	"syscall"
 	"time"
 
-	"glmquotawatch/internal/mcp"
-	"glmquotawatch/internal/notify"
+	"glmquotawatch/internal/app"
 	"glmquotawatch/internal/service"
+	"glmquotawatch/internal/store"
 
 	"github.com/spf13/cobra"
 )
 
 // Version 版本号，构建时经 -ldflags 注入。
-var Version = "dev"
+var Version = app.Version
 
 // mustService 惰性组装业务服务（help/version/schema 不触发数据目录创建之外的开销）。
 var (
@@ -33,12 +31,18 @@ var (
 
 func mustService() (*service.Service, error) {
 	svcOnce.Do(func() {
-		svcInst, svcErr = service.Open()
+		dir, err := store.DefaultDir()
+		if err != nil {
+			svcErr = err
+			return
+		}
+		svcInst, svcErr = service.Open(dir)
 	})
 	return svcInst, svcErr
 }
 
 // Run 执行 CLI 并返回进程退出码：0 成功、1 业务失败、2 参数/flag 错误。
+// help/version 同样以 JSON 信封输出（stdout 恒纯 JSON）。
 func Run(args []string) int {
 	root := newRootCmd()
 	root.SetArgs(args) // 不传则 cobra 默认读 os.Args[1:]，进程内调用（测试）会错乱
@@ -50,38 +54,40 @@ func Run(args []string) int {
 	if errors.As(err, &ce) {
 		return 1 // 错误输出已在命令内完成
 	}
-	// cobra 的 flag/参数错误：人读走 stderr，--json 时信封到 stdout
+	// cobra 的 flag/参数错误：信封到 stdout（机器侧统一消费），退出码 2
 	se := &service.Error{Code: "bad_args", Message: err.Error()}
-	if jsonMode(root) {
-		emitErrJSON(os.Stdout, se)
-	} else {
-		fmt.Fprintf(os.Stderr, "错误: %s\n", se.Message)
-	}
+	emitErrJSON(os.Stdout, se)
 	return 2
 }
 
 func newRootCmd() *cobra.Command {
-	mcp.Version = Version
 	root := &cobra.Command{
-		Use:     "glmquotawatch",
-		Short:   "GLM 编码套餐用量采样与阈值告警（Windows Toast）",
+		Use:     "glmquotawatch-cli",
+		Short:   "GLM 编码套餐用量采样与阈值告警（GUI 工具的机器友好 CLI 壳，恒 JSON 输出）",
 		Version: Version,
-		Long: "定时采样智谱 GLM（bigmodel）编码套餐用量，跨越阈值时弹 Windows Toast 通知。\n" +
-			"先执行 token set 配置密钥，再 start 启动常驻监控；status 可手动采样一次。",
+		Long: "glmquotawatch 的 CLI 壳面向脚本与 AI 消费：所有命令 stdout 恒输出 JSON 信封\n" +
+			"{\"ok\":true,\"data\":…} / {\"ok\":false,\"error\":{\"code\",\"message\"}}，退出码 0/1/2。\n" +
+			"面向人的入口是 GUI（无参数启动本程序）。",
 		SilenceErrors: true,
 		SilenceUsage:  true,
 	}
-	root.PersistentFlags().Bool("json", false, "以 JSON 信封输出（供脚本/程序消费）")
-	root.SetVersionTemplate("{{.Version}}\n")
+	// --help 与 --version 同样信封化：stdout 纯 JSON 不变式对元命令也成立
+	root.SetHelpFunc(envelopeHelp)
+	root.SetVersionTemplate(`{"ok": true, "data": {"version": "{{.Version}}"}}` + "\n")
 	root.AddCommand(
 		tokenCmd(),
 		statusCmd(),
 		configCmd(),
-		startCmd(),
-		mcpCmd(),
+		opencodeCmd(),
 		schemaCmd(),
+		versionCmd(),
 	)
 	return root
+}
+
+// envelopeHelp 以 JSON 信封输出 usage（含子命令清单与说明）。
+func envelopeHelp(cmd *cobra.Command, _ []string) {
+	emitJSON(os.Stdout, map[string]any{"usage": cmd.UsageString()})
 }
 
 // ---- token ----
@@ -208,66 +214,37 @@ func configCmd() *cobra.Command {
 	return cmd
 }
 
-// ---- start ----
-
-func startCmd() *cobra.Command {
-	return &cobra.Command{
-		Use:   "start",
-		Short: "启动常驻监控：定时采样 + 跨阈值弹 Windows Toast（Ctrl+C 停止）",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			svc, err := mustService()
-			if err != nil {
-				return outErr(cmd, err)
-			}
-			cfg, err := svc.GetConfig()
-			if err != nil {
-				return outErr(cmd, err)
-			}
-			ctx, stop := signal.NotifyContext(cmd.Context(), os.Interrupt, syscall.SIGTERM)
-			defer stop()
-			logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
-			notifier := notify.Toast{Silent: cfg.Silent}
-			if err := svc.RunDaemon(ctx, notifier, logger); err != nil {
-				return outErr(cmd, err)
-			}
-			return nil
-		},
-	}
-}
-
-// ---- mcp ----
-
-func mcpCmd() *cobra.Command {
-	return &cobra.Command{
-		Use:   "mcp",
-		Short: "以 stdio MCP server 运行（供 AI 客户端接入）",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			return mcp.Run(cmd.Context())
-		},
-	}
-}
-
 // ---- schema ----
 
 func schemaCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "schema",
-		Short: "导出与 tools/list 同源的 MCP 工具定义（离线检查用，输出即 JSON）",
+		Short: "导出本 CLI 自身的命令契约目录（interface: cli，零业务 I/O）",
+		Long: "输出本 CLI 的命令/参数/退出码契约 JSON（静态生成，不读配置、不建目录、不联网）。\n" +
+			"本项目未提供 MCP server（用户决策），本目录即机器侧的契约自描述。",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			tools, err := mcp.Schema(cmd.Context())
+			doc, err := BuildSchemaDoc()
 			if err != nil {
 				return outErr(cmd, err)
 			}
-			b, err := json.MarshalIndent(map[string]any{
-				"name":    "glmquotawatch",
-				"version": Version,
-				"tools":   tools,
-			}, "", "  ")
+			b, err := marshalIndent(doc)
 			if err != nil {
 				return outErr(cmd, err)
 			}
-			fmt.Println(string(b))
+			fmt.Fprintln(os.Stdout, string(b))
 			return nil
+		},
+	}
+}
+
+// ---- version ----
+
+func versionCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "version",
+		Short: "输出版本号（JSON 信封）",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return outOK(cmd, map[string]string{"version": Version})
 		},
 	}
 }

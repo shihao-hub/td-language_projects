@@ -1,3 +1,22 @@
-# 构建产物
+# 构建生成物（脚本自动重建，不入库）；四个 exe 统一落 bin/
+/bin/
+/icon.ico
+/icon.png
+/cmd/glmquotawatch/rsrc_windows_amd64.syso
+
+# 历史产物
 *.exe
 *.exe~
+.task/
+
+# 前端构建与依赖
+frontend/node_modules/
+frontend/dist/
+frontend/bindings/
+
+# Python 运行缓存
+__pycache__/
+*.pyc
+
+# Windows 重定向误生成的空文件
+nul
