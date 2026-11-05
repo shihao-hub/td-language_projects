@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@wailsio/runtime": "latest",
-    "echarts": "^5.6.0",
+    "echarts": "^6.1.0",
     "vue": "^3.2.45"
   },
   "devDependencies": {
