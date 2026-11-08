@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-11-05T18:23:13Z",
+  "updated_at": "2026-11-08T07:29:48Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -77,6 +77,11 @@
       "sha256": "0be7d376cca7dd9e0baa8edfd788e4d9ed2dd0b71f18e0a823be92ae21879e04",
       "size": 4323,
       "normalized_sha256": "0be7d376cca7dd9e0baa8edfd788e4d9ed2dd0b71f18e0a823be92ae21879e04"
+    },
+    ".claude/plans/go-projects-deepseeksearch-gleaming-penguin.md": {
+      "sha256": "a18861861adf10ecae8fb3f110cd80ba535eba3a5606e09bbec438e6588801dc",
+      "size": 7869,
+      "normalized_sha256": "a18861861adf10ecae8fb3f110cd80ba535eba3a5606e09bbec438e6588801dc"
     },
     ".claude/plans/go-projects-gui-exe-groovy-tome.md": {
       "sha256": "9f2bf2ff32c2d263d6128bc80c76ee8d53033625cdd531f7a95cbb8d4b0ee3d6",
@@ -456,10 +461,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "role": "index",
-      "sha256": "e1af3a7c16716ef434dd72350a61b313788c15e67a43af004ea8e99e0bf9afcf",
-      "size": 142628,
-      "normalized_sha256": "e1af3a7c16716ef434dd72350a61b313788c15e67a43af004ea8e99e0bf9afcf"
+      "sha256": "419df58a2dc822cab68dbf28afaa54171a105caaa06a1b48db447a9f83ba1879",
+      "size": 143885,
+      "normalized_sha256": "419df58a2dc822cab68dbf28afaa54171a105caaa06a1b48db447a9f83ba1879"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1137,6 +1141,11 @@
       "sha256": "c26d363f33caf73f34e8feb2c4a1e9a39527f05df8ffbad9ea4c6045c3e52b8e",
       "size": 9465,
       "normalized_sha256": "c26d363f33caf73f34e8feb2c4a1e9a39527f05df8ffbad9ea4c6045c3e52b8e"
+    },
+    "docs/projects/go_projects/deepseeksearch/plans/01-对抗式审查修复.md": {
+      "sha256": "96edfff3d0b2b170ee769bbb0c3ae735df6e7fe4f4aefad349c5a0cfe36b6db6",
+      "size": 5874,
+      "normalized_sha256": "96edfff3d0b2b170ee769bbb0c3ae735df6e7fe4f4aefad349c5a0cfe36b6db6"
     },
     "docs/projects/go_projects/deepseeksearch/research-deepseek-tools-pricing.md": {
       "sha256": "a7f1e2d5e9040ca6b39c9f0b14b3a94591f31efac8be8fc5c4e79d805578425c",
