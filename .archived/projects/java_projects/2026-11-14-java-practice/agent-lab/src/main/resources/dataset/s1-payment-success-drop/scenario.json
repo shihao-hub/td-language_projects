@@ -1,0 +1,23 @@
+{
+  "scenarioId": "s1-payment-success-drop",
+  "title": "墨西哥支付成功率骤降",
+  "symptom": "14:10 UTC 起，墨西哥站支付成功率从 98.6% 骤降至 71% 左右，用户投诉集中在「付款一直失败」，客服从 14:12 开始进线量翻倍。",
+  "window": {
+    "from": "2026-10-20T14:00:00Z",
+    "to": "2026-10-20T14:19:00Z",
+    "timezone": "UTC"
+  },
+  "groundTruth": {
+    "rootCause": "平台风控规则误杀：新上线的风控规则把墨西哥站正常交易判为高风险，导致全渠道支付请求在进入 PSP 前被拦截",
+    "evidence": [
+      "payment_success_rate 在 14:10 起从 0.986 断崖式跌至 0.70 左右",
+      "psp_a / psp_b / psp_c 三个渠道成功率同步下跌，排除单一渠道故障",
+      "psp_http_error_rate 维持在 0.001 量级，渠道侧自身健康",
+      "risk_rule_hit_rate 从 0.002 飙升至 0.28 左右，与成功率下跌同步"
+    ],
+    "excluded": [
+      "单一 PSP 渠道故障：三个渠道同步下跌，且渠道 HTTP 错误率正常",
+      "流量突增：order_volume 仅在 1200~1400 正常波动"
+    ]
+  }
+}
