@@ -444,12 +444,6 @@ typeai-ui-redesign.html[SU4L]: F:typeai UI 重设计高保真原型（静态单�
 ===D:/Users/language_projects/docs/projects/go_projects/mail2feishu/plans/===
 01-mail2feishu.md[SG6T]: F:mail2feishu 实施计划：QQ IMAP IDLE 监听、纯白名单零信任过滤、飞书 Webhook 交互卡片与防抖频控 | R:- | A:未命中白名单的邮件静默丢弃；IMAP 闪断指数退避重连；15s 窗口内同讨论串聚合成一条 | S:默认全阻断，只有命中白名单才推送，避免手机通知噪音
 
-===D:/Users/language_projects/docs/projects/java_projects/agent-lab/plans/===
-01-tickets.md[SG7S]: F:agent-lab 垂直切片看板：T01–T08 依赖 DAG 与每票接缝、验收条件，单切片单会话推进 | R:code:docs/projects/java_projects/agent-lab/specs/01-agent-lab-spec.md | A:主接缝为 AgentRuntime.run 加 FakeLlmClient；T05 可与 T02/T03 并行 | S:禁止依赖真实 LLM 输出的断言；端口 8083 避免与既有服务冲突
-
-===D:/Users/language_projects/docs/projects/java_projects/agent-lab/specs/===
-01-agent-lab-spec.md[SG8S]: F:agent-lab 设计规格：纯 Java 21 加 Spring Boot 3 的故障诊断 Agent，含 5 场景标准答案、测试接缝、架构不变量与不做清单 | R:code:docs/projects/java_projects/agent-lab/plans/01-tickets.md | A:内核纯 JDK 可脱离 Spring 跑 main；双通道 Ollama 与 opencode go 仅换配置 | S:凭据不硬编码，从 %APPDATA%\language_projects\agent-lab\{dev,prod}\config.json 或环境变量读取；报告须含证据链与置信度
-
 ===D:/Users/language_projects/docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/===
 design.md[SE7S]: F:DSH 只读源设计：zstd JSONL 解析层、DeepseekHarnessSource 适配器、元数据短路扫描与 FTS5 复用，不新增索引库 | R:code:docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/requirements.md,code:python_projects/zedhub/src/zedhub/core/sources/deepseek_source.py | A:标题事件命中即停止；updated_at 用文件 mtime；不加入 FILE_SOURCES 以免轨迹半支持 | S:不得向 ~/.dsh 写入任何文件或缓存；默认 scope=zed 不可见，需 scope=all
 requirements.md[SE6S]: F:DSH 源需求：FR-1..FR-8 与 AC-1..AC-8，覆盖源注册、发现、过滤、正文、检索、FTS5、Web 与契约文档 | R:code:docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/design.md | A:capabilities 仅 sessions/content/discovery，不含 export/link；全程只读 | S:251 会话元数据扫描约 0.13s，不得为列表全量解压；损坏文件按单会话跳过
