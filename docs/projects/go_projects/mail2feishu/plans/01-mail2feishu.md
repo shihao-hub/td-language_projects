@@ -41,31 +41,31 @@ flowchart TD
 
 **任务分解**：
 
-- [ ] Task 1: 初始化工程结构、配置模型与白名单匹配引擎
+- [x] Task 1: 初始化工程结构、配置模型与白名单匹配引擎
   - 文件：`go_projects/mail2feishu/go.mod`, `go_projects/mail2feishu/config.yaml.example`, `go_projects/mail2feishu/internal/config/config.go`, `go_projects/mail2feishu/internal/matcher/whitelist.go`
   - 实现：初始化 Go 模块；定义配置结构体（支持 IMAP 账号密码、飞书 Webhook、频控参数与白名单规则列表）；实现白名单匹配器（支持精确发件人、发件人域名后缀、主题关键词匹配，默认全阻断）。
   - 验证：在 `go_projects/mail2feishu` 执行 `go test ./internal/matcher -v`，断言白名单匹配与非白名单全拦截行为。
   - Demo：非白名单发件人返回 `false`，GitHub 发件人或指定 VIP 返回 `true`。
 
-- [ ] Task 2: 实现飞书 Webhook 交互卡片生成与 HTTP 投递器
+- [x] Task 2: 实现飞书 Webhook 交互卡片生成与 HTTP 投递器
   - 文件：`go_projects/mail2feishu/internal/feishu/client.go`, `go_projects/mail2feishu/internal/feishu/card.go`
   - 实现：封装飞书开放平台 Webhook 发送逻辑（带超时与重试）；构建飞书 Interactive Card V2 格式 JSON，支持标题栏颜色区分、多行信息摘要（发件人、仓库、讨论串）以及跳转外部链接按钮（直达 GitHub Issue）。
   - 验证：在 `go_projects/mail2feishu` 编写并执行投递测试，向目标 Webhook 发送一条测试卡片，收到 HTTP 200 与 `{"code":0}`。
   - Demo：飞书群立即弹出一张排版精美的卡片，附带可点击的跳转按钮。
 
-- [ ] Task 3: 实现通用与 GitHub 专有邮件解析抽取器
+- [x] Task 3: 实现通用与 GitHub 专有邮件解析抽取器
   - 文件：`go_projects/mail2feishu/internal/parser/parser.go`, `go_projects/mail2feishu/internal/parser/github.go`
   - 实现：利用 `github.com/emersion/go-message` 解析邮件 MIME 结构与正文；针对 GitHub 邮件（`notifications@github.com`），使用正则与 Header (`List-ID`, `X-GitHub-Reason`) 精准解析出仓库全名、Issue/PR 标题、评论作者与直达 URL。
   - 验证：在 `go_projects/mail2feishu` 执行 `go test ./internal/parser -v`，解析真实 GitHub 样例邮件，验证链接与标题抽取无误。
   - Demo：传入 GitHub 邮件内容，精准输出 `https://github.com/.../issues/...` 链接及摘要。
 
-- [ ] Task 4: 实现 IMAP IDLE 实时监听守护与防抖频控器
+- [x] Task 4: 实现 IMAP IDLE 实时监听守护与防抖频控器
   - 文件：`go_projects/mail2feishu/internal/imap/listener.go`, `go_projects/mail2feishu/internal/ratelimit/debouncer.go`
   - 实现：基于 `github.com/emersion/go-imap/client` 实现 SSL 连接 `imap.qq.com:993`；开启 IDLE 模式等待新邮件事件；网络闪断时自动指数退避重连；引入线程防抖器，指定窗口期（如 15s）内同一 Issue/Thread 聚合为一条推送。
   - 验证：执行 `go test ./internal/ratelimit -v`，验证 15s 内多次连续触发聚合为一次调用。
   - Demo：快速连续触发事件被合并，仅触发一次回调。
 
-- [ ] Task 5: 装配 main 进程、配置加载与后台守护运行支持
+- [x] Task 5: 装配 main 进程、配置加载与后台守护运行支持
   - 文件：`go_projects/mail2feishu/main.go`, `go_projects/mail2feishu/run_background.vbs`
   - 实现：串联 Config -> Matcher -> IMAP Listener -> Parser -> Feishu Client 全链路；捕获 SIGINT/SIGTERM 信号实现优雅退出；提供 Windows 后台无窗口静默启动脚本 `run_background.vbs`。
   - 验证：在 `go_projects/mail2feishu` 执行 `go build -o mail2feishu.exe main.go`，二进制构建成功无报错。
