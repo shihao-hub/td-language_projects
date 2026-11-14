@@ -170,3 +170,26 @@ go_projects/rebootremind/
    $i = [System.Drawing.Icon]::ExtractAssociatedIcon(".\bin\rebootremind-dev.exe")
    "$($i.Width)x$($i.Height)"  # 验证输出 32x32
    ```
+
+---
+
+## 6. 增补（2026-11-14）：告警巡检弹出终端黑窗根因与 GUI 子系统决策
+
+### 6.1 现象与根因
+- 现象：计划任务每小时 `check --notify` 触发告警时，除 TaskDialog 弹窗外还凭空弹出一个终端窗口。
+- 排除法定位：告警链零子进程（TaskDialog 为纯 Win32 调用；仅有的 schtasks / shutdown 两处 exec 均已 `HideWindow + CREATE_NO_WINDOW` 正确隐藏），终端不是子进程弹的。
+- 根因：构建产物为控制台子系统（CUI，PE Subsystem=3），计划任务等无控制台宿主拉起 CUI exe 时，Windows 强制为其新建可见控制台（机制同知识库 kb-084 / kb-052）；窗口随告警弹窗存续，dismiss 后随进程退出消失。未达阈值的整点巡检同样闪终端；且原 build.py 缺 `-H=windowsgui`，任何按脚本重建都会复发。
+
+### 6.2 决策与实现
+- 构建改以 `-H=windowsgui` 链接为 GUI 子系统根治：Windows 不为 GUI 子系统分配任何控制台。
+- 代价与补偿：终端裸跑失去 stdout/stderr，新增 `cmd/rebootremind/console_windows.go` 启动期 `AttachConsole(ATTACH_PARENT_PROCESS)` 挂回父终端并重绑 `os.Stdout/os.Stderr`；重定向/管道契约不受影响；计划任务、双击等无父控制台场景静默保持无窗口。
+- 非 Windows 平台由 `console_other.go` 空实现；release 门禁同步收窄到本项目路径（monorepo 兄弟项目改动不阻塞发布）。
+- 已知边界：`go run` 不经 build.py，临时产物仍为 CUI，从 GUI 宿主（如 Zed 任务面板）跑仍会闪黑窗；正式验证一律使用 build.py 产物。
+
+### 6.3 验收结果（2026-11-14）
+- `go build ./...` / `go vet ./...` / `go test ./...` 全绿；
+- PE 复检：`bin/rebootremind-dev.exe` 与 `bin/rebootremind.exe` 均 Subsystem=2（GUI）；
+- CLI 契约：管道 `status`、`status --json`、`version` 与重定向写文件输出正常；终端裸跑输出由 AttachConsole 机制保证（GUI 子系统下建议在 PowerShell 裸跑一次复核）；
+- 合成取证：DETACHED_PROCESS 模拟无控制台宿主拉起 release exe → exit 0、conhost 子进程数 0；
+- 计划任务实测：`schtasks /Run /TN rebootremind_check` → 结果 0，无终端窗口、无残留进程；
+- 版本：tag `rebootremind/v0.1.1`（592d7a5），release exe 自报 `rebootremind v0.1.1 (592d7a5)`。
