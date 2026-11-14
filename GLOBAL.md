@@ -59,6 +59,11 @@
        if (-not ($bash -and (Test-Path $bash))) { throw '未找到 Git Bash，改用 uv run Python 单文件脚本' }
        & $bash -c '<unix-command>'
        ```
+   - **Shell 分工铁律（Windows / Agent 执行层）**：
+     - 主 Shell 固定为 pwsh 7（配置里写全路径），**严禁把 Git Bash 配成 Agent 主 Shell**：MSYS 会改写 `/flag` 参数且不报错，失败会被伪装成 `exit 0`（详见知识库 111 第五节）；
+     - 原生 CLI（schtasks、reg、sc、AHK 等）**直调 exe**，禁止 `cmd /c` 包裹（`/c` 会被转成 `C:\` 并退化成交互模式）；
+     - 确需 POSIX 管链（awk/sed/xargs/heredoc）时，按上一条探测出的 `$bash` 以**子进程**方式执行（`& $bash -c '...'`），**禁止裸写 `bash`**（可能命中 WSL stub）；
+     - 判据：命令挂死或空输出但退出码为 0 → 先查执行层与弹窗（窗口标题常暴露被改写后的参数名），再怀疑代码；结论中禁止把执行层差异写成「代码缺陷」。
 
 ### 3. 文件操作安全与命令防御（强约束）
 - **写前必读（防盲目覆写）**：当用户给出目标文件路径时，必须先探测该文件是否存在及当前职责（禁止未查看即直接 `Overwrite=True` 覆写），尤其总控索引/草稿文件需按规范追加条目，严禁冲掉已有内容；
