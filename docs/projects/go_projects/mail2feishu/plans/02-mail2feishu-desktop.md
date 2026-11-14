@@ -60,37 +60,37 @@ flowchart TB
 
 **任务分解**：
 
-- [ ] Task 1: UID 水位线持久化
+- [x] Task 1: UID 水位线持久化
   - 文件：`go_projects/mail2feishu/internal/state/state.go`、`internal/state/state_test.go`、`internal/imap/listener.go`、`internal/imap/listener_test.go`
   - 实现：新增 `state.Store`（Load/SaveLastUID/Snapshot，原子写）；Listener 注入 `StateStore` 接口，启动时优先读取持久化水位线，无记录/账号不匹配时用 `UIDNEXT-1` 建基线；每批 FETCH 结束落盘一次；损坏文件告警后回退。
   - 验证：`go test ./internal/state ./internal/imap -v`；断言重启后从上次 UID 继续、账号变更重置、损坏文件不阻塞。
   - Demo：手动重启进程，日志显示「从持久化水位线 UID N 继续」，停机期间邮件在启动后被补拉。
 
-- [ ] Task 2: 结构化审计日志
+- [x] Task 2: 结构化审计日志
   - 文件：`go_projects/mail2feishu/internal/audit/audit.go`、`internal/audit/audit_test.go`、`internal/service/pipeline.go`、`internal/service/pipeline_test.go`
   - 实现：新增 JSONL 审计器（线程安全、按大小轮转、`audit.jsonl` + `.1`/`.2`）；Pipeline 注入 `Auditor` 接口，解析后立即记录 `mail` 事件（whitelisted/dropped + 规则/原因/线程），推送完成记录 `push` 事件（成功/失败/耗时/错误）；不写正文与凭证。
   - 验证：`go test ./internal/audit ./internal/service -v`；断言未命中必留 `dropped` 记录、推送成功/失败各留事件、轮转生效。
   - Demo：发一封非白名单邮件，`audit.jsonl` 出现 `action:"dropped"`；命中邮件出现 `whitelisted` 与 `pushed`。
 
-- [ ] Task 3: Wails GUI 壳、托盘、单实例与开机自启
+- [x] Task 3: Wails GUI 壳、托盘、单实例与开机自启
   - 文件：`go_projects/mail2feishu/cmd/mail2feishu/main.go`（`!cli`）、`cmd/mail2feishu/cli.go`（`cli`）、`internal/app/gui.go`、`internal/app/log.go`、`internal/app/autostart.go`、`internal/app/instance.go`、`internal/buildinfo/buildinfo.go`、`go.mod`
   - 实现：Wails v3 `application.New`（SingleInstance、`DisableQuitOnLastWindowClosed`、WebView2 数据目录落在数据目录）；托盘菜单（打开面板 / 测试投递 / 开机自启 / 彻底退出）；自启走 Wails Autostart，dev 版置灰并拒绝写入；命名互斥保证 GUI/CLI 单监听；日志同时写 stderr 与数据目录。
   - 验证：`go build -tags dev ./cmd/mail2feishu`；启动后系统托盘出现图标，菜单项可用；dev 版自启菜单置灰。
   - Demo：托盘右键可打开窗口、退出；重复启动第二实例被拒绝并聚焦已有窗口。
 
-- [ ] Task 4: WebUI 与本地 HTTP API
+- [x] Task 4: WebUI 与本地 HTTP API
   - 文件：`go_projects/mail2feishu/internal/api/server.go`、`internal/api/server_test.go`、`internal/web/embed.go`、`internal/web/assets/index.html`、`style.css`、`app.js`
   - 实现：Go 1.22 路由 + `{ok,data,error}` 包络；`GET /api/status`、`GET/PUT /api/config`（password/secret 掩码，留空表示不修改）、`GET /api/records?limit=`、`GET /api/logs?tail=`、`POST /api/test-webhook`、`POST /api/reconnect`；前端浅色绿主题、圆角卡片、三页签（概览/配置/记录），配置含白名单规则增删。
   - 验证：`go test ./internal/api -v`；启动 GUI 后打开面板，保存配置后 `config.yaml` 变更且凭证未被清空。
   - Demo：页面实时展示连接状态、水位线、最近邮件审计表；修改白名单并保存后立即生效（重连）。
 
-- [ ] Task 5: 专属图标流水线与双通道构建
+- [x] Task 5: 专属图标流水线与双通道构建
   - 文件：`go_projects/mail2feishu/scripts/render_icon.py`、`icon.png`、`icon.ico`、`internal/app/icon.go`、`internal/app/icon_dev.go`、`winres/gui.json`、`winres/cli.json`、`wails.exe.manifest`、`scripts/build.py`、`.gitignore`
   - 实现：Pillow 绘制绿色圆角底 + 白色信封/纸飞机图标（1024 PNG + 256/128/64/48/32/24/16 ICO）；release 用专属图标、dev 用地鼠；go-winres 注入 VERSIONINFO + manifest + icon；GUI 使用 `-H windowsgui`，CLI 保持 console；产物 `bin/mail2feishu-gui[-dev].exe` 与 `bin/mail2feishu-cli[-dev].exe`，版本/模式/commit 经 ldflags 注入。
   - 验证：`uv run scripts/build.py` 产出 4 个二进制；检查 PE 属性面板版本与图标；GUI 双击无黑框、CLI 管道输出正常。
   - Demo：任务栏/托盘/窗口图标为专属绿色信封图标；dev 产物一眼可辨（地鼠）。
 
-- [ ] Task 6: 装配、迁移与文档收尾
+- [x] Task 6: 装配、迁移与文档收尾
   - 文件：`go_projects/mail2feishu/internal/app/service.go`、`cmd/mail2feishu/cli.go`、`run_background.vbs`、`README.md`、`config.yaml.example`、`.gitignore`
   - 实现：GUI 启动时后台拉起 Listener + Pipeline，退出时按 `stop listener → pipeline.Close → state flush` 顺序优雅收尾；CLI 无参常驻与全部 flag 保留；VBS 改为启动 GUI `--hidden`；README 更新能力表、运行方式、数据文件（config/state/audit/log）与构建产物命名。
   - 验证：`go test ./... -race`、`go vet ./...`、`uv run scripts/build.py`；手动冒烟：托盘退出后进程消失、重启续拉、审计可查。
@@ -98,8 +98,8 @@ flowchart TB
 
 ### 未决问题与阻塞确认清单
 
-- [ ] 双产物（`-gui` + `-cli`）还是单产物双角色？推荐双产物：与 taskbarguard 一致，CLI 可被脚本/Agent 直接调用。
-- [ ] GUI 配置页是否允许修改凭证（密码/secret 留空表示不修改）？推荐允许。
-- [ ] 图标风格：绿色圆角底 + 白色信封/纸飞机，是否符合预期？
-- [ ] 审计日志 10MB × 3 份的保留策略是否够用？
-- [ ] 旧 `run_background.vbs` 保留（改为启动 GUI `--hidden`）还是直接删除？
+- [x] 双产物（`-gui` + `-cli`）：已确认采用双产物。GUI 启动即完整服务（监听/推送/审计），窗口只是控制面板；CLI 用于排障命令与无界面常驻，两者单实例互斥。
+- [x] GUI 配置页允许修改凭证：已确认允许，密码/secret 留空表示不修改。
+- [x] 图标风格：绿色圆角底 + 白色信封/纸飞机，已确认。
+- [x] 审计日志 10MB × 3 份：已确认。
+- [x] `run_background.vbs`：保留，改为启动 `mail2feishu-gui.exe --hidden`。
