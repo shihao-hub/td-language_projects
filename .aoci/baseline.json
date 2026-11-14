@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-11-13T17:25:11Z",
+  "updated_at": "2026-11-14T05:00:57Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -87,6 +87,11 @@
       "sha256": "9f2bf2ff32c2d263d6128bc80c76ee8d53033625cdd531f7a95cbb8d4b0ee3d6",
       "size": 9577,
       "normalized_sha256": "9f2bf2ff32c2d263d6128bc80c76ee8d53033625cdd531f7a95cbb8d4b0ee3d6"
+    },
+    ".claude/plans/go-projects-rebootremind-bin-rebootremi-magical-sky.md": {
+      "sha256": "5f5acefcd63faf79edef2316699087a245ffdddf627d07c145ae4b048fbfa69c",
+      "size": 4596,
+      "normalized_sha256": "5f5acefcd63faf79edef2316699087a245ffdddf627d07c145ae4b048fbfa69c"
     },
     ".claude/plans/staged-inventing-salamander.md": {
       "sha256": "ea9a7a1b117732936f68f5910bd8b68c1ea2b1313e9516ae3b2d27b963890a20",
@@ -461,10 +466,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "role": "index",
-      "sha256": "85c236b556e3a1723838d3611b2dd5d4e984993f1c9201f4efd5262dcbee83a3",
-      "size": 142866,
-      "normalized_sha256": "85c236b556e3a1723838d3611b2dd5d4e984993f1c9201f4efd5262dcbee83a3"
+      "sha256": "cf8cd8ada0401718c626db9a24214d2ae4d57699041e7b1799b752f9798a793f",
+      "size": 145194,
+      "normalized_sha256": "cf8cd8ada0401718c626db9a24214d2ae4d57699041e7b1799b752f9798a793f"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -492,6 +496,11 @@
       "sha256": "7db4601c7a4ffb71c4e5a6e307670c81a54eff5ced11c7c29abb2374389e3f56",
       "size": 3927,
       "normalized_sha256": "56effc05c7b26581d8e0105626d50b02ed4b66f6b383bd4f23cbe1b299901c0a"
+    },
+    "docs/guides/GUIDE-AI-Agent逐动作审批能力对比.md": {
+      "sha256": "043878ea3af644a1c595ed12c5e780d9db66a69dc3e011a36df4f66e1c5c1ad6",
+      "size": 12029,
+      "normalized_sha256": "043878ea3af644a1c595ed12c5e780d9db66a69dc3e011a36df4f66e1c5c1ad6"
     },
     "docs/guides/GUIDE-AOCI安装配置.md": {
       "role": "index",
@@ -553,9 +562,9 @@
       "normalized_sha256": "a9668d9ca014998ef494d6a20fc38ddc5adaf9e5b7400ffa1e092bec55500e11"
     },
     "docs/guides/README.md": {
-      "sha256": "db19c9c548b85692b0731fcfee2d34f45e15b284d986ff32f2094a3ba5722d2a",
-      "size": 5717,
-      "normalized_sha256": "db19c9c548b85692b0731fcfee2d34f45e15b284d986ff32f2094a3ba5722d2a"
+      "sha256": "ce3fa3936e50de2bf6ca9df14f12072a4847b46268c6b16acc3742be7d2268c3",
+      "size": 5939,
+      "normalized_sha256": "ce3fa3936e50de2bf6ca9df14f12072a4847b46268c6b16acc3742be7d2268c3"
     },
     "docs/index.md": {
       "sha256": "9cc7fd34f8a996d9490ebc5c0aee8c034c89cddd18ccb29d312a206f1ce08e44",
@@ -1148,6 +1157,11 @@
       "size": 5874,
       "normalized_sha256": "96edfff3d0b2b170ee769bbb0c3ae735df6e7fe4f4aefad349c5a0cfe36b6db6"
     },
+    "docs/projects/go_projects/deepseeksearch/plans/02-开机静默驻留与自启源收敛.md": {
+      "sha256": "bf8f1cb8488015820b0c66a4e51e90c95c810c76c5ed166e4fbbf4d617f65bb1",
+      "size": 4619,
+      "normalized_sha256": "bf8f1cb8488015820b0c66a4e51e90c95c810c76c5ed166e4fbbf4d617f65bb1"
+    },
     "docs/projects/go_projects/deepseeksearch/research-deepseek-tools-pricing.md": {
       "sha256": "a7f1e2d5e9040ca6b39c9f0b14b3a94591f31efac8be8fc5c4e79d805578425c",
       "size": 5840,
@@ -1446,9 +1460,9 @@
       "normalized_sha256": "7efbc131cbee6f1ac1da95701bb8ce4d67458b87415fabf44cd8956482ce5e6c"
     },
     "docs/projects/go_projects/rebootremind/plans/01-rebootremind-plan.md": {
-      "sha256": "6452efb58000e07e138f5c0c0caf0fd6d92580f7648f14626d58b82ea4eae15f",
-      "size": 8827,
-      "normalized_sha256": "6452efb58000e07e138f5c0c0caf0fd6d92580f7648f14626d58b82ea4eae15f"
+      "sha256": "cc6c3bd1831007ed72d66af4da5fa7a0a04e9c20930ebe0fff8fc05932696a73",
+      "size": 11196,
+      "normalized_sha256": "cc6c3bd1831007ed72d66af4da5fa7a0a04e9c20930ebe0fff8fc05932696a73"
     },
     "docs/projects/go_projects/sourcecount/specs/01-source-statistics/design.md": {
       "role": "index",
@@ -1606,6 +1620,11 @@
       "sha256": "76cf2d25882b303a9fdbe9b609168915d998fd2eb8cadffb1afaf9e54717ce2a",
       "size": 7975,
       "normalized_sha256": "76cf2d25882b303a9fdbe9b609168915d998fd2eb8cadffb1afaf9e54717ce2a"
+    },
+    "docs/projects/go_projects/winstartupmanager/plans/01-计划任务管理增强.md": {
+      "sha256": "8e79121087f1430d6c89adfc54570f80016790e68b025f02494dedffc8315b6b",
+      "size": 4508,
+      "normalized_sha256": "8e79121087f1430d6c89adfc54570f80016790e68b025f02494dedffc8315b6b"
     },
     "docs/projects/go_projects/统一核心与多通道投影指南.md": {
       "role": "index",
