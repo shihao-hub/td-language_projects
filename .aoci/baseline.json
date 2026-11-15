@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-11-14T06:40:25Z",
+  "updated_at": "2026-11-15T13:50:27Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -68,10 +68,20 @@
       "size": 16187,
       "normalized_sha256": "bd88fc0120e081c9080f65eca73022fc267375543d44c394f771ca5bdee40c85"
     },
+    ".archify/architecture-mail2feishu-20261114-154325/candidate.json": {
+      "sha256": "5c3f37ff830218d8e86c8093bbffc0969207c606e2fb8cd5f749f1992b270aa6",
+      "size": 4206,
+      "normalized_sha256": "5c3f37ff830218d8e86c8093bbffc0969207c606e2fb8cd5f749f1992b270aa6"
+    },
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
       "size": 2263,
       "normalized_sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38"
+    },
+    ".claude/plans/c-users-29580-appdata-roaming-microsoft-dynamic-spark.md": {
+      "sha256": "ff212e4f050268a9c50f398019983993cc609b4620004ee9a8eafcc340fb7a25",
+      "size": 2850,
+      "normalized_sha256": "ff212e4f050268a9c50f398019983993cc609b4620004ee9a8eafcc340fb7a25"
     },
     ".claude/plans/everything-replicated-hearth.md": {
       "sha256": "0be7d376cca7dd9e0baa8edfd788e4d9ed2dd0b71f18e0a823be92ae21879e04",
@@ -97,6 +107,11 @@
       "sha256": "ea9a7a1b117732936f68f5910bd8b68c1ea2b1313e9516ae3b2d27b963890a20",
       "size": 5015,
       "normalized_sha256": "ea9a7a1b117732936f68f5910bd8b68c1ea2b1313e9516ae3b2d27b963890a20"
+    },
+    ".claude/plans/synthetic-snacking-tiger.md": {
+      "sha256": "d2ae3be6ca75fb3a83db5e97fc7da8cb0e24579af37a9da79ffd58dcca091a9f",
+      "size": 4290,
+      "normalized_sha256": "d2ae3be6ca75fb3a83db5e97fc7da8cb0e24579af37a9da79ffd58dcca091a9f"
     },
     ".claude/plans/virtual-swimming-fern.md": {
       "sha256": "28c677e58553466bb1fcc72ccefff2595ba5d381948ec539902b4f1cfdb01946",
@@ -430,9 +445,9 @@
       "normalized_sha256": "918b1c90559355ef78f33fdf3562f2b021ef8bdfd8a5c8415e5decd44934de55"
     },
     "GLOBAL.md": {
-      "sha256": "4c9da1da43f2c2d96f7cf4bbedb4367dc60c55e9b25528a5144a2f2a864c4c52",
-      "size": 21366,
-      "normalized_sha256": "4c9da1da43f2c2d96f7cf4bbedb4367dc60c55e9b25528a5144a2f2a864c4c52"
+      "sha256": "1e39b6e650825b3af10d51c75799d36369dc0bb8572f045aa3bc65e7679ffbbb",
+      "size": 21632,
+      "normalized_sha256": "1e39b6e650825b3af10d51c75799d36369dc0bb8572f045aa3bc65e7679ffbbb"
     },
     "MONOREPO.md": {
       "sha256": "c4e18a76517a0d0598a505098a48b81398d09d01f15cd4eeb571f0168d108274",
@@ -466,9 +481,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "bd649e2bcb34bfa08ffaba3fd17fdeb1f7570f979cb8368ecd785a8fa7dddb05",
-      "size": 145236,
-      "normalized_sha256": "bd649e2bcb34bfa08ffaba3fd17fdeb1f7570f979cb8368ecd785a8fa7dddb05"
+      "sha256": "b0a824438c4f1b69c0e9c9ef1d1320d80473b04f3a002616663b8f31d9263143",
+      "size": 150938,
+      "normalized_sha256": "b0a824438c4f1b69c0e9c9ef1d1320d80473b04f3a002616663b8f31d9263143"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -914,6 +929,11 @@
       "sha256": "f647549d2e0765bfc2c5d1b96f23a5ff9cd832a41e6a2949bb3fde13ad497e8f",
       "size": 5165,
       "normalized_sha256": "9c00203148482187c7969419fe13fe75660eae57c9491fa097a22600f1bbef30"
+    },
+    "docs/plans/59-transcript-reader-highlight-drawer.md": {
+      "sha256": "09bef66a1565141749fda6ff9340059d506737e1f9cac24f24c929e7296e98f2",
+      "size": 8820,
+      "normalized_sha256": "08d70f4b3c333abf3a86dd043e26fd8248c719b62dd5f3f454aaff594986e10a"
     },
     "docs/plans/walkthrough-22-glmquotawatch-tray-icon.md": {
       "role": "index",
@@ -1425,10 +1445,40 @@
       "size": 8725,
       "normalized_sha256": "303e7694ac90a61d0754c59b36ce8cb27540b3e75c82918d9503b3e2117105d2"
     },
+    "docs/projects/go_projects/mail2feishu/mail2feishu-architecture.browser-check.json": {
+      "sha256": "d3f87bbcfa491bec2b5266c17e4aec0911e8998f0c883ff14a0088e4e4ad8264",
+      "size": 22175,
+      "normalized_sha256": "d3f87bbcfa491bec2b5266c17e4aec0911e8998f0c883ff14a0088e4e4ad8264"
+    },
+    "docs/projects/go_projects/mail2feishu/mail2feishu-architecture.delivery.json": {
+      "sha256": "5691d39c0d7fdff169f74ead957df85343eb534218e1fdb40037a8220fbd1f47",
+      "size": 630,
+      "normalized_sha256": "5691d39c0d7fdff169f74ead957df85343eb534218e1fdb40037a8220fbd1f47"
+    },
+    "docs/projects/go_projects/mail2feishu/mail2feishu-architecture.finalize-summary.json": {
+      "sha256": "291b751ee2f54fde8b77244374181e70cf00c32719d99c0de511ba5cbe92c18e",
+      "size": 1651,
+      "normalized_sha256": "291b751ee2f54fde8b77244374181e70cf00c32719d99c0de511ba5cbe92c18e"
+    },
+    "docs/projects/go_projects/mail2feishu/mail2feishu-architecture.finalize.json": {
+      "sha256": "be9969b937ab9e0bed711666df3fc5ffc8f3200a7402bce327de144c90cef66e",
+      "size": 35749,
+      "normalized_sha256": "be9969b937ab9e0bed711666df3fc5ffc8f3200a7402bce327de144c90cef66e"
+    },
+    "docs/projects/go_projects/mail2feishu/mail2feishu-architecture.html": {
+      "sha256": "ab89443c95d520c71bf6ff9c0d300b8c71ca11b007fa334271b3a6b9057cb20b",
+      "size": 846338,
+      "normalized_sha256": "ab89443c95d520c71bf6ff9c0d300b8c71ca11b007fa334271b3a6b9057cb20b"
+    },
     "docs/projects/go_projects/mail2feishu/plans/01-mail2feishu.md": {
-      "sha256": "7e1cb4467554fafd934e689e529a3a9e4fb88d270fdd102ac068192a49afa25d",
+      "sha256": "7de899ae6f79154f81f8f731a7218ad2ecab3e8a97a193dbb67eda9fdd44128d",
       "size": 6413,
-      "normalized_sha256": "394c83f1a02d313b6f7beb41e02f38e91faad6124d2bd2b8e1f976834bbfa42d"
+      "normalized_sha256": "26fa6992b46708ada1f97446c3127b4cc2c674c1267d9802ec67a5b350d94296"
+    },
+    "docs/projects/go_projects/mail2feishu/plans/02-mail2feishu-desktop.md": {
+      "sha256": "692fe73c4896b97b343f70c84b333a1e0a4e5cd2a6f342aa5e75a04f222d9bf7",
+      "size": 9913,
+      "normalized_sha256": "692fe73c4896b97b343f70c84b333a1e0a4e5cd2a6f342aa5e75a04f222d9bf7"
     },
     "docs/projects/go_projects/plans/01-exe-icon-rebuild.md": {
       "role": "index",

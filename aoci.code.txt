@@ -117,6 +117,7 @@ walkthrough-32-commit-all-repos-by-theme.md[SV4M]: F:Plan 32 执行记录：父�
 56-webui-session-switch-and-model-consistency.md[SG7S]: F:Plan 56：修复 TypeAI WebUI 点击历史会话后条目消失、恢复后模型仍显示旧值，定义 AllSessionSummaries 全量列表与 Resume 模型对齐 | R:code:docs/plans/walkthrough-56-webui-session-switch-and-model-consistency.md,code:docs/projects/go_projects/typeai/plans/01-wails-dual-channel.md | A:TUI SessionSummaries 过滤当前会话，WebUI 用 AllSessionSummaries 全量并高亮 .active；点击当前会话只聚焦输入框 | S:恢复会话必须 c.session.Model = c.client.Model，否则界面模型与底层请求不一致
 58-typeai-sidebar-deai-refactor.md[SG6T]: F:Plan 58：TypeAI 侧边栏去 AI 味重构——移除置顶左弯线伪影、清退 Emoji、精简胶囊徽章、定制深色细滚动条 | R:code:docs/projects/go_projects/typeai/plans/04-sidebar-deai-refactor.md | A:置顶用分组归类加琥珀图钉表达；悬浮编辑按钮默认幽灵态 | S:原生粗白滚动条须 Webkit 自定义 5px 半透明滑块；单侧 border 在圆角处会露出弯线
 walkthrough-56-webui-session-switch-and-model-consistency.md[SG5T]: F:Walkthrough 56：WebUI 会话切换与模型一致性修复的三层改动、单测与双通道构建验证记录 | R:code:docs/plans/56-webui-session-switch-and-model-consistency.md | A:查证修复范围与测试结论；go test -count=1 ./... 全通过，双通道 exe 构建成功 | S:-
+59-transcript-reader-highlight-drawer.md[SU6T]: F:sh-transcript-reader 精读本划词标注计划：选中正文加粗/四色荧光、右侧标注抽屉跳转、localStorage 还原与自包含 HTML 导出，覆盖 dialogue 与 monologue 双模板 | R:- | A:标注引擎在 scripts/annotation_engine.py；render_reader.py 通过 --inject-only 升级既有 HTML；宽屏抽屉 340px、正文左移 170px；移除后 5 秒可撤销 | S:标注必须保留在原段落内并用 data-hl-id 关联抽屉；导出前清理临时浮层与展开态；不得引入外部依赖，file:// 直开必须可用
 
 ===D:/Users/language_projects/docs/projects/go_projects/===
 CLI 与 MCP 双壳架构工作指南.md[SW3T]: F:已被《CLI 工具开发标准》取代的旧指南跳转页 | R:code:docs/projects/go_projects/CLI 工具开发标准.md | A:勿按本文实施，原文看 Git 历史 | S:-
@@ -327,6 +328,8 @@ go-projects-gui-exe-groovy-tome.md[SU5S]: F:clictl 试点 Chrome 应用模式的
 webview-go-joyful-kay.md[SG6S]: F:winstartupmanager 关窗生命周期对齐家族范式计划（已实施并完成 2026-11-06 审阅收尾）：放行销毁、懒重建、退出锁顺序与首窗路径收敛 | R:code:go_projects/winstartupmanager/internal/guiapp/app.go,code:go_projects/winstartupmanager/internal/guiapp/tray.go,code:go_projects/winstartupmanager/README.md | A:已实施归档；P1 quit 锁外关闭、P3 首窗统一 ensureMainWindow 已修，P2 文档偏差记录不修；脚本化矩阵 35 项全 PASS（10 轮循环、--hidden、托盘退出后互斥体释放）；子仓 b905dc0 | S:Win11 托盘图标位于「显示隐藏的图标」溢出区，右键菜单窗口可枚举但 UIA 不暴露菜单项，托盘退出验证需人工点击
 go-projects-deepseeksearch-gleaming-penguin.md[SQ3T]: F:本会话暂存的对抗式审查计划工件（审查结论与修复草案），依计划不入库，正式结论沉淀于官方 plans 文档 | R:code:docs/projects/go_projects/deepseeksearch/plans/01-对抗式审查修复.md,code:internal/storage/sqlite.go,code:internal/api/server.go | A:审查 verdict 为 CONCERNS；七项 WARNING 均给出对应修复落点、提取方式与验证计划 | S:会话暂存不入库件，审查事实以 docs plans 01 为准，勿当现行事实源
 go-projects-rebootremind-bin-rebootremi-magical-sky.md[SV4T]: F:rebootremind 告警弹终端黑窗修复计划：CUI 产物被计划任务无控制台宿主拉起时 Windows 强制新建控制台；改 -H=windowsgui + AttachConsole 恢复 CLI 输出 | R:code:docs/projects/go_projects/rebootremind/plans/01-rebootremind-plan.md | A:执行修复时按计划第 6 章验收清单逐项复核；plans 文件单文件独占提交 | S:-
+c-users-29580-appdata-roaming-microsoft-dynamic-spark.md[SG4T]: F:Alt+C 热键行为对齐计划：Codex 未运行时不自动启动，与其他 8 个静默热键保持一致 | R:- | A:仅 Alt+C 改为未运行静默；Alt+X/Alt+T 保留自动启动；改动文件为启动目录的 app_switcher.ahk | S:ToggleCodex() 是专用实现，不走 ToggleApp() 的 runCmd 空值静默逻辑；不能把该决策套到 Alt+X/Alt+T
+synthetic-snacking-tiger.md[SW5T]: F:mail2feishu 内置测试发信计划：GUI/CLI 用 163 邮箱向 QQ 发信，触发真实收信→白名单→飞书链路 | R:- | A:配置放 internal/config 的可选 test_sender 段；运行时、API、GUI/WebUI、CLI 与文档测试分阶段落地 | S:163 授权码不得写入源码、exe、仓库或日志，只存本机数据目录 config.yaml（0600，已 gitignore）
 
 ===D:/Users/language_projects/.scripts/group_avatars/===
 .gitignore[FC2T]: F:忽略群头像生成过程的测试与临时文件（test_* 模式），保留「临时区」群成品 temp_zone_avatar.jpg 与 *_temp_*.png 入库 | R:code:.scripts/group_avatars/README.md | A:- | S:-
@@ -445,6 +448,7 @@ typeai-ui-redesign.html[SU4L]: F:typeai UI 重设计高保真原型（静态单�
 
 ===D:/Users/language_projects/docs/projects/go_projects/mail2feishu/plans/===
 01-mail2feishu.md[SG6T]: F:mail2feishu 实施计划：QQ IMAP IDLE 监听、纯白名单零信任过滤、飞书 Webhook 交互卡片与防抖频控 | R:- | A:未命中白名单的邮件静默丢弃；IMAP 闪断指数退避重连；15s 窗口内同讨论串聚合成一条 | S:默认全阻断，只有命中白名单才推送，避免手机通知噪音
+02-mail2feishu-desktop.md[SW7S]: F:mail2feishu 桌面化计划：lastUID 持久化、审计日志、Wails v3 托盘/配置/记录面板与 release 版开机自启，同时保留 CLI | R:code:docs/projects/go_projects/mail2feishu/plans/01-mail2feishu.md | A:数据目录持久化 lastUID；审计只记元信息不记正文/凭证并按大小轮转；dev 版开机自启菜单置灰 | S:审计日志严禁记录正文与凭证；开机自启仅 release 版允许写 HKCU\Run，dev 版必须禁用
 
 ===D:/Users/language_projects/docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/===
 design.md[SE7S]: F:DSH 只读源设计：zstd JSONL 解析层、DeepseekHarnessSource 适配器、元数据短路扫描与 FTS5 复用，不新增索引库 | R:code:docs/projects/python_projects/zedhub/specs/02-deepseek-harness-source/requirements.md,code:python_projects/zedhub/src/zedhub/core/sources/deepseek_source.py | A:标题事件命中即停止；updated_at 用文件 mtime；不加入 FILE_SOURCES 以免轨迹半支持 | S:不得向 ~/.dsh 写入任何文件或缓存；默认 scope=zed 不可见，需 scope=all
@@ -463,4 +467,14 @@ research-deepseek-tools-pricing.md[SG7T]: F:DeepSeek Search/Fetch API 计费规�
 
 ===D:/Users/language_projects/docs/projects/go_projects/winstartupmanager/plans/===
 01-计划任务管理增强.md[SW5T]: F:winstartupmanager 计划任务板块增强归档：Boot/Logon/定时周期触发采集、task_path 唯一 ID、启停/删除（XML 备份先行）/定位 exe 动作 | R:- | A:删除任务前必须 XML 备份成功才允许执行删除；验收复用 rebootremind_check 作真实样本 | S:Go 1.26 默认 PIE 构建下 -H=windowsgui 可能失效，须实测 PE 头 Subsystem 并在 build.py 留兜底补丁（winstartupmanager 已修；rebootremind 同版本实测 Subsystem=2 正常）
+
+===D:/Users/language_projects/.archify/architecture-mail2feishu-20261114-154325/===
+candidate.json[FG6T]: F:mail2feishu 架构图的声明式源规格：10 个组件、1 个常驻进程边界、9 条连接与 4 张说明卡，供 archify 生成交付 HTML | R:code:docs/projects/go_projects/mail2feishu/mail2feishu-architecture.html | A:改图先改 candidate.json 再由 archify 重新 deliver；禁止手改生成的 architecture.html | S:meta.output 固定指向 docs/projects/go_projects/mail2feishu/mail2feishu-architecture.html；specification.sha256 与 delivery/finalize 回执绑定，改规格后必须重新生成并更新回执
+
+===D:/Users/language_projects/docs/projects/go_projects/mail2feishu/===
+mail2feishu-architecture.browser-check.json[TQ5M]: F:archify 架构页自动浏览器验收回执：ok=true，4 个视口的容纳/主题/可读性/浏览器壳检查全通过，未请求截图 | R:code:docs/projects/go_projects/mail2feishu/mail2feishu-architecture.html | A:该回执由 browser-check 命令生成；artifact.sha256 与 846338 字节绑定到交付 HTML，重生成 HTML 后需重跑验收 | S:visualReview=not-requested 表示未做人工视觉复核；不能把 browser-check=pass 当作视觉质量已人工确认
+mail2feishu-architecture.delivery.json[OV5T]: F:archify 架构页交付回执：把 candidate.json 规格渲染为 846338 字节的 architecture.html，status=current | R:code:.archify/architecture-mail2feishu-20261114-154325/candidate.json,code:docs/projects/go_projects/mail2feishu/mail2feishu-architecture.html | A:input 指向 candidate.json，output 指向 architecture.html；specification.sha256 与 artifact.sha256 分别绑定源规格与产物 | S:回执 status=current 仅在产物哈希与规格哈希均匹配时成立；手改 HTML 会使回执失效
+mail2feishu-architecture.finalize-summary.json[OV5T]: F:archify 架构页 finalize 摘要回执：validate/deliver/check/browser-check 四道门全 pass，showcase 质量，耗时 2936ms | R:code:docs/projects/go_projects/mail2feishu/mail2feishu-architecture.finalize.json,code:docs/projects/go_projects/mail2feishu/mail2feishu-architecture.browser-check.json | A:摘要的 gates 与 evidence 指向完整 finalize/browser-check 回执；update 检查显示 archify 3.2.0 为当前版本 | S:diagnostics 为空且 status=pass 才表示可交付；visualReview=not-requested 仍需人工决定是否补视觉复核
+mail2feishu-architecture.finalize.json[OV6L]: F:archify 架构页完整 finalize 回执：记录 validate/deliver/check/browser-check 各阶段命令、耗时与嵌套回执，1009 行 | R:code:docs/projects/go_projects/mail2feishu/mail2feishu-architecture.finalize-summary.json,code:docs/projects/go_projects/mail2feishu/mail2feishu-architecture.browser-check.json | A:排查交付失败先看 stages.<stage>.status/exitCode 与 diagnostics；evidence.receipt 指向自身，summaryReceipt 指向摘要 | S:该文件是机器生成的完整证据链，不应手改；重跑 finalize 会覆盖并更新所有嵌套回执哈希
+mail2feishu-architecture.html[SG7L]: F:mail2feishu 实现原理交互式架构图（archify 3.2.0 生成）：10 个组件、常驻进程边界、9 条连接与 4 张说明卡，支持暗/亮主题与视口自适应 | R:code:.archify/architecture-mail2feishu-20261114-154325/candidate.json,code:docs/projects/go_projects/mail2feishu/mail2feishu-architecture.delivery.json | A:该 HTML 是生成产物，源规格为 .archify candidate.json；修改架构应改规格后重跑 archify deliver/finalize，禁止直接编辑 837KB 的 HTML | S:页面声明 archify-reader-contract=declared-wide-v1，浏览器验收按 fit-or-reader-declared-readable-vertical-scroll 策略判定；重生成后必须重跑 browser-check
 
