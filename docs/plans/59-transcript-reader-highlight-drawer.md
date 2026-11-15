@@ -45,13 +45,18 @@ flowchart LR
    - **自包含 HTML 导出**：点击「💾 保存含标记 HTML」时，先收起浮动工具条与临时闪烁类，将当前已包含 `<span class="hl-mark ...">` 的完整 DOM 及内嵌状态序列化为纯净 UTF-8 HTML，优先调用 `window.showSaveFilePicker`（支持直接覆盖原文件或另存），不支持时自动回退为 `<标题>_已标注.html` 浏览器下载。导出的 HTML 在任何电脑或浏览器打开均原生自带所有高亮标记，且可继续增删标注。
 
 **任务分解**：
-- [ ] Task 1: 升级 `sh-transcript-reader` 渲染引擎与 README 文档
+- [x] Task 1: 升级 `sh-transcript-reader` 渲染引擎与 README 文档
   - 文件：`D:\Users\language_projects\.agents\skills\sh-user-skills\sh-transcript-reader\scripts\render_reader.py`、`D:\Users\language_projects\.agents\skills\sh-user-skills\sh-transcript-reader\README.md`
   - 实现：在 `render_reader.py` 中抽离通用标注引擎模块（CSS + 浮动工具条 + 右侧抽屉 + `localStorage` 恢复 + 自包含 HTML 导出），补全 `dialogue` 模式的 `build_turns` 与 `generate_html` 实现并接入 `monologue` 与 `dialogue` 双模板；同步更新 `README.md` 说明新增的划词高亮、全局抽屉跳转与自包含保存特性。
   - 验证：运行 `uv run "D:\Users\language_projects\.agents\skills\sh-user-skills\sh-transcript-reader\scripts\render_reader.py" --help` 确认 CLI 正常，并用脚本提取内嵌 `<script>` 块通过 `node --check` 语法校验。
   - Demo：`sh-transcript-reader` 生成的任意精读本均原生自带划词加粗/改色、右侧标注抽屉与导出 HTML 能力。
-- [ ] Task 2: 重新生成《刘嘉访谈_精读本.html》并完成端到端交互校验
+- [x] Task 2: 重新生成《刘嘉访谈_精读本.html》并完成端到端交互校验
   - 文件：`D:\Users\appdata-agent-skills\sh-zhangshihao-douyin-dl\douyin\为什么我不推荐下班学AI？人和人的差距从来不是工具！ - 南大教授刘嘉访谈_精读本.html`
   - 实现：将该完整标注系统合入刘嘉访谈精读本生成脚本并重新渲染生成目标 HTML，保持 7 幕 53 轮完整对谈、术语校订、无 BOM UTF-8 编码与去 AI 味版式。
   - 验证：提取生成 HTML 中的全部 JS 脚本通过 `node --check` 零语法错误验证；校验 UTF-8 无 BOM、53 轮对谈标签闭合、划词工具条/右侧抽屉/保存函数与 DOM ID 完整齐备。
   - Demo：在浏览器打开《为什么我不推荐下班学AI？人和人的差距从来不是工具！ - 南大教授刘嘉访谈_精读本.html》，选中任意句子即可加粗或切换 4 种背景色，右侧抽屉实时列出所有标记，点击任一条目平滑滚动至原文对应位置并闪烁提示，点击「保存含标记 HTML」可保存为带标记的独立 HTML 文件。
+
+**执行结果（2026-11-15）**：
+- 新增 `scripts/annotation_engine.py`（CSS / 工具条按钮 / 抽屉浮层 / JS 五段资产 + 幂等注入函数），`render_reader.py` 补全 `build_turns`、`generate_html` 双模态接入，并新增 `--inject-only` 原地升级模式；README 升 v1.2.0。
+- 原一次性 `build_liujia_reader.py` 已不在工作区，Task 2 改用 `--inject-only` 将同一引擎注入现有《刘嘉访谈_精读本.html》，完整保留 53 轮对谈、act-0 + 七幕结构与术语校订。
+- 校验：`uv run render_reader.py --help` 正常；生成页与目标页全部内嵌脚本 `node --check` 通过；目标页无 BOM；无头 Chrome 交互断言 23/23 通过（划词、四色、抽屉、隐藏筛选跳转、撤销、localStorage 还原、自包含导出）；导出 HTML 以 `file://` 独立打开 7/7 通过；跨内联节点选区 6/6 通过。
