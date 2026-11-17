@@ -330,6 +330,7 @@ go-projects-deepseeksearch-gleaming-penguin.md[SQ3T]: F:本会话暂存的对抗
 go-projects-rebootremind-bin-rebootremi-magical-sky.md[SV4T]: F:rebootremind 告警弹终端黑窗修复计划：CUI 产物被计划任务无控制台宿主拉起时 Windows 强制新建控制台；改 -H=windowsgui + AttachConsole 恢复 CLI 输出 | R:code:docs/projects/go_projects/rebootremind/plans/01-rebootremind-plan.md | A:执行修复时按计划第 6 章验收清单逐项复核；plans 文件单文件独占提交 | S:-
 c-users-29580-appdata-roaming-microsoft-dynamic-spark.md[SG4T]: F:Alt+C 热键行为对齐计划：Codex 未运行时不自动启动，与其他 8 个静默热键保持一致 | R:- | A:仅 Alt+C 改为未运行静默；Alt+X/Alt+T 保留自动启动；改动文件为启动目录的 app_switcher.ahk | S:ToggleCodex() 是专用实现，不走 ToggleApp() 的 runCmd 空值静默逻辑；不能把该决策套到 Alt+X/Alt+T
 synthetic-snacking-tiger.md[SW5T]: F:mail2feishu 内置测试发信计划：GUI/CLI 用 163 邮箱向 QQ 发信，触发真实收信→白名单→飞书链路 | R:- | A:配置放 internal/config 的可选 test_sender 段；运行时、API、GUI/WebUI、CLI 与文档测试分阶段落地 | S:163 授权码不得写入源码、exe、仓库或日志，只存本机数据目录 config.yaml（0600，已 gitignore）
+agents-skills-sync-skills-py-kimi-code-tingly-scott.md[SW4T]: F:Kimi Code 技能同步计划：为 sync_skills.py 增加整目录 junction 目标，列出验证与分仓提交步骤 | R:- | A:继续技能分发任务前复核未决项与实际状态 | S:尚未登录，实际技能加载待用户验证
 
 ===D:/Users/language_projects/.scripts/group_avatars/===
 .gitignore[FC2T]: F:忽略群头像生成过程的测试与临时文件（test_* 模式），保留「临时区」群成品 temp_zone_avatar.jpg 与 *_temp_*.png 入库 | R:code:.scripts/group_avatars/README.md | A:- | S:-
@@ -464,6 +465,7 @@ research-deepseek-tools-pricing.md[SG7T]: F:DeepSeek Search/Fetch API 计费规�
 ===D:/Users/language_projects/docs/projects/go_projects/deepseeksearch/plans/===
 01-对抗式审查修复.md[SQ5T]: F:deepseeksearch 对抗式审查修复计划：W1-W7 修复落点、可选清理处置、双仓提交序列与验证记录 | R:code:internal/storage/sqlite.go,code:internal/api/server.go,code:internal/deepseek/client.go,code:internal/web/assets/app.js,code:cmd/deepseeksearch/cli.go,code:internal/app/launch_args.go | A:修复统一落于子仓 commit 3a7519b 与 acdf293，本计划单独父仓提交；N5-N8 记为技术债 | S:Authority 字段不定型 float64：DeepSeek authority 类型缺公开契约，字符串返回会使整个 results Unmarshal 失败；再遇定型诉求须先取实证
 02-开机静默驻留与自启源收敛.md[SW5T]: F:deepseeksearch 静默驻留修复归档：--hidden 第二实例唤醒弹主窗（回调未查 Args、单实例预检后置）；自启源收敛为注册表 Run 单一入口并删计划任务 | R:- | A:复跑自启三场景回归时以“没有第二条 WebUI 已启动”为判据（日志先于单实例拦截，必多一条启动行） | S:-
+03-多轮搜索工作台.md[SW5T]: F:深搜多轮搜索工作台实施归档：GUI 与 CLI 共享研究流程、持久化恢复、来源融合和反馈补搜，任务已完成并记录验收 | R:- | A:后续扩展研究流程时查阅范围与验证边界 | S:真实API未测；race因本机TSan分配失败未完成
 
 ===D:/Users/language_projects/docs/projects/go_projects/winstartupmanager/plans/===
 01-计划任务管理增强.md[SW5T]: F:winstartupmanager 计划任务板块增强归档：Boot/Logon/定时周期触发采集、task_path 唯一 ID、启停/删除（XML 备份先行）/定位 exe 动作 | R:- | A:删除任务前必须 XML 备份成功才允许执行删除；验收复用 rebootremind_check 作真实样本 | S:Go 1.26 默认 PIE 构建下 -H=windowsgui 可能失效，须实测 PE 头 Subsystem 并在 build.py 留兜底补丁（winstartupmanager 已修；rebootremind 同版本实测 Subsystem=2 正常）

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-11-15T13:50:27Z",
+  "updated_at": "2026-11-17T19:37:28Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -72,6 +72,11 @@
       "sha256": "5c3f37ff830218d8e86c8093bbffc0969207c606e2fb8cd5f749f1992b270aa6",
       "size": 4206,
       "normalized_sha256": "5c3f37ff830218d8e86c8093bbffc0969207c606e2fb8cd5f749f1992b270aa6"
+    },
+    ".claude/plans/agents-skills-sync-skills-py-kimi-code-tingly-scott.md": {
+      "sha256": "9326e1feb272e44dbc8e15ee86b2423e042267041ff37b961cbfa17434586e17",
+      "size": 3778,
+      "normalized_sha256": "9326e1feb272e44dbc8e15ee86b2423e042267041ff37b961cbfa17434586e17"
     },
     ".claude/plans/build-uv-run-build-py-prancy-mountain.md": {
       "sha256": "15df30c7ccd4d5675d19b4faff8267566be2591f5271bad858be15f1b02f1a38",
@@ -481,9 +486,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "b0a824438c4f1b69c0e9c9ef1d1320d80473b04f3a002616663b8f31d9263143",
-      "size": 150938,
-      "normalized_sha256": "b0a824438c4f1b69c0e9c9ef1d1320d80473b04f3a002616663b8f31d9263143"
+      "sha256": "2a45f1b33dcf27064ae72b565ee2e7e8c98fcbd15b0ac3f5ee8ef204f922f32a",
+      "size": 151558,
+      "normalized_sha256": "2a45f1b33dcf27064ae72b565ee2e7e8c98fcbd15b0ac3f5ee8ef204f922f32a"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -1181,6 +1186,11 @@
       "sha256": "bf8f1cb8488015820b0c66a4e51e90c95c810c76c5ed166e4fbbf4d617f65bb1",
       "size": 4619,
       "normalized_sha256": "bf8f1cb8488015820b0c66a4e51e90c95c810c76c5ed166e4fbbf4d617f65bb1"
+    },
+    "docs/projects/go_projects/deepseeksearch/plans/03-多轮搜索工作台.md": {
+      "sha256": "8c92a7ace50d4fdd1deb77209a96905981a6d4fbe87ec3e2134a0b87b6cead6f",
+      "size": 2611,
+      "normalized_sha256": "8c92a7ace50d4fdd1deb77209a96905981a6d4fbe87ec3e2134a0b87b6cead6f"
     },
     "docs/projects/go_projects/deepseeksearch/research-deepseek-tools-pricing.md": {
       "sha256": "a7f1e2d5e9040ca6b39c9f0b14b3a94591f31efac8be8fc5c4e79d805578425c",
