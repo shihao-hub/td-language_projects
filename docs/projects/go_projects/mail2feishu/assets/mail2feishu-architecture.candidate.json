@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "mail2feishu 实现原理",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "docs/projects/go_projects/mail2feishu/assets/mail2feishu-architecture.html"
+  },
+  "components": [
+    { "id": "qq-imap", "type": "external", "label": "QQ 邮箱 IMAP", "sublabel": "imap.qq.com:993", "pos": [420, 40], "size": [160, 64] },
+    { "id": "listener", "type": "backend", "label": "IMAP Listener", "sublabel": "IDLE + 轮询兜底", "pos": [420, 160], "size": [160, 64] },
+    { "id": "parser", "type": "backend", "label": "Parser", "sublabel": "MIME + GitHub 抽取", "pos": [420, 280], "size": [160, 64] },
+    { "id": "matcher", "type": "security", "label": "Whitelist Matcher", "sublabel": "零信任，默认阻断", "pos": [420, 400], "size": [160, 64] },
+    { "id": "ratelimit", "type": "backend", "label": "Debouncer", "sublabel": "15s 防抖 / 10m 冷却", "pos": [420, 520], "size": [160, 64] },
+    { "id": "feishu-client", "type": "backend", "label": "Feishu Client", "sublabel": "卡片 + 签名 + 重试", "pos": [420, 640], "size": [160, 64] },
+    { "id": "feishu-webhook", "type": "external", "label": "飞书群机器人", "sublabel": "Webhook / 卡片 2.0", "pos": [420, 800], "size": [160, 64] },
+    { "id": "drop", "type": "security", "label": "静默丢弃", "sublabel": "不推送、不打扰", "pos": [680, 400], "size": [140, 64] },
+    { "id": "main", "type": "backend", "label": "main", "sublabel": "装配 / 日志 / 信号", "pos": [180, 160], "size": [140, 64] },
+    { "id": "config", "type": "backend", "label": "Config", "sublabel": "YAML 严格校验", "pos": [180, 300], "size": [140, 64] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "mail2feishu 常驻进程", "wraps": ["main", "config", "listener", "parser", "matcher", "ratelimit", "feishu-client", "drop"] }
+  ],
+  "connections": [
+    { "id": "imap-idle", "from": "qq-imap", "to": "listener", "label": "IDLE / 新邮件事件", "fromSide": "bottom", "toSide": "top" },
+    { "id": "raw-mail", "from": "listener", "to": "parser", "label": "原始邮件字节", "fromSide": "bottom", "toSide": "top" },
+    { "id": "parsed-mail", "from": "parser", "to": "matcher", "label": "From / Subject", "fromSide": "bottom", "toSide": "top" },
+    { "id": "whitelisted", "from": "matcher", "to": "ratelimit", "label": "命中规则", "fromSide": "bottom", "toSide": "top" },
+    { "id": "blocked", "from": "matcher", "to": "drop", "label": "未命中", "variant": "dashed", "fromSide": "right", "toSide": "left" },
+    { "id": "flush", "from": "ratelimit", "to": "feishu-client", "label": "窗口结束聚合", "fromSide": "bottom", "toSide": "top" },
+    { "id": "post-card", "from": "feishu-client", "to": "feishu-webhook", "label": "HTTPS POST 卡片", "fromSide": "bottom", "toSide": "top" },
+    { "id": "load-config", "from": "main", "to": "config", "label": "加载校验", "fromSide": "bottom", "toSide": "top" },
+    { "id": "inject", "from": "main", "to": "listener", "label": "注入配置", "fromSide": "right", "toSide": "left" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "监听与重连", "items": ["IDLE 长连接，25 分钟重启一次避免被服务器断开", "每 5 分钟轮询兜底；断线按 1s → 2m 指数退避重连", "只处理启动后 UID 更大的新邮件，不补推历史"] },
+    { "dot": "amber", "title": "零信任白名单", "items": ["规则之间 OR；规则内类别 AND、类别内 OR", "域名按标签边界匹配：mail.github.com 命中，evilgithub.com 不命中", "未知字段、空规则、非法地址都会让进程拒绝启动"] },
+    { "dot": "emerald", "title": "聚合与投递", "items": ["同讨论串在 15s 窗口内聚合为一条，保留最新内容", "推送后 10m 冷却，期间同串事件直接丢弃", "Webhook 支持 HMAC 签名；网络 / 5xx / 限流 9499 自动重试"] },
+    { "dot": "slate", "title": "运行数据", "items": ["配置与日志：%APPDATA%\\language_projects\\mail2feishu\\<dev|prod>\\", "`-check` 校验配置，`-test-webhook` 验证连通性", "`run_background.vbs` 隐藏窗口常驻，优先正式版 exe"] }
+  ]
+}
