@@ -80,4 +80,5 @@ GUIDE 会被其他文档、子仓 README 交叉引用，**改名/移动是高危
 | [GUIDE-MCP调试接入.md](GUIDE-MCP调试接入.md) | MCP Inspector 测试调试自定义 stdio MCP server |
 | [GUIDE-第三方项目克隆.md](GUIDE-第三方项目克隆.md) | 第三方开源项目克隆到 .thirdparty/（gitignore + 自有 remote，不用 submodule） |
 | [GUIDE-LLM兼容接入.md](GUIDE-LLM兼容接入.md) | 把只支持 OpenAI/Anthropic/Gemini 的外部工具接到自己的模型上（探针先行 + 最小补丁 + 双层验证） |
+| [GUIDE-AI-Agent逐动作审批能力对比.md](GUIDE-AI-Agent逐动作审批能力对比.md) | 各 AI coding agent 的「每步动手前先问我」开关对比，以及 DSH 用 pre-execute 插件补齐逐动作审批 |
 | [../projects/go_projects/go exe 默认图标.md](../projects/go_projects/go%20exe%20默认图标.md) | go_projects exe 默认地鼠图标（语言专属，不加 GUIDE 前缀） |
