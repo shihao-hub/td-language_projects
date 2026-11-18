@@ -40,7 +40,7 @@ go_projects 四个 CLI（exestarter / filesync / quickask / zreadmanager）已�
 | `typescript_projects/tooldeck/` | 新项目（Electron + React + TS） |
 | `typescript_projects/tooldeck-tauri/` | 占位目录 + `TODO.md` |
 | `docs/projects/go_projects/exestarter/接口文档.md` | 新增（父仓库） |
-| `docs/projects/typescript_projects/tooldeck/PLAN.md` | 本文档（父仓库） |
+| `docs/projects/typescript_projects/tooldeck/plans/01-tooldeck-plan.md` | 本文档（父仓库） |
 
 ## 3. 阶段 0：exestarter CLI 增强
 
@@ -262,7 +262,7 @@ const SYS_TAGS = [
 | 5 | typescript_projects | `tooldeck:feat: exestarter 模块 Electron GUI` | tooldeck 新项目整体 |
 | 6 | typescript_projects | `tooldeck-tauri:chore: Tauri 2 复刻占位待办` | tooldeck-tauri |
 | 7 | 父仓库 | `docs: 新增 exestarter 接口文档` | docs/projects/go_projects/exestarter/ |
-| 8 | 父仓库 | `docs: 新增 tooldeck 开发计划` | docs/projects/typescript_projects/tooldeck/PLAN.md |
+| 8 | 父仓库 | `docs: 新增 tooldeck 开发计划` | docs/projects/typescript_projects/tooldeck/plans/01-tooldeck-plan.md |
 
 （跨仓库 / 跨子项目严格分开提交，符合 AGENTS.md 提交范围隔离规则）
 
