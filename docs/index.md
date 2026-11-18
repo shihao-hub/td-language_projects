@@ -11,8 +11,7 @@
 | [guides](guides/README.md) | 父仓级 AI 工作指南（GUIDE 系列）与 GUIDE 编写规范 |
 | [plans](plans/01-lark-group-bridge.md) | 父仓级开发计划 |
 | [projects](projects/go_projects/go%20exe%20默认图标.md) | 各语言子仓的项目文档，按 `projects/<语言子仓>/<项目>/` 镜像层级组织；语言级方法论文档（如《CLI 工具开发标准》）放在语言层目录 |
-| [specs](specs/01-web-archive-skill/index.md) | spec 驱动开发产出（需求 / 设计 / 任务清单） |
+| [specs](specs/01-web-archive-skill/requirements.md) | 父仓级 / 跨项目 spec；项目 spec 见各自项目目录 |
 | [repo](repo/README.md) | 仓库自身文档（技术调研报告、Git 子模块机制、迁移记录） |
-| [memories](memories/README.md) | 记忆与经验沉淀 |
 
 `assets/` 是文档引用的二进制资源（图标等），不产出页面。
