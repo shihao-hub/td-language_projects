@@ -109,7 +109,7 @@
 ### AOCI 认知索引（本次未维护，需另行处理）
 
 - **治理状态**：`aoci check` → `ok=false, exit_code=1, governance_aligned=false, next_action=blocked`，共 **149 findings**：
-  - `code_missing` **69**：磁盘上存在但 `aoci.code.txt`（192 条 Entry）中没有 Entry 的对象，含 `docs/plans/28/29/30`、`glmquotawatch-gui` 的 specs/plans、zedhub specs、`.claude/plans/*`、`.scripts/group_avatars/**`、`.zed/tasks.json`、本次新收录的 6 篇 `docs/repo` 文档等；
+  - `code_missing` **69**：磁盘上存在但 `aoci.code.txt`（192 条 Entry）中没有 Entry 的对象，含 `各项目 plans/archive/01`、`glmquotawatch-gui` 的 specs/plans、zedhub specs、`.claude/plans/*`、`.scripts/group_avatars/**`、`.zed/tasks.json`、本次新收录的 6 篇 `docs/repo` 文档等；
   - `code_unbaselined` **69**：同一批对象无基线指纹；
   - `code_stale` **10**：已入索引但内容已变，含 `.gitignore`、`.zed/settings.json`、`AGENTS.md`、`CLI 工具开发标准.md`、clictl/sourcecount 使用指南、zedhub specs 三件套与对接协议；
   - `observed_pending` **1**：治理策略要求人工复核的新观察对象 2 个（`group_avatars/test_chrome.py`、`test_script.py`，已被新增 `.gitignore` 排除）。

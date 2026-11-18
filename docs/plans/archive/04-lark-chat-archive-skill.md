@@ -89,7 +89,7 @@ C:\Users\29580\.config\opencode\skills\sh-lark-chat-archive\
 
 - [x] Task 4: AOCI 收尾（仅计划文件本身入索引；skill 在仓库外无 AOCI 债务）
   - 文件：`aoci.code.txt`、`.aoci/baseline.json`
-  - 实现：maintain → docs/plans/06 建 Entry → verify/check/guide
+  - 实现：maintain → docs/plans/archive/04 建 Entry → verify/check/guide
   - 验证：三连 aligned
   - Demo：（管理资产）
 

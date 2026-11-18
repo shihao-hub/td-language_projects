@@ -16,7 +16,7 @@
 language_projects/
 └── docs/
     ├── scripts/lark_group_bridge.py    # 唯一交付物：对外共享机器人发文本/媒体 + lark-cli 读取桥接
-    └── plans/01-lark-group-bridge.md   # 本计划
+    └── plans/archive/01-lark-group-bridge.md   # 本计划
 ```
 
 运行时数据（不在仓库内）：
@@ -117,7 +117,7 @@ config.json（`init` 写入）：
 - [x] 2.2 媒体通道平台限制实测（已完成于编码期：230027/11221/10208 三连拒，结论记入关键技术点 7）
 - [x] 2.3 用 `read` 读回发送的消息，验证双向链路
 - [x] 2.4 删除根目录 `lark-auth-qr.png`
-- [x] 2.5 输出改动摘要与 git commit 命令（仅含 `lark_group_bridge.py` 与 `docs/plans/01-lark-group-bridge.md`）
+- [x] 2.5 输出改动摘要与 git commit 命令（仅含 `lark_group_bridge.py` 与 `docs/plans/archive/01-lark-group-bridge.md`）
 
 **验收标准**：
 - 群里真实收到脚本发出的文本（机器人身份，含标注）（用户确认）

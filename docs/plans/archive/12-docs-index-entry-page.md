@@ -17,7 +17,7 @@
 
 ## 任务分解
 
-- **Task 1**：新增 `docs/plans/15-docs-index-entry-page.md`（本文件）；
+- **Task 1**：新增 `docs/plans/archive/12-docs-index-entry-page.md`（本文件）；
 - **Task 2**：写回瘦身版 `docs/index.md`；
 - **Task 3**：`README.md` 增补「文档站点」节（置于「仓库脚本」与「数据文件存放规范」之间）；
 - **Task 4**：`AGENTS.md` 归档与文档布局约定节增补入口页禁删条目；

@@ -32,7 +32,7 @@ go_projects/liteconf/
 └── scripts/build.ps1               # [不动]（同一 cmd/liteconf 二进制）
 
 docs/projects/go_projects/liteconf/
-├── plans/01-mcp-server.md          # [新] 本计划（父仓库）
+├── plans/archive/01-mcp-server.md          # [新] 本计划（父仓库）
 └── brunos/ specs/                  # [不动]
 README.md（子仓 liteconf）           # [改] 特性/快速开始/MCP 工具表/定位与边界
 ```

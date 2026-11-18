@@ -67,7 +67,7 @@ language_projects (父仓库, Monorepo / Submodules)
    - 确认 GitHub CLI 状态：`gh auth status`；
    - 拟定仓库名，遵循组织约定（如 `td-<lang>_projects-<project_name>`）。
 5. **向用户出具实施计划**：
-   - 按照轻量规划工作流，计划落盘至 `docs/plans/{NN}-{feature_name}.md` 并获批。
+   - 按照轻量规划工作流，计划落盘至 `docs/projects/<lang>/<project>/plans/{NN}-{feature_name}.md` 并获批。
 
 ---
 

@@ -4,7 +4,7 @@
 >
 > 读者：go_projects 下 Wails v3 GUI 应用的开发者与 AI agent。适用于「同一 WebUI 需要常驻多开」的场景，不适用于需要浏览器内核深度集成（自定义 IPC / WebView2 特性）的应用。
 >
-> 首个实现与实测见 `docs/projects/go_projects/clictl/plans/07-chrome-app-mode.md`。
+> 首个实现与实测见 `docs/projects/go_projects/clictl/plans/archive/06-chrome-app-mode.md`。
 
 ## 一、要解决的问题
 

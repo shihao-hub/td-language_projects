@@ -115,7 +115,7 @@ flowchart TB
 - [x] Task 5: 实现 CLI 薄客户端命令集（list, check, set, scan, ui, serve）
   - 文件：`go_projects/plansql/cmd/plansql/main.go`、`go_projects/plansql/internal/cli/{root.go,list.go,check.go,set.go,scan.go,ui.go}`
   - 实现：实现薄客户端：命令行参数解析并请求 daemon API；`list` 输出美观的终端 ASCII 表格与 `--json` 格式；`check` 在检测到 SQL 错误时退出码返回非 0 并高亮错误行；`set` 命令支持快捷设置状态；`ui` 命令自动调用默认浏览器唤起 Web 仪表盘。
-  - 验证：在终端执行 `plansql list`、`plansql check`、`plansql set docs/plans/28-plansql-tracker.md --status completed`，检查输出及返回码。
+  - 验证：在终端执行 `plansql list`、`plansql check`、`plansql set docs/projects/go_projects/plansql/plans/archive/01-plansql-tracker.md --status completed`，检查输出及返回码。
   - Demo：在终端无需浏览器即可一目了然查看当前全部 plan 的完成情况与校验结果。
 
 - [x] Task 6: 实现 MCP stdio 桥接与 Schema 导出（AI Agent 专用通道）

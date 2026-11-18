@@ -1,7 +1,7 @@
 # Task List: 知识库时序防腐与生命周期治理引擎 (kbman)
 
 - [x] 1. 创建任务三件套 tasks.md 并初始化 Go 模块
-  - Files: `docs/specs/06-kb-temporal-governance/tasks.md`, `go_projects/kbman/go.mod`
+  - Files: `docs/projects/go_projects/kbman/specs/01-kb-temporal-governance/tasks.md`, `go_projects/kbman/go.mod`
   - Verify: Go 模块初始化成功，依赖 `gopkg.in/yaml.v3` 安装就绪
   - Ref: AC-1
 

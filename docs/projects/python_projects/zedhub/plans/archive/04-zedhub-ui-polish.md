@@ -2,7 +2,7 @@ Plan for: "zedhub /ui 美化：左窄右宽 + 右侧横向 tab + 轨迹 markdown
 
 **问题陈述**：左侧列表太宽挤压详情，轨迹偏下需滚动很久才看到；要 DSH 式布局：左筛选上会话下，右横向 tab（元数据/轨迹），轨迹 markdown 渲染。
 **需求**：筛选功能不动；左 280px；右 tab 默认元数据；轨迹 markdown 渲染；antigravity 二进制保持降级占位+注明。
-**背景**：见 docs/plans/37-uilib-markdown-research.md；webui 零构建链约束，只能手写 CSS + 原生 tab + 内联轻量 markdown 解析（不 vendor 外部库，避免体积与许可负担）。
+**背景**：见 docs/projects/python_projects/zedhub/research/01-uilib-markdown-research.md；webui 零构建链约束，只能手写 CSS + 原生 tab + 内联轻量 markdown 解析（不 vendor 外部库，避免体积与许可负担）。
 **方案**：index.html 改 Grid 两列；style.css 加 tab 与 tstep 样式；app.js 加 renderTabs 与 mdToHtml（转义后处理代码块/标题/粗体/列表/换行）。
 
 **任务分解**：

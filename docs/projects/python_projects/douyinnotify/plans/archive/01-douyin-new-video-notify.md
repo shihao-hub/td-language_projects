@@ -109,7 +109,7 @@
   - Demo：计划任务触发的一次完整"检测→推送"链路证据（日志 + 飞书消息）
   - **实施说明(2026-09-21,端到端受阻待用户决策)**:Task 1-8 已完成且 pyright 0 错误;`install_schedule` 已真实验证(注册/查询/卸载/重装),任务命令最终定为 `pythonw.exe -m douyinnotify --notify`(用户要求零弹窗:console exe 被计划任务运行会弹控制台,pythonw 无窗口;全部 subprocess 另加 `CREATE_NO_WINDOW`),pythonw 链路经 `/Run` 真实验证可执行。端到端推送卡住--实施实证推翻计划前提"无需登录":未登录 SSR 返回的是 SEO 混合内容(`href` 带 `?source=Baiduspider`,标题与博主无关、每轮全变),抓到的"作品列表"不可信 → 集合差持续抖动 → 抑制逻辑永不放行 → 推送无法触发。定时任务已临时卸载防止空转。待用户在“扫码登录（推荐）/其他信号源”间决策后修订计划再继续。
 
-> **后续（2026-09-22）**：用户决策「先 D 止血、再 B 换源」。已实证新数据源无需登录：在页面上下文内 `fetch` 作品接口即可拿到完整 JSON；`fetcher` 已改为该取数方式并硬化失败语义，Task 1-3 全部完成且端到端推送验收通过。详见 [`plans/02-douyin-fetch-api-source.md`](./02-douyin-fetch-api-source.md)。
+> **后续（2026-09-22）**：用户决策「先 D 止血、再 B 换源」。已实证新数据源无需登录：在页面上下文内 `fetch` 作品接口即可拿到完整 JSON；`fetcher` 已改为该取数方式并硬化失败语义，Task 1-3 全部完成且端到端推送验收通过。详见 [`plans/archive/02-douyin-fetch-api-source.md`](./02-douyin-fetch-api-source.md)。
 
 ---
 

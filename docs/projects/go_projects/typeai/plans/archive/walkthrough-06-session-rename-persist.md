@@ -1,6 +1,6 @@
 # 变更总结 (Walkthrough)：TypeAI 会话重命名与标题持久化支持
 
-> 关联计划：[docs/plans/57-typeai-session-rename.md](file:///D:/Users/language_projects/docs/plans/57-typeai-session-rename.md)
+> 关联计划：[plans/archive/06-session-rename-persist.md](06-session-rename-persist.md)
 > 完成时间：2026-10-24 15:07
 > 状态：全量通过验证，产物已完成构建
 

@@ -120,7 +120,7 @@ artifact 一律放 `C:\Users\29580\AppData\Local\Temp\opencode\`（已批准的�
 
 - [x] 5.1 `aoci verify`（governance_aligned=true, result=aligned, findings=[]）+ `aoci check`（ok=true, next_action=none）
 - [x] 5.2 `index agent guide`：mode=complete, stage=aligned, complete=True, next=none；92/92 Entry，whole_index 9906 tokens（预算 200000），零漂移
-- [x] 5.3 整体汇报 + git commit 命令（父仓范围：aoci.code.txt、.aoci/baseline.json、.aoci/config.json、docs/plans/02-*.md）
+- [x] 5.3 整体汇报 + git commit 命令（父仓范围：aoci.code.txt、.aoci/baseline.json、.aoci/config.json、docs/plans/archive/02-*.md）
 
 ## 技术依赖
 

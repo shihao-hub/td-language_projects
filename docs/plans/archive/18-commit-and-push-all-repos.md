@@ -92,11 +92,11 @@
 严格遵循 AGENTS.md 的独立提交与隔离纪律，按主题依次提交：
 
 #### [NEW] 批次 1: 计划落盘自举提交（强制规则：新建计划立即独立 commit）
-- [x] **文件范围**：`docs/plans/27-commit-and-push-all-repos.md`
+- [x] **文件范围**：`docs/plans/archive/18-commit-and-push-all-repos.md`
 - [x] **Commit**：`docs(plans): 新增全仓分别提交与推送实施计划`
 
 #### [MODIFY] 批次 2: 计划文件 Mermaid 格式修复
-- [x] **文件范围**：`docs/plans/16-zedagentstats.md`
+- [x] **文件范围**：`docs/projects/python_projects/zedagentstats/plans/archive/02-zedagentstats.md`
 - [x] **Commit**：`docs(plans): 修复 16-zedagentstats 计划中的 Mermaid 语法与图表转义`
 
 #### [NEW] 批次 3: typeai 规格文档

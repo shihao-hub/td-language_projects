@@ -184,10 +184,9 @@ claude -p --resume <session-id> --output-format json "summarize what we changed"
 | 文件引用（首选） | pi：`pi "@.pi/handoff.md 按这份简报继续"`；Claude Code：`@.pi/handoff.md` | 简报留在仓库里，可追溯、可 diff |
 | 追加进 system prompt | `pi --append-system-prompt .pi/handoff.md` | 适合"开场就必须知道"的内容 |
 | 直接粘贴 | 任何 agent | 最短路径，但简报不进仓库，事后无法查 |
-| 不提简报、只提路径 | "先读 `docs/plans/14-xxx.md`，再继续" | 适合简报本身已落盘且新 agent 有文件工具时 |
+| 不提简报、只提路径 | "先读 `docs/plans/<NN>-<topic>.md` 或项目 `plans/<NN>-<topic>.md`，再继续" | 适合简报本身已落盘且新 agent 有文件工具时 |
 
-**落盘位置优先选仓库内既有的交接产物目录**：`docs/plans/<NN>-<topic>.md`（父仓级计划）、
-`docs/specs/<NN>-<feature>/`（需求/设计/任务）、`docs/repo/`（技术调研）。临时性的可放 `.pi/handoff.md`
+**落盘位置优先选仓库内既有的交接产物目录**：父仓级计划放 `docs/plans/<NN>-<topic>.md`；具体子项目计划放 `docs/projects/<lang>/<project>/plans/<NN>-<topic>.md`（已完成项进同项目 `plans/archive/`）；spec 放对应项目的 `specs/<NN>-<feature>/`；通用技术调研放 `docs/repo/`。临时性的可放 `.pi/handoff.md`
 （注意按仓库约定，`.pi/` 属项目本地配置，不宜提交）。
 
 ### 4.4 简报自检清单
@@ -232,9 +231,9 @@ claude -p --resume <session-id> --output-format json "summarize what we changed"
 | 本仓现状（实证） | 根 `CLAUDE.md` 仅一行 `@AGENTS.md` | **pi 与 Claude Code 共享同一份 `AGENTS.md`**，写一次两个 agent 都吃到 |
 | AOCI 认知层 | `aoci.txt`（卷清单）+ `aoci.meta.txt`、`aoci.code.txt`（约 49 KB） | 为每个受管对象记录职责/关系/契约/约束，新 agent 可快速建立系统级理解 |
 | Claude Code auto memory | `~/.claude/projects/<project>/memory/MEMORY.md` + 主题文件 | `MEMORY.md` 前 200 行/25KB 每次会话自动加载；`type` 分 user/feedback/project/reference |
-| 交接产物目录 | `docs/plans/`、`docs/specs/` | 收尾写文档 = 为下一个会话预置上下文 |
+| 交接产物目录 | `docs/plans/`（父仓级）、`docs/projects/<lang>/<project>/plans/`（项目级） | 收尾写文档 = 为下一个会话预置上下文 |
 
-口诀：**`AGENTS.md` 是规矩，AOCI 是地图，`docs/plans`/`docs/specs` 是当前战役。**
+口诀：**`AGENTS.md` 是规矩，AOCI 是地图，`docs/plans` 与各项目 `plans/` 是当前战役。**
 
 ---
 
@@ -248,7 +247,7 @@ claude -p --resume <session-id> --output-format json "summarize what we changed"
 | 有 diff / 报错原文 / 接口签名要精确传 | 在简报内补 `## 原始片段`（§5，只限三类内容） |
 | 新 agent 无文件系统（网页版） | 改为让旧会话直接吐正文，粘贴 |
 | 审计/复盘、含非文本资产 | 降级用路线一：先让发送方**导出为 Markdown**，绝不手抄 JSONL |
-| 收尾 | 值得长期保留的结论**提升**到 `docs/plans`/`docs/specs`；维护 AOCI |
+| 收尾 | 值得长期保留的结论**提升**到父仓 `docs/plans/` 或对应项目的 `plans/`；维护 AOCI |
 
 ### 7.1 文件位置：放 `%APPDATA%`，不要放仓库、也不要放临时目录
 
@@ -331,10 +330,10 @@ claude -p --resume <session-id> --output-format json "summarize what we changed"
 |---|---|
 | 生成 | 旧会话写文件，并输出 `HANDOFF: <绝对路径>` 供复制 |
 | 使用 | 把该绝对路径（或正文）粘给新 agent |
-| 收尾 | 结论值得长期保留就**提升**为 `docs/plans/<NN>-<topic>.md`；不需要就留在 APPDATA |
+| 收尾 | 结论值得长期保留就**提升**为父仓 `docs/plans/<NN>-<topic>.md` 或项目 `plans/<NN>-<topic>.md`；不需要就留在 APPDATA |
 | 清理 | `handoff/` 目录可整体删除，不影响任何仓库内容与 git 状态 |
 
-关键区分：**APPDATA 里的是一次性传输件，`docs/plans/` 里的是项目资产。**
+关键区分：**APPDATA 里的是一次性传输件，`docs/plans/` 与项目 `plans/` 里的是项目资产。**
 
 ---
 
@@ -416,7 +415,7 @@ claude -p --resume <session-id> --output-format json "summarize what we changed"
 
 - `D:\Users\language_projects\CLAUDE.md`（内容为 `@AGENTS.md`）、`AGENTS.md`
 - `aoci.txt` / `aoci.meta.txt` / `aoci.code.txt`
-- `docs/plans/`、`docs/specs/`、`docs/memories/README.md`
+- `docs/plans/`、`docs/projects/<lang>/<project>/plans/`、`docs/repo/`
 - `C:\Users\29580\.pi\pi-acp\session-map.json`（ACP `sessionId` ↔ pi `sessionFile`）
 - `C:\Users\29580\AppData\Roaming\Zed\settings.json`（`pi-acp` 以 `type: registry` 注册）
-- 关联调研：`docs/repo/zed-multi-session-agent-architecture-research.md`
+- 关联调研：`docs/projects/python_projects/zedhub/research/01-zed-multi-session-agent-architecture-research.md`

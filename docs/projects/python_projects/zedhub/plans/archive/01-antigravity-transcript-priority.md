@@ -7,7 +7,7 @@
 1. **全面覆盖实例**（用户决策 1=a）：统一检索并支持 `antigravity`（桌面版）、`antigravity-acp`（Zed 插件）、`antigravity-cli`、`antigravity-ide` 四大目录的 `brain/<sid>/.system_generated/logs/transcript.jsonl`。
 2. **双管齐下改造**（用户决策 2=a）：同时改造 `trajectory.py`（时间线与完整轨迹）和 `agy_extractor.py`（会话正文气泡），统一为纯 Transcript 解析。
 3. **彻底删除 Protobuf 解包**（最新指令）：直接将 `trajectory.py` 与 `agy_extractor.py` 中的手写 Protobuf 解包、varint 解析、启发式 tag 提取等冗余逻辑彻底清理删除，不再保留死代码。
-4. **文档落盘规范**：遵循父仓 `AGENTS.md` 镜像规范，本计划落盘至 `docs/projects/python_projects/zedhub/plans/01-antigravity-transcript-priority.md`。
+4. **文档落盘规范**：遵循父仓 `AGENTS.md` 镜像规范，本计划落盘至 `docs/projects/python_projects/zedhub/plans/archive/01-antigravity-transcript-priority.md`。
 
 **背景现状**：
 1. 本地四大实例在 `~/.gemini/` 下均维护一致的明文日志结构：`~/.gemini/<variant>/brain/<id>/.system_generated/logs/transcript.jsonl`，包含结构化的 `USER_INPUT`、`PLANNER_RESPONSE`（含 `thinking`、`content`、`tool_calls`）。

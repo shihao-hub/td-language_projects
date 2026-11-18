@@ -17,7 +17,7 @@
 
 ## 背景
 - 本机已有完备的 DeepSeek Harness 运行时及本地 profile：`C:\Users\29580\.dsh\profiles\desktop\`。
-- 调研文档已落盘至 `docs/plans/42-dsh-as-subagent-mcp-research.md`，确立了“独立 stdio 桥接 + 结果精炼摘要”的 Phase 1 架构路线。
+- 调研文档已落盘至 `docs/repo/dsh-as-subagent-mcp-research.md`，确立了“独立 stdio 桥接 + 结果精炼摘要”的 Phase 1 架构路线。
 
 ## 方案设计
 

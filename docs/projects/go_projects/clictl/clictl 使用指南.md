@@ -1,7 +1,7 @@
 # clictl 使用指南
 
 > 项目位置：`go_projects/clictl`（子仓内）。本文为父仓镜像文档，与项目内 `README.md` 保持同步。
-> 双通道改造设计：见同目录 `plans/01-wails-dual-channel.md`。
+> 双通道改造设计：见同目录 `plans/archive/01-wails-dual-channel.md`。
 > CLI + JSON 输出的通用实现模式（供其他 CLI 项目参考）：见同目录 `Go CLI JSON 输出模式参考.md`。
 > 表结构变更 SQL 存档：见同目录 `migrations/`。
 
