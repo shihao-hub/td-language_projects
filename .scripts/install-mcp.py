@@ -27,7 +27,7 @@ install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
 底层采用原子写入（tmp + os.replace）杜绝配置损坏，并使用正则安全更新 TOML / YAML 段落保留注释。
 
 ================================================================================
-二、支持的 7 大 Agent 目标与其配置映射
+二、支持的 8 大 Agent 目标与其配置映射
 ================================================================================
 
 • claude          -> ~/.claude.json                                (Claude Code 全局配置)
@@ -37,6 +37,14 @@ install-mcp.py：通用多 MCP 配置给多 Agent 的强化分发与管理工具
 • antigravity     -> ~/.gemini/antigravity-acp/mcp.json            (Antigravity ACP 后端形态)
 • antigravity-ide -> ~/.gemini/config/mcp_config.json              (Antigravity 桌面 IDE / VSCode 插件全局配置)
 • dsh             -> ~/.dsh/profiles/desktop/cordis.patch.yml      (DeepSeek Harness 桌面 Profile 配置)
+• kimi-code       -> ~/.kimi-code/mcp.json                         (Kimi Code CLI 用户级 MCP 配置)
+
+【关于 Kimi Code (kimi-code) 接入 MCP 客户端】
+Kimi Code CLI 数据目录按 KIMI_CODE_HOME 环境变量优先解析，缺省 ~/.kimi-code；
+用户级 MCP 配置为 <KIMI_CODE_HOME>/mcp.json，外层以 mcpServers 包裹（Claude 风格）。
+stdio 条目仅需 command（+ 可选 args/env/cwd），transport 字段缺省自动推断为 stdio，
+SSE/HTTP 才需显式声明；其 stdio 服务启动基于 cross-spawn，可直接解析 npx 等
+.cmd shim，无需 cmd /c 包装。
 
 【深入原理解析：关于 Antigravity (agy) 的三种形态与配置收敛】
 用户日常可能接触到三种 Antigravity 形态：
@@ -150,6 +158,7 @@ AGENT_ENABLED: Dict[str, bool] = {
     "pi": True,
     "antigravity": True,
     "antigravity-ide": True,
+    "kimi-code": True,
     # dsh 仅单一常驻会话，MCP 不随会话倍增；改手动管理（--agent dsh 点名装/卸）
     "dsh": False,
 }
@@ -352,8 +361,8 @@ def resolve_chrome_devtools_spec() -> MCPSpec:
 
     Windows 兼容说明：npx 是 .cmd shim，部分 Agent（claude / antigravity 系）
     的 stdio 传输不带 shell 解析，故对这些 Agent 自动套 `cmd /c npx` 包装；
-    opencode / pi / codex / dsh 的启动器可自行解析 .cmd（dsh 底层为 cross-spawn），
-    直接使用 npx 即可。
+    opencode / pi / codex / dsh / kimi-code 的启动器可自行解析 .cmd
+    （dsh / kimi-code 底层为 cross-spawn），直接使用 npx 即可。
     """
     base_args = ["-y", "chrome-devtools-mcp@latest"]
     wrap_agents = ("claude", "antigravity", "antigravity-ide")
@@ -547,6 +556,27 @@ class OpencodeJsonHandler(JsonAgentHandler):
         }
         if spec.env:
             entry["environment"] = spec.env
+        if extra:
+            entry.update(extra)
+        return entry
+
+
+class KimiJsonHandler(JsonAgentHandler):
+    """kimi-code 专用处理器（条目为 Claude 风格的轻量子集）。
+
+    Kimi Code 用户级 MCP 配置：<KIMI_CODE_HOME>/mcp.json（缺省 ~/.kimi-code/mcp.json），
+    外层以 mcpServers 包裹。stdio 条目 schema 仅有 command 必填（+ 可选 args/env/cwd），
+    transport 字段缺省由 command 自动推断为 stdio，因此不写入 type/transport 冗余字段；
+    本地比较沿用父类（忽略 type/transport 差异，Kimi 自身回写时会补 transport）。
+    """
+
+    def _build_entry(self, spec: MCPSpec, extra: dict) -> dict:
+        entry = {
+            "command": spec.command,
+            "args": spec.args,
+        }
+        if spec.env:
+            entry["env"] = spec.env
         if extra:
             entry.update(extra)
         return entry
@@ -795,8 +825,14 @@ class DshAgentHandler(AgentHandler):
         return "removed"
 
 
+def resolve_kimi_home() -> Path:
+    """kimi-code 数据目录：优先 KIMI_CODE_HOME 环境变量，缺省 ~/.kimi-code。"""
+    env_home = (os.environ.get("KIMI_CODE_HOME") or "").strip()
+    return Path(env_home) if env_home else Path.home() / ".kimi-code"
+
+
 # ---------------------------------------------------------------------------
-# 全局 Agent 目标注册表（支持 7 大 Agent）
+# 全局 Agent 目标注册表（支持 8 大 Agent）
 # ---------------------------------------------------------------------------
 TARGET_AGENTS: Dict[str, AgentHandler] = {
     "claude": JsonAgentHandler("claude", Path.home() / ".claude.json", "Claude Code 用户级全局配置", ("mcpServers",)),
@@ -806,6 +842,7 @@ TARGET_AGENTS: Dict[str, AgentHandler] = {
     "antigravity": JsonAgentHandler("antigravity", Path.home() / ".gemini" / "antigravity-acp" / "mcp.json", "Antigravity ACP 形态（Zed 接入）", ("mcpServers",)),
     "antigravity-ide": JsonAgentHandler("antigravity-ide", Path.home() / ".gemini" / "config" / "mcp_config.json", "Antigravity 桌面 IDE / VSCode 插件全局", ("mcpServers",)),
     "dsh": DshAgentHandler("dsh", Path.home() / ".dsh" / "profiles" / "desktop" / "cordis.patch.yml", "DeepSeek Harness 桌面 Profile 配置"),
+    "kimi-code": KimiJsonHandler("kimi-code", resolve_kimi_home() / "mcp.json", "Kimi Code CLI 用户级 MCP 配置", ("mcpServers",)),
 }
 
 
@@ -1026,7 +1063,7 @@ def main() -> int:
         return 1 if failed else 0
 
     print("=" * 84)
-    print("多 MCP -> 多 Agent 通用配置管理工具（覆盖 7 大 Agent 目标）")
+    print("多 MCP -> 多 Agent 通用配置管理工具（覆盖 8 大 Agent 目标）")
     print(f"工作区仓库 : {REPO_ROOT}")
     print(f"执行模式   : {mode_desc}")
     if not (custom_mode or explicit_install):
@@ -1065,7 +1102,7 @@ def main() -> int:
     print("1. antigravity 需重启或重新打开工作区后生效；")
     print("2. pi 已运行的会话可输入 /reload 立即生效；")
     print("3. dsh (DeepSeek Harness) 重启桌面应用或命令行后生效；")
-    print("4. 其余 Agent（Claude Code、Codex、opencode）在下次启动或新建会话时自动载入；")
+    print("4. 其余 Agent（Claude Code、Codex、opencode、kimi-code）在下次启动或新建会话时自动载入；")
     print("5. 预设开关 PRESET_ENABLED（装不装）与 Agent 开关 AGENT_ENABLED（True=参与收敛 / False=手动管理，不装不卸）在脚本顶部修改。")
     print("=" * 84)
 
