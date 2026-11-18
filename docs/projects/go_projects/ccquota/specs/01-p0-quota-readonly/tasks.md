@@ -68,3 +68,10 @@ P2：`goja` 执行 `meta.usage_script.code` 自定义脚本；智谱 / MiniMax /
 - **Command Code 成功分支未验证**：当前 Key 已失效（401），只验证了认证失败分支；成功分支按 cc-switch 源码的四连调结构实现，待 Key 恢复后复核。
 - **数值随时间漂移**：验收对照的截图值（98%/56%/84%/93%）与实测（97%/56%/75%/91%）差异来自截图与实测的时间差，非解析错误。
 - **GUI 的技术路径**：GUI 不注册 Wails 绑定，而是把 `internal/server` 的 handler 直接交给 `assetserver`，页面与接口与 WebUI 完全同源。
+- **窗口图标取决于资源 ID**：Wails v2 注册窗口类时先用 `IDI_APPLICATION`（即那个"空白窗口"图标）兜底，启动后再按**固定资源 ID 3**（`winc.AppIconID`）从 exe 的 `RT_GROUP_ICON` 加载并 `WM_SETICON`。go-winres 默认把图标打成名字 `"APP"` 的资源，ID 不匹配 → 加载失败（错误被忽略）→ 标题栏留白块。修法：`winres/gui.json` 的组图标键写成 `"#3"`（go-winres 的数字 ID 语法），Wails 即可自己加载，无需额外 Win32 代码。
+- **默认视图收窄**：默认每个应用只显示一张（优先 `is_current`），`--all` / 「显示全部」展开全部；筛选在缓存读出后应用，切换不触发重新查询。
+- **Antigravity 分组名缩写**：上游返回 `Gemini Models` / `Claude and GPT models`，卡片上缩为 `Gemini` / `Claude/GPT` 以免标签截断。
+- **图标与主题按通道区分**：dev 用仓库默认 `icon_dev.ico`（白底 Go 图标）并把标题栏主题设为跟随系统，与 typeai / clictl 的 dev 通道一致；release 用 `scripts/render_icon.py` 生成的专属透明底图标 + 深色标题栏。托盘两通道都用专属透明图标（任务栏背景深，白底小图标难看）。
+- **白底的真实成因**：`go-default.ico` 的 16×16 角落像素为 `(255,255,255,255)`，本身是不透明白底；之前强制 `Theme: Dark` 才把它照成白块。typeai 的 dev 版同样是白底图标，只因标题栏跟随浅色系统主题而看不出来。
+- **托盘左右键分开**：`getlantern/systray` 把 `WM_LBUTTONUP` 与 `WM_RBUTTONUP` 都接到 `showMenu`，左键必然弹菜单；改用 `fyne.io/systray`，用 `SetOnTapped` 让左键开窗、右键保留菜单。
+- **托盘「退出」会被 OnBeforeClose 拦截**：Wails v2 的 `Frontend.Quit()` 会先调用 `OnBeforeClose`，返回 `true` 即取消退出（`internal/frontend/desktop/windows/frontend.go:460`）。若该回调无条件「隐藏窗口 + return true」（关窗收进托盘的常见写法），托盘退出就永远无效。修法是用 `quitting` 原子标志区分「关窗」与「退出」：`quitApp` 先置位再 `runtime.Quit`。归档的 `file-sync-native` 是同样写法，存在同一缺陷。
