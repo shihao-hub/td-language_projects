@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-09-19T04:28:24Z",
-  "updated_at": "2026-11-17T19:37:28Z",
+  "updated_at": "2026-11-18T05:06:12Z",
   "files": {
     ".agents/docs/aoci.protocol.md": {
       "sha256": "ed707009baa9174fcf07f5e5b004aadf79faef98d5818b97ba630d2ffd5ce3e0",
@@ -29,9 +29,9 @@
       "normalized_sha256": "d2facd6efdf3f90281826b6639d6a5329d90903a79ec01d4f83a9457a24cecfb"
     },
     ".agents/references/language_projects/lang-conventions.md": {
-      "sha256": "71bbb1962d031f481eb5138e2ecc386e05dc88bd88a9a0363fb2a295c07618b0",
-      "size": 6812,
-      "normalized_sha256": "71bbb1962d031f481eb5138e2ecc386e05dc88bd88a9a0363fb2a295c07618b0"
+      "sha256": "0fd742c6f47c7b7a6140ec02796fa902a00f79171d4b880715c5943e4b6db2cf",
+      "size": 7028,
+      "normalized_sha256": "0fd742c6f47c7b7a6140ec02796fa902a00f79171d4b880715c5943e4b6db2cf"
     },
     ".agents/references/language_projects/repo-commands.md": {
       "sha256": "5fceed1392e5878357d4880e81692f86c74a228d640fad1f0f83991f6168fc34",
@@ -439,9 +439,9 @@
       "normalized_sha256": "b0ebdd27e89528e555e5515d91fde916d6286e13a47c3f3bb1f50c9cb8c91a82"
     },
     "AGENTS.md": {
-      "sha256": "86a1087e8f1ef180beb6aee6e08141a1aee592b059b1860cddfc496fca63eaa2",
-      "size": 10268,
-      "normalized_sha256": "86a1087e8f1ef180beb6aee6e08141a1aee592b059b1860cddfc496fca63eaa2"
+      "sha256": "9fb407605e9e005b34048f1eb845f1e7277e7e74dcc5b7337b5e6001c64e4702",
+      "size": 10582,
+      "normalized_sha256": "9fb407605e9e005b34048f1eb845f1e7277e7e74dcc5b7337b5e6001c64e4702"
     },
     "CLAUDE.md": {
       "role": "index",
@@ -466,9 +466,9 @@
       "normalized_sha256": "896759d898eb1a8a8abcecebba0b90bf8f8b549d167dee49fd9dcc2a2831a7fc"
     },
     "README.md": {
-      "sha256": "f15ff431fad3f925e88238b5d1dc1f3147b74d5338a3b0236f15f4a7c8dbde55",
-      "size": 7311,
-      "normalized_sha256": "b80ae29b7c85e0ee0951370af1b1a54cea0504538ed2ff93e7370f46481d756f"
+      "sha256": "e267e2c534cd165635c703226053d3a895258babba926d9b857de34a1648adf6",
+      "size": 7362,
+      "normalized_sha256": "44fba9521967da23c09222848f09e8d574122668130a340147e56d5730dd52ca"
     },
     "SPEC-AGENT.md": {
       "role": "index",
@@ -486,9 +486,9 @@
       "normalized_sha256": "66f770457db52de824282264e7a15aae2d843edffcab81d42fc747a4a7911441"
     },
     "aoci.code.txt": {
-      "sha256": "2a45f1b33dcf27064ae72b565ee2e7e8c98fcbd15b0ac3f5ee8ef204f922f32a",
-      "size": 151558,
-      "normalized_sha256": "2a45f1b33dcf27064ae72b565ee2e7e8c98fcbd15b0ac3f5ee8ef204f922f32a"
+      "sha256": "6b519c857e5d45da7decac50772f2b8ae296523ef2c26148d02447a5a4a1b2ea",
+      "size": 151711,
+      "normalized_sha256": "6b519c857e5d45da7decac50772f2b8ae296523ef2c26148d02447a5a4a1b2ea"
     },
     "aoci.meta.txt": {
       "role": "index",
@@ -974,20 +974,24 @@
       "normalized_sha256": "93f790dc647a6d578c78f9a01397fc3bf1957bd39adf233e29aba933fa7c4dfe"
     },
     "docs/projects/go_projects/CLI 工具开发标准 v2.md": {
-      "role": "index",
-      "sha256": "000008a14282096296df85d3ed1cd7bc253dfe28b665b6a4aed9e2efcba0c62c",
-      "size": 9091,
-      "normalized_sha256": "000008a14282096296df85d3ed1cd7bc253dfe28b665b6a4aed9e2efcba0c62c"
+      "sha256": "49d61ead11dbc4ff8c0e76452a06b3e22d22be21a292e7783b67aa99c340ec50",
+      "size": 9378,
+      "normalized_sha256": "49d61ead11dbc4ff8c0e76452a06b3e22d22be21a292e7783b67aa99c340ec50"
     },
     "docs/projects/go_projects/CLI 工具开发标准.md": {
-      "sha256": "5dbaedce3fb4ea3d61246a80bc436b29822c6394c040a7bb6001d91c442b615d",
-      "size": 62108,
-      "normalized_sha256": "640df0c3ef03a3bc14405f4492772b540f53dc754a0cec2f5bc168c1de33d73e"
+      "sha256": "a7e4efd809f25b8e4357981e5a8d1c236932c1e94e094ff8e17886a55fa5b468",
+      "size": 61970,
+      "normalized_sha256": "f21503250c6ed6859b44d1f47e047ed20487b32861ddaf91ebc951f61addc71c"
     },
     "docs/projects/go_projects/Chrome 应用模式启动渠道.md": {
       "sha256": "2921447e8d8b0034abd09a12e48ab0e76e03e48ee2dea80534c957f33b0ca974",
       "size": 6012,
       "normalized_sha256": "2921447e8d8b0034abd09a12e48ab0e76e03e48ee2dea80534c957f33b0ca974"
+    },
+    "docs/projects/go_projects/Go 项目统一结构.md": {
+      "sha256": "76a73b937656de2cfcdb28ecc8fcb8dc110d46786f81fffdd6a8013a32229257",
+      "size": 4755,
+      "normalized_sha256": "76a73b937656de2cfcdb28ecc8fcb8dc110d46786f81fffdd6a8013a32229257"
     },
     "docs/projects/go_projects/MCP 契约为先.md": {
       "role": "index",
@@ -1103,6 +1107,16 @@
       "sha256": "1021796d315d01318d6d38ff42ff166ccae258a4b2e81b9083267265da2f8b85",
       "size": 17720,
       "normalized_sha256": "229778c2517f98cd9569a5f6bc36c212a1449f088d4c0c3e1d1bbe0bdba56996"
+    },
+    "docs/projects/go_projects/ccquota/specs/01-p0-quota-readonly/design.md": {
+      "sha256": "9c5fdb1941336e1e030756bdf6e05f404debcd20ef5385b2825ab1284d87bf52",
+      "size": 10816,
+      "normalized_sha256": "9c5fdb1941336e1e030756bdf6e05f404debcd20ef5385b2825ab1284d87bf52"
+    },
+    "docs/projects/go_projects/ccquota/specs/01-p0-quota-readonly/tasks.md": {
+      "sha256": "3acfdf4096c08e2352eac1faa7e85bc552705fbeebcd77120c78b01d3cef19a1",
+      "size": 7413,
+      "normalized_sha256": "3acfdf4096c08e2352eac1faa7e85bc552705fbeebcd77120c78b01d3cef19a1"
     },
     "docs/projects/go_projects/clictl/Go CLI JSON 输出模式参考.md": {
       "role": "index",
