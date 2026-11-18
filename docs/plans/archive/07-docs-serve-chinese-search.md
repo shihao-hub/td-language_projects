@@ -1,7 +1,7 @@
 # Plan：docs 站点「热刷新 + 中文搜索」合一（serve 能力核查）
 
 > 起点：用户问「`.scripts\docs-preview.bat` 不能热更新，哪个脚本能同时支持热更新和搜索？」
-> 关联：《[02-docs-static-site.md](02-docs-static-site.md)》（站点搭建与本轮结论的旧前提）。
+> 关联：《[03-docs-static-site.md](03-docs-static-site.md)》（站点搭建与本轮结论的旧前提）。
 
 ## 问题陈述
 
