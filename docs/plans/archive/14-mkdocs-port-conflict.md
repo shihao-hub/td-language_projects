@@ -1,5 +1,7 @@
 # MkDocs 服务端口冲突修复计划
 
+> 注（2026-11-18）：本文引用的 `docs/specs/01-web-archive-skill/index.md` 已在文档重构中删除，当前入口为其 `requirements.md`；正文保留历史记录。
+
 **问题陈述**：MkDocs `serve` 当前固定监听 `127.0.0.1:8765`，与 Sublime Text 的 MarkdownPreviewEnhance 插件默认端口冲突。按 `Ctrl+Shift+M` 预览 Markdown 时，请求被 MkDocs 接收，浏览器显示 `language_projects 文档库` 首页，而不是当前 Markdown 文件。用户已指定将 MkDocs 端口改为 `12345`。
 
 **需求**：
