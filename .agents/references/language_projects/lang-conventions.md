@@ -3,7 +3,7 @@
 > **触发**：进入任一语言子仓/子项目动工前必读对应语言章节。本文件不在规则自动加载目录（`.agents/rules/`）内，由根 `AGENTS.md` 触发器指引按需读取。
 
 ### go_projects
-- **定位**：以 CLI 工具为主；非 CLI 的服务端/SDK 及带 GUI 项目属例外（个位数，如 liteconf），收录须注明理由，详见父仓 README「子仓约定」。
+- **定位与结构入口**：收录 CLI 工具及带桌面入口的工具。新建 Go 项目、增加 GUI、调整入口或构建方式前，必读父仓 `docs/projects/go_projects/Go 项目统一结构.md`；桌面实现继续按该文读取双通道 Go SOP，无需用户点名技能。纯 CLI 不强加 GUI，存量不自动迁移。
 - **CLI 工具开发标准**：统一遵循《[CLI 工具开发标准](docs/projects/go_projects/CLI 工具开发标准.md)》（跨语言适用）：新工具默认配套 MCP，CLI 默认人读并提供 `--json`，独立工具提供 `schema` 导出；适用例外与存量兼容迁移按标准执行。
   - *必须先完整阅读该标准再动手的场景*：① 新建任何 CLI/工具类项目（不限语言）；② 给已有项目新增 CLI / MCP 入口或 `schema` 导出；③ 需要豁免标准要求时；④ 重构/评审已有项目的 CLI 入口契约时。
 - **默认图标**：产 exe 的项目默认带站标地鼠图标（用户明确指定其他图标或明确不要时除外）：复制 `docs\assets\projects\go_projects\go-default.ico` 到项目主包目录并生成 `.syso`，操作步骤遵循《[go exe 默认图标](docs/projects/go_projects/go exe 默认图标.md)》。
@@ -18,7 +18,7 @@
   - **开机自启动与注册表保护**：凡涉及向系统注册表（如 `HKCU\...\Run`）写入开机自启动路径的 GUI 程序，开发版必须强校验禁止写入（菜单项置灰并拒绝执行），并向用户明确提示该功能在 dev 版不生效；此类功能直接用 release 版本测试，仅正式版允许注册。
 - **带 GUI / 独立品牌项目的图标规范**：
   - 普通 CLI 工具产 exe 默认使用地鼠图标；
-  - **带 GUI / 托盘桌面壳项目属独立软件形态，禁止直接拿地鼠图标应付**：必须配套专属多分辨率矢量图标流水线（如 `scripts/render_icon.py`），产出 1024 高清图、16-256px 标准 `icon.ico`、托盘与窗口资源，经 `rsrc` 生成 `.syso`；
+  - **带 GUI / 托盘桌面壳项目属独立软件形态**：正式版配套专属多分辨率矢量图标流水线（如 `scripts/render_icon.py`），产出 1024 高清图、16-256px 标准 `icon.ico`、托盘与窗口资源；dev 图标与正式版区分。Wails 双通道的 PE 图标、VERSIONINFO 与 `.syso` 使用 Go SOP 的 go-winres 流水线；
   - **GUI 窗口图标必须显式注入**：GUI 程序必须在主窗口初始化时显式绑定应用/窗口图标（如 Fyne 调用 `app.SetIcon` / `win.SetIcon`，Wails 绑定 `app.Icon`），严禁遗留 Windows 系统默认的白框线框图标。
 
 ### python_projects

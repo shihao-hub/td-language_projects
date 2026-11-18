@@ -58,6 +58,8 @@
 
 各语言子仓的定位、构建/数据隔离、图标与工具链约定已迁至 **`~/.agents/references/language_projects/lang-conventions.md`**——**进入任一语言子仓/子项目动工前必读对应语言章节**（go 的 CLI 标准与 dev/release 隔离、python 图标、rust 工具链、ts 约定、native 工具链、java 服务端）。
 
+**Go 结构入口**：新建 Go 项目、增加 GUI、调整入口或构建方式前，必读父仓 `docs/projects/go_projects/Go 项目统一结构.md`；涉及桌面实现时，再按该文指针读取双通道 Go SOP。路径均相对父仓根目录；从子仓启动也通过现有规则软链找到父仓。
+
 ## 六、仓库运维脚本约定（.scripts）
 
 统一 Python + PEP 723、禁 ps1/bat、单一职责、禁工程文件等约定详见 **`~/.agents/references/language_projects/scripts-convention.md`**——**新建/修改 `.scripts` 脚本前必读**。

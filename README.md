@@ -111,7 +111,8 @@ uv run .scripts/build_docs.py preview # 构建后起一次性静态服务（只�
 
 ## 子仓约定
 
-- **go_projects / rust_projects 以 CLI 工具为主**：选 CLI 的核心原因是**跨平台**——无 GUI 框架依赖，单二进制交叉编译分发即可覆盖 Windows / Linux / macOS。存量 GUI/托盘类项目已迁出（CLI 替代版见子仓内各项目），新增原则上仍为 CLI；非 CLI 形态的服务端/SDK 及带 GUI 的项目允许少量例外（预期个位数，如 liteconf 配置中心），收录时须在项目 README 中注明形态与理由。
+- **go_projects 收录 CLI 工具及带桌面入口的工具**：纯 CLI 按需保持轻量；需要 GUI 时默认采用 Wails v3 + 内嵌 WebUI，CLI 与 GUI 分别产出 exe。新建或调整项目结构前先读《[Go 项目统一结构](<docs/projects/go_projects/Go 项目统一结构.md>)》；服务端/SDK 等其他形态在项目 README 说明用途。
+- **rust_projects 以 CLI 工具为主**：优先保持核心与平台层分离，便于交叉编译和跨平台分发；其他形态在项目 README 说明用途。
 - **跨平台是 go 与 rust 项目的统一方向**：新项目设计时核心逻辑与平台层分离；存量项目（如 rust 的 `minieverything` 依赖 NTFS/USN、`whoholds` 依赖 Windows 句柄枚举）未来均计划逐步跨平台化改造。
 - **项目命名单词直接连写，不用连字符**（如 `filesync`、`minieverything`）：目录名即命令名/模块名（非 CLI 项目同样适用，如 `liteconf`），无连字符在 shell 中调用、补全与传参更顺手；也不加语言后缀（不写 `-go`、`-rs`）。go_projects 与 rust_projects 通用。
 
